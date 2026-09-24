@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>部門別計算 ランダム問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+  .problem-line b { color: #f6f1e6; }
+
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">BOOKKEEPING LV.1 工業簿記 ⑦ 部門別計算</div>
+      <h1>部門別計算 ランダム問題</h1>
+    </div>
+    <div>
+      <div class="score-label">スコア</div>
+      <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+  </div>
+
+  <div class="topic-badge" id="topicBadge"></div>
+
+  <div class="problem-card" id="problemCard"></div>
+
+  <div class="inputs-row">
+    <div class="input-group">
+      <label id="label1"></label>
+      <input type="text" id="input1" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label id="label2"></label>
+      <input type="text" id="input2" autocomplete="off">
+    </div>
+  </div>
+  <div class="hint">半角数字、カンマなしで入力してください。</div>
+  <div class="error" id="errorText"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="checkBtn">解答する</button>
+    <button class="btn-secondary" id="nextBtn">次の問題へ</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-explanation" id="resultExplanation"></div>
+  </div>
+
+  <div class="footer-note">簿記1級 部門別計算(直接配賦法・相互配賦法)の練習用アプリ(自己採点)</div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0 };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmt(n) { return n.toLocaleString('ja-JP'); }
+  function div(n, d) { return Math.round(n / d); }
+
+  var TRIPLES = [[60, 30, 10], [50, 30, 20], [40, 40, 20], [30, 50, 20], [45, 30, 25], [60, 20, 20], [30, 60, 10]];
+  var MFG = [['切削', '組立'], ['第1製造', '第2製造'], ['A', 'B']];
+  var AUX = [['動力', '修繕'], ['X', 'Y'], ['工場事務', '検査']];
+
+  function setup() {
+    var m = pick(MFG), s = pick(AUX);
+    var tx = pick(TRIPLES), ty = pick(TRIPLES);
+    var d = {
+      m1: m[0] + '部門', m2: m[1] + '部門', s1: s[0] + '部門', s2: s[1] + '部門',
+      A: randMultiple(20, 60, 1) * 10000, B: randMultiple(20, 60, 1) * 10000,
+      X: randMultiple(1, 5, 1) * 120000, Y: randMultiple(1, 5, 1) * 120000,
+      xa: tx[0], xb: tx[1], xo: tx[2], ya: ty[0], yb: ty[1], yo: ty[2]
+    };
+    return d;
+  }
+
+  function lines(d, method) {
+    return [
+      '製造部門(<b>' + d.m1 + '</b>・<b>' + d.m2 + '</b>)と補助部門(<b>' + d.s1 + '</b>・<b>' + d.s2 + '</b>)がある。第1次集計後の部門費は、' + d.m1 + ' <b>' + fmt(d.A) + '円</b>、' + d.m2 + ' <b>' + fmt(d.B) + '円</b>、' + d.s1 + ' <b>' + fmt(d.X) + '円</b>、' + d.s2 + ' <b>' + fmt(d.Y) + '円</b>である。',
+      d.s1 + 'は、' + d.m1 + ' ' + d.xa + '%、' + d.m2 + ' ' + d.xb + '%、' + d.s2 + ' ' + d.xo + '%の割合で用役を提供している。',
+      d.s2 + 'は、' + d.m1 + ' ' + d.ya + '%、' + d.m2 + ' ' + d.yb + '%、' + d.s1 + ' ' + d.yo + '%の割合で用役を提供している。',
+      method
+    ];
+  }
+
+  function direct(d) {
+    var xA = div(d.X * d.xa, d.xa + d.xb);
+    var xB = d.X - xA;
+    var yA = div(d.Y * d.ya, d.ya + d.yb);
+    var yB = d.Y - yA;
+    return { xA: xA, xB: xB, yA: yA, yB: yB, totA: d.A + xA + yA, totB: d.B + xB + yB };
+  }
+
+  function mutual(d) {
+    var x1A = div(d.X * d.xa, 100), x1B = div(d.X * d.xb, 100), x1Y = div(d.X * d.xo, 100);
+    var y1A = div(d.Y * d.ya, 100), y1B = div(d.Y * d.yb, 100), y1X = div(d.Y * d.yo, 100);
+    var x2A = div(y1X * d.xa, d.xa + d.xb), x2B = y1X - x2A;
+    var y2A = div(x1Y * d.ya, d.ya + d.yb), y2B = x1Y - y2A;
+    return {
+      x1A: x1A, x1B: x1B, x1Y: x1Y, y1A: y1A, y1B: y1B, y1X: y1X,
+      x2A: x2A, x2B: x2B, y2A: y2A, y2B: y2B,
+      totA: d.A + x1A + y1A + x2A + y2A,
+      totB: d.B + x1B + y1B + x2B + y2B
+    };
+  }
+
+  function exact(d) {
+    var ok = true;
+    if ((d.X * d.xa) % (d.xa + d.xb) !== 0) ok = false;
+    if ((d.Y * d.ya) % (d.ya + d.yb) !== 0) ok = false;
+    var y1X = d.Y * d.yo / 100, x1Y = d.X * d.xo / 100;
+    if (!Number.isInteger(y1X) || !Number.isInteger(x1Y)) ok = false;
+    if ((y1X * d.xa) % (d.xa + d.xb) !== 0) ok = false;
+    if ((x1Y * d.ya) % (d.ya + d.yb) !== 0) ok = false;
+    return ok;
+  }
+
+  function genDirect() {
+    var d = setup();
+    var r = direct(d);
+    return {
+      badge: '直接配賦法',
+      sum: d.A + d.B + d.X + d.Y, exact: exact(d),
+      totals: [r.totA, r.totB],
+      lines: lines(d, '補助部門費は<b>直接配賦法</b>で製造部門に配賦する。'),
+      label1: d.m1 + '費(配賦後、円)',
+      label2: d.m2 + '費(配賦後、円)',
+      ph1: '例: 515000', ph2: '例: 385000',
+      answers: [r.totA, r.totB],
+      explanation:
+        '直接配賦法:補助部門どうしの提供は無視し、製造部門だけで割合を直す。\n' +
+        d.s1 + '費 ' + fmt(d.X) + ':' + d.m1 + ' ' + d.xa + ' : ' + d.m2 + ' ' + d.xb + ' → ' + d.m1 + ' ' + fmt(r.xA) + '、' + d.m2 + ' ' + fmt(r.xB) + '\n' +
+        d.s2 + '費 ' + fmt(d.Y) + ':' + d.m1 + ' ' + d.ya + ' : ' + d.m2 + ' ' + d.yb + ' → ' + d.m1 + ' ' + fmt(r.yA) + '、' + d.m2 + ' ' + fmt(r.yB) + '\n' +
+        d.m1 + '費 = ' + fmt(d.A) + ' + ' + fmt(r.xA) + ' + ' + fmt(r.yA) + ' = ' + fmt(r.totA) + '円\n' +
+        d.m2 + '費 = ' + fmt(d.B) + ' + ' + fmt(r.xB) + ' + ' + fmt(r.yB) + ' = ' + fmt(r.totB) + '円\n' +
+        '(検算)合計 ' + fmt(r.totA + r.totB) + '円 = 元の全部門費の合計'
+    };
+  }
+
+  function genMutual() {
+    var d = setup();
+    var r = mutual(d);
+    return {
+      badge: '相互配賦法(簡便法)',
+      sum: d.A + d.B + d.X + d.Y, exact: exact(d),
+      totals: [r.totA, r.totB],
+      lines: lines(d, '補助部門費は<b>相互配賦法(簡便法)</b>で配賦する(第1次配賦は補助部門にも、第2次配賦は製造部門のみ)。'),
+      label1: d.m1 + '費(配賦後、円)',
+      label2: d.m2 + '費(配賦後、円)',
+      ph1: '例: 514000', ph2: '例: 386000',
+      answers: [r.totA, r.totB],
+      explanation:
+        '【第1次配賦】\n' +
+        d.s1 + '費 ' + fmt(d.X) + ' → ' + d.m1 + ' ' + fmt(r.x1A) + '、' + d.m2 + ' ' + fmt(r.x1B) + '、' + d.s2 + ' ' + fmt(r.x1Y) + '\n' +
+        d.s2 + '費 ' + fmt(d.Y) + ' → ' + d.m1 + ' ' + fmt(r.y1A) + '、' + d.m2 + ' ' + fmt(r.y1B) + '、' + d.s1 + ' ' + fmt(r.y1X) + '\n' +
+        '【第2次配賦】(第1次で補助部門に振られた分を、製造部門だけに)\n' +
+        d.s1 + ' ' + fmt(r.y1X) + ' → ' + d.m1 + ' ' + fmt(r.x2A) + '、' + d.m2 + ' ' + fmt(r.x2B) + '\n' +
+        d.s2 + ' ' + fmt(r.x1Y) + ' → ' + d.m1 + ' ' + fmt(r.y2A) + '、' + d.m2 + ' ' + fmt(r.y2B) + '\n' +
+        d.m1 + '費 = ' + fmt(d.A) + ' + ' + fmt(r.x1A) + ' + ' + fmt(r.y1A) + ' + ' + fmt(r.x2A) + ' + ' + fmt(r.y2A) + ' = ' + fmt(r.totA) + '円\n' +
+        d.m2 + '費 = ' + fmt(d.B) + ' + ' + fmt(r.x1B) + ' + ' + fmt(r.y1B) + ' + ' + fmt(r.x2B) + ' + ' + fmt(r.y2B) + ' = ' + fmt(r.totB) + '円\n' +
+        '(検算)合計 ' + fmt(r.totA + r.totB) + '円 = 元の全部門費の合計'
+    };
+  }
+
+  function genFirst() {
+    var d = setup();
+    var r = mutual(d);
+    return {
+      badge: '相互配賦法:第1次配賦で補助部門に振られる額',
+      sum: 0, exact: exact(d),
+      totals: [r.y1X, r.x1Y],
+      lines: lines(d, '補助部門費は<b>相互配賦法(簡便法)</b>で配賦する。第1次配賦の結果を求める。'),
+      label1: d.s1 + 'に配賦される額(第1次、円)',
+      label2: d.s2 + 'に配賦される額(第1次、円)',
+      ph1: '例: 16000', ph2: '例: 24000',
+      answers: [r.y1X, r.x1Y],
+      explanation:
+        d.s2 + 'から' + d.s1 + 'への配賦額 = ' + fmt(d.Y) + ' × ' + d.yo + '% = ' + fmt(r.y1X) + '円\n' +
+        d.s1 + 'から' + d.s2 + 'への配賦額 = ' + fmt(d.X) + ' × ' + d.xo + '% = ' + fmt(r.x1Y) + '円\n' +
+        '(この2つが、第2次配賦で製造部門に配賦される対象になる)'
+    };
+  }
+
+  function genCompare() {
+    var d = setup();
+    var r1 = direct(d), r2 = mutual(d);
+    return {
+      badge: '直接配賦法と相互配賦法の比較',
+      sum: d.A + d.B + d.X + d.Y, exact: exact(d),
+      totals: [r1.totA, r2.totA],
+      lines: lines(d, '同じ資料で、直接配賦法と相互配賦法(簡便法)の両方で、' + d.m1 + 'の部門費を求める。'),
+      label1: '直接配賦法の' + d.m1 + '費(円)',
+      label2: '相互配賦法の' + d.m1 + '費(円)',
+      ph1: '例: 515000', ph2: '例: 514000',
+      answers: [r1.totA, r2.totA],
+      explanation:
+        '【直接配賦法】' + d.m1 + '費 = ' + fmt(d.A) + ' + ' + fmt(r1.xA) + ' + ' + fmt(r1.yA) + ' = ' + fmt(r1.totA) + '円\n' +
+        '【相互配賦法】' + d.m1 + '費 = ' + fmt(d.A) + ' + ' + fmt(r2.x1A) + ' + ' + fmt(r2.y1A) + ' + ' + fmt(r2.x2A) + ' + ' + fmt(r2.y2A) + ' = ' + fmt(r2.totA) + '円\n' +
+        '差額 ' + fmt(Math.abs(r1.totA - r2.totA)) + '円(' + d.m2 + 'との内訳が変わるだけで、2つの合計は同じ)'
+    };
+  }
+
+  function generateProblem() {
+    var y = Math.random();
+    if (y < 0.3) return genDirect();
+    if (y < 0.65) return genMutual();
+    if (y < 0.85) return genFirst();
+    return genCompare();
+  }
+
+  function renderProblem() {
+    var p = state.problem;
+    document.getElementById('topicBadge').textContent = '【 ' + p.badge + ' 】';
+    document.getElementById('problemCard').innerHTML = p.lines.map(function (l) {
+      return '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    document.getElementById('label1').textContent = p.label1;
+    document.getElementById('label2').textContent = p.label2;
+    var i1 = document.getElementById('input1');
+    var i2 = document.getElementById('input2');
+    i1.placeholder = p.ph1;
+    i2.placeholder = p.ph2;
+    i1.value = '';
+    i2.value = '';
+    document.getElementById('errorText').style.display = 'none';
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+  }
+
+  function parseSigned(s) {
+    if (s === undefined || s === null) return NaN;
+    var t = String(s).trim().replace(/,/g, '').replace(/円/g, '').replace(/[−▲△]/g, '-');
+    if (t === '' || t === '-' || t === '+') return NaN;
+    return Number(t);
+  }
+
+  function handleCheck() {
+    var u1 = parseSigned(document.getElementById('input1').value);
+    var u2 = parseSigned(document.getElementById('input2').value);
+    var errEl = document.getElementById('errorText');
+    if (isNaN(u1) || isNaN(u2)) {
+      errEl.textContent = '両方の欄に数値を入力してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    var p = state.problem;
+    var isCorrect = (u1 === p.answers[0]) && (u2 === p.answers[1]);
+    state.total += 1;
+    if (isCorrect) state.score += 1;
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+
+    var resultCard = document.getElementById('resultCard');
+    var resultTitle = document.getElementById('resultTitle');
+    resultTitle.textContent = isCorrect ? '正解です!' : '不正解です。もう一度見直してみましょう。';
+    resultTitle.style.color = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.borderColor = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.background = isCorrect ? 'rgba(99,153,34,0.14)' : 'rgba(216,90,48,0.14)';
+    document.getElementById('resultExplanation').textContent = p.explanation;
+    resultCard.classList.add('show');
+  }
+
+  function handleNext() {
+    state.problem = generateProblem();
+    renderProblem();
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', handleCheck);
+  document.getElementById('nextBtn').addEventListener('click', handleNext);
+  document.getElementById('input1').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+  document.getElementById('input2').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+
+  state.problem = generateProblem();
+  renderProblem();
+})();
+</script>
+</body>
+</html>
