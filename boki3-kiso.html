@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記の基礎 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .bs { display: flex; gap: 0; margin: 10px 0; max-width: 460px; font-size: 14px; font-weight: 700; text-align: center; }
+  .bs > div { flex: 1; display: flex; flex-direction: column; }
+  .bs .cell { display: flex; align-items: center; justify-content: center; padding: 10px 6px; border: 1px solid rgba(255,255,255,0.18); }
+  .bs .title { font-size: 12px; color: #9aa5b1; font-weight: 400; margin-bottom: 4px; text-align: center; }
+  .c-asset { background: rgba(93,158,214,0.18); color: #b5d4f4; }
+  .c-liab { background: rgba(216,90,48,0.18); color: #f5c4b3; }
+  .c-eq { background: rgba(212,162,76,0.18); color: #fac775; }
+  .c-rev { background: rgba(29,158,117,0.18); color: #9fe1cb; }
+  .c-exp { background: rgba(127,119,221,0.2); color: #cecbf6; }
+  .c-profit { background: rgba(212,162,76,0.18); color: #fac775; }
+
+  .t-acc { margin: 10px 0; max-width: 520px; font-size: 14px; }
+  .t-acc .t-name { text-align: center; font-weight: 700; padding-bottom: 4px; border-bottom: 2px solid #c7c0b0; }
+  .t-acc .t-body { display: flex; }
+  .t-acc .t-side { flex: 1; padding: 6px 10px; min-height: 40px; }
+  .t-acc .t-side + .t-side { border-left: 2px solid #c7c0b0; }
+  .t-acc .t-row { display: flex; justify-content: space-between; gap: 8px; line-height: 1.8; color: #e8e3d8; }
+  .t-acc .t-label { font-size: 11px; color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus, .input-group select:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ① 簿記の基礎</div>
+    <h1>簿記の基礎 テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 簿記の目的と5要素</a>
+    <a href="#ch2">2. 仕訳のルール</a>
+    <a href="#ch3">3. 転記と総勘定元帳</a>
+    <a href="#ch4">4. 試算表</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>簿記の目的と5要素</h2>
+
+    <h3>簿記とは</h3>
+    <p>簿記は、会社のお金やモノの動き(取引)を<b>記録・計算・整理</b>して、最終的に<b>財務諸表</b>という成績表を作るための技術です。</p>
+    <ul>
+      <li><b>貸借対照表(B/S)</b>:決算日時点で、会社がどれだけ財産と借金を持っているか(<span class="mark">財政状態</span>)を表す</li>
+      <li><b>損益計算書(P/L)</b>:1年間でどれだけ稼ぎ、どれだけ使って、いくら儲かったか(<span class="mark">経営成績</span>)を表す</li>
+    </ul>
+    <p>会社の1年間の区切りを<b>会計期間</b>といい、始まりの日を<b>期首</b>、終わりの日を<b>期末(決算日)</b>、その間を<b>期中</b>と呼びます。</p>
+
+    <h3>5つの要素</h3>
+    <p>簿記では、すべての勘定科目(記録するときの項目名)が次の5つのどれかに分かれます。</p>
+    <ul>
+      <li><b>資産</b>:会社が持っている財産や、将来お金を受け取れる権利。<br>例)現金、普通預金、売掛金、貸付金、建物、備品、土地</li>
+      <li><b>負債</b>:将来お金を支払わなければならない義務。<br>例)買掛金、借入金、未払金、預り金</li>
+      <li><b>純資産</b>:資産から負債を引いた残り。株主が出したお金や、これまでの儲けの蓄え。<br>例)資本金、繰越利益剰余金</li>
+      <li><b>収益</b>:純資産を増やす原因になる「稼ぎ」。<br>例)売上、受取利息、受取手数料、受取家賃</li>
+      <li><b>費用</b>:収益を得るために使ったもの。<br>例)仕入、給料、支払家賃、水道光熱費、通信費、支払利息</li>
+    </ul>
+
+    <h3>財務諸表の形</h3>
+    <p>資産・負債・純資産は貸借対照表に、収益・費用は損益計算書に載ります。</p>
+    <div class="bs">
+      <div><div class="title">貸借対照表(左)</div><div class="cell c-asset" style="flex:1">資産</div></div>
+      <div><div class="title">貸借対照表(右)</div><div class="cell c-liab">負債</div><div class="cell c-eq">純資産</div></div>
+    </div>
+    <pre class="entry">資産 = 負債 + 純資産      (貸借対照表等式)
+資産 − 負債 = 純資産      (資本等式)</pre>
+    <div class="bs">
+      <div><div class="title">損益計算書(左)</div><div class="cell c-exp">費用</div><div class="cell c-profit">当期純利益</div></div>
+      <div><div class="title">損益計算書(右)</div><div class="cell c-rev" style="flex:1">収益</div></div>
+    </div>
+    <pre class="entry">収益 − 費用 = 当期純利益   (マイナスなら当期純損失)</pre>
+    <div class="note">期首と期末の純資産を比べても利益がわかります。株主からの追加出資などがなければ、<br>期末純資産 − 期首純資産 = 当期純利益</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>仕訳のルール</h2>
+
+    <h3>簿記上の取引</h3>
+    <p>簿記で記録するのは、<b>5要素のどれかが増えたり減ったりしたこと</b>だけです。日常の言葉の「取引」とは少しずれます。</p>
+    <ul>
+      <li>取引になる:商品を売った、お金を借りた、給料を払った、<b>火災や盗難で財産がなくなった</b></li>
+      <li>取引にならない:契約を結んだ、商品を注文した、人を雇う約束をした(まだ何も増減していない)</li>
+    </ul>
+
+    <h3>仕訳とは</h3>
+    <p>1つの取引を<b>左側(借方・かりかた)</b>と<b>右側(貸方・かしかた)</b>の2つに分けて記録することを仕訳といいます。「借」「貸」の字に意味はなく、ただの左右の名前だと思ってOKです。</p>
+    <div class="note">覚え方:「かり<b>か</b>た」の「り」は左にはらう → 左。「かし<b>か</b>た」の「し」は右にはらう → 右。</div>
+
+    <h3>左右を決めるルール(ホームポジション)</h3>
+    <p>5要素にはそれぞれ定位置があります。貸借対照表・損益計算書で載っている側と同じです。</p>
+    <div class="bs">
+      <div><div class="title">借方(左)が定位置</div><div class="cell c-asset">資産</div><div class="cell c-exp">費用</div></div>
+      <div><div class="title">貸方(右)が定位置</div><div class="cell c-liab">負債</div><div class="cell c-eq">純資産</div><div class="cell c-rev">収益</div></div>
+    </div>
+    <ul>
+      <li><b>増えたら定位置の側</b>に書く(資産が増えたら借方、負債が増えたら貸方)</li>
+      <li><b>減ったら反対側</b>に書く(資産が減ったら貸方、負債が減ったら借方)</li>
+      <li>収益・費用は、ふつう増える(発生する)ときだけ出てきます</li>
+    </ul>
+
+    <h3>仕訳の手順</h3>
+    <ul>
+      <li>① 何が動いたか、勘定科目を2つ(以上)見つける</li>
+      <li>② それぞれ5要素のどれか、増えたか減ったかを考える</li>
+      <li>③ ルールに従って左右に置き、金額を書く</li>
+    </ul>
+
+    <h3>仕訳の例</h3>
+    <p>株式を発行し、株主から現金1,000,000円の出資を受けた。</p>
+    <pre class="entry">(借)現金   1,000,000   (貸)資本金   1,000,000
+  資産の増加 → 借方      純資産の増加 → 貸方</pre>
+    <p>銀行から現金300,000円を借り入れた。</p>
+    <pre class="entry">(借)現金     300,000   (貸)借入金     300,000
+  資産の増加 → 借方      負債の増加 → 貸方</pre>
+    <p>事務用のパソコン(備品)を150,000円で買い、現金で支払った。</p>
+    <pre class="entry">(借)備品     150,000   (貸)現金       150,000
+  資産の増加 → 借方      資産の減少 → 貸方</pre>
+    <p>商品80,000円を仕入れ、代金は掛け(後払い)とした。</p>
+    <pre class="entry">(借)仕入      80,000   (貸)買掛金      80,000
+  費用の発生 → 借方      負債の増加 → 貸方</pre>
+    <p>商品を120,000円で売り上げ、代金は現金で受け取った。</p>
+    <pre class="entry">(借)現金     120,000   (貸)売上       120,000
+  資産の増加 → 借方      収益の発生 → 貸方</pre>
+    <p>給料50,000円を現金で支払った。</p>
+    <pre class="entry">(借)給料      50,000   (貸)現金        50,000
+  費用の発生 → 借方      資産の減少 → 貸方</pre>
+
+    <div class="note">どの仕訳も<b>借方の合計金額 = 貸方の合計金額</b>になります。これを貸借平均の原理といい、後で学ぶ試算表の土台になります。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>転記と総勘定元帳</h2>
+
+    <h3>仕訳帳と総勘定元帳</h3>
+    <ul>
+      <li><b>仕訳帳</b>:仕訳を日付順に記録する帳簿</li>
+      <li><b>総勘定元帳</b>:勘定科目ごとにページ(口座)を分けて、増減を集計する帳簿</li>
+    </ul>
+    <p>仕訳帳の内容を総勘定元帳の各勘定に書き写すことを<b>転記</b>といいます。仕訳帳と総勘定元帳は、どの会社でも必ず作る<b>主要簿</b>です。</p>
+
+    <h3>転記のルール</h3>
+    <ul>
+      <li>仕訳の<b>借方の科目</b> → その勘定の<b>借方</b>に書く</li>
+      <li>仕訳の<b>貸方の科目</b> → その勘定の<b>貸方</b>に書く</li>
+      <li>書くのは<b>日付・相手科目・金額</b>(自分の科目名ではなく、仕訳の反対側の科目を書く)</li>
+    </ul>
+    <p>例)4月1日 株式を発行し、現金500,000円の出資を受けた。</p>
+    <pre class="entry">4/1 (借)現金 500,000   (貸)資本金 500,000</pre>
+    <p>この仕訳を試験で使う簡単な形(T字勘定)に転記すると、次のようになります。</p>
+    <div class="t-acc">
+      <div class="t-name">現金</div>
+      <div class="t-body">
+        <div class="t-side"><div class="t-row"><span>4/1 資本金</span><span>500,000</span></div></div>
+        <div class="t-side"></div>
+      </div>
+    </div>
+    <div class="t-acc">
+      <div class="t-name">資本金</div>
+      <div class="t-body">
+        <div class="t-side"></div>
+        <div class="t-side"><div class="t-row"><span>4/1 現金</span><span>500,000</span></div></div>
+      </div>
+    </div>
+    <p>現金勘定の借方に「資本金」と書くのは、「資本金が理由で現金が増えた」という意味です。</p>
+
+    <h3>相手科目が2つ以上あるとき</h3>
+    <p>相手科目が複数ある場合は、相手科目欄に<b>諸口(しょくち)</b>と書きます。</p>
+    <pre class="entry">4/5 (借)備品 200,000   (貸)現金   120,000
+                           未払金  80,000</pre>
+    <p>備品勘定の借方には「4/5 諸口 200,000」、現金勘定の貸方には「4/5 備品 120,000」、未払金勘定の貸方には「4/5 備品 80,000」と書きます。</p>
+
+    <h3>勘定の残高</h3>
+    <p>勘定の<b>借方合計と貸方合計の差額</b>を残高といいます。大きい方の側に残高が残ります。</p>
+    <div class="t-acc">
+      <div class="t-name">現金</div>
+      <div class="t-body">
+        <div class="t-side">
+          <div class="t-row"><span>4/1 資本金</span><span>500,000</span></div>
+          <div class="t-row"><span>4/20 売上</span><span>90,000</span></div>
+        </div>
+        <div class="t-side">
+          <div class="t-row"><span>4/5 備品</span><span>120,000</span></div>
+          <div class="t-row"><span>4/25 給料</span><span>60,000</span></div>
+        </div>
+      </div>
+    </div>
+    <pre class="entry">借方合計 590,000 − 貸方合計 180,000 = 借方残高 410,000(手元の現金)</pre>
+    <div class="note">資産の勘定はふつう借方残高、負債・純資産の勘定は貸方残高になります。定位置のルールと同じです。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>試算表</h2>
+
+    <h3>試算表とは</h3>
+    <p>総勘定元帳のすべての勘定の金額を1枚に集めた表です。仕訳はどれも借方と貸方が同じ金額なので、正しく転記されていれば<b>試算表の借方合計と貸方合計は必ず一致</b>します。これを使って転記ミスを確かめます。</p>
+
+    <h3>3つの種類</h3>
+    <ul>
+      <li><b>合計試算表</b>:各勘定の借方合計と貸方合計をそのまま集める</li>
+      <li><b>残高試算表</b>:各勘定の残高だけを集める(試験でいちばんよく出る)</li>
+      <li><b>合計残高試算表</b>:合計と残高の両方を並べる</li>
+    </ul>
+
+    <h3>残高試算表の作り方</h3>
+    <p>第3章の例に、次の勘定があったとします。</p>
+    <pre class="entry">現金     借方合計 590,000 / 貸方合計 180,000 → 借方残高 410,000
+備品     借方合計 200,000                     → 借方残高 200,000
+給料     借方合計  60,000                     → 借方残高  60,000
+未払金                     貸方合計  80,000  → 貸方残高  80,000
+売上                       貸方合計  90,000  → 貸方残高  90,000
+資本金                     貸方合計 500,000  → 貸方残高 500,000</pre>
+    <p>残高を借方・貸方に分けて並べると、残高試算表になります。</p>
+    <pre class="entry">  借方           勘定科目          貸方
+  410,000        現金
+  200,000        備品
+                 未払金           80,000
+                 資本金          500,000
+                 売上             90,000
+   60,000        給料
+─────────────────────────────────────
+  670,000        合計            670,000   ← 一致!</pre>
+    <div class="note">並べる順番は、資産 → 負債 → 純資産 → 収益 → 費用 が基本です。借方に来るのは資産と費用、貸方に来るのは負債・純資産・収益です。</div>
+
+    <h3>試算表で見つけられない誤り</h3>
+    <p>貸借の一致だけを確かめるので、借方と貸方に<b>同じだけ影響する誤り</b>は見つけられません。</p>
+    <ul>
+      <li>取引をまるごと仕訳し忘れた・転記し忘れた</li>
+      <li>同じ仕訳を2回転記した</li>
+      <li>勘定科目を間違えた(たとえば現金を普通預金にした)</li>
+      <li>借方と貸方を逆にして転記した</li>
+    </ul>
+    <p>反対に、「借方だけ転記して貸方を忘れた」「金額を片側だけ書き間違えた」といった誤りは、合計が一致しなくなるので見つけられます。</p>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 目的と5要素</button>
+      <button class="chip" data-ch="2">2. 仕訳</button>
+      <button class="chip" data-ch="3">3. 転記</button>
+      <button class="chip" data-ch="4">4. 試算表</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ① 簿記の基礎(5要素・仕訳・転記・試算表)の練習用アプリ</div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ELEMENTS = ['資産', '負債', '純資産', '収益', '費用'];
+  var ACC = {
+    '現金': '資産', '普通預金': '資産', '当座預金': '資産', '売掛金': '資産', '貸付金': '資産',
+    '建物': '資産', '備品': '資産', '土地': '資産', '車両運搬具': '資産',
+    '買掛金': '負債', '借入金': '負債', '未払金': '負債', '預り金': '負債',
+    '資本金': '純資産', '繰越利益剰余金': '純資産',
+    '売上': '収益', '受取利息': '収益', '受取手数料': '収益', '受取家賃': '収益',
+    '仕入': '費用', '給料': '費用', '支払家賃': '費用', '水道光熱費': '費用', '通信費': '費用',
+    '支払利息': '費用', '消耗品費': '費用', '広告宣伝費': '費用'
+  };
+  var ACCOUNT_LIST = Object.keys(ACC);
+  var ELEMENT_NOTE = {
+    '資産': '会社が持っている財産や、将来お金を受け取れる権利です。',
+    '負債': '将来お金を支払わなければならない義務です。',
+    '純資産': '資産から負債を引いた残りで、株主の出資や儲けの蓄えです。',
+    '収益': '純資産を増やす原因になる「稼ぎ」です。',
+    '費用': '収益を得るために使ったものです。'
+  };
+  var CH_NAME = { 1: '簿記の目的と5要素', 2: '仕訳のルール', 3: '転記と総勘定元帳', 4: '試算表' };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function isDebitHome(el) { return el === '資産' || el === '費用'; }
+  function moveOf(acct, side) {
+    var el = ACC[acct];
+    var up = (side === '借方') === isDebitHome(el);
+    if (el === '収益' || el === '費用') return el + (up ? 'の発生' : 'の取消') + ' → ' + side;
+    return el + (up ? 'の増加' : 'の減少') + ' → ' + side;
+  }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+
+  // ---- 仕訳テンプレート ----
+  var JOURNALS = [
+    { t: '株式を発行し、株主から現金{a}円の出資を受けた。', dr: '現金', cr: '資本金', min: 500000, max: 3000000, step: 100000 },
+    { t: '銀行から現金{a}円を借り入れた。', dr: '現金', cr: '借入金', min: 100000, max: 1000000, step: 50000 },
+    { t: '借入金{a}円を現金で返済した。', dr: '借入金', cr: '現金', min: 50000, max: 500000, step: 50000 },
+    { t: '事務用の机(備品){a}円を購入し、代金は現金で支払った。', dr: '備品', cr: '現金', min: 30000, max: 300000, step: 10000 },
+    { t: 'パソコン(備品){a}円を購入し、代金は月末に支払うことにした。', dr: '備品', cr: '未払金', min: 100000, max: 400000, step: 10000 },
+    { t: '商品{a}円を仕入れ、代金は現金で支払った。', dr: '仕入', cr: '現金', min: 20000, max: 300000, step: 10000 },
+    { t: '商品{a}円を仕入れ、代金は掛けとした。', dr: '仕入', cr: '買掛金', min: 20000, max: 300000, step: 10000 },
+    { t: '商品を{a}円で売り上げ、代金は現金で受け取った。', dr: '現金', cr: '売上', min: 30000, max: 400000, step: 10000 },
+    { t: '商品を{a}円で売り上げ、代金は掛けとした。', dr: '売掛金', cr: '売上', min: 30000, max: 400000, step: 10000 },
+    { t: '売掛金{a}円を現金で回収した。', dr: '現金', cr: '売掛金', min: 20000, max: 300000, step: 10000 },
+    { t: '買掛金{a}円を現金で支払った。', dr: '買掛金', cr: '現金', min: 20000, max: 300000, step: 10000 },
+    { t: '従業員に給料{a}円を現金で支払った。', dr: '給料', cr: '現金', min: 100000, max: 400000, step: 10000 },
+    { t: '店舗の家賃{a}円を現金で支払った。', dr: '支払家賃', cr: '現金', min: 50000, max: 200000, step: 10000 },
+    { t: '電気代{a}円が普通預金口座から引き落とされた。', dr: '水道光熱費', cr: '普通預金', min: 5000, max: 50000, step: 1000 },
+    { t: 'インターネット代{a}円を現金で支払った。', dr: '通信費', cr: '現金', min: 3000, max: 30000, step: 1000 },
+    { t: '取引の仲介をして、手数料{a}円を現金で受け取った。', dr: '現金', cr: '受取手数料', min: 10000, max: 100000, step: 5000 },
+    { t: '貸付金の利息{a}円を現金で受け取った。', dr: '現金', cr: '受取利息', min: 2000, max: 30000, step: 1000 },
+    { t: '現金{a}円を普通預金口座に預け入れた。', dr: '普通預金', cr: '現金', min: 50000, max: 500000, step: 10000 },
+    { t: '店舗用の土地{a}円を購入し、代金は普通預金から支払った。', dr: '土地', cr: '普通預金', min: 1000000, max: 5000000, step: 100000 },
+    { t: '取引先に現金{a}円を貸し付けた。', dr: '貸付金', cr: '現金', min: 100000, max: 500000, step: 50000 }
+  ];
+  function journalLine(j, a) {
+    return '(借)' + j.dr + ' ' + fmt(a) + '   (貸)' + j.cr + ' ' + fmt(a);
+  }
+
+  // ---- 知識問題 ----
+  var KNOW = {
+    1: [
+      { q: '決算日時点の財政状態(資産・負債・純資産)を表す書類はどれ?', a: '貸借対照表', o: ['損益計算書', '試算表', '総勘定元帳'], e: '貸借対照表(B/S)は財政状態、損益計算書(P/L)は一定期間の経営成績を表します。' },
+      { q: '一定期間の経営成績(収益・費用・利益)を表す書類はどれ?', a: '損益計算書', o: ['貸借対照表', '仕訳帳', '試算表'], e: '損益計算書(P/L)は、1年間でいくら稼いで、いくら使い、いくら儲かったかを表します。' },
+      { q: '貸借対照表等式として正しいものはどれ?', a: '資産 = 負債 + 純資産', o: ['資産 + 負債 = 純資産', '資産 = 負債 − 純資産', '負債 = 資産 + 純資産'], e: '貸借対照表は左に資産、右に負債と純資産が載り、左右の合計が一致します。' },
+      { q: '当期純利益を求める式として正しいものはどれ?', a: '収益 − 費用', o: ['費用 − 収益', '資産 − 負債', '収益 + 費用'], e: '収益から費用を引いた残りが当期純利益です。マイナスなら当期純損失です。' },
+      { q: '会計期間の終わりの日を何という?', a: '期末(決算日)', o: ['期首', '期中', '会計年度'], e: '会計期間の始まりが期首、終わりが期末(決算日)、その間が期中です。' }
+    ],
+    2: [
+      { q: '次のうち、簿記上の取引にあたるものはどれ?', a: '倉庫が火災で焼失した', o: ['事務所を借りる契約を結んだ', '商品を注文した', '従業員を採用する約束をした'], e: '簿記上の取引は、5要素のどれかが増減するものです。火災や盗難は資産が減るので取引にあたります。契約・注文・約束だけでは何も増減しません。' },
+      { q: '次のうち、簿記上の取引にあたらないものはどれ?', a: '来月から店舗を借りる契約を結んだ', o: ['現金が盗まれた', '商品を掛けで売り上げた', '銀行からお金を借りた'], e: '契約を結んだだけでは、まだ資産や負債は増減していないので、簿記上の取引ではありません。盗難は資産の減少なので取引です。' },
+      { q: '仕訳の左側を何という?', a: '借方', o: ['貸方', '残高', '相手科目'], e: '左側が借方(かりかた)、右側が貸方(かしかた)です。' },
+      { q: '1つの仕訳の借方合計と貸方合計の関係として正しいものはどれ?', a: '必ず一致する', o: ['借方のほうが大きい', '貸方のほうが大きい', '一致するとは限らない'], e: '仕訳は1つの取引を左右に分けて書くので、借方合計と貸方合計は必ず一致します(貸借平均の原理)。' }
+    ],
+    3: [
+      { q: '仕訳の相手科目が2つ以上あるとき、元帳の相手科目欄に書く言葉はどれ?', a: '諸口', o: ['雑費', '諸経費', '合計'], e: '相手科目が複数あるときは「諸口(しょくち)」と書きます。' },
+      { q: '仕訳帳の内容を総勘定元帳に書き写す作業を何という?', a: '転記', o: ['記帳', '決算', '振替'], e: '仕訳帳から総勘定元帳へ書き写すことを転記といいます。' },
+      { q: '仕訳帳と総勘定元帳をまとめて何という?', a: '主要簿', o: ['補助簿', '財務諸表', '証ひょう'], e: '仕訳帳と総勘定元帳はどの会社も必ず作る帳簿で、主要簿と呼びます。それ以外の帳簿は補助簿です。' },
+      { q: '元帳に転記するとき、相手科目欄に書くのはどれ?', a: '仕訳の反対側の勘定科目', o: ['その勘定自身の科目名', '取引先の名前', '5要素の名前'], e: '現金勘定の借方に「資本金」と書けば、「資本金が理由で現金が増えた」という意味になります。' }
+    ],
+    4: [
+      { q: '試算表を作る主な目的はどれ?', a: '元帳への転記が正しいか確かめる', o: ['税金の額を計算する', '取引先に請求書を送る', '商品の在庫数を調べる'], e: '正しく転記されていれば試算表の貸借合計は一致するので、転記ミスの確認に使います。' },
+      { q: '各勘定の借方合計と貸方合計をそのまま集めた試算表はどれ?', a: '合計試算表', o: ['残高試算表', '合計残高試算表', '貸借対照表'], e: '合計をそのまま集めるのが合計試算表、残高だけを集めるのが残高試算表、両方並べるのが合計残高試算表です。' },
+      { q: '各勘定の残高だけを集めた試算表はどれ?', a: '残高試算表', o: ['合計試算表', '精算表', '損益計算書'], e: '残高試算表は各勘定の借方残高・貸方残高だけを集めたものです。' },
+      { q: '試算表で見つけられる誤りはどれ?', a: '借方だけ転記し、貸方の転記を忘れた', o: ['取引をまるごと仕訳し忘れた', '同じ仕訳を2回転記した', '借方と貸方を逆にして転記した'], e: '片側だけの転記漏れは貸借合計が一致しなくなるので見つけられます。借方と貸方に同じだけ影響する誤りは、合計が一致したままなので見つけられません。' },
+      { q: '試算表で見つけられない誤りはどれ?', a: '勘定科目を間違えて仕訳した', o: ['貸方の金額だけ書き間違えて転記した', '借方の転記を忘れた', '借方の金額を2回転記した'], e: '科目の間違いは借方・貸方の金額に影響しないので、試算表の合計は一致したままです。' }
+    ]
+  };
+
+  function genKnow(ch) {
+    var k = pick(KNOW[ch]);
+    return {
+      ch: ch, topic: '知識問題', lines: [k.q], kind: 'choice',
+      options: shuffle([k.a].concat(k.o)), answer: k.a,
+      explain: '正解は「' + k.a + '」。\n' + k.e
+    };
+  }
+
+  // ---- 第1章 ----
+  function genElement() {
+    var acct = pick(ACCOUNT_LIST);
+    var el = ACC[acct];
+    return {
+      ch: 1, topic: '5要素の分類', lines: ['勘定科目<b>「' + acct + '」</b>は、5要素のどれ?'], kind: 'choice',
+      options: ELEMENTS.slice(), answer: el,
+      explain: acct + 'は' + el + 'です。\n' + el + ':' + ELEMENT_NOTE[el]
+    };
+  }
+  function genEquation() {
+    var v = pick([1, 2, 3]);
+    if (v === 1) {
+      var A = randMultiple(80, 300, 1) * 10000, L = randMultiple(10, Math.floor(A / 10000) - 20, 1) * 10000;
+      return {
+        ch: 1, topic: '貸借対照表等式', kind: 'number', unit: '円',
+        lines: ['資産の合計が<b>' + fmt(A) + '円</b>、負債の合計が<b>' + fmt(L) + '円</b>のとき、純資産はいくら?'],
+        answer: A - L, explain: '資産 − 負債 = 純資産\n' + fmt(A) + ' − ' + fmt(L) + ' = ' + fmt(A - L) + '円'
+      };
+    }
+    if (v === 2) {
+      var R = randMultiple(100, 500, 1) * 10000, E = randMultiple(40, Math.floor(R / 10000) - 10, 1) * 10000;
+      return {
+        ch: 1, topic: '損益計算書', kind: 'number', unit: '円',
+        lines: ['当期の収益の合計が<b>' + fmt(R) + '円</b>、費用の合計が<b>' + fmt(E) + '円</b>のとき、当期純利益はいくら?'],
+        answer: R - E, explain: '収益 − 費用 = 当期純利益\n' + fmt(R) + ' − ' + fmt(E) + ' = ' + fmt(R - E) + '円'
+      };
+    }
+    var E0 = randMultiple(50, 200, 1) * 10000, profit = randMultiple(5, 60, 1) * 10000;
+    var E1 = E0 + profit, L1 = randMultiple(20, 150, 1) * 10000, A1 = E1 + L1;
+    return {
+      ch: 1, topic: '純資産の増減と利益', kind: 'number', unit: '円',
+      lines: ['期首の純資産は<b>' + fmt(E0) + '円</b>だった。', '期末の資産は<b>' + fmt(A1) + '円</b>、負債は<b>' + fmt(L1) + '円</b>だった。', '期中に追加の出資はない。当期純利益はいくら?'],
+      answer: profit,
+      explain: '期末純資産 = 期末資産 − 期末負債 = ' + fmt(A1) + ' − ' + fmt(L1) + ' = ' + fmt(E1) + '円\n当期純利益 = 期末純資産 − 期首純資産 = ' + fmt(E1) + ' − ' + fmt(E0) + ' = ' + fmt(profit) + '円'
+    };
+  }
+
+  // ---- 第2章 ----
+  function genSide() {
+    var el = pick(ELEMENTS);
+    var up = (el === '収益' || el === '費用') ? true : Math.random() < 0.5;
+    var word = (el === '収益' || el === '費用') ? 'の発生' : (up ? 'の増加' : 'の減少');
+    var home = isDebitHome(el) ? '借方' : '貸方';
+    var ans = up ? home : (home === '借方' ? '貸方' : '借方');
+    return {
+      ch: 2, topic: '借方・貸方のルール', lines: ['<b>' + el + word + '</b>は、仕訳の借方・貸方のどちらに書く?'], kind: 'choice',
+      options: ['借方', '貸方'], answer: ans,
+      explain: el + 'の定位置は' + home + 'です。\n増えた(発生した)ときは定位置の側、減ったときは反対側に書くので、' + el + word + 'は' + ans + 'です。'
+    };
+  }
+  function genJournal() {
+    var j = pick(JOURNALS);
+    var a = randMultiple(j.min, j.max, j.step);
+    return {
+      ch: 2, topic: '仕訳', kind: 'journal',
+      lines: [j.t.replace('{a}', fmt(a)), '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: j.dr, cr: j.cr, amt: a },
+      explain: journalLine(j, a) + '\n\n' + j.dr + ':' + moveOf(j.dr, '借方') + '\n' + j.cr + ':' + moveOf(j.cr, '貸方')
+    };
+  }
+
+  // ---- 第3章 ----
+  function genPost() {
+    var j = pick(JOURNALS);
+    var a = randMultiple(j.min, j.max, j.step);
+    var d = randMultiple(2, 28, 1);
+    var targetDr = Math.random() < 0.5;
+    var target = targetDr ? j.dr : j.cr, counter = targetDr ? j.cr : j.dr, side = targetDr ? '借方' : '貸方';
+    return {
+      ch: 3, topic: '転記', kind: 'post',
+      lines: ['次の仕訳を<b>「' + target + '」勘定</b>に転記します。', '4/' + d + ' ' + journalLine(j, a), '記入する側と、相手科目欄に書く科目を答えてください。'],
+      answer: { side: side, counter: counter },
+      explain: target + 'は仕訳の' + side + 'にあるので、' + target + '勘定の' + side + 'に記入します。\n相手科目欄には仕訳の反対側の科目「' + counter + '」を書きます。\n記入内容:4/' + d + ' ' + counter + ' ' + fmt(a)
+    };
+  }
+  function tAccountHtml(name, dr, cr) {
+    function side(list) {
+      return '<div class="t-side">' + list.map(function (e) {
+        return '<div class="t-row"><span>' + e.date + ' ' + e.counter + '</span><span>' + fmt(e.amt) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<div class="t-acc"><div class="t-name">' + name + '</div><div class="t-body">' + side(dr) + side(cr) + '</div></div>';
+  }
+  function genBalance() {
+    var days = shuffle([3, 5, 8, 10, 12, 15, 18, 20, 22, 25, 27, 29]).slice(0, 5).sort(function (x, y) { return x - y; });
+    var dr = [{ date: '4/1', counter: '資本金', amt: randMultiple(30, 80, 1) * 10000 }];
+    var cr = [];
+    var drPool = shuffle(['売上', '売掛金', '借入金', '受取手数料']);
+    var crPool = shuffle(['仕入', '給料', '備品', '買掛金', '支払家賃']);
+    var nDr = randMultiple(1, 2, 1), nCr = 5 - nDr - randMultiple(0, 1, 1);
+    var idx = 0;
+    for (var i = 0; i < nDr; i++) dr.push({ counter: drPool[i], amt: randMultiple(3, 20, 1) * 10000, day: days[idx++] });
+    for (var k = 0; k < nCr; k++) cr.push({ counter: crPool[k], amt: randMultiple(2, 15, 1) * 10000, day: days[idx++] });
+    var allDays = shuffle(days.slice(0, idx)).sort(function (x, y) { return x - y; });
+    var mixed = shuffle(dr.slice(1).concat(cr));
+    mixed.forEach(function (e, n) { e.date = '4/' + allDays[n]; e.day = allDays[n]; });
+    dr = [dr[0]].concat(dr.slice(1).sort(function (x, y) { return x.day - y.day; }));
+    cr.sort(function (x, y) { return x.day - y.day; });
+    var sDr = dr.reduce(function (s, e) { return s + e.amt; }, 0);
+    var sCr = cr.reduce(function (s, e) { return s + e.amt; }, 0);
+    if (sDr <= sCr) return genBalance();
+    return {
+      ch: 3, topic: '勘定の残高', kind: 'number', unit: '円',
+      lines: ['次の現金勘定の残高(借方残高)はいくら?', tAccountHtml('現金', dr, cr)],
+      answer: sDr - sCr,
+      explain: '借方合計 = ' + dr.map(function (e) { return fmt(e.amt); }).join(' + ') + ' = ' + fmt(sDr) + '円\n' +
+        '貸方合計 = ' + cr.map(function (e) { return fmt(e.amt); }).join(' + ') + ' = ' + fmt(sCr) + '円\n' +
+        '残高 = ' + fmt(sDr) + ' − ' + fmt(sCr) + ' = ' + fmt(sDr - sCr) + '円(借方残高)'
+    };
+  }
+
+  // ---- 第4章 ----
+  function genTB() {
+    var debit = [['現金', randMultiple(20, 60, 1) * 10000], ['仕入', randMultiple(30, 80, 1) * 10000]];
+    shuffle([['売掛金', randMultiple(10, 40, 1) * 10000], ['備品', randMultiple(10, 30, 1) * 10000],
+      ['給料', randMultiple(10, 30, 1) * 10000], ['支払家賃', randMultiple(5, 15, 1) * 10000],
+      ['普通預金', randMultiple(20, 50, 1) * 10000]]).slice(0, 3).forEach(function (x) { debit.push(x); });
+    var drTotal = debit.reduce(function (s, x) { return s + x[1]; }, 0);
+    var credit = [['売上', Math.round(drTotal * (0.3 + Math.random() * 0.15) / 10000) * 10000]];
+    shuffle([['買掛金', randMultiple(5, 20, 1) * 10000], ['借入金', randMultiple(10, 30, 1) * 10000],
+      ['未払金', randMultiple(3, 10, 1) * 10000], ['受取手数料', randMultiple(2, 8, 1) * 10000]]).slice(0, 2).forEach(function (x) { credit.push(x); });
+    var cap = drTotal - credit.reduce(function (s, x) { return s + x[1]; }, 0);
+    if (cap < 100000) return genTB();
+    credit.push(['資本金', cap]);
+    var askCap = Math.random() < 0.5;
+    var list = shuffle(debit.concat(credit));
+    var lines = [askCap
+      ? '次の各勘定の残高から残高試算表を作ります。貸借が一致するとき、<b>資本金</b>の金額はいくら?'
+      : '次の各勘定の残高から残高試算表を作ります。<b>借方合計</b>はいくら?'];
+    lines.push('<pre class="entry">' + list.map(function (x) {
+      var name = (x[0] + '　　　　　').slice(0, 5);
+      return name + '  ' + (askCap && x[0] === '資本金' ? '?' : fmt(x[1]));
+    }).join('\n') + '</pre>');
+    var drNames = debit.map(function (x) { return x[0] + ' ' + fmt(x[1]); }).join('、');
+    var crNames = credit.map(function (x) { return x[0] + ' ' + fmt(x[1]); }).join('、');
+    var otherCr = credit.filter(function (x) { return x[0] !== '資本金'; });
+    return {
+      ch: 4, topic: '残高試算表', kind: 'number', unit: '円', lines: lines,
+      answer: askCap ? cap : drTotal,
+      explain: '借方に来るのは資産と費用、貸方に来るのは負債・純資産・収益です。\n' +
+        '借方:' + drNames + '\n借方合計 = ' + fmt(drTotal) + '円\n' +
+        (askCap
+          ? '貸方(資本金以外):' + otherCr.map(function (x) { return x[0] + ' ' + fmt(x[1]); }).join('、') + '\n資本金 = ' + fmt(drTotal) + ' − ' + fmt(otherCr.reduce(function (s, x) { return s + x[1]; }, 0)) + ' = ' + fmt(cap) + '円'
+          : '貸方:' + crNames + '\n貸方合計も ' + fmt(drTotal) + '円で一致します。')
+    };
+  }
+
+  var GENS = {
+    1: [genElement, genElement, genEquation, genEquation, function () { return genKnow(1); }],
+    2: [genSide, genJournal, genJournal, genJournal, function () { return genKnow(2); }],
+    3: [genPost, genPost, genBalance, genBalance, function () { return genKnow(3); }],
+    4: [genTB, genTB, genTB, function () { return genKnow(4); }, function () { return genKnow(4); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function selectHtml(id, label) {
+    return '<div class="input-group"><label for="' + id + '">' + label + '</label><select id="' + id + '"><option value="">選択してください</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>';
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(' + p.unit + ')</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      h = '<div class="inputs-row">' + selectHtml('drIn', '借方科目') + selectHtml('crIn', '貸方科目') +
+        '<div class="input-group"><label for="amtIn">金額(円)</label><input type="text" id="amtIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>';
+    } else if (p.kind === 'post') {
+      h = '<div class="options"><button class="opt" data-v="借方">借方に記入</button><button class="opt" data-v="貸方">貸方に記入</button></div>' +
+        '<div class="inputs-row">' + selectHtml('ctIn', '相手科目') + '</div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        state.choice = b.getAttribute('data-v');
+        Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = $('drIn').value, cr = $('crIn').value, amt = parseNum($('amtIn').value);
+      if (!dr || !cr) return showError('借方科目と貸方科目を選んでください。');
+      if (amt === null) return showError('金額を半角数字で入力してください。');
+      ok = dr === p.answer.dr && cr === p.answer.cr && amt === p.answer.amt;
+      yours = '(借)' + dr + ' ' + fmt(amt) + ' (貸)' + cr + ' ' + fmt(amt);
+    } else if (p.kind === 'post') {
+      var ct = $('ctIn').value;
+      if (!state.choice) return showError('借方・貸方のどちらに記入するか選んでください。');
+      if (!ct) return showError('相手科目を選んでください。');
+      ok = state.choice === p.answer.side && ct === p.answer.counter;
+      yours = state.choice + '・相手科目「' + ct + '」';
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3, 4]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
