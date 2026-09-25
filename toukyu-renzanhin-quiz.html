@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>等級別・連産品の原価計算 ランダム問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+  .problem-line b { color: #f6f1e6; }
+
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">BOOKKEEPING LV.1 工業簿記 ⑨ 等級別・連産品</div>
+      <h1>等級別・連産品の原価計算 ランダム問題</h1>
+    </div>
+    <div>
+      <div class="score-label">スコア</div>
+      <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+  </div>
+
+  <div class="topic-badge" id="topicBadge"></div>
+
+  <div class="problem-card" id="problemCard"></div>
+
+  <div class="inputs-row">
+    <div class="input-group">
+      <label id="label1"></label>
+      <input type="text" id="input1" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label id="label2"></label>
+      <input type="text" id="input2" autocomplete="off">
+    </div>
+  </div>
+  <div class="hint">半角数字、カンマなしで入力してください。</div>
+  <div class="error" id="errorText"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="checkBtn">解答する</button>
+    <button class="btn-secondary" id="nextBtn">次の問題へ</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-explanation" id="resultExplanation"></div>
+  </div>
+
+  <div class="footer-note">簿記1級 等級別総合原価計算・連産品・副産物の練習用アプリ(自己採点)</div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0 };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmt(n) { return n.toLocaleString('ja-JP'); }
+
+  function genGrade() {
+    var ks = pick([[3, 2, 1], [5, 3, 1], [4, 2, 1], [6, 4, 3], [5, 4, 2]]);
+    var names = pick([['1級品', '2級品', '3級品'], ['A製品', 'B製品', 'C製品']]);
+    var qs = [randMultiple(1, 8, 1) * 500, randMultiple(1, 8, 1) * 500, randMultiple(1, 8, 1) * 500];
+    var ss = qs.map(function (q, i) { return q * ks[i]; });
+    var S = ss[0] + ss[1] + ss[2];
+    var u = randMultiple(5, 30, 1) * 10;
+    var C = S * u;
+    var costs = ss.map(function (s) { return s * u; });
+    return {
+      badge: '等級別総合原価計算:等価係数と積数',
+      check: costs[0] + costs[1] + costs[2] === C,
+      lines: [
+        '同じ工程で3等級の製品を製造している。完成品総合原価は<b>' + fmt(C) + '円</b>である。',
+        names[0] + ' <b>' + fmt(qs[0]) + '個</b>(等価係数' + ks[0] + ')、' + names[1] + ' <b>' + fmt(qs[1]) + '個</b>(等価係数' + ks[1] + ')、' + names[2] + ' <b>' + fmt(qs[2]) + '個</b>(等価係数' + ks[2] + ')。'
+      ],
+      label1: names[0] + 'の原価(円)',
+      label2: names[2] + 'の単価(円)',
+      ph1: '例: 1200000', ph2: '例: 200',
+      answers: [costs[0], ks[2] * u],
+      explanation:
+        '積数 = 完成品数量 × 等価係数\n' +
+        '　' + names[0] + ' ' + fmt(qs[0]) + ' × ' + ks[0] + ' = ' + fmt(ss[0]) + '、' + names[1] + ' ' + fmt(qs[1]) + ' × ' + ks[1] + ' = ' + fmt(ss[1]) + '、' + names[2] + ' ' + fmt(qs[2]) + ' × ' + ks[2] + ' = ' + fmt(ss[2]) + '(合計 ' + fmt(S) + ')\n' +
+        '積数1あたりの原価 = ' + fmt(C) + ' ÷ ' + fmt(S) + ' = ' + fmt(u) + '円\n' +
+        names[0] + 'の原価 = ' + fmt(ss[0]) + ' × ' + fmt(u) + ' = ' + fmt(costs[0]) + '円\n' +
+        names[1] + 'の原価 = ' + fmt(costs[1]) + '円、' + names[2] + 'の原価 = ' + fmt(costs[2]) + '円\n' +
+        names[2] + 'の単価 = ' + fmt(costs[2]) + ' ÷ ' + fmt(qs[2]) + ' = ' + fmt(ks[2] * u) + '円(等価係数' + ks[2] + ' × ' + fmt(u) + ')'
+    };
+  }
+
+  function genGrade2() {
+    var a = pick([[2, 1], [3, 1], [3, 2], [4, 1]]);
+    var b = pick([[3, 1], [4, 1], [2, 1], [5, 2]]);
+    var q1 = randMultiple(1, 6, 1) * 500, q2 = randMultiple(1, 6, 1) * 500;
+    var um = randMultiple(20, 60, 1) * 10, up = randMultiple(20, 60, 1) * 10;
+    var sm1 = q1 * a[0], sm2 = q2 * a[1], sp1 = q1 * b[0], sp2 = q2 * b[1];
+    var Cm = (sm1 + sm2) * um, Cp = (sp1 + sp2) * up;
+    var p1 = sm1 * um + sp1 * up;
+    var p2 = sm2 * um + sp2 * up;
+    return {
+      badge: '等級別総合原価計算:材料費と加工費で等価係数が違う場合',
+      check: p1 + p2 === Cm + Cp,
+      lines: [
+        'P製品<b>' + fmt(q1) + '個</b>、Q製品<b>' + fmt(q2) + '個</b>を製造している。完成品の材料費は<b>' + fmt(Cm) + '円</b>、加工費は<b>' + fmt(Cp) + '円</b>である。',
+        '材料費の等価係数は P ' + a[0] + '・Q ' + a[1] + '、加工費の等価係数は P ' + b[0] + '・Q ' + b[1] + ' である(材料費と加工費を別々に按分する)。'
+      ],
+      label1: 'P製品の原価(円)',
+      label2: 'Q製品の単価(円)',
+      ph1: '例: 1000000', ph2: '例: 400',
+      answers: [p1, a[1] * um + b[1] * up],
+      explanation:
+        '【材料費】積数:P ' + fmt(q1) + '×' + a[0] + ' = ' + fmt(sm1) + '、Q ' + fmt(q2) + '×' + a[1] + ' = ' + fmt(sm2) + ' → 積数1あたり ' + fmt(Cm) + ' ÷ ' + fmt(sm1 + sm2) + ' = ' + fmt(um) + '円\n' +
+        '【加工費】積数:P ' + fmt(q1) + '×' + b[0] + ' = ' + fmt(sp1) + '、Q ' + fmt(q2) + '×' + b[1] + ' = ' + fmt(sp2) + ' → 積数1あたり ' + fmt(Cp) + ' ÷ ' + fmt(sp1 + sp2) + ' = ' + fmt(up) + '円\n' +
+        'P製品の原価 = ' + fmt(sm1) + '×' + fmt(um) + ' + ' + fmt(sp1) + '×' + fmt(up) + ' = ' + fmt(p1) + '円\n' +
+        'Q製品の原価 = ' + fmt(p2) + '円 → 単価 ' + fmt(p2) + ' ÷ ' + fmt(q2) + ' = ' + fmt(a[1] * um + b[1] * up) + '円'
+    };
+  }
+
+  function findJoint() {
+    var Cs = [900000, 1000000, 1200000, 1500000, 1800000];
+    var qsl = [[400, 600], [500, 500], [300, 600], [400, 800], [600, 400], [300, 900], [200, 800]];
+    var pXs = [1500, 2000, 2500, 3000], pYs = [500, 600, 800, 1000], aYs = [100000, 150000, 200000], fYs = [1200, 1500, 1800, 2000];
+    for (var t = 0; t < 4000; t++) {
+      var C = pick(Cs), qq = pick(qsl), pX = pick(pXs), pY = pick(pYs), aY = pick(aYs), fY = pick(fYs);
+      var qX = qq[0], qY = qq[1];
+      var mvX = pX * qX, mvY = pY * qY;
+      var nX = mvX, nY = fY * qY - aY;
+      if (nY <= 0) continue;
+      var xa = C * qX, xb = C * mvX, xc = C * nX;
+      if (xa % (qX + qY) !== 0 || xb % (mvX + mvY) !== 0 || xc % (nX + nY) !== 0) continue;
+      var x1 = xa / (qX + qY), x2 = xb / (mvX + mvY), x3 = xc / (nX + nY);
+      if (x1 === x2 || x2 === x3 || x1 === x3) continue;
+      var ok = true;
+      [x1, x2, x3].forEach(function (x) {
+        if (mvX - x <= 0 || fY * qY - (C - x + aY) <= 0) ok = false;
+      });
+      if (!ok) continue;
+      return { C: C, qX: qX, qY: qY, pX: pX, pY: pY, aY: aY, fY: fY, x1: x1, x2: x2, x3: x3, nX: nX, nY: nY, mvX: mvX, mvY: mvY };
+    }
+    return { C: 1200000, qX: 400, qY: 600, pX: 2000, pY: 800, aY: 100000, fY: 1500, x1: 480000, x2: 750000, x3: 600000, nX: 800000, nY: 800000, mvX: 800000, mvY: 480000 };
+  }
+
+  function jointLines(d) {
+    return [
+      '連結原価は<b>' + fmt(d.C) + '円</b>である。',
+      'X製品<b>' + fmt(d.qX) + 'kg</b>(分離点の正常市価<b>@' + fmt(d.pX) + '円</b>、そのまま販売)。',
+      'Y製品<b>' + fmt(d.qY) + 'kg</b>(分離点の正常市価<b>@' + fmt(d.pY) + '円</b>。追加加工費<b>' + fmt(d.aY) + '円</b>をかけて、最終<b>@' + fmt(d.fY) + '円</b>で販売)。'
+    ];
+  }
+
+  function genJointMix() {
+    var d = findJoint();
+    return {
+      badge: '連産品:物量基準と正常市価基準',
+      check: d.x1 >= 0,
+      lines: jointLines(d).concat(['X製品への連結原価の配賦額を、物量基準と正常市価基準(分離点の市価)でそれぞれ求める。']),
+      label1: 'X製品への配賦額(物量基準、円)',
+      label2: 'X製品への配賦額(正常市価基準、円)',
+      ph1: '例: 480000', ph2: '例: 750000',
+      answers: [d.x1, d.x2],
+      explanation:
+        '【物量基準】' + fmt(d.C) + ' × ' + fmt(d.qX) + ' ÷ (' + fmt(d.qX) + ' + ' + fmt(d.qY) + ') = ' + fmt(d.x1) + '円\n' +
+        '【正常市価基準】売価総額:X ' + fmt(d.qX) + ' × ' + fmt(d.pX) + ' = ' + fmt(d.mvX) + '、Y ' + fmt(d.qY) + ' × ' + fmt(d.pY) + ' = ' + fmt(d.mvY) + '\n' +
+        '　' + fmt(d.C) + ' × ' + fmt(d.mvX) + ' ÷ (' + fmt(d.mvX) + ' + ' + fmt(d.mvY) + ') = ' + fmt(d.x2) + '円\n' +
+        '(追加加工費は連結原価に含めず、Yの個別費として直課する)'
+    };
+  }
+
+  function genJointNRV() {
+    var d = findJoint();
+    return {
+      badge: '連産品:見積正味実現可能価額基準',
+      check: d.x3 >= 0,
+      lines: jointLines(d).concat(['見積正味実現可能価額基準により、連結原価を配賦する(見積販売費はない)。']),
+      label1: 'Y製品の見積正味実現可能価額(円)',
+      label2: 'X製品への配賦額(円)',
+      ph1: '例: 800000', ph2: '例: 600000',
+      answers: [d.nY, d.x3],
+      explanation:
+        '見積正味実現可能価額 = 最終販売価額 − 追加加工費\n' +
+        'X = ' + fmt(d.qX) + ' × ' + fmt(d.pX) + ' = ' + fmt(d.nX) + '円(そのまま販売)\n' +
+        'Y = ' + fmt(d.qY) + ' × ' + fmt(d.fY) + ' − ' + fmt(d.aY) + ' = ' + fmt(d.nY) + '円\n' +
+        'X製品への配賦額 = ' + fmt(d.C) + ' × ' + fmt(d.nX) + ' ÷ (' + fmt(d.nX) + ' + ' + fmt(d.nY) + ') = ' + fmt(d.x3) + '円'
+    };
+  }
+
+  function genByProduct() {
+    var q = pick([200, 250, 400, 500]);
+    var u = randMultiple(20, 60, 1) * 100;
+    var s = randMultiple(5, 15, 1) * 10000;
+    var h = randMultiple(1, 4, 1) * 10000;
+    var ev = s - h;
+    var C = q * u + ev;
+    return {
+      badge: '副産物の評価と主産物の原価',
+      check: true,
+      lines: [
+        '主産物と副産物が同時に産出される。完成品総合原価は<b>' + fmt(C) + '円</b>である。',
+        '副産物の見積売却価額は<b>' + fmt(s) + '円</b>、見積販売費は<b>' + fmt(h) + '円</b>。主産物の完成品は<b>' + fmt(q) + '個</b>である。副産物の評価額は、見積売却価額から見積販売費を引いた額とする。'
+      ],
+      label1: '主産物の完成品原価(円)',
+      label2: '主産物の単価(円)',
+      ph1: '例: 1730000', ph2: '例: 3460',
+      answers: [q * u, u],
+      explanation:
+        '副産物の評価額 = ' + fmt(s) + ' − ' + fmt(h) + ' = ' + fmt(ev) + '円\n' +
+        '主産物の完成品原価 = 総合原価 − 副産物の評価額 = ' + fmt(C) + ' − ' + fmt(ev) + ' = ' + fmt(q * u) + '円\n' +
+        '主産物の単価 = ' + fmt(q * u) + ' ÷ ' + fmt(q) + ' = ' + fmt(u) + '円'
+    };
+  }
+
+  function generateProblem() {
+    var y = Math.random();
+    if (y < 0.24) return genGrade();
+    if (y < 0.46) return genGrade2();
+    if (y < 0.68) return genJointMix();
+    if (y < 0.88) return genJointNRV();
+    return genByProduct();
+  }
+
+  function renderProblem() {
+    var p = state.problem;
+    document.getElementById('topicBadge').textContent = '【 ' + p.badge + ' 】';
+    document.getElementById('problemCard').innerHTML = p.lines.map(function (l) {
+      return '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    document.getElementById('label1').textContent = p.label1;
+    document.getElementById('label2').textContent = p.label2;
+    var i1 = document.getElementById('input1');
+    var i2 = document.getElementById('input2');
+    i1.placeholder = p.ph1;
+    i2.placeholder = p.ph2;
+    i1.value = '';
+    i2.value = '';
+    document.getElementById('errorText').style.display = 'none';
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+  }
+
+  function parseSigned(s) {
+    if (s === undefined || s === null) return NaN;
+    var t = String(s).trim().replace(/,/g, '').replace(/円/g, '').replace(/[−▲△]/g, '-');
+    if (t === '' || t === '-' || t === '+') return NaN;
+    return Number(t);
+  }
+
+  function handleCheck() {
+    var u1 = parseSigned(document.getElementById('input1').value);
+    var u2 = parseSigned(document.getElementById('input2').value);
+    var errEl = document.getElementById('errorText');
+    if (isNaN(u1) || isNaN(u2)) {
+      errEl.textContent = '両方の欄に数値を入力してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    var p = state.problem;
+    var isCorrect = (u1 === p.answers[0]) && (u2 === p.answers[1]);
+    state.total += 1;
+    if (isCorrect) state.score += 1;
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+
+    var resultCard = document.getElementById('resultCard');
+    var resultTitle = document.getElementById('resultTitle');
+    resultTitle.textContent = isCorrect ? '正解です!' : '不正解です。もう一度見直してみましょう。';
+    resultTitle.style.color = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.borderColor = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.background = isCorrect ? 'rgba(99,153,34,0.14)' : 'rgba(216,90,48,0.14)';
+    document.getElementById('resultExplanation').textContent = p.explanation;
+    resultCard.classList.add('show');
+  }
+
+  function handleNext() {
+    state.problem = generateProblem();
+    renderProblem();
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', handleCheck);
+  document.getElementById('nextBtn').addEventListener('click', handleNext);
+  document.getElementById('input1').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+  document.getElementById('input2').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+
+  state.problem = generateProblem();
+  renderProblem();
+})();
+</script>
+</body>
+</html>
