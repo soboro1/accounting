@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>予算実績差異分析 ランダム問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+  .problem-line b { color: #f6f1e6; }
+
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">BOOKKEEPING LV.1 工業簿記 ⑩ 予算実績差異分析</div>
+      <h1>予算実績差異分析 ランダム問題</h1>
+    </div>
+    <div>
+      <div class="score-label">スコア</div>
+      <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+  </div>
+
+  <div class="topic-badge" id="topicBadge"></div>
+
+  <div class="problem-card" id="problemCard"></div>
+
+  <div class="inputs-row">
+    <div class="input-group">
+      <label id="label1"></label>
+      <input type="text" id="input1" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label id="label2"></label>
+      <input type="text" id="input2" autocomplete="off">
+    </div>
+  </div>
+  <div class="hint">半角数字、カンマなしで入力。不利差異はマイナス(先頭に「-」)、有利差異はプラスで入力してください。</div>
+  <div class="error" id="errorText"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="checkBtn">解答する</button>
+    <button class="btn-secondary" id="nextBtn">次の問題へ</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-explanation" id="resultExplanation"></div>
+  </div>
+
+  <div class="footer-note">簿記1級 予算実績差異分析(直接原価計算ベース)の練習用アプリ(自己採点)</div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0 };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function randNonZero(min, max, step) {
+    var v = 0;
+    while (v === 0) { v = randMultiple(min, max, step); }
+    return v;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmt(n) {
+    var s = Math.abs(n).toLocaleString('ja-JP');
+    return (n < 0 ? '−' : '') + s;
+  }
+  function fav(n) { return n > 0 ? '有利' : (n < 0 ? '不利' : ''); }
+
+  function base() {
+    var p0 = randMultiple(10, 30, 1) * 50;
+    var v0 = Math.round(p0 * pick([0.4, 0.5, 0.6]) / 10) * 10;
+    var q0 = randMultiple(4, 12, 1) * 100;
+    var F0 = randMultiple(5, 20, 1) * 10000;
+    var p1 = p0 + randNonZero(-6, 6, 1) * 10;
+    var q1 = q0 + randNonZero(-3, 4, 1) * 100;
+    var v1 = v0 + randNonZero(-4, 4, 1) * 10;
+    var F1 = F0 + randNonZero(-4, 4, 1) * 5000;
+    return { p0: p0, v0: v0, q0: q0, F0: F0, p1: p1, q1: q1, v1: v1, F1: F1 };
+  }
+
+  function variances(d) {
+    var op0 = (d.p0 - d.v0) * d.q0 - d.F0;
+    var op1 = (d.p1 - d.v1) * d.q1 - d.F1;
+    return {
+      op0: op0, op1: op1, diff: op1 - op0,
+      pv: (d.p1 - d.p0) * d.q1,
+      qv: (d.p0 - d.v0) * (d.q1 - d.q0),
+      vv: (d.v0 - d.v1) * d.q1,
+      fv: d.F0 - d.F1
+    };
+  }
+
+  function baseLines(d) {
+    return [
+      '予算:販売単価<b>' + fmt(d.p0) + '円</b>、販売数量<b>' + fmt(d.q0) + '個</b>、単位変動費<b>' + fmt(d.v0) + '円</b>、固定費<b>' + fmt(d.F0) + '円</b>。',
+      '実績:販売単価<b>' + fmt(d.p1) + '円</b>、販売数量<b>' + fmt(d.q1) + '個</b>、単位変動費<b>' + fmt(d.v1) + '円</b>、固定費<b>' + fmt(d.F1) + '円</b>。'
+    ];
+  }
+
+  function explainFour(d, r) {
+    return '予算営業利益 = (' + fmt(d.p0) + ' − ' + fmt(d.v0) + ') × ' + fmt(d.q0) + ' − ' + fmt(d.F0) + ' = ' + fmt(r.op0) + '円\n' +
+      '実績営業利益 = (' + fmt(d.p1) + ' − ' + fmt(d.v1) + ') × ' + fmt(d.q1) + ' − ' + fmt(d.F1) + ' = ' + fmt(r.op1) + '円(差異 ' + fmt(r.diff) + '円)\n' +
+      '販売価格差異 = (' + fmt(d.p1) + ' − ' + fmt(d.p0) + ') × ' + fmt(d.q1) + ' = ' + fmt(r.pv) + '円(' + fav(r.pv) + ')\n' +
+      '販売数量差異 = (' + fmt(d.p0) + ' − ' + fmt(d.v0) + ') × (' + fmt(d.q1) + ' − ' + fmt(d.q0) + ') = ' + fmt(r.qv) + '円(' + fav(r.qv) + ')\n' +
+      '変動費差異 = (' + fmt(d.v0) + ' − ' + fmt(d.v1) + ') × ' + fmt(d.q1) + ' = ' + fmt(r.vv) + '円(' + fav(r.vv) + ')\n' +
+      '固定費差異 = ' + fmt(d.F0) + ' − ' + fmt(d.F1) + ' = ' + fmt(r.fv) + '円(' + fav(r.fv) + ')\n' +
+      '(検算)' + fmt(r.pv) + ' + ' + fmt(r.qv) + ' + ' + fmt(r.vv) + ' + ' + fmt(r.fv) + ' = ' + fmt(r.pv + r.qv + r.vv + r.fv) + '円 = 営業利益差異';
+  }
+
+  function genOp() {
+    var d = base();
+    var r = variances(d);
+    return {
+      badge: '予算営業利益と実績営業利益',
+      check: r.pv + r.qv + r.vv + r.fv === r.diff,
+      lines: baseLines(d),
+      label1: '予算営業利益(円)',
+      label2: '実績営業利益(円)',
+      ph1: '例: 100000', ph2: '例: 148000',
+      answers: [r.op0, r.op1],
+      explanation: explainFour(d, r)
+    };
+  }
+
+  function genPriceQty() {
+    var d = base();
+    var r = variances(d);
+    return {
+      badge: '営業利益差異の分解:販売価格差異・販売数量差異',
+      check: r.pv + r.qv + r.vv + r.fv === r.diff,
+      lines: baseLines(d).concat(['直接原価計算ベースで、営業利益差異を分析する。']),
+      label1: '販売価格差異(円)',
+      label2: '販売数量差異(円)',
+      ph1: '例: 30000', ph2: '例: 40000',
+      answers: [r.pv, r.qv],
+      explanation: explainFour(d, r)
+    };
+  }
+
+  function genCost() {
+    var d = base();
+    var r = variances(d);
+    return {
+      badge: '営業利益差異の分解:変動費差異・固定費差異',
+      check: r.pv + r.qv + r.vv + r.fv === r.diff,
+      lines: baseLines(d).concat(['直接原価計算ベースで、営業利益差異を分析する。']),
+      label1: '変動費差異(円)',
+      label2: '固定費差異(円)',
+      ph1: '例: -12000', ph2: '例: -10000',
+      answers: [r.vv, r.fv],
+      explanation: explainFour(d, r)
+    };
+  }
+
+  function genShare() {
+    var g = 0, tries = 0, res = null;
+    while (!res && tries < 2000) {
+      tries++;
+      var m0 = randMultiple(15, 50, 1) * 10;
+      var q0 = randMultiple(4, 12, 1) * 100;
+      var q1 = q0 + randNonZero(-3, 4, 1) * 100;
+      var s0 = pick([5, 10, 20, 25]);
+      var s1 = pick([5, 10, 20, 25]);
+      if (s1 === s0) continue;
+      var M0 = q0 * 100 / s0, M1 = q1 * 100 / s1;
+      if (!Number.isInteger(M0) || !Number.isInteger(M1) || M0 === M1) continue;
+      var t1 = m0 * s0 * (M1 - M0);
+      var t2 = m0 * (s1 - s0) * M1;
+      if (t1 % 100 !== 0 || t2 % 100 !== 0) continue;
+      res = { m0: m0, q0: q0, q1: q1, s0: s0, s1: s1, M0: M0, M1: M1, a: t1 / 100, b: t2 / 100 };
+    }
+    var qv = res.m0 * (res.q1 - res.q0);
+    return {
+      badge: '販売数量差異の分解:市場総需要差異・市場占有率差異',
+      check: res.a + res.b === qv,
+      lines: [
+        '予算の貢献利益単価は<b>' + fmt(res.m0) + '円</b>。予算の販売数量は<b>' + fmt(res.q0) + '個</b>(市場総需要<b>' + fmt(res.M0) + '個</b>)、実績の販売数量は<b>' + fmt(res.q1) + '個</b>(市場総需要<b>' + fmt(res.M1) + '個</b>)であった。'
+      ],
+      label1: '市場総需要差異(円)',
+      label2: '市場占有率差異(円)',
+      ph1: '例: -8000', ph2: '例: 48000',
+      answers: [res.a, res.b],
+      explanation:
+        '予算市場占有率 = ' + fmt(res.q0) + ' ÷ ' + fmt(res.M0) + ' = ' + res.s0 + '%\n' +
+        '実績市場占有率 = ' + fmt(res.q1) + ' ÷ ' + fmt(res.M1) + ' = ' + res.s1 + '%\n' +
+        '市場総需要差異 = 予算貢献利益単価 × 予算占有率 ×(実際市場総需要 − 予算市場総需要)\n' +
+        '　= ' + fmt(res.m0) + ' × ' + res.s0 + '% × (' + fmt(res.M1) + ' − ' + fmt(res.M0) + ') = ' + fmt(res.a) + '円(' + fav(res.a) + ')\n' +
+        '市場占有率差異 = 予算貢献利益単価 ×(実際占有率 − 予算占有率)× 実際市場総需要\n' +
+        '　= ' + fmt(res.m0) + ' × (' + res.s1 + '% − ' + res.s0 + '%) × ' + fmt(res.M1) + ' = ' + fmt(res.b) + '円(' + fav(res.b) + ')\n' +
+        '(検算)' + fmt(res.a) + ' + ' + fmt(res.b) + ' = ' + fmt(res.a + res.b) + '円 = 販売数量差異 ' + fmt(qv) + '円'
+    };
+  }
+
+  function genMix() {
+    var res = null, tries = 0;
+    while (!res && tries < 3000) {
+      tries++;
+      var a0 = randMultiple(2, 8, 1) * 100, b0 = randMultiple(2, 8, 1) * 100;
+      var a1 = randMultiple(2, 9, 1) * 100, b1 = randMultiple(2, 9, 1) * 100;
+      var mA = randMultiple(10, 60, 1) * 10, mB = randMultiple(10, 60, 1) * 10;
+      if (mA === mB) continue;
+      var T0 = a0 + b0, T1 = a1 + b1;
+      if (T0 === T1) continue;
+      var S0 = a0 * mA + b0 * mB;
+      if (((T1 - T0) * S0) % T0 !== 0) continue;
+      var tot = (T1 - T0) * S0 / T0;
+      var D = (a1 - a0) * mA + (b1 - b0) * mB;
+      res = { a0: a0, b0: b0, a1: a1, b1: b1, mA: mA, mB: mB, T0: T0, T1: T1, S0: S0, tot: tot, mix: D - tot, D: D };
+    }
+    return {
+      badge: '複数製品:総販売数量差異・製品ミックス差異',
+      check: res.tot + res.mix === res.D,
+      lines: [
+        '予算:A製品<b>' + fmt(res.a0) + '個</b>(貢献利益単価<b>' + fmt(res.mA) + '円</b>)、B製品<b>' + fmt(res.b0) + '個</b>(貢献利益単価<b>' + fmt(res.mB) + '円</b>)。',
+        '実績:A製品<b>' + fmt(res.a1) + '個</b>、B製品<b>' + fmt(res.b1) + '個</b>。'
+      ],
+      label1: '総販売数量差異(円)',
+      label2: '製品ミックス差異(円)',
+      ph1: '例: 42000', ph2: '例: -22000',
+      answers: [res.tot, res.mix],
+      explanation:
+        '予算総数量 = ' + fmt(res.T0) + '個、実績総数量 = ' + fmt(res.T1) + '個\n' +
+        '予算平均貢献利益単価 = (' + fmt(res.a0) + '×' + fmt(res.mA) + ' + ' + fmt(res.b0) + '×' + fmt(res.mB) + ') ÷ ' + fmt(res.T0) + ' = ' + (res.S0 / res.T0) + '円\n' +
+        '総販売数量差異 = (' + fmt(res.T1) + ' − ' + fmt(res.T0) + ') × ' + (res.S0 / res.T0) + ' = ' + fmt(res.tot) + '円(' + fav(res.tot) + ')\n' +
+        '各製品の販売数量差異の合計 = (' + fmt(res.a1) + ' − ' + fmt(res.a0) + ')×' + fmt(res.mA) + ' + (' + fmt(res.b1) + ' − ' + fmt(res.b0) + ')×' + fmt(res.mB) + ' = ' + fmt(res.D) + '円\n' +
+        '製品ミックス差異 = ' + fmt(res.D) + ' − ' + fmt(res.tot) + ' = ' + fmt(res.mix) + '円(' + fav(res.mix) + ')'
+    };
+  }
+
+  function generateProblem() {
+    var y = Math.random();
+    if (y < 0.16) return genOp();
+    if (y < 0.4) return genPriceQty();
+    if (y < 0.6) return genCost();
+    if (y < 0.8) return genShare();
+    return genMix();
+  }
+
+  function renderProblem() {
+    var p = state.problem;
+    document.getElementById('topicBadge').textContent = '【 ' + p.badge + ' 】';
+    document.getElementById('problemCard').innerHTML = p.lines.map(function (l) {
+      return '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    document.getElementById('label1').textContent = p.label1;
+    document.getElementById('label2').textContent = p.label2;
+    var i1 = document.getElementById('input1');
+    var i2 = document.getElementById('input2');
+    i1.placeholder = p.ph1;
+    i2.placeholder = p.ph2;
+    i1.value = '';
+    i2.value = '';
+    document.getElementById('errorText').style.display = 'none';
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+  }
+
+  function parseSigned(s) {
+    if (s === undefined || s === null) return NaN;
+    var t = String(s).trim().replace(/,/g, '').replace(/円/g, '').replace(/[−▲△]/g, '-');
+    if (t === '' || t === '-' || t === '+') return NaN;
+    return Number(t);
+  }
+
+  function handleCheck() {
+    var u1 = parseSigned(document.getElementById('input1').value);
+    var u2 = parseSigned(document.getElementById('input2').value);
+    var errEl = document.getElementById('errorText');
+    if (isNaN(u1) || isNaN(u2)) {
+      errEl.textContent = '両方の欄に数値を入力してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    var p = state.problem;
+    var isCorrect = (u1 === p.answers[0]) && (u2 === p.answers[1]);
+    state.total += 1;
+    if (isCorrect) state.score += 1;
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+
+    var resultCard = document.getElementById('resultCard');
+    var resultTitle = document.getElementById('resultTitle');
+    resultTitle.textContent = isCorrect ? '正解です!' : '不正解です。もう一度見直してみましょう。';
+    resultTitle.style.color = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.borderColor = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.background = isCorrect ? 'rgba(99,153,34,0.14)' : 'rgba(216,90,48,0.14)';
+    document.getElementById('resultExplanation').textContent = p.explanation;
+    resultCard.classList.add('show');
+  }
+
+  function handleNext() {
+    state.problem = generateProblem();
+    renderProblem();
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', handleCheck);
+  document.getElementById('nextBtn').addEventListener('click', handleNext);
+  document.getElementById('input1').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+  document.getElementById('input2').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+
+  state.problem = generateProblem();
+  renderProblem();
+})();
+</script>
+</body>
+</html>
