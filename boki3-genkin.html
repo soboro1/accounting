@@ -1,0 +1,795 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>現金・預金 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  .t-acc { margin: 10px 0; max-width: 520px; font-size: 14px; }
+  .t-acc .t-name { text-align: center; font-weight: 700; padding-bottom: 4px; border-bottom: 2px solid #c7c0b0; }
+  .t-acc .t-body { display: flex; }
+  .t-acc .t-side { flex: 1; padding: 6px 10px; min-height: 40px; }
+  .t-acc .t-side + .t-side { border-left: 2px solid #c7c0b0; }
+  .t-acc .t-row { display: flex; justify-content: space-between; gap: 8px; line-height: 1.8; color: #e8e3d8; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus, .input-group select:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-kiso.html">← ① 簿記の基礎</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ② 現金・預金</div>
+    <h1>現金・預金 テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 現金の範囲</a>
+    <a href="#ch2">2. 現金過不足</a>
+    <a href="#ch3">3. 普通預金・定期預金</a>
+    <a href="#ch4">4. 当座預金・当座借越</a>
+    <a href="#ch5">5. 小口現金</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>現金の範囲</h2>
+
+    <h3>簿記の「現金」は紙幣と硬貨だけではない</h3>
+    <p>簿記で<b>現金(資産)</b>として扱うのは、紙幣・硬貨(通貨)に加えて、<b>銀行などに持っていけばすぐにお金に換えられる証券</b>です。これを<span class="mark">通貨代用証券</span>といいます。</p>
+    <ul>
+      <li><b>他人振出小切手</b>:取引先など、自分以外の人が振り出した小切手</li>
+      <li><b>送金小切手</b>:銀行が送金のために発行する小切手</li>
+      <li><b>普通為替証書</b>:郵便局で発行される、お金を送るための証書</li>
+    </ul>
+
+    <h3>現金にならないもの</h3>
+    <ul>
+      <li><b>自社が振り出した小切手</b>が戻ってきた → 現金ではなく<b>当座預金</b>(第4章)</li>
+      <li><b>約束手形</b> → 受取手形(債権・債務の単元)</li>
+      <li><b>郵便切手・収入印紙</b> → 使ったときは通信費・租税公課(お金ではない)</li>
+      <li><b>定期預金の通帳</b> → 定期預金(第3章)</li>
+    </ul>
+
+    <h3>仕訳の例</h3>
+    <p>商品を80,000円で売り上げ、代金は得意先振出の小切手で受け取った。</p>
+    <pre class="entry">(借)現金      80,000   (貸)売上        80,000</pre>
+    <p>売掛金50,000円を、送金小切手で回収した。</p>
+    <pre class="entry">(借)現金      50,000   (貸)売掛金      50,000</pre>
+    <div class="note">「小切手を受け取った」と書いてあったら、まず<b>誰が振り出した小切手か</b>を確認します。他人振出なら現金、自社振出なら当座預金です。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>現金過不足</h2>
+
+    <h3>帳簿と実際の金額がずれたとき</h3>
+    <p>記帳漏れや数え間違いなどで、<b>帳簿上の現金残高</b>と<b>金庫の実際の現金(実際有高)</b>が合わないことがあります。このとき、まず<b>帳簿の現金を実際有高に合わせ</b>、差額はとりあえず<span class="mark">現金過不足</span>という一時的な勘定で処理します。</p>
+    <div class="flow">
+      <span class="step">① 不一致を発見</span><span class="arrow">→</span>
+      <span class="step">② 原因が判明</span><span class="arrow">→</span>
+      <span class="step">③ 決算まで不明なら雑損・雑益</span>
+    </div>
+
+    <h3>① 不一致を発見したとき</h3>
+    <p>実際有高が帳簿より<b>少ない</b>(帳簿 100,000円、実際 97,000円)</p>
+    <pre class="entry">(借)現金過不足   3,000   (貸)現金         3,000
+  現金を3,000円減らして、実際有高に合わせる</pre>
+    <p>実際有高が帳簿より<b>多い</b>(帳簿 100,000円、実際 102,000円)</p>
+    <pre class="entry">(借)現金         2,000   (貸)現金過不足   2,000
+  現金を2,000円増やして、実際有高に合わせる</pre>
+
+    <h3>② 原因がわかったとき</h3>
+    <p>正しい勘定科目に振り替えて、現金過不足を消します。</p>
+    <p>不足3,000円の原因が、通信費の支払いの記帳漏れだとわかった。</p>
+    <pre class="entry">(借)通信費       3,000   (貸)現金過不足   3,000</pre>
+    <p>過剰2,000円の原因が、売掛金の回収の記帳漏れだとわかった。</p>
+    <pre class="entry">(借)現金過不足   2,000   (貸)売掛金       2,000</pre>
+
+    <h3>③ 決算日になっても原因がわからないとき</h3>
+    <ul>
+      <li>現金過不足が<b>借方</b>に残っている(不足していた) → <b>雑損</b>(費用)に振り替える</li>
+      <li>現金過不足が<b>貸方</b>に残っている(多すぎた) → <b>雑益</b>(収益)に振り替える</li>
+    </ul>
+    <pre class="entry">(借)雑損         1,000   (貸)現金過不足   1,000   ← 借方残高1,000円の場合
+(借)現金過不足     500   (貸)雑益           500   ← 貸方残高500円の場合</pre>
+    <div class="note">決算日当日に不一致を見つけ、原因がわからなかった場合は、現金過不足を使わずに<b>直接「雑損」「雑益」</b>で処理します。<br>例)実際有高が1,500円不足 → (借)雑損 1,500 (貸)現金 1,500</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>普通預金・定期預金</h2>
+
+    <h3>2つの預金</h3>
+    <ul>
+      <li><b>普通預金</b>:いつでも出し入れできる口座。給料の振込や公共料金の引き落としに使う</li>
+      <li><b>定期預金</b>:一定期間は引き出せない代わりに、利息が高めの口座</li>
+    </ul>
+    <p>どちらも<b>資産</b>です。預けたら借方(増加)、引き出したら貸方(減少)に書きます。</p>
+
+    <h3>仕訳の例</h3>
+    <p>現金200,000円を普通預金口座に預け入れた。</p>
+    <pre class="entry">(借)普通預金   200,000   (貸)現金       200,000</pre>
+    <p>普通預金口座から500,000円を定期預金口座に預け替えた。</p>
+    <pre class="entry">(借)定期預金   500,000   (貸)普通預金   500,000</pre>
+    <p>電気代12,000円が普通預金口座から引き落とされた。</p>
+    <pre class="entry">(借)水道光熱費  12,000   (貸)普通預金    12,000</pre>
+    <p>普通預金口座に利息300円が入金された。</p>
+    <pre class="entry">(借)普通預金       300   (貸)受取利息       300</pre>
+    <p>買掛金100,000円を普通預金口座から振り込み、振込手数料440円も口座から引き落とされた。</p>
+    <pre class="entry">(借)買掛金     100,000   (貸)普通預金   100,440
+    支払手数料     440</pre>
+
+    <h3>口座がいくつもあるとき</h3>
+    <p>銀行ごとに残高を管理したい場合は、<b>「普通預金A銀行」「普通預金B銀行」</b>のように、銀行名をつけた勘定科目を使います。問題文で指示されたら、それに従います。</p>
+    <pre class="entry">A銀行の普通預金からB銀行の普通預金に300,000円を移した。
+(借)普通預金B銀行 300,000   (貸)普通預金A銀行 300,000</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>当座預金・当座借越</h2>
+
+    <h3>当座預金とは</h3>
+    <p>主に<b>小切手を振り出して支払う</b>ために使う預金です。利息はつきません。資産の勘定です。</p>
+    <ul>
+      <li>預け入れたとき → 当座預金が増える(借方)</li>
+      <li>小切手を振り出したとき → 当座預金が減る(貸方)。振り出した時点で減らします</li>
+    </ul>
+
+    <h3>仕訳の例</h3>
+    <p>現金300,000円を当座預金口座に預け入れた。</p>
+    <pre class="entry">(借)当座預金   300,000   (貸)現金       300,000</pre>
+    <p>買掛金120,000円を、小切手を振り出して支払った。</p>
+    <pre class="entry">(借)買掛金     120,000   (貸)当座預金   120,000</pre>
+    <p>商品を90,000円で売り上げ、他人振出の小切手を受け取り、<b>ただちに当座預金に預け入れた</b>。</p>
+    <pre class="entry">(借)当座預金    90,000   (貸)売上        90,000
+  「ただちに預け入れた」ので現金を経由せず、直接当座預金</pre>
+    <p>売掛金60,000円の回収として、<b>当社が以前に振り出した小切手</b>を受け取った。</p>
+    <pre class="entry">(借)当座預金    60,000   (貸)売掛金      60,000
+  自社振出の小切手が戻ってきた=振り出したときに減らした当座預金が元に戻る</pre>
+
+    <h3>当座借越</h3>
+    <p>銀行と<b>当座借越契約</b>を結んでおくと、残高を超えて小切手を振り出せます(限度額まで)。超えた分は銀行からの一時的な借金です。</p>
+    <p>期中は、残高を超えても<b>そのまま当座預金の貸方に記入</b>します。当座預金勘定が貸方残高(マイナス)になります。</p>
+    <div class="t-acc">
+      <div class="t-name">当座預金</div>
+      <div class="t-body">
+        <div class="t-side"><div class="t-row"><span>預け入れ</span><span>100,000</span></div></div>
+        <div class="t-side"><div class="t-row"><span>買掛金</span><span>130,000</span></div></div>
+      </div>
+    </div>
+    <p>貸方が30,000円多い → 30,000円の当座借越(銀行への借金)の状態です。</p>
+
+    <h3>決算での処理</h3>
+    <p>決算日に当座預金が貸方残高のときは、その金額を<span class="mark">当座借越(負債)</span>に振り替えます。</p>
+    <pre class="entry">(借)当座預金    30,000   (貸)当座借越    30,000</pre>
+    <p>翌期の最初の日(期首)に、逆の仕訳をして元に戻します(再振替仕訳)。</p>
+    <pre class="entry">(借)当座借越    30,000   (貸)当座預金    30,000</pre>
+    <div class="note">問題文に「借入金勘定に振り替える」と指示があれば、当座借越ではなく<b>借入金</b>を使います。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第5章 ===== -->
+  <section class="chapter" id="ch5">
+    <div class="chapter-no">CHAPTER 5</div>
+    <h2>小口現金</h2>
+
+    <h3>小口現金とは</h3>
+    <p>切手代やタクシー代など、日々の少額の支払いに備えて、<b>会計係</b>が<b>小口係(用度係)</b>に前もって渡しておく現金です。資産の勘定です。</p>
+    <p>3級では<span class="mark">定額資金前渡法(インプレスト・システム)</span>が出題されます。一定額を渡しておき、使った分だけ後で補給して、いつも同じ金額に戻す方法です。</p>
+    <div class="flow">
+      <span class="step">① 前渡し</span><span class="arrow">→</span>
+      <span class="step">② 小口係が支払い</span><span class="arrow">→</span>
+      <span class="step">③ 会計係へ報告</span><span class="arrow">→</span>
+      <span class="step">④ 使った分を補給</span>
+    </div>
+
+    <h3>仕訳の流れ</h3>
+    <p>① 小口現金として、小切手30,000円を振り出して小口係に渡した。</p>
+    <pre class="entry">(借)小口現金    30,000   (貸)当座預金    30,000</pre>
+    <p>② 小口係が支払ったとき:<b>会計係はまだ知らないので仕訳しない</b></p>
+    <p>③ 小口係から「切手代4,000円、タクシー代6,000円、文房具代2,000円を支払った」と報告を受けた。</p>
+    <pre class="entry">(借)通信費       4,000   (貸)小口現金    12,000
+    旅費交通費   6,000
+    消耗品費     2,000</pre>
+    <p>④ 報告された金額と同額の小切手を振り出して補給した。</p>
+    <pre class="entry">(借)小口現金    12,000   (貸)当座預金    12,000</pre>
+    <p>補給後の小口現金は、30,000 − 12,000 + 12,000 = 30,000円で、元の金額に戻ります。</p>
+
+    <h3>報告と同時に補給したとき</h3>
+    <p>③と④が同時なら、小口現金は減ってすぐ戻るので、まとめて書けます。</p>
+    <pre class="entry">(借)通信費       4,000   (貸)当座預金    12,000
+    旅費交通費   6,000
+    消耗品費     2,000</pre>
+    <div class="note">小口係が支払いを記録する帳簿を<b>小口現金出納帳</b>といいます(補助簿の一つ。くわしくは「9. 帳簿」で学びます)。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="5">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 現金の範囲</button>
+      <button class="chip" data-ch="2">2. 現金過不足</button>
+      <button class="chip" data-ch="3">3. 普通・定期預金</button>
+      <button class="chip" data-ch="4">4. 当座預金・借越</button>
+      <button class="chip" data-ch="5">5. 小口現金</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ② 現金・預金(現金の範囲・現金過不足・預金・当座借越・小口現金)の練習用アプリ</div>
+  </section>
+
+  <div class="unit-nav">
+    <a href="boki3-kiso.html">← ① 簿記の基礎</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ACCOUNT_LIST = [
+    '現金', '小口現金', '普通預金', '定期預金', '当座預金', '売掛金', '受取手形',
+    '買掛金', '当座借越', '借入金', '現金過不足',
+    '売上', '受取利息', '雑益',
+    '仕入', '通信費', '旅費交通費', '消耗品費', '水道光熱費', '支払家賃', '支払手数料', '租税公課', '雑費', '雑損'
+  ];
+  var CH_NAME = { 1: '現金の範囲', 2: '現金過不足', 3: '普通預金・定期預金', 4: '当座預金・当座借越', 5: '小口現金' };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+  function jl(dr, cr, a) { return '(借)' + dr + ' ' + fmt(a) + '   (貸)' + cr + ' ' + fmt(a); }
+
+  // 仕訳テンプレートから問題を作る
+  function journalProblem(ch, topic, list) {
+    var j = pick(list);
+    var a = randMultiple(j.min, j.max, j.step);
+    return {
+      ch: ch, topic: topic, kind: 'journal',
+      lines: [j.t.replace(/\{a\}/g, fmt(a)), '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: j.dr, cr: j.cr, amt: a },
+      explain: jl(j.dr, j.cr, a) + '\n\n' + j.why
+    };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return {
+      ch: ch, topic: '知識問題', lines: [k.q], kind: 'choice',
+      options: shuffle([k.a].concat(k.o)), answer: k.a,
+      explain: '正解は「' + k.a + '」。\n' + k.e
+    };
+  }
+
+  // ---- 第1章 現金の範囲 ----
+  var CASH_YES = ['他人振出小切手', '送金小切手', '普通為替証書', '得意先が振り出した小切手'];
+  var CASH_NO = [
+    ['当社が振り出した小切手', '自社振出の小切手は当座預金です。'],
+    ['約束手形', '約束手形は受取手形として扱います。'],
+    ['郵便切手', '郵便切手はお金ではありません(使ったら通信費)。'],
+    ['収入印紙', '収入印紙はお金ではありません(使ったら租税公課)。'],
+    ['定期預金の通帳', '定期預金は定期預金勘定で扱います。']
+  ];
+  function genCashScope() {
+    var yesQ = Math.random() < 0.6;
+    if (yesQ) {
+      var y = pick(CASH_YES);
+      var ns = shuffle(CASH_NO).slice(0, 3);
+      return {
+        ch: 1, topic: '現金になるもの', kind: 'choice',
+        lines: ['次のうち、簿記上<b>「現金」として扱うもの</b>はどれ?'],
+        options: shuffle([y].concat(ns.map(function (x) { return x[0]; }))), answer: y,
+        explain: y + 'は、すぐにお金に換えられる通貨代用証券なので現金です。\n' + ns.map(function (x) { return x[0] + ':' + x[1]; }).join('\n')
+      };
+    }
+    var n = pick(CASH_NO);
+    var ys = shuffle(CASH_YES).slice(0, 3);
+    return {
+      ch: 1, topic: '現金にならないもの', kind: 'choice',
+      lines: ['次のうち、簿記上<b>「現金」として扱わないもの</b>はどれ?'],
+      options: shuffle([n[0]].concat(ys)), answer: n[0],
+      explain: n[0] + ':' + n[1] + '\nほかの' + ys.join('・') + 'は、すぐにお金に換えられる通貨代用証券なので現金です。'
+    };
+  }
+  var J1 = [
+    { t: '商品を{a}円で売り上げ、代金は得意先振出の小切手で受け取った。', dr: '現金', cr: '売上', min: 30000, max: 300000, step: 10000, why: '他人(得意先)が振り出した小切手は、すぐにお金に換えられるので現金(資産の増加 → 借方)。\n売上(収益の発生 → 貸方)。' },
+    { t: '売掛金{a}円を、送金小切手で回収した。', dr: '現金', cr: '売掛金', min: 20000, max: 200000, step: 10000, why: '送金小切手は通貨代用証券なので現金(資産の増加 → 借方)。\n売掛金を回収したので売掛金が減る(資産の減少 → 貸方)。' },
+    { t: '売掛金{a}円の回収として、得意先が振り出した小切手を受け取った。', dr: '現金', cr: '売掛金', min: 20000, max: 200000, step: 10000, why: '他人振出小切手は現金(資産の増加 → 借方)。\n売掛金が減る(資産の減少 → 貸方)。' },
+    { t: '商品を{a}円で売り上げ、代金として普通為替証書を受け取った。', dr: '現金', cr: '売上', min: 10000, max: 100000, step: 5000, why: '普通為替証書は通貨代用証券なので現金(資産の増加 → 借方)。\n売上(収益の発生 → 貸方)。' },
+    { t: '貸付金の利息{a}円を、送金小切手で受け取った。', dr: '現金', cr: '受取利息', min: 2000, max: 30000, step: 1000, why: '送金小切手は現金(資産の増加 → 借方)。\n受取利息(収益の発生 → 貸方)。' }
+  ];
+  var K1 = [
+    { q: 'すぐにお金に換えられるため、簿記上「現金」として扱う証券を何という?', a: '通貨代用証券', o: ['有価証券', '商品券', '約束手形'], e: '他人振出小切手・送金小切手・普通為替証書などを通貨代用証券といい、現金として扱います。' },
+    { q: '当社が以前に振り出した小切手を受け取ったとき、借方に書く勘定科目は?', a: '当座預金', o: ['現金', '受取手形', '小口現金'], e: '自社振出の小切手は、振り出したときに当座預金を減らしているので、戻ってきたら当座預金を増やします。' }
+  ];
+
+  // ---- 第2章 現金過不足 ----
+  function genKabusokuFind() {
+    var book = randMultiple(50, 300, 1) * 1000;
+    var diff = randMultiple(1, 30, 1) * 500;
+    var short = Math.random() < 0.55;
+    var actual = short ? book - diff : book + diff;
+    return {
+      ch: 2, topic: '不一致の発見', kind: 'journal',
+      lines: ['期中に金庫を調べたところ、現金の帳簿残高は<b>' + fmt(book) + '円</b>、実際有高は<b>' + fmt(actual) + '円</b>だった。原因は不明である。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: short ? { dr: '現金過不足', cr: '現金', amt: diff } : { dr: '現金', cr: '現金過不足', amt: diff },
+      explain: (short ? jl('現金過不足', '現金', diff) : jl('現金', '現金過不足', diff)) + '\n\n' +
+        '実際有高が帳簿より' + fmt(diff) + '円' + (short ? '少ない' : '多い') + 'ので、帳簿の現金を' + (short ? '減らして(貸方)' : '増やして(借方)') + '実際有高に合わせます。\n相手は、原因がわかるまでの一時的な勘定「現金過不足」です。'
+    };
+  }
+  var CAUSE_SHORT = [['通信費', '切手代の支払い'], ['旅費交通費', 'タクシー代の支払い'], ['支払家賃', '家賃の支払い'], ['消耗品費', '文房具代の支払い'], ['水道光熱費', '水道代の支払い']];
+  var CAUSE_OVER = [['売掛金', '売掛金の回収'], ['受取利息', '利息の受け取り'], ['売上', '現金売上']];
+  function genKabusokuCause() {
+    var short = Math.random() < 0.55;
+    var a = randMultiple(1, 20, 1) * 1000;
+    var c = short ? pick(CAUSE_SHORT) : pick(CAUSE_OVER);
+    return {
+      ch: 2, topic: '原因の判明', kind: 'journal',
+      lines: ['先日、現金の実際有高が帳簿残高より<b>' + fmt(a) + '円' + (short ? '少なかった' : '多かった') + '</b>ため、現金過不足で処理していた。',
+        '本日、その原因は<b>' + c[1] + 'の記帳漏れ</b>であることがわかった。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: short ? { dr: c[0], cr: '現金過不足', amt: a } : { dr: '現金過不足', cr: c[0], amt: a },
+      explain: (short ? jl(c[0], '現金過不足', a) : jl('現金過不足', c[0], a)) + '\n\n' +
+        (short
+          ? '発見したときに (借)現金過不足 (貸)現金 と処理しています。\n本来は「(借)' + c[0] + ' (貸)現金」だったので、借方の現金過不足を消して' + c[0] + 'に振り替えます。'
+          : '発見したときに (借)現金 (貸)現金過不足 と処理しています。\n本来は「(借)現金 (貸)' + c[0] + '」だったので、貸方の現金過不足を消して' + c[0] + 'に振り替えます。')
+    };
+  }
+  function genKabusokuEnd() {
+    var a = randMultiple(1, 20, 1) * 100 + randMultiple(0, 1, 1) * 1000;
+    var v = pick(['dr', 'cr', 'direct']);
+    if (v === 'dr') return {
+      ch: 2, topic: '決算時の処理', kind: 'journal',
+      lines: ['決算日、現金過不足勘定に<b>借方残高' + fmt(a) + '円</b>があるが、原因はわからなかった。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: '雑損', cr: '現金過不足', amt: a },
+      explain: jl('雑損', '現金過不足', a) + '\n\n借方残高=現金が足りなかった分なので、費用の「雑損」に振り替えます。現金過不足は貸方に書いて消します。'
+    };
+    if (v === 'cr') return {
+      ch: 2, topic: '決算時の処理', kind: 'journal',
+      lines: ['決算日、現金過不足勘定に<b>貸方残高' + fmt(a) + '円</b>があるが、原因はわからなかった。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: '現金過不足', cr: '雑益', amt: a },
+      explain: jl('現金過不足', '雑益', a) + '\n\n貸方残高=現金が多かった分なので、収益の「雑益」に振り替えます。現金過不足は借方に書いて消します。'
+    };
+    var short = Math.random() < 0.6;
+    return {
+      ch: 2, topic: '決算日の不一致', kind: 'journal',
+      lines: ['決算日に現金を数えたところ、実際有高が帳簿残高より<b>' + fmt(a) + '円' + (short ? '少なかった' : '多かった') + '</b>。原因はわからなかった。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: short ? { dr: '雑損', cr: '現金', amt: a } : { dr: '現金', cr: '雑益', amt: a },
+      explain: (short ? jl('雑損', '現金', a) : jl('現金', '雑益', a)) + '\n\n決算日に見つけて原因不明の場合は、現金過不足を使わず、直接' + (short ? '「雑損」' : '「雑益」') + 'で処理します。'
+    };
+  }
+  function genKabusokuCalc() {
+    var short = Math.random() < 0.6;
+    var total = randMultiple(5, 30, 1) * 1000;
+    var known = randMultiple(1, total / 1000 - 1, 1) * 1000;
+    var c = short ? pick(CAUSE_SHORT) : pick(CAUSE_OVER);
+    var word = short ? '雑損' : '雑益';
+    return {
+      ch: 2, topic: '雑損・雑益の計算', kind: 'number', unit: '円',
+      lines: ['期中に、現金の実際有高が帳簿残高より<b>' + fmt(total) + '円' + (short ? '少ない' : '多い') + '</b>ことがわかり、現金過不足で処理した。',
+        'その後、うち<b>' + fmt(known) + '円</b>は' + c[1] + 'の記帳漏れと判明した。',
+        '決算日になっても残りの原因はわからなかった。決算で計上する<b>' + word + '</b>の金額は?'],
+      answer: total - known,
+      explain: '現金過不足 ' + fmt(total) + '円 のうち、' + fmt(known) + '円は' + c[0] + 'に振り替え済み。\n残り ' + fmt(total) + ' − ' + fmt(known) + ' = ' + fmt(total - known) + '円 が原因不明なので' + word + 'になります。\n' +
+        (short ? '決算の仕訳:(借)雑損 ' + fmt(total - known) + ' (貸)現金過不足 ' + fmt(total - known) : '決算の仕訳:(借)現金過不足 ' + fmt(total - known) + ' (貸)雑益 ' + fmt(total - known))
+    };
+  }
+  var K2 = [
+    { q: '決算日に、現金過不足勘定の借方残高の原因がわからなかった。振り替える先の勘定科目は?', a: '雑損', o: ['雑益', '現金', '雑費'], e: '借方残高は現金が足りなかった分なので、費用の雑損に振り替えます。' },
+    { q: '決算日に、現金過不足勘定の貸方残高の原因がわからなかった。振り替える先の勘定科目は?', a: '雑益', o: ['雑損', '現金', '受取利息'], e: '貸方残高は現金が多かった分なので、収益の雑益に振り替えます。' },
+    { q: '現金の帳簿残高と実際有高が一致しないとき、帳簿の現金はどちらに合わせる?', a: '実際有高', o: ['帳簿残高のまま', '前月末の残高', '平均額'], e: '実際にある金額が正しいので、帳簿の現金を実際有高に合わせ、差額を現金過不足で処理します。' }
+  ];
+
+  // ---- 第3章 普通預金・定期預金 ----
+  var J3 = [
+    { t: '現金{a}円を普通預金口座に預け入れた。', dr: '普通預金', cr: '現金', min: 50000, max: 500000, step: 10000, why: '普通預金が増える(資産の増加 → 借方)。\n現金が減る(資産の減少 → 貸方)。' },
+    { t: '普通預金口座から現金{a}円を引き出した。', dr: '現金', cr: '普通預金', min: 10000, max: 200000, step: 10000, why: '現金が増える(資産の増加 → 借方)。\n普通預金が減る(資産の減少 → 貸方)。' },
+    { t: '普通預金口座から{a}円を定期預金口座に預け替えた。', dr: '定期預金', cr: '普通預金', min: 100000, max: 1000000, step: 100000, why: '定期預金が増える(資産の増加 → 借方)。\n普通預金が減る(資産の減少 → 貸方)。' },
+    { t: '定期預金{a}円が満期となり、普通預金口座に振り替えた(利息はないものとする)。', dr: '普通預金', cr: '定期預金', min: 100000, max: 1000000, step: 100000, why: '普通預金が増える(資産の増加 → 借方)。\n定期預金が減る(資産の減少 → 貸方)。' },
+    { t: '普通預金口座に利息{a}円が入金された。', dr: '普通預金', cr: '受取利息', min: 100, max: 3000, step: 100, why: '普通預金が増える(資産の増加 → 借方)。\n受取利息(収益の発生 → 貸方)。' },
+    { t: '買掛金{a}円を、普通預金口座から振り込んで支払った。', dr: '買掛金', cr: '普通預金', min: 20000, max: 300000, step: 10000, why: '買掛金を支払ったので減る(負債の減少 → 借方)。\n普通預金が減る(資産の減少 → 貸方)。' },
+    { t: '売掛金{a}円が、普通預金口座に振り込まれた。', dr: '普通預金', cr: '売掛金', min: 20000, max: 300000, step: 10000, why: '普通預金が増える(資産の増加 → 借方)。\n売掛金を回収したので減る(資産の減少 → 貸方)。' },
+    { t: '電気代{a}円が、普通預金口座から引き落とされた。', dr: '水道光熱費', cr: '普通預金', min: 5000, max: 50000, step: 1000, why: '水道光熱費(費用の発生 → 借方)。\n普通預金が減る(資産の減少 → 貸方)。' },
+    { t: '店舗の家賃{a}円が、普通預金口座から引き落とされた。', dr: '支払家賃', cr: '普通預金', min: 50000, max: 200000, step: 10000, why: '支払家賃(費用の発生 → 借方)。\n普通預金が減る(資産の減少 → 貸方)。' }
+  ];
+  function genTeikiCalc() {
+    var p = randMultiple(1, 10, 1) * 100000;
+    var i = randMultiple(1, 30, 1) * 100;
+    return {
+      ch: 3, topic: '定期預金の満期', kind: 'number', unit: '円',
+      lines: ['定期預金<b>' + fmt(p) + '円</b>が満期となり、利息<b>' + fmt(i) + '円</b>とともに普通預金口座に入金された。', 'この取引で、普通預金はいくら増える?'],
+      answer: p + i,
+      explain: '元本 ' + fmt(p) + ' + 利息 ' + fmt(i) + ' = ' + fmt(p + i) + '円 が普通預金に入ります。\n(借)普通預金 ' + fmt(p + i) + '   (貸)定期預金 ' + fmt(p) + '\n                        受取利息 ' + fmt(i)
+    };
+  }
+  var K3 = [
+    { q: '定期預金は、5要素のどれにあたる?', a: '資産', o: ['負債', '純資産', '収益'], e: '定期預金は、会社が銀行に預けているお金なので資産です。' },
+    { q: '複数の銀行に普通預金口座があり、銀行ごとに残高を管理したい。使う勘定科目の例として正しいものは?', a: '普通預金A銀行', o: ['A銀行', '預金', '現金A銀行'], e: '「普通預金A銀行」のように、預金の種類に銀行名をつけた勘定科目を使います。' },
+    { q: '銀行に振込手数料を支払ったときの勘定科目は?', a: '支払手数料', o: ['支払利息', '雑費', '通信費'], e: '振込手数料は支払手数料(費用)で処理します。' }
+  ];
+
+  // ---- 第4章 当座預金・当座借越 ----
+  var J4 = [
+    { t: '現金{a}円を当座預金口座に預け入れた。', dr: '当座預金', cr: '現金', min: 100000, max: 1000000, step: 50000, why: '当座預金が増える(資産の増加 → 借方)。\n現金が減る(資産の減少 → 貸方)。' },
+    { t: '買掛金{a}円を、小切手を振り出して支払った。', dr: '買掛金', cr: '当座預金', min: 20000, max: 300000, step: 10000, why: '買掛金が減る(負債の減少 → 借方)。\n小切手を振り出したので当座預金が減る(資産の減少 → 貸方)。' },
+    { t: '商品{a}円を仕入れ、代金は小切手を振り出して支払った。', dr: '仕入', cr: '当座預金', min: 20000, max: 300000, step: 10000, why: '仕入(費用の発生 → 借方)。\n小切手を振り出したので当座預金が減る(資産の減少 → 貸方)。' },
+    { t: '商品を{a}円で売り上げ、他人振出の小切手を受け取り、ただちに当座預金に預け入れた。', dr: '当座預金', cr: '売上', min: 30000, max: 300000, step: 10000, why: 'ただちに預け入れたので、現金を経由せず当座預金が増える(資産の増加 → 借方)。\n売上(収益の発生 → 貸方)。' },
+    { t: '売掛金{a}円の回収として、当社が以前に振り出した小切手を受け取った。', dr: '当座預金', cr: '売掛金', min: 20000, max: 200000, step: 10000, why: '自社振出の小切手は、振り出したときに当座預金を減らしている。戻ってきたので当座預金を増やす(借方)。\n売掛金が減る(資産の減少 → 貸方)。' },
+    { t: '決算日、当座預金勘定が貸方残高{a}円となっている。これを当座借越勘定に振り替える。', dr: '当座預金', cr: '当座借越', min: 10000, max: 200000, step: 10000, why: '貸方残高の当座預金を借方に書いてゼロにし、銀行からの借金として当座借越(負債の増加 → 貸方)に振り替えます。' },
+    { t: '期首に、前期末に計上した当座借越{a}円を当座預金勘定に振り戻した(再振替仕訳)。', dr: '当座借越', cr: '当座預金', min: 10000, max: 200000, step: 10000, why: '前期末の仕訳 (借)当座預金 (貸)当座借越 の逆仕訳をして元に戻します。' }
+  ];
+  function genKariKoshiCalc() {
+    var start = randMultiple(10, 50, 1) * 10000;
+    var dep = randMultiple(5, 30, 1) * 10000;
+    var c1 = randMultiple(10, 40, 1) * 10000;
+    var c2 = start + dep - c1 + randMultiple(2, 20, 1) * 10000;
+    if (c2 <= 0) return genKariKoshiCalc();
+    var over = c1 + c2 - start - dep;
+    return {
+      ch: 4, topic: '当座借越の金額', kind: 'number', unit: '円',
+      lines: ['期首の当座預金残高は<b>' + fmt(start) + '円</b>だった(当座借越契約あり)。',
+        '期中に、現金<b>' + fmt(dep) + '円</b>を預け入れ、買掛金の支払いで小切手<b>' + fmt(c1) + '円</b>と<b>' + fmt(c2) + '円</b>を振り出した。',
+        '決算日に当座借越勘定へ振り替える金額はいくら?'],
+      answer: over,
+      explain: '借方(増加)合計 = ' + fmt(start) + ' + ' + fmt(dep) + ' = ' + fmt(start + dep) + '円\n貸方(減少)合計 = ' + fmt(c1) + ' + ' + fmt(c2) + ' = ' + fmt(c1 + c2) + '円\n貸方残高 = ' + fmt(c1 + c2) + ' − ' + fmt(start + dep) + ' = ' + fmt(over) + '円\n決算の仕訳:(借)当座預金 ' + fmt(over) + ' (貸)当座借越 ' + fmt(over)
+    };
+  }
+  var K4 = [
+    { q: '当座預金の特徴として正しいものはどれ?', a: '小切手を振り出して支払いができ、利息はつかない', o: ['利息が普通預金より高い', '一定期間は引き出せない', '給料の振込専用の口座である'], e: '当座預金は、小切手での支払いに使う無利息の預金です。' },
+    { q: '決算日に当座預金勘定が貸方残高のとき、振り替える先の勘定科目は?(特に指示はないものとする)', a: '当座借越', o: ['当座預金', '現金過不足', '雑損'], e: '貸方残高は銀行からの一時的な借金なので、負債の当座借越(指示があれば借入金)に振り替えます。' },
+    { q: '当座借越は、5要素のどれにあたる?', a: '負債', o: ['資産', '費用', '純資産'], e: '当座借越は、残高を超えて引き出した分=銀行への借金なので負債です。' },
+    { q: '小切手を振り出したとき、当座預金を減らすのはいつ?', a: '小切手を振り出したとき', o: ['相手が銀行で換金したとき', '月末', '決算日'], e: '簿記では、小切手を振り出した時点で当座預金を減らします。' }
+  ];
+
+  // ---- 第5章 小口現金 ----
+  var PETTY = [['旅費交通費', 'タクシー代'], ['旅費交通費', '電車代'], ['通信費', '切手代'], ['通信費', 'はがき代'], ['消耗品費', '文房具代'], ['消耗品費', 'コピー用紙代'], ['雑費', 'お茶菓子代']];
+  function genPettyJournal() {
+    var v = pick(['advance', 'report', 'refill', 'both']);
+    var e = pick(PETTY);
+    if (v === 'advance') {
+      var f = randMultiple(2, 10, 1) * 10000;
+      return {
+        ch: 5, topic: '前渡し', kind: 'journal',
+        lines: ['定額資金前渡法を採用し、小口係に小切手<b>' + fmt(f) + '円</b>を振り出して渡した。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+        answer: { dr: '小口現金', cr: '当座預金', amt: f },
+        explain: jl('小口現金', '当座預金', f) + '\n\n小口現金が増える(資産の増加 → 借方)。\n小切手を振り出したので当座預金が減る(資産の減少 → 貸方)。'
+      };
+    }
+    var a = randMultiple(5, 80, 1) * 100;
+    if (v === 'report') return {
+      ch: 5, topic: '支払いの報告', kind: 'journal',
+      lines: ['小口係から、<b>' + e[1] + fmt(a) + '円</b>を小口現金で支払ったと報告を受けた。補給はまだ行っていない。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: e[0], cr: '小口現金', amt: a },
+      explain: jl(e[0], '小口現金', a) + '\n\n' + e[1] + 'は' + e[0] + '(費用の発生 → 借方)。\n小口係の手元の小口現金が減った(資産の減少 → 貸方)。\n会計係は報告を受けた時点で仕訳します。'
+    };
+    if (v === 'refill') return {
+      ch: 5, topic: '補給', kind: 'journal',
+      lines: ['小口係から支払いの報告を受けた金額<b>' + fmt(a) + '円</b>と同額の小切手を振り出して、小口現金を補給した。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: '小口現金', cr: '当座預金', amt: a },
+      explain: jl('小口現金', '当座預金', a) + '\n\n小口現金が元の金額に戻る(資産の増加 → 借方)。\n小切手を振り出したので当座預金が減る(資産の減少 → 貸方)。'
+    };
+    return {
+      ch: 5, topic: '報告と同時に補給', kind: 'journal',
+      lines: ['小口係から<b>' + e[1] + fmt(a) + '円</b>を支払ったと報告を受け、ただちに同額の小切手を振り出して補給した。', '仕訳の借方科目・貸方科目・金額を答えてください。'],
+      answer: { dr: e[0], cr: '当座預金', amt: a },
+      explain: jl(e[0], '当座預金', a) + '\n\n報告時の (借)' + e[0] + ' (貸)小口現金 と、補給時の (借)小口現金 (貸)当座預金 をまとめると、小口現金が消えてこの形になります。'
+    };
+  }
+  function genPettyCalc() {
+    var f = randMultiple(3, 10, 1) * 10000;
+    var items = shuffle(PETTY).slice(0, 3).map(function (e) { return [e[0], e[1], randMultiple(5, 60, 1) * 100]; });
+    var sum = items.reduce(function (s, x) { return s + x[2]; }, 0);
+    var askRefill = Math.random() < 0.5;
+    var lines = ['定額資金前渡法により、小口係に<b>' + fmt(f) + '円</b>を前渡ししている。', '今週、小口係から次の支払いの報告を受けた。',
+      '<pre class="entry">' + items.map(function (x) { return x[1] + ' ' + fmt(x[2]) + '円'; }).join('\n') + '</pre>',
+      askRefill ? '週末に補給する金額はいくら?' : '補給する前の、小口係の手元にある小口現金の残高はいくら?'];
+    return {
+      ch: 5, topic: askRefill ? '補給額の計算' : '小口現金の残高', kind: 'number', unit: '円', lines: lines,
+      answer: askRefill ? sum : f - sum,
+      explain: '支払い合計 = ' + items.map(function (x) { return fmt(x[2]); }).join(' + ') + ' = ' + fmt(sum) + '円\n' +
+        (askRefill
+          ? '定額資金前渡法では、使った分と同じ額を補給して元の' + fmt(f) + '円に戻すので、補給額は' + fmt(sum) + '円です。'
+          : '補給前の残高 = ' + fmt(f) + ' − ' + fmt(sum) + ' = ' + fmt(f - sum) + '円')
+    };
+  }
+  var K5 = [
+    { q: '一定額を前渡しし、使った分だけ後で補給する小口現金の管理方法を何という?', a: '定額資金前渡法', o: ['先入先出法', '移動平均法', '総記法'], e: '定額資金前渡法(インプレスト・システム)です。補給後はいつも同じ金額に戻ります。' },
+    { q: '小口係が切手代を支払ったとき、会計係はいつ仕訳する?', a: '小口係から報告を受けたとき', o: ['小口係が支払ったとき', '決算日', '小口現金を前渡ししたとき'], e: '会計係は支払いの事実を報告で初めて知るので、報告を受けた時点で仕訳します。' },
+    { q: '小口係が支払いを記録する帳簿は?', a: '小口現金出納帳', o: ['現金出納帳', '当座預金出納帳', '仕訳帳'], e: '小口現金の受け入れと支払いは、補助簿の小口現金出納帳に記録します。' }
+  ];
+
+  var GENS = {
+    1: [genCashScope, genCashScope, function () { return journalProblem(1, '通貨代用証券の仕訳', J1); }, function () { return journalProblem(1, '通貨代用証券の仕訳', J1); }, function () { return knowProblem(1, K1); }],
+    2: [genKabusokuFind, genKabusokuCause, genKabusokuCause, genKabusokuEnd, genKabusokuCalc, function () { return knowProblem(2, K2); }],
+    3: [function () { return journalProblem(3, '預金の仕訳', J3); }, function () { return journalProblem(3, '預金の仕訳', J3); }, function () { return journalProblem(3, '預金の仕訳', J3); }, genTeikiCalc, function () { return knowProblem(3, K3); }],
+    4: [function () { return journalProblem(4, '当座預金の仕訳', J4); }, function () { return journalProblem(4, '当座預金の仕訳', J4); }, function () { return journalProblem(4, '当座預金の仕訳', J4); }, genKariKoshiCalc, function () { return knowProblem(4, K4); }],
+    5: [genPettyJournal, genPettyJournal, genPettyJournal, genPettyCalc, function () { return knowProblem(5, K5); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function selectHtml(id, label) {
+    return '<div class="input-group"><label for="' + id + '">' + label + '</label><select id="' + id + '"><option value="">選択してください</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>';
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(' + p.unit + ')</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)15000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      h = '<div class="inputs-row">' + selectHtml('drIn', '借方科目') + selectHtml('crIn', '貸方科目') +
+        '<div class="input-group"><label for="amtIn">金額(円)</label><input type="text" id="amtIn" inputmode="numeric" autocomplete="off" placeholder="例)15000"></div></div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        state.choice = b.getAttribute('data-v');
+        Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = $('drIn').value, cr = $('crIn').value, amt = parseNum($('amtIn').value);
+      if (!dr || !cr) return showError('借方科目と貸方科目を選んでください。');
+      if (amt === null) return showError('金額を半角数字で入力してください。');
+      ok = dr === p.answer.dr && cr === p.answer.cr && amt === p.answer.amt;
+      yours = '(借)' + dr + ' ' + fmt(amt) + ' (貸)' + cr + ' ' + fmt(amt);
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3, 4, 5]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
