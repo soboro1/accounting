@@ -1,0 +1,1416 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ウェブ解析士トレーニング</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#F2F4F7; --surface:#FFFFFF; --surface-2:#F6F8FA; --track:#E8ECF1;
+  --ink:#131B27; --ink-2:#465264; --muted:#7A8596; --line:#DDE2E9; --line-2:#C8CFD9;
+  --accent:#2A51D4; --accent-ink:#FFFFFF; --accent-soft:#E8EDFC; --accent-line:#B7C5F4;
+  --amber:#B86F00; --amber-soft:#FCF2DF;
+  --good:#12805A; --good-soft:#E3F3EB; --bad:#C23B2A; --bad-soft:#FBE9E5; --on-sem:#FFFFFF;
+  --shadow:0 1px 2px rgba(19,27,39,.06), 0 6px 20px rgba(19,27,39,.06);
+  --f-display:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-body:"IBM Plex Sans JP","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0C1118; --surface:#141B24; --surface-2:#19212C; --track:#222C39;
+    --ink:#E7ECF3; --ink-2:#B2BDCB; --muted:#7F8A9B; --line:#243040; --line-2:#344256;
+    --accent:#809DFF; --accent-ink:#0C1118; --accent-soft:#1B2645; --accent-line:#3A4D8A;
+    --amber:#EDAA3A; --amber-soft:#2B2213;
+    --good:#45C690; --good-soft:#10281E; --bad:#F27D6B; --bad-soft:#331815; --on-sem:#0C1118;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.25);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0C1118; --surface:#141B24; --surface-2:#19212C; --track:#222C39;
+  --ink:#E7ECF3; --ink-2:#B2BDCB; --muted:#7F8A9B; --line:#243040; --line-2:#344256;
+  --accent:#809DFF; --accent-ink:#0C1118; --accent-soft:#1B2645; --accent-line:#3A4D8A;
+  --amber:#EDAA3A; --amber-soft:#2B2213;
+  --good:#45C690; --good-soft:#10281E; --bad:#F27D6B; --bad-soft:#331815; --on-sem:#0C1118;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 6px 20px rgba(0,0,0,.25);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.7}
+button{font-family:inherit}
+:focus-visible{outline:2.5px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------- top bar ---------- */
+.topbar{background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:960px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:8px 16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--ink);background:none;border:0;padding:4px 0;cursor:pointer}
+.brand svg{width:28px;height:28px;flex:none}
+.brand .b-bg{fill:var(--accent)}
+.brand .b-ln{fill:none;stroke:var(--accent-ink);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.brand .b-dt{fill:var(--accent-ink)}
+.tabs{display:flex;gap:2px;overflow-x:auto;margin-left:auto;scrollbar-width:none;max-width:100%}
+.tabs::-webkit-scrollbar{display:none}
+.tab{font-size:14px;font-weight:600;color:var(--ink-2);background:none;border:0;padding:8px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.tab:hover{background:var(--surface-2);color:var(--ink)}
+.tab[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
+@media (max-width:680px){.tabs{margin-left:-6px;width:calc(100% + 12px)}}
+
+/* ---------- layout ---------- */
+.wrap{max-width:960px;margin:0 auto;padding:28px 16px 40px;display:flex;flex-direction:column;gap:20px}
+.foot{max-width:960px;margin:0 auto;padding:0 16px 40px;font-size:12px;line-height:1.8;color:var(--muted)}
+.foot p{margin:0;max-width:60em}
+
+.eyebrow{font-family:var(--f-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin:0;font-weight:600}
+.display{font-family:var(--f-display);font-weight:900;font-size:clamp(32px,6.4vw,46px);line-height:1.12;margin:0;letter-spacing:.01em;text-wrap:balance;font-feature-settings:"palt"}
+.display em{font-style:normal;color:var(--accent)}
+.h1{font-family:var(--f-display);font-weight:900;font-size:clamp(26px,4.6vw,32px);line-height:1.2;margin:0;text-wrap:balance;font-feature-settings:"palt"}
+.h2{font-family:var(--f-display);font-weight:700;font-size:18px;line-height:1.35;margin:0;text-wrap:balance;font-feature-settings:"palt"}
+.lede{margin:0;color:var(--ink-2);max-width:40em}
+.hero,.view-head{display:flex;flex-direction:column;gap:8px}
+.hero{gap:10px}
+
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px}
+.panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.meta{font-size:12px;color:var(--muted)}
+
+/* ---------- report ---------- */
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.kpi{padding:14px 16px;border-left:1px solid var(--line);display:flex;flex-direction:column;gap:2px;min-width:0}
+.kpi:first-child{border-left:0}
+.kpi-label{font-size:12px;color:var(--muted)}
+.kpi-val{font-family:var(--f-mono);font-size:28px;font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums;white-space:nowrap}
+.kpi-val small{font-size:13px;color:var(--muted);font-weight:500;margin-left:3px}
+.kpi-val.good{color:var(--good)}
+.kpi-val.warn{color:var(--amber)}
+@media (max-width:640px){
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi:nth-child(3){border-left:0}
+  .kpi:nth-child(n+3){border-top:1px solid var(--line)}
+}
+.catbars{margin-top:20px;display:flex;flex-direction:column;gap:2px}
+.catbars-head{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted);margin-bottom:6px;flex-wrap:wrap}
+.legend{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;height:12px;border-left:2px dashed var(--ink-2);opacity:.6}
+.catbar{display:grid;grid-template-columns:7.6em minmax(0,1fr) 3.4em 4em;align-items:center;gap:12px;font-size:13.5px;color:var(--ink);background:none;border:0;padding:6px 8px;margin:0 -8px;border-radius:8px;text-align:left;width:calc(100% + 16px)}
+button.catbar{cursor:pointer}
+button.catbar:hover{background:var(--surface-2)}
+.catbar-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.catbar-track{position:relative;height:10px;background:var(--track);border-radius:5px}
+.catbar-fill{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--muted);transition:width .6s cubic-bezier(.2,.7,.2,1)}
+.catbar-fill.good{background:var(--good)}
+.catbar-fill.warn{background:var(--amber)}
+.catbar-fill.bad{background:var(--bad)}
+.catbar-line{position:absolute;top:-4px;bottom:-4px;left:70%;border-left:2px dashed var(--ink-2);opacity:.45}
+.catbar-val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;font-weight:600}
+.catbar-val.none{color:var(--muted);font-weight:500;font-family:var(--f-body);font-size:12px}
+.catbar-n{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.catbar{grid-template-columns:6.4em minmax(0,1fr) 3.2em;gap:10px}.catbar-n{display:none}}
+
+.trend{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px}
+.trend-label{display:flex;justify-content:space-between;align-items:baseline;font-size:12px;color:var(--muted)}
+.trend-label b{font-size:16px;color:var(--ink)}
+.trend-svg{width:100%;height:auto;display:block}
+.t-goal{stroke:var(--ink-2);stroke-width:1.5;stroke-dasharray:5 5;opacity:.45;fill:none}
+.t-area{fill:var(--accent-soft);stroke:none}
+.t-line{fill:none;stroke:var(--accent);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.t-dot{fill:var(--surface);stroke:var(--accent);stroke-width:2}
+.t-end{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.trend-empty{margin:18px 0 0;padding-top:14px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+
+.home-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:780px){.home-grid{grid-template-columns:minmax(0,1fr)}}
+
+.modes{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.modes-head{padding:18px 20px 12px}
+.mode{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 14px;align-items:center;padding:14px 20px;border:0;border-top:1px solid var(--line);background:none;color:inherit;text-align:left;cursor:pointer}
+.mode:hover{background:var(--surface-2)}
+.mode:hover .mode-go{color:var(--accent);transform:translateX(3px)}
+.mode-name{font-weight:700;font-size:15.5px}
+.mode-desc{grid-column:1;font-size:13px;color:var(--ink-2);line-height:1.6}
+.mode-side{grid-row:1/span 2;grid-column:2;display:flex;align-items:center;gap:10px}
+.mode-meta{font-family:var(--f-mono);font-size:12px;color:var(--muted);text-align:right;white-space:nowrap}
+.mode-go{color:var(--muted);transition:transform .15s,color .15s;font-weight:700}
+
+.home-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end}
+.inline-confirm{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:flex-end;font-size:13px;color:var(--ink-2)}
+
+/* ---------- controls ---------- */
+.btn{font-size:14.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:10px 18px;border-radius:10px;border:1.5px solid var(--line-2);background:var(--surface);color:var(--ink);cursor:pointer;line-height:1.4;text-align:center}
+.btn:hover{border-color:var(--ink-2)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.08)}
+.btn.ghost{border-color:transparent;background:none;color:var(--ink-2)}
+.btn.ghost:hover{color:var(--ink);background:var(--surface-2)}
+.btn.danger{background:var(--bad);border-color:var(--bad);color:var(--on-sem)}
+.btn.sm{padding:6px 12px;font-size:13px;gap:6px}
+.btn:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.btn small{font-weight:500;opacity:.8}
+.btn.flagged{border-color:var(--amber);color:var(--amber);background:var(--amber-soft)}
+kbd{font-family:var(--f-mono);font-size:11px;padding:0 6px;border-radius:5px;border:1px solid currentColor;opacity:.7;font-weight:500;line-height:1.6}
+@media (hover:none){kbd,.kbd-hint{display:none}}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:13.5px;font-weight:600;padding:6px 14px;border-radius:999px;border:1.5px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer;display:inline-flex;gap:6px;align-items:center;line-height:1.5}
+.chip:hover{border-color:var(--ink-2);color:var(--ink)}
+.chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip small{font-family:var(--f-mono);font-size:11px;opacity:.7;font-weight:500}
+.chip .dot{width:7px;height:7px;border-radius:50%;background:var(--bad);flex:none}
+.chip.toggle::before{content:"";width:14px;height:14px;border-radius:4px;border:1.5px solid currentColor;flex:none}
+.chip.toggle[aria-pressed="true"]::before{background:var(--bg);box-shadow:inset 0 0 0 2.5px var(--ink)}
+
+.seg{display:inline-flex;padding:3px;background:var(--track);border-radius:10px;gap:2px;align-self:flex-start}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:8px;font-size:13.5px;font-weight:700;color:var(--ink-2);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+.field{display:flex;flex-direction:column;gap:10px;padding:16px 0;border-top:1px solid var(--line)}
+.field:first-child{border-top:0;padding-top:0}
+.field-label{font-size:13px;font-weight:700;color:var(--ink-2)}
+.actions{display:flex;flex-wrap:wrap;gap:10px;padding-top:16px;border-top:1px solid var(--line)}
+.actions-row{display:flex;flex-wrap:wrap;gap:10px}
+
+.tag{display:inline-flex;align-items:center;font-size:12px;font-weight:700;color:var(--accent);background:var(--accent-soft);padding:2px 10px;border-radius:999px;white-space:nowrap}
+.src{font-size:12px;color:var(--muted)}
+
+/* ---------- questions ---------- */
+.runbar{display:flex;align-items:center;gap:14px}
+.prog{flex:1;height:6px;background:var(--track);border-radius:3px;overflow:hidden}
+.prog span{display:block;height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.count{font-size:13px;color:var(--ink-2);white-space:nowrap}
+
+.qcard{display:flex;flex-direction:column;gap:14px;padding:24px}
+@media (max-width:520px){.qcard,.panel{padding:18px 16px}}
+.q-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.q-text{font-size:17px;line-height:1.85;margin:0;font-weight:500;text-wrap:pretty}
+.q-text .num{font-family:var(--f-mono);font-weight:600;font-variant-numeric:tabular-nums}
+.q-quote{margin:0;padding:14px 16px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;font-size:15.5px;line-height:1.85}
+.q-note{margin:0;font-size:13px;color:var(--ink-2)}
+.choices{display:flex;flex-direction:column;gap:10px}
+.choice{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:12px;align-items:center;width:100%;text-align:left;font-size:15px;line-height:1.65;color:var(--ink);background:var(--surface);border:1.5px solid var(--line-2);border-radius:10px;padding:12px 14px;cursor:pointer;transition:border-color .15s,background-color .15s}
+.choice:hover:not(:disabled){border-color:var(--accent);background:var(--accent-soft)}
+.choice .key{width:26px;height:26px;border-radius:7px;display:grid;place-items:center;font-family:var(--f-mono);font-size:13px;font-weight:600;background:var(--surface-2);color:var(--ink-2);border:1px solid var(--line)}
+.choice:disabled{cursor:default;color:var(--ink)}
+.choice.is-selected{border-color:var(--accent);background:var(--accent-soft)}
+.choice.is-selected .key{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.choice.is-correct{border-color:var(--good);background:var(--good-soft)}
+.choice.is-correct .key{background:var(--good);color:var(--on-sem);border-color:var(--good)}
+.choice.is-wrong{border-color:var(--bad);background:var(--bad-soft)}
+.choice.is-wrong .key{background:var(--bad);color:var(--on-sem);border-color:var(--bad)}
+.choice.is-dim{opacity:.55}
+.choice .mark{font-size:12px;font-weight:700;white-space:nowrap}
+.choice.is-correct .mark{color:var(--good)}
+.choice.is-wrong .mark{color:var(--bad)}
+@media (max-width:520px){.choice{grid-template-columns:26px minmax(0,1fr)}.choice .mark{grid-column:2}}
+
+.fb{border-top:1px solid var(--line);padding-top:16px;display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+.fb-title{margin:0;font-family:var(--f-display);font-weight:900;font-size:19px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.fb.ok .fb-title{color:var(--good)}
+.fb.ng .fb-title{color:var(--bad)}
+.fb-ans{font-family:var(--f-body);font-size:14px;font-weight:500;color:var(--ink-2)}
+.fb-ans b{color:var(--ink);font-size:16px}
+.fb-exp{font-size:14.5px;line-height:1.9;color:var(--ink-2);margin:0}
+.fb-exp b{color:var(--ink)}
+.steps{margin:0;padding:12px 16px;list-style:none;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;display:flex;flex-direction:column;gap:4px;font-size:14.5px;line-height:1.8;font-variant-numeric:tabular-nums;align-self:stretch}
+.steps li:first-child{font-weight:700;color:var(--ink)}
+.steps li{color:var(--ink-2)}
+
+/* result */
+.score{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.score-big{font-family:var(--f-mono);font-size:clamp(44px,9vw,60px);font-weight:600;line-height:1;font-variant-numeric:tabular-nums}
+.score-of{font-family:var(--f-mono);font-size:20px;color:var(--muted)}
+.verdict{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:4px 12px;border-radius:999px}
+.verdict.ok{color:var(--good);background:var(--good-soft)}
+.verdict.ng{color:var(--bad);background:var(--bad-soft)}
+.result-top{display:flex;flex-direction:column;gap:10px}
+.result-sub{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--ink-2)}
+.review{display:flex;flex-direction:column}
+.review details{border-top:1px solid var(--line)}
+.review summary{display:grid;grid-template-columns:30px minmax(0,1fr) auto;gap:10px;padding:12px 0;cursor:pointer;list-style:none;align-items:start}
+.review summary::-webkit-details-marker{display:none}
+.rv-mark{font-family:var(--f-display);font-weight:900;font-size:17px;line-height:1.5;text-align:center}
+.rv-mark.ok{color:var(--good)}
+.rv-mark.ng{color:var(--bad)}
+.rv-q{font-size:14px;line-height:1.7;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+details[open] .rv-q{display:block}
+.rv-cat{font-size:11.5px;color:var(--muted);white-space:nowrap;padding-top:3px}
+.rv-body{padding:0 0 16px 40px;font-size:14px;line-height:1.85;color:var(--ink-2);display:flex;flex-direction:column;gap:6px}
+.rv-body p{margin:0}
+.rv-body b{color:var(--ink)}
+.rv-body .rv-good{color:var(--good);font-weight:700}
+.rv-body .rv-bad{color:var(--bad);font-weight:700}
+
+/* ---------- calc ---------- */
+.calc-form{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.ans-box{display:flex;align-items:center;gap:8px;border:1.5px solid var(--line-2);border-radius:10px;background:var(--surface);padding:0 14px;flex:1 1 220px;max-width:340px;cursor:text}
+.ans-box:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.ans-box input{border:0;outline:0;background:transparent;font-family:var(--f-mono);font-size:20px;font-weight:600;padding:9px 0;width:100%;min-width:0;color:var(--ink);font-variant-numeric:tabular-nums}
+.ans-box input::placeholder{font-family:var(--f-body);font-size:15px;font-weight:400;color:var(--muted)}
+.ans-unit{color:var(--muted);font-weight:700;white-space:nowrap}
+.err{margin:0;font-size:13px;color:var(--bad);font-weight:600}
+.hint-f{margin:0;font-size:14px;padding:10px 14px;border-radius:10px;background:var(--amber-soft);color:var(--ink)}
+.hint-f b{color:var(--amber)}
+.sess{font-size:13px;color:var(--ink-2)}
+.sess b{font-size:15px;color:var(--ink)}
+
+/* ---------- cards ---------- */
+.flash{display:grid;perspective:1400px;background:none;border:0;padding:0;width:100%;color:inherit;cursor:pointer;text-align:left}
+.flash-in{display:grid;transition:transform .55s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.flash.is-flipped .flash-in{transform:rotateY(180deg)}
+.face{grid-area:1/1;-webkit-backface-visibility:hidden;backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:16px;min-height:260px;padding:28px;display:flex;flex-direction:column;gap:14px;justify-content:center;box-shadow:var(--shadow)}
+.face.back{transform:rotateY(180deg)}
+.face-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.term{font-family:var(--f-display);font-weight:900;font-size:clamp(28px,6vw,40px);line-height:1.25;text-wrap:balance;font-feature-settings:"palt";flex:1;display:flex;align-items:center}
+.term-sm{font-family:var(--f-display);font-weight:700;font-size:15px;color:var(--accent)}
+.def{font-size:17px;line-height:1.9;flex:1;display:flex;align-items:center}
+.face-hint{font-size:12px;color:var(--muted)}
+.card-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card-actions .btn{padding:14px}
+.deck-meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--ink-2);flex-wrap:wrap}
+.deck-meta b{font-family:var(--f-mono);color:var(--ink)}
+.done-box{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;padding:40px 20px}
+@media (prefers-reduced-motion: reduce){.flash-in,.catbar-fill,.prog span{transition:none}}
+
+.search{display:flex;align-items:center;gap:10px;border:1.5px solid var(--line-2);border-radius:10px;background:var(--surface);padding:0 14px}
+.search:focus-within{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.search input{border:0;outline:0;background:transparent;font-size:15px;padding:11px 0;width:100%;min-width:0;color:var(--ink);font-family:inherit}
+.search svg{width:18px;height:18px;flex:none}
+.search .s-ic{fill:none;stroke:var(--muted);stroke-width:2;stroke-linecap:round}
+.term-list{display:flex;flex-direction:column}
+.term-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;padding:14px 0;border-top:1px solid var(--line);align-items:center}
+.term-row:first-child{border-top:0}
+.term-row h3{margin:0;font-size:15.5px;font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.term-row p{margin:0;grid-column:1;font-size:14px;line-height:1.75;color:var(--ink-2)}
+.term-row .chip{grid-row:1/span 2;grid-column:2}
+.empty{padding:24px 0;text-align:center;color:var(--muted);font-size:14px}
+
+/* ---------- mock ---------- */
+.exambar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;align-items:center;gap:10px 14px;flex-wrap:wrap;padding:10px 14px;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.timer{font-size:22px;font-weight:600}
+.timer.low{color:var(--bad)}
+.exam-count{font-size:13px;color:var(--ink-2)}
+.exam-count b{font-size:15px;color:var(--ink)}
+.spacer{flex:1}
+.navgrid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px}
+@media (max-width:560px){.navgrid{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.nb{font-family:var(--f-mono);font-size:13px;font-weight:600;height:38px;border-radius:8px;border:1.5px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer;position:relative;padding:0}
+.nb.done{background:var(--accent-soft);border-color:var(--accent-line);color:var(--accent)}
+.nb.cur{border-color:var(--ink);color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
+.nb.flag::after{content:"";position:absolute;top:4px;right:4px;width:7px;height:7px;border-radius:50%;background:var(--amber)}
+.nav-legend{display:flex;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);margin-top:10px}
+.nav-legend span{display:inline-flex;align-items:center;gap:6px}
+.nav-legend i{width:12px;height:12px;border-radius:3px;border:1.5px solid var(--line-2);display:inline-block}
+.nav-legend i.d{background:var(--accent-soft);border-color:var(--accent-line)}
+.nav-legend i.f{border:0;width:8px;height:8px;border-radius:50%;background:var(--amber)}
+.exam-foot{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.confirm{border-color:var(--amber);background:var(--amber-soft);display:flex;flex-direction:column;gap:10px}
+.confirm p{margin:0}
+.rules{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:4px}
+.rules li::marker{color:var(--accent)}
+.history{display:flex;flex-direction:column}
+.hist-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:14px;align-items:center;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.hist-row:first-child{border-top:0}
+.hist-date{color:var(--ink-2);font-size:13px}
+
+/* ---------- notes ---------- */
+.notes-sec h2{margin-bottom:4px}
+.f-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 16px;padding:16px 0;border-top:1px solid var(--line);align-items:start}
+.f-item:first-of-type{border-top:0}
+.f-name{font-weight:700;font-size:15px}
+.f-expr{grid-column:1;font-size:15px;line-height:1.7;background:var(--surface-2);border:1px solid var(--line);padding:8px 12px;border-radius:8px;font-variant-numeric:tabular-nums;justify-self:start;max-width:100%}
+.f-desc{grid-column:1;font-size:13.5px;color:var(--ink-2);margin:0}
+.f-item .btn{grid-column:2;grid-row:1/span 3;align-self:center}
+@media (max-width:520px){.f-item{grid-template-columns:minmax(0,1fr)}.f-item .btn{grid-column:1;grid-row:auto;justify-self:start}}
+.nums{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:14px}
+.num-card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;background:var(--surface-2)}
+.num-card b{font-family:var(--f-mono);font-size:20px;font-weight:600;color:var(--accent);font-variant-numeric:tabular-nums}
+.num-card span{font-size:13px;color:var(--ink-2);line-height:1.6}
+.timeline{list-style:none;padding:0;margin:14px 0 0}
+.timeline li{display:grid;grid-template-columns:7.5em minmax(0,1fr);gap:14px;padding:11px 0;border-top:1px solid var(--line);font-size:14px;line-height:1.7}
+.timeline li:first-child{border-top:0}
+.tl-date{font-family:var(--f-mono);font-size:13px;color:var(--accent);font-weight:600;padding-top:1px}
+
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600;z-index:20;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+</style>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <button class="brand" data-act="nav" data-v="home" aria-label="ホームへ">
+      <svg viewBox="0 0 28 28" aria-hidden="true"><rect class="b-bg" x="0" y="0" width="28" height="28" rx="7"/><path class="b-ln" d="M6.5 19.5 L11.5 14 L15.5 17 L21.5 9"/><circle class="b-dt" cx="21.5" cy="9" r="2.2"/></svg>
+      ウェブ解析士トレーニング
+    </button>
+    <nav class="tabs" aria-label="モード">
+      <button class="tab" data-act="nav" data-v="home">ホーム</button>
+      <button class="tab" data-act="nav" data-v="quiz">4択問題</button>
+      <button class="tab" data-act="nav" data-v="calc">計算ドリル</button>
+      <button class="tab" data-act="nav" data-v="cards">用語カード</button>
+      <button class="tab" data-act="nav" data-v="mock">模擬テスト</button>
+      <button class="tab" data-act="nav" data-v="notes">公式ノート</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap" id="view"></main>
+
+<footer class="foot">
+  <p>問題はウェブ解析士の試験範囲をもとに独自に作成した練習用のもので、公式の出題ではありません。試験の形式や制度は変わることがあるため、最新の情報はウェブ解析士協会の公式テキストと案内で確認してください。学習の記録はこのブラウザの中だけに保存されます。</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script>
+(function(){
+'use strict';
+
+/* =========================================================
+   データ
+   ========================================================= */
+var CATS = [
+  {id:'basic',  name:'基本指標'},
+  {id:'env',    name:'環境分析'},
+  {id:'kpi',    name:'KPI設計'},
+  {id:'ads',    name:'広告・集客'},
+  {id:'site',   name:'サイト改善'},
+  {id:'tool',   name:'計測・GA4'},
+  {id:'social', name:'SNS・メール'},
+  {id:'report', name:'レポート・法令'}
+];
+var CAT = {}; CATS.forEach(function(c){ CAT[c.id] = c; });
+
+/* 4択問題：a[0] が正解 */
+var MCQ = [
+/* ---- 基本指標 ---- */
+{id:"b01",c:"basic",q:"GA4で「エンゲージメントのあるセッション」とみなされる条件に当てはまらないものはどれ？",a:["ページを90%までスクロールした","セッションが10秒以上続いた（初期設定の場合）","キーイベントが1回以上発生した","2回以上のページビューが発生した"],e:"エンゲージメントのあるセッションは「10秒以上続いた（10〜60秒で変更可）」「キーイベントが発生した」「ページビューが2回以上あった」のいずれかを満たすセッションです。スクロールは拡張計測機能のイベントとして記録されますが、この判定条件には入りません。"},
+{id:"b02",c:"basic",q:"GA4における直帰率の定義として正しいものはどれ？",a:["エンゲージメントのなかったセッションの割合","1ページだけ見て離脱したセッションの割合","全ページビューのうち、そのページで離脱した割合","全ユーザーのうち新規ユーザーが占める割合"],e:"GA4の直帰率は「1 − エンゲージメント率」で、エンゲージメントのなかったセッションの割合です。「1ページだけ見て離脱した割合」はユニバーサルアナリティクス（旧GA）の定義なので、混同しないようにしましょう。"},
+{id:"b03",c:"basic",q:"あるページの離脱率を求める式として正しいものはどれ？",a:["そのページからの離脱数 ÷ そのページのページビュー数","そのページからの離脱数 ÷ サイト全体のセッション数","そのページで始まった直帰セッション数 ÷ そのページのページビュー数","そのページからの離脱数 ÷ サイト全体のユーザー数"],e:"離脱率は、そのページが見られた回数（PV）のうち、そのページを最後にサイトを離れた割合です。どのページから入ってきたかは関係ありません。"},
+{id:"b04",c:"basic",q:"同じ人が同じPCの同じブラウザで、1日に朝と夜の2回サイトを訪れた。朝は3ページ、夜は2ページを見た。ユーザー数・セッション数・ページビュー数の組み合わせとして正しいものはどれ？",a:["ユーザー1・セッション2・PV5","ユーザー2・セッション2・PV5","ユーザー1・セッション1・PV5","ユーザー1・セッション2・PV2"],e:"同じブラウザなのでユーザーは1人です。朝と夜は30分以上あいているので別のセッションになり、セッションは2です。PVは3＋2＝5です。"},
+{id:"b05",c:"basic",q:"GA4でセッションが終了する（タイムアウトする）までの、操作がない時間の初期設定はどれ？",a:["30分","10分","60分","24時間"],e:"初期設定では、操作がない状態が30分続くとセッションが終わります。管理画面で変更することもできます。"},
+{id:"b06",c:"basic",q:"同じ人がスマートフォンとPCの両方からサイトを訪れた。User-IDなどで統合していない場合、GA4での数え方として最も近いものはどれ？",a:["別々の2人のユーザーとして数えられる","必ず1人のユーザーとして数えられる","スマートフォンからの訪問だけが数えられる","2回目の訪問は計測されない"],e:"Cookieはブラウザごとに保存されるため、端末やブラウザが変わると別のユーザーとして数えられます。ログインIDを送るUser-IDなどを使うと、同じ人として統合しやすくなります。"},
+{id:"b07",c:"basic",q:"日別のユニークユーザー数を7日分足した値と、同じ7日間をまとめて集計したユニークユーザー数の関係として正しいものはどれ？",a:["日別の合計は、7日間の集計値と同じか、それより大きくなる","日別の合計は、7日間の集計値より必ず小さくなる","2つの値は必ず一致する","2つの値に決まった大小関係はない"],e:"同じ人が複数の日に訪れると、日別では日ごとに1人ずつ数えられますが、7日間まとめると1人です。そのため日別の合計は、期間でまとめた値と同じか大きくなります。"},
+{id:"b08",c:"basic",q:"直帰率が高くても、必ずしも問題とはいえないページはどれ？",a:["店舗の電話番号と営業時間を確認するためのページ","商品一覧から詳細ページへ進んでほしいカテゴリページ","購入手続きの途中にあるカートページ","資料請求フォームへ誘導するためのサービス紹介ページ"],e:"1ページで目的が果たせるページは、見てすぐに離れても問題ありません。次のページへ進んでほしいページで直帰率が高い場合は、改善が必要です。"},
+{id:"b09",c:"basic",q:"ページビュー数（PV）の説明として正しいものはどれ？",a:["ページが表示された回数で、同じページを再読み込みしても数えられる","サイトを訪れた人数で、同じ人は1回だけ数える","サイトへの訪問回数で、30分以内の再表示は数えない","ページが最後まで読まれた回数"],e:"PVはページが表示されるたびに1回数えます。人数を表すのはユーザー数、訪問回数を表すのはセッション数です。"},
+{id:"b10",c:"basic",q:"平均ページビュー数（1セッションあたりのページビュー数）の求め方として正しいものはどれ？",a:["ページビュー数 ÷ セッション数","セッション数 ÷ ページビュー数","ページビュー数 ÷ ユーザー数 ÷ 日数","ページビュー数 × 直帰率"],e:"1回の訪問で平均何ページ見られたかを表すので、PVをセッション数で割ります。"},
+{id:"b11",c:"basic",q:"コンバージョン（CV）の説明として最も適切なものはどれ？",a:["購入・問い合わせ・資料請求など、サイトの目的となる成果が達成されること","ユーザーがサイトに初めて訪れること","広告が画面に表示されること","ページを最後までスクロールすること"],e:"CVはサイトのゴールとなる成果です。何をCVにするかは、サイトの目的に合わせて決めます。"},
+{id:"b12",c:"basic",q:"アクセス解析でいう「ランディングページ」の説明として正しいものはどれ？",a:["セッションの中で、ユーザーが最初に表示したページ","セッションの中で、ユーザーが最後に表示したページ","サイトのトップページ","広告のために作られた縦長のページだけを指す"],e:"ランディングページは、ユーザーが最初に着地したページです。広告用の縦長ページ（LP）を指すこともありますが、アクセス解析では「入口になったページ」という意味で使います。"},
+
+/* ---- 環境分析 ---- */
+{id:"e01",c:"env",q:"3C分析の3つのCの組み合わせとして正しいものはどれ？",a:["顧客（Customer）・競合（Competitor）・自社（Company）","顧客（Customer）・コスト（Cost）・チャネル（Channel）","自社（Company）・コンテンツ（Content）・競合（Competitor）","顧客（Customer）・自社（Company）・協力会社（Collaborator）"],e:"3C分析は、顧客・競合・自社の3つの視点から、市場の中での自社の立ち位置や成功要因を探る手法です。"},
+{id:"e02",c:"env",q:"SWOT分析で、外部環境のプラス要因を表すものはどれ？",a:["機会（Opportunity）","強み（Strength）","弱み（Weakness）","脅威（Threat）"],e:"強み・弱みは自社の内部環境、機会・脅威は市場や社会などの外部環境です。外部のプラス要因が機会、マイナス要因が脅威です。"},
+{id:"e03",c:"env",q:"クロスSWOTで「強み × 機会」の組み合わせから考える戦略はどれ？",a:["積極化戦略（強みを生かして機会をつかむ）","差別化戦略（強みで脅威をかわす）","改善戦略（弱みを補って機会を生かす）","防衛・撤退戦略（弱みと脅威による損失を避ける）"],e:"強み×機会は積極化、強み×脅威は差別化、弱み×機会は改善、弱み×脅威は防衛・撤退と整理します。"},
+{id:"e04",c:"env",q:"PEST分析の説明として正しいものはどれ？",a:["政治・経済・社会・技術の視点から、自社を取り巻くマクロ環境を分析する","製品・価格・流通・販促の視点から、販売戦略を組み立てる","顧客・競合・自社の視点から、成功要因を探る","業界の5つの競争要因から、収益性を分析する"],e:"PESTはPolitics（政治）・Economy（経済）・Society（社会）・Technology（技術）の頭文字です。自社ではコントロールできない大きな環境の変化をつかむために使います。"},
+{id:"e05",c:"env",q:"ポーターの5フォース分析に含まれないものはどれ？",a:["自社の技術力","新規参入の脅威","代替品の脅威","買い手の交渉力"],e:"5フォースは「業界内の競争」「新規参入の脅威」「代替品の脅威」「買い手の交渉力」「売り手の交渉力」の5つです。業界の構造を見る分析なので、自社の技術力のような内部の資源は対象外です。"},
+{id:"e06",c:"env",q:"STPの手順として正しい順番はどれ？",a:["セグメンテーション → ターゲティング → ポジショニング","ターゲティング → セグメンテーション → ポジショニング","ポジショニング → セグメンテーション → ターゲティング","セグメンテーション → ポジショニング → ターゲティング"],e:"市場を切り分け（S）、狙う層を決め（T）、その層に対して競合とどう違う立ち位置を取るかを決めます（P）。"},
+{id:"e07",c:"env",q:"4PのPlace（流通）に対応する、顧客視点の4Cはどれ？",a:["Convenience（利便性）","Cost（顧客の負担）","Communication（対話）","Customer Value（顧客価値）"],e:"4Pと4Cは、Product↔Customer Value、Price↔Cost、Place↔Convenience、Promotion↔Communicationと対応します。"},
+{id:"e08",c:"env",q:"ペルソナの説明として最も適切なものはどれ？",a:["ターゲット層の典型的な1人を、名前・年齢・生活・価値観まで具体的に描いた架空の人物像","「20代女性」のように属性でくくった顧客層","実際に購入した顧客の中で最も売上が多い人","サイトを訪れたユーザーの属性の平均値"],e:"ターゲットは属性でくくった層、ペルソナはその層を代表する1人を具体的に描いたものです。チームの中でユーザー像をそろえるのに役立ちます。"},
+{id:"e09",c:"env",q:"カスタマージャーニーマップの説明として正しいものはどれ？",a:["顧客が認知から購入、購入後までにたどる行動・思考・感情・接点を時系列で整理した図","サイトのページの階層構造を示した図","競合と自社の価格と品質を2つの軸で比べた図","広告の予算配分を媒体ごとに示した図"],e:"顧客の体験を時間の流れにそって可視化し、どの接点で何を届けるべきかを考えるために使います。"},
+{id:"e10",c:"env",q:"購買行動モデルAIDMAと比べて、AISASに特徴的な行動の組み合わせはどれ？",a:["Search（検索）とShare（共有）","Desire（欲求）とMemory（記憶）","Attention（注意）とInterest（関心）","Action（行動）とMemory（記憶）"],e:"AISASはAttention→Interest→Search→Action→Shareの流れで、インターネット時代の「調べる」「共有する」行動を加えたモデルです。"},
+{id:"e11",c:"env",q:"トリプルメディアのうち「アーンドメディア」の例として正しいものはどれ？",a:["SNSでの口コミや、ニュース記事での紹介","自社のコーポレートサイトやブログ","検索連動型広告やディスプレイ広告","自社のメールマガジン"],e:"ペイドメディアはお金を払って使う広告、オウンドメディアは自社で持つメディア、アーンドメディアは第三者の発信によって信頼や評判を得るメディアです。"},
+{id:"e12",c:"env",q:"ロングテールの説明として正しいものはどれ？",a:["1つずつは少ししか売れないニッチな商品でも、数が多いと合計で大きな売上になる","売上の8割を上位2割の商品が生み出す","長い期間をかけて顧客との関係を育てる","検索キーワードは長いほど検索回数が多い"],e:"品ぞろえの制約が小さいECでは、売れ筋以外の多数の商品が売上を支えることがあります。検索でも、検索回数の少ない複合キーワードの合計が大きな流入になることをロングテールと呼びます。"},
+{id:"e13",c:"env",q:"バリュープロポジションの説明として最も適切なものはどれ？",a:["顧客が求めていて、競合が提供できず、自社が提供できる価値","自社の商品の中で最も売上が大きいもの","競合よりも安い価格を設定すること","自社がこれから開発する予定の新商品"],e:"顧客のニーズ・競合・自社の3つが重なる「自社だけが提供できる価値」をはっきりさせることで、選ばれる理由をつくれます。"},
+{id:"e14",c:"env",q:"ユーザー調査のうち、定性調査にあたるものはどれ？",a:["少人数へのインタビューで、購入に至った理由を深く聞く","1,000人へのアンケートで満足度を5段階で集計する","アクセス解析でページごとの離脱率を比べる","A/Bテストでボタンのクリック率を比べる"],e:"定量調査は数値で集計して傾向をつかむ調査、定性調査は言葉や行動から理由や背景を深く理解する調査です。"},
+
+/* ---- KPI設計 ---- */
+{id:"k01",c:"kpi",q:"KGI・CSF・KPIの関係として正しいものはどれ？",a:["KGI（最終目標）を達成するための成功要因がCSFで、その達成度を測る指標がKPI","KPI（最終目標）を達成するための中間指標がKGIで、その要因がCSF","CSF（最終目標）を分解したものがKGIで、その結果がKPI","3つとも同じ意味で、部署によって呼び方が違うだけ"],e:"KGIは売上などの最終的なゴール、CSF（KSF）はそのゴールの達成に欠かせない要因、KPIはCSFが達成できているかを測る中間指標です。"},
+{id:"k02",c:"kpi",q:"目標設定の考え方「SMART」に含まれないものはどれ？",a:["Simple（単純である）","Specific（具体的である）","Measurable（測定できる）","Time-bound（期限がある）"],e:"SMARTはSpecific（具体的）・Measurable（測定可能）・Achievable（達成可能）・Relevant（目的に関連している）・Time-bound（期限がある）の頭文字です。"},
+{id:"k03",c:"kpi",q:"ECサイトの売上をKPIに分解した式として正しいものはどれ？",a:["売上 ＝ セッション数 × CVR × 客単価","売上 ＝ ページビュー数 × 直帰率 × 客単価","売上 ＝ ユーザー数 × 離脱率 × 商品数","売上 ＝ セッション数 ÷ CVR × 客単価"],e:"訪問数（集客）、CVR（サイトの成約力）、客単価（1回の購入金額）に分けると、どこを改善すべきかが見えやすくなります。"},
+{id:"k04",c:"kpi",q:"BtoBのリードジェネレーションサイト（見込み客の獲得が目的）のKGIとして最も適切なものはどれ？",a:["問い合わせや資料請求から生まれた受注件数（または受注金額）","サイト全体のページビュー数","トップページの平均エンゲージメント時間","SNSアカウントのフォロワー数"],e:"リード獲得サイトの最終的な成果は、問い合わせなどから生まれる受注です。PVや滞在時間は途中の指標にすぎません。"},
+{id:"k05",c:"kpi",q:"広告収益型のメディアサイトで、収益に直接つながる指標として最も重視されるものはどれ？",a:["ページビュー数（広告の表示回数）","資料請求の件数","平均注文金額","カート追加率"],e:"広告収益型のサイトは、広告が表示されたりクリックされたりすることで収益が生まれます。そのためPVや広告の表示回数・クリック数が重要です。"},
+{id:"k06",c:"kpi",q:"購入をCVとするECサイトで、マイクロコンバージョンとして設定するのに適したものはどれ？",a:["商品をカートに追加した","注文を完了した","サイトを離脱した","トップページを表示した"],e:"マイクロコンバージョンは、最終的なCVに至るまでの途中で起きる重要な行動です。CV数が少ないサイトでも、改善の手がかりを早く得られます。"},
+{id:"k07",c:"kpi",q:"KPIの設定のしかたとして適切でないものはどれ？",a:["計測できる指標はすべてKPIにして、毎週まとめて報告する","KGIから逆算して、影響の大きい指標に絞る","目標値と期限を決める","担当者が行動で変えられる指標を選ぶ"],e:"KPIが多すぎると、どの数字を良くすればいいのかがぼやけ、行動につながりません。KGIへの影響が大きい少数の指標に絞ります。"},
+{id:"k08",c:"kpi",q:"「結果が出る前に変化をつかめる指標」を何と呼ぶか。",a:["先行指標","遅行指標","KGI","ベンチマーク"],e:"売上のような結果の指標は遅行指標、問い合わせ数やカート追加数のように結果より先に動く指標は先行指標です。先行指標を追うと、早めに手を打てます。"},
+{id:"k09",c:"kpi",q:"LTV（顧客生涯価値）の説明として正しいものはどれ？",a:["1人の顧客が、取引を始めてから終わるまでの期間全体でもたらす利益（または売上）","1回の注文あたりの平均購入金額","1人の新規顧客を獲得するためにかかった広告費","1か月あたりのサイトの総売上"],e:"リピート購入があるビジネスでは、初回の売上だけでなくLTVで考えると、顧客の獲得にかけられる費用を正しく判断できます。"},
+{id:"k10",c:"kpi",q:"許容CPA（限界CPA）の説明として正しいものはどれ？",a:["1件の成果を獲得するためにかけてよい広告費の上限","1件の成果を獲得するのに実際にかかった広告費の平均","1回のクリックにかかった広告費","広告経由の売上を広告費で割った値"],e:"許容CPAは、1件あたりの利益（粗利。LTVで考えることもある）から求める「ここまでなら払っても赤字にならない」上限です。実際のCPAがこれを下回るように運用します。"},
+{id:"k11",c:"kpi",q:"ファネル分析で分かることとして最も適切なものはどれ？",a:["CVに至るまでのステップごとの通過率を見て、どこで多く離脱しているかが分かる","競合サイトのアクセス数が分かる","ユーザーの年齢や性別が正確に分かる","広告のクリック単価が分かる"],e:"「商品ページ → カート → 入力 → 完了」のように段階ごとの人数を並べ、落ち込みの大きいステップ（ボトルネック）を見つけて改善します。"},
+{id:"k12",c:"kpi",q:"KPIの目標値の決め方として最も適切なものはどれ？",a:["KGIの目標値から逆算し、過去の実績や市場の状況で実現できるかを確かめて決める","達成しやすいように前年と同じ値にする","業界で最も高い企業の値をそのまま使う","期限は決めず、できるだけ高い値にする"],e:"KGIを達成するのに必要な値を逆算し、過去の実績などから実現できるかを確認して決めます。"},
+
+/* ---- 広告・集客 ---- */
+{id:"a01",c:"ads",q:"CTR（クリック率）の求め方として正しいものはどれ？",a:["クリック数 ÷ 表示回数（インプレッション数）","表示回数 ÷ クリック数","CV数 ÷ クリック数","広告費 ÷ クリック数"],e:"CTRは、広告が表示されたうちクリックされた割合です。CV数÷クリック数はCVR、広告費÷クリック数はCPCです。"},
+{id:"a02",c:"ads",q:"ROASの説明として正しいものはどれ？",a:["広告経由の売上 ÷ 広告費 × 100で求める、広告費の回収率","広告費 ÷ CV数で求める、1件あたりの獲得単価","（利益 − 広告費）÷ 広告費 × 100で求める、投資の収益率","クリック数 ÷ 表示回数で求める、クリック率"],e:"ROASは売上ベースで広告の費用対効果を見る指標です。利益ベースで見るのがROIです。ROASが高くても、利益率の低い商品では赤字になることがあります。"},
+{id:"a03",c:"ads",q:"CPMの説明として正しいものはどれ？",a:["広告が1,000回表示されるごとにかかる費用","1回クリックされるごとにかかる費用","1件のCVごとにかかる費用","1,000人に届くごとにかかる費用"],e:"CPMはCost Per Mille（1,000回あたりの費用）で、表示回数ベースの課金や、媒体どうしの比較に使います。"},
+{id:"a04",c:"ads",q:"検索連動型広告（リスティング広告）で一般的な課金方式はどれ？",a:["クリック課金（クリックされたときに費用が発生）","表示課金（表示されたときに費用が発生）","期間保証型（掲載期間で費用が決まる）","成果報酬型（購入されたときだけ費用が発生）"],e:"リスティング広告は、表示されただけでは費用がかからず、クリックされたときに費用が発生するクリック課金が基本です。"},
+{id:"a05",c:"ads",q:"Google広告の品質スコアの決定要素に含まれないものはどれ？",a:["入札単価","推定クリック率","広告の関連性","ランディングページの利便性"],e:"品質スコアは推定クリック率・広告の関連性・ランディングページの利便性の3つで決まる1〜10の評価です。入札単価は品質スコアの要素ではありませんが、広告ランクには影響します。"},
+{id:"a06",c:"ads",q:"リターゲティング（リマーケティング）広告の説明として正しいものはどれ？",a:["過去に自社サイトを訪れたユーザーに対して、別のサイトやアプリで広告を配信する","特定のキーワードで検索したユーザーの検索結果に広告を表示する","提携先のサイトで商品が売れたときだけ報酬を支払う","媒体の広告枠を期間を決めて買い切る"],e:"一度サイトを訪れて興味を示したユーザーにもう一度接触するため、CVRが高くなりやすい手法です。"},
+{id:"a07",c:"ads",q:"除外キーワードを設定する目的として正しいものはどれ？",a:["関係のない検索語句で広告が表示されるのを防ぎ、無駄なクリックを減らす","競合他社が同じキーワードに出稿できないようにする","自社サイトが自然検索に表示されないようにする","品質スコアの計算から特定の広告を外す"],e:"たとえば「求人」「無料」など、購入につながらない語句を除外すると、費用の無駄を減らせます。"},
+{id:"a08",c:"ads",q:"ビュースルーコンバージョンの説明として正しいものはどれ？",a:["広告は表示されたがクリックされず、その後に別の経路でCVしたもの","広告をクリックした直後にCVしたもの","広告をクリックしたが、CVしなかったもの","動画広告を最後まで再生したもの"],e:"ディスプレイ広告などで、広告を見たことが後の行動に影響した可能性を評価するための指標です。クリックを経由したCVはクリックスルーコンバージョンといいます。"},
+{id:"a09",c:"ads",q:"アトリビューションの「接点ベース」モデルの配分として正しいものはどれ？",a:["最初と最後の接点に40%ずつ、中間の接点に残りの20%を均等に配分","すべての接点に均等に配分","CVに近い接点ほど多く配分","最後の接点に100%を配分"],e:"接点ベースは、きっかけになった最初の接点と、決め手になった最後の接点を重視するモデルです。均等配分は線形、CVに近いほど多いのは減衰、最後に100%はラストクリックです。"},
+{id:"a10",c:"ads",q:"現在のGA4で、レポートのアトリビューションモデルとして選べるものの組み合わせはどれ？",a:["データドリブンとラストクリック","線形と減衰","ファーストクリックと接点ベース","線形とファーストクリック"],e:"GA4では2023年に、ファーストクリック・線形・接点ベース・減衰のモデルが廃止されました。現在はデータドリブンと、ラストクリック（の種類）が使えます。"},
+{id:"a11",c:"ads",q:"フリークエンシーの求め方として正しいものはどれ？",a:["インプレッション数 ÷ リーチ数","リーチ数 ÷ インプレッション数","クリック数 ÷ リーチ数","インプレッション数 ÷ クリック数"],e:"フリークエンシーは、1人あたり平均何回広告に接触したかです。高すぎると同じ広告に見飽きられ、逆効果になることもあります。"},
+{id:"a12",c:"ads",q:"アフィリエイト広告の説明として正しいものはどれ？",a:["提携先のサイトやブログを経由して成果（購入など）が発生したときに報酬を支払う成果報酬型の広告","検索結果に表示されるクリック課金型の広告","特定メディアの広告枠を期間や表示回数で買い切る広告","動画の前後に流れる広告"],e:"成果が出たときだけ費用がかかるため、費用対効果を管理しやすい手法です。"},
+{id:"a13",c:"ads",q:"DSPの説明として正しいものはどれ？",a:["広告主側が、複数の広告枠に対して条件を決めて自動で入札・配信するためのしくみ","媒体社側が、自社の広告枠をできるだけ高く売るためのしくみ","広告枠を期間で買い切るための予約システム","検索エンジンの順位を上げるためのツール"],e:"DSP（Demand-Side Platform）は広告主側、SSP（Supply-Side Platform）は媒体側のしくみです。1回の表示ごとにリアルタイムで入札する方式をRTBといいます。"},
+{id:"a14",c:"ads",q:"Googleが検索品質評価ガイドラインの「E-A-T」に2022年に追加した要素はどれ？",a:["Experience（経験）","Engagement（関与）","Efficiency（効率）","Evidence（証拠）"],e:"E-E-A-TはExperience（経験）・Expertise（専門性）・Authoritativeness（権威性）・Trustworthiness（信頼性）です。実際に使った・体験した人による情報が重視されるようになりました。"},
+{id:"a15",c:"ads",q:"Core Web Vitalsの3つの指標の組み合わせとして正しいものはどれ？",a:["LCP・INP・CLS","LCP・FID・TTFB","FCP・INP・TTFB","CTR・CVR・CPA"],e:"LCPは読み込みの速さ、INPは操作への反応の速さ、CLSは表示の安定性（レイアウトのずれ）を表します。INPは2024年3月にFIDに代わって採用されました。"},
+{id:"a16",c:"ads",q:"特定のページを検索結果に表示させたくないときに使うものとして最も適切なものはどれ？",a:["ページにnoindexのmetaタグを設定する","robots.txtでクロールを拒否する","canonicalタグで別のURLを指定する","XMLサイトマップに登録する"],e:"robots.txtはクロールを制御するもので、ほかのサイトからリンクされていると、URLだけが検索結果に出ることがあります。インデックスさせたくないページにはnoindexを使います。"},
+{id:"a17",c:"ads",q:"canonicalタグの目的として正しいものはどれ？",a:["内容が同じか似ているページが複数あるとき、正規のURLを検索エンジンに伝える","ページを検索結果に表示させないようにする","クローラーのアクセスを完全にブロックする","ページの読み込み速度を上げる"],e:"パラメータ付きのURLや並び替えページなどの重複を1つのURLにまとめ、評価が分散するのを防ぎます。"},
+{id:"a18",c:"ads",q:"検索広告のインプレッションシェアの説明として正しいものはどれ？",a:["広告が表示される可能性があった回数のうち、実際に表示された回数の割合","検索結果全体のうち、自社の自然検索の表示が占める割合","広告の表示回数のうち、クリックされた回数の割合","競合他社の広告と比べた広告費の割合"],e:"インプレッションシェアが低い原因は、予算の不足か、広告ランク（入札単価や品質）の不足かに分けて確認できます。"},
+{id:"a19",c:"ads",q:"リーチとインプレッションの違いとして正しいものはどれ？",a:["リーチは広告を見たユーザーの人数、インプレッションは広告が表示された回数","リーチは広告が表示された回数、インプレッションは広告を見た人数","リーチはクリックした人数、インプレッションはCVした人数","2つは同じ意味で、媒体によって呼び方が違うだけ"],e:"同じ人に3回表示されると、リーチは1、インプレッションは3です。インプレッション÷リーチがフリークエンシーです。"},
+
+/* ---- サイト改善 ---- */
+{id:"s01",c:"site",q:"LPO（ランディングページ最適化）の考え方として最も適切なものはどれ？",a:["流入元の広告や検索キーワードとページの内容を合わせ、ファーストビューで求められている情報を伝える","ページの情報量をできるだけ増やして、あらゆるユーザーに対応する","すべての流入をトップページに集める","デザインは変えずに、広告の入札単価だけを上げる"],e:"ユーザーが期待した内容と、着地したページの内容がずれていると、すぐに離脱されます。流入元ごとの期待に合ったページにすることが基本です。"},
+{id:"s02",c:"site",q:"EFO（入力フォーム最適化）の施策として適切でないものはどれ？",a:["今後の営業に使うため、任意の入力項目を増やす","郵便番号から住所を自動入力する","入力エラーをその場で知らせる","必須項目をはっきり示す"],e:"入力項目が増えるほど、途中でやめるユーザーが増えます。本当に必要な項目に絞るのがEFOの基本です。"},
+{id:"s03",c:"site",q:"A/Bテストのやり方として最も適切なものはどれ？",a:["同じ期間に、ユーザーをランダムに2つのパターンへ振り分けて比べる","先月は旧デザイン、今月は新デザインにして、月ごとの結果を比べる","社内の数人に2つのデザインを見せて、好きなほうを選んでもらう","複数の要素をまとめて変更し、良くなったかどうかだけを確認する"],e:"期間をずらすと、季節や広告など期間ごとの違いが結果に混ざってしまいます。同じ時期にランダムに振り分けることで、パターンの違いだけを比べられます。"},
+{id:"s04",c:"site",q:"A/Bテストの結果を判断するときの注意点として正しいものはどれ？",a:["サンプル数が少ないと偶然の差の可能性があるので、統計的に意味のある差（有意差）かを確かめる","1日でも差が出たら、すぐに結果を確定してよい","CVRの差が小さくても、見た目の好みで勝ちを決めてよい","アクセス数が多いほうのパターンを勝ちとする"],e:"少ないデータでの差は偶然のことがあります。必要なサンプル数や期間を事前に決め、有意差を確認してから判断します。"},
+{id:"s05",c:"site",q:"ページのどこまでユーザーに読まれているかを知るのに最も向いているヒートマップはどれ？",a:["スクロールヒートマップ（ページの到達率）","クリックヒートマップ","アテンションヒートマップ（熟読エリア）","マウスムーブヒートマップ"],e:"スクロールヒートマップは、ページの各位置まで何%のユーザーが到達したかを色で示します。よく読まれている場所はアテンション、クリックされた場所はクリックヒートマップで確認します。"},
+{id:"s06",c:"site",q:"ファーストビューの説明として正しいものはどれ？",a:["ページを開いたとき、スクロールせずに最初に見える範囲","ユーザーが最初に訪れたページ","ページが完全に読み込まれるまでの時間","ユーザーが初めてサイトを訪れた日"],e:"ファーストビューで興味を持ってもらえないと、スクロールされずに離脱されます。LPOで最初に改善する場所です。"},
+{id:"s07",c:"site",q:"少人数のユーザーに実際にサイトを操作してもらい、つまずく場所を観察する手法はどれ？",a:["ユーザビリティテスト","A/Bテスト","アクセス解析","ソーシャルリスニング"],e:"5人程度で多くの問題が見つかるといわれ、アクセス解析の数字だけでは分からない「なぜ」を確かめられます。"},
+{id:"s08",c:"site",q:"サイト改善の優先順位の付け方として最も適切なものはどれ？",a:["成果への影響の大きさと実施のしやすさを比べ、CVに近いページや影響の大きいページから着手する","目についた問題から順番に対応する","デザインの古いページから順番に作り直す","アクセスの少ないページから順番に改善する"],e:"カートやフォームなどCVに近いページの改善は、成果に直結しやすい傾向があります。効果と工数を比べて優先順位を決めます。"},
+{id:"s09",c:"site",q:"離脱率が高くても問題とはいえないページはどれ？",a:["購入完了（サンクス）ページ","入力フォームの1ページ目","カートページ","商品詳細ページ"],e:"サンクスページは目的を達成した後のページなので、そこで離れるのは自然です。フォームやカートで離脱率が高い場合は改善が必要です。"},
+{id:"s10",c:"site",q:"サイト内検索で使われたキーワードを分析する目的として最も適切なものはどれ？",a:["ユーザーが探している情報や、サイト内で見つけにくい情報を知る","外部の検索エンジンでの順位を知る","広告のクリック単価を下げる","競合サイトのアクセス数を知る"],e:"サイト内検索の語句は、ユーザーの生のニーズです。よく検索される情報へのリンクをナビゲーションに加えるなどの改善に使えます。"},
+{id:"s11",c:"site",q:"多変量テストの説明として正しいものはどれ？",a:["見出しや画像など、複数の要素の組み合わせを同時に検証する。A/Bテストより多くのアクセス数が必要","2つのページを1日ごとに交互に表示して比べる","ユーザーにアンケートで好みのデザインを聞く","1つの要素だけを変えた2パターンを比べる"],e:"組み合わせの数だけパターンが増えるため、十分な結果を得るには多くのアクセスが必要です。1つの要素だけを比べるのはA/Bテストです。"},
+{id:"s12",c:"site",q:"CTA（Call To Action）の説明として正しいものはどれ？",a:["「購入する」「資料をダウンロード」など、ユーザーに次の行動を促すボタンやリンク","ページの読み込み速度","サイトの階層構造","広告の表示回数"],e:"CTAの文言・色・位置・数はCVRに大きく影響するため、A/Bテストの対象になりやすい要素です。"},
+
+/* ---- 計測・GA4 ---- */
+{id:"t01",c:"tool",q:"GA4のデータ計測の基本となる単位はどれ？",a:["イベント","ヒット","セッション","ページビュー"],e:"GA4はページビューもクリックもすべて「イベント」として記録し、詳しい情報は「パラメータ」で持ちます。旧GA（UA）はセッションとヒットを軸にした計測でした。"},
+{id:"t02",c:"tool",q:"GA4で新規ユーザーの判定に使われる、初回訪問時に自動で記録されるイベントはどれ？",a:["first_visit","session_start","page_view","user_engagement"],e:"first_visitは初めて訪れたとき、session_startはセッションが始まったときに自動で記録されます。"},
+{id:"t03",c:"tool",q:"GA4の拡張計測機能で自動計測できないものはどれ？",a:["購入（purchase）","スクロール（90%到達）","外部サイトへのリンククリック","ファイルのダウンロード"],e:"拡張計測機能ではページビュー、スクロール、離脱クリック、サイト内検索、動画エンゲージメント、ファイルのダウンロード、フォーム操作を計測できます。購入はeコマースの実装が必要です。"},
+{id:"t04",c:"tool",q:"GA4のスクロールイベント（拡張計測機能）が記録されるタイミングはどれ？",a:["ページの90%までスクロールしたとき","ページの50%までスクロールしたとき","ページを少しでもスクロールしたとき","ページを10秒以上表示したとき"],e:"拡張計測機能のscrollは、縦に90%の位置まで到達したときに1回記録されます。25%や50%を計測したいときは、Googleタグマネージャーなどで設定を追加します。"},
+{id:"t05",c:"tool",q:"メールマガジンのリンクにUTMパラメータを付けるとき、「email」のように媒体の種類を入れるパラメータはどれ？",a:["utm_medium","utm_source","utm_campaign","utm_content"],e:"utm_sourceは参照元（例：newsletter、google）、utm_mediumはメディアの種類（例：email、cpc）、utm_campaignはキャンペーン名です。"},
+{id:"t06",c:"tool",q:"無料版のGA4で設定できるイベントデータの保持期間はどれ？",a:["2か月または14か月","1か月または6か月","12か月または26か月","無期限"],e:"保持期間は、探索レポートなどで使う詳しいデータに適用されます。初期設定は2か月なので、導入時に14か月へ変更しておくのが一般的です。"},
+{id:"t07",c:"tool",q:"Googleタグマネージャー（GTM）を使うメリットとして正しいものはどれ？",a:["サイトのコードを毎回書き換えなくても、計測タグの追加や変更を管理画面で行える","サイトの検索順位を直接上げられる","Cookieを使わずにユーザーを正確に識別できる","広告のクリック単価を自動で下げられる"],e:"GTMのコンテナをサイトに一度設置すれば、あとはGTMの画面でタグ・トリガー・変数を管理できます。変更の履歴やプレビューで確認できるのも利点です。"},
+{id:"t08",c:"tool",q:"ファーストパーティCookieの説明として正しいものはどれ？",a:["ユーザーが訪れているサイトのドメインで発行されるCookie","広告配信事業者など、訪れているサイトとは別のドメインで発行されるCookie","ブラウザを閉じると必ず消えるCookie","サーバーだけに保存され、ブラウザには保存されない情報"],e:"GA4はファーストパーティCookieでユーザーを識別します。別のドメインが発行するサードパーティCookieは、多くのブラウザで制限が強まっています。"},
+{id:"t09",c:"tool",q:"SafariのITP（Intelligent Tracking Prevention）がアクセス解析に与える影響として正しいものはどれ？",a:["JavaScriptで発行したCookieの有効期限が短く制限され、リピーターが新規ユーザーとして数えられやすくなる","ページビューがまったく計測できなくなる","ファーストパーティCookieの有効期限が延びる","すべての広告が表示されなくなる"],e:"ITPはトラッキングを防ぐSafariの機能です。スクリプトで発行したCookieの期限が最大7日などに制限されるため、しばらく間をあけて訪れたユーザーが新規として数えられることがあります。"},
+{id:"t10",c:"tool",q:"検索結果での表示回数・クリック数・平均掲載順位や、インデックスの状況を確認できるGoogleの無料ツールはどれ？",a:["Google Search Console","Google タグマネージャー","Looker Studio","Google Optimize"],e:"Search Consoleは、検索エンジンから見た自社サイトの状態を確認するツールです。どの検索語句で表示・クリックされたかも分かります。"},
+{id:"t11",c:"tool",q:"自社サイトと、別ドメインの予約システムをまたぐ訪問を1つのセッションとして計測するための設定はどれ？",a:["クロスドメイン測定","内部トラフィックの除外","データ保持期間の変更","拡張計測機能のオフ"],e:"設定しないと、別のドメインに移った時点でセッションが途切れ、参照元が自社サイトになってしまうなど、正しく分析できなくなります。"},
+{id:"t12",c:"tool",q:"GA4の探索で、「商品ページ → カート → 購入手続き → 購入完了」の各段階の離脱を可視化するのに適した手法はどれ？",a:["ファネルデータ探索","経路データ探索","セグメントの重複","コホートデータ探索"],e:"ファネルデータ探索は、決めた順番のステップごとに何人が進み、何人が離脱したかを表示します。経路データ探索は、実際にたどった順路を自由に見る手法です。"},
+{id:"t13",c:"tool",q:"ビーコン型（タグ型）の計測と比べた、サーバーログ型の計測の特徴として正しいものはどれ？",a:["ブラウザなどにキャッシュされたページの閲覧は、サーバーに記録が残らないため計測しにくい","JavaScriptが動かない環境では計測できない","ページにタグを埋め込まないと計測できない","ユーザーのクリック操作を細かく計測するのが得意"],e:"ログ型はサーバーへのリクエストを記録する方式なので、キャッシュからの表示は記録されません。ビーコン型はページに埋め込んだタグが動くことで計測するため、JavaScriptが動かないと計測できません。"},
+{id:"t14",c:"tool",q:"2024年にGA4で「コンバージョン」から名称が変わったものはどれ？",a:["キーイベント","カスタムイベント","推奨イベント","目標"],e:"GA4で重要な行動としてマークするイベントは「キーイベント」と呼ばれるようになりました。「コンバージョン」は主にGoogle広告で使う成果の意味で使われます。"},
+{id:"t15",c:"tool",q:"社内の従業員のアクセスを分析から除外したいときの設定として正しいものはどれ？",a:["IPアドレスを指定して内部トラフィックとして定義し、データフィルタで除外する","クロスドメイン測定を設定する","データ保持期間を2か月にする","拡張計測機能をオフにする"],e:"社内のアクセスが混ざると、滞在時間やCVRなどが実態とずれます。GA4では内部トラフィックを定義し、データフィルタで除外します。"},
+
+/* ---- SNS・メール ---- */
+{id:"m01",c:"social",q:"メールの開封率の一般的な求め方として正しいものはどれ？",a:["開封数 ÷ 配信成功数（配信数 − 不達数）","開封数 ÷ これまでの登録者数の累計","クリック数 ÷ 開封数","配信成功数 ÷ 配信数"],e:"届かなかったメールは開封されようがないので、届いたメールの数で割るのが一般的です。クリック数÷開封数は開封者のクリック率（CTOR）です。"},
+{id:"m02",c:"social",q:"ハードバウンスの説明として正しいものはどれ？",a:["存在しないアドレスなど、恒久的な理由でメールが届かないこと","受信箱の容量不足など、一時的な理由でメールが届かないこと","メールが迷惑メールフォルダに振り分けられること","メールを開封したがリンクをクリックしなかったこと"],e:"ハードバウンスのアドレスに送り続けると送信元の評価が下がり、ほかのメールも届きにくくなります。配信リストから外すのが基本です。一時的な不達はソフトバウンスです。"},
+{id:"m03",c:"social",q:"ステップメールの説明として正しいものはどれ？",a:["会員登録などを起点に、あらかじめ決めた順番と間隔でメールを自動配信する","全員に同じ内容を同時に一斉配信する","ユーザーから返信があったときだけ送る","SNSのダイレクトメッセージで送る"],e:"登録直後の案内、数日後の使い方の紹介、その後の購入の後押しなど、段階に合わせた内容を自動で届けられます。"},
+{id:"m04",c:"social",q:"Appleのメールプライバシー保護（2021年〜）が、メールの効果測定に与えた影響として正しいものはどれ？",a:["実際には読まれていないメールも開封として計測されることがあり、開封率が高めに出やすい","クリック数が一切計測できなくなった","配信停止が自動で行われるようになった","開封率が実際より低く出るようになった"],e:"Appleのメールアプリが画像を先に読み込むため、開封の計測に使う画像も読み込まれ、開封として記録されます。開封率だけで判断せず、クリック率なども合わせて見ます。"},
+{id:"m05",c:"social",q:"UGC（User Generated Content）の例として正しいものはどれ？",a:["購入者がSNSに投稿した商品の写真や口コミ","企業が制作したブランド紹介動画","企業が出稿したディスプレイ広告","企業の公式サイトの商品説明文"],e:"UGCはユーザーが自発的に作ったコンテンツです。第三者の声として信頼されやすく、購入の後押しになります。"},
+{id:"m06",c:"social",q:"ソーシャルリスニングの説明として正しいものはどれ？",a:["SNS上の会話や投稿を集めて分析し、評判やニーズ、トレンドをつかむ","SNSで広告を配信する","SNSのフォロワーを増やすためにキャンペーンを行う","SNSでユーザーの質問に回答する"],e:"自社や競合の評判、商品の使われ方、不満の声などを知り、商品開発やコミュニケーションの改善に生かします。"},
+{id:"m07",c:"social",q:"オウンドメディアの説明として正しいものはどれ？",a:["自社サイトや自社ブログなど、企業が自ら保有して運営するメディア","テレビや新聞などのマスメディア","お金を払って掲載する広告枠","ユーザーの口コミが広がるSNS"],e:"オウンドメディアは内容を自由に作れますが、集客には時間がかかります。ペイドメディアやアーンドメディアと組み合わせて使います。"},
+{id:"m08",c:"social",q:"BtoBマーケティングで、資料と引き換えに見込み客の連絡先を得るためによく使われるコンテンツはどれ？",a:["ホワイトペーパー","プレスリリース","バナー広告","サンクスページ"],e:"課題の解決方法や調査データなどをまとめた資料をダウンロードしてもらい、そのときにフォームで会社名や連絡先を取得します。"},
+{id:"m09",c:"social",q:"リードナーチャリングの説明として正しいものはどれ？",a:["獲得した見込み客に、メールやコンテンツで継続的に情報を届けて購買意欲を高める","新しい見込み客を展示会などで獲得する","購買意欲の高い見込み客を営業部門に引き渡す","既存の顧客が解約しないようにする"],e:"すぐには購入しない見込み客を育てる活動です。MA（マーケティングオートメーション）を使って、行動に合わせた情報提供を自動化することが多いです。"},
+{id:"m10",c:"social",q:"MQLとSQLの関係として正しいものはどれ？",a:["MQLはマーケティング部門が有望と判断した見込み客、SQLはその中から営業部門が商談の対象と判断した見込み客","MQLは既存顧客、SQLは新規顧客","MQLは営業部門が獲得した見込み客、SQLはマーケティング部門が獲得した見込み客","MQLとSQLは同じ意味で、業界によって呼び方が違う"],e:"見込み客はMQL（Marketing Qualified Lead）からSQL（Sales Qualified Lead）へと進み、商談・受注につながります。"},
+{id:"m11",c:"social",q:"メールの開封率を上げる施策として最も直接的なものはどれ？",a:["件名と差出人名を分かりやすく、読みたくなるものにする","本文の最後に配信停止リンクを置く","本文中の画像を増やす","フッターに会社の住所を書く"],e:"開封されるかどうかは、受信箱で見える件名・差出人名・プレビューテキストで決まります。本文の改善はクリック率に効きます。"},
+{id:"m12",c:"social",q:"SNS投稿の「エンゲージメント」に含まれるものとして一般的でないものはどれ？",a:["投稿が画面に表示された回数","いいね","コメント","シェア（リポスト）"],e:"表示された回数はインプレッションです。エンゲージメントは、いいね・コメント・シェア・保存・クリックなど、投稿に対するユーザーの反応を指します。"},
+
+/* ---- レポート・法令 ---- */
+{id:"r01",c:"report",q:"解析レポートの構成として最も適切なものはどれ？",a:["結論（要点）を最初に示し、その根拠となるデータ、改善提案の順にまとめる","集計したすべての数値を表にして並べ、判断は読み手に任せる","ツールの画面のスクリーンショットを期間順に並べる","良い結果だけを載せ、悪い結果は省く"],e:"読み手が知りたいのは「何が起きたか」「どうすればいいか」です。結論を先に示し、次の行動（改善提案）まで書くと、レポートが意思決定に役立ちます。"},
+{id:"r02",c:"report",q:"季節による変動の影響を除いて、今月の実績を評価したいときに最も適した比較はどれ？",a:["前年同月比","前月比","前日比","直近7日間の平均との比較"],e:"同じ月どうしを比べると、年末商戦や長期休暇などの季節要因の影響をそろえられます。"},
+{id:"r03",c:"report",q:"2つの指標の関係（例：広告費とCV数）を見るのに最も適したグラフはどれ？",a:["散布図","円グラフ","積み上げ棒グラフ","レーダーチャート"],e:"推移は折れ線グラフ、項目どうしの比較は棒グラフ、構成比は円グラフや積み上げ棒グラフ、2つの量の関係は散布図が向いています。"},
+{id:"r04",c:"report",q:"「アイスクリームの売上が多い日ほど、水の事故が多い」というデータの解釈として最も適切なものはどれ？",a:["気温という第3の要因が両方に影響している疑似相関の可能性が高い","アイスクリームを食べると水の事故が起きやすくなる","水の事故が起きるとアイスクリームが売れる","2つのデータは無関係なので相関は生じない"],e:"相関があっても、因果関係があるとは限りません。解析では、両方に影響する別の要因がないかを考える必要があります。"},
+{id:"r05",c:"report",q:"滞在時間の平均値が、ごく一部の極端に長い滞在に引っ張られてしまう。代表値として見るのに適したものはどれ？",a:["中央値","最大値","合計値","最小値"],e:"中央値は、データを小さい順に並べたときの真ん中の値で、極端な値の影響を受けにくい特徴があります。"},
+{id:"r06",c:"report",q:"2022年4月施行の改正個人情報保護法で新設された「個人関連情報」について正しいものはどれ？",a:["Cookie IDや閲覧履歴などを第三者に渡し、提供先で個人データとして取得されることが想定される場合、本人の同意が得られていることの確認が必要","Cookie IDは個人情報に当たるため、取得すること自体に必ず本人の同意が必要","個人関連情報は法律の対象外なので、自由に第三者へ提供できる","個人関連情報のルールは、日本国内の企業には適用されない"],e:"個人関連情報は、それだけでは個人を特定できない情報（Cookie ID、閲覧履歴、位置情報など）です。提供先でほかの情報と結び付けて個人データになる場合は、提供元が本人の同意の有無を確認する義務があります。"},
+{id:"r07",c:"report",q:"2023年6月施行の改正電気通信事業法の「外部送信規律」の内容として正しいものはどれ？",a:["利用者の端末から外部へ情報を送信させる場合に、送信される情報の内容・送信先・利用目的などを公表・通知するなどの対応が必要","すべてのサイトでCookieの利用が禁止された","メールマガジンの配信に事前の同意が必要になった","事業者の広告であることを隠した表示が禁止された"],e:"解析タグや広告タグなどで利用者の情報を外部に送る場合が対象です。プライバシーポリシーなどで分かりやすく公表する対応が一般的です。広告であることを隠す表示の禁止は、景品表示法のステマ規制です。"},
+{id:"r08",c:"report",q:"2023年10月に始まったステルスマーケティング規制（景品表示法）の対象となるのは誰か。",a:["広告主である事業者","商品を紹介したインフルエンサー","広告を見た消費者","SNSの運営会社"],e:"ステマ規制は、事業者が自社の広告であることを隠し、第三者の感想のように見せる表示を不当表示とするものです。規制の対象は広告主です。インフルエンサーに依頼するときは「広告」「PR」などの表示が必要です。"},
+{id:"r09",c:"report",q:"実際にはいつも同じ価格で売っているのに「今だけ半額」と表示して販売した。景品表示法のどの不当表示に当たるか。",a:["有利誤認表示","優良誤認表示","比較広告","おとり広告"],e:"価格や取引条件を実際より有利に見せるのが有利誤認、品質や性能を実際より良く見せるのが優良誤認です。"},
+{id:"r10",c:"report",q:"特定電子メール法で、広告宣伝メールを送るときの原則として正しいものはどれ？",a:["あらかじめ同意した人にだけ送る（オプトイン）","受信拒否されるまでは誰にでも送れる（オプトアウト）","メールアドレスを公開している人には、同意なしで何度でも送れる","BtoBのメールであれば一切の規制を受けない"],e:"原則として、事前に同意を得た人にだけ送れます。送信者の名称や配信停止の方法などの表示も義務付けられています。"},
+{id:"r11",c:"report",q:"著作権法上の「引用」として認められるための条件に含まれないものはどれ？",a:["引用元の著作者から許可を得ている","自分の文章が主で、引用部分が従である","引用部分がかぎかっこなどで明確に区別されている","出典（出所）を明示している"],e:"引用の条件を満たしていれば、著作者の許可なしで利用できます。許可をもらって使う場合は、引用ではなく利用許諾による利用になります。"},
+{id:"r12",c:"report",q:"GDPR（EU一般データ保護規則）について正しいものはどれ？",a:["EU域内の人に商品やサービスを提供する場合、日本の企業にも適用されることがある","日本の企業には一切適用されない","EU域内に本社がある企業だけに適用される","個人データではなく、企業の財務データを守るための規則である"],e:"GDPRは、EU域内にいる個人のデータを扱う企業に広く適用され得ます。越境ECなどでEUの顧客がいる場合は注意が必要です。"},
+{id:"r13",c:"report",q:"改善提案の書き方として最も適切なものはどれ？",a:["課題・原因の仮説・具体的な施策・期待される効果と優先度をセットで示す","「CVRを上げる」のように方向性だけを示す","思いついた施策をできるだけ多く並べる","数値の変化だけを示して、施策は書かない"],e:"何をすれば、どの数値が、どのくらい良くなりそうかまで示すと、実行するかどうかを判断しやすくなります。"}
+];
+var MCQ_BY_ID = {}; MCQ.forEach(function(m){ MCQ_BY_ID[m.id] = m; });
+
+/* 用語：[分野, 用語, 意味] */
+var TERMS_RAW = [
+["basic","セッション","サイトへの1回の訪問。GA4では操作がない状態が30分（初期設定）続くと終わる。"],
+["basic","ユーザー","サイトを訪れた人の数。Cookieでブラウザごとに識別するため、端末が変わると別の人として数えられやすい。"],
+["basic","ページビュー（PV）","ページが表示された回数。再読み込みしても1回として数える。"],
+["basic","直帰率","GA4では、エンゲージメントのなかったセッションの割合（1 − エンゲージメント率）。"],
+["basic","離脱率","あるページが見られた回数のうち、そのページを最後にサイトを離れた割合。"],
+["basic","エンゲージメント率","セッションのうち、10秒以上続いた・キーイベントが発生した・2ページ以上見られた、のいずれかを満たしたセッションの割合。"],
+["basic","コンバージョン（CV）","購入・問い合わせ・資料請求など、サイトの目的となる成果の達成。"],
+["basic","CVR","成果の件数を、セッション数（広告ならクリック数）で割った割合。"],
+["basic","ランディングページ","セッションの中で、ユーザーが最初に表示したページ。"],
+["basic","新規ユーザー","初めてサイトを訪れたユーザー。GA4ではfirst_visitイベントで判定する。"],
+["basic","平均エンゲージメント時間","ページやアプリが画面の前面に表示されていた時間の平均。"],
+["basic","参照元／メディア","ユーザーがどこから来たかを表す組み合わせ。例：google / organic、newsletter / email。"],
+
+["env","3C分析","顧客・競合・自社の3つの視点から、市場での成功要因を探る分析手法。"],
+["env","SWOT分析","内部環境の強み・弱みと、外部環境の機会・脅威を整理する分析手法。"],
+["env","クロスSWOT","強み・弱みと機会・脅威を掛け合わせて、とるべき戦略を導く手法。"],
+["env","PEST分析","政治・経済・社会・技術の視点から、マクロ環境の変化をとらえる分析手法。"],
+["env","5フォース分析","業界内の競争、新規参入、代替品、買い手と売り手の交渉力の5つから、業界の収益性を見るポーターの分析手法。"],
+["env","STP","市場を切り分け、狙う層を決め、その層の中での立ち位置を決めるマーケティングの手順。"],
+["env","4P","製品・価格・流通・販促の4つの視点から、企業側の施策を組み立てる枠組み。"],
+["env","4C","顧客価値・顧客の負担・利便性・対話の4つの視点から、顧客側でマーケティングを考える枠組み。"],
+["env","ペルソナ","ターゲット層を代表する1人を、名前や生活、価値観まで具体的に描いた架空の人物像。"],
+["env","カスタマージャーニーマップ","顧客が認知から購入後までにたどる行動・思考・感情・接点を、時系列で可視化した図。"],
+["env","AIDMA","注意→関心→欲求→記憶→行動の順に購買に至るとする購買行動モデル。"],
+["env","AISAS","注意→関心→検索→行動→共有の順で、ネット時代の購買行動を表したモデル。"],
+["env","トリプルメディア","ペイド・オウンド・アーンドの3種類にメディアを分ける考え方。"],
+["env","アーンドメディア","口コミや記事での紹介など、第三者の発信によって評判や信頼を得るメディア。"],
+["env","ロングテール","1つずつは少ししか売れない多数のニッチな商品が、合計で大きな売上をつくる現象。"],
+["env","バリュープロポジション","顧客が求めていて、競合が提供できず、自社だけが提供できる価値。"],
+["env","定性調査","インタビューや行動観察などで、言葉や行動から理由や背景を深く理解する調査。"],
+["env","定量調査","アンケートやアクセス解析など、数値で集計して傾向をつかむ調査。"],
+
+["kpi","KGI","売上や受注件数など、事業の最終的なゴールを表す指標。"],
+["kpi","CSF（KSF）","最終目標を達成するために欠かせない成功要因。"],
+["kpi","KPI","成功要因が達成できているかを測る中間指標。"],
+["kpi","KPIツリー","最終目標を掛け算や足し算で分解し、指標どうしの関係を木の形で表した図。"],
+["kpi","SMART","具体的・測定可能・達成可能・目的に関連・期限がある、という目標設定の5つの条件。"],
+["kpi","マイクロコンバージョン","カート追加や会員登録など、最終的な成果に至る途中の重要な行動。"],
+["kpi","LTV","1人の顧客が、取引の期間全体を通じてもたらす利益（または売上）。"],
+["kpi","許容CPA","1件の成果を獲得するためにかけてよい広告費の上限。限界CPAとも呼ぶ。"],
+["kpi","先行指標","最終的な結果より先に動き、変化を早くつかめる指標。"],
+["kpi","ファネル","認知から成果までの段階ごとに人数が絞られていく様子を、漏斗の形で表したもの。"],
+["kpi","リードジェネレーション","問い合わせや資料請求などで、見込み客の情報を獲得すること。"],
+["kpi","ボトルネック","段階の中で最も離脱が大きく、全体の成果を制限している部分。"],
+
+["ads","インプレッション","広告やコンテンツが画面に表示された回数。"],
+["ads","リーチ","広告やコンテンツを見たユーザーの人数（重複を除く）。"],
+["ads","フリークエンシー","1人あたりの平均接触回数。表示回数 ÷ 到達人数で求める。"],
+["ads","CTR","広告が表示された回数のうち、クリックされた割合。"],
+["ads","CPC","1回のクリックにかかった広告費。"],
+["ads","CPM","広告が1,000回表示されるごとにかかる費用。"],
+["ads","CPA","1件の成果を獲得するのにかかった広告費。"],
+["ads","ROAS","広告経由の売上を広告費で割った、売上ベースの費用対効果。"],
+["ads","ROI","投資額に対してどれだけ利益が出たかを表す、利益ベースの費用対効果。"],
+["ads","リスティング広告","検索結果に、検索語句に合わせて表示されるクリック課金型の広告。"],
+["ads","ディスプレイ広告","Webサイトやアプリの広告枠に、画像や動画で表示される広告。"],
+["ads","リターゲティング広告","過去に自社サイトを訪れたユーザーを追いかけて配信する広告。"],
+["ads","品質スコア","推定クリック率・広告の関連性・ランディングページの利便性で決まる、Google広告の1〜10の評価。"],
+["ads","除外キーワード","関係のない検索語句で広告が表示されないように指定する語句。"],
+["ads","インプレッションシェア","広告が表示される可能性があった回数のうち、実際に表示された割合。"],
+["ads","アフィリエイト広告","提携先のサイト経由で成果が出たときに報酬を支払う、成果報酬型の広告。"],
+["ads","純広告","特定の媒体の広告枠を、期間や表示回数を決めて買い取る予約型の広告。"],
+["ads","DSP","広告主側が、複数の広告枠へ条件を決めて自動で入札・配信するためのしくみ。"],
+["ads","SSP","媒体側が、広告枠の収益を最大にするために使うしくみ。"],
+["ads","RTB","広告が1回表示されるごとに、リアルタイムの入札で配信する広告を決める方式。"],
+["ads","ビュースルーコンバージョン","広告を見たがクリックせず、後で別の経路から成果に至ったもの。"],
+["ads","アトリビューション","成果に至るまでの複数の接点に、成果への貢献度を割り振る考え方。"],
+["ads","SEO","検索エンジンの自然検索で上位に表示されるように、サイトを最適化すること。"],
+["ads","E-E-A-T","経験・専門性・権威性・信頼性という、Googleがコンテンツの品質評価で重視する4つの要素。"],
+["ads","Core Web Vitals","読み込み（LCP）・操作への反応（INP）・表示の安定性（CLS）の3つからなる、ページ体験の指標。"],
+["ads","canonicalタグ","内容が重複するページがあるとき、正規のURLを検索エンジンに伝えるタグ。"],
+["ads","noindex","検索エンジンにページをインデックスさせない（検索結果に出さない）ための指定。"],
+["ads","robots.txt","検索エンジンのクローラーに、サイトのどこを巡回してよいかを伝えるファイル。"],
+
+["site","LPO","流入元の期待に合わせて、最初に着地するページを改善し、成果を高める施策。"],
+["site","EFO","入力項目を減らしたりエラー表示を工夫したりして、フォームの途中離脱を減らす施策。"],
+["site","A/Bテスト","1つの要素を変えた2つのパターンを同じ時期にランダムに出し分け、成果を比べる手法。"],
+["site","多変量テスト","複数の要素の組み合わせを同時に検証する手法。多くのアクセス数が必要。"],
+["site","ヒートマップ","クリック位置や読まれている場所、スクロールの到達率を色の濃さで表す分析ツール。"],
+["site","ファーストビュー","ページを開いたとき、スクロールせずに見える範囲。"],
+["site","CTA","「購入する」「資料請求」など、ユーザーに次の行動を促すボタンやリンク。"],
+["site","ユーザビリティテスト","少人数のユーザーに実際に操作してもらい、つまずく場所を観察する手法。"],
+["site","パンくずリスト","サイトの階層の中で、今どのページにいるかを示すリンクの列。"],
+["site","有意差","偶然では起こりにくいと、統計的に判断できる差。"],
+["site","サイト内検索","サイトの中にある検索機能。使われた語句から、ユーザーが探している情報が分かる。"],
+
+["tool","GA4","Googleのアクセス解析ツール。すべての操作をイベントとして記録するのが特徴。"],
+["tool","イベント","GA4の計測の単位。ページの表示やクリックなど、ユーザーの操作ひとつひとつ。"],
+["tool","パラメータ","イベントに付けて送る詳しい情報（ページのURL、商品名、金額など）。"],
+["tool","キーイベント","GA4で、事業にとって重要な行動としてマークしたイベント。2024年に「コンバージョン」から名称が変わった。"],
+["tool","拡張計測機能","スクロールや離脱クリック、ファイルのダウンロードなどを、コードを追加せずに計測するGA4の機能。"],
+["tool","UTMパラメータ","URLの末尾に付けて、流入元・メディア・キャンペーン名などを計測ツールに伝えるパラメータ。"],
+["tool","Googleタグマネージャー","サイトのコードを毎回書き換えずに、計測タグや広告タグを管理画面で追加・変更できるツール。"],
+["tool","Search Console","検索結果での表示回数・クリック数・掲載順位や、インデックスの状況を確認できるGoogleのツール。"],
+["tool","ファーストパーティCookie","ユーザーが訪れているサイト自身のドメインで発行されるCookie。"],
+["tool","サードパーティCookie","広告配信事業者など、訪れているサイトとは別のドメインで発行されるCookie。"],
+["tool","ITP","Safariのトラッキング防止機能。Cookieの有効期限の制限などを行う。"],
+["tool","同意モード","Cookieの利用への同意の状況に応じて、Googleのタグの動作を調整するしくみ。"],
+["tool","クロスドメイン測定","複数のドメインをまたぐ訪問を、1つのセッションとしてつなげて計測する設定。"],
+["tool","ファネルデータ探索","決めた順番のステップごとに、進んだ人数と離脱した人数を可視化するGA4の分析手法。"],
+["tool","ログ型計測","サーバーに残るアクセスの記録を集計する計測方式。キャッシュからの表示は記録されない。"],
+["tool","ビーコン型計測","ページに埋め込んだタグが動くことで計測する方式。JavaScriptが動かないと計測できない。"],
+["tool","データ保持期間","探索などに使う詳しいデータをGA4に保存しておく期間。無料版は2か月か14か月。"],
+
+["social","UGC","ユーザーが自発的に作ったコンテンツ。SNSの投稿写真や口コミなど。"],
+["social","ソーシャルリスニング","SNS上の会話を集めて分析し、評判やニーズをつかむ活動。"],
+["social","オウンドメディア","自社サイトや自社ブログなど、企業が自ら保有して運営するメディア。"],
+["social","ペイドメディア","テレビCMやWeb広告など、費用を払って掲載するメディア。"],
+["social","エンゲージメント（SNS）","いいね・コメント・シェア・保存など、投稿に対するユーザーの反応。"],
+["social","開封率","届いたメールの数のうち、開かれたメールの割合。"],
+["social","ハードバウンス","存在しないアドレスなど、恒久的な理由でメールが届かないこと。"],
+["social","ソフトバウンス","受信箱の容量不足など、一時的な理由でメールが届かないこと。"],
+["social","ステップメール","登録日などを起点に、決めた順番と間隔で自動配信するメール。"],
+["social","セグメント配信","属性や行動の履歴で配信先を分け、それぞれに合った内容を送る配信方法。"],
+["social","MA（マーケティングオートメーション）","見込み客の行動に応じたメール配信やスコアリングを自動化するツール。"],
+["social","リードナーチャリング","獲得した見込み客に継続的に情報を届け、購買意欲を高める活動。"],
+["social","ホワイトペーパー","ダウンロードと引き換えに見込み客の情報を得るための、課題解決の資料。"],
+["social","MQL","マーケティング活動によって、有望と判断された見込み客。"],
+["social","SQL","営業部門が商談の対象と判断した見込み客。"],
+["social","インフルエンサーマーケティング","影響力のある発信者に商品を紹介してもらうマーケティング手法。"],
+
+["report","前年同月比","前の年の同じ月と比べた変化。季節による変動の影響を除いて評価できる。"],
+["report","中央値","データを小さい順に並べたときの真ん中の値。極端な値の影響を受けにくい。"],
+["report","疑似相関","2つのデータに関係があるように見えて、実は別の要因が両方に影響しているだけの状態。"],
+["report","個人関連情報","Cookie IDや閲覧履歴など、生存する個人に関する情報のうち、個人情報などに当たらないもの。"],
+["report","外部送信規律","利用者の端末から外部へ情報を送信させるとき、その内容や送信先などの公表・通知を求める電気通信事業法のルール。"],
+["report","ステマ規制","事業者の広告であることを隠した表示を不当表示とする、景品表示法のルール（2023年10月〜）。"],
+["report","優良誤認表示","商品の品質や性能を、実際より著しく良く見せる表示。"],
+["report","有利誤認表示","価格や取引条件を、実際より著しく有利に見せる表示。"],
+["report","オプトイン","広告メールなどを、事前に同意した人にだけ送ること。"],
+["report","GDPR","EU域内の個人データの保護を定めた規則。EUの人向けにサービスを提供する日本企業にも適用され得る。"],
+["report","引用","条件を満たせば、著作者の許可なく他人の著作物を利用できる著作権法上のルール。"]
+];
+var TERMS = TERMS_RAW.map(function(t){ return {c:t[0], w:t[1], d:t[2]}; });
+var TERM_BY_W = {}; TERMS.forEach(function(t){ TERM_BY_W[t.w] = t; });
+
+/* =========================================================
+   ユーティリティ
+   ========================================================= */
+function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function pick(a){ return a[Math.floor(Math.random()*a.length)]; }
+function rint(min,max,step){ step = step||1; return min + step*Math.floor(Math.random()*(Math.floor((max-min)/step)+1)); }
+function rd(x,d){ var p=Math.pow(10,d); return Math.round((x + (x>=0?1:-1)*1e-9)*p)/p; }
+function nf(x,d){ d=d||0; return Number(x).toLocaleString('ja-JP',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function nx(x){ return (Math.round(x*100)/100).toLocaleString('ja-JP',{maximumFractionDigits:2}); }
+function res(v,ans,d,unit){ return Math.abs(rd(v,6)-ans) < 1e-9 ? '＝ '+nf(ans,d)+unit : '＝ '+nx(v)+' → '+nf(ans,d)+unit; }
+function pct(ok,n){ return n ? Math.round(ok/n*100) : null; }
+function mmss(ms){ ms = Math.max(0, ms); var s = Math.ceil(ms/1000); var m = Math.floor(s/60); s = s%60; return (m<10?'0':'')+m+':'+(s<10?'0':'')+s; }
+function fmtDate(t){ var d=new Date(t); return (d.getMonth()+1)+'/'+d.getDate()+' '+d.getHours()+':'+(d.getMinutes()<10?'0':'')+d.getMinutes(); }
+function tag(c){ return '<span class="tag">'+esc(CAT[c].name)+'</span>'; }
+function numHi(s){ return esc(s).replace(/\d[\d,]*(\.\d+)?/g, function(m){ return '<span class="num">'+m+'</span>'; }); }
+
+/* =========================================================
+   計算問題ジェネレーター
+   ========================================================= */
+var ROUND_NOTE = {
+  d0:'小数点以下を四捨五入して、整数で答えてください。',
+  d1:'小数第2位を四捨五入して、小数第1位まで答えてください。',
+  d2:'小数第3位を四捨五入して、小数第2位まで答えてください。',
+  ceil:'小数点以下を切り上げて、整数で答えてください。',
+  floor:'小数点以下を切り捨てて、整数で答えてください。'
+};
+function roundNote(p){ return p.round ? ROUND_NOTE[p.round] : ROUND_NOTE['d'+p.dec]; }
+function ansDec(p){ return p.round ? 0 : p.dec; }
+function fmtAns(p,v){ return nf(v, ansDec(p)) + p.unit; }
+var MONTHS = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+var CALCS = [
+{key:'cvr',c:'basic',s:'CVR',gen:function(){
+  var s=rint(50,1200)*100, cv=Math.max(5,Math.round(s*rint(5,50)/1000)), u=Math.round(s*rint(70,85)/100), ans=rd(cv/s*100,2);
+  return {lines:['あるECサイトの先月の実績は、ユーザー数 '+nf(u)+'人、セッション数 '+nf(s)+'、購入件数 '+nf(cv)+'件だった。','セッションを分母としたCVR（コンバージョン率）は何%か。'],unit:'%',dec:2,ans:ans,
+    steps:['CVR ＝ CV数 ÷ セッション数 × 100','＝ '+nf(cv)+' ÷ '+nf(s)+' × 100',res(cv/s*100,ans,2,'%')],traps:[cv/u*100, cv/s*1000]};
+}},
+{key:'bounce',c:'basic',s:'直帰率',gen:function(){
+  var s=rint(80,2000)*100, e=Math.round(s*rint(35,80)/100)+rint(-40,40), er=e/s*100, br=100-er, isB=Math.random()<0.6, ans=rd(isB?br:er,1);
+  return {lines:['GA4で、ある月のセッション数は '+nf(s)+'、エンゲージメントのあったセッション数は '+nf(e)+' だった。', isB?'この月の直帰率は何%か。':'この月のエンゲージメント率は何%か。'],unit:'%',dec:1,ans:ans,
+    steps: isB ? ['直帰率 ＝ エンゲージメントのなかったセッション ÷ セッション × 100','エンゲージメントのなかったセッション ＝ '+nf(s)+' − '+nf(e)+' ＝ '+nf(s-e),nf(s-e)+' ÷ '+nf(s)+' × 100 '+res((s-e)/s*100,ans,1,'%')]
+               : ['エンゲージメント率 ＝ エンゲージメントのあったセッション ÷ セッション × 100','＝ '+nf(e)+' ÷ '+nf(s)+' × 100',res(er,ans,1,'%')],
+    traps:[isB?er:br]};
+}},
+{key:'exit',c:'basic',s:'離脱率',gen:function(){
+  var pv=rint(200,6000)*10, ex=Math.round(pv*rint(10,70)/100), land=Math.round(pv*rint(20,60)/100), ans=rd(ex/pv*100,1);
+  return {lines:['あるページの1か月の実績は、ページビュー数 '+nf(pv)+'、このページから始まったセッション数 '+nf(land)+'、このページでの離脱数 '+nf(ex)+' だった。','このページの離脱率は何%か。'],unit:'%',dec:1,ans:ans,
+    steps:['離脱率 ＝ そのページの離脱数 ÷ そのページのページビュー数 × 100','このページから始まったセッション数は使いません。',nf(ex)+' ÷ '+nf(pv)+' × 100 '+res(ex/pv*100,ans,1,'%')],traps:[ex/land*100, land/pv*100]};
+}},
+{key:'pvps',c:'basic',s:'平均PV',gen:function(){
+  var pv=rint(300,9000)*100, s=Math.round(pv/(rint(120,480)/100)), u=Math.round(s*rint(60,85)/100), ans=rd(pv/s,2);
+  return {lines:['ある月のページビュー数は '+nf(pv)+'、セッション数は '+nf(s)+'、ユーザー数は '+nf(u)+' だった。','1セッションあたりの平均ページビュー数はいくつか。'],unit:'ページ',dec:2,ans:ans,
+    steps:['平均ページビュー数 ＝ ページビュー数 ÷ セッション数','＝ '+nf(pv)+' ÷ '+nf(s),res(pv/s,ans,2,'ページ')],traps:[pv/u]};
+}},
+{key:'ctr',c:'ads',s:'CTR',gen:function(){
+  var imp=rint(20,400)*1000, cl=Math.round(imp*rint(4,40)/1000), cv=Math.max(2,Math.round(cl*rint(1,5)/100)), ans=rd(cl/imp*100,2);
+  return {lines:['ある検索広告の1か月の実績は、表示回数 '+nf(imp)+'回、クリック数 '+nf(cl)+'回、コンバージョン '+nf(cv)+'件だった。','この広告のCTR（クリック率）は何%か。'],unit:'%',dec:2,ans:ans,
+    steps:['CTR ＝ クリック数 ÷ 表示回数 × 100','＝ '+nf(cl)+' ÷ '+nf(imp)+' × 100',res(cl/imp*100,ans,2,'%')],traps:[cv/cl*100, cv/imp*100]};
+}},
+{key:'cpc',c:'ads',s:'CPC',gen:function(){
+  var cl=rint(80,3000)*10, cost=Math.round(cl*rint(30,400)/100)*100, imp=cl*rint(30,120), ans=rd(cost/cl,0);
+  return {lines:['ある広告に '+nf(cost)+'円を使い、表示回数 '+nf(imp)+'回、クリック数 '+nf(cl)+'回となった。','CPC（クリック単価）はいくらか。'],unit:'円',dec:0,ans:ans,
+    steps:['CPC ＝ 広告費 ÷ クリック数','＝ '+nf(cost)+' ÷ '+nf(cl),res(cost/cl,ans,0,'円')],traps:[cost/imp*1000]};
+}},
+{key:'cpa',c:'ads',s:'CPA',gen:function(){
+  var cost=rint(20,300)*10000, cv=rint(20,600), cl=cv*rint(20,80), ans=rd(cost/cv,0);
+  return {lines:['ある月のリスティング広告の費用は '+nf(cost)+'円、クリック数は '+nf(cl)+'回、コンバージョンは '+nf(cv)+'件だった。','CPA（獲得単価）はいくらか。'],unit:'円',dec:0,ans:ans,
+    steps:['CPA ＝ 広告費 ÷ CV数','＝ '+nf(cost)+' ÷ '+nf(cv),res(cost/cv,ans,0,'円')],traps:[cost/cl]};
+}},
+{key:'cpm',c:'ads',s:'CPM',gen:function(){
+  var imp=rint(100,3000)*1000, cost=Math.round(imp*rint(80,900)/1000/100)*100, cl=Math.round(imp*rint(2,20)/1000), ans=rd(cost/imp*1000,0);
+  return {lines:['あるディスプレイ広告の実績は、広告費 '+nf(cost)+'円、表示回数 '+nf(imp)+'回、クリック数 '+nf(cl)+'回だった。','CPM（1,000回表示あたりの費用）はいくらか。'],unit:'円',dec:0,ans:ans,
+    steps:['CPM ＝ 広告費 ÷ 表示回数 × 1,000','＝ '+nf(cost)+' ÷ '+nf(imp)+' × 1,000',res(cost/imp*1000,ans,0,'円')],traps:[cost/cl, cost/imp*100]};
+}},
+{key:'roas',c:'ads',s:'ROAS',gen:function(){
+  var cost=rint(10,200)*10000, rev=Math.round(cost*rint(120,800)/100/1000)*1000, ans=rd(rev/cost*100,1);
+  return {lines:['広告費 '+nf(cost)+'円をかけた結果、広告経由の売上が '+nf(rev)+'円になった。','ROAS（%）はいくらか。'],unit:'%',dec:1,ans:ans,
+    steps:['ROAS ＝ 広告経由の売上 ÷ 広告費 × 100','＝ '+nf(rev)+' ÷ '+nf(cost)+' × 100',res(rev/cost*100,ans,1,'%')],traps:[cost/rev*100,(rev-cost)/cost*100]};
+}},
+{key:'roi',c:'ads',s:'ROI',gen:function(){
+  var ad=rint(10,150)*10000, sales=Math.round(ad*rint(150,700)/100/10000)*10000, cr=rint(30,70,5), cogs=sales*cr/100, prof=sales-cogs-ad, ans=rd(prof/ad*100,1);
+  var st=['ROI ＝（売上 − 売上原価 − 広告費）÷ 広告費 × 100','売上原価 ＝ '+nf(sales)+' × '+cr+'% ＝ '+nx(cogs)+'円','利益 ＝ '+nf(sales)+' − '+nx(cogs)+' − '+nf(ad)+' ＝ '+nx(prof)+'円','ROI ＝ '+nx(prof)+' ÷ '+nf(ad)+' × 100 '+res(prof/ad*100,ans,1,'%')];
+  if (prof<0) st.push('マイナスなので、この広告は赤字です。ROASが100%を超えていても、利益が出るとは限りません。');
+  return {neg:true,lines:['広告費 '+nf(ad)+'円をかけて、広告経由の売上が '+nf(sales)+'円あった。商品の原価率は '+cr+'% である。','ROI（%）はいくらか。ただし ROI ＝（売上 − 売上原価 − 広告費）÷ 広告費 × 100 とする。'],unit:'%',dec:1,ans:ans,steps:st,
+    traps:[sales/ad*100,(sales-ad)/ad*100,(sales-cogs)/ad*100]};
+}},
+{key:'freq',c:'ads',s:'フリークエンシー',gen:function(){
+  var reach=rint(50,3000)*100, imp=Math.round(reach*rint(110,600)/100), ans=rd(imp/reach,2);
+  return {lines:['ある動画広告は '+nf(reach)+'人に届き、表示回数は '+nf(imp)+'回だった。','フリークエンシー（1人あたりの平均接触回数）はいくらか。'],unit:'回',dec:2,ans:ans,
+    steps:['フリークエンシー ＝ 表示回数 ÷ リーチ（到達人数）','＝ '+nf(imp)+' ÷ '+nf(reach),res(imp/reach,ans,2,'回')],traps:[]};
+}},
+{key:'cpcCvr',c:'ads',s:'CPC÷CVR',gen:function(){
+  if (Math.random()<0.5){
+    var cpc=rint(40,300), cvr=pick([0.5,0.8,1,1.2,1.5,2,2.5,3,4,5]), ans=rd(cpc/(cvr/100),0);
+    return {lines:['クリック単価（CPC）が '+nf(cpc)+'円、クリックからのCVRが '+cvr+'% の広告がある。','この広告のCPAはいくらか。'],unit:'円',dec:0,ans:ans,
+      steps:['CPA ＝ CPC ÷ CVR','＝ '+nf(cpc)+' ÷ '+(cvr/100),res(cpc/(cvr/100),ans,0,'円'),'（考え方：100クリックで費用は '+nf(cpc*100)+'円、CVは '+cvr+'件）'],traps:[cpc*cvr, cpc/cvr*10]};
+  }
+  var cpc2=rint(5,30)*10, t=rint(20,150)*100, ans2=rd(cpc2/t*100,2);
+  return {lines:['クリック単価（CPC）が '+nf(cpc2)+'円の広告で、目標CPAを '+nf(t)+'円に設定した。','目標CPAを達成するために必要なCVRは何%か。'],unit:'%',dec:2,ans:ans2,
+    steps:['CPA ＝ CPC ÷ CVR なので、CVR ＝ CPC ÷ CPA','＝ '+nf(cpc2)+' ÷ '+nf(t)+' × 100',res(cpc2/t*100,ans2,2,'%')],traps:[cpc2/t*1000]};
+}},
+{key:'expectCV',c:'ads',s:'想定CV数',gen:function(){
+  var b=rint(30,300)*10000, cpc=rint(5,25)*10, cvr=pick([0.8,1,1.2,1.5,2,2.5,3]), cl=b/cpc, cv=cl*cvr/100, ans=Math.floor(rd(cv,6));
+  return {round:'floor',lines:['来月のリスティング広告の予算は '+nf(b)+'円。平均CPCは '+nf(cpc)+'円、CVRは '+cvr+'% と見込んでいる。','見込まれるCV数は何件か。'],unit:'件',dec:0,ans:ans,
+    steps:['CV数 ＝ 予算 ÷ CPC × CVR','クリック数 ＝ '+nf(b)+' ÷ '+nf(cpc)+' ＝ '+nx(cl)+'回','CV数 ＝ '+nx(cl)+' × '+cvr+'% ＝ '+nx(cv)+(Number.isInteger(rd(cv,6))?'件':' → 切り捨てて '+nf(ans)+'件')],traps:[cl*cvr/10, b/cpc/cvr]};
+}},
+{key:'impShare',c:'ads',s:'インプレッションシェア',gen:function(){
+  var el=rint(200,5000)*100, imp=Math.round(el*rint(25,95)/100), cl=Math.round(imp*rint(2,8)/100), ans=rd(imp/el*100,1);
+  return {lines:['ある検索広告の表示回数は '+nf(imp)+'回、クリック数は '+nf(cl)+'回だった。広告が表示される可能性があった回数は '+nf(el)+'回と推定されている。','インプレッションシェアは何%か。'],unit:'%',dec:1,ans:ans,
+    steps:['インプレッションシェア ＝ 表示回数 ÷ 表示される可能性があった回数 × 100','＝ '+nf(imp)+' ÷ '+nf(el)+' × 100',res(imp/el*100,ans,1,'%')],traps:[cl/imp*100, 100-imp/el*100]};
+}},
+{key:'attr',c:'ads',s:'アトリビューション',gen:function(){
+  var pool=['ディスプレイ広告','自然検索','SNS広告','メールマガジン','リスティング広告','リターゲティング広告','アフィリエイト'];
+  var n=pick([3,4,5]), path=shuffle(pool).slice(0,n), value=rint(6,60)*1000, model=pick(['線形','接点ベース']), ti=rint(0,n-1), target=path[ti];
+  var lin=value/n, edge=(ti===0||ti===n-1), pos=edge? value*0.4 : value*0.2/(n-2), raw=model==='線形'?lin:pos, ans=rd(raw,0);
+  var st = model==='線形'
+    ? ['線形モデルは、すべての接点に同じだけ配分する。','接点は '+n+'つなので '+nf(value)+' ÷ '+n+' '+res(lin,ans,0,'円')]
+    : ['接点ベースモデルは、最初と最後の接点に40%ずつ、残りの20%を中間の接点に均等に配分する。', edge ? target+'は'+(ti===0?'最初':'最後')+'の接点なので '+nf(value)+' × 40% '+res(pos,ans,0,'円') : target+'は中間の接点（'+(n-2)+'つ）の1つなので '+nf(value)+' × 20% ÷ '+(n-2)+' '+res(pos,ans,0,'円')];
+  return {lines:['あるユーザーが「'+path.join(' → ')+'」の順に接触したあと、'+nf(value)+'円の購入をした。',model+'モデルで評価するとき、'+target+'に割り当てられる売上はいくらか。'],unit:'円',dec:0,ans:ans,steps:st,
+    traps:[model==='線形'?pos:lin, value*0.4, value*0.2, value/(n+1)]};
+}},
+{key:'funnel',c:'site',s:'ファネル',gen:function(){
+  var v=rint(800,5000)*10, cart=Math.round(v*rint(8,30)/100), co=Math.round(cart*rint(35,75)/100), done=Math.round(co*rint(40,85)/100);
+  var S4=[['商品ページ閲覧',v],['カート追加',cart],['購入手続き開始',co],['購入完了',done]];
+  var q=pick([[1,3],[2,3],[0,3],[1,2],[0,1]]), a=q[0], b=q[1], ans=rd(S4[b][1]/S4[a][1]*100,1);
+  var rates=[0,1,2].map(function(i){ return S4[i+1][1]/S4[i][1]*100; }), worst=rates.indexOf(Math.min.apply(null,rates));
+  return {lines:['あるECサイトの1か月のファネルは「'+S4.map(function(x){return x[0]+' '+nf(x[1])+'人';}).join(' → ')+'」だった。','「'+S4[a][0]+'」から「'+S4[b][0]+'」までの遷移率は何%か。'],unit:'%',dec:1,ans:ans,
+    steps:['遷移率 ＝ 後の段階の人数 ÷ 前の段階の人数 × 100','＝ '+nf(S4[b][1])+' ÷ '+nf(S4[a][1])+' × 100 '+res(S4[b][1]/S4[a][1]*100,ans,1,'%'),'参考：各段階の遷移率は '+rates.map(function(r,i){return S4[i][0]+'→'+S4[i+1][0]+' '+nf(rd(r,1),1)+'%';}).join('、')+'。最も低い「'+S4[worst][0]+'→'+S4[worst+1][0]+'」がボトルネックです。'],
+    traps:[S4[b][1]/v*100, (1-S4[b][1]/S4[a][1])*100]};
+}},
+{key:'needSessions',c:'kpi',s:'必要セッション数',gen:function(){
+  var aov=rint(30,200)*100, n=rint(50,1500), goal=n*aov, cvr=pick([0.5,0.8,1,1.2,1.5,2,2.5,3]), raw=n*100/cvr, ans=Math.ceil(rd(raw,6));
+  return {round:'ceil',lines:['ECサイトの来月の売上目標は '+nf(goal)+'円。客単価は '+nf(aov)+'円、CVRは '+cvr+'% と見込んでいる。','目標を達成するのに必要なセッション数はいくつか。'],unit:'セッション',dec:0,ans:ans,
+    steps:['売上 ＝ セッション数 × CVR × 客単価 を逆算する','必要な購入件数 ＝ '+nf(goal)+' ÷ '+nf(aov)+' ＝ '+nf(n)+'件','必要なセッション数 ＝ '+nf(n)+' ÷ '+cvr+'% ＝ '+nx(raw)+(Number.isInteger(rd(raw,6))?'':' → 切り上げて '+nf(ans))],traps:[n*cvr*100, raw/10]};
+}},
+{key:'forecast',c:'kpi',s:'売上予測',gen:function(){
+  var s=rint(10,300)*1000, cvr=rint(8,35)/10, aov=rint(20,150)*100, cv=s*cvr/100, sales=cv*aov, ans=rd(sales,0);
+  return {lines:['来月のセッション数は '+nf(s)+'、CVRは '+cvr+'%、客単価は '+nf(aov)+'円と見込んでいる。','予想される売上はいくらか。'],unit:'円',dec:0,ans:ans,
+    steps:['売上 ＝ セッション数 × CVR × 客単価','購入件数 ＝ '+nf(s)+' × '+cvr+'% ＝ '+nx(cv)+'件','売上 ＝ '+nx(cv)+' × '+nf(aov)+' '+res(sales,ans,0,'円')],traps:[s*aov/cvr/100]};
+}},
+{key:'allowCpa',c:'kpi',s:'許容CPA',gen:function(){
+  if (Math.random()<0.5){
+    var p=rint(20,300)*100, cr=rint(20,70,5), ans=rd(p*(100-cr)/100,0);
+    return {lines:['販売価格 '+nf(p)+'円、原価率 '+cr+'% の商品を広告で販売する。','1件の購入で得られる粗利を上限とするとき、許容CPAはいくらか。'],unit:'円',dec:0,ans:ans,
+      steps:['許容CPA ＝ 1件あたりの粗利 ＝ 販売価格 × 粗利率','粗利率 ＝ 100% − '+cr+'% ＝ '+(100-cr)+'%',nf(p)+' × '+(100-cr)+'% ＝ '+nf(ans)+'円'],traps:[p*cr/100, p]};
+  }
+  var p2=rint(20,80)*100, f=pick([2,3,4,6,12]), y=pick([1,2,3]), g=pick([30,40,50,60]), ltv=p2*f*y, ans2=rd(ltv*g/100,0);
+  return {lines:['平均購入単価 '+nf(p2)+'円、年間の購入回数 '+f+'回、平均継続期間 '+y+'年、粗利率 '+g+'% の定期購入商品がある。','粗利ベースのLTVを上限として許容CPAを決めるとき、許容CPAはいくらか。'],unit:'円',dec:0,ans:ans2,
+    steps:['許容CPA ＝ LTV（売上）× 粗利率','LTV（売上）＝ '+nf(p2)+' × '+f+' × '+y+' ＝ '+nf(ltv)+'円','許容CPA ＝ '+nf(ltv)+' × '+g+'% ＝ '+nf(ans2)+'円'],traps:[ltv, p2*g/100, ltv*(100-g)/100]};
+}},
+{key:'ltv',c:'kpi',s:'LTV',gen:function(){
+  var p=rint(15,120)*100, f=pick([1.5,2,2.5,3,4,6]), y=pick([1,1.5,2,3,5]), ans=rd(p*f*y,0);
+  return {lines:['あるネットショップの顧客は、1回あたり平均 '+nf(p)+'円を、年に平均 '+f+'回購入し、平均 '+y+'年間利用を続ける。','売上ベースのLTV（顧客生涯価値）はいくらか。'],unit:'円',dec:0,ans:ans,
+    steps:['LTV ＝ 平均購入単価 × 年間購入回数 × 継続年数','＝ '+nf(p)+' × '+f+' × '+y,res(p*f*y,ans,0,'円')],traps:[p*f, p*y, p*(f+y)]};
+}},
+{key:'mail',c:'social',s:'メール',gen:function(){
+  var sent=rint(50,1000)*100, bo=Math.round(sent*rint(5,40)/1000), del=sent-bo, op=Math.round(del*rint(10,40)/100), cl=Math.round(op*rint(5,30)/100), v=pick(['open','click','ctor']);
+  var base='メールマガジンを '+nf(sent)+'通配信し、不達（バウンス）が '+nf(bo)+'通、開封が '+nf(op)+'通、リンクのクリックが '+nf(cl)+'件あった。';
+  var ans;
+  if (v==='open'){ ans=rd(op/del*100,1);
+    return {lines:[base,'開封率は何%か。配信に成功した数を分母とする。'],unit:'%',dec:1,ans:ans,steps:['開封率 ＝ 開封数 ÷（配信数 − 不達数）× 100','配信成功数 ＝ '+nf(sent)+' − '+nf(bo)+' ＝ '+nf(del),nf(op)+' ÷ '+nf(del)+' × 100 '+res(op/del*100,ans,1,'%')],traps:[op/sent*100, cl/op*100]}; }
+  if (v==='click'){ ans=rd(cl/del*100,2);
+    return {lines:[base,'クリック率は何%か。配信に成功した数を分母とする。'],unit:'%',dec:2,ans:ans,steps:['クリック率 ＝ クリック数 ÷（配信数 − 不達数）× 100','配信成功数 ＝ '+nf(sent)+' − '+nf(bo)+' ＝ '+nf(del),nf(cl)+' ÷ '+nf(del)+' × 100 '+res(cl/del*100,ans,2,'%')],traps:[cl/sent*100, cl/op*100]}; }
+  ans=rd(cl/op*100,1);
+  return {lines:[base,'開封数に対するクリック数の割合（CTOR）は何%か。'],unit:'%',dec:1,ans:ans,steps:['CTOR ＝ クリック数 ÷ 開封数 × 100','＝ '+nf(cl)+' ÷ '+nf(op)+' × 100',res(cl/op*100,ans,1,'%')],traps:[cl/del*100, op/del*100]};
+}},
+{key:'sns',c:'social',s:'SNS',gen:function(){
+  var fol=rint(20,500)*100, imp=Math.round(fol*rint(40,300)/100), eng=Math.max(10,Math.round(imp*rint(5,80)/1000)), ans=rd(eng/imp*100,2);
+  return {lines:['フォロワー '+nf(fol)+'人のアカウントの投稿が、インプレッション '+nf(imp)+'回、いいね・コメント・保存・シェアの合計 '+nf(eng)+'件となった。','エンゲージメント率は何%か。エンゲージメント数 ÷ インプレッション数 × 100 で求める。'],unit:'%',dec:2,ans:ans,
+    steps:['エンゲージメント率 ＝ エンゲージメント数 ÷ インプレッション数 × 100','＝ '+nf(eng)+' ÷ '+nf(imp)+' × 100',res(eng/imp*100,ans,2,'%'),'この定義ではフォロワー数は使いません。'],traps:[eng/fol*100]};
+}},
+{key:'yoy',c:'report',s:'増減率',gen:function(){
+  var last=rint(200,5000)*1000, r; do { r=rint(70,160); } while (Math.abs(r-100)<3);
+  var now=Math.round(last*r/100/1000)*1000, ans=rd((now-last)/last*100,1), what=pick(['EC売上','広告経由の売上','問い合わせ経由の受注額']), mo=pick(MONTHS);
+  return {neg:true,lines:['今年'+mo+'の'+what+'は '+nf(now)+'円、前年'+mo+'は '+nf(last)+'円だった。','前年同月と比べた増減率は何%か。減少の場合は「−」を付けて答えてください。'],unit:'%',dec:1,ans:ans,
+    steps:['増減率 ＝（今年 − 前年）÷ 前年 × 100','＝（'+nf(now)+' − '+nf(last)+'）÷ '+nf(last)+' × 100',res((now-last)/last*100,ans,1,'%')],traps:[now/last*100,(now-last)/now*100]};
+}}
+];
+var CALC_BY_KEY = {}; CALCS.forEach(function(g){ CALC_BY_KEY[g.key] = g; });
+
+/* =========================================================
+   保存（このブラウザの中だけ）
+   ========================================================= */
+var KEY = 'waa-trainer-v1';
+var S = {q:{}, known:{}, log:[], mocks:[]};
+try {
+  var raw = localStorage.getItem(KEY);
+  if (raw) { var o = JSON.parse(raw);
+    if (o && typeof o === 'object') {
+      if (o.q && typeof o.q === 'object') S.q = o.q;
+      if (o.known && typeof o.known === 'object') S.known = o.known;
+      if (Array.isArray(o.log)) S.log = o.log;
+      if (Array.isArray(o.mocks)) S.mocks = o.mocks;
+    } }
+} catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} }
+function record(id, cat, ok){ var r = S.q[id] || (S.q[id] = {c:0,w:0,l:1,cat:cat}); if (ok) r.c++; else r.w++; r.l = ok?1:0; r.cat = cat; save(); }
+function logRound(m,n,ok){ S.log.push({t:Date.now(),m:m,n:n,ok:ok}); if (S.log.length>60) S.log = S.log.slice(-60); save(); }
+function weakIds(){ return Object.keys(S.q).filter(function(id){ return S.q[id].l===0 && id.indexOf('calc:')!==0 && (MCQ_BY_ID[id] || TERM_BY_W[id.slice(2)]); }); }
+function stats(){
+  var n=0, ok=0, per={}; CATS.forEach(function(c){ per[c.id]={n:0,ok:0}; });
+  Object.keys(S.q).forEach(function(id){ var r=S.q[id], t=r.c+r.w; n+=t; ok+=r.c; if (per[r.cat]) { per[r.cat].n+=t; per[r.cat].ok+=r.c; } });
+  return {n:n, ok:ok, per:per, weak:weakIds().length};
+}
+
+/* =========================================================
+   問題オブジェクト
+   ========================================================= */
+function mcqItem(m){ return {id:m.id, cat:m.c, q:m.q, opts:shuffle(m.a.map(function(t,i){ return {t:t, ok:i===0}; })), exp:m.e, src:'問題'}; }
+function termItem(t, dir){
+  var others = shuffle(TERMS.filter(function(x){ return x.c===t.c && x.w!==t.w; })).slice(0,3);
+  if (dir==null) dir = Math.random()<0.5 ? 0 : 1;
+  var exp = '<b>'+esc(t.w)+'</b>：'+esc(t.d);
+  if (dir===0) {
+    return {id:'T:'+t.w, cat:t.c, q:'「'+t.w+'」の説明として正しいものはどれ？', opts:shuffle([{t:t.d,ok:true}].concat(others.map(function(o){ return {t:o.d,ok:false}; }))),
+      exp: exp + '<br>ほかの選択肢は、それぞれ' + others.map(function(o){ return '「'+esc(o.w)+'」'; }).join('') + 'の説明です。', html:true, src:'用語'};
+  }
+  return {id:'T:'+t.w, cat:t.c, q:'次の説明に当てはまる用語はどれ？', quote:t.d, opts:shuffle([{t:t.w,ok:true}].concat(others.map(function(o){ return {t:o.w,ok:false}; }))),
+    exp: exp + '<br>' + others.map(function(o){ return '<b>'+esc(o.w)+'</b>：'+esc(o.d); }).join('<br>'), html:true, src:'用語'};
+}
+function itemFromId(id){
+  if (id.indexOf('T:')===0) { var t = TERM_BY_W[id.slice(2)]; return t ? termItem(t) : null; }
+  var m = MCQ_BY_ID[id]; return m ? mcqItem(m) : null;
+}
+function calcMcq(g){
+  var p = g.gen(), d = ansDec(p), seen = {}, opts = [{t:fmtAns(p,p.ans), ok:true}];
+  seen[opts[0].t] = 1;
+  var cands = shuffle((p.traps||[]).filter(function(x){ return isFinite(x); }))
+    .concat(shuffle([1.1,0.9,1.2,0.8,1.25,0.75,1.5,0.5,2]).map(function(k){ return p.ans*k; }));
+  for (var i=0;i<cands.length && opts.length<4;i++){
+    var v = rd(cands[i], d); if (!p.neg && v<=0) continue;
+    var s = fmtAns(p,v); if (seen[s]) continue; seen[s]=1; opts.push({t:s, ok:false});
+  }
+  var k = 1; while (opts.length<4){ var s2 = fmtAns(p, rd(p.ans + k*Math.pow(10,-d)*7, d)); if (!seen[s2]) { seen[s2]=1; opts.push({t:s2,ok:false}); } k++; }
+  return {id:'calc:'+g.key, cat:g.c, lines:p.lines, note:roundNote(p).replace('答えてください。','計算した値を選んでください。'), opts:shuffle(opts), exp:p.steps.map(esc).join('<br>'), html:true, src:'計算'};
+}
+
+/* =========================================================
+   画面の状態
+   ========================================================= */
+var VIEWS = ['home','quiz','calc','cards','mock','notes'];
+var route = 'home';
+var focusAfter = null;
+var session = null;   // 4択のセッション
+var mock = null;      // 模擬テスト
+var ui = {
+  quiz:{cats:{}, n:10, terms:true},
+  calc:{keys:{}, cur:null, answered:false, val:'', ok:0, n:0, showF:false, err:'', lastOk:false},
+  cards:{mode:'card', cat:'all', hideKnown:false, deck:null, flipped:false, search:''},
+  daily:{item:null, sel:null},
+  mockFilter:'all',
+  resetAsk:false
+};
+function catKeys(o){ return Object.keys(o).filter(function(k){ return o[k]; }); }
+
+/* =========================================================
+   共通パーツ
+   ========================================================= */
+function questionBody(it, sel, ctx){
+  var answered = ctx!=='mock' && sel!=null;
+  var h = '';
+  if (it.lines) h += it.lines.map(function(l){ return '<p class="q-text">'+numHi(l)+'</p>'; }).join('');
+  else h += '<p class="q-text">'+esc(it.q)+'</p>';
+  if (it.quote) h += '<blockquote class="q-quote">'+esc(it.quote)+'</blockquote>';
+  if (it.note) h += '<p class="q-note">'+esc(it.note)+'</p>';
+  h += '<div class="choices" role="group" aria-label="選択肢">' + it.opts.map(function(o,i){
+    var cls='choice', mark='';
+    if (ctx==='mock') { if (sel===i) cls+=' is-selected'; }
+    else if (answered) {
+      if (o.ok) { cls+=' is-correct'; mark='<span class="mark">正解</span>'; }
+      else if (i===sel) { cls+=' is-wrong'; mark='<span class="mark">あなたの解答</span>'; }
+      else cls+=' is-dim';
+    }
+    return '<button class="'+cls+'" data-act="'+ctx+'-pick" data-v="'+i+'"'+(answered?' disabled':'')+(ctx==='mock'?' aria-pressed="'+(sel===i)+'"':'')+'><span class="key">'+(i+1)+'</span><span class="choice-t">'+esc(o.t)+'</span>'+mark+'</button>';
+  }).join('') + '</div>';
+  if (answered) {
+    var ok = it.opts[sel].ok;
+    h += '<div class="fb '+(ok?'ok':'ng')+'"><p class="fb-title">'+(ok?'○ 正解':'× 不正解')+'</p><p class="fb-exp">'+(it.html?it.exp:esc(it.exp))+'</p>';
+    if (ctx==='quiz') h += '<button class="btn primary" id="next-btn" data-act="quiz-next">'+(session.i+1<session.items.length?'次の問題':'結果を見る')+'<kbd>Enter</kbd></button>';
+    if (ctx==='daily') h += '<button class="btn" id="daily-more" data-act="nav" data-v="quiz">4択問題をもっと解く →</button>';
+    h += '</div>';
+  }
+  return h;
+}
+function questionCard(it, sel, ctx){
+  return '<article class="panel qcard"><div class="q-meta">'+tag(it.cat)+'<span class="src">'+esc(it.src)+'</span></div>'+questionBody(it, sel, ctx)+'</article>';
+}
+function catBar(c, p, asButton){
+  var a = pct(p.ok, p.n), tone = a==null ? '' : a>=70 ? 'good' : a>=50 ? 'warn' : 'bad';
+  var inner = '<span class="catbar-name">'+esc(c.name)+'</span><span class="catbar-track"><span class="catbar-fill '+tone+'" style="width:'+(a||0)+'%"></span><span class="catbar-line"></span></span>'+
+    (a==null ? '<span class="catbar-val none">未回答</span>' : '<span class="catbar-val">'+a+'%</span>')+'<span class="catbar-n">'+(p.n? p.n+'回':'')+'</span>';
+  return asButton ? '<button class="catbar" data-act="quiz-cat" data-v="'+c.id+'" title="'+esc(c.name)+'の問題を解く">'+inner+'</button>' : '<div class="catbar">'+inner+'</div>';
+}
+function kpi(label, val, unit, tone){ return '<div class="kpi"><span class="kpi-label">'+label+'</span><span class="kpi-val '+(tone||'')+'">'+val+(unit?'<small>'+unit+'</small>':'')+'</span></div>'; }
+
+/* =========================================================
+   ホーム
+   ========================================================= */
+function trend(){
+  var L = S.log.slice(-12);
+  if (L.length<2) return '<p class="trend-empty">4択問題や模擬テストを2回以上解き終えると、直近の正答率の推移がここに表示されます。</p>';
+  var W=600, H=96, px=10, py=12;
+  function xs(i){ return px + (W-2*px)*i/(L.length-1); }
+  function ys(v){ return py + (H-2*py)*(1-v/100); }
+  var pts = L.map(function(e,i){ return [xs(i), ys(e.ok/e.n*100)]; });
+  var line = pts.map(function(p,i){ return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1); }).join(' ');
+  var area = line+' L'+pts[pts.length-1][0].toFixed(1)+' '+(H-py)+' L'+pts[0][0].toFixed(1)+' '+(H-py)+' Z';
+  var last = L[L.length-1], lp = Math.round(last.ok/last.n*100);
+  return '<div class="trend"><div class="trend-label"><span>直近'+L.length+'回の正答率（破線は70%）</span><b class="mono">'+lp+'%</b></div>'+
+    '<svg class="trend-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="直近'+L.length+'回の正答率の推移。最新は'+lp+'%">'+
+    '<line class="t-goal" x1="'+px+'" x2="'+(W-px)+'" y1="'+ys(70)+'" y2="'+ys(70)+'"/><path class="t-area" d="'+area+'"/><path class="t-line" d="'+line+'"/>'+
+    pts.map(function(p,i){ var endp = i===pts.length-1; return '<circle class="'+(endp?'t-end':'t-dot')+'" cx="'+p[0].toFixed(1)+'" cy="'+p[1].toFixed(1)+'" r="'+(endp?6:3.5)+'"/>'; }).join('')+'</svg></div>';
+}
+function viewHome(){
+  var st = stats(), acc = pct(st.ok, st.n), known = TERMS.filter(function(t){ return S.known[t.w]; }).length;
+  var d = ui.daily;
+  if (!d.item) { var now=new Date(), k=now.getFullYear()*372+now.getMonth()*31+now.getDate(); d.item = mcqItem(MCQ[k % MCQ.length]); }
+  var best = S.mocks.length ? Math.max.apply(null, S.mocks.map(function(m){ return Math.round(m.ok/m.n*100); })) : null;
+  var modes = [
+    ['quiz','4択問題','分野を選んで解く。まちがえた問題は「要復習」に残り、次から優先して出題されます。', MCQ.length+'問＋用語'],
+    ['calc','計算ドリル','CTR・CPA・ROAS・LTVなど'+CALCS.length+'種類の計算を、毎回ちがう数字で練習します。', CALCS.length+'種類'],
+    ['cards','用語カード','カードをめくって用語を覚えます。一覧で検索もできます。', known+' / '+TERMS.length+'語'],
+    ['mock','模擬テスト','40問・60分。分野ごとの得点と弱点が分かります。', best==null?'40問':'最高 '+best+'%'],
+    ['notes','公式ノート','計算式と、覚えておきたい数字・制度の変更のまとめ。', '']
+  ];
+  return '<section class="hero"><p class="eyebrow">Web Analyst Training</p><h1 class="display">ウェブ解析士<br><em>トレーニング</em></h1>'+
+    '<p class="lede">4択問題・計算ドリル・用語カード・模擬テストで、試験範囲を一通り練習できます。解いた記録はこのブラウザに保存され、下の学習レポートに反映されます。</p></section>'+
+    '<section class="panel" aria-labelledby="rep-h"><div class="panel-head"><h2 class="h2" id="rep-h">学習レポート</h2><span class="meta">これまでの累計</span></div>'+
+    '<div class="kpis">'+kpi('回答数', nf(st.n), '問')+kpi('正答率', acc==null?'—':acc, acc==null?'':'%', acc==null?'':(acc>=70?'good':'warn'))+kpi('要復習の問題', nf(st.weak), '問')+kpi('覚えた用語', known, '/ '+TERMS.length)+'</div>'+
+    '<div class="catbars"><div class="catbars-head"><span>分野別の正答率（押すとその分野を解けます）</span><span class="legend"><i></i>合格の目安 70%</span></div>'+
+    CATS.map(function(c){ return catBar(c, st.per[c.id], true); }).join('')+'</div>'+trend()+'</section>'+
+    '<div class="home-grid">'+
+      '<section class="panel" aria-labelledby="daily-h"><div class="panel-head"><h2 class="h2" id="daily-h">今日の1問</h2>'+tag(d.item.cat)+'</div><div class="qcard" style="padding:0">'+questionBody(d.item, d.sel, 'daily')+'</div></section>'+
+      '<nav class="modes" aria-label="トレーニング"><div class="modes-head"><h2 class="h2">トレーニングを選ぶ</h2></div>'+
+      modes.map(function(m){ return '<button class="mode" data-act="nav" data-v="'+m[0]+'"><span class="mode-name">'+m[1]+'</span><span class="mode-desc">'+m[2]+'</span><span class="mode-side"><span class="mode-meta">'+m[3]+'</span><span class="mode-go" aria-hidden="true">→</span></span></button>'; }).join('')+
+      '</nav>'+
+    '</div>'+
+    (st.n || known || S.mocks.length ? '<div class="home-foot">'+(ui.resetAsk
+      ? '<div class="inline-confirm"><span>回答の記録・覚えた用語・模擬テストの結果をすべて消します。</span><button class="btn sm danger" data-act="reset-do">消去する</button><button class="btn sm" data-act="reset-cancel">やめる</button></div>'
+      : '<button class="btn ghost sm" data-act="reset-ask">学習記録をリセット</button>')+'</div>' : '');
+}
+
+/* =========================================================
+   4択問題
+   ========================================================= */
+function quizPool(){
+  var cats = catKeys(ui.quiz.cats), all = !cats.length, has = function(c){ return all || ui.quiz.cats[c]; };
+  var items = MCQ.filter(function(m){ return has(m.c); }).map(function(m){ return {id:m.id, m:m}; });
+  if (ui.quiz.terms) TERMS.filter(function(t){ return has(t.c); }).forEach(function(t){ items.push({id:'T:'+t.w, t:t}); });
+  return items;
+}
+function startQuiz(){
+  var pool = quizPool();
+  var picked = pool.map(function(p){ var r=S.q[p.id], s=Math.random()+(p.m?0.15:0); if (!r) s+=0.6; else if (r.l===0) s+=0.9; return [s,p]; })
+    .sort(function(a,b){ return b[0]-a[0]; }).slice(0, ui.quiz.n).map(function(x){ return x[1]; });
+  var cats = catKeys(ui.quiz.cats);
+  session = {title: cats.length ? cats.map(function(c){ return CAT[c].name; }).join('・') : 'すべての分野', items: shuffle(picked).map(function(p){ return p.m ? mcqItem(p.m) : termItem(p.t); }), i:0, answers:[], done:false};
+  go('quiz'); window.scrollTo(0,0);
+}
+function startWeak(){
+  var items = shuffle(weakIds()).map(itemFromId).filter(Boolean).slice(0,20);
+  if (!items.length) return;
+  session = {title:'要復習の問題', items:items, i:0, answers:[], done:false};
+  go('quiz'); window.scrollTo(0,0);
+}
+function pickQuiz(i){
+  var s = session; if (!s || s.done || s.answers[s.i]!=null) return;
+  var it = s.items[s.i]; if (!it.opts[i]) return;
+  s.answers[s.i] = i; record(it.id, it.cat, it.opts[i].ok);
+  focusAfter = {sel:'#next-btn', scroll:true}; render();
+}
+function nextQuiz(){
+  var s = session; if (!s || s.answers[s.i]==null) return;
+  if (s.i+1 < s.items.length) { s.i++; }
+  else { s.done = true; logRound('quiz', s.items.length, s.items.filter(function(it,k){ return it.opts[s.answers[k]].ok; }).length); }
+  render(); window.scrollTo(0,0);
+}
+function viewQuiz(){
+  if (session && !session.done) {
+    var s = session;
+    return '<div class="runbar"><button class="btn ghost sm" data-act="quiz-quit">やめる</button><div class="prog" role="progressbar" aria-valuemin="0" aria-valuemax="'+s.items.length+'" aria-valuenow="'+s.i+'"><span style="width:'+(s.i/s.items.length*100)+'%"></span></div><span class="mono count">'+(s.i+1)+' / '+s.items.length+'</span></div>'+
+      questionCard(s.items[s.i], s.answers[s.i], 'quiz')+
+      '<p class="meta kbd-hint">キーボードの 1〜4 で選び、Enter で次へ進めます。</p>';
+  }
+  if (session && session.done) return viewQuizResult();
+  var q = ui.quiz, pool = quizPool(), weak = weakIds().length, cats = catKeys(q.cats);
+  function count(cid){ return MCQ.filter(function(m){ return m.c===cid; }).length + (q.terms ? TERMS.filter(function(t){ return t.c===cid; }).length : 0); }
+  return '<header class="view-head"><p class="eyebrow">Multiple Choice</p><h1 class="h1">4択問題</h1><p class="lede">分野と問題数を選んでスタート。まだ解いていない問題と、前回まちがえた問題を優先して出題します。</p></header>'+
+    '<section class="panel">'+
+      '<div class="field"><span class="field-label">分野（複数選べます）</span><div class="chips"><button class="chip" data-act="qcat" data-v="all" aria-pressed="'+(cats.length===0)+'">すべて<small>'+(MCQ.length+(q.terms?TERMS.length:0))+'</small></button>'+
+        CATS.map(function(c){ return '<button class="chip" data-act="qcat" data-v="'+c.id+'" aria-pressed="'+(!!q.cats[c.id])+'">'+esc(c.name)+'<small>'+count(c.id)+'</small></button>'; }).join('')+'</div></div>'+
+      '<div class="field"><span class="field-label">問題数</span><div class="chips">'+[10,20,30].map(function(n){ return '<button class="chip" data-act="qn" data-v="'+n+'" aria-pressed="'+(q.n===n)+'">'+n+'問</button>'; }).join('')+'</div></div>'+
+      '<div class="field"><span class="field-label">出題の種類</span><div class="chips"><button class="chip toggle" data-act="qterms" aria-pressed="'+q.terms+'">用語の意味を問う問題もまぜる</button></div></div>'+
+      '<div class="actions"><button class="btn primary" data-act="quiz-start">'+Math.min(q.n,pool.length)+'問でスタート</button>'+
+        '<button class="btn" data-act="weak-start"'+(weak?'':' disabled')+'>要復習の問題だけ解く <small class="mono">'+weak+'問</small></button></div>'+
+    '</section>';
+}
+function viewQuizResult(){
+  var s = session, ok = 0, wrong = [];
+  s.items.forEach(function(it,k){ if (it.opts[s.answers[k]].ok) ok++; else wrong.push(it.id); });
+  var p = Math.round(ok/s.items.length*100);
+  return '<section class="panel result-top"><p class="eyebrow">Result</p><h1 class="h1">'+esc(s.title)+'の結果</h1>'+
+    '<div class="score"><span class="score-big">'+ok+'</span><span class="score-of">/ '+s.items.length+'</span><span class="verdict '+(p>=70?'ok':'ng')+'">正答率 '+p+'%</span></div>'+
+    '<div class="actions-row">'+(wrong.length?'<button class="btn primary" data-act="quiz-retry" data-v="'+esc(wrong.join('|'))+'">まちがえた'+wrong.length+'問を解き直す</button>':'')+
+    '<button class="btn'+(wrong.length?'':' primary')+'" data-act="quiz-start">同じ条件でもう一度</button><button class="btn ghost" data-act="quiz-new">条件を選び直す</button></div></section>'+
+    '<section class="panel"><div class="panel-head"><h2 class="h2">ふりかえり</h2><span class="meta">押すと解説が開きます</span></div><div class="review">'+
+    s.items.map(function(it,k){ var sel=it.opts[s.answers[k]], good=sel.ok, right=it.opts.filter(function(o){return o.ok;})[0];
+      return '<details><summary><span class="rv-mark '+(good?'ok':'ng')+'">'+(good?'○':'×')+'</span><span class="rv-q">'+esc(it.lines?it.lines.join(' '):it.q)+'</span><span class="rv-cat">'+esc(CAT[it.cat].name)+'</span></summary>'+
+        '<div class="rv-body">'+(it.quote?'<p>「'+esc(it.quote)+'」</p>':'')+'<p><span class="rv-good">正解</span>　'+esc(right.t)+'</p>'+(good?'':'<p><span class="rv-bad">あなたの解答</span>　'+esc(sel.t)+'</p>')+'<p>'+(it.html?it.exp:esc(it.exp))+'</p></div></details>';
+    }).join('')+'</div></section>';
+}
+
+/* =========================================================
+   計算ドリル
+   ========================================================= */
+function calcPool(){ var ks = catKeys(ui.calc.keys); return ks.length ? ks.map(function(k){ return CALC_BY_KEY[k]; }) : CALCS; }
+function newCalc(){
+  var c = ui.calc, pool = calcPool(), prev = c.cur ? c.cur.g.key : null, g = pick(pool);
+  if (pool.length>1) { var tries=0; while (g.key===prev && tries<10) { g = pick(pool); tries++; } }
+  c.cur = {g:g, p:g.gen()}; c.answered=false; c.val=''; c.showF=false; c.err='';
+}
+function parseNum(s){
+  s = String(s).trim().replace(/[０-９．，－ー−▲△]/g, function(ch){ var map={'．':'.','，':',','－':'-','ー':'-','−':'-','▲':'-','△':'-'}; return map[ch] || String.fromCharCode(ch.charCodeAt(0)-0xFEE0); })
+    .replace(/[,\s%％円回件人]/g,'').replace(/(セッション|ページ)$/,'');
+  if (!/^-?\d+(\.\d+)?$/.test(s)) return NaN;
+  return parseFloat(s);
+}
+function checkCalc(){
+  var c = ui.calc; if (!c.cur || c.answered) return;
+  var inp = document.getElementById('calc-input'); if (inp) c.val = inp.value;
+  var v = parseNum(c.val), p = c.cur.p;
+  if (c.val.trim()==='') { c.err='答えを入力してください。'; render(); focusInput(); return; }
+  if (isNaN(v)) { c.err='数字で入力してください（例：2.45）。単位やカンマは付けても付けなくてもかまいません。'; render(); focusInput(); return; }
+  var ok = Math.abs(rd(v, ansDec(p)) - p.ans) < 1e-9;
+  c.err=''; c.answered=true; c.lastOk=ok; c.n++; if (ok) c.ok++;
+  record('calc:'+c.cur.g.key, c.cur.g.c, ok);
+  focusAfter = {sel:'#next-btn', scroll:true}; render();
+}
+function focusInput(){ var el=document.getElementById('calc-input'); if (el) { el.focus(); } }
+function viewCalc(){
+  var c = ui.calc; if (!c.cur) newCalc();
+  var g = c.cur.g, p = c.cur.p, ks = catKeys(c.keys);
+  var weakKeys = CALCS.filter(function(x){ var r=S.q['calc:'+x.key]; return r && r.l===0; }).map(function(x){ return x.key; });
+  var h = '<header class="view-head"><p class="eyebrow">Calculation Drill</p><h1 class="h1">計算ドリル</h1><p class="lede">数字は毎回変わります。答えは半角でも全角でも入力でき、単位やカンマは付けなくてもかまいません。</p></header>'+
+    '<section class="panel"><div class="field"><span class="field-label">出題する計算（複数選べます）</span><div class="chips"><button class="chip" data-act="calc-key" data-v="all" aria-pressed="'+(ks.length===0)+'">すべて<small>'+CALCS.length+'</small></button>'+
+    CALCS.map(function(x){ return '<button class="chip" data-act="calc-key" data-v="'+x.key+'" aria-pressed="'+(!!c.keys[x.key])+'">'+(weakKeys.indexOf(x.key)>=0?'<span class="dot" title="前回まちがえた計算"></span>':'')+esc(x.s)+'</button>'; }).join('')+'</div>'+
+    (weakKeys.length?'<div><button class="btn sm" data-act="calc-weak">前回まちがえた計算だけにする（'+weakKeys.length+'種類）</button></div>':'')+'</div></section>'+
+    '<div class="runbar"><span class="sess">このセッション <b class="mono">'+c.ok+' / '+c.n+'</b> 問正解</span></div>'+
+    '<article class="panel qcard"><div class="q-meta">'+tag(g.c)+'<span class="src">'+esc(g.s)+'</span></div>'+
+    p.lines.map(function(l){ return '<p class="q-text">'+numHi(l)+'</p>'; }).join('')+
+    '<p class="q-note">'+roundNote(p)+'</p>'+
+    '<form class="calc-form" id="calc-form" autocomplete="off" novalidate><label class="ans-box" for="calc-input"><span class="sr">答え</span><input id="calc-input" inputmode="decimal" enterkeyhint="done" value="'+esc(c.val)+'" placeholder="答えを入力"'+(c.answered?' disabled':'')+'><span class="ans-unit">'+esc(p.unit)+'</span></label>'+
+    '<button class="btn primary" type="submit"'+(c.answered?' disabled':'')+'>答え合わせ</button>'+
+    (c.answered?'':'<button class="btn ghost" type="button" data-act="calc-hint" aria-expanded="'+c.showF+'">'+(c.showF?'公式を隠す':'公式を見る')+'</button>')+'</form>'+
+    (c.err?'<p class="err" role="alert">'+esc(c.err)+'</p>':'')+
+    (c.showF && !c.answered?'<p class="hint-f"><b>公式</b>　'+esc(p.steps[0])+'</p>':'');
+  if (c.answered) {
+    h += '<div class="fb '+(c.lastOk?'ok':'ng')+'"><p class="fb-title">'+(c.lastOk?'○ 正解':'× 不正解')+'<span class="fb-ans">正解は <b class="mono">'+fmtAns(p,p.ans)+'</b>'+(c.lastOk?'':'　あなたの答え <b class="mono">'+esc(c.val)+'</b>')+'</span></p>'+
+      '<ol class="steps">'+p.steps.map(function(s){ return '<li>'+esc(s)+'</li>'; }).join('')+'</ol>'+
+      '<button class="btn primary" id="next-btn" data-act="calc-next">次の問題<kbd>Enter</kbd></button></div>';
+  }
+  return h + '</article>';
+}
+
+/* =========================================================
+   用語カード
+   ========================================================= */
+function buildDeck(){
+  var c = ui.cards;
+  c.deck = shuffle(TERMS.filter(function(t){ return (c.cat==='all' || t.c===c.cat) && !(c.hideKnown && S.known[t.w]); }));
+  c.flipped = false;
+}
+function termListHTML(){
+  var c = ui.cards, q = c.search.trim().toLowerCase();
+  var list = TERMS.filter(function(t){ return (c.cat==='all' || t.c===c.cat) && (!q || t.w.toLowerCase().indexOf(q)>=0 || t.d.toLowerCase().indexOf(q)>=0); });
+  if (!list.length) return '<p class="empty">「'+esc(c.search)+'」に当てはまる用語はありません。</p>';
+  return list.map(function(t){ var k=!!S.known[t.w];
+    return '<div class="term-row"><h3>'+esc(t.w)+' '+tag(t.c)+'</h3><p>'+esc(t.d)+'</p><button class="chip toggle" data-act="term-known" data-v="'+esc(t.w)+'" aria-pressed="'+k+'">覚えた</button></div>'; }).join('');
+}
+function viewCards(){
+  var c = ui.cards, known = TERMS.filter(function(t){ return S.known[t.w]; }).length;
+  var h = '<header class="view-head"><p class="eyebrow">Glossary</p><h1 class="h1">用語カード</h1><p class="lede">試験によく出る用語 '+TERMS.length+'語。カードをめくって覚えるか、一覧で調べられます。</p></header>'+
+    '<div class="seg" role="group" aria-label="表示の切り替え"><button data-act="cards-mode" data-v="card" aria-pressed="'+(c.mode==='card')+'">カードで覚える</button><button data-act="cards-mode" data-v="list" aria-pressed="'+(c.mode==='list')+'">一覧で調べる</button></div>'+
+    '<section class="panel"><div class="field"><span class="field-label">分野</span><div class="chips"><button class="chip" data-act="ccat" data-v="all" aria-pressed="'+(c.cat==='all')+'">すべて<small>'+TERMS.length+'</small></button>'+
+    CATS.map(function(x){ return '<button class="chip" data-act="ccat" data-v="'+x.id+'" aria-pressed="'+(c.cat===x.id)+'">'+esc(x.name)+'<small>'+TERMS.filter(function(t){return t.c===x.id;}).length+'</small></button>'; }).join('')+'</div>'+
+    (c.mode==='card'?'<div class="chips"><button class="chip toggle" data-act="chide" aria-pressed="'+c.hideKnown+'">覚えた用語を除く</button></div>':'')+'</div></section>';
+  if (c.mode==='list') {
+    return h + '<label class="search" for="term-search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle class="s-ic" cx="10.5" cy="10.5" r="6.5"/><path class="s-ic" d="M15.5 15.5 L21 21"/></svg><span class="sr">用語を検索</span><input id="term-search" type="search" placeholder="用語や説明の言葉で検索（例：CPA、Cookie）" value="'+esc(c.search)+'"></label>'+
+      '<section class="panel"><div class="term-list" id="term-list">'+termListHTML()+'</div></section>';
+  }
+  if (!c.deck) buildDeck();
+  if (!c.deck.length) {
+    return h + '<section class="panel done-box"><h2 class="h2">このデッキは終わりました</h2><p class="lede">覚えた用語 '+known+' / '+TERMS.length+'語</p><button class="btn primary" data-act="cards-restart">もう一度めくる</button></section>';
+  }
+  var t = c.deck[0];
+  return h + '<div class="deck-meta"><span>残り <b>'+c.deck.length+'</b> 枚</span><span>覚えた用語 <b>'+known+'</b> / '+TERMS.length+'</span></div>'+
+    '<button class="flash'+(c.flipped?' is-flipped':'')+'" data-act="card-flip" aria-label="カードをめくる"><span class="flash-in">'+
+      '<span class="face front"><span class="face-top">'+tag(t.c)+'<span class="face-hint">表</span></span><span class="term">'+esc(t.w)+'</span><span class="face-hint">タップ（スペースキー）で意味を表示</span></span>'+
+      '<span class="face back"><span class="face-top"><span class="term-sm">'+esc(t.w)+'</span><span class="face-hint">裏</span></span><span class="def">'+esc(t.d)+'</span><span class="face-hint">もう一度タップで表に戻る</span></span>'+
+    '</span></button>'+
+    '<div class="card-actions"><button class="btn" data-act="card-again">まだ覚えていない<kbd>1</kbd></button><button class="btn primary" data-act="card-known">覚えた<kbd>2</kbd></button></div>'+
+    '<p class="meta">「まだ覚えていない」はデッキの最後に戻り、もう一度出てきます。</p>';
+}
+
+/* =========================================================
+   模擬テスト
+   ========================================================= */
+var MOCK_PLAN = {basic:5, env:4, kpi:4, ads:6, site:4, tool:4, social:3, report:4};
+var MOCK_CALC = 6, MOCK_MIN = 60, PASS = 70;
+function startMock(){
+  var items = [];
+  Object.keys(MOCK_PLAN).forEach(function(c){ items = items.concat(shuffle(MCQ.filter(function(m){ return m.c===c; })).slice(0, MOCK_PLAN[c]).map(mcqItem)); });
+  items = items.concat(shuffle(CALCS).slice(0, MOCK_CALC).map(calcMcq));
+  items = shuffle(items);
+  var now = Date.now();
+  mock = {items:items, ans:items.map(function(){ return null; }), flag:items.map(function(){ return false; }), i:0, start:now, end:now+MOCK_MIN*60000, done:false, confirm:false, showNav:false};
+  ui.mockFilter = 'all';
+  render(); window.scrollTo(0,0);
+}
+function submitMock(auto){
+  if (!mock || mock.done) return;
+  var per = {}; CATS.forEach(function(c){ per[c.id]={n:0,ok:0}; });
+  var ok = 0;
+  mock.items.forEach(function(it,k){ var a=mock.ans[k], good = a!=null && it.opts[a].ok; if (good) ok++; per[it.cat].n++; if (good) per[it.cat].ok++; record(it.id, it.cat, good); });
+  var sec = Math.round((Math.min(Date.now(), mock.end) - mock.start)/1000);
+  mock.done = true; mock.confirm = false; mock.result = {ok:ok, n:mock.items.length, sec:sec, per:per};
+  S.mocks.push({t:Date.now(), ok:ok, n:mock.items.length, sec:sec}); if (S.mocks.length>30) S.mocks = S.mocks.slice(-30);
+  logRound('mock', mock.items.length, ok);
+  if (route==='mock') { render(); window.scrollTo(0,0); }
+  toast(auto ? '時間になったので採点しました' : '採点しました');
+}
+function viewMock(){
+  if (!mock) {
+    var hist = S.mocks.slice(-5).reverse();
+    return '<header class="view-head"><p class="eyebrow">Mock Exam</p><h1 class="h1">模擬テスト</h1><p class="lede">全分野から出題するテストです。解答はすべて答え終わってから採点されます。</p></header>'+
+      '<section class="panel"><ul class="rules"><li><b>40問</b>（4択 34問＋計算 6問）。分野のバランスは毎回同じで、問題は毎回入れ替わります</li><li>制限時間は<b>60分</b>。時間になると自動で採点します</li><li>正答率<b>70%（28問）以上</b>を合格の目安にしています</li><li>途中で答えを変えたり、「あとで見直す」の印を付けたりできます</li></ul>'+
+      '<p class="meta" style="margin:12px 0 0">本試験の問題数・試験時間・合格基準とは異なる場合があります。</p>'+
+      '<div class="actions" style="margin-top:16px"><button class="btn primary" data-act="mock-start">模擬テストを始める</button></div></section>'+
+      (hist.length ? '<section class="panel"><div class="panel-head"><h2 class="h2">これまでの結果</h2><span class="meta">最新5回</span></div><div class="history">'+
+        hist.map(function(m){ var p=Math.round(m.ok/m.n*100); return '<div class="hist-row"><span class="hist-date">'+fmtDate(m.t)+'　'+Math.floor(m.sec/60)+'分'+(m.sec%60)+'秒</span><span class="mono">'+m.ok+' / '+m.n+'</span><span class="verdict '+(p>=PASS?'ok':'ng')+'">'+p+'%</span></div>'; }).join('')+'</div></section>' : '');
+  }
+  if (!mock.done) {
+    var m = mock, it = m.items[m.i], answered = m.ans.filter(function(a){ return a!=null; }).length, rem = m.end-Date.now(), last = m.i===m.items.length-1;
+    var unanswered = m.items.length-answered, flagged = m.flag.filter(Boolean).length;
+    var h = '<div class="exambar"><span class="timer mono'+(rem<300000?' low':'')+'" id="mock-timer" aria-label="残り時間">'+mmss(rem)+'</span><span class="exam-count">回答 <b class="mono">'+answered+'</b> / '+m.items.length+'</span><span class="spacer"></span>'+
+      '<button class="btn sm" data-act="mock-nav" aria-expanded="'+m.showNav+'">問題一覧</button><button class="btn sm primary" data-act="mock-ask">提出する</button></div>';
+    if (m.confirm) {
+      h += '<section class="panel confirm" role="alertdialog" aria-labelledby="cf-h"><h2 class="h2" id="cf-h">提出して採点しますか？</h2><p>'+(unanswered?'未回答が <b>'+unanswered+'問</b> あります。':'すべての問題に回答しています。')+(flagged?'「あとで見直す」の印が付いた問題が '+flagged+'問 あります。':'')+'</p>'+
+        '<div class="actions-row"><button class="btn primary" id="mock-submit-btn" data-act="mock-submit">提出する</button><button class="btn" data-act="mock-cancel">問題に戻る</button></div></section>';
+    }
+    if (m.showNav) {
+      h += '<section class="panel"><div class="navgrid">'+m.items.map(function(x,k){ var cls='nb'+(m.ans[k]!=null?' done':'')+(m.flag[k]?' flag':'')+(k===m.i?' cur':''); return '<button class="'+cls+'" data-act="mock-go" data-v="'+k+'" aria-label="第'+(k+1)+'問'+(m.ans[k]!=null?' 回答済み':' 未回答')+(m.flag[k]?' 見直し':'')+'">'+(k+1)+'</button>'; }).join('')+'</div>'+
+        '<div class="nav-legend"><span><i class="d"></i>回答済み</span><span><i></i>未回答</span><span><i class="f"></i>あとで見直す</span></div></section>';
+    }
+    h += '<div class="runbar"><div class="prog"><span style="width:'+(answered/m.items.length*100)+'%"></span></div><span class="mono count">第'+(m.i+1)+'問 / '+m.items.length+'</span></div>'+
+      questionCard(it, m.ans[m.i], 'mock')+
+      '<div class="exam-foot"><button class="btn" data-act="mock-prev"'+(m.i===0?' disabled':'')+'>← 前へ</button>'+
+      '<button class="btn'+(m.flag[m.i]?' flagged':'')+'" data-act="mock-flag" aria-pressed="'+m.flag[m.i]+'">'+(m.flag[m.i]?'見直しの印を外す':'あとで見直す')+'</button>'+
+      (last?'<button class="btn primary" data-act="mock-ask">提出する</button>':'<button class="btn" data-act="mock-next">次へ →</button>')+'</div>'+
+      '<p class="meta kbd-hint">1〜4 で選択、← → で前後の問題へ移動できます。</p>';
+    return h;
+  }
+  var r = mock.result, p = Math.round(r.ok/r.n*100), need = Math.ceil(r.n*PASS/100), f = ui.mockFilter;
+  var rows = mock.items.map(function(it,k){ return {it:it,k:k,a:mock.ans[k]}; }).filter(function(x){ return f==='all' || !(x.a!=null && x.it.opts[x.a].ok); });
+  return '<section class="panel result-top"><p class="eyebrow">Mock Exam Result</p><h1 class="h1">模擬テストの結果</h1>'+
+    '<div class="score"><span class="score-big">'+r.ok+'</span><span class="score-of">/ '+r.n+'</span><span class="verdict '+(p>=PASS?'ok':'ng')+'">'+(p>=PASS?'合格の目安（70%）に到達':'合格の目安まであと'+(need-r.ok)+'問')+'</span></div>'+
+    '<div class="result-sub"><span>正答率 <b class="mono">'+p+'%</b></span><span>かかった時間 <b class="mono">'+Math.floor(r.sec/60)+'分'+(r.sec%60)+'秒</b></span></div>'+
+    '<div class="actions-row"><button class="btn primary" data-act="mock-start">もう一度受ける</button><button class="btn" data-act="weak-start">まちがえた問題を4択で復習</button><button class="btn ghost" data-act="mock-close">模擬テストのトップへ</button></div></section>'+
+    '<section class="panel"><div class="panel-head"><h2 class="h2">分野別の得点</h2><span class="legend meta"><i></i>70%</span></div><div class="catbars" style="margin-top:0">'+
+      CATS.map(function(c){ return catBar(c, r.per[c.id], false); }).join('').replace(/(\d+)回<\/span>/g,'$1問</span>')+'</div></section>'+
+    '<section class="panel"><div class="panel-head"><h2 class="h2">ふりかえり</h2><div class="seg" role="group" aria-label="表示する問題"><button data-act="mock-filter" data-v="all" aria-pressed="'+(f==='all')+'">すべて</button><button data-act="mock-filter" data-v="wrong" aria-pressed="'+(f==='wrong')+'">まちがえた問題</button></div></div><div class="review">'+
+    (rows.length ? rows.map(function(x){ var it=x.it, good = x.a!=null && it.opts[x.a].ok, right = it.opts.filter(function(o){return o.ok;})[0];
+      return '<details><summary><span class="rv-mark '+(good?'ok':'ng')+'">'+(good?'○':'×')+'</span><span class="rv-q"><span class="mono">'+(x.k+1)+'.</span> '+esc(it.lines?it.lines.join(' '):it.q)+'</span><span class="rv-cat">'+esc(CAT[it.cat].name)+'</span></summary>'+
+        '<div class="rv-body"><p><span class="rv-good">正解</span>　'+esc(right.t)+'</p>'+(good?'':'<p><span class="rv-bad">あなたの解答</span>　'+(x.a==null?'未回答':esc(it.opts[x.a].t))+'</p>')+'<p>'+(it.html?it.exp:esc(it.exp))+'</p></div></details>'; }).join('')
+      : '<p class="empty">まちがえた問題はありません。</p>')+'</div></section>';
+}
+setInterval(function(){
+  if (!mock || mock.done) return;
+  var rem = mock.end - Date.now();
+  if (rem<=0) { submitMock(true); return; }
+  var el = document.getElementById('mock-timer');
+  if (el) { el.textContent = mmss(rem); el.classList.toggle('low', rem<300000); }
+}, 1000);
+
+/* =========================================================
+   公式ノート
+   ========================================================= */
+var NOTES = [
+ {h:'サイトの指標', items:[
+  ['CVR（コンバージョン率）','CV数 ÷ セッション数 × 100','広告ではクリック数で割ります。何を分母にするかを問題文で必ず確かめます。','cvr'],
+  ['直帰率（GA4）','（セッション − エンゲージメントのあったセッション）÷ セッション × 100','＝ 100 − エンゲージメント率。旧GA（UA）の「1ページで離脱」とは定義が違います。','bounce'],
+  ['エンゲージメント率','エンゲージメントのあったセッション ÷ セッション × 100','10秒以上・キーイベント発生・2PV以上のどれかを満たしたセッションの割合です。','bounce'],
+  ['離脱率','そのページの離脱数 ÷ そのページのPV × 100','どこから入ってきたかに関係なく、そのページを最後に離れた割合です。','exit'],
+  ['平均ページビュー数','PV ÷ セッション数','1回の訪問で平均何ページ見られたかを表します。','pvps']]},
+ {h:'広告の指標', items:[
+  ['CTR（クリック率）','クリック数 ÷ 表示回数 × 100','広告が表示されたうち、クリックされた割合です。','ctr'],
+  ['CPC（クリック単価）','広告費 ÷ クリック数','1クリックあたりの費用です。','cpc'],
+  ['CPM','広告費 ÷ 表示回数 × 1,000','1,000回表示あたりの費用です。','cpm'],
+  ['CPA（獲得単価）','広告費 ÷ CV数','1件の成果にかかった費用です。','cpa'],
+  ['CPAをCPCとCVRから出す','CPA ＝ CPC ÷ CVR','CPC 100円・CVR 2%なら 100 ÷ 0.02 ＝ 5,000円。必要なCVRは CPC ÷ 目標CPA で求めます。','cpcCvr'],
+  ['ROAS','広告経由の売上 ÷ 広告費 × 100','売上ベースの回収率です。100%を超えていても、利益が出ているとは限りません。','roas'],
+  ['ROI','（売上 − 売上原価 − 広告費）÷ 広告費 × 100','利益ベースの投資効果です。定義にはいくつかの流儀があるので、問題文の指定に従います。','roi'],
+  ['フリークエンシー','表示回数 ÷ リーチ（到達人数）','1人あたりの平均接触回数です。','freq'],
+  ['インプレッションシェア','表示回数 ÷ 表示される可能性があった回数 × 100','損失の原因は「予算」と「広告ランク」に分けて見ます。','impShare'],
+  ['予算から見込むCV数','予算 ÷ CPC × CVR','まずクリック数を出し、CVRを掛けます。','expectCV']]},
+ {h:'売上とKPI', items:[
+  ['売上の分解','売上 ＝ セッション数 × CVR × 客単価','集客・成約・単価のどこを伸ばすかを考える基本の式です。','forecast'],
+  ['必要なセッション数','目標売上 ÷ 客単価 ÷ CVR','目標から逆算して、KPIの目標値を決めます。','needSessions'],
+  ['許容CPA','販売価格 × 粗利率（LTVで考えるときは LTV × 粗利率）','1件の獲得にかけてよい広告費の上限です。','allowCpa'],
+  ['LTV（売上ベース）','平均購入単価 × 年間購入回数 × 継続年数','粗利ベースで見るときは、さらに粗利率を掛けます。','ltv'],
+  ['ファネルの遷移率','次の段階に進んだ数 ÷ 前の段階の数 × 100','遷移率が最も低い段階がボトルネックです。','funnel']]},
+ {h:'メール・SNS', items:[
+  ['開封率','開封数 ÷（配信数 − 不達数）× 100','届いたメールの数を分母にします。','mail'],
+  ['クリック率とCTOR','クリック数 ÷ 配信成功数 × 100 ／ クリック数 ÷ 開封数 × 100','CTORは、開封した人のうちクリックした割合です。','mail'],
+  ['SNSのエンゲージメント率','エンゲージメント数 ÷ インプレッション数 × 100','分母をフォロワー数やリーチにする定義もあります。問題文の指定に従います。','sns']]},
+ {h:'アトリビューションと比較', items:[
+  ['線形モデル','成果 ÷ 接点の数','すべての接点に同じだけ配分します。','attr'],
+  ['接点ベースモデル','最初 40%・最後 40%・中間の接点で 20% を均等に分ける','きっかけと決め手になった接点を重視するモデルです。','attr'],
+  ['増減率','（今期 − 前期）÷ 前期 × 100','前年同月と比べると、季節による変動の影響をそろえられます。','yoy']]}
+];
+var NUMS = [
+ ['30分','GA4でセッションが切れるまでの無操作時間（初期設定）'],
+ ['10秒','エンゲージメントのあるセッションの条件（初期設定。10〜60秒で変更可）'],
+ ['2PV','エンゲージメントのあるセッションの条件（ページビュー2回以上）'],
+ ['90%','拡張計測機能のスクロールイベントが記録される位置'],
+ ['2か月 / 14か月','無料版GA4で選べるデータ保持期間'],
+ ['1〜10','Google広告の品質スコアの範囲'],
+ ['40・20・40','接点ベースモデルの配分（最初・中間・最後）'],
+ ['2.5秒以下','LCP（読み込み）の「良好」の基準'],
+ ['200ms以下','INP（操作への反応）の「良好」の基準'],
+ ['0.1以下','CLS（表示の安定性）の「良好」の基準'],
+ ['5人','ユーザビリティテストで多くの問題が見つかるとされる人数'],
+ ['1,000回','CPMの基準になる表示回数']
+];
+var TIMELINE = [
+ ['2022年4月','改正個人情報保護法が施行。Cookie IDなどの「個人関連情報」を第三者に渡すとき、本人の同意の確認が必要に'],
+ ['2022年12月','GoogleがE-A-TにExperience（経験）を加え、E-E-A-Tに'],
+ ['2023年6月','改正電気通信事業法の外部送信規律が施行。タグで外部に送る情報の公表・通知などが必要に'],
+ ['2023年7月','ユニバーサルアナリティクス（旧GA）の計測が終了し、GA4に一本化'],
+ ['2023年秋','GA4でファーストクリック・線形・接点ベース・減衰のアトリビューションモデルが廃止'],
+ ['2023年10月','景品表示法のステルスマーケティング規制が開始'],
+ ['2024年3月','Core Web VitalsのFIDがINPに置き換え。GA4の「コンバージョン」が「キーイベント」に']
+];
+function viewNotes(){
+  return '<header class="view-head"><p class="eyebrow">Formula Notes</p><h1 class="h1">公式ノート</h1><p class="lede">試験で使う計算式と、覚えておきたい数字・制度の変更をまとめました。「練習する」を押すと、その計算だけを計算ドリルで出題します。</p></header>'+
+    NOTES.map(function(sec){ return '<section class="panel notes-sec"><h2 class="h2">'+esc(sec.h)+'</h2>'+sec.items.map(function(f){
+      return '<div class="f-item"><span class="f-name">'+esc(f[0])+'</span><span class="f-expr">'+esc(f[1])+'</span><p class="f-desc">'+esc(f[2])+'</p><button class="btn sm" data-act="calc-only" data-v="'+f[3]+'">練習する →</button></div>'; }).join('')+'</section>'; }).join('')+
+    '<section class="panel"><h2 class="h2">覚えておきたい数字</h2><div class="nums">'+NUMS.map(function(n){ return '<div class="num-card"><b>'+esc(n[0])+'</b><span>'+esc(n[1])+'</span></div>'; }).join('')+'</div></section>'+
+    '<section class="panel"><h2 class="h2">制度・仕様の変更（古い順）</h2><ol class="timeline">'+TIMELINE.map(function(t){ return '<li><span class="tl-date">'+esc(t[0])+'</span><span>'+esc(t[1])+'</span></li>'; }).join('')+'</ol></section>';
+}
+
+/* =========================================================
+   描画・操作
+   ========================================================= */
+var $view = document.getElementById('view');
+function render(){
+  var h;
+  switch (route) {
+    case 'quiz': h = viewQuiz(); break;
+    case 'calc': h = viewCalc(); break;
+    case 'cards': h = viewCards(); break;
+    case 'mock': h = viewMock(); break;
+    case 'notes': h = viewNotes(); break;
+    default: h = viewHome();
+  }
+  $view.innerHTML = h;
+  Array.prototype.forEach.call(document.querySelectorAll('.tab'), function(t){ if (t.getAttribute('data-v')===route) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); });
+  if (focusAfter) { var el = document.querySelector(focusAfter.sel); if (el) el.focus({preventScroll: !focusAfter.scroll}); focusAfter = null; }
+}
+function go(r){
+  if (VIEWS.indexOf(r)<0) r = 'home';
+  if (route===r) { render(); return; }
+  try { history.replaceState(null, '', '#'+r); } catch(e) {}
+  route = r; render(); window.scrollTo(0,0);
+}
+window.addEventListener('hashchange', function(){ var r = location.hash.slice(1); if (VIEWS.indexOf(r)>=0 && r!==route) { route = r; render(); window.scrollTo(0,0); } });
+
+var toastTimer = null;
+function toast(msg){ var el = document.getElementById('toast'); el.textContent = msg; el.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(function(){ el.hidden = true; }, 2600); }
+
+function cardKnown(){ var c=ui.cards; if (!c.deck || !c.deck.length) return; S.known[c.deck[0].w] = 1; save(); c.deck.shift(); c.flipped=false; render(); }
+function cardAgain(){ var c=ui.cards; if (!c.deck || !c.deck.length) return; var t=c.deck.shift(); delete S.known[t.w]; save(); c.deck.push(t); c.flipped=false; render(); }
+function cardFlip(el){ var c=ui.cards; c.flipped=!c.flipped; var f = el || document.querySelector('.flash'); if (f) f.classList.toggle('is-flipped', c.flipped); }
+function mockMove(k){ if (!mock || mock.done) return; mock.i = Math.max(0, Math.min(mock.items.length-1, k)); render(); var b=document.querySelector('.qcard'); if (b && b.getBoundingClientRect().top<70) window.scrollTo(0,0); }
+
+var A = {
+  'nav': function(v){ go(v); },
+  'quiz-cat': function(v){ ui.quiz.cats = {}; ui.quiz.cats[v] = true; session = null; go('quiz'); },
+  'qcat': function(v){ if (v==='all') ui.quiz.cats = {}; else ui.quiz.cats[v] = !ui.quiz.cats[v]; render(); },
+  'qn': function(v){ ui.quiz.n = +v; render(); },
+  'qterms': function(){ ui.quiz.terms = !ui.quiz.terms; render(); },
+  'quiz-start': startQuiz,
+  'weak-start': startWeak,
+  'quiz-pick': function(v){ pickQuiz(+v); },
+  'quiz-next': nextQuiz,
+  'quiz-quit': function(){ session = null; render(); },
+  'quiz-new': function(){ session = null; render(); },
+  'quiz-retry': function(v){ var items = shuffle(v.split('|')).map(itemFromId).filter(Boolean); if (!items.length) return; session = {title:'解き直し', items:items, i:0, answers:[], done:false}; render(); window.scrollTo(0,0); },
+  'daily-pick': function(v){ var d=ui.daily; if (d.sel!=null) return; d.sel=+v; record(d.item.id, d.item.cat, d.item.opts[d.sel].ok); focusAfter={sel:'#daily-more',scroll:true}; render(); },
+  'calc-key': function(v){ var c=ui.calc; if (v==='all') c.keys={}; else c.keys[v]=!c.keys[v]; c.cur=null; render(); },
+  'calc-weak': function(){ var c=ui.calc; c.keys={}; CALCS.forEach(function(x){ var r=S.q['calc:'+x.key]; if (r && r.l===0) c.keys[x.key]=true; }); c.cur=null; render(); focusInput(); },
+  'calc-only': function(v){ ui.calc.keys={}; ui.calc.keys[v]=true; ui.calc.cur=null; go('calc'); focusInput(); },
+  'calc-hint': function(){ var inp=document.getElementById('calc-input'); if (inp) ui.calc.val=inp.value; ui.calc.showF=!ui.calc.showF; render(); focusInput(); },
+  'calc-next': function(){ newCalc(); render(); focusInput(); var card=document.querySelector('.qcard'); if (card && card.getBoundingClientRect().top<0) card.scrollIntoView({block:'start'}); },
+  'cards-mode': function(v){ ui.cards.mode=v; render(); },
+  'ccat': function(v){ ui.cards.cat=v; ui.cards.deck=null; render(); if (ui.cards.mode==='list') { var box=document.getElementById('term-list'); if (box) box.innerHTML=termListHTML(); } },
+  'chide': function(){ ui.cards.hideKnown=!ui.cards.hideKnown; ui.cards.deck=null; render(); },
+  'card-flip': function(v,el){ cardFlip(el); },
+  'card-again': cardAgain,
+  'card-known': cardKnown,
+  'cards-restart': function(){ ui.cards.deck=null; render(); },
+  'term-known': function(v,el){ if (S.known[v]) delete S.known[v]; else S.known[v]=1; save(); el.setAttribute('aria-pressed', String(!!S.known[v])); },
+  'mock-start': startMock,
+  'mock-pick': function(v){ if (!mock || mock.done) return; mock.ans[mock.i] = mock.ans[mock.i]===+v ? null : +v; render(); },
+  'mock-prev': function(){ mockMove(mock.i-1); },
+  'mock-next': function(){ mockMove(mock.i+1); },
+  'mock-go': function(v){ mock.showNav=false; mockMove(+v); },
+  'mock-flag': function(){ mock.flag[mock.i]=!mock.flag[mock.i]; render(); },
+  'mock-nav': function(){ mock.showNav=!mock.showNav; render(); },
+  'mock-ask': function(){ mock.confirm=true; mock.showNav=false; focusAfter={sel:'#mock-submit-btn',scroll:false}; render(); window.scrollTo(0,0); },
+  'mock-cancel': function(){ mock.confirm=false; render(); },
+  'mock-submit': function(){ submitMock(false); },
+  'mock-filter': function(v){ ui.mockFilter=v; render(); },
+  'mock-close': function(){ mock=null; render(); window.scrollTo(0,0); },
+  'reset-ask': function(){ ui.resetAsk=true; render(); },
+  'reset-cancel': function(){ ui.resetAsk=false; render(); },
+  'reset-do': function(){ S.q={}; S.known={}; S.log=[]; S.mocks=[]; save(); ui.resetAsk=false; ui.daily.sel=null; ui.cards.deck=null; ui.calc.ok=0; ui.calc.n=0; render(); toast('学習記録を消去しました'); }
+};
+
+document.addEventListener('click', function(e){
+  var el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  var f = A[el.getAttribute('data-act')]; if (f) f(el.getAttribute('data-v'), el, e);
+});
+document.addEventListener('submit', function(e){ if (e.target.id==='calc-form') { e.preventDefault(); checkCalc(); } });
+document.addEventListener('input', function(e){
+  if (e.target.id==='calc-input') { ui.calc.val = e.target.value; if (ui.calc.err) { ui.calc.err=''; var er=document.querySelector('.err'); if (er) er.remove(); } }
+  if (e.target.id==='term-search') { ui.cards.search = e.target.value; var box=document.getElementById('term-list'); if (box) box.innerHTML = termListHTML(); }
+});
+document.addEventListener('keydown', function(e){
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  var t = e.target;
+  if (t.matches && t.matches('input, textarea, select')) return;
+  var k = e.key;
+  if ((k==='Enter' || k===' ') && t.closest && t.closest('button')) return;
+  if (route==='quiz' && session && !session.done) {
+    var a = session.answers[session.i];
+    if (a==null && /^[1-4]$/.test(k)) { pickQuiz(+k-1); e.preventDefault(); }
+    else if (a!=null && k==='Enter') { nextQuiz(); e.preventDefault(); }
+  } else if (route==='calc' && ui.calc.answered && k==='Enter') {
+    A['calc-next'](); e.preventDefault();
+  } else if (route==='cards' && ui.cards.mode==='card' && ui.cards.deck && ui.cards.deck.length) {
+    if (k===' ') { cardFlip(); e.preventDefault(); }
+    else if (k==='1') { cardAgain(); }
+    else if (k==='2') { cardKnown(); }
+  } else if (route==='mock' && mock && !mock.done && !mock.confirm) {
+    if (/^[1-4]$/.test(k)) { A['mock-pick'](String(+k-1)); e.preventDefault(); }
+    else if (k==='ArrowRight') { mockMove(mock.i+1); e.preventDefault(); }
+    else if (k==='ArrowLeft') { mockMove(mock.i-1); e.preventDefault(); }
+  }
+});
+
+var initial = location.hash.slice(1);
+route = VIEWS.indexOf(initial)>=0 ? initial : 'home';
+render();
+})();
+</script>
