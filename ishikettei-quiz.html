@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>意思決定会計(差額原価収益分析) ランダム問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+  .problem-line b { color: #f6f1e6; }
+
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">BOOKKEEPING LV.1 工業簿記 ⑪ 意思決定会計</div>
+      <h1>意思決定会計(差額原価収益分析) ランダム問題</h1>
+    </div>
+    <div>
+      <div class="score-label">スコア</div>
+      <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+  </div>
+
+  <div class="topic-badge" id="topicBadge"></div>
+
+  <div class="problem-card" id="problemCard"></div>
+
+  <div class="inputs-row">
+    <div class="input-group">
+      <label id="label1"></label>
+      <input type="text" id="input1" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label id="label2"></label>
+      <input type="text" id="input2" autocomplete="off">
+    </div>
+  </div>
+  <div class="hint">半角数字、カンマなしで入力。マイナスは先頭に「-」を付けてください。</div>
+  <div class="error" id="errorText"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="checkBtn">解答する</button>
+    <button class="btn-secondary" id="nextBtn">次の問題へ</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-explanation" id="resultExplanation"></div>
+  </div>
+
+  <div class="footer-note">簿記1級 意思決定会計(差額原価収益分析)の練習用アプリ(自己採点)</div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0 };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function randNonZero(min, max, step) {
+    var v = 0;
+    while (v === 0) { v = randMultiple(min, max, step); }
+    return v;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmt(n) {
+    var s = Math.abs(n).toLocaleString('ja-JP');
+    return (n < 0 ? '−' : '') + s;
+  }
+  function fav(n) { return n > 0 ? '有利' : (n < 0 ? '不利' : ''); }
+
+  function sgn(n) { return n > 0 ? '有利(+)' : (n < 0 ? '不利(−)' : '±0'); }
+
+  function genSpecial() {
+    var v = randMultiple(4, 12, 1) * 100;
+    var s = v + randNonZero(-2, 5, 1) * 100;
+    var n = randMultiple(1, 10, 1) * 100;
+    var f = pick([0, 0, 20000, 30000, 40000, 50000]);
+    var p = v + randMultiple(4, 10, 1) * 100;
+    var F = randMultiple(5, 20, 1) * 10000;
+    var cost = v * n + f;
+    var profit = s * n - cost;
+    return {
+      badge: '特別注文の引受け(遊休能力あり)',
+      check: s * n - cost === profit,
+      lines: [
+        '通常の販売単価は<b>' + fmt(p) + '円</b>、単位変動費は<b>' + fmt(v) + '円</b>、年間固定費は<b>' + fmt(F) + '円</b>である。',
+        '現在、遊休能力があり、通常の販売に影響せずに特別注文<b>' + fmt(n) + '個</b>(販売単価<b>' + fmt(s) + '円</b>)を引き受けられる。',
+        f > 0 ? 'この注文のために追加で発生する固定費が<b>' + fmt(f) + '円</b>ある。' : 'この注文のために追加で発生する固定費はない。'
+      ],
+      label1: '差額原価(円)',
+      label2: '差額利益(円)',
+      ph1: '例: 300000', ph2: '例: 50000 / -20000',
+      answers: [cost, profit],
+      explanation:
+        '関連するのは「引き受けると増えるお金」だけ。通常の販売単価' + fmt(p) + '円と固定費' + fmt(F) + '円は無関係(埋没原価)。\n' +
+        '差額収益 = ' + fmt(s) + ' × ' + fmt(n) + ' = ' + fmt(s * n) + '円\n' +
+        '差額原価 = 変動費 ' + fmt(v) + ' × ' + fmt(n) + (f > 0 ? ' + 追加固定費 ' + fmt(f) : '') + ' = ' + fmt(cost) + '円\n' +
+        '差額利益 = ' + fmt(s * n) + ' − ' + fmt(cost) + ' = ' + fmt(profit) + '円 → ' + (profit > 0 ? '引き受けるべき' : (profit < 0 ? '引き受けない' : 'どちらでも同じ'))
+    };
+  }
+
+  function genSpecialCap() {
+    var v = randMultiple(4, 10, 1) * 100;
+    var p = v + randMultiple(3, 8, 1) * 100;
+    var s = v + randMultiple(1, 8, 1) * 100;
+    var m = randMultiple(0, 4, 1) * 100;
+    var x = randMultiple(1, 5, 1) * 100;
+    var n = m + x;
+    var opp = (p - v) * x;
+    var profit = (s - v) * n - opp;
+    return {
+      badge: '特別注文の引受け(能力不足・機会原価)',
+      check: (s - v) * n - opp === profit,
+      lines: [
+        '通常の販売単価は<b>' + fmt(p) + '円</b>、単位変動費は<b>' + fmt(v) + '円</b>である。',
+        '特別注文<b>' + fmt(n) + '個</b>(販売単価<b>' + fmt(s) + '円</b>)の依頼が来たが、生産設備の空きは<b>' + fmt(m) + '個</b>分しかない。',
+        '不足分は通常品の生産・販売を減らして対応する(追加の固定費はない)。'
+      ],
+      label1: '機会原価(円)',
+      label2: '差額利益(円)',
+      ph1: '例: 50000', ph2: '例: 30000 / -10000',
+      answers: [opp, profit],
+      explanation:
+        '通常品を減らす数量 = ' + fmt(n) + ' − ' + fmt(m) + ' = ' + fmt(x) + '個\n' +
+        '機会原価(あきらめる貢献利益) = (' + fmt(p) + ' − ' + fmt(v) + ') × ' + fmt(x) + ' = ' + fmt(opp) + '円\n' +
+        '特別注文の貢献利益 = (' + fmt(s) + ' − ' + fmt(v) + ') × ' + fmt(n) + ' = ' + fmt((s - v) * n) + '円\n' +
+        '差額利益 = ' + fmt((s - v) * n) + ' − ' + fmt(opp) + ' = ' + fmt(profit) + '円 → ' + (profit > 0 ? '引き受けるべき' : (profit < 0 ? '引き受けない' : 'どちらでも同じ'))
+    };
+  }
+
+  function genMakeBuy() {
+    var v = randMultiple(3, 10, 1) * 100;
+    var q = randMultiple(1, 10, 1) * 100;
+    var fs = randMultiple(1, 10, 1) * 10000;
+    var r = pick([0, 0, 20000, 30000, 50000]);
+    var b = randMultiple(5, 15, 1) * 100;
+    var Fc = randMultiple(5, 20, 1) * 10000;
+    var make = v * q + fs + r;
+    var buy = b * q;
+    var adv = buy - make;
+    return {
+      badge: '自製か購入か(部品の内製・外注)',
+      check: buy - make === adv,
+      lines: [
+        '部品<b>' + fmt(q) + '個</b>を、自製するか外部から購入するかを検討している。',
+        '自製する場合:単位変動費<b>' + fmt(v) + '円</b>、自製専用の設備の固定費<b>' + fmt(fs) + '円</b>(購入すれば発生しない)。工場全体の共通固定費<b>' + fmt(Fc) + '円</b>は自製・購入にかかわらず発生する。',
+        r > 0 ? '購入する場合は、空いた設備を他社に貸して<b>' + fmt(r) + '円</b>の賃貸収入を得られる。' : '購入する場合、空いた設備の他の使い道はない。',
+        '購入価格は1個あたり<b>' + fmt(b) + '円</b>である。'
+      ],
+      label1: '自製の関連原価(円)',
+      label2: '自製有利額(円)※購入有利ならマイナス',
+      ph1: '例: 250000', ph2: '例: 50000 / -30000',
+      answers: [make, adv],
+      explanation:
+        '共通固定費' + fmt(Fc) + '円は、どちらを選んでも変わらないので無関係(埋没原価)。\n' +
+        '自製の関連原価 = 変動費 ' + fmt(v) + ' × ' + fmt(q) + ' + 回避できる固定費 ' + fmt(fs) + (r > 0 ? ' + 機会原価(賃貸収入) ' + fmt(r) : '') + ' = ' + fmt(make) + '円\n' +
+        '購入原価 = ' + fmt(b) + ' × ' + fmt(q) + ' = ' + fmt(buy) + '円\n' +
+        '自製有利額 = 購入原価 − 自製の関連原価 = ' + fmt(buy) + ' − ' + fmt(make) + ' = ' + fmt(adv) + '円 → ' + (adv > 0 ? '自製が有利' : (adv < 0 ? '購入が有利' : 'どちらでも同じ'))
+    };
+  }
+
+  function genSegment() {
+    var S = randMultiple(4, 16, 1) * 100000;
+    var V = S * pick([5, 6, 7, 8]) / 10;
+    var Fa = Math.round((S - V) * pick([4, 6, 8, 9, 11, 12, 14]) / 10 / 10000) * 10000;
+    var Fc = randMultiple(2, 10, 1) * 10000;
+    var seg = S - V - Fa;
+    var chg = -seg;
+    return {
+      badge: '事業(セグメント)の継続か廃止か',
+      check: chg === -(S - V - Fa),
+      lines: [
+        'ある事業部の売上高は<b>' + fmt(S) + '円</b>、変動費は<b>' + fmt(V) + '円</b>である。',
+        'この事業部だけで発生し、廃止すれば消える固定費が<b>' + fmt(Fa) + '円</b>。本社費の配賦額<b>' + fmt(Fc) + '円</b>は、廃止しても本社では全額発生し続ける。'
+      ],
+      label1: '事業部の貢献額(円)',
+      label2: '廃止した場合の全社利益の増減(円)',
+      ph1: '例: 80000 / -20000', ph2: '例: -80000 / 20000',
+      answers: [seg, chg],
+      explanation:
+        '配賦された本社費' + fmt(Fc) + '円は廃止しても消えないので無関係。\n' +
+        '事業部の貢献額 = 売上 ' + fmt(S) + ' − 変動費 ' + fmt(V) + ' − 回避できる固定費 ' + fmt(Fa) + ' = ' + fmt(seg) + '円\n' +
+        '廃止すると、この貢献額を失う → 全社利益の増減 = ' + fmt(chg) + '円 → ' + (seg > 0 ? '継続すべき' : (seg < 0 ? '廃止すべき' : 'どちらでも同じ'))
+    };
+  }
+
+  function generateProblem() {
+    var y = Math.random();
+    if (y < 0.25) return genSpecial();
+    if (y < 0.5) return genSpecialCap();
+    if (y < 0.75) return genMakeBuy();
+    return genSegment();
+  }
+
+  function renderProblem() {
+    var p = state.problem;
+    document.getElementById('topicBadge').textContent = '【 ' + p.badge + ' 】';
+    document.getElementById('problemCard').innerHTML = p.lines.map(function (l) {
+      return '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    document.getElementById('label1').textContent = p.label1;
+    document.getElementById('label2').textContent = p.label2;
+    var i1 = document.getElementById('input1');
+    var i2 = document.getElementById('input2');
+    i1.placeholder = p.ph1;
+    i2.placeholder = p.ph2;
+    i1.value = '';
+    i2.value = '';
+    document.getElementById('errorText').style.display = 'none';
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+  }
+
+  function parseSigned(s) {
+    if (s === undefined || s === null) return NaN;
+    var t = String(s).trim().replace(/,/g, '').replace(/円/g, '').replace(/[−▲△]/g, '-');
+    if (t === '' || t === '-' || t === '+') return NaN;
+    return Number(t);
+  }
+
+  function handleCheck() {
+    var u1 = parseSigned(document.getElementById('input1').value);
+    var u2 = parseSigned(document.getElementById('input2').value);
+    var errEl = document.getElementById('errorText');
+    if (isNaN(u1) || isNaN(u2)) {
+      errEl.textContent = '両方の欄に数値を入力してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    var p = state.problem;
+    var isCorrect = (u1 === p.answers[0]) && (u2 === p.answers[1]);
+    state.total += 1;
+    if (isCorrect) state.score += 1;
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+
+    var resultCard = document.getElementById('resultCard');
+    var resultTitle = document.getElementById('resultTitle');
+    resultTitle.textContent = isCorrect ? '正解です!' : '不正解です。もう一度見直してみましょう。';
+    resultTitle.style.color = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.borderColor = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.background = isCorrect ? 'rgba(99,153,34,0.14)' : 'rgba(216,90,48,0.14)';
+    document.getElementById('resultExplanation').textContent = p.explanation;
+    resultCard.classList.add('show');
+  }
+
+  function handleNext() {
+    state.problem = generateProblem();
+    renderProblem();
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', handleCheck);
+  document.getElementById('nextBtn').addEventListener('click', handleNext);
+  document.getElementById('input1').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+  document.getElementById('input2').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+
+  state.problem = generateProblem();
+  renderProblem();
+})();
+</script>
+</body>
+</html>
