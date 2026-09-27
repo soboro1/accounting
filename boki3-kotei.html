@@ -1,0 +1,741 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>固定資産 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label, .jside-title { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select, .jrow select, .jrow input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.3; min-width: 0; width: 0; }
+  .jrow input { flex: 1; min-width: 0; width: 0; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-wrap; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-saiken.html">← ④ 債権・債務</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ⑤ 固定資産</div>
+    <h1>固定資産 テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 取得と付随費用</a>
+    <a href="#ch2">2. 資本的支出・収益的支出</a>
+    <a href="#ch3">3. 減価償却</a>
+    <a href="#ch4">4. 固定資産の売却</a>
+    <a href="#ch5">5. 固定資産台帳</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>取得と付随費用</h2>
+
+    <h3>固定資産とは</h3>
+    <p>会社が<b>長いあいだ(1年を超えて)使うために持っている</b>資産です。3級で出てくるのは次の4つです。</p>
+    <ul>
+      <li><b>建物</b>:店舗、事務所、倉庫</li>
+      <li><b>備品</b>:パソコン、机、コピー機、陳列棚</li>
+      <li><b>車両運搬具</b>:営業用の自動車、トラック</li>
+      <li><b>土地</b>:店舗や駐車場の敷地</li>
+    </ul>
+
+    <h3>取得原価 = 購入代価 + 付随費用</h3>
+    <p>固定資産は、本体の値段(<b>購入代価</b>)だけでなく、<b>使えるようになるまでにかかった費用(付随費用)</b>も含めた金額で記録します。この金額を<span class="mark">取得原価</span>といいます。</p>
+    <ul>
+      <li>建物・土地:不動産会社への仲介手数料、登記料、整地費用</li>
+      <li>備品:引取運賃、据付費(設置費用)、試運転費</li>
+      <li>車両運搬具:登録手数料、納車費用</li>
+    </ul>
+    <div class="note">③の仕入諸掛りと同じ考え方です。「手に入れて使えるようにするための費用」は本体に含めます。仲介手数料を支払手数料にしないよう注意しましょう。</div>
+
+    <h3>仕訳の例</h3>
+    <p>建物5,000,000円を購入し、代金は月末に支払うことにした。仲介手数料150,000円と登記料50,000円は現金で支払った。</p>
+    <pre class="entry">取得原価 = 5,000,000 + 150,000 + 50,000 = 5,200,000
+
+(借)建物     5,200,000   (貸)未払金   5,000,000
+                             現金       200,000</pre>
+    <p>コピー機400,000円を購入し、設置費用20,000円とともに普通預金口座から支払った。</p>
+    <pre class="entry">(借)備品       420,000   (貸)普通預金   420,000</pre>
+    <div class="note">固定資産を後払いで買ったときは、④で学んだとおり<b>未払金</b>です(買掛金ではありません)。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>資本的支出・収益的支出</h2>
+
+    <h3>「価値が上がる工事」か「元に戻す工事」か</h3>
+    <p>固定資産に手を加えたときの支出は、内容によって処理が分かれます。</p>
+    <ul>
+      <li><b>資本的支出</b>:価値を高める・使える期間を延ばす支出(改良、増築、耐震工事など) → <b>固定資産の取得原価に加える</b></li>
+      <li><b>収益的支出</b>:元の状態を保つ・元に戻す支出(壊れた所の修理、塗り直し、定期点検など) → <b>修繕費(費用)</b></li>
+    </ul>
+
+    <h3>仕訳の例</h3>
+    <p>建物の改修工事を行い、代金1,000,000円を普通預金口座から支払った。このうち700,000円は耐震性を高める改良で、残りは定期的な修繕である。</p>
+    <pre class="entry">(借)建物       700,000   (貸)普通預金 1,000,000
+    修繕費     300,000</pre>
+    <div class="note">見分け方:工事のあと、<b>前より良くなった</b>なら資本的支出(資産)、<b>元どおりになった</b>だけなら収益的支出(費用)です。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>減価償却(定額法・間接法)</h2>
+
+    <h3>減価償却とは</h3>
+    <p>建物や備品は、使っているうちに古くなって価値が下がります。そこで、取得原価を<b>使える期間(耐用年数)</b>にわたって少しずつ費用にしていきます。これを<span class="mark">減価償却</span>といい、決算のときに行います。</p>
+    <p>土地は使っても価値が下がらないので、<b>減価償却をしません</b>。</p>
+
+    <h3>定額法:毎年同じ金額を費用にする</h3>
+    <pre class="entry">1年分の減価償却費 = (取得原価 − 残存価額) ÷ 耐用年数</pre>
+    <ul>
+      <li><b>残存価額</b>:耐用年数が終わったときに残ると考える価値。3級では<b>ゼロ</b>が基本ですが、「取得原価の10%」と指示されることもあります</li>
+      <li>例)取得原価600,000円、残存価額ゼロ、耐用年数5年 → 600,000 ÷ 5 = <b>120,000円</b></li>
+      <li>例)取得原価600,000円、残存価額10%、耐用年数5年 → (600,000 − 60,000) ÷ 5 = <b>108,000円</b></li>
+    </ul>
+
+    <h3>期の途中で買ったときは月割り</h3>
+    <p>期の途中で買った場合は、<b>使った月数分だけ</b>を費用にします。</p>
+    <pre class="entry">当期の減価償却費 = 1年分 × 使った月数 / 12
+例)決算日3月31日、10月1日に取得(1年分120,000円)
+    → 10月〜3月の6か月分:120,000 × 6/12 = 60,000円</pre>
+
+    <h3>間接法で記帳する</h3>
+    <p>3級では<b>間接法</b>で記帳します。固定資産の金額は取得原価のまま残し、減った分を<span class="mark">減価償却累計額</span>という勘定に積み上げていきます。</p>
+    <pre class="entry">(借)減価償却費  120,000   (貸)備品減価償却累計額 120,000</pre>
+    <ul>
+      <li><b>減価償却費</b>:費用</li>
+      <li><b>備品減価償却累計額</b>:資産のマイナスを表す勘定(評価勘定)。貸方に積み上がる。建物なら「建物減価償却累計額」</li>
+    </ul>
+    <pre class="entry">帳簿価額 = 取得原価 − 減価償却累計額
+例)取得原価600,000円、2年償却済み → 600,000 − 240,000 = 360,000円</pre>
+    <div class="note">直接法(固定資産の勘定から直接減らす方法)もありますが、3級の試験では間接法が出題されます。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>固定資産の売却</h2>
+
+    <h3>帳簿価額と売った値段を比べる</h3>
+    <ul>
+      <li>売却価額 &gt; 帳簿価額 → 差額は<b>固定資産売却益(収益)</b></li>
+      <li>売却価額 &lt; 帳簿価額 → 差額は<b>固定資産売却損(費用)</b></li>
+    </ul>
+
+    <h3>仕訳の手順</h3>
+    <ul>
+      <li>① 固定資産を<b>取得原価で</b>貸方に書いてなくす</li>
+      <li>② 減価償却累計額を<b>借方に</b>書いてなくす</li>
+      <li>③ 受け取る代金を借方に書く(後で受け取るなら<b>未収入金</b>)</li>
+      <li>④ 貸借の差額が売却益(貸方)か売却損(借方)</li>
+    </ul>
+
+    <h3>仕訳の例(期首に売却)</h3>
+    <p>備品(取得原価600,000円、減価償却累計額240,000円)を300,000円で売却し、代金は月末に受け取ることにした。</p>
+    <pre class="entry">帳簿価額 = 600,000 − 240,000 = 360,000
+売却価額 300,000 − 帳簿価額 360,000 = −60,000 → 売却損
+
+(借)備品減価償却累計額 240,000   (貸)備品 600,000
+    未収入金           300,000
+    固定資産売却損      60,000</pre>
+
+    <h3>期の途中で売却したとき</h3>
+    <p>期首から売却した日までの減価償却費も計上します。</p>
+    <p>決算日3月31日。備品(取得原価600,000円、期首の減価償却累計額240,000円、定額法・残存価額ゼロ・耐用年数5年)を9月30日に400,000円で売却し、代金は普通預金口座に振り込まれた。</p>
+    <pre class="entry">当期の減価償却費 = 120,000 × 6/12(4月〜9月)= 60,000
+帳簿価額 = 600,000 − 240,000 − 60,000 = 300,000
+売却価額 400,000 − 300,000 = 100,000 → 売却益
+
+(借)備品減価償却累計額 240,000   (貸)備品           600,000
+    減価償却費          60,000       固定資産売却益 100,000
+    普通預金           400,000</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第5章 ===== -->
+  <section class="chapter" id="ch5">
+    <div class="chapter-no">CHAPTER 5</div>
+    <h2>固定資産台帳</h2>
+
+    <h3>固定資産ごとの明細</h3>
+    <p>固定資産を1つずつ管理する<b>補助簿</b>です。取得日・名称・取得原価・耐用年数・減価償却の状況などを記録します。</p>
+    <pre class="entry">固定資産台帳(決算日 X2年3月31日)
+
+備品A  取得日 X0年4月1日   取得原価 600,000  耐用年数5年
+       期首減価償却累計額 120,000  当期減価償却費 120,000
+       期末帳簿価額 360,000
+
+備品B  取得日 X1年10月1日  取得原価 480,000  耐用年数4年
+       期首減価償却累計額  60,000  当期減価償却費 120,000
+       期末帳簿価額 300,000</pre>
+    <ul>
+      <li>備品A:1年分 600,000 ÷ 5 = 120,000。X0年度とX1年度の2年分で累計額240,000、帳簿価額 600,000 − 240,000 = 360,000</li>
+      <li>備品B:1年分 480,000 ÷ 4 = 120,000。取得した期(X1年度)は10月〜3月の6か月分で60,000。当期(X2年3月期)は1年分120,000。帳簿価額 480,000 − 60,000 − 120,000 = 300,000</li>
+    </ul>
+    <div class="note">試験では、台帳の空欄を埋めたり、台帳から総勘定元帳の金額(備品の残高や減価償却累計額)を読み取ったりする問題が出ます。<b>期首減価償却累計額 + 当期減価償却費 = 期末の累計額</b>という関係を押さえておきましょう。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="5">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 取得と付随費用</button>
+      <button class="chip" data-ch="2">2. 資本的・収益的支出</button>
+      <button class="chip" data-ch="3">3. 減価償却</button>
+      <button class="chip" data-ch="4">4. 売却</button>
+      <button class="chip" data-ch="5">5. 固定資産台帳</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ⑤ 固定資産(取得・資本的支出・減価償却・売却・固定資産台帳)の練習用アプリ</div>
+  </section>
+
+  <div class="unit-nav">
+    <a href="boki3-saiken.html">← ④ 債権・債務</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ACCOUNT_LIST = [
+    '現金', '当座預金', '普通預金', '未収入金', '建物', '備品', '車両運搬具', '土地',
+    '未払金', '買掛金', '建物減価償却累計額', '備品減価償却累計額', '車両運搬具減価償却累計額',
+    '固定資産売却益',
+    '減価償却費', '修繕費', '固定資産売却損', '支払手数料', '仕入'
+  ];
+  var CH_NAME = { 1: '取得と付随費用', 2: '資本的支出・収益的支出', 3: '減価償却', 4: '固定資産の売却', 5: '固定資産台帳' };
+  var ROWS = 3;
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+
+  // 仕訳の表示。dr / cr は [[科目, 金額], ...]
+  function jText(dr, cr) {
+    var n = Math.max(dr.length, cr.length), out = [];
+    function cell(e) { return e ? e[0] + ' ' + fmt(e[1]) : ''; }
+    var w = 0;
+    dr.forEach(function (e) { w = Math.max(w, cell(e).length); });
+    for (var i = 0; i < n; i++) {
+      var left = (i === 0 ? '(借)' : '    ') + cell(dr[i]);
+      var pad = new Array(Math.max(1, w + 4 - cell(dr[i]).length + 3)).join(' ');
+      out.push(left + pad + (cr[i] ? (i === 0 ? '(貸)' : '    ') + cell(cr[i]) : ''));
+    }
+    return out.join('\n');
+  }
+  function jKey(list) { return list.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|'); }
+  function jp(ch, topic, lines, dr, cr, why) {
+    return {
+      ch: ch, topic: topic, kind: 'journal', lines: lines.concat(['仕訳を答えてください。']),
+      answer: { dr: dr, cr: cr }, explain: jText(dr, cr) + '\n\n' + why
+    };
+  }
+  function numP(ch, topic, lines, answer, explain) {
+    return { ch: ch, topic: topic, kind: 'number', lines: lines, answer: answer, explain: explain };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return {
+      ch: ch, topic: '知識問題', lines: [k.q], kind: 'choice',
+      options: shuffle([k.a].concat(k.o)), answer: k.a,
+      explain: '正解は「' + k.a + '」。\n' + k.e
+    };
+  }
+
+  // 償却資産(備品・建物・車両)を作る。1年分と月額が整数になるようにする
+  var DEP_ASSETS = [
+    { acct: '備品', name: '備品', life: [4, 5, 6, 8], k: [3, 60] },
+    { acct: '車両運搬具', name: '営業用の自動車', life: [4, 5, 6], k: [20, 80] },
+    { acct: '建物', name: '店舗用の建物', life: [20, 25, 30], k: [10, 40] }
+  ];
+  function makeAsset(allowResidual) {
+    var a = pick(DEP_ASSETS), n = pick(a.life);
+    var residual = allowResidual && a.acct !== '建物' && Math.random() < 0.3;
+    var annual, cost;
+    for (var t = 0; t < 100; t++) {
+      annual = randMultiple(a.k[0], a.k[1], 1) * (a.acct === '建物' ? 12000 : 6000);
+      cost = residual ? annual * n / 0.9 : annual * n;
+      if (Math.abs(cost - Math.round(cost)) < 1e-9 && Math.round(cost) % 1000 === 0) break;
+    }
+    if (Math.abs(cost - Math.round(cost)) > 1e-9 || Math.round(cost) % 1000 !== 0) { residual = false; cost = annual * n; }
+    cost = Math.round(cost);
+    return { acct: a.acct, name: a.name, acc: a.acct + '減価償却累計額', n: n, cost: cost, annual: annual, residual: residual };
+  }
+  function annualText(x) {
+    return x.residual
+      ? '1年分 = (' + fmt(x.cost) + ' − ' + fmt(x.cost) + ' × 10%) ÷ ' + x.n + '年 = ' + fmt(x.annual) + '円'
+      : '1年分 = ' + fmt(x.cost) + ' ÷ ' + x.n + '年 = ' + fmt(x.annual) + '円';
+  }
+  function condText(x) { return '定額法、残存価額' + (x.residual ? 'は取得原価の10%' : 'ゼロ') + '、耐用年数' + x.n + '年'; }
+  var MONTHS = ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'];
+
+  // ---- 第1章 取得と付随費用 ----
+  function gen1() {
+    var v = pick(['building', 'land', 'equip', 'car', 'calc']);
+    var pay = pick([['未払金', '代金は月末に支払うことにした'], ['普通預金', '代金は普通預金口座から支払った'], ['当座預金', '代金は小切手を振り出して支払った']]);
+    if (v === 'building' || v === 'land') {
+      var isB = v === 'building';
+      var p = randMultiple(20, 80, 1) * 100000, f1 = randMultiple(5, 30, 1) * 10000, f2 = randMultiple(1, 10, 1) * 10000;
+      var fee2 = isB ? '登記料' : '整地費用';
+      return jp(1, isB ? '建物の購入' : '土地の購入', [(isB ? '店舗用の建物' : '店舗用の土地') + fmt(p) + '円を購入し、' + pay[1] + '。なお、不動産会社への仲介手数料' + fmt(f1) + '円と' + fee2 + fmt(f2) + '円は現金で支払った。'],
+        [[isB ? '建物' : '土地', p + f1 + f2]], [[pay[0], p], ['現金', f1 + f2]],
+        '取得原価 = 購入代価 + 付随費用\n' + fmt(p) + ' + ' + fmt(f1) + ' + ' + fmt(f2) + ' = ' + fmt(p + f1 + f2) + '円\n仲介手数料や' + fee2 + 'も取得原価に含めます(支払手数料にはしません)。');
+    }
+    if (v === 'equip' || v === 'car') {
+      var isE = v === 'equip';
+      var p2 = randMultiple(10, 80, 1) * 10000, f = randMultiple(1, 20, 1) * 1000;
+      var what = isE ? pick(['コピー機', '陳列棚', '業務用パソコン']) : '営業用の自動車';
+      var fee = isE ? pick(['設置費用', '引取運賃']) : '登録手数料';
+      var samePay = Math.random() < 0.5;
+      if (samePay) return jp(1, isE ? '備品の購入' : '車両の購入', [what + fmt(p2) + '円を購入し、' + fee + fmt(f) + '円とともに' + (pay[0] === '未払金' ? '月末に支払うことにした' : pay[1].replace('代金は', '')) + '。'],
+        [[isE ? '備品' : '車両運搬具', p2 + f]], [[pay[0], p2 + f]], '取得原価 = ' + fmt(p2) + ' + ' + fmt(f) + ' = ' + fmt(p2 + f) + '円\n' + fee + 'は使えるようにするための費用なので、取得原価に含めます。');
+      return jp(1, isE ? '備品の購入' : '車両の購入', [what + fmt(p2) + '円を購入し、' + pay[1] + '。なお、' + fee + fmt(f) + '円は現金で支払った。'],
+        [[isE ? '備品' : '車両運搬具', p2 + f]], pay[0] === '現金' ? [['現金', p2 + f]] : [[pay[0], p2], ['現金', f]], '取得原価 = ' + fmt(p2) + ' + ' + fmt(f) + ' = ' + fmt(p2 + f) + '円\n' + fee + 'は取得原価に含めます。');
+    }
+    var b = randMultiple(20, 60, 1) * 100000, c1 = randMultiple(5, 20, 1) * 10000, c2 = randMultiple(1, 8, 1) * 10000;
+    return numP(1, '取得原価の計算', ['建物を<b>' + fmt(b) + '円</b>で購入した。', 'このとき、仲介手数料<b>' + fmt(c1) + '円</b>と登記料<b>' + fmt(c2) + '円</b>を支払った。', '建物の取得原価はいくら?'],
+      b + c1 + c2, '取得原価 = 購入代価 + 付随費用\n' + fmt(b) + ' + ' + fmt(c1) + ' + ' + fmt(c2) + ' = ' + fmt(b + c1 + c2) + '円');
+  }
+  var K1 = [
+    { q: '建物を購入したときに支払った仲介手数料は、どう処理する?', a: '建物の取得原価に含める', o: ['支払手数料にする', '修繕費にする', '仕訳しない'], e: '固定資産を手に入れるためにかかった付随費用は、取得原価に含めます。' },
+    { q: '事務所で使うパソコンを後払いで購入した。貸方の勘定科目は?', a: '未払金', o: ['買掛金', '支払手形', '備品'], e: '商品以外の後払いなので未払金です(④ 債権・債務)。' },
+    { q: '次のうち、減価償却をしない固定資産は?', a: '土地', o: ['建物', '備品', '車両運搬具'], e: '土地は使っても価値が減らないので、減価償却をしません。' }
+  ];
+
+  // ---- 第2章 資本的支出・収益的支出 ----
+  function gen2() {
+    var v = pick(['mixed', 'mixed', 'capital', 'repair']);
+    var b = pick([['普通預金', '普通預金口座から支払った'], ['当座預金', '小切手を振り出して支払った'], ['未払金', '月末に支払うことにした']]);
+    var total = randMultiple(5, 30, 1) * 100000;
+    if (v === 'mixed') {
+      var cap = randMultiple(1, total / 100000 - 1, 1) * 100000;
+      var imp = pick(['耐震性を高める改良', '増築', '耐用年数を延ばすための改良']);
+      return jp(2, '改良と修繕', ['建物の改修工事を行い、代金' + fmt(total) + '円は' + b[1] + '。このうち' + fmt(cap) + '円は' + imp + 'のための支出(資本的支出)で、残りは定期的な修繕(収益的支出)である。'],
+        [['建物', cap], ['修繕費', total - cap]], [[b[0], total]], '資本的支出 ' + fmt(cap) + '円は、建物の価値を高めるので建物(資産)に加えます。\n収益的支出 ' + fmt(total) + ' − ' + fmt(cap) + ' = ' + fmt(total - cap) + '円は、元の状態を保つための支出なので修繕費(費用)です。');
+    }
+    if (v === 'capital') return jp(2, '資本的支出', ['建物に非常階段を新たに設置し、代金' + fmt(total) + '円を' + b[1] + '。これは建物の価値を高める支出である。'],
+      [['建物', total]], [[b[0], total]], '価値を高める支出(資本的支出)なので、建物の取得原価に加えます。');
+    var small = randMultiple(5, 50, 1) * 10000;
+    return jp(2, '収益的支出', ['店舗の壁の汚れを塗り直し、代金' + fmt(small) + '円を' + b[1] + '。'],
+      [['修繕費', small]], [[b[0], small]], '元の状態に戻すための支出(収益的支出)なので、修繕費(費用)です。');
+  }
+  var K2 = [
+    { q: '建物の価値を高めたり、使える期間を延ばしたりする支出を何という?', a: '資本的支出', o: ['収益的支出', '付随費用', '減価償却費'], e: '資本的支出は、固定資産の取得原価に加えます。' },
+    { q: '壊れた窓ガラスを取り替えた(元の状態に戻した)支出の勘定科目は?', a: '修繕費', o: ['建物', '備品', '減価償却費'], e: '元に戻すための支出は収益的支出なので、修繕費(費用)です。' }
+  ];
+
+  // ---- 第3章 減価償却 ----
+  function gen3() {
+    var v = pick(['annual', 'annual', 'monthly', 'monthly', 'journal', 'book']);
+    var x = makeAsset(true);
+    if (v === 'annual') return numP(3, '1年分の減価償却費', [x.name + '(取得原価<b>' + fmt(x.cost) + '円</b>)を期首から使っている。', '減価償却は' + condText(x) + 'で行う。', '1年分の減価償却費はいくら?'],
+      x.annual, annualText(x));
+    if (v === 'monthly') {
+      var mi = randMultiple(1, 11, 1), used = 12 - mi, dep = x.annual * used / 12;
+      return numP(3, '期中取得の減価償却費', ['決算日は3月31日である。当期の<b>' + MONTHS[mi] + '1日</b>に' + x.name + '(取得原価<b>' + fmt(x.cost) + '円</b>)を取得し、使い始めた。', '減価償却は' + condText(x) + 'で、月割りで計算する。', '当期の減価償却費はいくら?'],
+        dep, annualText(x) + '\n' + MONTHS[mi] + '〜3月の ' + used + 'か月分:' + fmt(x.annual) + ' × ' + used + '/12 = ' + fmt(dep) + '円');
+    }
+    if (v === 'journal') return jp(3, '決算での減価償却', ['決算にあたり、' + x.name + '(取得原価' + fmt(x.cost) + '円、期首から使用)について減価償却を行う。' + condText(x) + '、記帳は間接法による。'],
+      [['減価償却費', x.annual]], [[x.acc, x.annual]], annualText(x) + '\n間接法なので、' + x.acct + 'は減らさず「' + x.acc + '」を貸方に積み上げます。');
+    var y = randMultiple(1, Math.min(x.n - 1, 5), 1);
+    return numP(3, '帳簿価額', [x.name + '(取得原価<b>' + fmt(x.cost) + '円</b>)を取得してから、ちょうど<b>' + y + '年</b>が経った(毎年1年分を償却済み)。', '減価償却は' + condText(x) + 'で行っている。', '現在の帳簿価額はいくら?'],
+      x.cost - x.annual * y, annualText(x) + '\n減価償却累計額 = ' + fmt(x.annual) + ' × ' + y + '年 = ' + fmt(x.annual * y) + '円\n帳簿価額 = ' + fmt(x.cost) + ' − ' + fmt(x.annual * y) + ' = ' + fmt(x.cost - x.annual * y) + '円');
+  }
+  var K3 = [
+    { q: '間接法で減価償却をしたとき、貸方に書く勘定科目(備品の場合)は?', a: '備品減価償却累計額', o: ['備品', '減価償却費', '未払金'], e: '間接法では備品の金額はそのままにして、減った分を備品減価償却累計額に積み上げます。' },
+    { q: '定額法の1年分の減価償却費の計算式は?', a: '(取得原価 − 残存価額) ÷ 耐用年数', o: ['取得原価 × 耐用年数', '取得原価 ÷ 残存価額', '(取得原価 + 残存価額) ÷ 耐用年数'], e: '取得原価から残存価額を引いた金額を、耐用年数で均等に割ります。' },
+    { q: '帳簿価額の求め方として正しいものは?', a: '取得原価 − 減価償却累計額', o: ['取得原価 + 減価償却累計額', '取得原価 − 当期の減価償却費だけ', '売却価額 − 取得原価'], e: '帳簿価額は、取得原価からこれまでの減価償却の合計(累計額)を引いた金額です。' }
+  ];
+
+  // ---- 第4章 固定資産の売却 ----
+  function saleSetup(midYear) {
+    var x;
+    do { x = makeAsset(false); } while (x.acct === '建物');
+    var y = randMultiple(1, x.n - 2, 1);
+    var accum = x.annual * y;
+    var m = midYear ? randMultiple(1, 11, 1) : 0;
+    var depNow = x.annual * m / 12;
+    var book = x.cost - accum - depNow;
+    return { x: x, y: y, accum: accum, m: m, depNow: depNow, book: book };
+  }
+  function recvOf() { return pick([['未収入金', '代金は月末に受け取ることにした'], ['普通預金', '代金は普通預金口座に振り込まれた'], ['現金', '代金は現金で受け取った']]); }
+  function gen4() {
+    var v = pick(['start', 'start', 'mid', 'midCalc', 'gainCalc']);
+    if (v === 'start' || v === 'gainCalc') {
+      var s = saleSetup(false), r = recvOf();
+      var diff = randMultiple(1, Math.max(1, Math.floor(s.book / 10000) - 1), 1) * 10000 * (Math.random() < 0.5 ? 1 : -1);
+      var price = s.book + diff;
+      var lines = [s.x.name + '(取得原価' + fmt(s.x.cost) + '円、減価償却累計額' + fmt(s.accum) + '円)を期首に' + fmt(price) + '円で売却し、' + r[1] + '。記帳は間接法による。'];
+      if (v === 'gainCalc') return numP(4, '売却損益の計算', [s.x.name + '(取得原価<b>' + fmt(s.x.cost) + '円</b>、減価償却累計額<b>' + fmt(s.accum) + '円</b>)を期首に<b>' + fmt(price) + '円</b>で売却した。', diff > 0 ? '固定資産売却益の金額はいくら?' : '固定資産売却損の金額はいくら?'],
+        Math.abs(diff), '帳簿価額 = ' + fmt(s.x.cost) + ' − ' + fmt(s.accum) + ' = ' + fmt(s.book) + '円\n売却価額 ' + fmt(price) + ' − 帳簿価額 ' + fmt(s.book) + ' = ' + fmt(diff) + '円 → ' + (diff > 0 ? '売却益' : '売却損') + ' ' + fmt(Math.abs(diff)) + '円');
+      var dr = [[s.x.acc, s.accum], [r[0], price]], cr = [[s.x.acct, s.x.cost]];
+      if (diff > 0) cr.push(['固定資産売却益', diff]); else dr.push(['固定資産売却損', -diff]);
+      return jp(4, '期首の売却', lines, dr, cr, '帳簿価額 = ' + fmt(s.x.cost) + ' − ' + fmt(s.accum) + ' = ' + fmt(s.book) + '円\n売却価額 ' + fmt(price) + ' − ' + fmt(s.book) + ' = ' + fmt(diff) + '円 → ' + (diff > 0 ? '固定資産売却益(収益・貸方)' : '固定資産売却損(費用・借方)') + '\n' + s.x.acct + 'は取得原価で、累計額は全額なくします。');
+    }
+    var s2 = saleSetup(true), r2 = recvOf();
+    var up = v === 'mid';
+    var diff2 = randMultiple(1, Math.max(1, Math.floor(s2.book / 10000) - 1), 1) * 10000 * (up ? 1 : (Math.random() < 0.5 ? 1 : -1));
+    var price2 = s2.book + diff2;
+    var endM = MONTHS[s2.m - 1];
+    var cond = '決算日は3月31日。' + s2.x.name + '(取得原価' + fmt(s2.x.cost) + '円、期首の減価償却累計額' + fmt(s2.accum) + '円、' + condText(s2.x) + ')を当期の' + endM + '末日に' + fmt(price2) + '円で売却し、' + r2[1] + '。当期分の減価償却費は月割りで計上する。';
+    var calc = annualText(s2.x) + '\n当期の減価償却費 = ' + fmt(s2.x.annual) + ' × ' + s2.m + '/12(4月〜' + endM + ')= ' + fmt(s2.depNow) + '円\n帳簿価額 = ' + fmt(s2.x.cost) + ' − ' + fmt(s2.accum) + ' − ' + fmt(s2.depNow) + ' = ' + fmt(s2.book) + '円\n売却価額 ' + fmt(price2) + ' − ' + fmt(s2.book) + ' = ' + fmt(diff2) + '円';
+    if (up) return jp(4, '期中の売却', [cond + '記帳は間接法による。'],
+      [[s2.x.acc, s2.accum], ['減価償却費', s2.depNow], [r2[0], price2]], [[s2.x.acct, s2.x.cost], ['固定資産売却益', diff2]], calc + ' → 固定資産売却益');
+    return numP(4, '期中の売却損益', [cond, diff2 > 0 ? '固定資産売却益の金額はいくら?' : '固定資産売却損の金額はいくら?'], Math.abs(diff2), calc + ' → ' + (diff2 > 0 ? '売却益' : '売却損') + ' ' + fmt(Math.abs(diff2)) + '円');
+  }
+  var K4 = [
+    { q: '売却価額が帳簿価額より大きいとき、差額の勘定科目は?', a: '固定資産売却益', o: ['固定資産売却損', '雑益', '受取手数料'], e: '帳簿価額より高く売れた差額は固定資産売却益(収益)です。' },
+    { q: '固定資産を売却したとき、固定資産の勘定(備品など)を貸方に書く金額は?', a: '取得原価', o: ['帳簿価額', '売却価額', '減価償却累計額'], e: '間接法では備品は取得原価のまま残っているので、取得原価で貸方に書いてなくします。' },
+    { q: '固定資産を売却し、代金を後日受け取ることにした。借方の勘定科目は?', a: '未収入金', o: ['売掛金', '受取手形', '前受金'], e: '固定資産は商品ではないので、売掛金ではなく未収入金です。' }
+  ];
+
+  // ---- 第5章 固定資産台帳 ----
+  function gen5() {
+    var x = makeAsset(false);
+    while (x.acct === '建物') x = makeAsset(false);
+    var fy = 5;
+    var startMi = randMultiple(0, 11, 1), firstMonths = 12 - startMi;
+    var yearsAgo = randMultiple(1, Math.min(3, x.n - 2), 1);
+    var firstDep = x.annual * firstMonths / 12;
+    var accumOpen = firstDep + x.annual * (yearsAgo - 1);
+    var dep = x.annual;
+    var bookEnd = x.cost - accumOpen - dep;
+    var acqYear = fy - yearsAgo;
+    var calYear = startMi <= 8 ? acqYear - 1 : acqYear;
+    var acq = 'X' + calYear + '年' + MONTHS[startMi] + '1日';
+    var ask = pick(['accumOpen', 'bookEnd', 'accumEnd']);
+    var shown = function (key, val) { return ask === key ? '?' : fmt(val); };
+    var lines = ['決算日X' + fy + '年3月31日の固定資産台帳の一部である(' + condText(x) + '、月割り計算)。',
+      '<pre class="entry">名称      ' + x.name + '\n取得日    ' + acq + '\n取得原価  ' + fmt(x.cost) + '円\n耐用年数  ' + x.n + '年\n期首減価償却累計額  ' + shown('accumOpen', accumOpen) + '\n当期減価償却費      ' + fmt(dep) + '\n期末帳簿価額        ' + shown('bookEnd', bookEnd) + '</pre>'];
+    lines.push(ask === 'accumOpen' ? '期首減価償却累計額はいくら?' : ask === 'bookEnd' ? '期末帳簿価額はいくら?' : '期末の減価償却累計額はいくら?');
+    var ansMap = { accumOpen: accumOpen, bookEnd: bookEnd, accumEnd: accumOpen + dep };
+    var ex = annualText(x) + '\n取得した年度(' + MONTHS[startMi] + '〜3月の' + firstMonths + 'か月):' + fmt(x.annual) + ' × ' + firstMonths + '/12 = ' + fmt(firstDep) + '円\n' +
+      (yearsAgo > 1 ? 'その後 ' + (yearsAgo - 1) + '年分:' + fmt(x.annual) + ' × ' + (yearsAgo - 1) + ' = ' + fmt(x.annual * (yearsAgo - 1)) + '円\n' : '') +
+      '期首減価償却累計額 = ' + fmt(accumOpen) + '円\n期末の累計額 = ' + fmt(accumOpen) + ' + ' + fmt(dep) + ' = ' + fmt(accumOpen + dep) + '円\n期末帳簿価額 = ' + fmt(x.cost) + ' − ' + fmt(accumOpen + dep) + ' = ' + fmt(bookEnd) + '円';
+    return numP(5, '固定資産台帳の読み取り', lines, ansMap[ask], ex);
+  }
+  var K5 = [
+    { q: '固定資産を1つずつ管理するための補助簿は?', a: '固定資産台帳', o: ['総勘定元帳', '仕訳帳', '商品有高帳'], e: '固定資産台帳は、取得日・取得原価・減価償却の状況などを資産ごとに記録する補助簿です。' },
+    { q: '期末の減価償却累計額の求め方として正しいものは?', a: '期首減価償却累計額 + 当期減価償却費', o: ['取得原価 − 当期減価償却費', '期首減価償却累計額 − 当期減価償却費', '取得原価 ÷ 耐用年数'], e: '期首までの累計額に、当期の償却分を足したものが期末の累計額です。' }
+  ];
+
+  var GENS = {
+    1: [gen1, gen1, gen1, function () { return knowProblem(1, K1); }],
+    2: [gen2, gen2, gen2, function () { return knowProblem(2, K2); }],
+    3: [gen3, gen3, gen3, gen3, function () { return knowProblem(3, K3); }],
+    4: [gen4, gen4, gen4, gen4, function () { return knowProblem(4, K4); }],
+    5: [gen5, gen5, gen5, function () { return knowProblem(5, K5); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function jRow(side, i) {
+    return '<div class="jrow"><select id="' + side + 'A' + i + '" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '科目' + (i + 1) + '"><option value="">科目' + (i === 0 ? '' : '(任意)') + '</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select>' +
+      '<input type="text" id="' + side + 'M' + i + '" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '金額' + (i + 1) + '"></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>';
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(円)</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      var dr = '', cr = '';
+      for (var i = 0; i < ROWS; i++) { dr += jRow('dr', i); cr += jRow('cr', i); }
+      h = '<div class="jgrid"><div class="jside"><div class="jside-title">借方</div>' + dr + '</div><div class="jside"><div class="jside-title">貸方</div>' + cr + '</div></div>' +
+        '<div class="hint">2行目・3行目は、科目が複数必要なときだけ入力してください。金額は半角数字(カンマはあってもなくてもOK)。</div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        state.choice = b.getAttribute('data-v');
+        Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  // 仕訳の入力を読む。エラーなら文字列を返す
+  function readSide(side, label) {
+    var list = [];
+    for (var i = 0; i < ROWS; i++) {
+      var a = $(side + 'A' + i).value, raw = $(side + 'M' + i).value.trim();
+      if (!a && !raw) continue;
+      if (!a) return label + (i + 1) + '行目の科目を選んでください。';
+      var m = parseNum(raw);
+      if (m === null || m <= 0) return label + (i + 1) + '行目の金額を半角数字で入力してください。';
+      list.push([a, m]);
+    }
+    if (!list.length) return label + 'の科目と金額を入力してください。';
+    return list;
+  }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = readSide('dr', '借方'); if (typeof dr === 'string') return showError(dr);
+      var cr = readSide('cr', '貸方'); if (typeof cr === 'string') return showError(cr);
+      ok = jKey(dr) === jKey(p.answer.dr) && jKey(cr) === jKey(p.answer.cr);
+      yours = '\n' + jText(dr, cr);
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n正解:\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3, 4, 5]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
