@@ -1,0 +1,652 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>税金 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label, .jside-title { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select, .jrow select, .jrow input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.3; min-width: 0; width: 0; }
+  .jrow input { flex: 1; min-width: 0; width: 0; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-wrap; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-kotei.html">← ⑤ 固定資産</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ⑥ 税金</div>
+    <h1>税金 テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 消費税</a>
+    <a href="#ch2">2. 法人税等</a>
+    <a href="#ch3">3. 租税公課</a>
+    <a href="#ch4">4. 源泉所得税・社会保険料</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <section class="chapter" id="ch0">
+    <div class="chapter-no">INTRODUCTION</div>
+    <h2>税金は「どう処理するか」で3つに分かれる</h2>
+    <ul>
+      <li><b>消費税</b>:お客さんから預かって国に納める税金。会社の費用にはならない → 仮払消費税・仮受消費税(第1章)</li>
+      <li><b>法人税・住民税・事業税</b>:会社の利益にかかる税金 → 法人税等(第2章)</li>
+      <li><b>固定資産税・印紙税・自動車税など</b>:会社の活動にかかるその他の税金 → 租税公課(費用)(第3章)</li>
+    </ul>
+    <p>このほか、従業員の給料から差し引いて会社が代わりに納める<b>源泉所得税</b>と<b>社会保険料</b>も、この単元で学びます(第4章)。</p>
+  </section>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>消費税(税抜方式)</h2>
+
+    <h3>消費税は「預かって、差額を納める」</h3>
+    <p>商品を売るときにお客さんから消費税を受け取り、仕入れるときには仕入先に消費税を払います。会社は、<b>受け取った消費税 − 支払った消費税</b>の差額を国に納めます。</p>
+    <p>3級では<span class="mark">税抜方式</span>で記帳します。売上や仕入は<b>税抜きの金額</b>で記録し、消費税の部分は別の勘定に分けます。</p>
+    <ul>
+      <li>支払った消費税 → <b>仮払消費税(資産)</b></li>
+      <li>受け取った消費税 → <b>仮受消費税(負債)</b></li>
+    </ul>
+
+    <h3>仕入れたとき</h3>
+    <p>商品100,000円(税抜)を仕入れ、消費税10%とともに代金は掛けとした。</p>
+    <pre class="entry">(借)仕入         100,000   (貸)買掛金   110,000
+    仮払消費税    10,000</pre>
+
+    <h3>売り上げたとき</h3>
+    <p>商品を150,000円(税抜)で売り上げ、消費税10%とともに代金は掛けとした。</p>
+    <pre class="entry">(借)売掛金       165,000   (貸)売上       150,000
+                               仮受消費税  15,000</pre>
+    <div class="note">買掛金・売掛金は<b>税込み</b>の金額、仕入・売上は<b>税抜き</b>の金額です。備品などを買ったときも同じで、備品は税抜き、未払金は税込みになります。</div>
+
+    <h3>決算:納める額を確定する</h3>
+    <p>仮受消費税と仮払消費税を相殺し、差額を<b>未払消費税(負債)</b>にします。</p>
+    <pre class="entry">仮受消費税 15,000 − 仮払消費税 10,000 = 5,000(納める額)
+
+(借)仮受消費税    15,000   (貸)仮払消費税  10,000
+                               未払消費税   5,000</pre>
+    <p>後日、納付したとき。</p>
+    <pre class="entry">(借)未払消費税     5,000   (貸)普通預金     5,000</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>法人税等と中間納付</h2>
+
+    <h3>法人税等とは</h3>
+    <p>会社の利益にかかる<b>法人税・住民税・事業税</b>をまとめて<span class="mark">法人税等</span>という勘定で処理します。決算で1年間の利益が確定してから、金額が決まります。</p>
+
+    <h3>① 中間申告・納付(期中)</h3>
+    <p>期の途中で、前の年の半分などの見込み額を先に納めます。まだ確定した金額ではないので<b>仮払法人税等(資産)</b>にします。</p>
+    <pre class="entry">法人税等の中間申告を行い、400,000円を普通預金口座から納付した。
+(借)仮払法人税等  400,000   (貸)普通預金      400,000</pre>
+
+    <h3>② 決算:1年分の金額を確定する</h3>
+    <p>1年分の法人税等を計上し、中間納付した分を差し引いた残りを<b>未払法人税等(負債)</b>にします。</p>
+    <pre class="entry">決算で、当期の法人税等が1,000,000円と計算された。
+(借)法人税等    1,000,000   (貸)仮払法人税等  400,000
+                                未払法人税等  600,000</pre>
+
+    <h3>③ 確定申告・納付(翌期)</h3>
+    <pre class="entry">(借)未払法人税等  600,000   (貸)普通預金      600,000</pre>
+    <div class="note">問題文で「税引前当期純利益の30%」のように指示されることがあります。そのときは、法人税等 = 税引前当期純利益 × 30% で計算します。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>租税公課(固定資産税・印紙税など)</h2>
+
+    <h3>費用になる税金</h3>
+    <p>次のような税金は、会社の費用として<span class="mark">租税公課</span>で処理します。</p>
+    <ul>
+      <li><b>固定資産税</b>:土地や建物などを持っていることにかかる税金</li>
+      <li><b>印紙税</b>:契約書や領収書に貼る<b>収入印紙</b>を買ったとき</li>
+      <li><b>自動車税</b>:会社の自動車にかかる税金</li>
+    </ul>
+    <div class="note">法人税等と消費税は租税公課に<b>しません</b>。それぞれ専用の勘定(法人税等、仮払消費税など)を使います。</div>
+
+    <h3>仕訳の例</h3>
+    <p>店舗の固定資産税の第1期分60,000円を、現金で納付した。</p>
+    <pre class="entry">(借)租税公課       60,000   (貸)現金        60,000</pre>
+    <p>収入印紙10,000円を購入し、現金で支払った。</p>
+    <pre class="entry">(借)租税公課       10,000   (貸)現金        10,000</pre>
+
+    <h3>郵便切手との違い・決算での残り</h3>
+    <ul>
+      <li>郵便切手を買ったとき → <b>通信費</b>(税金ではない)</li>
+      <li>決算日に使っていない収入印紙や切手が残っていたら → <b>貯蔵品(資産)</b>に振り替える</li>
+    </ul>
+    <pre class="entry">決算日に、未使用の収入印紙3,000円が残っていた。
+(借)貯蔵品          3,000   (貸)租税公課     3,000</pre>
+    <p>貯蔵品への振り替えは「10. 決算整理」でくわしく学びます。</p>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>源泉所得税・社会保険料</h2>
+
+    <h3>給料から差し引いて、会社が代わりに納める</h3>
+    <p>会社は従業員に給料を払うとき、所得税や社会保険料(健康保険・厚生年金など)の<b>従業員負担分</b>を差し引いて預かり、後で会社が代わりに納めます。④で学んだ<b>預り金(負債)</b>を、内容ごとに分けて使います。</p>
+    <ul>
+      <li>源泉所得税 → <b>所得税預り金</b></li>
+      <li>社会保険料の従業員負担分 → <b>社会保険料預り金</b></li>
+    </ul>
+
+    <h3>給料を支払ったとき</h3>
+    <p>給料総額400,000円から、源泉所得税20,000円と社会保険料(従業員負担分)40,000円を差し引き、残額を普通預金口座から支払った。</p>
+    <pre class="entry">(借)給料         400,000   (貸)所得税預り金       20,000
+                               社会保険料預り金   40,000
+                               普通預金          340,000</pre>
+
+    <h3>納付したとき</h3>
+    <p>源泉所得税は、預かった分をそのまま納めます。</p>
+    <pre class="entry">(借)所得税預り金  20,000   (貸)現金              20,000</pre>
+    <p>社会保険料は、<b>会社も従業員と同じ額を負担</b>します。会社負担分は<span class="mark">法定福利費(費用)</span>です。</p>
+    <pre class="entry">社会保険料を、従業員負担分40,000円と会社負担分40,000円をあわせて普通預金口座から納付した。
+(借)社会保険料預り金  40,000   (貸)普通預金    80,000
+    法定福利費        40,000</pre>
+    <div class="note">給料は、差し引く前の<b>総額</b>で費用にします(④と同じ)。会社負担の社会保険料は給料ではなく法定福利費です。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 消費税</button>
+      <button class="chip" data-ch="2">2. 法人税等</button>
+      <button class="chip" data-ch="3">3. 租税公課</button>
+      <button class="chip" data-ch="4">4. 源泉所得税・社会保険料</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ⑥ 税金(消費税・法人税等・租税公課・源泉所得税・社会保険料)の練習用アプリ</div>
+  </section>
+
+  <div class="unit-nav">
+    <a href="boki3-kotei.html">← ⑤ 固定資産</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ACCOUNT_LIST = [
+    '現金', '当座預金', '普通預金', '売掛金', '備品', '貯蔵品', '仮払消費税', '仮払法人税等',
+    '買掛金', '未払金', '仮受消費税', '未払消費税', '未払法人税等', '預り金', '所得税預り金', '社会保険料預り金',
+    '売上',
+    '仕入', '給料', '法定福利費', '租税公課', '通信費', '法人税等'
+  ];
+  var CH_NAME = { 1: '消費税', 2: '法人税等', 3: '租税公課', 4: '源泉所得税・社会保険料' };
+  var ROWS = 3;
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+
+  // 仕訳の表示。dr / cr は [[科目, 金額], ...]
+  function jText(dr, cr) {
+    var n = Math.max(dr.length, cr.length), out = [];
+    function cell(e) { return e ? e[0] + ' ' + fmt(e[1]) : ''; }
+    var w = 0;
+    dr.forEach(function (e) { w = Math.max(w, cell(e).length); });
+    for (var i = 0; i < n; i++) {
+      var left = (i === 0 ? '(借)' : '    ') + cell(dr[i]);
+      var pad = new Array(Math.max(1, w + 4 - cell(dr[i]).length + 3)).join(' ');
+      out.push(left + pad + (cr[i] ? (i === 0 ? '(貸)' : '    ') + cell(cr[i]) : ''));
+    }
+    return out.join('\n');
+  }
+  function jKey(list) { return list.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|'); }
+  function jp(ch, topic, lines, dr, cr, why) {
+    return {
+      ch: ch, topic: topic, kind: 'journal', lines: lines.concat(['仕訳を答えてください。']),
+      answer: { dr: dr, cr: cr }, explain: jText(dr, cr) + '\n\n' + why
+    };
+  }
+  function numP(ch, topic, lines, answer, explain) {
+    return { ch: ch, topic: topic, kind: 'number', lines: lines, answer: answer, explain: explain };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return {
+      ch: ch, topic: '知識問題', lines: [k.q], kind: 'choice',
+      options: shuffle([k.a].concat(k.o)), answer: k.a,
+      explain: '正解は「' + k.a + '」。\n' + k.e
+    };
+  }
+  var BANK = [['普通預金', '普通預金口座から'], ['当座預金', '当座預金口座から'], ['現金', '現金で']];
+
+  // ---- 第1章 消費税 ----
+  function gen1() {
+    var v = pick(['buy', 'buy', 'sell', 'sell', 'asset', 'close', 'close', 'pay', 'calc']);
+    var a = randMultiple(5, 80, 1) * 10000, t = a / 10;
+    if (v === 'buy') {
+      var p = pick([['買掛金', '代金は掛けとした'], ['現金', '代金は現金で支払った'], ['普通預金', '代金は普通預金口座から支払った']]);
+      return jp(1, '仕入(税抜方式)', ['商品' + fmt(a) + '円(税抜)を仕入れ、消費税10%とともに' + p[1] + '。消費税は税抜方式で処理する。'],
+        [['仕入', a], ['仮払消費税', t]], [[p[0], a + t]], '仕入は税抜きの ' + fmt(a) + '円。\n支払った消費税 ' + fmt(a) + ' × 10% = ' + fmt(t) + '円は仮払消費税(資産)。\n支払総額は税込みの ' + fmt(a + t) + '円です。');
+    }
+    if (v === 'sell') {
+      var r = pick([['売掛金', '代金は掛けとした'], ['現金', '代金は現金で受け取った'], ['普通預金', '代金は普通預金口座に振り込まれた']]);
+      return jp(1, '売上(税抜方式)', ['商品を' + fmt(a) + '円(税抜)で売り上げ、消費税10%とともに' + r[1] + '。消費税は税抜方式で処理する。'],
+        [[r[0], a + t]], [['売上', a], ['仮受消費税', t]], '売上は税抜きの ' + fmt(a) + '円。\n受け取った消費税 ' + fmt(t) + '円は仮受消費税(負債)。\n受取総額は税込みの ' + fmt(a + t) + '円です。');
+    }
+    if (v === 'asset') return jp(1, '備品の購入(税抜方式)', ['事務用のパソコン' + fmt(a) + '円(税抜)を購入し、消費税10%とともに代金は月末に支払うことにした。消費税は税抜方式で処理する。'],
+      [['備品', a], ['仮払消費税', t]], [['未払金', a + t]], '備品は税抜きの ' + fmt(a) + '円、消費税 ' + fmt(t) + '円は仮払消費税。\n商品以外の後払いなので、税込みの ' + fmt(a + t) + '円が未払金です。');
+    var rc = randMultiple(30, 150, 1) * 1000, pd = randMultiple(10, rc / 1000 - 5, 1) * 1000;
+    if (v === 'close') return jp(1, '決算の消費税', ['決算にあたり、消費税の納付額を確定する。仮受消費税は' + fmt(rc) + '円、仮払消費税は' + fmt(pd) + '円である。'],
+      [['仮受消費税', rc]], [['仮払消費税', pd], ['未払消費税', rc - pd]], '仮受消費税と仮払消費税を両方なくし、差額を未払消費税(負債)にします。\n' + fmt(rc) + ' − ' + fmt(pd) + ' = ' + fmt(rc - pd) + '円');
+    if (v === 'pay') {
+      var b = pick(BANK);
+      return jp(1, '消費税の納付', ['確定申告を行い、前期末に計上した未払消費税' + fmt(rc - pd) + '円を' + b[1] + '納付した。'],
+        [['未払消費税', rc - pd]], [[b[0], rc - pd]], '未払消費税を納めたので減ります(負債の減少 → 借方)。');
+    }
+    var s1 = randMultiple(50, 300, 1) * 10000, b1 = randMultiple(20, s1 / 10000 - 10, 1) * 10000;
+    return numP(1, '納付額の計算', ['当期の売上は<b>' + fmt(s1) + '円</b>、仕入は<b>' + fmt(b1) + '円</b>で、どちらも税抜金額である(消費税率10%)。', '決算で計上する未払消費税はいくら?'],
+      (s1 - b1) / 10, '仮受消費税 = ' + fmt(s1) + ' × 10% = ' + fmt(s1 / 10) + '円\n仮払消費税 = ' + fmt(b1) + ' × 10% = ' + fmt(b1 / 10) + '円\n未払消費税 = ' + fmt(s1 / 10) + ' − ' + fmt(b1 / 10) + ' = ' + fmt((s1 - b1) / 10) + '円');
+  }
+  var K1 = [
+    { q: '税抜方式で、商品を仕入れたときに支払った消費税の勘定科目は?', a: '仮払消費税', o: ['仮受消費税', '租税公課', '仕入'], e: '支払った消費税は仮払消費税(資産)です。仕入には含めません。' },
+    { q: '税抜方式で、売上勘定に記入する金額は?', a: '税抜きの金額', o: ['税込みの金額', '消費税の金額', '税込み金額の半分'], e: '税抜方式では、売上・仕入は税抜きの金額で記入し、消費税は別の勘定に分けます。' },
+    { q: '決算で、仮受消費税が仮払消費税より多いとき、差額の勘定科目は?', a: '未払消費税', o: ['未払金', '租税公課', '仮払消費税'], e: '差額は国に納める義務なので未払消費税(負債)です。' }
+  ];
+
+  // ---- 第2章 法人税等 ----
+  function gen2() {
+    var v = pick(['mid', 'close', 'close', 'pay', 'calc', 'rate']);
+    var total = randMultiple(40, 200, 1) * 10000, mid = randMultiple(10, total / 10000 - 10, 1) * 10000;
+    var b = pick(BANK);
+    if (v === 'mid') return jp(2, '中間納付', ['法人税等の中間申告を行い、' + fmt(mid) + '円を' + b[1] + '納付した。'],
+      [['仮払法人税等', mid]], [[b[0], mid]], 'まだ1年分の金額が確定していないので、仮払法人税等(資産)で処理します。');
+    if (v === 'close') return jp(2, '決算の法人税等', ['決算にあたり、当期の法人税・住民税及び事業税が' + fmt(total) + '円と計算された。なお、中間納付額' + fmt(mid) + '円は仮払法人税等で処理している。'],
+      [['法人税等', total]], [['仮払法人税等', mid], ['未払法人税等', total - mid]], '1年分 ' + fmt(total) + '円を法人税等に計上。\n中間納付した仮払法人税等 ' + fmt(mid) + '円をなくし、残り ' + fmt(total) + ' − ' + fmt(mid) + ' = ' + fmt(total - mid) + '円を未払法人税等(負債)にします。');
+    if (v === 'pay') return jp(2, '確定申告と納付', ['法人税等の確定申告を行い、前期末に計上した未払法人税等' + fmt(total - mid) + '円を' + b[1] + '納付した。'],
+      [['未払法人税等', total - mid]], [[b[0], total - mid]], '未払法人税等を納めたので減ります(負債の減少 → 借方)。');
+    if (v === 'calc') return numP(2, '未払法人税等の計算', ['当期の法人税等は<b>' + fmt(total) + '円</b>、中間納付額は<b>' + fmt(mid) + '円</b>だった。', '決算で計上する未払法人税等はいくら?'],
+      total - mid, fmt(total) + ' − ' + fmt(mid) + ' = ' + fmt(total - mid) + '円');
+    var pre = randMultiple(20, 100, 1) * 100000, tax = pre * 3 / 10, m2 = randMultiple(1, tax / 10000 - 1, 1) * 10000;
+    return jp(2, '税率からの計算', ['決算にあたり、税引前当期純利益' + fmt(pre) + '円の30%を法人税等として計上する。なお、中間納付額' + fmt(m2) + '円は仮払法人税等で処理している。'],
+      [['法人税等', tax]], [['仮払法人税等', m2], ['未払法人税等', tax - m2]], '法人税等 = ' + fmt(pre) + ' × 30% = ' + fmt(tax) + '円\n未払法人税等 = ' + fmt(tax) + ' − ' + fmt(m2) + ' = ' + fmt(tax - m2) + '円');
+  }
+  var K2 = [
+    { q: '法人税等の中間申告で納付した金額の勘定科目は?', a: '仮払法人税等', o: ['法人税等', '未払法人税等', '租税公課'], e: '期中はまだ1年分が確定していないので、仮払法人税等(資産)にしておきます。' },
+    { q: '「法人税等」勘定に含まれる税金の組み合わせは?', a: '法人税・住民税・事業税', o: ['法人税・消費税・印紙税', '固定資産税・自動車税・印紙税', '所得税・住民税・消費税'], e: '会社の利益にかかる法人税・住民税・事業税をまとめて法人税等で処理します。' },
+    { q: '決算で計上する未払法人税等の求め方は?', a: '当期の法人税等 − 中間納付額', o: ['当期の法人税等 + 中間納付額', '中間納付額 × 2', '税引前当期純利益 − 法人税等'], e: '1年分から、すでに納めた中間納付額を引いた残りが未払法人税等です。' }
+  ];
+
+  // ---- 第3章 租税公課 ----
+  function gen3() {
+    var v = pick(['fixed', 'stamp', 'car', 'stamp2', 'store']);
+    var b = pick(BANK);
+    if (v === 'fixed') {
+      var f = randMultiple(2, 30, 1) * 10000;
+      return jp(3, '固定資産税', ['店舗の固定資産税の第' + pick(['1', '2', '3', '4']) + '期分' + fmt(f) + '円を' + b[1] + '納付した。'],
+        [['租税公課', f]], [[b[0], f]], '固定資産税は費用になる税金なので、租税公課で処理します。');
+    }
+    if (v === 'stamp') {
+      var s = randMultiple(1, 20, 1) * 1000;
+      return jp(3, '収入印紙の購入', ['郵便局で収入印紙' + fmt(s) + '円を購入し、現金で支払った。'],
+        [['租税公課', s]], [['現金', s]], '収入印紙は印紙税を納めるためのものなので、租税公課で処理します。');
+    }
+    if (v === 'stamp2') {
+      var s1 = randMultiple(1, 10, 1) * 1000, s2 = randMultiple(1, 10, 1) * 500;
+      return jp(3, '収入印紙と郵便切手', ['郵便局で収入印紙' + fmt(s1) + '円と郵便切手' + fmt(s2) + '円を購入し、現金で支払った。'],
+        [['租税公課', s1], ['通信費', s2]], [['現金', s1 + s2]], '収入印紙は租税公課、郵便切手は通信費です。\n合計 ' + fmt(s1 + s2) + '円を現金で支払っています。');
+    }
+    if (v === 'car') {
+      var c = randMultiple(10, 60, 1) * 1000;
+      return jp(3, '自動車税', ['営業用の自動車にかかる自動車税' + fmt(c) + '円を' + b[1] + '納付した。'],
+        [['租税公課', c]], [[b[0], c]], '自動車税も費用になる税金なので、租税公課です。');
+    }
+    var r = randMultiple(1, 10, 1) * 1000;
+    return jp(3, '決算での未使用分', ['決算日に、購入時に租税公課で処理した収入印紙のうち、' + fmt(r) + '円分が未使用で残っていた。'],
+      [['貯蔵品', r]], [['租税公課', r]], 'まだ使っていない収入印紙は資産として残っているので、租税公課を減らして貯蔵品(資産)に振り替えます。');
+  }
+  var K3 = [
+    { q: '固定資産税を納付したときの勘定科目は?', a: '租税公課', o: ['法人税等', '固定資産', '支払手数料'], e: '固定資産税は費用になる税金なので租税公課です。' },
+    { q: '次のうち、租税公課で処理しない税金は?', a: '法人税', o: ['固定資産税', '印紙税', '自動車税'], e: '法人税は「法人税等」、消費税は仮払消費税・仮受消費税で処理します。租税公課ではありません。' },
+    { q: '郵便切手を購入したときの勘定科目は?', a: '通信費', o: ['租税公課', '消耗品費', '貯蔵品'], e: '郵便切手は税金ではないので通信費です。収入印紙(租税公課)と区別しましょう。' },
+    { q: '決算日に未使用の収入印紙があるとき、振り替える先の勘定科目は?', a: '貯蔵品', o: ['租税公課', '前払金', '現金'], e: 'まだ使っていない収入印紙や切手は、貯蔵品(資産)に振り替えます。' }
+  ];
+
+  // ---- 第4章 源泉所得税・社会保険料 ----
+  function gen4() {
+    var v = pick(['salary', 'salary', 'salary1', 'payTax', 'paySI', 'paySI', 'calcNet', 'calcSI']);
+    var g = randMultiple(20, 80, 1) * 10000, w = randMultiple(5, 40, 1) * 1000, si = randMultiple(20, 100, 1) * 1000;
+    var b = pick(BANK);
+    if (v === 'salary') return jp(4, '給料の支払い', ['給料総額' + fmt(g) + '円から、源泉所得税' + fmt(w) + '円と社会保険料(従業員負担分)' + fmt(si) + '円を差し引き、残額を' + b[1] + '支払った。'],
+      [['給料', g]], [['所得税預り金', w], ['社会保険料預り金', si], [b[0], g - w - si]], '給料は総額 ' + fmt(g) + '円で費用にします。\n差し引いた源泉所得税は所得税預り金、社会保険料は社会保険料預り金(どちらも負債)。\n支払額 = ' + fmt(g) + ' − ' + fmt(w) + ' − ' + fmt(si) + ' = ' + fmt(g - w - si) + '円');
+    if (v === 'salary1') return jp(4, '給料の支払い', ['給料総額' + fmt(g) + '円から、源泉所得税' + fmt(w) + '円を差し引き、残額を' + b[1] + '支払った。'],
+      [['給料', g]], [['所得税預り金', w], [b[0], g - w]], '給料は総額で計上し、源泉所得税は所得税預り金(負債)にします。\n支払額 = ' + fmt(g) + ' − ' + fmt(w) + ' = ' + fmt(g - w) + '円');
+    if (v === 'payTax') return jp(4, '源泉所得税の納付', ['給料から差し引いて預かっていた源泉所得税' + fmt(w) + '円を、' + b[1] + '税務署に納付した。'],
+      [['所得税預り金', w]], [[b[0], w]], '預かっていた所得税を納めたので、所得税預り金が減ります(負債の減少 → 借方)。');
+    if (v === 'paySI') return jp(4, '社会保険料の納付', ['社会保険料について、従業員負担分' + fmt(si) + '円(給料から預かり済み)と、同額の会社負担分をあわせて' + b[1] + '納付した。'],
+      [['社会保険料預り金', si], ['法定福利費', si]], [[b[0], si * 2]], '従業員負担分は預かっていた社会保険料預り金を減らします。\n会社負担分 ' + fmt(si) + '円は法定福利費(費用)。\n納付額 = ' + fmt(si) + ' × 2 = ' + fmt(si * 2) + '円');
+    if (v === 'calcNet') return numP(4, '手取り額の計算', ['給料総額<b>' + fmt(g) + '円</b>から、源泉所得税<b>' + fmt(w) + '円</b>と社会保険料(従業員負担分)<b>' + fmt(si) + '円</b>を差し引いて支払う。', '従業員に支払う金額はいくら?'],
+      g - w - si, fmt(g) + ' − ' + fmt(w) + ' − ' + fmt(si) + ' = ' + fmt(g - w - si) + '円');
+    return numP(4, '法定福利費の計算', ['給料から社会保険料(従業員負担分)<b>' + fmt(si) + '円</b>を預かっている。会社負担分は従業員負担分と同額である。', '納付するときに計上する法定福利費はいくら?'],
+      si, '法定福利費は会社負担分なので、従業員負担分と同じ ' + fmt(si) + '円です。\n(納付額の合計は ' + fmt(si * 2) + '円)');
+  }
+  var K4 = [
+    { q: '社会保険料の会社負担分を納付したときの勘定科目は?', a: '法定福利費', o: ['給料', '社会保険料預り金', '租税公課'], e: '会社が負担する社会保険料は法定福利費(費用)です。' },
+    { q: '給料から差し引いた源泉所得税の勘定科目は?', a: '所得税預り金', o: ['租税公課', '法人税等', '立替金'], e: '後で税務署に納めるために預かっているので、所得税預り金(負債)です。' },
+    { q: '社会保険料の会社負担分は、ふつういくら?', a: '従業員負担分と同額', o: ['従業員負担分の半分', '給料総額と同額', 'ゼロ'], e: '健康保険や厚生年金の保険料は、会社と従業員がおおむね半分ずつ負担します。' }
+  ];
+
+  var GENS = {
+    1: [gen1, gen1, gen1, gen1, function () { return knowProblem(1, K1); }],
+    2: [gen2, gen2, gen2, function () { return knowProblem(2, K2); }],
+    3: [gen3, gen3, gen3, function () { return knowProblem(3, K3); }],
+    4: [gen4, gen4, gen4, function () { return knowProblem(4, K4); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function jRow(side, i) {
+    return '<div class="jrow"><select id="' + side + 'A' + i + '" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '科目' + (i + 1) + '"><option value="">科目' + (i === 0 ? '' : '(任意)') + '</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select>' +
+      '<input type="text" id="' + side + 'M' + i + '" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '金額' + (i + 1) + '"></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>';
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(円)</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      var dr = '', cr = '';
+      for (var i = 0; i < ROWS; i++) { dr += jRow('dr', i); cr += jRow('cr', i); }
+      h = '<div class="jgrid"><div class="jside"><div class="jside-title">借方</div>' + dr + '</div><div class="jside"><div class="jside-title">貸方</div>' + cr + '</div></div>' +
+        '<div class="hint">2行目・3行目は、科目が複数必要なときだけ入力してください。金額は半角数字(カンマはあってもなくてもOK)。</div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        state.choice = b.getAttribute('data-v');
+        Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  // 仕訳の入力を読む。エラーなら文字列を返す
+  function readSide(side, label) {
+    var list = [];
+    for (var i = 0; i < ROWS; i++) {
+      var a = $(side + 'A' + i).value, raw = $(side + 'M' + i).value.trim();
+      if (!a && !raw) continue;
+      if (!a) return label + (i + 1) + '行目の科目を選んでください。';
+      var m = parseNum(raw);
+      if (m === null || m <= 0) return label + (i + 1) + '行目の金額を半角数字で入力してください。';
+      list.push([a, m]);
+    }
+    if (!list.length) return label + 'の科目と金額を入力してください。';
+    return list;
+  }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = readSide('dr', '借方'); if (typeof dr === 'string') return showError(dr);
+      var cr = readSide('cr', '貸方'); if (typeof cr === 'string') return showError(cr);
+      ok = jKey(dr) === jKey(p.answer.dr) && jKey(cr) === jKey(p.answer.cr);
+      yours = '\n' + jText(dr, cr);
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n正解:\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3, 4]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
