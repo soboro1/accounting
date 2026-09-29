@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>株式会社の純資産 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label, .jside-title { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select, .jrow select, .jrow input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.3; min-width: 0; width: 0; }
+  .jrow input { flex: 1; min-width: 0; width: 0; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-wrap; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-zeikin.html">← ⑥ 税金</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ⑦ 株式会社の純資産</div>
+    <h1>株式会社の純資産 テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 株式の発行と資本金</a>
+    <a href="#ch2">2. 繰越利益剰余金</a>
+    <a href="#ch3">3. 配当と利益準備金</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <section class="chapter" id="ch0">
+    <div class="chapter-no">INTRODUCTION</div>
+    <h2>純資産は「元手」と「儲けの蓄え」</h2>
+    <p>①で学んだとおり、<b>純資産 = 資産 − 負債</b>です。株式会社の純資産は、大きく2つに分かれます。</p>
+    <ul>
+      <li><b>資本金</b>:株主が出したお金(元手)</li>
+      <li><b>利益剰余金</b>:会社がこれまでに稼いだ利益の蓄え
+        <ul>
+          <li><b>利益準備金</b>:法律で積み立てが決められている分</li>
+          <li><b>繰越利益剰余金</b>:自由に使える儲けの蓄え(配当のもと)</li>
+        </ul>
+      </li>
+    </ul>
+    <div class="flow">
+      <span class="step">① 株主が出資(資本金)</span><span class="arrow">→</span>
+      <span class="step">② 会社が稼ぐ(繰越利益剰余金)</span><span class="arrow">→</span>
+      <span class="step">③ 株主に配当(利益準備金も積立)</span>
+    </div>
+    <p>この単元の勘定科目は、どれも純資産なので<b>増えたら貸方、減ったら借方</b>です。</p>
+  </section>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>株式の発行と資本金</h2>
+
+    <h3>株式会社のしくみ</h3>
+    <ul>
+      <li><b>株主</b>:お金を出して会社の株式を持つ人。会社の持ち主</li>
+      <li><b>株主総会</b>:株主が集まって、配当などの大事なことを決める会議</li>
+      <li><b>取締役</b>:株主から任されて、会社を経営する人</li>
+    </ul>
+
+    <h3>株式を発行したとき</h3>
+    <p>会社は株式を発行して、株主からお金を払い込んでもらいます。払い込まれた金額は、原則として全額<span class="mark">資本金(純資産)</span>にします。</p>
+    <pre class="entry">資本金 = 1株あたりの払込金額 × 発行した株式数</pre>
+
+    <h3>仕訳の例</h3>
+    <p>会社の設立にあたり、株式100株を1株あたり50,000円で発行し、全額が普通預金口座に払い込まれた。</p>
+    <pre class="entry">資本金 = 50,000 × 100株 = 5,000,000
+
+(借)普通預金  5,000,000   (貸)資本金    5,000,000</pre>
+    <p>会社の設立後に、事業を広げるため新たに株式を発行することを<b>増資</b>といいます。仕訳は設立のときと同じです。</p>
+    <pre class="entry">増資のため、株式40株を1株あたり60,000円で発行し、払込金が当座預金口座に入金された。
+(借)当座預金  2,400,000   (貸)資本金    2,400,000</pre>
+    <div class="note">①で学んだ「出資を受けた」仕訳(現金/資本金)と同じ形です。3級では、払込金額の全額を資本金にします。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>繰越利益剰余金</h2>
+
+    <h3>当期純利益は繰越利益剰余金に貯まる</h3>
+    <p>決算で計算した1年間の<b>当期純利益</b>は、<span class="mark">繰越利益剰余金(純資産)</span>に振り替えて、会社の蓄えとして積み上げます。</p>
+    <p>決算では、収益と費用をすべて<b>損益</b>という勘定に集めて、当期純利益を計算します(くわしくは「11. 決算手続き」で学びます)。損益勘定の差額が当期純利益です。</p>
+
+    <h3>当期純利益のとき</h3>
+    <p>決算で、当期純利益800,000円を繰越利益剰余金に振り替えた。</p>
+    <pre class="entry">(借)損益              800,000   (貸)繰越利益剰余金  800,000</pre>
+    <p>繰越利益剰余金(純資産)が増えるので貸方です。</p>
+
+    <h3>当期純損失のとき</h3>
+    <p>決算で、当期純損失300,000円を繰越利益剰余金に振り替えた。</p>
+    <pre class="entry">(借)繰越利益剰余金    300,000   (貸)損益            300,000</pre>
+    <p>損失が出ると蓄えが減るので、繰越利益剰余金は借方です。</p>
+
+    <h3>繰越利益剰余金の残高の動き</h3>
+    <pre class="entry">期末残高 = 期首残高 − 配当などで使った額 + 当期純利益(損失ならマイナス)</pre>
+    <div class="note">繰越利益剰余金はふつう貸方残高です。損失が続いて借方残高(マイナス)になることもあります。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>剰余金の配当と利益準備金</h2>
+
+    <h3>配当とは</h3>
+    <p>会社が稼いだ利益の一部を、株主に分けることを<b>配当</b>といいます。配当は<b>株主総会で決めて</b>、繰越利益剰余金から支払います。</p>
+
+    <h3>利益準備金の積み立て</h3>
+    <p>配当をするときは、会社法のルールで、一定額を<span class="mark">利益準備金(純資産)</span>として積み立てなければなりません。3級の問題では「配当金の10分の1を利益準備金として積み立てる」のように指示されます。</p>
+
+    <h3>① 株主総会で配当が決まったとき</h3>
+    <p>株主総会で、繰越利益剰余金から配当金400,000円を支払うことが決まった。あわせて配当金の10分の1を利益準備金として積み立てる。</p>
+    <pre class="entry">利益準備金 = 400,000 × 1/10 = 40,000
+繰越利益剰余金の減少 = 400,000 + 40,000 = 440,000
+
+(借)繰越利益剰余金  440,000   (貸)未払配当金      400,000
+                                  利益準備金       40,000</pre>
+    <ul>
+      <li>決まった時点ではまだ払っていないので、配当金は<b>未払配当金(負債)</b></li>
+      <li>利益準備金は、繰越利益剰余金から<b>振り替える</b>だけ(お金は動かない)</li>
+    </ul>
+
+    <h3>② 配当金を支払ったとき</h3>
+    <pre class="entry">(借)未払配当金      400,000   (貸)普通預金        400,000</pre>
+    <div class="note">株主総会は決算日の後(翌期)に開かれます。なので、前期の利益の配当は、翌期の期中の取引として仕訳します。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 株式の発行と資本金</button>
+      <button class="chip" data-ch="2">2. 繰越利益剰余金</button>
+      <button class="chip" data-ch="3">3. 配当と利益準備金</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ⑦ 株式会社の純資産(株式の発行・繰越利益剰余金・配当と利益準備金)の練習用アプリ</div>
+  </section>
+
+  <div class="unit-nav">
+    <a href="boki3-zeikin.html">← ⑥ 税金</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ACCOUNT_LIST = [
+    '現金', '当座預金', '普通預金',
+    '借入金', '未払金', '未払配当金',
+    '資本金', '利益準備金', '繰越利益剰余金',
+    '損益', '売上', '仕入', '支払手数料'
+  ];
+  var CH_NAME = { 1: '株式の発行と資本金', 2: '繰越利益剰余金', 3: '配当と利益準備金' };
+  var ROWS = 3;
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+
+  // 仕訳の表示。dr / cr は [[科目, 金額], ...]
+  function jText(dr, cr) {
+    var n = Math.max(dr.length, cr.length), out = [];
+    function cell(e) { return e ? e[0] + ' ' + fmt(e[1]) : ''; }
+    var w = 0;
+    dr.forEach(function (e) { w = Math.max(w, cell(e).length); });
+    for (var i = 0; i < n; i++) {
+      var left = (i === 0 ? '(借)' : '    ') + cell(dr[i]);
+      var pad = new Array(Math.max(1, w + 4 - cell(dr[i]).length + 3)).join(' ');
+      out.push(left + pad + (cr[i] ? (i === 0 ? '(貸)' : '    ') + cell(cr[i]) : ''));
+    }
+    return out.join('\n');
+  }
+  function jKey(list) { return list.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|'); }
+  function jp(ch, topic, lines, dr, cr, why) {
+    return {
+      ch: ch, topic: topic, kind: 'journal', lines: lines.concat(['仕訳を答えてください。']),
+      answer: { dr: dr, cr: cr }, explain: jText(dr, cr) + '\n\n' + why
+    };
+  }
+  function numP(ch, topic, lines, answer, explain) {
+    return { ch: ch, topic: topic, kind: 'number', lines: lines, answer: answer, explain: explain };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return {
+      ch: ch, topic: '知識問題', lines: [k.q], kind: 'choice',
+      options: shuffle([k.a].concat(k.o)), answer: k.a,
+      explain: '正解は「' + k.a + '」。\n' + k.e
+    };
+  }
+  var BANK_IN = [['普通預金', '普通預金口座に払い込まれた'], ['当座預金', '当座預金口座に払い込まれた'], ['現金', '現金で払い込まれた']];
+  var BANK_OUT = [['普通預金', '普通預金口座から'], ['当座預金', '当座預金口座から'], ['現金', '現金で']];
+
+  // ---- 第1章 株式の発行と資本金 ----
+  function gen1() {
+    var v = pick(['setup', 'setup', 'increase', 'increase', 'calc']);
+    var n = randMultiple(1, 50, 1) * 10, p = randMultiple(1, 20, 1) * 10000, b = pick(BANK_IN);
+    if (v === 'setup') return jp(1, '設立時の株式発行', ['株式会社の設立にあたり、株式' + n + '株を1株あたり' + fmt(p) + '円で発行し、全額が' + b[1] + '。'],
+      [[b[0], n * p]], [['資本金', n * p]], '資本金 = ' + fmt(p) + ' × ' + n + '株 = ' + fmt(n * p) + '円\n払い込まれた全額を資本金(純資産の増加 → 貸方)にします。');
+    if (v === 'increase') return jp(1, '増資', ['事業拡大のため、新たに株式' + n + '株を1株あたり' + fmt(p) + '円で発行し、全額が' + b[1] + '。'],
+      [[b[0], n * p]], [['資本金', n * p]], '増資も設立時と同じく、払込金額の全額を資本金にします。\n' + fmt(p) + ' × ' + n + '株 = ' + fmt(n * p) + '円');
+    var open = randMultiple(10, 100, 1) * 100000;
+    return numP(1, '資本金の計算', ['資本金<b>' + fmt(open) + '円</b>の会社が、増資のため株式<b>' + n + '株</b>を1株あたり<b>' + fmt(p) + '円</b>で発行し、全額の払い込みを受けた。', '増資後の資本金はいくら?'],
+      open + n * p, '増資額 = ' + fmt(p) + ' × ' + n + '株 = ' + fmt(n * p) + '円\n増資後の資本金 = ' + fmt(open) + ' + ' + fmt(n * p) + ' = ' + fmt(open + n * p) + '円');
+  }
+  var K1 = [
+    { q: '株式を発行して払い込まれた金額は、原則としてどの勘定で処理する?', a: '資本金', o: ['借入金', '繰越利益剰余金', '売上'], e: '株主から払い込まれたお金は、原則として全額を資本金(純資産)にします。' },
+    { q: '会社の設立後に、新たに株式を発行して資金を集めることを何という?', a: '増資', o: ['配当', '借入', '減資'], e: '設立後の株式発行を増資といいます。仕訳は設立時と同じく資本金の増加です。' },
+    { q: '資本金は5要素のどれ?', a: '純資産', o: ['負債', '資産', '収益'], e: '株主が出した元手なので純資産です。借入金(負債)と違い、返す必要はありません。' }
+  ];
+
+  // ---- 第2章 繰越利益剰余金 ----
+  function gen2() {
+    var v = pick(['profit', 'profit', 'loss', 'fromPL', 'calc', 'calc']);
+    var x = randMultiple(10, 200, 1) * 10000;
+    if (v === 'profit') return jp(2, '当期純利益の振替', ['決算において、当期純利益' + fmt(x) + '円を繰越利益剰余金勘定に振り替えた。'],
+      [['損益', x]], [['繰越利益剰余金', x]], '当期純利益は会社の蓄えを増やすので、繰越利益剰余金(純資産の増加 → 貸方)。\n相手は、収益と費用を集めた損益勘定です。');
+    if (v === 'loss') return jp(2, '当期純損失の振替', ['決算において、当期純損失' + fmt(x) + '円を繰越利益剰余金勘定に振り替えた。'],
+      [['繰越利益剰余金', x]], [['損益', x]], '当期純損失は会社の蓄えを減らすので、繰越利益剰余金は借方(純資産の減少)。');
+    if (v === 'fromPL') {
+      var rev = randMultiple(300, 800, 1) * 10000, exp = randMultiple(150, rev / 10000 + 100, 1) * 10000;
+      var d = rev - exp;
+      if (d === 0) { exp -= 10000; d = 10000; }
+      var lines = ['決算において、損益勘定に集めた収益の合計は' + fmt(rev) + '円、費用の合計は' + fmt(exp) + '円だった。差額を繰越利益剰余金勘定に振り替える。'];
+      return d > 0
+        ? jp(2, '損益勘定からの振替', lines, [['損益', d]], [['繰越利益剰余金', d]], '当期純利益 = ' + fmt(rev) + ' − ' + fmt(exp) + ' = ' + fmt(d) + '円\n利益なので繰越利益剰余金が増えます(貸方)。')
+        : jp(2, '損益勘定からの振替', lines, [['繰越利益剰余金', -d]], [['損益', -d]], fmt(rev) + ' − ' + fmt(exp) + ' = ' + fmt(d) + '円 → 当期純損失 ' + fmt(-d) + '円\n損失なので繰越利益剰余金が減ります(借方)。');
+    }
+    var open = randMultiple(50, 300, 1) * 10000, div = randMultiple(5, Math.min(40, open / 10000 / 2), 1) * 10000, res = div / 10;
+    var profit = randMultiple(-30, 150, 1) * 10000;
+    if (profit === 0) profit = 100000;
+    var end = open - div - res + profit;
+    if (end <= 0) return gen2();
+    return numP(2, '期末残高の計算', ['期首の繰越利益剰余金は<b>' + fmt(open) + '円</b>(貸方残高)だった。',
+      '期中に株主総会で配当金<b>' + fmt(div) + '円</b>の支払いと、利益準備金<b>' + fmt(res) + '円</b>の積み立てを決めた。',
+      '決算で当期純' + (profit > 0 ? '利益' : '損失') + '<b>' + fmt(Math.abs(profit)) + '円</b>を振り替えた。', '期末の繰越利益剰余金(貸方残高)はいくら?'],
+      end, fmt(open) + ' − ' + fmt(div) + '(配当)− ' + fmt(res) + '(利益準備金)' + (profit > 0 ? ' + ' : ' − ') + fmt(Math.abs(profit)) + '(当期純' + (profit > 0 ? '利益' : '損失') + ')= ' + fmt(end) + '円');
+  }
+  var K2 = [
+    { q: '決算で当期純利益を振り替えるとき、貸方に書く勘定科目は?', a: '繰越利益剰余金', o: ['損益', '資本金', '利益準備金'], e: '当期純利益は繰越利益剰余金(純資産)を増やすので貸方です。借方は損益勘定です。' },
+    { q: '当期純損失を振り替えたとき、繰越利益剰余金はどうなる?', a: '減る(借方に記入)', o: ['増える(貸方に記入)', '変わらない', '資本金に振り替える'], e: '損失は会社の蓄えを減らすので、繰越利益剰余金を借方に記入します。' },
+    { q: '決算で、収益と費用をすべて集めて当期純利益を計算する勘定は?', a: '損益', o: ['繰越利益剰余金', '資本金', '残高'], e: '収益と費用を損益勘定に集め、その差額(当期純利益)を繰越利益剰余金に振り替えます。' }
+  ];
+
+  // ---- 第3章 配当と利益準備金 ----
+  function gen3() {
+    var v = pick(['decide', 'decide', 'decide', 'pay', 'calcRes', 'calcDec']);
+    var div = randMultiple(10, 100, 1) * 10000, res = div / 10;
+    if (v === 'decide') return jp(3, '配当の決定', ['株主総会で、繰越利益剰余金から配当金' + fmt(div) + '円を支払うことが決まった。あわせて、配当金の10分の1を利益準備金として積み立てる。'],
+      [['繰越利益剰余金', div + res]], [['未払配当金', div], ['利益準備金', res]],
+      '利益準備金 = ' + fmt(div) + ' × 1/10 = ' + fmt(res) + '円\n繰越利益剰余金の減少 = ' + fmt(div) + ' + ' + fmt(res) + ' = ' + fmt(div + res) + '円\n配当金はまだ払っていないので未払配当金(負債)です。');
+    if (v === 'pay') {
+      var b = pick(BANK_OUT);
+      return jp(3, '配当金の支払い', ['株主総会で決まった配当金' + fmt(div) + '円を、' + b[1] + '株主に支払った。'],
+        [['未払配当金', div]], [[b[0], div]], '決定のときに計上した未払配当金を減らします(負債の減少 → 借方)。\n利益準備金は決定のときに積み立て済みなので、ここでは出てきません。');
+    }
+    if (v === 'calcRes') return numP(3, '利益準備金の計算', ['株主総会で配当金<b>' + fmt(div) + '円</b>の支払いが決まった。', '配当金の10分の1を利益準備金として積み立てる。積み立てる利益準備金はいくら?'],
+      res, fmt(div) + ' × 1/10 = ' + fmt(res) + '円');
+    var open = randMultiple(div / 10000 + 20, div / 10000 + 200, 1) * 10000;
+    return numP(3, '配当後の残高', ['繰越利益剰余金の残高は<b>' + fmt(open) + '円</b>である。', '株主総会で、配当金<b>' + fmt(div) + '円</b>の支払いと、配当金の10分の1の利益準備金の積み立てが決まった。', '決定後の繰越利益剰余金の残高はいくら?'],
+      open - div - res, '利益準備金 = ' + fmt(div) + ' × 1/10 = ' + fmt(res) + '円\n' + fmt(open) + ' − ' + fmt(div) + ' − ' + fmt(res) + ' = ' + fmt(open - div - res) + '円\n配当金だけでなく、利益準備金の分も繰越利益剰余金から減ります。');
+  }
+  var K3 = [
+    { q: '株主総会で配当が決まったとき、配当金の額は何という勘定で処理する?', a: '未払配当金', o: ['利益準備金', '未払金', '支払配当金'], e: '決まった時点ではまだ払っていないので、未払配当金(負債)にします。' },
+    { q: '配当をするときに、法律で積み立てが決められている勘定は?', a: '利益準備金', o: ['資本金', '繰越利益剰余金', '未払配当金'], e: '配当のたびに、一定額を利益準備金として積み立てます。3級では「配当金の10分の1」と指示されることが多いです。' },
+    { q: '配当や利益準備金の積み立ては、どの勘定から行う?', a: '繰越利益剰余金', o: ['資本金', '損益', '現金'], e: '会社がこれまでに稼いだ蓄えである繰越利益剰余金から配当します。' },
+    { q: '配当は誰が決める?', a: '株主総会', o: ['取締役だけ', '経理担当者', '税務署'], e: '配当は株主総会で決めます。株主総会は決算日の後に開かれます。' }
+  ];
+
+  var GENS = {
+    1: [gen1, gen1, gen1, function () { return knowProblem(1, K1); }],
+    2: [gen2, gen2, gen2, function () { return knowProblem(2, K2); }],
+    3: [gen3, gen3, gen3, gen3, function () { return knowProblem(3, K3); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function jRow(side, i) {
+    return '<div class="jrow"><select id="' + side + 'A' + i + '" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '科目' + (i + 1) + '"><option value="">科目' + (i === 0 ? '' : '(任意)') + '</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select>' +
+      '<input type="text" id="' + side + 'M' + i + '" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '金額' + (i + 1) + '"></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>';
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(円)</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      var dr = '', cr = '';
+      for (var i = 0; i < ROWS; i++) { dr += jRow('dr', i); cr += jRow('cr', i); }
+      h = '<div class="jgrid"><div class="jside"><div class="jside-title">借方</div>' + dr + '</div><div class="jside"><div class="jside-title">貸方</div>' + cr + '</div></div>' +
+        '<div class="hint">2行目・3行目は、科目が複数必要なときだけ入力してください。金額は半角数字(カンマはあってもなくてもOK)。</div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        state.choice = b.getAttribute('data-v');
+        Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  // 仕訳の入力を読む。エラーなら文字列を返す
+  function readSide(side, label) {
+    var list = [];
+    for (var i = 0; i < ROWS; i++) {
+      var a = $(side + 'A' + i).value, raw = $(side + 'M' + i).value.trim();
+      if (!a && !raw) continue;
+      if (!a) return label + (i + 1) + '行目の科目を選んでください。';
+      var m = parseNum(raw);
+      if (m === null || m <= 0) return label + (i + 1) + '行目の金額を半角数字で入力してください。';
+      list.push([a, m]);
+    }
+    if (!list.length) return label + 'の科目と金額を入力してください。';
+    return list;
+  }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = readSide('dr', '借方'); if (typeof dr === 'string') return showError(dr);
+      var cr = readSide('cr', '貸方'); if (typeof cr === 'string') return showError(cr);
+      ok = jKey(dr) === jKey(p.answer.dr) && jKey(cr) === jKey(p.answer.cr);
+      yours = '\n' + jText(dr, cr);
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n正解:\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
