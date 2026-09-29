@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>その他の取引 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label, .jside-title { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select, .jrow select, .jrow input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.3; min-width: 0; width: 0; }
+  .jrow input { flex: 1; min-width: 0; width: 0; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-wrap; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-junshisan.html">← ⑦ 株式会社の純資産</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ⑧ その他の取引</div>
+    <h1>その他の取引 テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 給料と預り金</a>
+    <a href="#ch2">2. 貯蔵品</a>
+    <a href="#ch3">3. 訂正仕訳</a>
+    <a href="#ch4">4. 伝票</a>
+    <a href="#ch5">5. 証ひょう</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>給料と預り金</h2>
+
+    <h3>④⑥のおさらい</h3>
+    <p>給料の仕訳は、④「債権・債務」と⑥「税金」で学んだ内容の組み合わせです。試験では1つの問題にまとめて出るので、ここで整理します。</p>
+    <ul>
+      <li>給料は、差し引く前の<b>総額</b>で費用(給料)にする</li>
+      <li>源泉所得税 → <b>所得税預り金</b>、社会保険料の従業員負担分 → <b>社会保険料預り金</b>(負債)</li>
+      <li>会社が立て替えていたお金を差し引く → <b>立替金(資産)</b>を減らす</li>
+    </ul>
+
+    <h3>仕訳の例</h3>
+    <p>給料総額300,000円から、源泉所得税15,000円、社会保険料30,000円、従業員に立て替えていた10,000円を差し引き、残額を普通預金口座から支払った。</p>
+    <pre class="entry">(借)給料     300,000   (貸)所得税預り金       15,000
+                           社会保険料預り金   30,000
+                           立替金             10,000
+                           普通預金          245,000</pre>
+    <div class="note">差し引くものが増えても、<b>給料は総額</b>、<b>支払額は総額から全部を引いた残り</b>、という形は変わりません。</div>
+
+    <h3>給料の前払い(前貸し)</h3>
+    <p>給料日の前に、従業員に給料の一部を前もって渡したときは、<b>立替金</b>(従業員立替金)で処理し、給料日に差し引きます。</p>
+    <pre class="entry">従業員に給料の前貸しとして20,000円を現金で渡した。
+(借)立替金        20,000   (貸)現金              20,000</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>貯蔵品(切手・収入印紙)</h2>
+
+    <h3>買ったときは費用</h3>
+    <ul>
+      <li>郵便切手・はがき → <b>通信費</b></li>
+      <li>収入印紙 → <b>租税公課</b></li>
+    </ul>
+
+    <h3>決算日に残っていたら貯蔵品</h3>
+    <p>決算日に<b>まだ使っていない</b>切手や収入印紙は、来期に使えるので資産です。費用から<span class="mark">貯蔵品(資産)</span>に振り替えます。</p>
+    <p>決算日に、郵便切手2,000円分と収入印紙5,000円分が未使用で残っていた。</p>
+    <pre class="entry">(借)貯蔵品         7,000   (貸)通信費          2,000
+                               租税公課        5,000</pre>
+
+    <h3>翌期首に元に戻す(再振替仕訳)</h3>
+    <p>翌期の最初の日に、逆の仕訳をして費用に戻します。来期に使ったときの仕訳が不要になります。</p>
+    <pre class="entry">(借)通信費         2,000   (貸)貯蔵品          7,000
+    租税公課       5,000</pre>
+    <div class="note">決算整理(10)でも出てくる処理です。「決算で資産に振り替え → 翌期首に戻す」という流れは、経過勘定(前払・未払など)と同じ考え方です。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>訂正仕訳</h2>
+
+    <h3>間違えた仕訳を直す</h3>
+    <p>記帳した仕訳が間違っていたときは、帳簿を消したり書き直したりせず、<b>訂正のための仕訳</b>を追加します。</p>
+    <div class="flow">
+      <span class="step">① 間違えた仕訳の逆仕訳</span><span class="arrow">+</span>
+      <span class="step">② 正しい仕訳</span><span class="arrow">→</span>
+      <span class="step">③ 同じ科目を相殺</span>
+    </div>
+
+    <h3>例1:科目を間違えた</h3>
+    <p>売掛金50,000円を現金で回収したとき、誤って買掛金を減らす仕訳をしていた。</p>
+    <pre class="entry">誤った仕訳:(借)現金   50,000 (貸)買掛金 50,000
+① 逆仕訳  :(借)買掛金 50,000 (貸)現金   50,000
+② 正しい  :(借)現金   50,000 (貸)売掛金 50,000
+③ 現金が相殺されて…
+
+訂正仕訳  :(借)買掛金 50,000 (貸)売掛金 50,000</pre>
+
+    <h3>例2:金額を間違えた</h3>
+    <p>商品38,000円を掛けで仕入れたとき、誤って83,000円と記帳していた。</p>
+    <pre class="entry">誤った仕訳:(借)仕入   83,000 (貸)買掛金 83,000
+正しい仕訳:(借)仕入   38,000 (貸)買掛金 38,000
+差額45,000円だけ多すぎるので、その分を減らす
+
+訂正仕訳  :(借)買掛金 45,000 (貸)仕入   45,000</pre>
+
+    <h3>例3:貸借を逆にした</h3>
+    <p>手数料20,000円を現金で受け取ったとき、借方と貸方を逆に記帳していた。</p>
+    <pre class="entry">誤った仕訳:(借)受取手数料 20,000 (貸)現金 20,000
+訂正仕訳  :(借)現金 40,000 (貸)受取手数料 40,000
+  逆仕訳と正しい仕訳が同じ形になるので、金額が2倍になる</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>伝票(入金・出金・振替)</h2>
+
+    <h3>3伝票制</h3>
+    <p>仕訳帳の代わりに、取引ごとに<b>伝票</b>を書いて記録する方法です。3級では次の3種類を使います。</p>
+    <ul>
+      <li><b>入金伝票</b>:現金が<b>入った</b>取引。借方は必ず現金なので、<b>貸方の科目</b>だけを書く</li>
+      <li><b>出金伝票</b>:現金が<b>出た</b>取引。貸方は必ず現金なので、<b>借方の科目</b>だけを書く</li>
+      <li><b>振替伝票</b>:現金が動かない取引。ふつうの仕訳と同じ形で書く</li>
+    </ul>
+    <pre class="entry">売掛金30,000円を現金で回収した → 入金伝票(売掛金 30,000)
+給料50,000円を現金で支払った   → 出金伝票(給料 50,000)
+商品80,000円を掛けで仕入れた   → 振替伝票(借)仕入 80,000(貸)買掛金 80,000</pre>
+
+    <h3>一部だけ現金の取引</h3>
+    <p>「商品100,000円を売り上げ、30,000円は現金で受け取り、残りは掛けとした」のような取引は、2通りの書き方があります。</p>
+    <p><b>方法1:取引を分けて書く</b>(現金の部分と掛けの部分に分ける)</p>
+    <pre class="entry">入金伝票:(売上 30,000)
+振替伝票:(借)売掛金 70,000 (貸)売上 70,000</pre>
+    <p><b>方法2:いったん全額を掛けにしてから、すぐに一部を回収したと考える</b></p>
+    <pre class="entry">振替伝票:(借)売掛金 100,000 (貸)売上 100,000
+入金伝票:(売掛金 30,000)</pre>
+    <div class="note">試験では、入金伝票(または出金伝票)の中身が示されて、振替伝票を答える問題がよく出ます。<b>入金伝票の科目が「売上」なら方法1、「売掛金」なら方法2</b>と判断します。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第5章 ===== -->
+  <section class="chapter" id="ch5">
+    <div class="chapter-no">CHAPTER 5</div>
+    <h2>証ひょうからの仕訳</h2>
+
+    <h3>証ひょうとは</h3>
+    <p>取引の証拠になる書類のことです。試験では、書類を見て仕訳を答える問題が出ます。</p>
+    <ul>
+      <li><b>請求書</b>:代金を請求された(払う側)/請求した(受け取る側)</li>
+      <li><b>納品書</b>:商品を受け取った・渡した</li>
+      <li><b>領収書</b>:代金を支払った(受け取った)証拠</li>
+      <li><b>通帳・当座勘定照合表</b>:口座への入金・出金の記録</li>
+    </ul>
+
+    <h3>読み取りのコツ</h3>
+    <ul>
+      <li><b>自分はどちらの立場か</b>(請求書を受け取った側なら支払う側)</li>
+      <li><b>何を買ったか</b>(商品なら仕入、備品なら備品)</li>
+      <li><b>消費税</b>が分けて書いてあれば、税抜方式で仮払消費税・仮受消費税を使う</li>
+      <li><b>いつ払うか</b>(後払いなら、商品は買掛金、それ以外は未払金)</li>
+    </ul>
+
+    <h3>例:請求書</h3>
+    <pre class="entry">請求書(当社宛)
+  商品A  20個 × @3,000  =  60,000
+  消費税(10%)            =   6,000
+  合計                    =  66,000
+  お支払期限:月末</pre>
+    <p>商品を仕入れ、代金は月末払いなので次のようになります。</p>
+    <pre class="entry">(借)仕入         60,000   (貸)買掛金     66,000
+    仮払消費税    6,000</pre>
+
+    <h3>例:通帳の入金</h3>
+    <pre class="entry">普通預金 入出金明細
+  10/15  振込 カ)ミナミショウジ   入金 88,000</pre>
+    <p>ミナミ商事が得意先で、売掛金の回収と指示があれば、次のようになります。</p>
+    <pre class="entry">(借)普通預金     88,000   (貸)売掛金     88,000</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="5">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 給料と預り金</button>
+      <button class="chip" data-ch="2">2. 貯蔵品</button>
+      <button class="chip" data-ch="3">3. 訂正仕訳</button>
+      <button class="chip" data-ch="4">4. 伝票</button>
+      <button class="chip" data-ch="5">5. 証ひょう</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ⑧ その他の取引(給料と預り金・貯蔵品・訂正仕訳・伝票・証ひょう)の練習用アプリ</div>
+  </section>
+
+  <div class="unit-nav">
+    <a href="boki3-junshisan.html">← ⑦ 株式会社の純資産</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ACCOUNT_LIST = [
+    '現金', '当座預金', '普通預金', '売掛金', '貯蔵品', '立替金', '仮払金', '仮払消費税', '備品',
+    '買掛金', '未払金', '所得税預り金', '社会保険料預り金', '仮受消費税',
+    '売上', '受取手数料',
+    '仕入', '給料', '法定福利費', '通信費', '租税公課', '旅費交通費', '消耗品費', '支払手数料'
+  ];
+  var CH_NAME = { 1: '給料と預り金', 2: '貯蔵品', 3: '訂正仕訳', 4: '伝票', 5: '証ひょう' };
+  var ROWS = 4;
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+
+  // 仕訳の表示。dr / cr は [[科目, 金額], ...]
+  function jText(dr, cr) {
+    var n = Math.max(dr.length, cr.length), out = [];
+    function cell(e) { return e ? e[0] + ' ' + fmt(e[1]) : ''; }
+    var w = 0;
+    dr.forEach(function (e) { w = Math.max(w, cell(e).length); });
+    for (var i = 0; i < n; i++) {
+      var left = (i === 0 ? '(借)' : '    ') + cell(dr[i]);
+      var pad = new Array(Math.max(1, w + 4 - cell(dr[i]).length + 3)).join(' ');
+      out.push(left + pad + (cr[i] ? (i === 0 ? '(貸)' : '    ') + cell(cr[i]) : ''));
+    }
+    return out.join('\n');
+  }
+  function jKey(list) { return list.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|'); }
+  function jp(ch, topic, lines, dr, cr, why, ask) {
+    return {
+      ch: ch, topic: topic, kind: 'journal', lines: lines.concat([ask || '仕訳を答えてください。']),
+      answer: { dr: dr, cr: cr }, explain: jText(dr, cr) + '\n\n' + why
+    };
+  }
+  function numP(ch, topic, lines, answer, explain) {
+    return { ch: ch, topic: topic, kind: 'number', lines: lines, answer: answer, explain: explain };
+  }
+  function choiceP(ch, topic, lines, options, answer, explain) {
+    return { ch: ch, topic: topic, kind: 'choice', lines: lines, options: shuffle(options), answer: answer, explain: explain };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return choiceP(ch, '知識問題', [k.q], [k.a].concat(k.o), k.a, '正解は「' + k.a + '」。\n' + k.e);
+  }
+  function pre(text) { return '<pre class="entry">' + text + '</pre>'; }
+  var BANK = [['普通預金', '普通預金口座から'], ['当座預金', '当座預金口座から'], ['現金', '現金で']];
+
+  // ---- 第1章 給料と預り金 ----
+  function gen1() {
+    var v = pick(['full', 'full', 'noTate', 'advance', 'calc']);
+    var g = randMultiple(20, 60, 1) * 10000, w = randMultiple(5, 30, 1) * 1000, si = randMultiple(15, 60, 1) * 1000, t = randMultiple(1, 5, 1) * 10000;
+    var b = pick(BANK);
+    if (v === 'full') return jp(1, '給料の支払い', ['給料総額' + fmt(g) + '円から、源泉所得税' + fmt(w) + '円、社会保険料(従業員負担分)' + fmt(si) + '円、および従業員への立替金' + fmt(t) + '円を差し引き、残額を' + b[1] + '支払った。'],
+      [['給料', g]], [['所得税預り金', w], ['社会保険料預り金', si], ['立替金', t], [b[0], g - w - si - t]],
+      '給料は総額 ' + fmt(g) + '円。\n差し引いた源泉所得税・社会保険料は預り金(負債)、立替金は返してもらったので減らします(資産の減少)。\n支払額 = ' + fmt(g) + ' − ' + fmt(w) + ' − ' + fmt(si) + ' − ' + fmt(t) + ' = ' + fmt(g - w - si - t) + '円');
+    if (v === 'noTate') return jp(1, '給料の支払い', ['給料総額' + fmt(g) + '円から、源泉所得税' + fmt(w) + '円と社会保険料(従業員負担分)' + fmt(si) + '円を差し引き、残額を' + b[1] + '支払った。'],
+      [['給料', g]], [['所得税預り金', w], ['社会保険料預り金', si], [b[0], g - w - si]],
+      '給料は総額で計上し、差し引いた分は預り金にします。\n支払額 = ' + fmt(g) + ' − ' + fmt(w) + ' − ' + fmt(si) + ' = ' + fmt(g - w - si) + '円');
+    if (v === 'advance') return jp(1, '給料の前貸し', ['従業員の求めに応じて、給料の前貸しとして' + fmt(t) + '円を' + b[1] + '渡した。'],
+      [['立替金', t]], [[b[0], t]], '前貸しした分は、給料日に差し引いて返してもらうので立替金(資産)です。まだ給料(費用)にはしません。');
+    return numP(1, '支払額の計算', ['給料総額<b>' + fmt(g) + '円</b>から、源泉所得税<b>' + fmt(w) + '円</b>、社会保険料(従業員負担分)<b>' + fmt(si) + '円</b>、前貸しした<b>' + fmt(t) + '円</b>を差し引いて支払う。', '従業員に支払う金額はいくら?'],
+      g - w - si - t, fmt(g) + ' − ' + fmt(w) + ' − ' + fmt(si) + ' − ' + fmt(t) + ' = ' + fmt(g - w - si - t) + '円');
+  }
+  var K1 = [
+    { q: '給料日前に、給料の一部を従業員に前貸ししたときの勘定科目は?', a: '立替金', o: ['給料', '前払金', '預り金'], e: '給料日に差し引いて返してもらうお金なので、立替金(従業員立替金)で処理します。' },
+    { q: '給料を支払ったとき、給料勘定に記入する金額は?', a: '差し引く前の総額', o: ['実際に支払った額', '預り金の合計', '総額から立替金だけ引いた額'], e: '給料は総額で費用にし、差し引いた分はそれぞれ預り金・立替金で処理します。' }
+  ];
+
+  // ---- 第2章 貯蔵品 ----
+  function gen2() {
+    var v = pick(['buy', 'close', 'close', 'closeOne', 'reverse', 'calc']);
+    var st = randMultiple(1, 20, 1) * 500, rv = randMultiple(1, 20, 1) * 1000;
+    if (v === 'buy') return jp(2, '購入時', ['郵便局で郵便切手' + fmt(st) + '円分と収入印紙' + fmt(rv) + '円分を購入し、現金で支払った。'],
+      [['通信費', st], ['租税公課', rv]], [['現金', st + rv]], '買ったときは費用です。切手は通信費、収入印紙は租税公課。');
+    if (v === 'close') return jp(2, '決算での振り替え', ['決算日に、郵便切手' + fmt(st) + '円分と収入印紙' + fmt(rv) + '円分が未使用で残っていた。いずれも購入時に費用処理している。'],
+      [['貯蔵品', st + rv]], [['通信費', st], ['租税公課', rv]], '未使用分は来期に使える資産なので、費用を減らして貯蔵品に振り替えます。\n貯蔵品 = ' + fmt(st) + ' + ' + fmt(rv) + ' = ' + fmt(st + rv) + '円');
+    if (v === 'closeOne') {
+      var one = pick([['通信費', '郵便切手', st], ['租税公課', '収入印紙', rv]]);
+      return jp(2, '決算での振り替え', ['決算日に、購入時に' + one[0] + 'で処理した' + one[1] + 'のうち、' + fmt(one[2]) + '円分が未使用で残っていた。'],
+        [['貯蔵品', one[2]]], [[one[0], one[2]]], '未使用分を' + one[0] + 'から貯蔵品(資産)に振り替えます。');
+    }
+    if (v === 'reverse') return jp(2, '翌期首の再振替', ['期首に、前期末に貯蔵品に振り替えた郵便切手' + fmt(st) + '円分と収入印紙' + fmt(rv) + '円分を、元の勘定に振り戻した(再振替仕訳)。'],
+      [['通信費', st], ['租税公課', rv]], [['貯蔵品', st + rv]], '前期末の仕訳の逆仕訳です。貯蔵品をなくして、通信費と租税公課に戻します。');
+    var buy = randMultiple(20, 60, 1) * 1000, left = randMultiple(1, buy / 1000 - 5, 1) * 1000;
+    return numP(2, '当期の費用の計算', ['当期に収入印紙<b>' + fmt(buy) + '円</b>分を購入し、租税公課で処理した。', '決算日に<b>' + fmt(left) + '円</b>分が未使用で残っていた。', '損益計算書に計上される当期の租税公課(収入印紙分)はいくら?'],
+      buy - left, '未使用分は貯蔵品に振り替えるので、費用になるのは使った分だけです。\n' + fmt(buy) + ' − ' + fmt(left) + ' = ' + fmt(buy - left) + '円');
+  }
+  var K2 = [
+    { q: '決算日に未使用の郵便切手が残っていた。振り替える先の勘定科目は?', a: '貯蔵品', o: ['通信費', '消耗品費', '前払金'], e: '未使用の切手や収入印紙は、来期に使える資産なので貯蔵品に振り替えます。' },
+    { q: '前期末に貯蔵品に振り替えた切手について、翌期首に行う仕訳は?', a: '通信費に戻す再振替仕訳', o: ['何もしない', '雑損に振り替える', '現金に振り替える'], e: '翌期首に逆仕訳(再振替仕訳)をして、元の費用の勘定に戻します。' }
+  ];
+
+  // ---- 第3章 訂正仕訳 ----
+  function net(wrong, right) {
+    var m = {};
+    function add(list, sign) { list.forEach(function (e) { m[e[0]] = (m[e[0]] || 0) + sign * e[1]; }); }
+    add(right.dr, 1); add(right.cr, -1); add(wrong.dr, -1); add(wrong.cr, 1);
+    var dr = [], cr = [];
+    Object.keys(m).forEach(function (k) { if (m[k] > 0) dr.push([k, m[k]]); else if (m[k] < 0) cr.push([k, -m[k]]); });
+    return { dr: dr, cr: cr };
+  }
+  var MISTAKES = [
+    function (a) { return { t: '売掛金' + fmt(a) + '円を現金で回収したとき、誤って買掛金を減らす仕訳をしていた。', wrong: { dr: [['現金', a]], cr: [['買掛金', a]] }, right: { dr: [['現金', a]], cr: [['売掛金', a]] } }; },
+    function (a) { return { t: '事務用のパソコン' + fmt(a) + '円を現金で購入したとき、誤って消耗品費として処理していた。', wrong: { dr: [['消耗品費', a]], cr: [['現金', a]] }, right: { dr: [['備品', a]], cr: [['現金', a]] } }; },
+    function (a) { return { t: '買掛金' + fmt(a) + '円を普通預金口座から支払ったとき、誤って当座預金を減らす仕訳をしていた。', wrong: { dr: [['買掛金', a]], cr: [['当座預金', a]] }, right: { dr: [['買掛金', a]], cr: [['普通預金', a]] } }; },
+    function (a) { return { t: '手数料' + fmt(a) + '円を現金で受け取ったとき、借方と貸方を逆にして記帳していた。', wrong: { dr: [['受取手数料', a]], cr: [['現金', a]] }, right: { dr: [['現金', a]], cr: [['受取手数料', a]] } }; },
+    function (a) { return { t: '商品' + fmt(a) + '円を掛けで売り上げたとき、借方と貸方を逆にして記帳していた。', wrong: { dr: [['売上', a]], cr: [['売掛金', a]] }, right: { dr: [['売掛金', a]], cr: [['売上', a]] } }; },
+    function (a) { var b = swapDigits(a); return { t: '商品' + fmt(a) + '円を掛けで仕入れたとき、誤って' + fmt(b) + '円と記帳していた。', wrong: { dr: [['仕入', b]], cr: [['買掛金', b]] }, right: { dr: [['仕入', a]], cr: [['買掛金', a]] } }; },
+    function (a) { var b = swapDigits(a); return { t: '商品を' + fmt(a) + '円で売り上げ、代金は掛けとしたとき、誤って' + fmt(b) + '円と記帳していた。', wrong: { dr: [['売掛金', b]], cr: [['売上', b]] }, right: { dr: [['売掛金', a]], cr: [['売上', a]] } }; }
+  ];
+  function swapDigits(a) {
+    var s = String(a / 1000), t = s.length >= 2 ? s[1] + s[0] + s.slice(2) : s;
+    var b = parseInt(t, 10) * 1000;
+    return (b === a || b === 0) ? a + 9000 : b;
+  }
+  function gen3() {
+    var v = pick(['journal', 'journal', 'journal', 'journal', 'know']);
+    if (v === 'know') return knowProblem(3, K3);
+    var a;
+    do { a = randMultiple(12, 98, 1) * 1000; } while (a % 10000 === 0 || Math.floor(a / 10000) === (a / 1000) % 10);
+    var m = pick(MISTAKES)(a);
+    var fix = net(m.wrong, m.right);
+    return jp(3, '訂正仕訳', [m.t], fix.dr, fix.cr,
+      '誤った仕訳:' + jText(m.wrong.dr, m.wrong.cr).replace('\n', ' ') + '\n正しい仕訳:' + jText(m.right.dr, m.right.cr).replace('\n', ' ') + '\n\n誤った仕訳の逆仕訳と正しい仕訳を合わせて、同じ科目を相殺すると訂正仕訳になります。', 'この誤りを訂正する仕訳を答えてください。');
+  }
+  var K3 = [
+    { q: '記帳の誤りを直すときの正しい方法は?', a: '誤った仕訳の逆仕訳と正しい仕訳を合わせた訂正仕訳をする', o: ['誤った仕訳を消しゴムで消す', '決算まで何もしない', '正しい仕訳だけをもう一度記帳する'], e: '帳簿は消さずに、訂正のための仕訳を追加します。' },
+    { q: '借方と貸方を逆にして記帳した誤りを訂正するとき、訂正仕訳の金額は?', a: '元の金額の2倍', o: ['元の金額と同じ', '元の金額の半分', 'ゼロ'], e: '逆仕訳と正しい仕訳が同じ形になるので、合わせると金額が2倍になります。' }
+  ];
+
+  // ---- 第4章 伝票 ----
+  var SLIP_Q = [
+    { t: '売掛金{a}円を現金で回収した。', slip: '入金伝票', acct: '売掛金' },
+    { t: '商品を{a}円で売り上げ、代金は現金で受け取った。', slip: '入金伝票', acct: '売上' },
+    { t: '手数料{a}円を現金で受け取った。', slip: '入金伝票', acct: '受取手数料' },
+    { t: '買掛金{a}円を現金で支払った。', slip: '出金伝票', acct: '買掛金' },
+    { t: '従業員に給料{a}円を現金で支払った。', slip: '出金伝票', acct: '給料' },
+    { t: 'タクシー代{a}円を現金で支払った。', slip: '出金伝票', acct: '旅費交通費' },
+    { t: '商品{a}円を仕入れ、代金は掛けとした。', slip: '振替伝票', acct: null },
+    { t: '売掛金{a}円が普通預金口座に振り込まれた。', slip: '振替伝票', acct: null },
+    { t: '備品{a}円を購入し、代金は月末に支払うことにした。', slip: '振替伝票', acct: null }
+  ];
+  function gen4() {
+    var v = pick(['which', 'which', 'acct', 'partIn', 'partIn', 'partOut', 'partOut']);
+    var a = randMultiple(2, 50, 1) * 1000;
+    if (v === 'which') {
+      var q = pick(SLIP_Q);
+      return choiceP(4, 'どの伝票に書く?', ['次の取引は、3伝票制ではどの伝票に記入する?', '<b>' + q.t.replace('{a}', fmt(a)) + '</b>'], ['入金伝票', '出金伝票', '振替伝票'], q.slip,
+        q.slip === '入金伝票' ? '現金が入ってくる取引なので入金伝票です。' : q.slip === '出金伝票' ? '現金が出ていく取引なので出金伝票です。' : '現金が動かない取引なので振替伝票です。');
+    }
+    if (v === 'acct') {
+      var q2 = pick(SLIP_Q.filter(function (x) { return x.acct; }));
+      var others = shuffle(['現金', '売掛金', '売上', '受取手数料', '買掛金', '給料', '旅費交通費'].filter(function (x) { return x !== q2.acct && x !== '現金'; })).slice(0, 2);
+      return choiceP(4, '伝票の科目欄', ['次の取引を' + q2.slip + 'に記入する。科目欄に書く勘定科目はどれ?', '<b>' + q2.t.replace('{a}', fmt(a)) + '</b>'], [q2.acct, '現金'].concat(others), q2.acct,
+        q2.slip + 'は' + (q2.slip === '入金伝票' ? '借方が必ず現金なので、貸方の科目' : '貸方が必ず現金なので、借方の科目') + '「' + q2.acct + '」を書きます。「現金」は書きません。');
+    }
+    var total = randMultiple(5, 30, 1) * 10000, cash = randMultiple(1, total / 10000 - 1, 1) * 10000;
+    var method1 = Math.random() < 0.5;
+    if (v === 'partIn') {
+      var slip = method1 ? '(売上 ' + fmt(cash) + ')' : '(売掛金 ' + fmt(cash) + ')';
+      return jp(4, '一部現金の取引(売上)', ['商品を' + fmt(total) + '円で売り上げ、代金のうち' + fmt(cash) + '円は現金で受け取り、残りは掛けとした。', 'この取引について、入金伝票に<b>' + slip + '</b>と記入した。'],
+        method1 ? [['売掛金', total - cash]] : [['売掛金', total]], method1 ? [['売上', total - cash]] : [['売上', total]],
+        method1 ? '入金伝票の科目が「売上」なので、取引を分けて書く方法(方法1)です。\n現金の分は入金伝票に書いたので、振替伝票には掛けの分 ' + fmt(total) + ' − ' + fmt(cash) + ' = ' + fmt(total - cash) + '円 だけを書きます。'
+          : '入金伝票の科目が「売掛金」なので、いったん全額を掛けにする方法(方法2)です。\n振替伝票には全額 ' + fmt(total) + '円 の掛け売上を書き、入金伝票で売掛金の回収を書きます。', '振替伝票に記入する仕訳を答えてください。');
+    }
+    var slip2 = method1 ? '(仕入 ' + fmt(cash) + ')' : '(買掛金 ' + fmt(cash) + ')';
+    return jp(4, '一部現金の取引(仕入)', ['商品' + fmt(total) + '円を仕入れ、代金のうち' + fmt(cash) + '円は現金で支払い、残りは掛けとした。', 'この取引について、出金伝票に<b>' + slip2 + '</b>と記入した。'],
+      method1 ? [['仕入', total - cash]] : [['仕入', total]], method1 ? [['買掛金', total - cash]] : [['買掛金', total]],
+      method1 ? '出金伝票の科目が「仕入」なので、取引を分けて書く方法です。\n振替伝票には掛けの分 ' + fmt(total - cash) + '円 だけを書きます。'
+        : '出金伝票の科目が「買掛金」なので、いったん全額を掛けにする方法です。\n振替伝票には全額 ' + fmt(total) + '円 の掛け仕入を書きます。', '振替伝票に記入する仕訳を答えてください。');
+  }
+
+  // ---- 第5章 証ひょう ----
+  var SHOP = ['株式会社ミナミ商事', '株式会社キタ物産', '有限会社ヒガシ商店', '株式会社ニシ産業'];
+  function gen5() {
+    var v = pick(['invoiceBuy', 'invoiceBuy', 'invoiceSell', 'invoiceAsset', 'receipt', 'bank']);
+    var shop = pick(SHOP);
+    if (v === 'invoiceBuy' || v === 'invoiceSell' || v === 'invoiceAsset') {
+      var items = v === 'invoiceAsset'
+        ? [['事務用デスク', randMultiple(1, 5, 1), randMultiple(20, 80, 1) * 1000]]
+        : shuffle([['商品A', 0, 0], ['商品B', 0, 0], ['商品C', 0, 0]]).slice(0, randMultiple(1, 2, 1)).map(function (x) { return [x[0], randMultiple(2, 30, 1), randMultiple(5, 60, 1) * 100]; });
+      var sub = items.reduce(function (s, x) { return s + x[1] * x[2]; }, 0);
+      var tax = sub / 10, tot = sub + tax;
+      var body = items.map(function (x) { return '  ' + x[0] + '  ' + x[1] + '個 × @' + fmt(x[2]) + ' = ' + fmt(x[1] * x[2]); }).join('\n') + '\n  消費税(10%)        = ' + fmt(tax) + '\n  合計               = ' + fmt(tot);
+      if (v === 'invoiceSell') return jp(5, '請求書(控え)からの仕訳', ['当社は商品を販売し、次の請求書(控え)を得意先に送付した。代金は翌月末に受け取る。消費税は税抜方式で処理する。',
+        pre('請求書(控)\n' + shop + ' 御中\n' + body + '\n  お支払期限:翌月末')],
+        [['売掛金', tot]], [['売上', sub], ['仮受消費税', tax]], '当社は請求した側(売る側)です。\n売上は税抜きの ' + fmt(sub) + '円、消費税 ' + fmt(tax) + '円は仮受消費税、税込みの ' + fmt(tot) + '円が売掛金です。');
+      var isAsset = v === 'invoiceAsset';
+      return jp(5, '請求書からの仕訳', ['当社は' + (isAsset ? '事務所で使うデスクを購入し' : '商品を仕入れ') + '、次の請求書を受け取った。代金は月末に支払う。消費税は税抜方式で処理する。',
+        pre('請求書\n当社 御中          ' + shop + '\n' + body + '\n  お支払期限:月末')],
+        [[isAsset ? '備品' : '仕入', sub], ['仮払消費税', tax]], [[isAsset ? '未払金' : '買掛金', tot]],
+        '当社は請求された側(買う側)です。\n' + (isAsset ? '事務所で使うデスクは商品ではないので備品、後払いは未払金。' : '商品なので仕入、後払いは買掛金。') + '\n' + (isAsset ? '備品' : '仕入') + 'は税抜きの ' + fmt(sub) + '円、消費税 ' + fmt(tax) + '円は仮払消費税、税込みの ' + fmt(tot) + '円を' + (isAsset ? '未払金' : '買掛金') + 'にします。');
+    }
+    if (v === 'receipt') {
+      var adv = randMultiple(3, 10, 1) * 10000, train = randMultiple(5, 30, 1) * 1000, hotel = randMultiple(5, 20, 1) * 1000;
+      var used = train + hotel, diff = adv - used;
+      if (diff === 0) return gen5();
+      return jp(5, '領収書からの仕訳', ['出張から戻った従業員から次の領収書を受け取り、旅費を精算した。出張前に概算額' + fmt(adv) + '円を渡しており、仮払金で処理している。差額は現金で精算した。',
+        pre('領収書  電車代(往復)  ' + fmt(train) + '円\n領収書  宿泊代(1泊)   ' + fmt(hotel) + '円')],
+        diff > 0 ? [['旅費交通費', used], ['現金', diff]] : [['旅費交通費', used]], diff > 0 ? [['仮払金', adv]] : [['仮払金', adv], ['現金', -diff]],
+        '旅費 = ' + fmt(train) + ' + ' + fmt(hotel) + ' = ' + fmt(used) + '円(旅費交通費)\n仮払金 ' + fmt(adv) + '円をなくし、' + (diff > 0 ? '余った ' + fmt(diff) + '円は現金で戻ってきた(借方)。' : '足りない ' + fmt(-diff) + '円は現金で支払った(貸方)。'));
+    }
+    var inAmt = randMultiple(5, 60, 1) * 1000, fee = pick([330, 440, 550, 660]), payAmt = randMultiple(10, 80, 1) * 1000;
+    var kind = pick(['in', 'out']);
+    if (kind === 'in') return jp(5, '通帳からの仕訳', ['普通預金の入出金明細に、次の記録があった。' + shop + 'は当社の得意先で、売掛金の回収である。',
+      pre('日付   摘要                     入金      出金\n10/20  振込 ' + shop.replace(/株式会社|有限会社/, '') + '     ' + fmt(inAmt))],
+      [['普通預金', inAmt]], [['売掛金', inAmt]], '得意先からの入金なので、普通預金が増え(借方)、売掛金が減ります(貸方)。');
+    return jp(5, '通帳からの仕訳', ['普通預金の入出金明細に、次の記録があった。' + shop + 'は当社の仕入先で、買掛金の支払いである。振込手数料は当社が負担する。',
+      pre('日付   摘要                     入金      出金\n10/25  振込 ' + shop.replace(/株式会社|有限会社/, '') + '             ' + fmt(payAmt) + '\n10/25  振込手数料                         ' + fmt(fee))],
+      [['買掛金', payAmt], ['支払手数料', fee]], [['普通預金', payAmt + fee]], '買掛金の支払い ' + fmt(payAmt) + '円と、振込手数料 ' + fmt(fee) + '円(支払手数料)の合計 ' + fmt(payAmt + fee) + '円が普通預金から出ています。');
+  }
+  var K5 = [
+    { q: '仕入先から受け取った請求書に、商品代金と消費税が分けて書かれていた。税抜方式で仕入に記入する金額は?', a: '税抜きの商品代金', o: ['税込みの合計額', '消費税の額', '商品代金の半分'], e: '税抜方式では、仕入は税抜きの金額、消費税は仮払消費税で処理します。' },
+    { q: '事務所で使う備品の請求書を受け取り、代金を月末に払うことにした。貸方の勘定科目は?', a: '未払金', o: ['買掛金', '仮受金', '支払手形'], e: '備品は商品ではないので、後払いの代金は未払金です。' }
+  ];
+
+  var GENS = {
+    1: [gen1, gen1, gen1, function () { return knowProblem(1, K1); }],
+    2: [gen2, gen2, gen2, function () { return knowProblem(2, K2); }],
+    3: [gen3],
+    4: [gen4],
+    5: [gen5, gen5, gen5, function () { return knowProblem(5, K5); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function jRow(side, i) {
+    return '<div class="jrow"><select id="' + side + 'A' + i + '" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '科目' + (i + 1) + '"><option value="">科目' + (i === 0 ? '' : '(任意)') + '</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select>' +
+      '<input type="text" id="' + side + 'M' + i + '" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '金額' + (i + 1) + '"></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>';
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(円)</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      var dr = '', cr = '';
+      for (var i = 0; i < ROWS; i++) { dr += jRow('dr', i); cr += jRow('cr', i); }
+      h = '<div class="jgrid"><div class="jside"><div class="jside-title">借方</div>' + dr + '</div><div class="jside"><div class="jside-title">貸方</div>' + cr + '</div></div>' +
+        '<div class="hint">2行目以降は、科目が複数必要なときだけ入力してください。金額は半角数字(カンマはあってもなくてもOK)。</div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        state.choice = b.getAttribute('data-v');
+        Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  // 仕訳の入力を読む。エラーなら文字列を返す
+  function readSide(side, label) {
+    var list = [];
+    for (var i = 0; i < ROWS; i++) {
+      var a = $(side + 'A' + i).value, raw = $(side + 'M' + i).value.trim();
+      if (!a && !raw) continue;
+      if (!a) return label + (i + 1) + '行目の科目を選んでください。';
+      var m = parseNum(raw);
+      if (m === null || m <= 0) return label + (i + 1) + '行目の金額を半角数字で入力してください。';
+      list.push([a, m]);
+    }
+    if (!list.length) return label + 'の科目と金額を入力してください。';
+    return list;
+  }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = readSide('dr', '借方'); if (typeof dr === 'string') return showError(dr);
+      var cr = readSide('cr', '貸方'); if (typeof cr === 'string') return showError(cr);
+      ok = jKey(dr) === jKey(p.answer.dr) && jKey(cr) === jKey(p.answer.cr);
+      yours = '\n' + jText(dr, cr);
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n正解:\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3, 4, 5]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
