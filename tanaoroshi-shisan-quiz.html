@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>棚卸資産(売価還元法・低価法) ランダム問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+  .problem-line b { color: #f6f1e6; }
+
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-line; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">BOOKKEEPING LV.1 商業簿記 棚卸資産(売価還元法・低価法)</div>
+      <h1>棚卸資産(売価還元法・低価法) ランダム問題</h1>
+    </div>
+    <div>
+      <div class="score-label">スコア</div>
+      <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+  </div>
+
+  <div class="topic-badge" id="topicBadge"></div>
+
+  <div class="problem-card" id="problemCard"></div>
+
+  <div class="inputs-row">
+    <div class="input-group">
+      <label id="label1"></label>
+      <input type="text" id="input1" autocomplete="off">
+    </div>
+    <div class="input-group">
+      <label id="label2"></label>
+      <input type="text" id="input2" autocomplete="off">
+    </div>
+  </div>
+  <div class="hint">半角数字、カンマなしで入力(単位の「円」は不要)。原価率は小数で入力してください(例:0.8、0.625)。</div>
+  <div class="error" id="errorText"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="checkBtn">解答する</button>
+    <button class="btn-secondary" id="nextBtn">次の問題へ</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="result-explanation" id="resultExplanation"></div>
+  </div>
+
+  <div class="footer-note">簿記1級 棚卸資産(売価還元法・低価法)の練習用アプリ(自己採点)</div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0 };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmt(n) {
+    var s = Math.abs(Math.round(n)).toLocaleString('ja-JP');
+    return (n < 0 ? '−' : '') + s;
+  }
+  var NICE = [0.6, 0.625, 0.64, 0.7, 0.72, 0.75, 0.8, 0.84, 0.875, 0.9];
+  function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-6; }
+  function r3(x) { return Math.round(x * 1000) / 1000; }
+
+  // 売価還元法の共通データ
+  function baikaData() {
+    for (var tries = 0; tries < 20000; tries++) {
+      var N = randMultiple(20, 100, 1) * 10000;
+      var i = randMultiple(1, NICE.length - 1, 1);
+      var r = NICE[i];
+      var rl = NICE[randMultiple(0, i - 1, 1)];
+      var D = N / r, DL = N / rl;
+      if (!isInt(D) || !isInt(DL)) continue;
+      D = Math.round(D); DL = Math.round(DL);
+      if (D % 1000 !== 0 || DL % 1000 !== 0) continue;
+      var nd = DL - D;
+      if (nd <= 0 || nd > D * 0.15) continue;
+      var c0 = Math.round(N * pick([0.1, 0.15, 0.2]) / 1000) * 1000;
+      var s0 = Math.round(c0 / pick([0.7, 0.75, 0.8]) / 1000) * 1000;
+      var purch = N - c0;
+      var upC = randMultiple(0, 5, 1) * 1000, up = upC + randMultiple(5, 30, 1) * 1000;
+      var netUp = up - upC;
+      var dnC = randMultiple(0, Math.min(10, nd / 1000 - 1), 1) * 1000;
+      var dn = nd + dnC;
+      var markup = D - s0 - purch - netUp + nd;
+      if (markup <= 0) continue;
+      var E = randMultiple(5, 40, 1) * 10000;
+      var eC = E * r, eL = E * rl;
+      if (!isInt(eC) || !isInt(eL)) continue;
+      if (E > D) continue;
+      return { N: N, r: r, rl: rl, D: D, DL: DL, nd: nd, c0: c0, s0: s0, purch: purch, up: up, upC: upC, netUp: netUp, dn: dn, dnC: dnC, markup: markup, E: E, eC: Math.round(eC), eL: Math.round(eL) };
+    }
+    return null;
+  }
+  function baikaLines(d) {
+    return [
+      '期首商品:原価<b>' + fmt(d.c0) + '円</b>、売価<b>' + fmt(d.s0) + '円</b>',
+      '当期仕入:原価<b>' + fmt(d.purch) + '円</b>、原始値入額<b>' + fmt(d.markup) + '円</b>',
+      '値上額<b>' + fmt(d.up) + '円</b>、値上取消額<b>' + fmt(d.upC) + '円</b>、値下額<b>' + fmt(d.dn) + '円</b>、値下取消額<b>' + fmt(d.dnC) + '円</b>',
+      '期末商品の売価は<b>' + fmt(d.E) + '円</b>である。'
+    ];
+  }
+  function baikaExplain(d) {
+    return '純値上額 = ' + fmt(d.up) + ' − ' + fmt(d.upC) + ' = ' + fmt(d.netUp) + '円、純値下額 = ' + fmt(d.dn) + ' − ' + fmt(d.dnC) + ' = ' + fmt(d.nd) + '円\n' +
+      '分子(原価) = ' + fmt(d.c0) + ' + ' + fmt(d.purch) + ' = ' + fmt(d.N) + '円\n' +
+      '【原価法】分母 = ' + fmt(d.s0) + ' + ' + fmt(d.purch) + ' + ' + fmt(d.markup) + ' + ' + fmt(d.netUp) + ' − ' + fmt(d.nd) + ' = ' + fmt(d.D) + '円\n' +
+      '　原価率 = ' + fmt(d.N) + ' ÷ ' + fmt(d.D) + ' = ' + d.r + ' → 期末商品 = ' + fmt(d.E) + ' × ' + d.r + ' = ' + fmt(d.eC) + '円\n' +
+      '【売価還元低価法】分母 = ' + fmt(d.D) + ' + ' + fmt(d.nd) + '(純値下額を引かない) = ' + fmt(d.DL) + '円\n' +
+      '　原価率 = ' + fmt(d.N) + ' ÷ ' + fmt(d.DL) + ' = ' + d.rl + ' → 期末商品 = ' + fmt(d.E) + ' × ' + d.rl + ' = ' + fmt(d.eL) + '円\n' +
+      '商品評価損 = ' + fmt(d.eC) + ' − ' + fmt(d.eL) + ' = ' + fmt(d.eC - d.eL) + '円';
+  }
+
+  // ① 売価還元法(原価法)
+  function genCost() {
+    var d = baikaData();
+    return {
+      badge: '売価還元法(原価法)の原価率と期末商品',
+      check: d !== null && d.s0 + d.purch + d.markup + d.netUp - d.nd === d.D,
+      lines: baikaLines(d),
+      label1: '原価法の原価率(小数)',
+      label2: '期末商品の原価(原価法、円)',
+      ph1: '例: 0.8', ph2: '例: 160000',
+      answers: [d.r, d.eC],
+      tol: [0.0005, 0],
+      explanation: baikaExplain(d)
+    };
+  }
+
+  // ② 売価還元低価法と商品評価損
+  function genLow() {
+    var d = baikaData();
+    return {
+      badge: '売価還元低価法の原価率と商品評価損',
+      check: d !== null && d.D + d.nd === d.DL && d.eC > d.eL,
+      lines: baikaLines(d),
+      label1: '売価還元低価法の原価率(小数)',
+      label2: '商品評価損(円)',
+      ph1: '例: 0.75', ph2: '例: 10000',
+      answers: [d.rl, d.eC - d.eL],
+      tol: [0.0005, 0],
+      explanation: baikaExplain(d)
+    };
+  }
+
+  // 低価法(ボックス図)の共通データ
+  function boxData() {
+    var book = randMultiple(10, 100, 1) * 10;
+    var lost = randMultiple(0, Math.floor(book / 20), 1) * 5;
+    var act = book - lost;
+    var cost = randMultiple(10, 60, 1) * 10;
+    var exp = randMultiple(1, 8, 1) * 5;
+    var noLoss = Math.random() < 0.15;
+    var nrv = noLoss ? cost + randMultiple(0, 5, 1) * 10 : cost - randMultiple(1, 8, 1) * 5;
+    var price = nrv + exp;
+    var ded = lost * cost;
+    var loss = Math.max(0, act * (cost - nrv));
+    var bs = act * Math.min(cost, nrv);
+    return { book: book, lost: lost, act: act, cost: cost, exp: exp, nrv: nrv, price: price, ded: ded, loss: loss, bs: bs };
+  }
+  function boxLines(d) {
+    return [
+      '期末商品の帳簿数量は<b>' + fmt(d.book) + '個</b>、実地数量は<b>' + fmt(d.act) + '個</b>である。',
+      '原価は<b>@' + fmt(d.cost) + '円</b>、期末の売価は<b>@' + fmt(d.price) + '円</b>、見積販売直接経費は<b>@' + fmt(d.exp) + '円</b>である。'
+    ];
+  }
+  function boxExplain(d) {
+    return '正味売却価額 = ' + fmt(d.price) + ' − ' + fmt(d.exp) + ' = @' + fmt(d.nrv) + '円\n' +
+      '棚卸減耗損 = (' + fmt(d.book) + ' − ' + fmt(d.act) + ') × ' + fmt(d.cost) + '(原価) = ' + fmt(d.ded) + '円\n' +
+      (d.nrv < d.cost
+        ? '商品評価損 = ' + fmt(d.act) + '(実地数量) × (' + fmt(d.cost) + ' − ' + fmt(d.nrv) + ') = ' + fmt(d.loss) + '円\n'
+        : '正味売却価額(@' + fmt(d.nrv) + ')が原価(@' + fmt(d.cost) + ')以上なので、商品評価損は0円\n') +
+      '貸借対照表の期末商品 = ' + fmt(d.act) + ' × @' + fmt(Math.min(d.cost, d.nrv)) + ' = ' + fmt(d.bs) + '円\n' +
+      '(検算)' + fmt(d.book) + ' × ' + fmt(d.cost) + ' = ' + fmt(d.book * d.cost) + ' − ' + fmt(d.ded) + ' − ' + fmt(d.loss) + ' = ' + fmt(d.bs) + '円';
+  }
+
+  // ③ 棚卸減耗損と商品評価損
+  function genBoxLoss() {
+    var d = boxData();
+    return {
+      badge: '低価法:棚卸減耗損と商品評価損(ボックス図)',
+      check: d.book * d.cost - d.ded - d.loss === d.bs,
+      lines: boxLines(d),
+      label1: '棚卸減耗損(円)',
+      label2: '商品評価損(円)',
+      ph1: '例: 4000', ph2: '例: 9600',
+      answers: [d.ded, d.loss],
+      tol: [0, 0],
+      explanation: boxExplain(d)
+    };
+  }
+
+  // ④ 正味売却価額と貸借対照表価額
+  function genBoxBS() {
+    var d = boxData();
+    return {
+      badge: '低価法:正味売却価額と貸借対照表の期末商品',
+      check: d.book * d.cost - d.ded - d.loss === d.bs,
+      lines: boxLines(d),
+      label1: '正味売却価額(1個あたり、円)',
+      label2: '貸借対照表の期末商品(円)',
+      ph1: '例: 180', ph2: '例: 86400',
+      answers: [d.nrv, d.bs],
+      tol: [0, 0],
+      explanation: boxExplain(d)
+    };
+  }
+
+  function generateProblem() {
+    var y = Math.random();
+    if (y < 0.25) return genCost();
+    if (y < 0.5) return genLow();
+    if (y < 0.75) return genBoxLoss();
+    return genBoxBS();
+  }
+
+  function renderProblem() {
+    var p = state.problem;
+    document.getElementById('topicBadge').textContent = '【 ' + p.badge + ' 】';
+    document.getElementById('problemCard').innerHTML = p.lines.map(function (l) {
+      return '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    document.getElementById('label1').textContent = p.label1;
+    document.getElementById('label2').textContent = p.label2;
+    var i1 = document.getElementById('input1');
+    var i2 = document.getElementById('input2');
+    i1.placeholder = p.ph1;
+    i2.placeholder = p.ph2;
+    i1.value = '';
+    i2.value = '';
+    document.getElementById('errorText').style.display = 'none';
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+  }
+
+  function parseSigned(s) {
+    if (s === undefined || s === null) return NaN;
+    var t = String(s).trim().replace(/,/g, '').replace(/万円/g, '').replace(/円/g, '').replace(/%/g, '').replace(/回/g, '').replace(/個/g, '').replace(/[−▲△]/g, '-');
+    if (t === '' || t === '-' || t === '+') return NaN;
+    return Number(t);
+  }
+
+  function isClose(a, b, tol) {
+    return Math.abs(a - b) <= tol + 1e-9;
+  }
+
+  function handleCheck() {
+    var u1 = parseSigned(document.getElementById('input1').value);
+    var u2 = parseSigned(document.getElementById('input2').value);
+    var errEl = document.getElementById('errorText');
+    if (isNaN(u1) || isNaN(u2)) {
+      errEl.textContent = '両方の欄に数値を入力してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    var p = state.problem;
+    var tol = p.tol || [0, 0];
+    var isCorrect = isClose(u1, p.answers[0], tol[0]) && isClose(u2, p.answers[1], tol[1]);
+    state.total += 1;
+    if (isCorrect) state.score += 1;
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+
+    var resultCard = document.getElementById('resultCard');
+    var resultTitle = document.getElementById('resultTitle');
+    resultTitle.textContent = isCorrect ? '正解です!' : '不正解です。もう一度見直してみましょう。';
+    resultTitle.style.color = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.borderColor = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.background = isCorrect ? 'rgba(99,153,34,0.14)' : 'rgba(216,90,48,0.14)';
+    document.getElementById('resultExplanation').textContent = p.explanation;
+    resultCard.classList.add('show');
+  }
+
+  function handleNext() {
+    state.problem = generateProblem();
+    renderProblem();
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', handleCheck);
+  document.getElementById('nextBtn').addEventListener('click', handleNext);
+  document.getElementById('input1').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+  document.getElementById('input2').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+
+  state.problem = generateProblem();
+  renderProblem();
+})();
+</script>
+</body>
+</html>
