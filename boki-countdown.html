@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>日商簿記 試験日カウントダウン</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 19px; font-weight: 700; margin: 0 0 4px; color: #f6f1e6; }
+  h3 { font-size: 15px; font-weight: 700; margin: 18px 0 8px; color: #d4a24c; }
+  p { font-size: 15px; line-height: 1.9; color: #e8e3d8; margin: 6px 0; }
+  a { color: #d4a24c; }
+  .lead { margin-top: 10px; }
+
+  .panel {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 10px;
+  }
+  .field-label { font-size: 14px; color: #c7c0b0; }
+  .field-label + .filters { margin-bottom: 6px; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 14px; font-weight: 700;
+    padding: 8px 18px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+  .chip:disabled { cursor: default; opacity: 0.35; }
+
+  .input-group { display: flex; flex-direction: column; gap: 6px; max-width: 360px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px; color-scheme: dark;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+  .hint { font-size: 13px; line-height: 1.8; color: #8b93a1; }
+
+  .count-card {
+    padding: 28px 24px 26px; border-radius: 16px; text-align: center;
+    border: 2px solid #d4a24c; background: rgba(212,162,76,0.08);
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .count-label { font-size: 14px; font-weight: 700; letter-spacing: 1px; color: #d4a24c; }
+  .count-date { font-size: 18px; font-weight: 700; }
+  .count-main { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin: 6px 0 2px; }
+  .count-pre, .count-unit { font-size: 22px; font-weight: 700; color: #e8e3d8; }
+  .count-num { font-size: 88px; font-weight: 700; line-height: 1.1; color: #fac775; font-variant-numeric: tabular-nums; }
+  .count-msg { font-size: 30px; font-weight: 700; color: #fac775; margin: 14px 0 8px; }
+  .count-sub { font-size: 15px; color: #c7c0b0; }
+
+  .warn {
+    display: none; margin-top: 10px; padding: 10px 14px; border-radius: 8px; text-align: left;
+    border: 1px solid #d85a30; background: rgba(216,90,48,0.1); color: #f0997b; font-size: 14px; line-height: 1.8;
+  }
+  .warn.show { display: block; }
+
+  .badge {
+    display: inline-flex; align-self: flex-start; padding: 4px 14px; border-radius: 999px;
+    font-size: 13px; font-weight: 700; letter-spacing: 1px; border: 1px solid;
+  }
+  .badge.open { color: #5dcaa5; border-color: #1d9e75; background: rgba(29,158,117,0.12); }
+  .badge.wait { color: #d4a24c; border-color: #d4a24c; background: rgba(212,162,76,0.12); }
+  .badge.closed { color: #9aa5b1; border-color: #6b7688; background: rgba(255,255,255,0.04); }
+
+  .deadline-result { font-size: 16px; font-weight: 700; color: #fac775; }
+  .deadline-result.over { color: #f0997b; }
+
+  .plan { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .plan li {
+    padding: 12px 16px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.08); background: #0b1320;
+  }
+  .plan li.now { border-color: #d4a24c; background: rgba(212,162,76,0.08); }
+  .plan-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; }
+  .plan-name { font-size: 15px; font-weight: 700; color: #fac775; }
+  .plan-range { font-size: 13px; color: #c7c0b0; }
+  .plan-now { font-size: 12px; font-weight: 700; color: #101b2d; background: #d4a24c; padding: 1px 8px; border-radius: 999px; }
+  .plan-text { font-size: 14px; line-height: 1.8; color: #e8e3d8; margin-top: 4px; }
+
+  .sched { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+  .sched li {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 10px 14px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); background: #0b1320;
+  }
+  .sched li.past { opacity: 0.45; }
+  .sched li.sel { border-color: #d4a24c; }
+  .sched-main { font-size: 15px; font-weight: 700; }
+  .sched-sub { font-size: 13px; color: #9aa5b1; margin-top: 2px; }
+  .sched-status { font-size: 14px; font-weight: 700; color: #d4a24c; white-space: nowrap; }
+  .sched li.past .sched-status { color: #9aa5b1; }
+  .sched-status.alert { color: #f0997b; }
+
+  .note {
+    margin: 10px 0 0; padding: 10px 14px; border-left: 3px solid #d4a24c;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; }
+  .links a { font-weight: 700; text-decoration: none; }
+  .links a:hover { text-decoration: underline; }
+
+  .footer-note { font-size: 12px; line-height: 1.8; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 520px) {
+    .panel { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+    .count-num { font-size: 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div>
+    <div class="kicker">BOOKKEEPING EXAM COUNTDOWN</div>
+    <h1>日商簿記 試験日カウントダウン</h1>
+    <p class="lead">受ける級と受け方を選ぶと、試験日までの残り日数が表示されます。申込締切と、試験日から逆算した勉強スケジュールのめやすもわかります。</p>
+  </div>
+
+  <section class="panel">
+    <div class="field-label">受ける級</div>
+    <div class="filters" id="gradeChips">
+      <button class="chip" data-grade="3">3級</button>
+      <button class="chip" data-grade="2">2級</button>
+      <button class="chip" data-grade="1">1級</button>
+    </div>
+    <div class="field-label">受け方</div>
+    <div class="filters" id="modeChips">
+      <button class="chip" data-mode="toitsu">統一試験(紙の試験)</button>
+      <button class="chip" data-mode="net">ネット試験</button>
+    </div>
+    <div class="hint" id="modeHint"></div>
+    <div class="input-group" id="examSelectWrap">
+      <label for="examSelect">受ける回</label>
+      <select id="examSelect"></select>
+    </div>
+    <div class="input-group" id="netDateWrap">
+      <label for="netDate">ネット試験の受験日(予約した日・予定の日)</label>
+      <input type="date" id="netDate">
+    </div>
+  </section>
+
+  <section class="count-card">
+    <div class="count-label" id="countLabel"></div>
+    <div class="count-date" id="countDate"></div>
+    <div class="count-main" id="countMain">
+      <span class="count-pre">あと</span><span class="count-num" id="countNum"></span><span class="count-unit">日</span>
+    </div>
+    <div class="count-msg" id="countMsg"></div>
+    <div class="count-sub" id="countSub"></div>
+    <div class="warn" id="countWarn"></div>
+  </section>
+
+  <section class="panel" id="applyPanel">
+    <h2>申込の状況</h2>
+    <span class="badge" id="applyBadge"></span>
+    <p id="applyText"></p>
+    <div id="deadlineWrap">
+      <div class="input-group">
+        <label for="deadline">あなたの地域の申込締切日</label>
+        <input type="date" id="deadline">
+      </div>
+      <div class="hint">締切は商工会議所ごとに違います。<a href="https://links.kentei.ne.jp/bookkeeping" target="_blank" rel="noopener">商工会議所検索</a>で調べて入力すると、締切までの日数を表示します。</div>
+      <div class="deadline-result" id="deadlineResult"></div>
+    </div>
+  </section>
+
+  <section class="panel" id="planPanel">
+    <h2>逆算スケジュール(めやす)</h2>
+    <ul class="plan" id="planList"></ul>
+  </section>
+
+  <section class="panel">
+    <h2>2026年度の日程</h2>
+    <h3>統一試験(紙の試験)</h3>
+    <ul class="sched" id="examList"></ul>
+    <div class="note">東京商工会議所(東京23区)では、2級・3級の統一試験を行っていません。東京23区で2級・3級を受ける場合はネット試験になります。</div>
+    <h3>ネット試験(2級・3級)の休止期間</h3>
+    <ul class="sched" id="pauseList"></ul>
+    <h3>受験料</h3>
+    <p>1級 8,800円、2級 5,500円、3級 3,300円(統一試験・ネット試験とも同じ。会場によっては別に手数料がかかります)</p>
+  </section>
+
+  <section class="panel">
+    <h2>公式サイト</h2>
+    <div class="links">
+      <a href="https://www.kentei.ne.jp/bookkeeping" target="_blank" rel="noopener">日本商工会議所 簿記検定</a>
+      <a href="https://www.kentei.ne.jp/calendar_2026" target="_blank" rel="noopener">2026年度 試験日程カレンダー</a>
+      <a href="https://links.kentei.ne.jp/bookkeeping" target="_blank" rel="noopener">商工会議所検索</a>
+    </div>
+  </section>
+
+  <div class="footer-note">
+    掲載している日程は2026年10月1日時点の情報です。申し込む前に、日本商工会議所と受験地の商工会議所の公式サイトで最新情報を確認してください。<br>
+    <a href="https://note.com/major_owl3656" target="_blank" rel="noopener">そぼろのnote</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  // ===== 日程データ(更新するときはここを書き換える) =====
+  var EXAMS = [
+    { no: 173, date: '2026-06-14', grades: [1, 2, 3] },
+    { no: 174, date: '2026-11-15', grades: [1, 2, 3],
+      apply: { start: '2026-09-28', end: '2026-10-19', example: '例:東京商工会議所(1級)は10月6日(火)18:00まで。' } },
+    { no: 175, date: '2027-02-28', grades: [2, 3],
+      applyNote: '申込期間はまだ発表されていません。例年どおりなら12月ごろに受付が始まる見込みです。' },
+    { no: 176, date: null, approx: '2027年6月(予定)', grades: [1, 2, 3],
+      applyNote: '試験日・申込期間はまだ発表されていません。' }
+  ];
+  var NET_PAUSE = [
+    ['2026-04-01', '2026-04-13'],
+    ['2026-06-08', '2026-06-17'],
+    ['2026-11-09', '2026-11-18'],
+    ['2027-02-22', '2027-03-03']
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var DOW = '日月火水木金土';
+  var DAY = 86400000;
+
+  function parse(s) {
+    var p = s.split('-');
+    return new Date(+p[0], +p[1] - 1, +p[2]);
+  }
+  function toStr(d) {
+    return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+  }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function diff(a, b) { return Math.round((b - a) / DAY); }
+  function fmtLong(d) { return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日(' + DOW[d.getDay()] + ')'; }
+  function fmtShort(d) { return (d.getMonth() + 1) + '/' + d.getDate() + '(' + DOW[d.getDay()] + ')'; }
+  function fmtMD(d) { return (d.getMonth() + 1) + '月' + d.getDate() + '日(' + DOW[d.getDay()] + ')'; }
+
+  // ?today=2026-10-20 で日付を差し替えて表示を確認できる
+  var TODAY = (function () {
+    var m = location.search.match(/today=(\d{4}-\d{2}-\d{2})/);
+    if (m) return parse(m[1]);
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  })();
+
+  var S = { grade: 3, mode: 'toitsu', examNo: null, netDate: '', deadlines: {} };
+  try {
+    var saved = JSON.parse(localStorage.getItem('bokiCountdown') || '{}');
+    for (var k in saved) S[k] = saved[k];
+  } catch (e) {}
+  function save() { try { localStorage.setItem('bokiCountdown', JSON.stringify(S)); } catch (e) {} }
+
+  function gradeLabel(grades) { return grades.map(function (g) { return g + '級'; }).join('・'); }
+  function upcomingExams(grade) {
+    return EXAMS.filter(function (e) {
+      return e.grades.indexOf(grade) >= 0 && (!e.date || diff(TODAY, parse(e.date)) >= 0);
+    });
+  }
+  function findPause(d) {
+    for (var i = 0; i < NET_PAUSE.length; i++) {
+      if (d >= parse(NET_PAUSE[i][0]) && d <= parse(NET_PAUSE[i][1])) return NET_PAUSE[i];
+    }
+    return null;
+  }
+
+  // ===== 入力欄 =====
+  function renderControls() {
+    if (S.grade === 1) S.mode = 'toitsu';
+    Array.prototype.forEach.call(document.querySelectorAll('[data-grade]'), function (b) {
+      b.classList.toggle('on', +b.getAttribute('data-grade') === S.grade);
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (b) {
+      var m = b.getAttribute('data-mode');
+      b.classList.toggle('on', m === S.mode);
+      b.disabled = (m === 'net' && S.grade === 1);
+    });
+    $('modeHint').textContent = S.grade === 1
+      ? '1級はネット試験がありません。統一試験(年2回:6月・11月)のみです。'
+      : (S.mode === 'net' ? 'テストセンターの空きがあれば、好きな日に受けられます。結果はその場でわかります。' : '');
+
+    $('examSelectWrap').style.display = S.mode === 'toitsu' ? '' : 'none';
+    $('netDateWrap').style.display = S.mode === 'net' ? '' : 'none';
+
+    var list = upcomingExams(S.grade);
+    if (!list.some(function (e) { return e.no === S.examNo; })) S.examNo = list.length ? list[0].no : null;
+    $('examSelect').innerHTML = list.map(function (e) {
+      var when = e.date ? fmtLong(parse(e.date)) : e.approx;
+      return '<option value="' + e.no + '"' + (e.no === S.examNo ? ' selected' : '') + '>第' + e.no + '回 ' + when + '</option>';
+    }).join('');
+    $('netDate').value = S.netDate || '';
+    $('deadline').value = (S.examNo && S.deadlines[S.examNo]) || '';
+  }
+
+  function currentExam() {
+    for (var i = 0; i < EXAMS.length; i++) if (EXAMS[i].no === S.examNo) return EXAMS[i];
+    return null;
+  }
+
+  // ===== カウントダウン =====
+  function renderCount() {
+    var target = null, warn = '';
+    $('countMain').style.display = 'none';
+    $('countMsg').textContent = '';
+    $('countSub').textContent = '';
+
+    if (S.mode === 'toitsu') {
+      var ex = currentExam();
+      $('countLabel').textContent = ex ? '第' + ex.no + '回 統一試験・' + S.grade + '級' : '統一試験・' + S.grade + '級';
+      if (ex && ex.date) {
+        target = parse(ex.date);
+        $('countDate').textContent = fmtLong(target);
+      } else {
+        $('countDate').textContent = ex ? ex.approx : '';
+        $('countMsg').textContent = '日程未発表';
+        $('countSub').textContent = '発表されたら、このページに反映します。';
+      }
+    } else {
+      $('countLabel').textContent = 'ネット試験・' + S.grade + '級';
+      if (S.netDate) {
+        target = parse(S.netDate);
+        $('countDate').textContent = fmtLong(target);
+        var p = findPause(target);
+        if (p) warn = 'この日はネット試験の休止期間(' + fmtMD(parse(p[0])) + '〜' + fmtMD(parse(p[1])) + ')にあたるため、受験できません。別の日を選んでください。';
+      } else {
+        $('countDate').textContent = '';
+        $('countMsg').textContent = '受験日を入力してください';
+        $('countSub').textContent = '上の「ネット試験の受験日」に日付を入れると、カウントダウンが始まります。';
+      }
+    }
+
+    if (target) {
+      var n = diff(TODAY, target);
+      if (n > 0) {
+        $('countMain').style.display = '';
+        $('countNum').textContent = n.toLocaleString();
+        $('countSub').textContent = n === 1 ? '明日が試験日です。早めに寝ましょう。'
+          : (n >= 7 ? Math.floor(n / 7) + '週間' + (n % 7 ? 'と' + (n % 7) + '日' : '') : '最後の1週間です。');
+      } else if (n === 0) {
+        $('countMsg').textContent = '今日が試験日です';
+        $('countSub').textContent = '落ち着いて、いつもどおりに。応援しています。';
+      } else {
+        $('countMsg').textContent = 'この日は過ぎています';
+        $('countSub').textContent = '次に受ける日を入力してください。';
+      }
+    }
+
+    $('countWarn').textContent = warn;
+    $('countWarn').classList.toggle('show', !!warn);
+    return target;
+  }
+
+  // ===== 申込の状況 =====
+  function setBadge(cls, text) {
+    var b = $('applyBadge');
+    b.className = 'badge ' + cls;
+    b.textContent = text;
+  }
+
+  function renderApply() {
+    if (S.mode === 'net') {
+      $('applyPanel').style.display = '';
+      setBadge('open', '随時');
+      $('applyText').textContent = 'ネット試験は、テストセンターの空きがあればいつでも申し込めます。統一試験の前後は休止期間になるので、その期間の日は選べません。';
+      $('deadlineWrap').style.display = 'none';
+      return;
+    }
+    var ex = currentExam();
+    if (!ex) { $('applyPanel').style.display = 'none'; return; }
+    $('applyPanel').style.display = '';
+    $('deadlineWrap').style.display = '';
+
+    if (ex.apply) {
+      var st = parse(ex.apply.start), en = parse(ex.apply.end);
+      if (TODAY < st) {
+        setBadge('wait', '受付前');
+        $('applyText').textContent = fmtMD(st) + 'ごろから受付が始まる見込みです(地域によって違います)。';
+      } else if (TODAY <= en) {
+        setBadge('open', '受付中');
+        $('applyText').textContent = '受付中の商工会議所があります。締切は地域ごとに違い、会場の定員に達すると締切前に受付を終えることもあります。' + ex.apply.example;
+      } else {
+        setBadge('closed', '多くの地域で受付終了');
+        $('applyText').textContent = '多くの商工会議所で受付を終えています。まだ受け付けている地域がないか、受験地の商工会議所で確認してください。';
+      }
+    } else {
+      setBadge('wait', '未発表');
+      $('applyText').textContent = ex.applyNote || '';
+    }
+
+    var r = $('deadlineResult');
+    r.className = 'deadline-result';
+    var dl = S.deadlines[ex.no];
+    if (!dl) { r.textContent = ''; return; }
+    var n = diff(TODAY, parse(dl));
+    if (n > 0) r.textContent = '申込締切(' + fmtMD(parse(dl)) + ')まで あと ' + n + ' 日';
+    else if (n === 0) r.textContent = '今日が申込締切です。まだなら今すぐ申し込みましょう。';
+    else { r.textContent = '申込締切(' + fmtMD(parse(dl)) + ')を過ぎています。'; r.className = 'deadline-result over'; }
+  }
+
+  // ===== 逆算スケジュール =====
+  function renderPlan(target) {
+    var n = target ? diff(TODAY, target) : -1;
+    if (n <= 0 || (S.mode === 'net' && findPause(target))) { $('planPanel').style.display = 'none'; return; }
+    $('planPanel').style.display = '';
+
+    var practice = S.grade === 1 ? 42 : 28;
+    var phases = [
+      { name: 'インプット期', from: TODAY, to: addDays(target, -practice - 1),
+        text: S.grade === 1
+          ? '全範囲のテキストと基本問題をひととおり終わらせる。あやふやな論点には印をつけておく。'
+          : '全範囲のテキストと基本問題をひととおり終わらせる。仕訳は毎日少しずつ解く。' },
+      { name: '演習期', from: addDays(target, -practice), to: addDays(target, -8),
+        text: '過去問や予想問題を、本番と同じ時間で解く。間違えた論点はテキストに戻って確認する。' },
+      { name: '直前期', from: addDays(target, -7), to: addDays(target, -1),
+        text: '間違えた問題と仕訳を総復習。新しい問題集には手を広げない。前日までに受験票・身分証明書・電卓をそろえる。' },
+      { name: '試験日', from: target, to: target, text: '落ち着いて、いつもどおりに。' }
+    ];
+
+    $('planList').innerHTML = phases.map(function (p) {
+      var from = p.from < TODAY ? TODAY : p.from;
+      if (p.to < from) return '';
+      var days = diff(from, p.to) + 1;
+      var now = from <= TODAY && TODAY <= p.to;
+      var range = days === 1 ? fmtShort(from) : fmtShort(from) + ' 〜 ' + fmtShort(p.to) + '(' + days + '日間)';
+      return '<li' + (now ? ' class="now"' : '') + '><div class="plan-head"><span class="plan-name">' + p.name + '</span>'
+        + '<span class="plan-range">' + range + '</span>' + (now ? '<span class="plan-now">いまここ</span>' : '') + '</div>'
+        + '<div class="plan-text">' + p.text + '</div></li>';
+    }).join('');
+  }
+
+  // ===== 日程一覧 =====
+  function renderLists() {
+    $('examList').innerHTML = EXAMS.map(function (e) {
+      var status, past = false;
+      if (e.date) {
+        var n = diff(TODAY, parse(e.date));
+        status = n > 0 ? 'あと ' + n + ' 日' : (n === 0 ? '今日' : '終了');
+        past = n < 0;
+      } else {
+        status = '日程未発表';
+      }
+      var sel = S.mode === 'toitsu' && e.no === S.examNo;
+      var grades = gradeLabel(e.grades) + (e.grades.indexOf(1) < 0 ? '(1級なし)' : '');
+      return '<li class="' + (past ? 'past' : '') + (sel ? ' sel' : '') + '"><div><div class="sched-main">第' + e.no + '回 '
+        + (e.date ? fmtLong(parse(e.date)) : e.approx) + '</div><div class="sched-sub">' + grades + '</div></div>'
+        + '<div class="sched-status">' + status + '</div></li>';
+    }).join('');
+
+    $('pauseList').innerHTML = NET_PAUSE.map(function (p) {
+      var from = parse(p[0]), to = parse(p[1]);
+      var past = to < TODAY, now = from <= TODAY && TODAY <= to;
+      var status = past ? '終了' : (now ? '休止中' : 'あと ' + diff(TODAY, from) + ' 日で休止');
+      return '<li class="' + (past ? 'past' : '') + '"><div class="sched-main">' + fmtLong(from) + ' 〜 ' + fmtLong(to) + '</div>'
+        + '<div class="sched-status' + (now ? ' alert' : '') + '">' + status + '</div></li>';
+    }).join('');
+  }
+
+  function render() {
+    renderControls();
+    var target = renderCount();
+    renderApply();
+    renderPlan(target);
+    renderLists();
+    save();
+  }
+
+  // ===== イベント =====
+  Array.prototype.forEach.call(document.querySelectorAll('[data-grade]'), function (b) {
+    b.addEventListener('click', function () { S.grade = +b.getAttribute('data-grade'); render(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function (b) {
+    b.addEventListener('click', function () { S.mode = b.getAttribute('data-mode'); render(); });
+  });
+  $('examSelect').addEventListener('change', function () { S.examNo = +this.value; render(); });
+  $('netDate').addEventListener('change', function () { S.netDate = this.value; render(); });
+  $('deadline').addEventListener('change', function () {
+    if (S.examNo) {
+      if (this.value) S.deadlines[S.examNo] = this.value; else delete S.deadlines[S.examNo];
+    }
+    render();
+  });
+
+  // 日付が変わったら表示を更新(開きっぱなし対策)
+  var shown = toStr(TODAY);
+  setInterval(function () {
+    if (/today=/.test(location.search)) return;
+    var n = new Date();
+    var t = new Date(n.getFullYear(), n.getMonth(), n.getDate());
+    if (toStr(t) !== shown) { TODAY = t; shown = toStr(t); render(); }
+  }, 60000);
+
+  render();
+})();
+</script>
+</body>
+</html>
