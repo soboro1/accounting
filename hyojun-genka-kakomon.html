@@ -99,6 +99,7 @@
     border-radius: 999px; padding: 3px 14px;
   }
   .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
   .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
   .facts b { font-weight: 700; color: var(--fg); }
 
@@ -302,7 +303,7 @@
 
   <section class="result" id="result" hidden></section>
 
-  <footer class="foot">日商簿記1級の標準原価計算の練習用(自己採点)。図の差異の位置は教科書どおりの模式図で、緑=有利差異、赤=不利差異です。</footer>
+  <footer class="foot">日商簿記1級の標準原価計算の練習用(自己採点)。図の差異の位置は教科書どおりの模式図で、緑=有利差異、赤=不利差異です。<br>「本試験の出題」は、第102〜165回の工業簿記を中心にまとめたnote記事と、第143〜157回の原価計算の一覧をもとにしたもので、日商の公式な集計ではありません。</footer>
 
 </div>
 
@@ -1965,22 +1966,413 @@ var Drill = (function () {
     }
   }
 
+  // ---------- 追加の図(2) ----------
+  // 製造間接費の差異分析図(操業度差異の細分化)
+  function spRectFig(o) {
+    var w = 400, h = 250, x0 = 76, xS = 168, xA = 226, xBb = 290, xBp = 352, base = 196, vH = 50, fH = 76;
+    var yV = base - vH, yF = yV - fH;
+    var b = t(w / 2, 18, '製造間接費の差異分析図(操業度差異の細分化)', 'tb', 'middle');
+    b += rc(x0, yF, xS - x0, vH + fH, 'std') + ln(x0, yV, xS, yV, 'div');
+    b += t((x0 + xS) / 2, yF + (vH + fH) / 2 - 5, '標準配賦額', 'ts', 'middle');
+    b += t((x0 + xS) / 2, yF + (vH + fH) / 2 + 14, fmt(o.std) + '円', 't', 'middle');
+    [[xS, yF, xA - xS, vH + fH, '②', o.eff], [xA, yV, xBp - xA, vH, '①', o.bud], [xA, yF, xBb - xA, fH, '③', o.opv], [xBb, yF, xBp - xBb, fH, '④', o.idle]].forEach(function (r) {
+      b += rc(r[0], r[1], r[2], r[3], vc(r[5]));
+      b += t(r[0] + r[2] / 2, r[1] + r[3] / 2 + 6, r[4], r[5] > 0 ? 'num-f' : 'num-u', 'middle');
+    });
+    b += ln(x0, base, xBp + 10, base, 'ax');
+    b += t(x0 - 6, yV + vH / 2 - 3, '変動費率', 'ts', 'end') + t(x0 - 6, yV + vH / 2 + 14, '@' + fmt(o.vr), 't', 'end');
+    b += t(x0 - 6, yF + fH / 2 - 3, '固定費率', 'ts', 'end') + t(x0 - 6, yF + fH / 2 + 14, '@' + fmt(o.fr), 't', 'end');
+    b += ln(xS, base, xS, base + 6, 'ax') + ln(xBb, base, xBb, base + 6, 'ax') + ln(xA, base, xA, base + 22, 'ax') + ln(xBp, base, xBp, base + 22, 'ax');
+    b += t(xS, base + 18, '標準 ' + fmt(o.SH) + '時間', 'ts', 'middle') + t(xBb, base + 18, '予算 ' + fmt(o.Bb) + '時間', 'ts', 'middle');
+    b += t(xA, base + 36, '実際 ' + fmt(o.AH) + '時間', 'ts', 'middle') + t(xBp, base + 36, '能力 ' + fmt(o.Bp) + '時間', 'ts', 'middle');
+    return svg(w, h, '製造間接費の差異分析図(操業度差異の細分化)', b);
+  }
+
+  // 部品構造図(製品1個あたり)
+  function bomFig(o, solved) {
+    var w = 400, h = 280;
+    var b = t(w / 2, 16, '部品構造(製品P 1個あたり)', 'tb', 'middle');
+    b += ln(200, 88, 110, 128, 'lead') + ln(200, 88, 305, 128, 'lead') + ln(110, 192, 110, 232, 'lead');
+    b += rc(100, 26, 200, 62, 'std', 8) + t(200, 45, '製品P', 'tb', 'middle') + t(200, 63, '組立 ' + fmt(o.hp) + '時間 × @' + fmt(o.rp), 'ts', 'middle');
+    b += solved ? t(200, 81, '1個 = ' + fmt(o.stdP) + '円', 'ta', 'middle') : t(200, 81, '1個 = <tspan class="tq">?</tspan>', 't', 'middle');
+    b += rc(16, 128, 188, 64, 'box', 8) + t(110, 147, '自製部品X × ' + o.nX + '個', 'tb', 'middle') + t(110, 165, '加工 ' + fmt(o.hx) + '時間 × @' + fmt(o.rx), 'ts', 'middle');
+    b += solved ? t(110, 184, '1個 = ' + fmt(o.stdX) + '円', 'ta', 'middle') : t(110, 184, '1個 = <tspan class="tq">?</tspan>', 't', 'middle');
+    b += rc(222, 128, 166, 52, 'box', 8) + t(305, 148, '買入部品Y × ' + o.nY + '個', 'tb', 'middle') + t(305, 168, '@' + fmt(o.Py) + '円(購入)', 'ts', 'middle');
+    b += rc(26, 232, 168, 36, 'hl', 6) + t(110, 255, '材料M ' + o.q + 'kg × @' + fmt(o.Pm), 't', 'middle');
+    return svg(w, h, '部品構造図', b);
+  }
+
+  // 製造指図書の状況
+  function jobFig(jobs) {
+    var w = 400, top = 30, rh = 70, h = top + jobs.length * rh;
+    var b = t(w / 2, 18, '製造指図書の状況(当月)', 'tb', 'middle');
+    jobs.forEach(function (j, i) {
+      var y = top + i * rh;
+      if (i > 0) b += ln(8, y, w - 8, y, 'dash');
+      b += t(12, y + 20, j.no, 'tb') + t(80, y + 20, j.status, j.prog < 1 ? 'ta' : 'ts');
+      b += rc(250, y + 10, (136 * j.prog).toFixed(1), 12, j.prog < 1 ? 'hl' : 'std', 3) + rc(250, y + 10, 136, 12, 'frame', 3);
+      b += t(12, y + 42, '標準(指図書全体):材料 ' + fmt(j.S) + 'kg、作業 ' + fmt(j.H) + '時間', 'ts');
+      b += t(12, y + 60, '当月の実際:材料 ' + fmt(j.A) + 'kg、作業 ' + fmt(j.AH) + '時間', 't');
+    });
+    return svg(w, h, '製造指図書の状況', b);
+  }
+
+  // 本社元帳と工場元帳
+  function ledgerFig() {
+    var w = 400, h = 206, id = 'mk' + (++uid);
+    var L = ['工場', '製品', '買掛金', '現金', '売上原価'], R = ['本社', '材料', '賃金', '製造間接費', '仕掛品', '原価差異'];
+    var b = arrowDefs(id) + t(w / 2, 18, '本社元帳と工場元帳(主な勘定)', 'tb', 'middle');
+    b += rc(14, 30, 160, 170, 'box', 8) + rc(226, 30, 160, 170, 'box', 8);
+    b += t(94, 52, '本社元帳', 'tb', 'middle') + t(306, 52, '工場元帳', 'tb', 'middle');
+    L.forEach(function (n, i) { b += t(30, 82 + i * 22, n, i === 0 ? 'ta' : 't'); });
+    R.forEach(function (n, i) { b += t(242, 82 + i * 22, n, i === 0 ? 'ta' : 't'); });
+    b += ln(64, 77, 234, 77, 'arr', ' marker-start="url(#' + id + ')" marker-end="url(#' + id + ')"');
+    return svg(w, h, '本社元帳と工場元帳', b);
+  }
+
+  // ---------- O 特殊な差異分析(操業度差異の細分化) ----------
+  function genO() {
+    for (var g = 0; g < 3000; g++) {
+      var Bp = ri(30, 60) * 100, Bb = Bp - ri(3, 8) * 100, h = pick([2, 3, 4]);
+      var W = ri(2, 6) * 100, B0 = ri(2, 6) * 100, p0 = pick(PROG), p1 = pick(PROG);
+      var D = Math.round((Bb * (0.85 + Math.random() * 0.1) / h - W * p1 + B0 * p0) / 100) * 100;
+      if (D < B0 + 300) continue;
+      var cu = D + W * p1 - B0 * p0, SH = cu * h;
+      if (!isInt(SH) || SH >= Bb - 60 || SH < 0.7 * Bb) continue;
+      var kmax = Math.min(30, Math.floor((Bb - SH - 20) / 10));
+      if (kmax < 2) continue;
+      var AH = SH + ri(2, kmax) * 10;
+      var vr = pick([300, 400, 500, 600, 800]), fr = pick([600, 800, 1000, 1200, 1500]), F = fr * Bp;
+      var AC = vr * AH + F + nz(-30, 30) * 1000;
+      var std = (vr + fr) * SH, allow = vr * AH + F;
+      var bud = allow - AC, eff = (vr + fr) * (SH - AH), opv = fr * (AH - Bb), idle = fr * (Bb - Bp);
+      var vars = [['予算差異', bud], ['能率差異', eff], ['予算操業度差異', opv], ['予想遊休能力差異', idle]];
+      var tt = withVars([['諸口', AC]], [['仕掛品', std]], vars);
+      return {
+        badge: '特殊な差異分析(操業度差異の細分化)',
+        intro: '当工場では、製造間接費を直接作業時間にもとづいて標準配賦し、公式法変動予算で管理している。基準操業度には実際的生産能力を用いており、操業度差異を細かく分けて分析しなさい。',
+        card: { title: '製造間接費の予算と操業度(年間)', rows: [
+          ['変動費率', '直接作業時間あたり', '@' + fmt(vr) + '円'],
+          ['固定費予算', '', fmt(F * 12) + '円'],
+          ['実際的生産能力', '基準操業度', fmt(Bp * 12) + '時間'],
+          ['予算操業度', '当年度の計画', fmt(Bb * 12) + '時間']
+        ] },
+        facts: [
+          '月間の予算と操業度は、年間の12分の1とする。製品1個あたりの標準直接作業時間は <b>' + h + '時間</b>。生産データは図のとおり(かっこ内は加工進捗度)。',
+          '当月の実際直接作業時間は <b>' + fmt(AH) + '時間</b>、製造間接費の実際発生額は <b>' + fmt(AC) + '円</b>。仕掛品勘定への記入はシングル・プランによる。',
+          '差異は、予算差異・能率差異(変動費と固定費の両方から計算)・予算操業度差異・予想遊休能力差異に分析する。'
+        ],
+        figs: [
+          fig(boxFig('仕掛品(生産データ・個数)',
+            [{ n: '月初仕掛品', t: fmt(B0) + '個(' + pct(p0) + ')', v: B0 }, { n: '当月投入', t: '?', v: D + W - B0, q: true }],
+            [{ n: '完成品', t: fmt(D) + '個', v: D }, { n: '月末仕掛品', t: fmt(W) + '個(' + pct(p1) + ')', v: W }])),
+          fig(ohGraphFig({ B: Bp, vr: vr, fr: fr, F: F }), '基準操業度は実際的生産能力。当年度の予算操業度(月 ' + fmt(Bb) + '時間)はそれより少ない。')
+        ],
+        qs: [
+          { label: '予算差異', kind: 'var', value: bud },
+          { label: '能率差異', kind: 'var', value: eff },
+          { label: '予算操業度差異', kind: 'var', value: opv },
+          { label: '予想遊休能力差異', kind: 'var', value: idle }
+        ],
+        solFigs: [
+          fig(boxFig('仕掛品−加工費(換算量)',
+            [{ n: '月初', t: fmt(B0) + '×' + pct(p0) + '=' + fmt(B0 * p0), v: B0 * p0 }, { n: '当月投入', t: fmt(cu), v: cu, hl: true }],
+            [{ n: '完成', t: fmt(D), v: D }, { n: '月末', t: fmt(W) + '×' + pct(p1) + '=' + fmt(W * p1), v: W * p1 }]),
+            '標準操業度 = ' + fmt(cu) + '個 × ' + h + '時間 = ' + fmt(SH) + '時間'),
+          fig(spRectFig({ vr: vr, fr: fr, SH: SH, AH: AH, Bb: Bb, Bp: Bp, std: std, bud: bud, eff: eff, opv: opv, idle: idle }),
+            '予算=予算操業度、能力=実際的生産能力(基準操業度)。③と④を合わせたものが、ふつうの操業度差異。',
+            legend([['①', '予算差異', bud], ['②', '能率差異', eff], ['③', '予算操業度差異', opv], ['④', '予想遊休能力差異', idle]]))
+        ],
+        sol: [
+          { h: '配賦率と標準操業度', lines: [
+            '固定費率 = ' + fmt(F * 12) + ' ÷ 実際的生産能力 ' + fmt(Bp * 12) + '時間 = @' + fmt(fr) + '円(予算操業度ではなく基準操業度で割る)',
+            '月間の固定費予算 = ' + fmt(F) + '円、月間の実際的生産能力 = ' + fmt(Bp) + '時間、月間の予算操業度 = ' + fmt(Bb) + '時間',
+            '当月投入(加工換算)= ' + fmt(D) + ' + ' + fmt(W) + ' × ' + pct(p1) + ' − ' + fmt(B0) + ' × ' + pct(p0) + ' = ' + fmt(cu) + '個 → 標準操業度 = ' + fmt(SH) + '時間'
+          ] },
+          { h: '予算差異と能率差異', lines: [
+            '予算差異 =(@' + fmt(vr) + ' × ' + fmt(AH) + ' + ' + fmt(F) + ')− ' + fmt(AC) + ' = ' + fmt(allow) + ' − ' + fmt(AC) + ' = ' + yen(bud),
+            '能率差異 = @' + fmt(vr + fr) + ' ×(' + fmt(SH) + ' − ' + fmt(AH) + ')= ' + yen(eff)
+          ] },
+          { h: '操業度差異の細分化', lines: [
+            '操業度差異(全体)= @' + fmt(fr) + ' ×(実際 ' + fmt(AH) + ' − 能力 ' + fmt(Bp) + ')= ' + yen(fr * (AH - Bp)),
+            '予算操業度差異 = @' + fmt(fr) + ' ×(実際 ' + fmt(AH) + ' − 予算 ' + fmt(Bb) + ')= ' + yen(opv) + ':計画した操業度を達成できなかった分',
+            '予想遊休能力差異 = @' + fmt(fr) + ' ×(予算 ' + fmt(Bb) + ' − 能力 ' + fmt(Bp) + ')= ' + yen(idle) + ':予算を立てた時点で、使わないと分かっていた生産能力の分',
+            '(検算)差異の合計 = 標準配賦額 ' + fmt(std) + ' − 実際発生額 ' + fmt(AC) + ' = ' + yen(std - AC)
+          ] }
+        ],
+        jr: {
+          note: 'シングル・プランなので、仕掛品勘定には標準配賦額を記入し、原価差異は製造間接費勘定で把握する。操業度差異を2つに分けても、仕訳の形は同じ。',
+          entries: [
+            { t: '① 実際発生額の集計', dr: [['製造間接費', AC]], cr: [['材料・賃金・経費', AC]] },
+            { t: '② 仕掛品への標準配賦', dr: [['仕掛品', std]], cr: [['製造間接費', std]] }
+          ].concat(varEntries(vars, '製造間接費', 3)),
+          t: fig(tAccount('製造間接費', tt.dr, tt.cr), '借方の実際発生額と、貸方の標準配賦額との差が原価差異。'),
+          ok: balanced(tt.dr, tt.cr)
+        },
+        check: bud + eff + opv + idle === std - AC && bud !== 0
+      };
+    }
+  }
+
+  // ---------- P 部品構造が階層的な標準原価計算 ----------
+  function genP() {
+    var q = pick([2, 3, 4]), Pm = ri(10, 40) * 10, hx = pick([0.5, 1, 1.5]), rx = pick([1600, 2000, 2400]);
+    var stdX = q * Pm + hx * rx;
+    var nX = pick([2, 3, 4]), nY = pick([1, 2]), Py = ri(20, 80) * 10, hp = pick([1, 1.5, 2]), rp = pick([1800, 2000, 2400]);
+    var stdP = nX * stdX + nY * Py + hp * rp;
+    var DP = ri(5, 20) * 100;
+    var AXc = DP * nX + nz(-10, 20) * 5, AYc = DP * nY + nz(-8, 16) * 5, DX = AXc + ri(1, 6) * 50;
+    var AQm = DX * q + nz(-20, 40) * 10;
+    var vX = stdX * (DP * nX - AXc), vY = Py * (DP * nY - AYc), vM = Pm * (DX * q - AQm);
+    var o = { q: q, Pm: Pm, hx: hx, rx: rx, stdX: stdX, nX: nX, nY: nY, Py: Py, hp: hp, rp: rp, stdP: stdP };
+    var tt = withVars([['部品製造部門', DX * stdX]], [['製品製造部門', DP * nX * stdX], ['次月繰越', (DX - AXc) * stdX]], [['自製部品消費量差異', vX]]);
+    var issueX = DP * nX * stdX, issueY = DP * nY * Py;
+    function vEntry(no, name, v, from) {
+      return v < 0
+        ? { t: no + ' ' + name + '(不利)の振替', dr: [[name, -v]], cr: [[from, -v]] }
+        : { t: no + ' ' + name + '(有利)の振替', dr: [[from, v]], cr: [[name, v]] };
+    }
+    return {
+      badge: '部品構造が階層的な標準原価計算',
+      intro: '製品Pは、製品製造部門で自製部品Xと買入部品Yを組み立てて作る。部品Xは、部品製造部門で材料Mを加工して作る。標準原価計算を採用しており、次の資料にもとづいて答えなさい。',
+      facts: [
+        '部品構造と、1個あたりの標準消費量・標準作業時間・標準単価は図のとおり(組立と加工の金額は加工費の標準配賦率による)。',
+        '仕掛品はない。当月、部品製造部門は部品Xを <b>' + fmt(DX) + '個</b> 完成させ、材料Mを <b>' + fmt(AQm) + 'kg</b> 消費した。',
+        '製品製造部門は製品Pを <b>' + fmt(DP) + '個</b> 完成させ、部品Xを <b>' + fmt(AXc) + '個</b>、部品Yを <b>' + fmt(AYc) + '個</b> 消費した。',
+        '自製部品の消費量差異は部品Xの標準原価で、買入部品の消費量差異は標準購入価格で計算する。勘定記入はシングル・プランによる。'
+      ],
+      figs: [fig(bomFig(o, false), '組立は製品製造部門、部品Xの加工は部品製造部門で行う。')],
+      qs: [
+        { label: '製品P 1個あたりの標準原価', kind: 'amt', value: stdP },
+        { label: '自製部品消費量差異', kind: 'var', value: vX },
+        { label: '買入部品消費量差異', kind: 'var', value: vY },
+        { label: '部品製造部門の材料数量差異', kind: 'var', value: vM }
+      ],
+      solFigs: [fig(bomFig(o, true), '下の階層の標準原価(部品X 1個 ' + fmt(stdX) + '円)を、上の階層では材料の単価のように使う。')],
+      sol: [
+        { h: '標準原価を下の階層から積み上げる', lines: [
+          '部品X 1個 = 材料M ' + q + 'kg × @' + fmt(Pm) + ' + 加工 ' + fmt(hx) + '時間 × @' + fmt(rx) + ' = ' + fmt(stdX) + '円',
+          '製品P 1個 = 部品X ' + nX + '個 × ' + fmt(stdX) + ' + 部品Y ' + nY + '個 × @' + fmt(Py) + ' + 組立 ' + fmt(hp) + '時間 × @' + fmt(rp) + ' = ' + fmt(stdP) + '円'
+        ] },
+        { h: '製品製造部門の消費量差異', lines: [
+          '部品Xの標準消費量 = ' + fmt(DP) + '個 × ' + nX + ' = ' + fmt(DP * nX) + '個 → 自製部品消費量差異 = ' + fmt(stdX) + ' ×(' + fmt(DP * nX) + ' − ' + fmt(AXc) + ')= ' + yen(vX),
+          '部品Yの標準消費量 = ' + fmt(DP) + '個 × ' + nY + ' = ' + fmt(DP * nY) + '個 → 買入部品消費量差異 = ' + fmt(Py) + ' ×(' + fmt(DP * nY) + ' − ' + fmt(AYc) + ')= ' + yen(vY)
+        ] },
+        { h: '部品製造部門の材料数量差異', lines: [
+          '基準は部品Xの完成数量 ' + fmt(DX) + '個(製品の完成数量ではない)',
+          '材料Mの標準消費量 = ' + fmt(DX) + ' × ' + q + 'kg = ' + fmt(DX * q) + 'kg → 材料数量差異 = ' + fmt(Pm) + ' ×(' + fmt(DX * q) + ' − ' + fmt(AQm) + ')= ' + yen(vM)
+        ] }
+      ],
+      jr: {
+        note: '部品Xは標準原価で部品勘定に受け入れ、製品製造部門へも標準原価で払い出す。シングル・プランなので、消費量差異は部品勘定・材料勘定で把握する。勘定図の「部品製造部門」「製品製造部門」は、それぞれの部門の仕掛品勘定のこと。',
+        entries: [
+          { t: '① 材料Mの払出(標準消費量)', dr: [['仕掛品(部品製造部門)', DX * q * Pm]], cr: [['材料', DX * q * Pm]] },
+          vEntry('②', '材料数量差異', vM, '材料'),
+          { t: '③ 部品Xの完成(標準原価)', dr: [['自製部品', DX * stdX]], cr: [['仕掛品(部品製造部門)', DX * stdX]] },
+          { t: '④ 部品の払出(標準消費量)', dr: [['仕掛品(製品製造部門)', issueX + issueY]], cr: [['自製部品', issueX], ['買入部品', issueY]] },
+          vEntry('⑤', '自製部品消費量差異', vX, '自製部品'),
+          vEntry('⑥', '買入部品消費量差異', vY, '買入部品'),
+          { t: '⑦ 製品Pの完成(標準原価)', dr: [['製品', DP * stdP]], cr: [['仕掛品(製品製造部門)', DP * stdP]] }
+        ],
+        t: fig(tAccount('自製部品', tt.dr, tt.cr), '部品は受入も払出も標準原価。消費しなかった ' + fmt(DX - AXc) + '個は次月に繰り越す。'),
+        ok: balanced(tt.dr, tt.cr)
+      },
+      check: isInt(stdX) && isInt(stdP) && vX !== 0 && vY !== 0 && vM !== 0 && DX > AXc
+    };
+  }
+
+  // ---------- Q 標準個別原価計算 ----------
+  function genQ() {
+    var Ps = pick([100, 120, 150, 200, 250]), Rs = pick([1200, 1500, 1800, 2000]), r = pick([1500, 2000, 2500, 3000]);
+    var nos = ['No.101', 'No.102', 'No.103'], p = pick([0.4, 0.5, 0.6]);
+    var S = nos.map(function () { return ri(20, 60) * 10; }), H = nos.map(function () { return ri(5, 20) * 10; });
+    var Hm = [H[0], H[1], H[2] * p];
+    var A = S.map(function (s) { return s + nz(-4, 6) * 5; }), AH = Hm.map(function (x) { return x + nz(-3, 5) * 2; });
+    var vQ = Ps * (sum(S) - sum(A)), vT = Rs * (sum(Hm) - sum(AH));
+    if (vQ === 0 || vT === 0) return genQ();
+    var cost = function (i) { return S[i] * Ps + Hm[i] * (Rs + r); };
+    var c0 = cost(0), c1 = cost(1), c2 = cost(2);
+    var matStd = Ps * sum(S), labStd = Rs * sum(Hm), ohStd = r * sum(Hm);
+    var tt = { dr: [['材料', matStd], ['賃金', labStd], ['製造間接費', ohStd]], cr: [['製品', c0 + c1], ['次月繰越', c2]] };
+    var jobs = [
+      { no: nos[0], status: '完成・引渡済', prog: 1, S: S[0], H: H[0], A: A[0], AH: AH[0] },
+      { no: nos[1], status: '完成・未引渡', prog: 1, S: S[1], H: H[1], A: A[1], AH: AH[1] },
+      { no: nos[2], status: '仕掛中(加工進捗 ' + pct(p) + ')', prog: p, S: S[2], H: H[2], A: A[2], AH: AH[2] }
+    ];
+    var perJob = nos.map(function (n, i) {
+      return n + ':材料 ' + fmt(S[i]) + 'kg − ' + fmt(A[i]) + 'kg = ' + fmt(S[i] - A[i]) + 'kg、作業 ' + fmt(Hm[i]) + '時間 − ' + fmt(AH[i]) + '時間 = ' + fmt(Hm[i] - AH[i]) + '時間';
+    });
+    return {
+      badge: '標準個別原価計算',
+      intro: '当工場は受注生産を行っており、標準個別原価計算を採用している。製造指図書ごとの標準消費量・標準作業時間は、指図書に示された仕様から設定する。次の資料にもとづいて答えなさい。',
+      card: { title: '標準単価', rows: [
+        ['直接材料', '標準価格', '@' + fmt(Ps) + '円/kg'],
+        ['直接労務費', '標準賃率', '@' + fmt(Rs) + '円/時間'],
+        ['製造間接費', '標準配賦率(直接作業時間)', '@' + fmt(r) + '円/時間']
+      ] },
+      facts: [
+        '当月は No.101〜No.103 に着手した(月初仕掛品はない)。材料は着手時にすべて投入する。',
+        '各指図書の標準(指図書全体)と当月の実績は図のとおり。',
+        'No.101 は完成して顧客に引き渡し、No.102 は完成したが未引渡、No.103 は月末仕掛品である。',
+        '材料数量差異と作業時間差異は、指図書ごとに計算して合計する。勘定記入はシングル・プランによる。'
+      ],
+      figs: [fig(jobFig(jobs), '仕掛中の No.103 は、作業時間の標準を加工進捗度で按分する(材料は全量投入済み)。')],
+      qs: [
+        { label: 'No.101 の標準原価', kind: 'amt', value: c0 },
+        { label: '月末仕掛品(No.103)の標準原価', kind: 'amt', value: c2 },
+        { label: '材料数量差異(合計)', kind: 'var', value: vQ },
+        { label: '作業時間差異(合計)', kind: 'var', value: vT }
+      ],
+      solFigs: [fig(cardFig('指図書別の標準原価', [
+        ['No.101', fmt(S[0]) + 'kg・' + fmt(Hm[0]) + '時間', fmt(c0) + '円'],
+        ['No.102', fmt(S[1]) + 'kg・' + fmt(Hm[1]) + '時間', fmt(c1) + '円'],
+        ['No.103(仕掛中)', fmt(S[2]) + 'kg・' + fmt(Hm[2]) + '時間', fmt(c2) + '円']
+      ], ['合計', fmt(c0 + c1 + c2) + '円']), '金額 = 材料kg × @' + fmt(Ps) + ' + 作業時間 × @' + fmt(Rs + r) + '(賃率 + 配賦率)')],
+      sol: [
+        { h: '指図書別の標準原価', lines: [
+          'No.101 = ' + fmt(S[0]) + 'kg × @' + fmt(Ps) + ' + ' + fmt(H[0]) + '時間 ×(@' + fmt(Rs) + ' + @' + fmt(r) + ')= ' + fmt(c0) + '円',
+          'No.103 の当月分の標準作業時間 = ' + fmt(H[2]) + '時間 × ' + pct(p) + ' = ' + fmt(Hm[2]) + '時間',
+          'No.103(月末仕掛品)= ' + fmt(S[2]) + 'kg × @' + fmt(Ps) + ' + ' + fmt(Hm[2]) + '時間 × @' + fmt(Rs + r) + ' = ' + fmt(c2) + '円'
+        ] },
+        { h: '指図書ごとの差(標準 − 実際)', lines: perJob },
+        { h: '差異の合計', lines: [
+          '材料数量差異 = @' + fmt(Ps) + ' ×(' + fmt(sum(S)) + ' − ' + fmt(sum(A)) + ')= ' + yen(vQ),
+          '作業時間差異 = @' + fmt(Rs) + ' ×(' + fmt(sum(Hm)) + ' − ' + fmt(sum(AH)) + ')= ' + yen(vT),
+          '(製造間接費の能率差異も同じ時間差に @' + fmt(r) + ' をかけて求められる:' + yen(r * (sum(Hm) - sum(AH))) + ')'
+        ] }
+      ],
+      jr: {
+        note: 'シングル・プランなので、仕掛品勘定には指図書ごとの標準原価を記入し、数量差異・作業時間差異は材料勘定・賃金勘定で把握する。引き渡した No.101 だけが売上原価になる。',
+        entries: [
+          { t: '① 材料の払出(標準消費量)', dr: [['仕掛品', matStd]], cr: [['材料', matStd]] },
+          { t: '② 直接労務費(標準作業時間)', dr: [['仕掛品', labStd]], cr: [['賃金', labStd]] },
+          { t: '③ 製造間接費の標準配賦', dr: [['仕掛品', ohStd]], cr: [['製造間接費', ohStd]] },
+          { t: '④ No.101・No.102 の完成', dr: [['製品', c0 + c1]], cr: [['仕掛品', c0 + c1]] },
+          { t: '⑤ No.101 の引渡', dr: [['売上原価', c0]], cr: [['製品', c0]] },
+          vQ < 0 ? { t: '⑥ 材料数量差異(不利)の振替', dr: [['材料数量差異', -vQ]], cr: [['材料', -vQ]] } : { t: '⑥ 材料数量差異(有利)の振替', dr: [['材料', vQ]], cr: [['材料数量差異', vQ]] },
+          vT < 0 ? { t: '⑦ 作業時間差異(不利)の振替', dr: [['作業時間差異', -vT]], cr: [['賃金', -vT]] } : { t: '⑦ 作業時間差異(有利)の振替', dr: [['賃金', vT]], cr: [['作業時間差異', vT]] }
+        ],
+        t: fig(tAccount('仕掛品', tt.dr, tt.cr), 'シングル・プランなので、仕掛品勘定に差異は出ない。'),
+        ok: balanced(tt.dr, tt.cr)
+      },
+      check: isInt(c2) && isInt(Hm[2])
+    };
+  }
+
+  // ---------- R 本社工場会計 ----------
+  function genR() {
+    var a = aData(), r = pick([800, 1000, 1200, 1500]);
+    var unit = a.stdUnit + r * a.h;
+    var B0s = a.B0s + a.B0 * a.p0 * r * a.h, Ws = a.Ws + a.W * a.p1 * r * a.h;
+    var AC = r * a.SH + nz(-40, 40) * 1000;
+    var mat = a.AQ * a.Pa, lab = a.AH * a.Ra, actual = mat + lab + AC;
+    var stdIn = a.SQ * a.Ps + a.SH * a.Rs + r * a.SH, v = stdIn - actual, done = a.D * unit;
+    if (v === 0) return genR();
+    var hqDr = [['仕掛品(完成品)', done], ['次月繰越', Ws]], hqCr = [['前月繰越', B0s], ['材料', mat], ['賃金', lab], ['製造間接費', AC]];
+    if (v < 0) hqDr.push(['原価差異', -v, 'tu']); else hqCr.push(['原価差異', v, 'tf']);
+    var varEntry = v < 0
+      ? { t: '【工場】⑥ 原価差異(不利)の把握', dr: [['原価差異', -v]], cr: [['仕掛品', -v]] }
+      : { t: '【工場】⑥ 原価差異(有利)の把握', dr: [['仕掛品', v]], cr: [['原価差異', v]] };
+    var sendVar = v < 0
+      ? { t: '【工場】⑦ 原価差異を本社へ振替', dr: [['本社', -v]], cr: [['原価差異', -v]] }
+      : { t: '【工場】⑦ 原価差異を本社へ振替', dr: [['原価差異', v]], cr: [['本社', v]] };
+    var hqVar = v < 0
+      ? { t: '【本社】⑦ 原価差異を売上原価に賦課', dr: [['売上原価', -v]], cr: [['工場', -v]] }
+      : { t: '【本社】⑦ 原価差異を売上原価に賦課', dr: [['工場', v]], cr: [['売上原価', v]] };
+    return {
+      badge: '本社工場会計(標準原価計算制度)',
+      intro: '当社は工場会計を独立させており、工場ではパーシャル・プランによる標準原価計算を採用している。次の資料にもとづいて、工場の記帳について答えなさい。',
+      card: { title: '製品1個あたりの標準原価', rows: [
+        ['直接材料費', '@' + fmt(a.Ps) + '円 × ' + a.q + 'kg', fmt(a.Ps * a.q) + '円'],
+        ['直接労務費', '@' + fmt(a.Rs) + '円 × ' + fmt(a.h) + '時間', fmt(a.Rs * a.h) + '円'],
+        ['製造間接費', '@' + fmt(r) + '円 × ' + fmt(a.h) + '時間', fmt(r * a.h) + '円'],
+        ['合計', '', fmt(unit) + '円']
+      ] },
+      facts: [
+        '工場元帳には材料・賃金・製造間接費・仕掛品・原価差異・本社の勘定があり、製品・買掛金・現金・売上原価は本社元帳にある(図)。',
+        '当月、本社は材料 ' + fmt(a.AQ) + 'kg を <b>' + fmt(mat) + '円</b>(掛け)で購入して工場に直送し、賃金 <b>' + fmt(lab) + '円</b>(実際作業 ' + fmt(a.AH) + '時間)と製造間接費 <b>' + fmt(AC) + '円</b> を現金で支払った。材料はすべて当月に消費した。',
+        '生産データ:月初仕掛品 ' + fmt(a.B0) + '個(' + pct(a.p0) + ')、完成品 <b>' + fmt(a.D) + '個</b>、月末仕掛品 ' + fmt(a.W) + '個(' + pct(a.p1) + ')。材料は工程の始点で投入する。',
+        '工場は完成品を標準原価で本社の倉庫に送る。原価差異は仕掛品勘定でまとめて把握し、月末に本社へ振り替える(本社は売上原価に賦課)。',
+        '月初に工場にある資産は月初仕掛品だけで、本社勘定は同じ金額の貸方残高である。'
+      ],
+      figs: [fig(ledgerFig(), '本社勘定(工場元帳)と工場勘定(本社元帳)は、貸借が逆で同じ金額になる照合勘定。')],
+      qs: [
+        { label: '工場で把握した原価差異(合計)', kind: 'var', value: v },
+        { label: '工場から本社へ送った完成品の金額', kind: 'amt', value: done },
+        { label: '月末の本社勘定(工場元帳)の残高', kind: 'amt', value: Ws }
+      ],
+      solFigs: [fig(tAccount('本社(工場元帳)', hqDr, hqCr), '貸方残高 = 月末に工場に残る資産(月末仕掛品 ' + fmt(Ws) + '円)と同じ。')],
+      sol: [
+        { h: '標準原価', lines: [
+          '完成品 = ' + fmt(a.D) + '個 × ' + fmt(unit) + '円 = ' + fmt(done) + '円',
+          '月初仕掛品 = ' + fmt(a.B0) + ' × ' + fmt(a.Ps * a.q) + ' + ' + fmt(a.B0 * a.p0) + ' × ' + fmt((a.Rs + r) * a.h) + ' = ' + fmt(B0s) + '円、月末仕掛品 = ' + fmt(a.W) + ' × ' + fmt(a.Ps * a.q) + ' + ' + fmt(a.W * a.p1) + ' × ' + fmt((a.Rs + r) * a.h) + ' = ' + fmt(Ws) + '円'
+        ] },
+        { h: '原価差異', lines: [
+          '当月投入の標準原価 = 材料 ' + fmt(a.SQ) + 'kg × @' + fmt(a.Ps) + ' + 作業 ' + fmt(a.SH) + '時間 × @' + fmt(a.Rs + r) + ' = ' + fmt(stdIn) + '円',
+          '実際原価 = ' + fmt(mat) + ' + ' + fmt(lab) + ' + ' + fmt(AC) + ' = ' + fmt(actual) + '円',
+          '原価差異 = ' + fmt(stdIn) + ' − ' + fmt(actual) + ' = ' + yen(v)
+        ] },
+        { h: '本社勘定の残高', lines: [
+          '貸方:前月繰越 ' + fmt(B0s) + ' + 材料 ' + fmt(mat) + ' + 賃金 ' + fmt(lab) + ' + 製造間接費 ' + fmt(AC) + (v > 0 ? ' + 原価差異 ' + fmt(v) : ''),
+          '借方:完成品 ' + fmt(done) + (v < 0 ? ' + 原価差異 ' + fmt(-v) : ''),
+          '残高(貸方)= ' + fmt(Ws) + '円。本社元帳の工場勘定は、同じ金額の借方残高になる。'
+        ] }
+      ],
+      jr: {
+        note: '工場と本社の取引は、工場側では「本社」、本社側では「工場」という勘定を相手にして記帳する。工場はパーシャル・プランなので、仕掛品勘定の借方は実際原価で、原価差異は仕掛品勘定で把握する。',
+        entries: [
+          { t: '【工場】① 材料の受入', dr: [['材料', mat]], cr: [['本社', mat]] },
+          { t: '【本社】① 材料の購入(工場へ直送)', dr: [['工場', mat]], cr: [['買掛金', mat]] },
+          { t: '【工場】② 賃金・製造間接費の発生', dr: [['賃金', lab], ['製造間接費', AC]], cr: [['本社', lab + AC]] },
+          { t: '【本社】② 賃金・製造間接費の支払', dr: [['工場', lab + AC]], cr: [['現金', lab + AC]] },
+          { t: '【工場】③ 実際原価を仕掛品へ', dr: [['仕掛品', actual]], cr: [['材料', mat], ['賃金', lab], ['製造間接費', AC]] },
+          { t: '【工場】④ 完成品を本社へ送る(標準原価)', dr: [['本社', done]], cr: [['仕掛品', done]] },
+          { t: '【本社】④ 完成品の受入', dr: [['製品', done]], cr: [['工場', done]] },
+          varEntry, sendVar, hqVar
+        ],
+        t: null,
+        ok: balanced(hqDr, hqCr)
+      },
+      check: a.D * unit + Ws - B0s === stdIn && isInt(Ws) && isInt(B0s)
+    };
+  }
+
+  // 本試験の出題回(第102〜165回の工業簿記を中心にしたnote記事の集計と、第143〜157回の原価計算の一覧による)
+  var FREQ = {
+    A: '原価差異分析として 第108・123・144・157回',
+    B: '第110・117・132・138・159回(5回、もっとも多い)',
+    C: '原価差異分析として 第108・123・144・157回',
+    D: '仕損の処理として 第113回',
+    E: '原価差異の期末会計処理として 第111・144回',
+    F: '原価標準の算定として 第150回(原価計算)',
+    I: 'シングル・プランの勘定記入として 第144回(原価計算)',
+    J: '原価差異の期末会計処理として 第111・144回',
+    L: '直接標準原価計算として 第152・153回(原価計算)',
+    M: '工程別標準原価計算として 第105・128・134・159回',
+    N: '予算実績差異分析として 第153・157回',
+    O: '特殊な差異分析を含む原価差異分析として 第108・123・144・157回(第157回は予想遊休能力差異)',
+    P: '第102・120・161回',
+    Q: '第125・165回',
+    R: '標準原価計算制度の本社工場会計として 第149回'
+  };
+
   // 出題ボタンはマインドマップの番号と同じ並び
   var THEMES = [
     { k: 'all', n: 'すべて' },
+    { k: 'top', n: '頻出(上位4論点)', gens: ['B', 'A', 'C', 'O', 'M', 'P'] },
     { k: 'g1', n: '1 原価標準', gens: ['F'] },
     { k: 'g2', n: '2 直接材料費', gens: ['A', 'G', 'B'] },
     { k: 'g3', n: '3 直接労務費', gens: ['A', 'B'] },
-    { k: 'g4', n: '4 製造間接費', gens: ['C', 'H'] },
+    { k: 'g4', n: '4 製造間接費', gens: ['C', 'H', 'O'] },
     { k: 'g5', n: '5 仕損・減損', gens: ['D'] },
     { k: 'g6', n: '6 勘定記入', gens: ['I'] },
     { k: 'g7', n: '7 差異の処理', gens: ['E', 'J'] },
-    { k: 'g8', n: '8 他論点との組合せ', gens: ['L', 'M', 'N'] },
+    { k: 'g8', n: '8 他論点との組合せ', gens: ['L', 'M', 'N', 'P', 'Q', 'R'] },
     { k: 'th', n: '理論', gens: ['K'] }
   ];
-  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, H: genH, I: genI, J: genJ, K: genK, L: genL, M: genM, N: genN };
+  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, H: genH, I: genI, J: genJ, K: genK, L: genL, M: genM, N: genN, O: genO, P: genP, Q: genQ, R: genR };
 
-  return { THEMES: THEMES, GENS: GENS, fmt: fmt, yen: yen, dir: dir };
+  return { THEMES: THEMES, GENS: GENS, FREQ: FREQ, fmt: fmt, yen: yen, dir: dir };
 })();
 
 (function () {
@@ -2023,6 +2415,7 @@ var Drill = (function () {
     var p = state.p;
     el('problem').innerHTML =
       '<div class="badge">出題パターン:' + p.badge + '</div>' +
+      (Drill.FREQ[state.last] ? '<div class="freq">本試験の出題:' + Drill.FREQ[state.last] + '</div>' : '') +
       '<p class="intro">' + p.intro + '</p>' +
       (p.cards ? '<div class="cards">' + p.cards.map(cardHtml).join('') + '</div>' : (p.card ? cardHtml(p.card) : '')) +
       (p.figs.length ? '<div class="figs">' + p.figs.join('') + '</div>' : '') +
