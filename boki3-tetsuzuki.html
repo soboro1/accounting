@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>決算手続き テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c; border-radius: 0;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  .t-acc { margin: 10px 0; max-width: 520px; font-size: 14px; }
+  .t-acc .t-name { text-align: center; font-weight: 700; padding-bottom: 4px; border-bottom: 2px solid #c7c0b0; }
+  .t-acc .t-body { display: flex; }
+  .t-acc .t-side { flex: 1; padding: 6px 10px; min-height: 40px; }
+  .t-acc .t-side + .t-side { border-left: 2px solid #c7c0b0; }
+  .t-acc .t-row { display: flex; justify-content: space-between; gap: 8px; line-height: 1.8; color: #e8e3d8; }
+
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 180px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label, .jside-title { font-size: 14px; color: #c7c0b0; }
+  .input-group input, .input-group select, .jrow select, .jrow input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.3; min-width: 0; width: 0; }
+  .jrow input { flex: 1; min-width: 0; width: 0; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-wrap; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-kessan.html">← ⑩ 決算整理</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 ⑪ 決算手続き</div>
+    <h1>決算手続き テキストと問題</h1>
+  </div>
+
+  <nav class="toc">
+    <a href="#ch1">1. 決算手続きの流れ</a>
+    <a href="#ch2">2. 精算表</a>
+    <a href="#ch3">3. 損益計算書・貸借対照表</a>
+    <a href="#ch4">4. 損益振替と締切</a>
+    <a href="#ch5">5. 再振替仕訳</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>決算手続きの流れ</h2>
+
+    <h3>1年の締めくくり</h3>
+    <p>決算日には、1年間の記録をまとめて、財務諸表を作り、帳簿を締め切ります。次の順番で進めます。</p>
+    <div class="flow">
+      <span class="step">① 試算表を作る</span><span class="arrow">→</span>
+      <span class="step">② 決算整理仕訳</span><span class="arrow">→</span>
+      <span class="step">③ 精算表</span><span class="arrow">→</span>
+      <span class="step">④ 帳簿の締切</span><span class="arrow">→</span>
+      <span class="step">⑤ 財務諸表</span>
+    </div>
+    <ul>
+      <li><b>① 決算整理前残高試算表</b>:期中の記録が正しいか確かめる(①で学習)</li>
+      <li><b>② 決算整理仕訳</b>:⑩で学んだ仕訳で、正しい金額に直す</li>
+      <li><b>③ 精算表</b>:試算表から財務諸表までを1枚で確認する下書き</li>
+      <li><b>④ 帳簿の締切</b>:収益・費用を損益勘定に集め、利益を繰越利益剰余金へ。各勘定を締め切る</li>
+      <li><b>⑤ 損益計算書・貸借対照表</b>を作る</li>
+    </ul>
+    <p>そして翌期の最初の日に、⑩の経過勘定などを元に戻す<b>再振替仕訳</b>をして、新しい1年が始まります。</p>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>精算表</h2>
+
+    <h3>8桁精算表のしくみ</h3>
+    <p>精算表は、勘定科目ごとに次の4つの欄(それぞれ借方・貸方で計8列)を横に並べたものです。</p>
+    <ul>
+      <li><b>残高試算表欄</b>:決算整理前の残高</li>
+      <li><b>修正記入欄</b>:決算整理仕訳の金額</li>
+      <li><b>損益計算書欄</b>:収益・費用の、修正後の金額</li>
+      <li><b>貸借対照表欄</b>:資産・負債・純資産の、修正後の金額</li>
+    </ul>
+
+    <h3>書き方のルール</h3>
+    <ul>
+      <li>試算表の金額に、修正記入を<b>同じ側なら足し、反対側なら引く</b></li>
+      <li>収益・費用は損益計算書欄へ、資産・負債・純資産は貸借対照表欄へ移す</li>
+      <li>損益計算書欄の貸方合計 − 借方合計 = <b>当期純利益</b>。同じ金額が貸借対照表欄の貸方にも入り、両方の欄の貸借が一致する</li>
+    </ul>
+
+    <h3>例:仕入の行</h3>
+    <p>試算表の仕入500,000円、期首商品30,000円、期末商品40,000円の場合。決算整理仕訳は次のとおりです。</p>
+    <pre class="entry">(借)仕入       30,000   (貸)繰越商品   30,000
+(借)繰越商品   40,000   (貸)仕入       40,000</pre>
+    <pre class="entry">仕入の行
+  残高試算表 借方 500,000
+  修正記入   借方  30,000 / 貸方 40,000
+  損益計算書 借方 490,000(= 500,000 + 30,000 − 40,000)
+
+繰越商品の行
+  残高試算表 借方  30,000
+  修正記入   借方  40,000 / 貸方 30,000
+  貸借対照表 借方  40,000</pre>
+    <div class="note">新しく出てくる勘定(貸倒引当金繰入、減価償却費、前払保険料など)は、試算表欄が空で、修正記入の金額がそのまま損益計算書欄か貸借対照表欄に移ります。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>損益計算書・貸借対照表</h2>
+
+    <h3>表示のときに名前が変わる科目</h3>
+    <p>財務諸表では、勘定科目の名前とは違う<b>表示科目</b>を使うものがあります。</p>
+    <ul>
+      <li>仕入(売上原価の計算後) → 損益計算書では<b>売上原価</b></li>
+      <li>売上 → <b>売上高</b></li>
+      <li>繰越商品 → 貸借対照表では<b>商品</b></li>
+      <li>前払保険料・前払家賃など → <b>前払費用</b></li>
+      <li>未払利息・未払給料など → <b>未払費用</b></li>
+      <li>前受家賃・前受地代など → <b>前受収益</b></li>
+      <li>未収利息・未収家賃など → <b>未収収益</b></li>
+    </ul>
+
+    <h3>差し引いて表示する科目</h3>
+    <ul>
+      <li><b>貸倒引当金</b>は、売掛金・受取手形の下に書いて差し引く</li>
+      <li><b>減価償却累計額</b>は、建物・備品などの下に書いて差し引く</li>
+    </ul>
+    <pre class="entry">貸借対照表(資産の部の一部)
+  売掛金              500,000
+    貸倒引当金        △10,000   490,000
+  備品                600,000
+    減価償却累計額  △240,000   360,000</pre>
+
+    <h3>損益計算書の段階利益</h3>
+    <pre class="entry">売上高 − 売上原価 = 売上総利益
+売上総利益 − その他の費用 + その他の収益 = 税引前当期純利益
+税引前当期純利益 − 法人税等 = 当期純利益</pre>
+    <div class="note">貸借対照表の繰越利益剰余金は、決算整理前の残高に当期純利益を足した金額になります。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>損益勘定への振替・繰越利益剰余金への振替と締切</h2>
+
+    <h3>① 収益と費用を損益勘定に集める</h3>
+    <p>決算整理のあと、収益と費用の各勘定の残高を<b>損益</b>勘定に振り替えて、ゼロにします。</p>
+    <pre class="entry">収益の振替(貸方残高 → 損益の貸方へ)
+(借)売上         800,000   (貸)損益      830,000
+    受取手数料    30,000
+
+費用の振替(借方残高 → 損益の借方へ)
+(借)損益         650,000   (貸)仕入      490,000
+                               給料      120,000
+                               支払家賃   40,000</pre>
+
+    <h3>② 損益勘定の差額を繰越利益剰余金へ</h3>
+    <pre class="entry">損益勘定
+  借方:仕入 490,000、給料 120,000、支払家賃 40,000(費用 合計650,000)
+  貸方:売上 800,000、受取手数料 30,000(収益 合計830,000)
+  差額 = 830,000 − 650,000 = 180,000 ← 当期純利益
+
+(借)損益         180,000   (貸)繰越利益剰余金 180,000</pre>
+    <p>当期純損失のときは逆で、(借)繰越利益剰余金 (貸)損益 です(⑦で学習)。</p>
+
+    <h3>③ 帳簿の締切</h3>
+    <ul>
+      <li>収益・費用の勘定:損益勘定への振替で残高ゼロになるので、そのまま締め切る</li>
+      <li>資産・負債・純資産の勘定:残高を「<b>次期繰越</b>」として書いて締め切り、翌期首に「<b>前期繰越</b>」と書いて始める</li>
+    </ul>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第5章 ===== -->
+  <section class="chapter" id="ch5">
+    <div class="chapter-no">CHAPTER 5</div>
+    <h2>再振替仕訳</h2>
+
+    <h3>翌期首に元に戻す</h3>
+    <p>決算整理で、来期にかかわる分を一時的に資産・負債に振り替えたものは、<b>翌期の最初の日(期首)</b>に逆の仕訳をして元の勘定に戻します。これを<span class="mark">再振替仕訳</span>といいます。</p>
+    <ul>
+      <li>経過勘定(前払費用・前受収益・未払費用・未収収益)</li>
+      <li>貯蔵品(切手・収入印紙)</li>
+      <li>当座借越(当座預金の貸方残高を振り替えたもの)</li>
+    </ul>
+
+    <h3>仕訳の例</h3>
+    <pre class="entry">前期末に計上した前払保険料16,000円
+(借)保険料       16,000   (貸)前払保険料   16,000
+
+前期末に計上した未払利息3,000円
+(借)未払利息      3,000   (貸)支払利息      3,000
+
+前期末に計上した貯蔵品(切手2,000円・収入印紙5,000円)
+(借)通信費        2,000   (貸)貯蔵品        7,000
+    租税公課      5,000</pre>
+    <div class="note">再振替をしておくと、翌期に実際にお金を払ったり受け取ったりしたとき、ふつうの仕訳をするだけで当期分の金額が正しくなります。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="5">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. 流れ</button>
+      <button class="chip" data-ch="2">2. 精算表</button>
+      <button class="chip" data-ch="3">3. 財務諸表</button>
+      <button class="chip" data-ch="4">4. 損益振替と締切</button>
+      <button class="chip" data-ch="5">5. 再振替仕訳</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">簿記3級 ⑪ 決算手続き(精算表・財務諸表・損益振替・再振替仕訳)の練習用アプリ</div>
+  </section>
+
+  <div class="unit-nav">
+    <a href="boki3-kessan.html">← ⑩ 決算整理</a>
+    <a href="boki3-kiso.html">① 簿記の基礎に戻る ↺</a>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null };
+
+  var ACCOUNT_LIST = [
+    '現金', '当座預金', '普通預金', '売掛金', '繰越商品', '貯蔵品', '前払保険料', '前払家賃', '未収利息', '未収家賃',
+    '貸倒引当金', '当座借越', '前受家賃', '前受地代', '未払利息', '未払給料',
+    '繰越利益剰余金', '損益',
+    '売上', '受取手数料', '受取家賃', '受取地代', '受取利息',
+    '仕入', '給料', '保険料', '支払家賃', '支払利息', '通信費', '租税公課', '減価償却費', '貸倒引当金繰入', '法人税等', '未払法人税等'
+  ];
+  var CH_NAME = { 1: '決算手続きの流れ', 2: '精算表', 3: '損益計算書・貸借対照表', 4: '損益振替と締切', 5: '再振替仕訳' };
+  var ROWS = 3;
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+
+  // 仕訳の表示。dr / cr は [[科目, 金額], ...]
+  function jText(dr, cr) {
+    var n = Math.max(dr.length, cr.length), out = [];
+    function cell(e) { return e ? e[0] + ' ' + fmt(e[1]) : ''; }
+    var w = 0;
+    dr.forEach(function (e) { w = Math.max(w, cell(e).length); });
+    for (var i = 0; i < n; i++) {
+      var left = (i === 0 ? '(借)' : '    ') + cell(dr[i]);
+      var pad = new Array(Math.max(1, w + 4 - cell(dr[i]).length + 3)).join(' ');
+      out.push(left + pad + (cr[i] ? (i === 0 ? '(貸)' : '    ') + cell(cr[i]) : ''));
+    }
+    return out.join('\n');
+  }
+  function jKey(list) { return list.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|'); }
+  function jp(ch, topic, lines, dr, cr, why, ask) {
+    return {
+      ch: ch, topic: topic, kind: 'journal', lines: lines.concat([ask || '仕訳を答えてください。']),
+      answer: { dr: dr, cr: cr }, explain: jText(dr, cr) + '\n\n' + why
+    };
+  }
+  // 計算問題。解説の最後に関係する仕訳を付ける(複数の仕訳は配列で渡す)
+  function numP(ch, topic, lines, answer, explain, entries) {
+    var j = entries && entries.length ? '\n\n【仕訳】\n' + entries.map(function (e) { return jText(e[0], e[1]); }).join('\n') : '';
+    return { ch: ch, topic: topic, kind: 'number', lines: lines, answer: answer, explain: explain + j };
+  }
+  function choiceP(ch, topic, lines, options, answer, explain) {
+    return { ch: ch, topic: topic, kind: 'choice', lines: lines, options: shuffle(options), answer: answer, explain: explain };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return choiceP(ch, '知識問題', [k.q], [k.a].concat(k.o), k.a, '正解は「' + k.a + '」。\n' + k.e);
+  }
+  function pre(text) { return '<pre class="entry">' + text + '</pre>'; }
+
+  // ---- 第1章 決算手続きの流れ ----
+  var K1 = [
+    { q: '決算手続きの順番として正しいものは?', a: '試算表 → 決算整理仕訳 → 帳簿の締切 → 財務諸表', o: ['財務諸表 → 試算表 → 決算整理仕訳 → 帳簿の締切', '決算整理仕訳 → 試算表 → 財務諸表 → 帳簿の締切', '帳簿の締切 → 決算整理仕訳 → 試算表 → 財務諸表'], e: 'まず試算表で記録を確かめ、決算整理で金額を直し、帳簿を締め切ってから財務諸表を作ります。' },
+    { q: '再振替仕訳はいつ行う?', a: '翌期の期首', o: ['決算日', '期中の取引のたび', '株主総会の日'], e: '決算整理で振り替えた経過勘定などを、翌期の最初の日に元に戻します。' },
+    { q: '精算表の役割として正しいものは?', a: '試算表から財務諸表までを1枚で確認する', o: ['取引を日付順に記録する', '現金の出入りを記録する', '商品の在庫数を管理する'], e: '精算表は、決算整理前の残高・修正記入・損益計算書・貸借対照表を1枚にまとめた下書きです。' },
+    { q: '決算整理前残高試算表を作る目的は?', a: '期中の記録(転記)が正しいか確かめる', o: ['税金を計算する', '配当を決める', '再振替を行う'], e: '貸借の一致を確かめて、期中の転記ミスがないか確認します(①で学習)。' }
+  ];
+  function gen1() { return knowProblem(1, K1); }
+
+  // ---- 第2章 精算表 ----
+  function gen2() {
+    var v = pick(['shiire', 'kurikoshi', 'allow', 'insurance', 'profit']);
+    if (v === 'shiire' || v === 'kurikoshi') {
+      var A = randMultiple(10, 80, 1) * 1000, E = randMultiple(10, 80, 1) * 1000, P = randMultiple(30, 150, 1) * 10000;
+      if (A === E) E += 1000;
+      var ent = [[[['仕入', A]], [['繰越商品', A]]], [[['繰越商品', E]], [['仕入', E]]]];
+      var base = ['精算表を作成する。決算整理前残高試算表の仕入は<b>' + fmt(P) + '円</b>、繰越商品は<b>' + fmt(A) + '円</b>である。期末商品棚卸高は<b>' + fmt(E) + '円</b>で、売上原価は「仕入」の行で計算する。'];
+      if (v === 'shiire') return numP(2, '仕入の行', base.concat(['仕入の行の<b>損益計算書欄</b>に記入する金額はいくら?']), P + A - E,
+        '仕入の行:試算表 借方 ' + fmt(P) + '、修正 借方 ' + fmt(A) + '(期首商品)、修正 貸方 ' + fmt(E) + '(期末商品)\n同じ側は足し、反対側は引く:' + fmt(P) + ' + ' + fmt(A) + ' − ' + fmt(E) + ' = ' + fmt(P + A - E) + '円(損益計算書 借方)\nこれが売上原価です。', ent);
+      return numP(2, '繰越商品の行', base.concat(['繰越商品の行の<b>貸借対照表欄</b>に記入する金額はいくら?']), E,
+        '繰越商品の行:試算表 借方 ' + fmt(A) + '、修正 借方 ' + fmt(E) + '、修正 貸方 ' + fmt(A) + '\n' + fmt(A) + ' + ' + fmt(E) + ' − ' + fmt(A) + ' = ' + fmt(E) + '円(貸借対照表 借方)\n期末商品の金額が残ります。', ent);
+    }
+    if (v === 'allow') {
+      var ar = randMultiple(20, 80, 1) * 10000, rate = pick([1, 2, 3, 5]), est = ar * rate / 100, bal = randMultiple(0, Math.floor(est / 1000) - 1, 1) * 1000;
+      return numP(2, '貸倒引当金の行', ['精算表を作成する。試算表の売掛金は<b>' + fmt(ar) + '円</b>、貸倒引当金は<b>' + fmt(bal) + '円</b>(貸方)である。売掛金の期末残高に対して<b>' + rate + '%</b>の貸倒引当金を差額補充法で設定する。', '貸倒引当金の行の<b>貸借対照表欄</b>に記入する金額はいくら?'], est,
+        '見積額 = ' + fmt(ar) + ' × ' + rate + '% = ' + fmt(est) + '円、繰入額 = ' + fmt(est) + ' − ' + fmt(bal) + ' = ' + fmt(est - bal) + '円\n貸倒引当金の行:試算表 貸方 ' + fmt(bal) + ' + 修正 貸方 ' + fmt(est - bal) + ' = ' + fmt(est) + '円(貸借対照表 貸方)\n貸倒引当金繰入の行には、損益計算書 借方に ' + fmt(est - bal) + '円が入ります。',
+        [[[['貸倒引当金繰入', est - bal]], [['貸倒引当金', est - bal]]]]);
+    }
+    if (v === 'insurance') {
+      var annual = randMultiple(2, 30, 1) * 12000, mi = randMultiple(1, 11, 1), months = ['4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月', '1月', '2月', '3月'];
+      var pre_ = annual * mi / 12;
+      return numP(2, '保険料の行', ['精算表を作成する(決算日3月31日)。試算表の保険料<b>' + fmt(annual) + '円</b>は、' + months[mi] + '1日に1年分を支払ったものである。', '保険料の行の<b>損益計算書欄</b>に記入する金額はいくら?'], annual - pre_,
+        '来期分(4月〜' + months[mi - 1] + 'の' + mi + 'か月)= ' + fmt(annual) + ' × ' + mi + '/12 = ' + fmt(pre_) + '円 → 前払保険料\n保険料の行:試算表 借方 ' + fmt(annual) + ' − 修正 貸方 ' + fmt(pre_) + ' = ' + fmt(annual - pre_) + '円(損益計算書 借方)\n前払保険料の行には、貸借対照表 借方に ' + fmt(pre_) + '円が入ります。',
+        [[[['前払保険料', pre_]], [['保険料', pre_]]]]);
+    }
+    var rev = [['売上', randMultiple(80, 200, 1) * 10000], ['受取手数料', randMultiple(2, 20, 1) * 10000]];
+    var exp = [['仕入', randMultiple(40, 70, 1) * 10000], ['給料', randMultiple(10, 30, 1) * 10000], ['減価償却費', randMultiple(2, 10, 1) * 10000], ['貸倒引当金繰入', randMultiple(1, 10, 1) * 1000]];
+    var R = rev.reduce(function (s, x) { return s + x[1]; }, 0), X = exp.reduce(function (s, x) { return s + x[1]; }, 0);
+    if (R - X === 0) return gen2();
+    var lines = shuffle(rev.map(function (x) { return x[0] + '  貸方 ' + fmt(x[1]); }).concat(exp.map(function (x) { return x[0] + '  借方 ' + fmt(x[1]); })));
+    return numP(2, '当期純利益', ['精算表の損益計算書欄に、次の金額が記入されている(これ以外の収益・費用はない)。', pre(lines.join('\n')), R > X ? '<b>当期純利益</b>はいくら?' : '<b>当期純損失</b>はいくら?'], Math.abs(R - X),
+      '損益計算書欄 貸方合計(収益)= ' + fmt(R) + '円\n借方合計(費用)= ' + fmt(X) + '円\n差額 = ' + fmt(R) + ' − ' + fmt(X) + ' = ' + fmt(R - X) + '円 → 当期純' + (R > X ? '利益' : '損失') + '\n精算表では、この金額を損益計算書欄の' + (R > X ? '借方' : '貸方') + 'と貸借対照表欄の' + (R > X ? '貸方' : '借方') + 'に記入して、貸借を一致させます。',
+      [R > X ? [[['損益', R - X]], [['繰越利益剰余金', R - X]]] : [[['繰越利益剰余金', X - R]], [['損益', X - R]]]]);
+  }
+  var K2 = [
+    { q: '精算表で、修正記入が試算表と反対側にあるとき、どうする?', a: '試算表の金額から引く', o: ['試算表の金額に足す', '無視する', '貸借対照表欄にだけ書く'], e: '同じ側の修正は足し、反対側の修正は引きます。' },
+    { q: '精算表で、当期純利益はどの欄に記入される?', a: '損益計算書欄の借方と、貸借対照表欄の貸方', o: ['損益計算書欄の貸方だけ', '残高試算表欄', '修正記入欄'], e: '当期純利益を両方の欄に記入すると、それぞれの欄の貸借が一致します。' }
+  ];
+
+  // ---- 第3章 損益計算書・貸借対照表 ----
+  var DISPLAY = [
+    { q: '損益計算書で、売上原価を計算したあとの「仕入」はどう表示する?', a: '売上原価', o: ['仕入', '当期商品仕入高', '商品'] },
+    { q: '貸借対照表で「繰越商品」はどう表示する?', a: '商品', o: ['繰越商品', '売上原価', '棚卸資産'] },
+    { q: '貸借対照表で「前払保険料」はどう表示する?', a: '前払費用', o: ['前払保険料', '前払金', '保険料'] },
+    { q: '貸借対照表で「未払利息」はどう表示する?', a: '未払費用', o: ['未払利息', '未払金', '支払利息'] },
+    { q: '貸借対照表で「前受家賃」はどう表示する?', a: '前受収益', o: ['前受家賃', '前受金', '受取家賃'] },
+    { q: '貸借対照表で「未収利息」はどう表示する?', a: '未収収益', o: ['未収利息', '未収入金', '受取利息'] },
+    { q: '損益計算書で「売上」はどう表示する?', a: '売上高', o: ['売上', '売上総利益', '営業収益'] },
+    { q: '貸借対照表で、貸倒引当金はどのように表示する?', a: '売掛金などの下に書いて差し引く', o: ['負債の部に書く', '損益計算書に書く', '表示しない'] }
+  ];
+  function gen3() {
+    var v = pick(['display', 'display', 'netAR', 'netEq', 'gross', 'netIncome']);
+    if (v === 'display') { var d = pick(DISPLAY); return choiceP(3, '表示科目', [d.q], [d.a].concat(d.o), d.a, '正解は「' + d.a + '」。\n財務諸表では、勘定科目と違う表示科目を使うものがあります。'); }
+    if (v === 'netAR') {
+      var ar = randMultiple(20, 90, 1) * 10000, rate = pick([1, 2, 3]), al = ar * rate / 100, bal = randMultiple(0, Math.floor(al / 1000) - 1, 1) * 1000;
+      return numP(3, '売掛金の表示額', ['決算整理前の売掛金は<b>' + fmt(ar) + '円</b>、貸倒引当金は<b>' + fmt(bal) + '円</b>である。期末残高の<b>' + rate + '%</b>の貸倒引当金を差額補充法で設定する。', '貸借対照表で、売掛金から貸倒引当金を差し引いた金額はいくら?'], ar - al,
+        '設定後の貸倒引当金 = ' + fmt(ar) + ' × ' + rate + '% = ' + fmt(al) + '円\n表示:売掛金 ' + fmt(ar) + '、貸倒引当金 △' + fmt(al) + ' → ' + fmt(ar - al) + '円', [[[['貸倒引当金繰入', al - bal]], [['貸倒引当金', al - bal]]]]);
+    }
+    if (v === 'netEq') {
+      var n = pick([4, 5, 6, 8]), an = randMultiple(3, 30, 1) * 12000, cost = an * n, y = randMultiple(1, n - 2, 1), accOpen = an * (y - 1);
+      return numP(3, '備品の表示額', ['備品の取得原価は<b>' + fmt(cost) + '円</b>、決算整理前の備品減価償却累計額は<b>' + fmt(accOpen) + '円</b>である。当期も定額法(残存価額ゼロ、耐用年数' + n + '年)で1年分の減価償却を行う。', '貸借対照表で、備品から減価償却累計額を差し引いた金額はいくら?'], cost - accOpen - an,
+        '当期の減価償却費 = ' + fmt(cost) + ' ÷ ' + n + ' = ' + fmt(an) + '円\n期末の累計額 = ' + fmt(accOpen) + ' + ' + fmt(an) + ' = ' + fmt(accOpen + an) + '円\n表示:備品 ' + fmt(cost) + '、減価償却累計額 △' + fmt(accOpen + an) + ' → ' + fmt(cost - accOpen - an) + '円', [[[['減価償却費', an]], [['備品減価償却累計額', an]]]]);
+    }
+    var A = randMultiple(10, 60, 1) * 1000, E = randMultiple(10, 60, 1) * 1000, P = randMultiple(40, 120, 1) * 10000, C = A + P - E, S = C + randMultiple(20, 80, 1) * 10000;
+    if (v === 'gross') return numP(3, '売上総利益', ['売上高<b>' + fmt(S) + '円</b>、決算整理前の仕入<b>' + fmt(P) + '円</b>、期首商品<b>' + fmt(A) + '円</b>、期末商品<b>' + fmt(E) + '円</b>である。', '損益計算書の売上総利益はいくら?'], S - C,
+      '売上原価 = ' + fmt(A) + ' + ' + fmt(P) + ' − ' + fmt(E) + ' = ' + fmt(C) + '円\n売上総利益 = ' + fmt(S) + ' − ' + fmt(C) + ' = ' + fmt(S - C) + '円', [[[['仕入', A]], [['繰越商品', A]]], [[['繰越商品', E]], [['仕入', E]]]]);
+    var other = randMultiple(5, 20, 1) * 10000, taxRate = 30, pre_ = S - C - other;
+    if (pre_ <= 0) return gen3();
+    var tax = pre_ * taxRate / 100, ni = pre_ - tax;
+    return numP(3, '当期純利益', ['売上高<b>' + fmt(S) + '円</b>、売上原価<b>' + fmt(C) + '円</b>、その他の費用の合計<b>' + fmt(other) + '円</b>である(その他の収益はない)。', '法人税等を税引前当期純利益の30%とするとき、当期純利益はいくら?'], ni,
+      '売上総利益 = ' + fmt(S) + ' − ' + fmt(C) + ' = ' + fmt(S - C) + '円\n税引前当期純利益 = ' + fmt(S - C) + ' − ' + fmt(other) + ' = ' + fmt(pre_) + '円\n法人税等 = ' + fmt(pre_) + ' × 30% = ' + fmt(tax) + '円\n当期純利益 = ' + fmt(pre_) + ' − ' + fmt(tax) + ' = ' + fmt(ni) + '円',
+      [[[['法人税等', tax]], [['未払法人税等', tax]]], [[['損益', ni]], [['繰越利益剰余金', ni]]]]);
+  }
+  var K3 = [
+    { q: '損益計算書の「売上総利益」の求め方は?', a: '売上高 − 売上原価', o: ['売上高 − すべての費用', '当期仕入 − 売上原価', '収益 − 法人税等'], e: '売上高から売上原価を引いたものが売上総利益です。' },
+    { q: '貸借対照表で、減価償却累計額はどう表示する?', a: '備品などの下に書いて差し引く', o: ['負債の部に書く', '純資産の部に書く', '損益計算書に書く'], e: '減価償却累計額は、固定資産から差し引く形で表示します。' }
+  ];
+
+  // ---- 第4章 損益振替と締切 ----
+  function gen4() {
+    var v = pick(['rev', 'exp', 'exp', 'profit', 'calc']);
+    var rev = [['売上', randMultiple(80, 200, 1) * 10000], [pick(['受取手数料', '受取家賃', '受取利息']), randMultiple(1, 20, 1) * 10000]];
+    var exp = shuffle([['仕入', randMultiple(40, 70, 1) * 10000], ['給料', randMultiple(10, 30, 1) * 10000], ['支払家賃', randMultiple(5, 20, 1) * 10000], ['保険料', randMultiple(1, 5, 1) * 10000], ['減価償却費', randMultiple(2, 10, 1) * 10000]]).slice(0, 3);
+    var R = rev.reduce(function (s, x) { return s + x[1]; }, 0), X = exp.reduce(function (s, x) { return s + x[1]; }, 0);
+    var list = rev.map(function (x) { return x[0] + ' ' + fmt(x[1]) + '(貸方残高)'; }).concat(exp.map(function (x) { return x[0] + ' ' + fmt(x[1]) + '(借方残高)'; }));
+    var head = ['決算整理後の収益・費用の勘定残高は次のとおりである(これ以外にはない)。', pre(list.join('\n'))];
+    var tacc = '【損益勘定】\n  借方:' + exp.map(function (x) { return x[0] + ' ' + fmt(x[1]); }).join('、') + '(費用 合計' + fmt(X) + ')\n  貸方:' + rev.map(function (x) { return x[0] + ' ' + fmt(x[1]); }).join('、') + '(収益 合計' + fmt(R) + ')\n  差額 = ' + fmt(R - X) + '円';
+    if (v === 'rev') return jp(4, '収益の振替', head, rev.map(function (x) { return [x[0], x[1]]; }), [['損益', R]],
+      '収益の勘定は貸方残高なので、借方に書いてゼロにし、合計 ' + fmt(R) + '円を損益勘定の貸方へ振り替えます。', '収益の各勘定を損益勘定に振り替える仕訳を答えてください。');
+    if (v === 'exp') return jp(4, '費用の振替', head, [['損益', X]], exp.map(function (x) { return [x[0], x[1]]; }),
+      '費用の勘定は借方残高なので、貸方に書いてゼロにし、合計 ' + fmt(X) + '円を損益勘定の借方へ振り替えます。', '費用の各勘定を損益勘定に振り替える仕訳を答えてください。');
+    if (R === X) return gen4();
+    if (v === 'profit') return jp(4, '繰越利益剰余金への振替', head.concat(['収益・費用はすべて損益勘定に振り替え済みである。']),
+      R > X ? [['損益', R - X]] : [['繰越利益剰余金', X - R]], R > X ? [['繰越利益剰余金', R - X]] : [['損益', X - R]],
+      tacc + '\n' + (R > X ? '貸方(収益)のほうが大きいので当期純利益。繰越利益剰余金を増やします(貸方)。' : '借方(費用)のほうが大きいので当期純損失。繰越利益剰余金を減らします(借方)。'), '損益勘定の残高を繰越利益剰余金勘定に振り替える仕訳を答えてください。');
+    return numP(4, '損益勘定の差額', head.concat([R > X ? '損益勘定で計算される<b>当期純利益</b>はいくら?' : '損益勘定で計算される<b>当期純損失</b>はいくら?']), Math.abs(R - X), tacc + '\n' + (R > X ? '当期純利益' : '当期純損失') + ' ' + fmt(Math.abs(R - X)) + '円',
+      [[rev.map(function (x) { return [x[0], x[1]]; }), [['損益', R]]], [[['損益', X]], exp.map(function (x) { return [x[0], x[1]]; })], R > X ? [[['損益', R - X]], [['繰越利益剰余金', R - X]]] : [[['繰越利益剰余金', X - R]], [['損益', X - R]]]]);
+  }
+  var K4 = [
+    { q: '資産・負債・純資産の勘定を締め切るとき、残高に書く摘要は?', a: '次期繰越', o: ['損益', '前期繰越', '繰越利益剰余金'], e: '資産・負債・純資産は残高を「次期繰越」として締め切り、翌期首に「前期繰越」から始めます。' },
+    { q: '収益・費用の勘定は、決算でどうなる?', a: '損益勘定に振り替えて残高をゼロにする', o: ['次期に繰り越す', '貸借対照表に載せる', '何もしない'], e: '収益・費用は1年ごとのものなので、損益勘定に集めてゼロにします。' }
+  ];
+
+  // ---- 第5章 再振替仕訳 ----
+  var REV = [
+    { a: '前払保険料', b: '保険料', s: '前払保険料' },
+    { a: '前払家賃', b: '支払家賃', s: '前払家賃' },
+    { a: '未収利息', b: '受取利息', s: '未収利息' },
+    { a: '未収家賃', b: '受取家賃', s: '未収家賃' }
+  ];
+  var REV2 = [
+    { a: '未払利息', b: '支払利息' },
+    { a: '未払給料', b: '給料' },
+    { a: '前受家賃', b: '受取家賃' },
+    { a: '前受地代', b: '受取地代' }
+  ];
+  function gen5() {
+    var v = pick(['asset', 'asset', 'liab', 'liab', 'store', 'overdraft']);
+    var x = randMultiple(1, 40, 1) * 1000;
+    if (v === 'asset') {
+      var r = pick(REV);
+      return jp(5, '再振替(資産)', ['前期末の決算整理で、' + r.a + ' ' + fmt(x) + '円を計上した。当期首に再振替仕訳を行う。'], [[r.b, x]], [[r.a, x]],
+        '前期末の仕訳 (借)' + r.a + ' (貸)' + r.b + ' の逆仕訳です。' + r.a + '(資産)をゼロにして、' + r.b + 'に戻します。');
+    }
+    if (v === 'liab') {
+      var r2 = pick(REV2);
+      return jp(5, '再振替(負債)', ['前期末の決算整理で、' + r2.a + ' ' + fmt(x) + '円を計上した。当期首に再振替仕訳を行う。'], [[r2.a, x]], [[r2.b, x]],
+        '前期末の仕訳 (借)' + r2.b + ' (貸)' + r2.a + ' の逆仕訳です。' + r2.a + '(負債)をゼロにして、' + r2.b + 'に戻します。');
+    }
+    if (v === 'store') {
+      var st = randMultiple(1, 20, 1) * 500, rv = randMultiple(1, 20, 1) * 1000;
+      return jp(5, '再振替(貯蔵品)', ['前期末に、未使用の郵便切手' + fmt(st) + '円分と収入印紙' + fmt(rv) + '円分を貯蔵品に振り替えた。当期首に再振替仕訳を行う。'],
+        [['通信費', st], ['租税公課', rv]], [['貯蔵品', st + rv]], '前期末の仕訳 (借)貯蔵品 (貸)通信費・租税公課 の逆仕訳です。');
+    }
+    var o = randMultiple(5, 50, 1) * 10000;
+    return jp(5, '再振替(当座借越)', ['前期末に、当座預金の貸方残高' + fmt(o) + '円を当座借越勘定に振り替えた。当期首に再振替仕訳を行う。'], [['当座借越', o]], [['当座預金', o]],
+      '前期末の仕訳 (借)当座預金 (貸)当座借越 の逆仕訳です。当座借越をゼロにして、当座預金の貸方残高に戻します。');
+  }
+  var K5 = [
+    { q: '次のうち、翌期首に再振替仕訳を行わないものは?', a: '減価償却費', o: ['前払保険料', '未払利息', '貯蔵品'], e: '減価償却は来期に持ち越すものではないので、再振替は行いません。経過勘定・貯蔵品・当座借越が再振替の対象です。' },
+    { q: '再振替仕訳を行う理由として正しいものは?', a: '翌期の取引をふつうに記帳すれば正しい金額になるようにするため', o: ['前期の利益を増やすため', '税金を減らすため', '試算表を作らなくてよくするため'], e: '元の勘定に戻しておくと、翌期に支払ったときなどに通常の仕訳をするだけで当期分が正しくなります。' }
+  ];
+
+  var GENS = {
+    1: [gen1],
+    2: [gen2, gen2, gen2, function () { return knowProblem(2, K2); }],
+    3: [gen3, gen3, gen3, function () { return knowProblem(3, K3); }],
+    4: [gen4, gen4, gen4, function () { return knowProblem(4, K4); }],
+    5: [gen5, gen5, gen5, function () { return knowProblem(5, K5); }]
+  };
+
+  // ---- 画面 ----
+  var $ = function (id) { return document.getElementById(id); };
+
+  function jRow(side, i) {
+    return '<div class="jrow"><select id="' + side + 'A' + i + '" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '科目' + (i + 1) + '"><option value="">科目' + (i === 0 ? '' : '(任意)') + '</option>' +
+      ACCOUNT_LIST.map(function (a) { return '<option>' + a + '</option>'; }).join('') + '</select>' +
+      '<input type="text" id="' + side + 'M' + i + '" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + (side === 'dr' ? '借方' : '貸方') + '金額' + (i + 1) + '"></div>';
+  }
+
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = '第' + p.ch + '章 ' + CH_NAME[p.ch] + ' / ' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      return /^<(pre|div)/.test(l) ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    var h = '';
+    if (p.kind === 'choice' || p.kind === 'multi') {
+      h = '<div class="options">' + p.options.map(function (o) { return '<button class="opt" data-v="' + o + '">' + o + '</button>'; }).join('') + '</div>' +
+        (p.kind === 'multi' ? '<div class="hint">当てはまるものをすべて選んでください(もう一度押すと選択を外せます)。</div>' : '');
+    } else if (p.kind === 'number') {
+      h = '<div class="inputs-row"><div class="input-group"><label for="numIn">金額(円)</label><input type="text" id="numIn" inputmode="numeric" autocomplete="off" placeholder="例)150000"></div></div>' +
+        '<div class="hint">半角数字で入力(カンマはあってもなくてもOK)。</div>';
+    } else if (p.kind === 'journal') {
+      var dr = '', cr = '';
+      for (var i = 0; i < ROWS; i++) { dr += jRow('dr', i); cr += jRow('cr', i); }
+      h = '<div class="jgrid"><div class="jside"><div class="jside-title">借方</div>' + dr + '</div><div class="jside"><div class="jside-title">貸方</div>' + cr + '</div></div>' +
+        '<div class="hint">2行目・3行目は、科目が複数必要なときだけ入力してください。金額は半角数字(カンマはあってもなくてもOK)。</div>';
+    }
+    $('answerArea').innerHTML = h;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (b) {
+      b.addEventListener('click', function () {
+        if (state.answered) return;
+        if (state.problem.kind === 'multi') {
+          b.classList.toggle('sel');
+        } else {
+          state.choice = b.getAttribute('data-v');
+          Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt'), function (x) { x.classList.toggle('sel', x === b); });
+        }
+        hideError();
+      });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea input, #answerArea select'), function (x) {
+      x.addEventListener('input', hideError);
+      x.addEventListener('change', hideError);
+      if (x.tagName === 'INPUT') x.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+    });
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  // 仕訳の入力を読む。エラーなら文字列を返す
+  function readSide(side, label) {
+    var list = [];
+    for (var i = 0; i < ROWS; i++) {
+      var a = $(side + 'A' + i).value, raw = $(side + 'M' + i).value.trim();
+      if (!a && !raw) continue;
+      if (!a) return label + (i + 1) + '行目の科目を選んでください。';
+      var m = parseNum(raw);
+      if (m === null || m <= 0) return label + (i + 1) + '行目の金額を半角数字で入力してください。';
+      list.push([a, m]);
+    }
+    if (!list.length) return label + 'の科目と金額を入力してください。';
+    return list;
+  }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'multi') {
+      var sel = Array.prototype.map.call(document.querySelectorAll('#answerArea .opt.sel'), function (x) { return x.getAttribute('data-v'); });
+      if (!sel.length) return showError('当てはまるものを1つ以上選んでください。');
+      ok = sel.slice().sort().join('|') === p.answer.slice().sort().join('|'); yours = sel.join('、');
+    } else if (p.kind === 'choice') {
+      if (!state.choice) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else if (p.kind === 'number') {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('金額を半角数字で入力してください。');
+      ok = n === p.answer; yours = fmt(n) + '円';
+    } else if (p.kind === 'journal') {
+      var dr = readSide('dr', '借方'); if (typeof dr === 'string') return showError(dr);
+      var cr = readSide('cr', '貸方'); if (typeof cr === 'string') return showError(cr);
+      ok = jKey(dr) === jKey(p.answer.dr) && jKey(cr) === jKey(p.answer.cr);
+      yours = '\n' + jText(dr, cr);
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    Array.prototype.forEach.call(document.querySelectorAll('#answerArea .opt, #answerArea input, #answerArea select'), function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n正解:\n') + p.explain;
+  }
+
+  function next() {
+    var ch = state.chapter || pick([1, 2, 3, 4, 5]);
+    state.problem = pick(GENS[ch])();
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+      c.classList.toggle('on', +c.getAttribute('data-ch') === ch);
+    });
+    next();
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('#filters .chip'), function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.btn-chapter'), function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>
