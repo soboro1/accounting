@@ -2449,9 +2449,10 @@ var Drill = (function () {
   }
 
   function parseNum(s) {
+    // 全角の数字・記号は \u で指定する(全角文字が半角に変換されても壊れないようにするため)
     var x = String(s || '')
-      .replace(/[0-9]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
-      .replace(/[,,、\s円]/g, '').replace(/[−ー―‐▲△-]/g, '-').replace(/./g, '.');
+      .replace(/[\uFF10-\uFF19]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,\uFF0C\u3001\s\u5186]/g, '').replace(/[\u2212\u30FC\u2015\u2010\u25B2\u25B3\uFF0D-]/g, '-').replace(/\uFF0E/g, '.');
     if (x === '' || x === '-') return NaN;
     return Number(x);
   }
