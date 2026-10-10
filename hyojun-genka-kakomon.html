@@ -2337,6 +2337,257 @@ var Drill = (function () {
     };
   }
 
+  // ---------- S 差異からの逆算 ----------
+  function genS() {
+    for (var g = 0; g < 500; g++) {
+      var lab = Math.random() < 0.5;
+      var D = ri(10, 40) * 100;
+      var per = lab ? pick([1.5, 2, 2.5, 3]) : pick([2, 3, 4, 5]);
+      var Ps = lab ? pick([1000, 1200, 1400, 1500, 1600, 1800]) : pick([80, 100, 120, 150, 200, 250]);
+      var SQ = D * per;
+      var AQ = SQ + nz(-30, 60) * (lab ? 5 : 10);
+      var Pa = Ps + nz(-6, 6) * (lab ? 10 : 1);
+      if (!isInt(SQ) || AQ <= 0) continue;
+      var vP = (Ps - Pa) * AQ, vQ = Ps * (SQ - AQ);
+      var u = lab ? '時間' : 'kg', el2 = lab ? '直接労務費' : '直接材料費';
+      var nP = lab ? '賃率差異' : '材料価格差異', nQ = lab ? '作業時間差異' : '材料数量差異';
+      var qWord = lab ? '直接作業時間' : '材料消費量', pWord = lab ? '賃率' : '価格', acct = lab ? '賃金' : '材料';
+      var sVars = [[nP, vP], [nQ, vQ]];
+      var sT = withVars([[acct, AQ * Pa]], [['製品', D * Ps * per]], sVars);
+      var sgn = function (v) { return (v > 0 ? '+' : '−') + fmt(Math.abs(v)); };
+      return {
+        badge: '差異からの逆算(実際' + (lab ? '作業時間・実際賃率' : '消費量・実際価格') + ')',
+        intro: '製品Xを量産する当工場では、パーシャル・プランによる標準原価計算を採用している。当月の差異分析の結果から、実際の' + qWord + 'と' + pWord + 'を逆算しなさい。',
+        card: { title: '製品X 1個あたりの標準原価', rows: [
+          [el2, '@' + fmt(Ps) + '円 × ' + fmt(per) + u, fmt(Ps * per) + '円']
+        ] },
+        facts: [
+          '当月の生産量は <b>' + fmt(D) + '個</b>で、すべて完成した(月初・月末の仕掛品はない)。',
+          '当月の' + nP + 'は <b>' + yen(vP) + '</b>、' + nQ + 'は <b>' + yen(vQ) + '</b> であった。'
+        ],
+        figs: [],
+        qs: [
+          { label: '実際' + qWord, kind: 'amt', unit: u, value: AQ },
+          { label: '実際' + pWord + '(1' + u + 'あたり)', kind: 'amt', value: Pa },
+          { label: '実際' + el2, kind: 'amt', value: AQ * Pa }
+        ],
+        solFigs: [fig(shuraFig({ title: el2 + 'の差異', pName: lab ? '賃率' : '価格', qName: lab ? '作業時間' : '数量', pS: Ps, pA: Pa, qS: SQ, qA: AQ, unit: u, vP: vP, vQ: vQ }),
+          '図の内側(標準)からわかるところを先に埋めて、外側(実際)を逆算します。')],
+        sol: [
+          { h: '標準の数量', lines: [
+            '標準' + qWord + ' = ' + fmt(D) + '個 × ' + fmt(per) + u + ' = ' + fmt(SQ) + u
+          ] },
+          { h: '実際' + qWord + '(' + nQ + 'から逆算)', lines: [
+            nQ + ' = 標準' + pWord + ' ×(標準 − 実際)なので、実際 = 標準 − 差異 ÷ 標準' + pWord,
+            '有利差異はプラス、不利差異はマイナスとして式に入れる。',
+            '実際' + qWord + ' = ' + fmt(SQ) + ' −(' + sgn(vQ) + ')÷ ' + fmt(Ps) + ' = ' + fmt(AQ) + u
+          ] },
+          { h: '実際' + pWord + '(' + nP + 'から逆算)', lines: [
+            nP + ' =(標準' + pWord + ' − 実際' + pWord + ')× 実際' + qWord + ' なので、実際' + pWord + ' = 標準' + pWord + ' − 差異 ÷ 実際' + qWord,
+            '実際' + pWord + ' = ' + fmt(Ps) + ' −(' + sgn(vP) + ')÷ ' + fmt(AQ) + ' = @' + fmt(Pa) + '円',
+            '実際' + el2 + ' = ' + fmt(AQ) + ' × @' + fmt(Pa) + ' = ' + fmt(AQ * Pa) + '円'
+          ] }
+        ],
+        jr: {
+          note: 'パーシャル・プランなので、仕掛品勘定の借方には逆算した実際原価を記入する(この問題では' + el2 + 'の部分だけ)。',
+          entries: [
+            { t: '① ' + (lab ? '直接労務費' : '材料') + 'の消費(実際原価)', dr: [['仕掛品', AQ * Pa]], cr: [[acct, AQ * Pa]] },
+            { t: '② 完成品の振替(標準原価)', dr: [['製品', D * Ps * per]], cr: [['仕掛品', D * Ps * per]] }
+          ].concat(varEntries(sVars, '仕掛品', 3)),
+          t: fig(tAccount('仕掛品', sT.dr, sT.cr), '借方の実際原価と貸方の標準原価の差が、2つの差異の合計になる。'),
+          ok: balanced(sT.dr, sT.cr)
+        },
+        check: isInt(vP) && isInt(vQ) && isInt(AQ) && vP !== 0 && vQ !== 0 && balanced(sT.dr, sT.cr)
+      };
+    }
+  }
+
+  // ---------- T 正常仕損費の組み込み方(第1法・第2法) ----------
+  function genT() {
+    for (var g = 0; g < 500; g++) {
+      var q = pick([2, 4, 5]), Ps = pick([100, 150, 200, 250]);
+      var h = pick([1, 2, 2.5, 4]), Rc = pick([800, 1000, 1200, 1600, 2000]);
+      var mat = Ps * q, conv = Rc * h;
+      if (mat % 100 !== 0 || conv % 100 !== 0) continue;
+      var s = pick([0.02, 0.04, 0.05, 0.1]);
+      var n = mat + conv, spoil = Math.round(n * s);
+      var D = ri(10, 40) * 100, W = ri(2, 8) * 100, p1 = pick(PROG);
+      var w2 = Math.round(W * mat + W * p1 * conv);
+      var w1 = Math.round(w2 * (1 + s)), done = Math.round(D * n * (1 + s));
+      if (!isInt(n * s) || !isInt(W * p1 * conv) || !isInt(w2 * (1 + s))) continue;
+      return {
+        badge: '正常仕損費の組み込み方(第1法・第2法)',
+        intro: '製品Qの生産では、工程の終点で検査を行い、良品の ' + pct(s) + ' にあたる仕損が正常に発生する(仕損品に処分価額はない)。正常仕損費を原価標準に組み込む2つの方法について、次の資料にもとづいて答えなさい。',
+        card: { title: '製品Q 1個あたりの正味の標準原価(仕損費を含まない)', rows: [
+          ['直接材料費', '@' + fmt(Ps) + '円 × ' + q + 'kg', fmt(mat) + '円'],
+          ['加工費', '@' + fmt(Rc) + '円 × ' + fmt(h) + '時間', fmt(conv) + '円']
+        ] },
+        facts: [
+          '第1法:各原価要素の標準消費量を、正常仕損率の分だけ割り増して原価標準とする。',
+          '第2法:正味の標準原価に、正常仕損費を特別費として加える(仕損の発生点を通過した良品だけが負担する)。',
+          '当月の完成品は <b>' + fmt(D) + '個</b>、月末仕掛品は <b>' + fmt(W) + '個</b>(加工進捗度 <b>' + pct(p1) + '</b>)。直接材料は始点で投入し、月初仕掛品はない。'
+        ],
+        figs: [],
+        qs: [
+          { label: '正常仕損費(完成品1個あたりの特別費)', kind: 'amt', value: spoil },
+          { label: '第2法による月末仕掛品の標準原価', kind: 'amt', value: w2 },
+          { label: '第1法による月末仕掛品の標準原価', kind: 'amt', value: w1 },
+          { label: '月末仕掛品に正常仕損費を負担させない方法', kind: 'choice', options: ['第1法(消費量を割り増す)', '第2法(特別費として加える)'], value: 1 }
+        ],
+        solFigs: [],
+        sol: [
+          { h: '正常仕損費(特別費)', lines: [
+            '正味の標準原価 = ' + fmt(mat) + ' + ' + fmt(conv) + ' = ' + fmt(n) + '円',
+            '正常仕損費 = ' + fmt(n) + ' × ' + pct(s) + ' = ' + fmt(spoil) + '円(完成品1個が負担する額)',
+            '完成品1個の標準原価は、どちらの方法でも ' + fmt(n) + ' + ' + fmt(spoil) + ' = ' + fmt(n + spoil) + '円'
+          ] },
+          { h: '第2法の月末仕掛品', lines: [
+            '月末仕掛品(進捗度 ' + pct(p1) + ')は終点の検査をまだ通過していないので、正常仕損費を負担しない。',
+            '材料 ' + fmt(W) + ' × ' + fmt(mat) + ' + 加工 ' + fmt(W) + ' × ' + pct(p1) + ' × ' + fmt(conv) + ' = ' + fmt(w2) + '円'
+          ] },
+          { h: '第1法の月末仕掛品', lines: [
+            '原価標準そのものが割り増されているので、月末仕掛品にも仕損費が含まれてしまう。',
+            fmt(w2) + ' ×(1 + ' + pct(s) + ')= ' + fmt(w1) + '円',
+            '差額 ' + fmt(w1 - w2) + '円だけ月末仕掛品が大きくなる。仕損の発生点を通過していない仕掛品に仕損費を負担させない第2法のほうが、正確な計算になる。'
+          ] }
+        ],
+        jr: {
+          note: '完成品は、どちらの方法でも正常仕損費を含んだ標準原価で製品勘定に振り替える。',
+          entries: [
+            { t: '① 完成品の振替(' + fmt(D) + '個 × @' + fmt(n + spoil) + '円)', dr: [['製品', done]], cr: [['仕掛品', done]] }
+          ],
+          ok: true
+        },
+        check: isInt(spoil) && isInt(w1) && isInt(w2) && w1 > w2 && done === D * (n + spoil)
+      };
+    }
+  }
+
+  // ---------- V 差異の原因分析(ケース問題) ----------
+  var CASES = [
+    { q: '値引きの大きい仕入先に切り替え、標準より安く材料を買えた。有利になる差異はどれか。', a: '材料価格差異', d: ['材料数量差異', '作業時間差異', '操業度差異'],
+      e: '購入単価の違いは価格差異に出る。主に購買部門の責任になる。' },
+    { q: '材料の品質が悪く、加工中の失敗が増えて材料を多く使った。不利になる差異はどれか。', a: '材料数量差異', d: ['材料価格差異', '賃率差異', '予算差異'],
+      e: '標準より多く使った分が数量差異になる。安い材料を買って品質が落ちた場合は、価格差異が有利・数量差異が不利という組合せになりやすい。' },
+    { q: '熟練工の代わりに賃率の低い新人を多く配置した。賃率差異は有利になったが、同時に不利になりやすい差異はどれか。', a: '作業時間差異', d: ['材料価格差異', '予算差異', '販売価格差異'],
+      e: '不慣れな工員は作業に時間がかかるので、作業時間差異が不利になりやすい。' },
+    { q: '残業が増えて、割増賃金を多く支払った。不利になる差異はどれか。', a: '賃率差異', d: ['作業時間差異', '材料数量差異', '操業度差異'],
+      e: '1時間あたりの賃金が標準より高くなるので、賃率差異が不利になる。' },
+    { q: '受注が減り、実際操業度が基準操業度を大きく下回った。不利になる差異はどれか。', a: '操業度差異', d: ['賃率差異', '材料価格差異', '予算差異'],
+      e: '生産設備を十分に使えず、固定費を製品に配賦しきれなかった分が操業度差異になる。' },
+    { q: '電力料金の値上げで、実際操業度に対する予算額よりも製造間接費の実際発生額が多くなった。不利になる差異はどれか。', a: '予算差異', d: ['操業度差異', '能率差異', '作業時間差異'],
+      e: '予算差異は、実際操業度における予算許容額と実際発生額の差である。' },
+    { q: '機械の整備不良で、製品1個を作るのに標準より長い時間がかかった。製造間接費で不利になる差異はどれか。', a: '能率差異', d: ['予算差異', '材料価格差異', '販売数量差異'],
+      e: '標準操業度より実際操業度が多くなった分に配賦率をかけたものが能率差異になる。' },
+    { q: '標準より高価な材料の割合を増やして投入した(投入量の合計は標準どおり)。不利になる差異はどれか。', a: '配合差異', d: ['歩留差異', '賃率差異', '操業度差異'],
+      e: '投入した材料の構成割合が標準と違うために生じるのが配合差異である。' },
+    { q: '標準配合どおりに材料を投入したが、減損が標準より多く生じた。不利になる差異はどれか。', a: '歩留差異', d: ['配合差異', '材料価格差異', '予算差異'],
+      e: '同じ産出量を得るのに標準より多く投入した分が歩留差異になる。' },
+    { q: '二分法で製造間接費差異を分析するとき、管理不能差異にあたるものはどれか。', a: '操業度差異', d: ['予算差異', '変動費能率差異', '賃率差異'],
+      e: '二分法では、標準操業度に対する予算許容額と実際発生額の差を管理可能差異、固定費の配賦もれ(操業度差異)を管理不能差異とする。' }
+  ];
+  function genV() {
+    var picked = shuffle(CASES).slice(0, 4);
+    return {
+      badge: '差異の原因分析(ケース問題)',
+      intro: '次のそれぞれの状況について、影響が出る差異を選択肢から選びなさい。',
+      facts: ['差異の金額ではなく、「なぜその差異が出たのか」を考える問題です。原因がわかると、どの部門が対策を取るべきかがわかります。'],
+      figs: [],
+      qs: picked.map(function (it) {
+        var opts = shuffle([it.a].concat(it.d));
+        return { label: it.q, kind: 'choice', options: opts, value: opts.indexOf(it.a) };
+      }),
+      solFigs: [],
+      sol: picked.map(function (it, i) { return { h: '問' + (i + 1) + ' 正解:' + it.a, lines: [it.e] }; }),
+      jr: null,
+      check: picked.length === 4
+    };
+  }
+
+  // ---------- W 仕掛品勘定の完成(完成品・月末仕掛品・差異の総額) ----------
+  function genW() {
+    for (var g = 0; g < 500; g++) {
+      var q = pick([2, 3, 4, 5]), Ps = pick([80, 100, 120, 150, 200, 250]);
+      var h = pick([1.5, 2, 2.5, 3]), Rs = pick([1000, 1200, 1400, 1600, 1800]), Or = pick([600, 800, 1000, 1200]);
+      var D = ri(15, 40) * 100, B0 = ri(2, 8) * 100, W = ri(2, 8) * 100;
+      var p0 = pick(PROG), p1 = pick(PROG);
+      var mu = D + W - B0, cu = D + W * p1 - B0 * p0;
+      var mat1 = Ps * q, conv1 = (Rs + Or) * h, unit = mat1 + conv1;
+      if (!isInt(cu) || !isInt(cu * h) || !isInt(conv1)) continue;
+      var SQ = mu * q, SH = cu * h;
+      var matA = (SQ + nz(-30, 60) * 10) * (Ps + nz(-6, 6));
+      var labA = (SH + nz(-40, 60) * 5) * (Rs + nz(-6, 6) * 10);
+      var ohA = Or * SH + nz(-30, 30) * 1000;
+      var stdIn = mu * mat1 + cu * conv1;
+      var B0s = B0 * mat1 + B0 * p0 * conv1, Ws = W * mat1 + W * p1 * conv1, done = D * unit;
+      var tot = stdIn - (matA + labA + ohA);
+      if (!isInt(B0s) || !isInt(Ws) || !isInt(stdIn) || tot === 0 || ohA <= 0) continue;
+      B0s = Math.round(B0s); Ws = Math.round(Ws); stdIn = Math.round(stdIn); tot = Math.round(tot);
+      var wVars = [['標準原価差異', tot]];
+      var wT = withVars([['前月繰越', B0s], ['材料', matA], ['賃金', labA], ['製造間接費', ohA]], [['製品', done], ['次月繰越', Ws]], wVars);
+      return {
+        badge: '仕掛品勘定の完成(完成品・月末仕掛品・差異の総額)',
+        intro: '製品Xを量産する当工場では、パーシャル・プランによる標準原価計算を採用している。次の資料にもとづいて、仕掛品勘定を完成させるのに必要な金額を求めなさい。',
+        card: { title: '製品X 1個あたりの標準原価', rows: [
+          ['直接材料費', '@' + fmt(Ps) + '円 × ' + q + 'kg', fmt(mat1) + '円'],
+          ['直接労務費', '@' + fmt(Rs) + '円 × ' + fmt(h) + '時間', fmt(Rs * h) + '円'],
+          ['製造間接費', '@' + fmt(Or) + '円 × ' + fmt(h) + '時間', fmt(Or * h) + '円']
+        ] },
+        facts: [
+          '直接材料はすべて工程の始点で投入する。生産データは図のとおり(かっこ内は加工進捗度)。',
+          '当月の実際発生額は、直接材料費 <b>' + fmt(matA) + '円</b>、直接労務費 <b>' + fmt(labA) + '円</b>、製造間接費 <b>' + fmt(ohA) + '円</b>である。',
+          '原価差異は、仕掛品勘定でまとめて「標準原価差異」として把握する。'
+        ],
+        figs: [fig(boxFig('仕掛品(生産データ・個数)',
+          [{ n: '月初仕掛品', t: fmt(B0) + '個(' + pct(p0) + ')', v: B0 }, { n: '当月投入', t: '?', v: mu, q: true }],
+          [{ n: '完成品', t: fmt(D) + '個', v: D }, { n: '月末仕掛品', t: fmt(W) + '個(' + pct(p1) + ')', v: W }]),
+          '完成品と月末仕掛品は標準原価で計算します。差異は「当月投入分」の標準原価と実際原価を比べます。')],
+        qs: [
+          { label: '完成品の標準原価', kind: 'amt', value: done },
+          { label: '月末仕掛品の標準原価', kind: 'amt', value: Ws },
+          { label: '当月の標準原価差異(総額)', kind: 'var', value: tot }
+        ],
+        solFigs: [
+          fig(boxFig('仕掛品−直接材料費(個)',
+            [{ n: '月初', t: fmt(B0), v: B0 }, { n: '当月投入', t: fmt(mu), v: mu, hl: true }],
+            [{ n: '完成', t: fmt(D), v: D }, { n: '月末', t: fmt(W), v: W }])),
+          fig(boxFig('仕掛品−加工費(換算量)',
+            [{ n: '月初', t: fmt(B0) + '×' + pct(p0) + '=' + fmt(B0 * p0), v: B0 * p0 }, { n: '当月投入', t: fmt(cu), v: cu, hl: true }],
+            [{ n: '完成', t: fmt(D), v: D }, { n: '月末', t: fmt(W) + '×' + pct(p1) + '=' + fmt(W * p1), v: W * p1 }]))
+        ],
+        sol: [
+          { h: '完成品と月末仕掛品(標準原価)', lines: [
+            '1個あたりの標準原価 = ' + fmt(mat1) + ' + ' + fmt(Rs * h) + ' + ' + fmt(Or * h) + ' = ' + fmt(unit) + '円(うち加工費 ' + fmt(conv1) + '円)',
+            '完成品 = ' + fmt(D) + '個 × @' + fmt(unit) + ' = ' + fmt(done) + '円',
+            '月末仕掛品 = 材料 ' + fmt(W) + ' × ' + fmt(mat1) + ' + 加工費 ' + fmt(W) + ' × ' + pct(p1) + ' × ' + fmt(conv1) + ' = ' + fmt(Ws) + '円'
+          ] },
+          { h: '当月投入分の標準原価', lines: [
+            '材料の当月投入 = ' + fmt(D) + ' + ' + fmt(W) + ' − ' + fmt(B0) + ' = ' + fmt(mu) + '個',
+            '加工の当月投入 = ' + fmt(D) + ' + ' + fmt(W) + ' × ' + pct(p1) + ' − ' + fmt(B0) + ' × ' + pct(p0) + ' = ' + fmt(cu) + '個',
+            '当月投入分の標準原価 = ' + fmt(mu) + ' × ' + fmt(mat1) + ' + ' + fmt(cu) + ' × ' + fmt(conv1) + ' = ' + fmt(stdIn) + '円'
+          ] },
+          { h: '標準原価差異(総額)', lines: [
+            '実際発生額の合計 = ' + fmt(matA) + ' + ' + fmt(labA) + ' + ' + fmt(ohA) + ' = ' + fmt(matA + labA + ohA) + '円',
+            '標準原価差異 = ' + fmt(stdIn) + ' − ' + fmt(matA + labA + ohA) + ' = ' + yen(tot),
+            '(検算)前月繰越 ' + fmt(B0s) + ' + 実際発生額 = 完成品 + 次月繰越 ' + (tot > 0 ? '− 有利差異' : '+ 不利差異')
+          ] }
+        ],
+        jr: {
+          note: 'パーシャル・プランなので、仕掛品勘定の借方には実際原価を記入する。完成品と月初・月末の仕掛品は標準原価で記入し、貸借の差額が標準原価差異になる。',
+          entries: [
+            { t: '① 材料の消費(実際原価)', dr: [['仕掛品', matA]], cr: [['材料', matA]] },
+            { t: '② 直接労務費の消費(実際原価)', dr: [['仕掛品', labA]], cr: [['賃金', labA]] },
+            { t: '③ 製造間接費の実際発生額', dr: [['仕掛品', ohA]], cr: [['製造間接費', ohA]] },
+            { t: '④ 完成品の振替(標準原価)', dr: [['製品', done]], cr: [['仕掛品', done]] }
+          ].concat(varEntries(wVars, '仕掛品', 5)),
+          t: fig(tAccount('仕掛品', wT.dr, wT.cr), '前月繰越 = ' + fmt(B0) + '個 × @' + fmt(mat1) + ' + ' + fmt(B0 * p0) + '個 × @' + fmt(conv1) + ' = ' + fmt(B0s) + '円。'),
+          ok: balanced(wT.dr, wT.cr)
+        },
+        check: B0s + stdIn === done + Ws && balanced(wT.dr, wT.cr)
+      };
+    }
+  }
+
   // 本試験の出題回(第102〜165回の工業簿記を中心にしたnote記事の集計と、第143〜157回の原価計算の一覧による)
   var FREQ = {
     A: '原価差異分析として 第108・123・144・157回',
@@ -2361,16 +2612,16 @@ var Drill = (function () {
     { k: 'all', n: 'すべて' },
     { k: 'top', n: '頻出(上位4論点)', gens: ['B', 'A', 'C', 'O', 'M', 'P'] },
     { k: 'g1', n: '1 原価標準', gens: ['F'] },
-    { k: 'g2', n: '2 直接材料費', gens: ['A', 'G', 'B'] },
-    { k: 'g3', n: '3 直接労務費', gens: ['A', 'B'] },
+    { k: 'g2', n: '2 直接材料費', gens: ['A', 'G', 'B', 'S'] },
+    { k: 'g3', n: '3 直接労務費', gens: ['A', 'B', 'S'] },
     { k: 'g4', n: '4 製造間接費', gens: ['C', 'H', 'O'] },
-    { k: 'g5', n: '5 仕損・減損', gens: ['D'] },
-    { k: 'g6', n: '6 勘定記入', gens: ['I'] },
+    { k: 'g5', n: '5 仕損・減損', gens: ['D', 'T'] },
+    { k: 'g6', n: '6 勘定記入', gens: ['I', 'W'] },
     { k: 'g7', n: '7 差異の処理', gens: ['E', 'J'] },
-    { k: 'g8', n: '8 他論点との組合せ', gens: ['L', 'M', 'N', 'P', 'Q', 'R'] },
-    { k: 'th', n: '理論', gens: ['K'] }
+    { k: 'g8', n: '8 他論点との組合せ', gens: ['L', 'M', 'N', 'P', 'Q', 'R', 'V'] },
+    { k: 'th', n: '理論', gens: ['K', 'V'] }
   ];
-  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, H: genH, I: genI, J: genJ, K: genK, L: genL, M: genM, N: genN, O: genO, P: genP, Q: genQ, R: genR };
+  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, H: genH, I: genI, J: genJ, K: genK, L: genL, M: genM, N: genN, O: genO, P: genP, Q: genQ, R: genR, S: genS, T: genT, V: genV, W: genW };
 
   return { THEMES: THEMES, GENS: GENS, FREQ: FREQ, fmt: fmt, yen: yen, dir: dir };
 })();
@@ -2437,7 +2688,7 @@ var Drill = (function () {
         : '';
       return '<div class="ans-row">' +
         '<label class="ans-label" for="ans-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</label>' +
-        '<div class="ans-ctrl"><input id="ans-' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="金額"><span class="yen">円</span>' + seg + '</div>' +
+        '<div class="ans-ctrl"><input id="ans-' + i + '" type="text" inputmode="decimal" autocomplete="off" placeholder="' + (q.unit ? '数量' : '金額') + '"><span class="yen">' + (q.unit || '円') + '</span>' + seg + '</div>' +
         '<div class="fb" id="fb-' + i + '" hidden></div></div>';
     }).join('');
 
@@ -2477,7 +2728,7 @@ var Drill = (function () {
 
   function correctText(q) {
     if (q.kind === 'choice') return q.options[q.value];
-    return q.kind === 'var' ? Drill.yen(q.value) : Drill.fmt(q.value) + '円';
+    return q.kind === 'var' ? Drill.yen(q.value) : Drill.fmt(q.value) + (q.unit || '円');
   }
 
   function finish(scored) {
