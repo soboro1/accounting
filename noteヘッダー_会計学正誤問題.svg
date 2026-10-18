@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="670" viewBox="0 0 1280 670" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#12a37a"/>
+      <stop offset="0.45" stop-color="#2f6fec"/>
+      <stop offset="1" stop-color="#7a4fd8"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1f2433" flood-opacity="0.25"/>
+    </filter>
+    <marker id="arG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#12a37a"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1280" height="670" fill="url(#bg)"/>
+  <circle cx="90" cy="40" r="130" fill="#fff" opacity="0.12"/>
+  <circle cx="1220" cy="640" r="190" fill="#fff" opacity="0.10"/>
+  <circle cx="640" cy="690" r="90" fill="#fff" opacity="0.08"/>
+  <g fill="#fff" opacity="0.35">
+    <circle cx="610" cy="96" r="4"/><circle cx="634" cy="96" r="4"/><circle cx="658" cy="96" r="4"/>
+    <circle cx="610" cy="120" r="4"/><circle cx="634" cy="120" r="4"/><circle cx="658" cy="120" r="4"/>
+  </g>
+
+  <!-- 左:テキスト -->
+  <rect x="80" y="104" width="280" height="48" rx="24" fill="#fff" fill-opacity="0.22"/>
+  <text x="220" y="137" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">簿記1級 | 会計学</text>
+
+  <text x="80" y="246" font-size="66" font-weight="900" fill="#fff">正誤問題は</text>
+  <text x="80" y="342" font-size="84" font-weight="900" fill="#fff"><tspan fill="#ffe680">すり替え</tspan>探し</text>
+
+  <text x="80" y="414" font-size="28" font-weight="700" fill="#fff" opacity="0.95">×の文は「1か所だけ」が違う</text>
+
+  <g font-size="22" font-weight="700" text-anchor="middle">
+    <rect x="80" y="456" width="156" height="50" rx="25" fill="#fff"/>
+    <text x="158" y="489" fill="#12a37a">見抜くコツ</text>
+    <rect x="250" y="456" width="156" height="50" rx="25" fill="#fff"/>
+    <text x="328" y="489" fill="#2f6fec">179問ドリル</text>
+    <rect x="420" y="456" width="176" height="50" rx="25" fill="#fff"/>
+    <text x="508" y="489" fill="#7a4fd8">解説・仕訳つき</text>
+  </g>
+
+  <text x="80" y="572" font-size="20" font-weight="500" fill="#fff" opacity="0.88">図解つき・登録不要の無料Webページ</text>
+
+  <!-- 右:例題カード -->
+  <rect x="712" y="96" width="488" height="478" rx="28" fill="#fff" filter="url(#shadow)"/>
+  <text x="940" y="150" text-anchor="middle" font-size="24" font-weight="900" fill="#1f2433">どこがすり替え?</text>
+
+  <!-- 問題文 -->
+  <rect x="744" y="178" width="424" height="118" rx="14" fill="#fbf8f3"/>
+  <rect x="744" y="178" width="7" height="118" rx="3" fill="#2f6fec"/>
+  <text x="772" y="224" font-size="24" font-weight="700" fill="#1f2433">減損損失の認識は、</text>
+  <rect x="768" y="246" width="80" height="34" rx="6" fill="#fde7ef"/>
+  <path d="M772 282 q4 -5 8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0 t8 0" fill="none" stroke="#e0457b" stroke-width="2.5"/>
+  <text x="772" y="272" font-size="24" font-weight="700"><tspan fill="#e0457b" font-weight="900">割引後</tspan><tspan fill="#1f2433" dx="10">将来CFで判定する。</tspan></text>
+
+  <!-- ×マーク -->
+  <circle cx="1160" cy="186" r="32" fill="#e0457b" stroke="#fff" stroke-width="5"/>
+  <path d="M1147 173 L1173 199 M1173 173 L1147 199" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- 正しくは -->
+  <path d="M808 304 V334" stroke="#12a37a" stroke-width="4" marker-end="url(#arG)"/>
+  <rect x="744" y="344" width="424" height="58" rx="14" fill="#e1f6ee"/>
+  <text x="772" y="382" font-size="22" font-weight="700" fill="#1f2433">正しくは → <tspan fill="#12a37a" font-weight="900" font-size="26">割引前</tspan></text>
+
+  <!-- 5つのすり替えポイント -->
+  <text x="956" y="440" text-anchor="middle" font-size="17" font-weight="700" fill="#5b6275">疑うのはこの5か所</text>
+  <g font-size="18" font-weight="900" text-anchor="middle" fill="#fff">
+    <rect x="745" y="456" width="78" height="44" rx="12" fill="#2f6fec" opacity="0.62"/>
+    <text x="784" y="485">対象</text>
+    <rect x="831" y="456" width="78" height="44" rx="12" fill="#7a4fd8" opacity="0.62"/>
+    <text x="870" y="485">条件</text>
+    <rect x="917" y="450" width="78" height="56" rx="14" fill="#f07a1a"/>
+    <text x="956" y="485">数字</text>
+    <rect x="1003" y="456" width="78" height="44" rx="12" fill="#12a37a" opacity="0.62"/>
+    <text x="1042" y="485">処理</text>
+    <rect x="1089" y="456" width="78" height="44" rx="12" fill="#e0457b" opacity="0.62"/>
+    <text x="1128" y="485">語尾</text>
+  </g>
+  <text x="956" y="544" text-anchor="middle" font-size="18" font-weight="700" fill="#e0457b">「できる」⇄「しなければならない」にも注意</text>
+</svg>

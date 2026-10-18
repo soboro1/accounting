@@ -391,8 +391,9 @@
     font: inherit; font-size: 14px; font-weight: 700; padding: 8px 16px; border-radius: 12px; cursor: pointer;
     border: 2px solid var(--purple); background: #fff; color: var(--purple);
   }
-  .acts button:first-child { background: var(--purple); color: #fff; }
+  .acts button.on { background: var(--purple); color: #fff; }
   .acts #goMiss { border-color: var(--pink); color: var(--pink); }
+  .acts #goMiss.on { background: var(--pink); color: #fff; }
   .mode-note { font-size: 13.5px; color: var(--sub); margin: 10px 0 0; }
 
   .qz .qcat, .ocat {
@@ -1778,6 +1779,8 @@ function renderMC(sets) {
 // ---- 出題 ----
 const note = document.getElementById("modeNote");
 function start(kind) {
+  const actId = { rand: "goRand", all: "goAll", miss: "goMiss" }[kind];
+  document.querySelectorAll(".acts button").forEach(b => b.classList.toggle("on", b.id === actId));
   const base = filtered();
   if (kind === "miss") {
     const list = shuffle(POOL.filter(p => miss.has(p[0])));
