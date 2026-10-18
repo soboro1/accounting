@@ -1,0 +1,1021 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>会計学 正誤問題攻略</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf8f3;
+    --card: #ffffff;
+    --ink: #1f2433;
+    --sub: #5b6275;
+    --line: #e6e1d8;
+    --blue: #2f6fec;     /* 会計 */
+    --blue-soft: #e6eefe;
+    --orange: #f07a1a;   /* 税務 */
+    --orange-soft: #fff0e2;
+    --green: #12a37a;    /* 資産 */
+    --green-soft: #e1f6ee;
+    --pink: #e0457b;     /* 調整 */
+    --pink-soft: #fde7ef;
+    --purple: #7a4fd8;
+    --purple-soft: #efe8fd;
+    --yellow: #f4b400;
+    --yellow-soft: #fff6d6;
+    --code-bg: #1f2433;
+    --code-ink: #f4f1ea;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.9;
+  }
+  a { color: var(--blue); }
+  b { font-weight: 700; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background:
+      radial-gradient(circle at 12% 20%, rgba(255,255,255,0.25) 0 90px, transparent 91px),
+      radial-gradient(circle at 88% 75%, rgba(255,255,255,0.18) 0 130px, transparent 131px),
+      linear-gradient(135deg, #2f6fec 0%, #7a4fd8 45%, #e0457b 100%);
+    color: #fff;
+    padding: 64px 16px 88px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero .kicker {
+    display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 3px;
+    background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 999px;
+  }
+  .hero h1 { font-size: clamp(30px, 6vw, 48px); font-weight: 900; margin: 16px 0 8px; line-height: 1.3; }
+  .hero p { font-size: 17px; max-width: 640px; margin: 0 auto; opacity: 0.95; }
+  .hero .catch {
+    margin: 26px auto 0; display: inline-block; background: #fff; color: var(--ink);
+    padding: 12px 22px; border-radius: 14px; font-weight: 700; font-size: 17px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  .hero .catch .em { color: var(--green); }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- toc ---------- */
+  .toc {
+    margin: -44px auto 0; position: relative; z-index: 2;
+    background: var(--card); border-radius: 18px; padding: 20px 22px;
+    box-shadow: 0 12px 34px rgba(31,36,51,0.1);
+  }
+  .toc-title { font-size: 13px; font-weight: 700; color: var(--sub); letter-spacing: 2px; margin-bottom: 8px; }
+  .toc-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc-list a {
+    text-decoration: none; font-size: 13px; font-weight: 700; padding: 6px 14px;
+    border-radius: 999px; color: var(--ink); background: var(--bg); border: 1px solid var(--line);
+  }
+  .toc-list a:hover { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); }
+
+  /* ---------- section ---------- */
+  section { margin: 56px 0; }
+  .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .sec-no {
+    flex: none; width: 46px; height: 46px; border-radius: 14px; color: #fff;
+    display: grid; place-items: center; font-weight: 900; font-size: 18px;
+  }
+  .sec-head h2 { margin: 0; font-size: clamp(21px, 4vw, 27px); font-weight: 900; line-height: 1.4; }
+  .sec-head .sub { display: block; font-size: 13px; font-weight: 500; color: var(--sub); }
+  .c-blue { background: var(--blue); } .c-orange { background: var(--orange); }
+  .c-green { background: var(--green); } .c-pink { background: var(--pink); }
+  .c-purple { background: var(--purple); } .c-yellow { background: var(--yellow); }
+
+  p { margin: 8px 0; font-size: 16px; }
+  ul { margin: 6px 0; padding-left: 22px; }
+  li { font-size: 16px; margin: 3px 0; }
+  h3 { font-size: 18px; margin: 26px 0 6px; font-weight: 700; }
+
+  .card {
+    background: var(--card); border-radius: 18px; padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 4px 18px rgba(31,36,51,0.06); border: 1px solid var(--line);
+  }
+  .figure {
+    background: var(--card); border-radius: 18px; padding: 16px; margin: 18px 0;
+    border: 1px solid var(--line); box-shadow: 0 4px 18px rgba(31,36,51,0.06);
+  }
+  .figure svg { width: 100%; height: auto; display: block; }
+  .figure .cap { font-size: 13px; color: var(--sub); text-align: center; margin-top: 6px; }
+
+  .hl-blue { background: linear-gradient(transparent 60%, #cfe0ff 60%); font-weight: 700; }
+  .hl-orange { background: linear-gradient(transparent 60%, #ffd9b5 60%); font-weight: 700; }
+  .hl-green { background: linear-gradient(transparent 60%, #bfeedd 60%); font-weight: 700; }
+  .hl-pink { background: linear-gradient(transparent 60%, #fcc9da 60%); font-weight: 700; }
+  .t-blue { color: var(--blue); font-weight: 700; }
+  .t-orange { color: var(--orange); font-weight: 700; }
+  .t-green { color: var(--green); font-weight: 700; }
+  .t-pink { color: var(--pink); font-weight: 700; }
+  .t-purple { color: var(--purple); font-weight: 700; }
+
+  .callout {
+    border-radius: 14px; padding: 14px 18px 14px 54px; margin: 16px 0; position: relative;
+    font-size: 15px;
+  }
+  .callout::before {
+    position: absolute; left: 16px; top: 13px; width: 26px; height: 26px; border-radius: 50%;
+    display: grid; place-items: center; color: #fff; font-weight: 900; font-size: 15px;
+  }
+  .callout.point { background: var(--yellow-soft); }
+  .callout.point::before { content: "!"; background: var(--yellow); }
+  .callout.tip { background: var(--green-soft); }
+  .callout.tip::before { content: "✓"; background: var(--green); }
+  .callout.warn { background: var(--pink-soft); }
+  .callout.warn::before { content: "×"; background: var(--pink); }
+  .callout > b:first-child { display: block; margin-bottom: 2px; }
+
+  /* 公式 */
+  .formula {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px;
+    margin: 18px 0; font-weight: 700; font-size: 16px;
+  }
+  .formula .box { padding: 12px 18px; border-radius: 14px; color: #fff; text-align: center; line-height: 1.5; }
+  .formula .op { font-size: 24px; color: var(--sub); }
+
+  /* 仕訳 */
+  pre.entry {
+    margin: 10px 0; padding: 14px 18px; border-radius: 12px; background: var(--code-bg);
+    color: var(--code-ink); font-size: 14.5px; line-height: 1.85;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  pre.entry .dr { color: #8fb5ff; }
+  pre.entry .cr { color: #ffb37a; }
+  pre.entry .cm { color: #9aa1b3; }
+  .entry-label {
+    display: inline-block; font-size: 12px; font-weight: 700; color: #fff; padding: 2px 10px;
+    border-radius: 999px; margin-top: 10px;
+  }
+
+  /* T勘定 */
+  .t-acc { margin: 12px 0; max-width: 520px; font-size: 14.5px; }
+  .t-acc .t-name { text-align: center; font-weight: 700; padding-bottom: 4px; border-bottom: 2px solid var(--ink); }
+  .t-acc .t-body { display: flex; }
+  .t-acc .t-side { flex: 1; padding: 6px 10px; min-height: 40px; }
+  .t-acc .t-side + .t-side { border-left: 2px solid var(--ink); }
+  .t-acc .t-row { display: flex; justify-content: space-between; gap: 8px; line-height: 1.9; }
+
+  /* 損益計算書(箇条書き風) */
+  .pl {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px;
+    font-size: 15px; flex: 1; min-width: 260px;
+  }
+  .pl-title { font-weight: 900; margin-bottom: 6px; }
+  .pl-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+  .pl-row.indent { padding-left: 1em; }
+  .pl-row.total { border-top: 2px solid var(--ink); margin-top: 4px; padding-top: 6px; font-weight: 900; }
+  .pl-row .adj { color: var(--pink); font-weight: 700; }
+  .pl-wrap { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0; }
+  .badge { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #fff; }
+
+  /* 原因カード */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 14px 0; }
+  .mini {
+    border-radius: 16px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line);
+    border-top: 6px solid var(--c, var(--blue));
+  }
+  .mini .ttl { font-weight: 900; font-size: 16px; margin-bottom: 4px; }
+  .mini p { font-size: 14.5px; margin: 4px 0; line-height: 1.8; }
+  .mini .tag {
+    display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 999px;
+    background: var(--bg); color: var(--sub); margin-top: 4px;
+  }
+
+  /* ステップ */
+  .steps { counter-reset: st; list-style: none; padding: 0; margin: 14px 0; }
+  .steps li {
+    counter-increment: st; position: relative; padding: 12px 16px 12px 58px; margin: 10px 0;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  }
+  .steps li::before {
+    content: counter(st); position: absolute; left: 14px; top: 12px; width: 30px; height: 30px;
+    border-radius: 50%; background: var(--purple); color: #fff; font-weight: 900;
+    display: grid; place-items: center;
+  }
+
+  /* クイズ */
+  details.q {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin: 12px 0;
+    padding: 0; overflow: hidden;
+  }
+  details.q summary {
+    cursor: pointer; padding: 14px 18px; font-weight: 700; list-style: none; display: flex; gap: 12px;
+  }
+  details.q summary::-webkit-details-marker { display: none; }
+  details.q summary .qn {
+    flex: none; background: var(--blue); color: #fff; border-radius: 8px; padding: 0 10px; height: 28px;
+    display: grid; place-items: center; font-size: 13px;
+  }
+  details.q summary .open { margin-left: auto; color: var(--blue); font-size: 13px; flex: none; }
+  details.q[open] summary .open { color: var(--sub); }
+  details.q .ans { padding: 4px 18px 16px; border-top: 1px dashed var(--line); }
+
+  .summary-box {
+    background: linear-gradient(135deg, var(--blue-soft), var(--purple-soft) 50%, var(--pink-soft));
+    border-radius: 20px; padding: 24px 26px;
+  }
+  .summary-box li { margin: 6px 0; }
+
+  footer { text-align: center; color: var(--sub); font-size: 13px; padding: 30px 16px 50px; }
+
+  @media (max-width: 560px) {
+    .card { padding: 18px 16px; }
+    .callout { padding-left: 50px; }
+    pre.entry { font-size: 13px; padding: 12px 14px; }
+  }
+  /* ===== 正誤ガイド追加分 ===== */
+  .hero.seigo {
+    background:
+      radial-gradient(circle at 10% 25%, rgba(255,255,255,0.22) 0 90px, transparent 91px),
+      radial-gradient(circle at 90% 70%, rgba(255,255,255,0.16) 0 130px, transparent 131px),
+      linear-gradient(135deg, #12a37a 0%, #2f6fec 45%, #7a4fd8 100%);
+  }
+  .hero .ox { display: inline-flex; gap: 10px; margin-top: 18px; }
+  .hero .ox span {
+    width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 30px; font-weight: 900; background: #fff;
+  }
+  .hero .ox .o { color: var(--blue); }
+  .hero .ox .x { color: var(--pink); }
+
+  /* 問題文 */
+  .stmt {
+    background: var(--bg); border-left: 6px solid var(--blue); border-radius: 10px;
+    padding: 12px 16px; margin: 10px 0; font-size: 16px; font-weight: 500;
+  }
+  .trap {
+    background: var(--pink-soft); color: var(--pink); font-weight: 900;
+    text-decoration: underline wavy var(--pink); text-underline-offset: 4px; padding: 0 2px; border-radius: 4px;
+  }
+  .ok-word {
+    background: var(--green-soft); color: var(--green); font-weight: 900; padding: 0 3px; border-radius: 4px;
+  }
+  .ex-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .ex-head .topic {
+    font-size: 12px; font-weight: 700; padding: 2px 12px; border-radius: 999px; color: #fff;
+  }
+  .ex-head .ttl { font-weight: 900; font-size: 17px; }
+  .judge {
+    display: flex; align-items: center; gap: 12px; margin: 12px 0 6px; font-weight: 700;
+  }
+  .judge .mark {
+    flex: none; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center;
+    color: #fff; font-size: 24px; font-weight: 900;
+  }
+  .judge .mark.o { background: var(--blue); }
+  .judge .mark.x { background: var(--pink); }
+  .fix {
+    background: var(--green-soft); border-radius: 10px; padding: 10px 14px; margin: 8px 0; font-size: 15px;
+  }
+  .fix::before { content: "正しくは → "; font-weight: 900; color: var(--green); }
+
+  /* 要件パズル */
+  .req { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; margin: 14px 0; }
+  .req .pc {
+    flex: 1 1 150px; max-width: 180px; text-align: center; padding: 12px 10px; border-radius: 14px;
+    color: #fff; font-weight: 700; font-size: 14px; line-height: 1.5;
+  }
+  .req .pc small { display: block; font-size: 12px; opacity: 0.9; font-weight: 500; }
+  .req .plus { font-size: 22px; color: var(--sub); font-weight: 900; }
+
+  /* 数字カード */
+  .num-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 14px 0; }
+  .num {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px;
+    position: relative; overflow: hidden;
+  }
+  .num .big { font-size: 30px; font-weight: 900; line-height: 1.2; color: var(--c); }
+  .num .what { font-size: 14px; font-weight: 700; margin-top: 4px; line-height: 1.6; }
+  .num .trapnote { font-size: 12.5px; color: var(--sub); margin-top: 4px; line-height: 1.6; }
+  .num::after {
+    content: ""; position: absolute; right: -24px; top: -24px; width: 70px; height: 70px; border-radius: 50%;
+    background: var(--c); opacity: 0.12;
+  }
+
+  /* 理由の書き方 */
+  .reason {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-weight: 700;
+  }
+  .reason .bad, .reason .good { padding: 8px 14px; border-radius: 12px; }
+  .reason .bad { background: var(--pink-soft); color: var(--pink); text-decoration: line-through; }
+  .reason .good { background: var(--green-soft); color: var(--green); }
+  .reason .arr { color: var(--sub); font-size: 20px; }
+
+  /* インタラクティブクイズ */
+  .qz {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px 18px; margin: 14px 0;
+  }
+  .qz .qtext { font-weight: 700; display: flex; gap: 10px; }
+  .qz .qtext .qn {
+    flex: none; background: var(--purple); color: #fff; border-radius: 8px; padding: 0 10px; height: 28px;
+    display: grid; place-items: center; font-size: 13px; margin-top: 2px;
+  }
+  .qz .btns { display: flex; gap: 10px; margin-top: 12px; }
+  .qz button {
+    flex: 1; max-width: 140px; font: inherit; font-size: 22px; font-weight: 900; padding: 6px 0;
+    border-radius: 12px; cursor: pointer; background: var(--bg); border: 2px solid var(--line);
+  }
+  .qz button.o { color: var(--blue); }
+  .qz button.x { color: var(--pink); }
+  .qz button:hover:not(:disabled) { border-color: var(--purple); }
+  .qz button:disabled { cursor: default; opacity: 0.45; }
+  .qz button.picked { opacity: 1; border-color: currentColor; }
+  .qz .res { display: none; margin-top: 12px; padding: 10px 14px; border-radius: 12px; font-size: 15px; }
+  .qz.right .res { display: block; background: var(--green-soft); }
+  .qz.wrong .res { display: block; background: var(--pink-soft); }
+  .qz .res .verdict { font-weight: 900; display: block; }
+  .qz.right .res .verdict { color: var(--green); }
+  .qz.wrong .res .verdict { color: var(--pink); }
+  .score {
+    position: sticky; bottom: 14px; z-index: 5; margin: 18px auto 0; width: fit-content;
+    background: var(--ink); color: #fff; padding: 8px 20px; border-radius: 999px; font-weight: 700;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .score b { color: var(--yellow); font-size: 18px; }
+  .retry {
+    display: block; margin: 12px auto 0; font: inherit; font-weight: 700; padding: 8px 20px; border-radius: 999px;
+    border: 2px solid var(--purple); color: var(--purple); background: #fff; cursor: pointer;
+  }
+
+  /* 仕訳（借方・貸方をそろえる） */
+  .entry {
+    margin: 10px 0; padding: 14px 18px; border-radius: 12px; background: var(--code-bg);
+    color: var(--code-ink); font-size: 14.5px; line-height: 1.85;
+  }
+  .je-cm { color: #9aa1b3; }
+  .je-entry { margin: 4px 0; }
+  .je-entry + .je-cm { margin-top: 4px; }
+  .je-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .je-d, .je-c { display: flex; justify-content: space-between; gap: 10px; }
+  .je-d { color: #8fb5ff; } .je-c { color: #ffb37a; }
+  .je-d i, .je-c i { font-style: normal; }
+  .je-d b, .je-c b { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .je-row:first-child .je-d i::before { content: "（借）"; }
+  .je-row:first-child .je-c i::before { content: "（貸）"; }
+  .je-row:not(:first-child) .je-d i::before, .je-row:not(:first-child) .je-c i::before { content: "（借）"; visibility: hidden; }
+  @media (max-width: 560px) { .entry { font-size: 13px; padding: 12px 14px; } .je-row { gap: 10px; } }
+</style>
+</head>
+<body>
+
+<header class="hero seigo">
+  <span class="kicker">簿記1級 会計学</span>
+  <h1>正誤問題<br>攻略ガイド</h1>
+  <p>「なんとなく正しそう」で選ぶのはもう終わり。<br>出題者が<b>どこをすり替えたか</b>を見抜くコツを、図と仕訳で解説します。</p>
+  <div class="ox"><span class="o">○</span><span class="x">×</span></div><br>
+  <div class="catch">ひとことで言うと → <span class="em">「すり替えポイント探し」ゲーム</span></div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <div class="toc-title">もくじ</div>
+    <div class="toc-list">
+      <a href="#s1">1. どんな問題？</a>
+      <a href="#s2">2. 誤りの作られ方</a>
+      <a href="#s3">3. 語尾の強さ</a>
+      <a href="#s4">4. 解き方4ステップ</a>
+      <a href="#s5">5. 狙われる数字</a>
+      <a href="#s6">6. 論点別 例題10</a>
+      <a href="#s7">7. 理由の書き方</a>
+      <a href="#s8">8. ○×クイズ</a>
+      <a href="#s9">9. まとめ</a>
+    </div>
+  </nav>
+
+  <!-- ===== 1 ===== -->
+  <section id="s1">
+    <div class="sec-head">
+      <div class="sec-no c-blue">1</div>
+      <h2>正誤問題ってどんな問題？<span class="sub">会計基準の「文章」が正しいかを判定する</span></h2>
+    </div>
+    <p>簿記1級の会計学では、計算問題の前に<b>理論問題</b>がよく出ます。その代表が正誤問題です。</p>
+    <ul>
+      <li><span class="t-blue">出題形式</span>：会計基準の内容を書いた文章が4つ前後並び、それぞれ<b>正しければ○、誤りなら×</b>を答える。</li>
+      <li><span class="t-purple">バリエーション</span>：「誤っているものの<b>理由</b>を簡潔に書け」「正しいものの<b>組み合わせ</b>を選べ」などもある。</li>
+      <li><span class="t-green">素材</span>：ほとんどが<b>会計基準・適用指針・注解の文言</b>そのもの。そこに1か所だけ手を加えて「誤り」を作るのが定番。</li>
+    </ul>
+
+    <div class="callout point">
+      <b>ここが大事！</b>
+      正誤問題の×文は、たいてい<span class="hl-pink">「正しい文の1か所だけ」</span>が書き換えられています。文全体をなんとなく読むのではなく、<b>書き換えられやすい場所</b>をピンポイントで疑うのがコツです。
+    </div>
+  </section>
+
+  <!-- ===== 2 ===== -->
+  <section id="s2">
+    <div class="sec-head">
+      <div class="sec-no c-pink">2</div>
+      <h2>「誤り」はこう作られる<span class="sub">5つのすり替えポイント</span></h2>
+    </div>
+    <p>会計基準の文章は、だいたい次の<b>5つのパーツ</b>でできています。出題者はこのどれか1つをこっそり入れ替えます。</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 400" role="img" aria-label="文章を5つのパーツに分解した図">
+        <!-- 文の帯 -->
+        <text x="400" y="34" text-anchor="middle" font-size="17" font-weight="700" fill="#5b6275">会計基準の1文を分解すると…</text>
+        <rect x="20" y="56" width="148" height="76" rx="14" fill="#2f6fec"/>
+        <rect x="176" y="56" width="148" height="76" rx="14" fill="#7a4fd8"/>
+        <rect x="332" y="56" width="148" height="76" rx="14" fill="#f07a1a"/>
+        <rect x="488" y="56" width="148" height="76" rx="14" fill="#12a37a"/>
+        <rect x="644" y="56" width="136" height="76" rx="14" fill="#e0457b"/>
+        <text x="94" y="88" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">① 対象</text>
+        <text x="94" y="114" text-anchor="middle" font-size="13" fill="#fff">だれが・何を</text>
+        <text x="250" y="88" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">② 条件</text>
+        <text x="250" y="114" text-anchor="middle" font-size="13" fill="#fff">どんな場合に</text>
+        <text x="406" y="88" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">③ 数字</text>
+        <text x="406" y="114" text-anchor="middle" font-size="13" fill="#fff">何年・何％・どの価額</text>
+        <text x="562" y="88" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">④ 処理</text>
+        <text x="562" y="114" text-anchor="middle" font-size="13" fill="#fff">どう計上・表示</text>
+        <text x="712" y="88" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">⑤ 語尾</text>
+        <text x="712" y="114" text-anchor="middle" font-size="13" fill="#fff">する／できる</text>
+
+        <!-- 矢印 -->
+        <g stroke="#c9c2b5" stroke-width="3" fill="none">
+          <path d="M94 136 V172"/><path d="M250 136 V172"/><path d="M406 136 V172"/><path d="M562 136 V172"/><path d="M712 136 V172"/>
+        </g>
+        <g fill="#c9c2b5">
+          <polygon points="86,170 102,170 94,182"/><polygon points="242,170 258,170 250,182"/><polygon points="398,170 414,170 406,182"/><polygon points="554,170 570,170 562,182"/><polygon points="704,170 720,170 712,182"/>
+        </g>
+
+        <!-- すり替え例 -->
+        <rect x="20" y="190" width="148" height="190" rx="14" fill="#e6eefe"/>
+        <rect x="176" y="190" width="148" height="190" rx="14" fill="#efe8fd"/>
+        <rect x="332" y="190" width="148" height="190" rx="14" fill="#fff0e2"/>
+        <rect x="488" y="190" width="148" height="190" rx="14" fill="#e1f6ee"/>
+        <rect x="644" y="190" width="136" height="190" rx="14" fill="#fde7ef"/>
+        <g font-size="14" font-weight="700" fill="#1f2433" text-anchor="middle">
+          <text x="94" y="222">借手 ⇄ 貸手</text>
+          <text x="94" y="252">個別 ⇄ 連結</text>
+          <text x="94" y="282">売買目的 ⇄</text>
+          <text x="94" y="302">その他有価証券</text>
+          <text x="94" y="332">親会社 ⇄ 子会社</text>
+
+          <text x="250" y="222">原則 ⇄ 例外</text>
+          <text x="250" y="252">要件を1つ削る</text>
+          <text x="250" y="282">要件を1つ足す</text>
+          <text x="250" y="312">「〜を除き」を</text>
+          <text x="250" y="332">消す</text>
+
+          <text x="406" y="222">1年 ⇄ 6か月</text>
+          <text x="406" y="252">20年 ⇄ 10年</text>
+          <text x="406" y="282">割引前 ⇄ 割引後</text>
+          <text x="406" y="312">時価 ⇄ 取得原価</text>
+          <text x="406" y="342">50% ⇄ 30%</text>
+
+          <text x="562" y="222">資産 ⇄ 費用</text>
+          <text x="562" y="252">遡及 ⇄ 将来</text>
+          <text x="562" y="282">純資産 ⇄ 損益</text>
+          <text x="562" y="312">営業外 ⇄ 特別</text>
+          <text x="562" y="342">流動 ⇄ 固定</text>
+
+          <text x="712" y="222">しなければ</text>
+          <text x="712" y="242">ならない</text>
+          <text x="712" y="266">⇅</text>
+          <text x="712" y="290">できる</text>
+          <text x="712" y="324">すべて／必ず</text>
+          <text x="712" y="346">が追加</text>
+        </g>
+      </svg>
+      <div class="cap">下の段が「よくあるすり替え」。読むときはこの5か所に印をつけていく</div>
+    </div>
+
+    <div class="grid">
+      <div class="mini" style="--c: var(--blue)">
+        <div class="ttl">① 対象のすり替え</div>
+        <p>正しい処理を<b>別の対象</b>にくっつける。文の内容自体は「どこかで聞いたことがある」ので引っかかりやすい。</p>
+        <span class="tag">例：その他有価証券の処理を売買目的有価証券の話にする</span>
+      </div>
+      <div class="mini" style="--c: var(--purple)">
+        <div class="ttl">② 条件のすり替え</div>
+        <p>「〜の場合を除き」「〜であり、かつ」など<b>条件の部分</b>を消したり足したりする。</p>
+        <span class="tag">例：「回復する見込みがある場合を除き」を消す</span>
+      </div>
+      <div class="mini" style="--c: var(--orange)">
+        <div class="ttl">③ 数字のすり替え</div>
+        <p>年数・割合・価額の種類を変える。<b>一番作りやすい×</b>なので出題頻度も高い。</p>
+        <span class="tag">例：のれん「20年以内」→「10年以内」</span>
+      </div>
+      <div class="mini" style="--c: var(--green)">
+        <div class="ttl">④ 処理のすり替え</div>
+        <p>計上先や表示区分を変える。<b>仕訳を思い浮かべれば</b>見抜ける。</p>
+        <span class="tag">例：自己株式処分差益を「営業外収益」にする</span>
+      </div>
+      <div class="mini" style="--c: var(--pink)">
+        <div class="ttl">⑤ 語尾のすり替え</div>
+        <p>「できる（容認）」を「しなければならない（強制）」に変える。<b>次の章で詳しく</b>。</p>
+        <span class="tag">例：一括費用処理「できる」→「しなければならない」</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3 ===== -->
+  <section id="s3">
+    <div class="sec-head">
+      <div class="sec-no c-purple">3</div>
+      <h2>語尾の「強さ」に注目<span class="sub">いちばん見落としやすいひっかけ</span></h2>
+    </div>
+    <p>会計基準の語尾には<b>強さのランク</b>があります。中身が合っていても、語尾の強さが違えば×です。</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 300" role="img" aria-label="語尾の強さメーター">
+        <defs>
+          <linearGradient id="meter" x1="0" x2="1">
+            <stop offset="0" stop-color="#e0457b"/>
+            <stop offset="0.35" stop-color="#f07a1a"/>
+            <stop offset="0.65" stop-color="#2f6fec"/>
+            <stop offset="1" stop-color="#12a37a"/>
+          </linearGradient>
+        </defs>
+        <text x="400" y="30" text-anchor="middle" font-size="17" font-weight="700" fill="#5b6275">語尾の強さメーター</text>
+        <rect x="40" y="70" width="720" height="22" rx="11" fill="url(#meter)"/>
+        <text x="40" y="58" font-size="13" font-weight="700" fill="#e0457b">強い（例外なし）</text>
+        <text x="760" y="58" text-anchor="end" font-size="13" font-weight="700" fill="#12a37a">ゆるい（選べる）</text>
+
+        <g text-anchor="middle">
+          <circle cx="110" cy="81" r="16" fill="#fff" stroke="#e0457b" stroke-width="4"/>
+          <text x="110" y="132" font-size="17" font-weight="900" fill="#e0457b">できない</text>
+          <text x="110" y="154" font-size="13" fill="#5b6275">禁止</text>
+
+          <circle cx="300" cy="81" r="16" fill="#fff" stroke="#f07a1a" stroke-width="4"/>
+          <text x="300" y="132" font-size="17" font-weight="900" fill="#f07a1a">しなければならない</text>
+          <text x="300" y="154" font-size="13" fill="#5b6275">強制</text>
+
+          <circle cx="500" cy="81" r="16" fill="#fff" stroke="#2f6fec" stroke-width="4"/>
+          <text x="500" y="132" font-size="17" font-weight="900" fill="#2f6fec">原則として〜する</text>
+          <text x="500" y="154" font-size="13" fill="#5b6275">原則（例外あり）</text>
+
+          <circle cx="690" cy="81" r="16" fill="#fff" stroke="#12a37a" stroke-width="4"/>
+          <text x="690" y="132" font-size="17" font-weight="900" fill="#12a37a">〜できる</text>
+          <text x="690" y="154" font-size="13" fill="#5b6275">容認（選択可）</text>
+        </g>
+
+        <!-- すり替え矢印 -->
+        <path d="M300 178 C 380 250, 610 250, 690 178" fill="none" stroke="#e0457b" stroke-width="3" stroke-dasharray="7 6"/>
+        <polygon points="300,172 292,190 310,186" fill="#e0457b"/>
+        <polygon points="690,172 680,186 698,190" fill="#e0457b"/>
+        <rect x="380" y="226" width="230" height="34" rx="17" fill="#fde7ef"/>
+        <text x="495" y="249" text-anchor="middle" font-size="14" font-weight="900" fill="#e0457b">いちばん多い入れ替え</text>
+
+        <path d="M110 178 C 160 230, 250 230, 300 178" fill="none" stroke="#7a4fd8" stroke-width="3" stroke-dasharray="7 6"/>
+        <text x="205" y="262" text-anchor="middle" font-size="13" font-weight="700" fill="#7a4fd8">「できない」⇄「しなければならない」も</text>
+      </svg>
+      <div class="cap">「できる」を「しなければならない」に変えるだけで×文が完成する</div>
+    </div>
+
+    <div class="callout warn">
+      <b>危険ワードに丸をつけよう</b>
+      「<b>すべて</b>」「<b>必ず</b>」「<b>いかなる場合も</b>」「<b>のみ</b>」「<b>直ちに</b>」が出てきたら要注意。会計基準はたいてい「原則」と「例外」がセットなので、言い切りすぎている文は×の可能性が高めです（もちろん、本当に例外がない○文もあります）。
+    </div>
+  </section>
+
+  <!-- ===== 4 ===== -->
+  <section id="s4">
+    <div class="sec-head">
+      <div class="sec-no c-green">4</div>
+      <h2>解き方の4ステップ<span class="sub">読む → 分ける → 照らす → 仕訳で確かめる</span></h2>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 230" role="img" aria-label="正誤問題を解く4ステップ">
+        <g font-weight="900" text-anchor="middle">
+          <rect x="16" y="40" width="170" height="130" rx="20" fill="#2f6fec"/>
+          <text x="101" y="82" font-size="15" fill="#fff" opacity="0.85">STEP 1</text>
+          <text x="101" y="112" font-size="20" fill="#fff">論点を特定</text>
+          <text x="101" y="142" font-size="13" fill="#fff" font-weight="500">何の基準の話？</text>
+
+          <rect x="214" y="40" width="170" height="130" rx="20" fill="#7a4fd8"/>
+          <text x="299" y="82" font-size="15" fill="#fff" opacity="0.85">STEP 2</text>
+          <text x="299" y="112" font-size="20" fill="#fff">5パーツに分解</text>
+          <text x="299" y="142" font-size="13" fill="#fff" font-weight="500">対象/条件/数字/処理/語尾</text>
+
+          <rect x="412" y="40" width="170" height="130" rx="20" fill="#f07a1a"/>
+          <text x="497" y="82" font-size="15" fill="#fff" opacity="0.85">STEP 3</text>
+          <text x="497" y="112" font-size="20" fill="#fff">基準と照合</text>
+          <text x="497" y="142" font-size="13" fill="#fff" font-weight="500">1か所ずつ疑う</text>
+
+          <rect x="610" y="40" width="170" height="130" rx="20" fill="#12a37a"/>
+          <text x="695" y="82" font-size="15" fill="#fff" opacity="0.85">STEP 4</text>
+          <text x="695" y="112" font-size="20" fill="#fff">仕訳で検算</text>
+          <text x="695" y="142" font-size="13" fill="#fff" font-weight="500">借方・貸方は合う？</text>
+        </g>
+        <g fill="#c9c2b5">
+          <polygon points="190,96 208,105 190,114"/>
+          <polygon points="388,96 406,105 388,114"/>
+          <polygon points="586,96 604,105 586,114"/>
+        </g>
+        <text x="400" y="210" text-anchor="middle" font-size="14" font-weight="700" fill="#5b6275">迷ったら STEP 4 ── 「その仕訳、本当に切れる？」と考える</text>
+      </svg>
+    </div>
+
+    <ol class="steps">
+      <li><b>論点を特定する</b>：「減損」「資産除去債務」など、どの基準の話かを最初に決める。論点がわかれば思い出すべきルールが絞れる。</li>
+      <li><b>5パーツに分解する</b>：問題用紙に「対象」「条件」「数字」「処理」「語尾」の区切り線を引く。</li>
+      <li><b>1か所ずつ照合する</b>：基準の原文と1パーツずつ比べる。全体の雰囲気で判断しない。</li>
+      <li><b>仕訳で検算する</b>：処理の話なら、頭の中で仕訳を切ってみる。「その他資本剰余金に入るはずなのに損益計算書？」など、仕訳にすると違和感がはっきりする。</li>
+    </ol>
+  </section>
+
+  <!-- ===== 5 ===== -->
+  <section id="s5">
+    <div class="sec-head">
+      <div class="sec-no c-orange">5</div>
+      <h2>狙われる数字カード<span class="sub">③数字のすり替えはここから出る</span></h2>
+    </div>
+    <p>数字の×は「知っていれば一瞬」。最低限これだけは正確に覚えておきましょう。</p>
+
+    <div class="num-grid">
+      <div class="num" style="--c: var(--blue)">
+        <div class="big">1年</div>
+        <div class="what">一年基準（ワン・イヤー・ルール）</div>
+        <div class="trapnote">決算日の翌日から1年以内に期限到来 → 流動。1年超 → 固定</div>
+      </div>
+      <div class="num" style="--c: var(--purple)">
+        <div class="big">20年以内</div>
+        <div class="what">のれんの償却期間</div>
+        <div class="trapnote">定額法その他合理的な方法で規則的に償却。負ののれんは償却しない</div>
+      </div>
+      <div class="num" style="--c: var(--orange)">
+        <div class="big">50%程度</div>
+        <div class="what">有価証券の「著しい下落」</div>
+        <div class="trapnote">時価が取得原価より50%程度以上下落 → 原則として減損処理</div>
+      </div>
+      <div class="num" style="--c: var(--green)">
+        <div class="big">3年以内</div>
+        <div class="what">市場販売目的ソフトウェア</div>
+        <div class="trapnote">見込有効期間は原則3年以内</div>
+      </div>
+      <div class="num" style="--c: var(--pink)">
+        <div class="big">5年以内</div>
+        <div class="what">自社利用ソフトウェア</div>
+        <div class="trapnote">耐用年数は原則5年以内。3年と入れ替えられやすい</div>
+      </div>
+      <div class="num" style="--c: var(--yellow)">
+        <div class="big">割引前</div>
+        <div class="what">減損損失の「認識」の判定</div>
+        <div class="trapnote">認識＝割引前CF、測定＝回収可能価額。資産除去債務は「割引後」</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 6 ===== -->
+  <section id="s6">
+    <div class="sec-head">
+      <div class="sec-no c-blue">6</div>
+      <h2>論点別 例題10<span class="sub">ひっかけの場所と仕訳をセットで</span></h2>
+    </div>
+    <p>ここからは実際の問題形式で練習します。<span class="trap">ピンクの波線</span>がすり替えられた部分、<span class="ok-word">緑</span>が正しい語句です。</p>
+
+    <!-- 例1 減損 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-orange">減損会計</span><span class="ttl">例題1：減損損失の認識</span></div>
+      <div class="stmt">減損の兆候がある資産又は資産グループについて、これから得られる<span class="trap">割引後</span>将来キャッシュ・フローの総額が帳簿価額を下回る場合には、減損損失を認識する。</div>
+      <div class="judge"><span class="mark x">×</span><span>③数字（価額の種類）のすり替え</span></div>
+      <div class="fix">認識の判定は<span class="ok-word">割引前</span>将来キャッシュ・フローの総額で行う。</div>
+      <p>減損は<b>3段階</b>で進みます。どの段階でどの金額を使うかがひっかけの宝庫です。</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 800 340" role="img" aria-label="減損の兆候・認識・測定">
+          <g text-anchor="middle" font-weight="900">
+            <rect x="20" y="16" width="230" height="44" rx="22" fill="#efe8fd"/>
+            <text x="135" y="45" font-size="16" fill="#7a4fd8">STEP1 兆候があるか</text>
+            <rect x="285" y="16" width="230" height="44" rx="22" fill="#fff0e2"/>
+            <text x="400" y="45" font-size="16" fill="#f07a1a">STEP2 認識（割引前CF）</text>
+            <rect x="550" y="16" width="230" height="44" rx="22" fill="#fde7ef"/>
+            <text x="665" y="45" font-size="16" fill="#e0457b">STEP3 測定（回収可能価額）</text>
+          </g>
+          <line x1="40" y1="300" x2="760" y2="300" stroke="#1f2433" stroke-width="2"/>
+          <!-- 帳簿価額 -->
+          <rect x="90" y="100" width="110" height="200" rx="8" fill="#2f6fec"/>
+          <text x="145" y="90" text-anchor="middle" font-size="16" font-weight="900" fill="#2f6fec">1,000</text>
+          <text x="145" y="322" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2433">帳簿価額</text>
+          <!-- 割引前CF -->
+          <rect x="345" y="140" width="110" height="160" rx="8" fill="#f07a1a"/>
+          <text x="400" y="130" text-anchor="middle" font-size="16" font-weight="900" fill="#f07a1a">800</text>
+          <text x="400" y="322" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2433">割引前CF</text>
+          <text x="400" y="230" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">1,000より</text>
+          <text x="400" y="250" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">小さい→認識</text>
+          <!-- 回収可能価額 -->
+          <rect x="610" y="100" width="110" height="60" rx="8" fill="#fde7ef" stroke="#e0457b" stroke-width="2" stroke-dasharray="6 4"/>
+          <text x="665" y="136" text-anchor="middle" font-size="15" font-weight="900" fill="#e0457b">減損 300</text>
+          <rect x="610" y="160" width="110" height="140" rx="8" fill="#12a37a"/>
+          <text x="665" y="222" text-anchor="middle" font-size="16" font-weight="900" fill="#fff">700</text>
+          <text x="665" y="244" text-anchor="middle" font-size="12" fill="#fff">回収可能価額</text>
+          <text x="665" y="322" text-anchor="middle" font-size="14" font-weight="700" fill="#1f2433">切り下げ後</text>
+          <!-- 点線 -->
+          <line x1="200" y1="100" x2="610" y2="100" stroke="#2f6fec" stroke-width="2" stroke-dasharray="5 5"/>
+          <text x="530" y="200" text-anchor="middle" font-size="12" fill="#5b6275">正味売却価額650</text>
+          <text x="530" y="218" text-anchor="middle" font-size="12" fill="#5b6275">使用価値700</text>
+          <text x="530" y="236" text-anchor="middle" font-size="12" font-weight="700" fill="#12a37a">→ 大きい方</text>
+        </svg>
+        <div class="cap">認識は「割引前CF」で判定、切り下げる先は「回収可能価額（正味売却価額と使用価値の大きい方）」</div>
+      </div>
+
+      <span class="entry-label c-pink">仕訳（直接控除法）</span>
+<div class="entry"><div class="je-cm">建物：取得原価1,500 減価償却累計額500 → 帳簿価額1,000</div><div class="je-cm">回収可能価額700 → 減損損失 1,000 − 700 ＝ 300</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>減損損失</i><b>300</b></span><span class="je-c"><i>建物</i><b>300</b></span></div></div></div>
+      <div class="t-acc">
+        <div class="t-name">建物</div>
+        <div class="t-body">
+          <div class="t-side"><div class="t-row"><span>前期繰越</span><span>1,500</span></div></div>
+          <div class="t-side"><div class="t-row"><span>減損損失</span><span>300</span></div><div class="t-row"><span>次期繰越</span><span>1,200</span></div></div>
+        </div>
+      </div>
+      <p style="font-size:14px;color:var(--sub)">減損損失は原則として<b>特別損失</b>。「営業外費用」も定番のすり替えです。</p>
+    </div>
+
+    <!-- 例2 資産除去債務 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-purple">資産除去債務</span><span class="ttl">例題2：負債の計上額</span></div>
+      <div class="stmt">資産除去債務は、有形固定資産の除去に要する<span class="trap">割引前</span>の将来キャッシュ・フローを見積り、その金額で負債として計上する。</div>
+      <div class="judge"><span class="mark x">×</span><span>③数字（価額の種類）のすり替え ── 例題1と逆！</span></div>
+      <div class="fix">除去に要する将来キャッシュ・フローを見積り、<span class="ok-word">割引後の金額（割引価値）</span>で算定する。</div>
+      <div class="callout point">
+        <b>セットで覚える</b>
+        減損の<span class="t-orange">認識</span>は「割引前」、資産除去債務は「割引後」。逆にしてくるのが定番なので、2つを並べて覚えると両方守れます。
+      </div>
+
+      <span class="entry-label c-purple">取得時</span>
+<div class="entry"><div class="je-cm">機械の購入代金1,100（現金）、3年後の除去費用見積133.1、割引率10%</div><div class="je-cm">資産除去債務 ＝ 133.1 ÷ 1.1³ ＝ 100</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>機械装置</i><b>1,200</b></span><span class="je-c"><i>現金</i><b>1,100</b></span></div><div class="je-row"><span class="je-d"></span><span class="je-c"><i>資産除去債務</i><b>100</b></span></div></div></div>
+      <span class="entry-label c-purple">1年目の決算</span>
+<div class="entry"><div class="je-cm">減価償却（耐用年数3年・残存ゼロ・定額法）：1,200 ÷ 3 ＝ 400</div><div class="je-cm">時の経過による調整（利息費用）：100 × 10% ＝ 10</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>減価償却費</i><b>400</b></span><span class="je-c"><i>減価償却累計額</i><b>400</b></span></div></div><div class="je-entry"><div class="je-row"><span class="je-d"><i>利息費用</i><b>10</b></span><span class="je-c"><i>資産除去債務</i><b>10</b></span></div></div></div>
+      <p style="font-size:14px;color:var(--sub)">利息費用は、関連する有形固定資産の<b>減価償却費と同じ区分</b>に表示。「営業外費用に表示する」は×です。</p>
+    </div>
+
+    <!-- 例3 会計上の変更 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-blue">会計上の変更</span><span class="ttl">例題3：見積りの変更</span></div>
+      <div class="stmt">会計上の見積りの変更を行った場合には、新たな見積りを<span class="trap">過去の期間に遡って適用する</span>。</div>
+      <div class="judge"><span class="mark x">×</span><span>④処理のすり替え（将来 → 遡及）</span></div>
+      <div class="fix">見積りの変更は<span class="ok-word">遡及しない</span>。変更が当期だけに影響するなら当期に、将来にも影響するなら当期と将来にわたって会計処理する。</div>
+
+      <div class="figure">
+        <svg viewBox="0 0 800 260" role="img" aria-label="遡及適用と将来処理の違い">
+          <rect x="40" y="110" width="250" height="40" rx="8" fill="#e6eefe"/>
+          <rect x="290" y="110" width="220" height="40" fill="#fff6d6"/>
+          <rect x="510" y="110" width="250" height="40" rx="8" fill="#e1f6ee"/>
+          <g text-anchor="middle" font-size="16" font-weight="900">
+            <text x="165" y="136" fill="#2f6fec">過去の期間</text>
+            <text x="400" y="136" fill="#b88700">当期（変更した年）</text>
+            <text x="635" y="136" fill="#12a37a">将来の期間</text>
+          </g>
+          <!-- 遡及 -->
+          <path d="M400 100 C 360 40, 160 40, 110 100" fill="none" stroke="#2f6fec" stroke-width="4"/>
+          <polygon points="104,92 112,108 120,94" fill="#2f6fec"/>
+          <text x="255" y="34" text-anchor="middle" font-size="15" font-weight="900" fill="#2f6fec">会計方針の変更 → 遡及適用</text>
+          <text x="255" y="54" text-anchor="middle" font-size="12" fill="#5b6275">（誤謬の訂正 → 修正再表示 も過去へ戻る）</text>
+          <!-- 将来 -->
+          <path d="M400 160 C 440 220, 640 220, 690 160" fill="none" stroke="#12a37a" stroke-width="4"/>
+          <polygon points="684,168 698,156 698,174" fill="#12a37a"/>
+          <text x="545" y="236" text-anchor="middle" font-size="15" font-weight="900" fill="#12a37a">見積りの変更 → 当期・将来で処理</text>
+          <text x="545" y="254" text-anchor="middle" font-size="12" fill="#5b6275">（減価償却方法の変更もこちらと同じ扱い）</text>
+        </svg>
+        <div class="cap">「過去に戻る」のは方針の変更と誤謬。見積りは前を向く</div>
+      </div>
+
+      <span class="entry-label c-blue">仕訳（当期首に残存耐用年数を変更）</span>
+<div class="entry"><div class="je-cm">備品：取得原価1,000、当初耐用年数10年・残存ゼロ・定額法、2年経過（累計額200）</div><div class="je-cm">当期首に「残り4年」と見積りを変更 → 当期償却額 ＝（1,000 − 200）÷ 4 ＝ 200</div><div class="je-cm">過去2年分を修正する仕訳は切らない！</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>減価償却費</i><b>200</b></span><span class="je-c"><i>減価償却累計額</i><b>200</b></span></div></div></div>
+    </div>
+
+    <!-- 例4 その他有価証券 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-green">有価証券</span><span class="ttl">例題4：部分純資産直入法</span></div>
+      <div class="stmt">部分純資産直入法を採用した場合、時価が取得原価を上回る銘柄の評価差額は純資産の部に計上し、時価が取得原価を下回る銘柄の評価差額は当期の損失として処理する。</div>
+      <div class="judge"><span class="mark o">○</span><span>正しい文。すり替えポイントは見当たらない</span></div>
+      <p>この文の「上回る」と「下回る」を逆にしたり、「全部純資産直入法」に変えたりすると×になります。図で整理しましょう。</p>
+
+      <div class="figure">
+        <svg viewBox="0 0 800 270" role="img" aria-label="全部純資産直入法と部分純資産直入法">
+          <g font-weight="900" font-size="16">
+            <text x="30" y="40" fill="#1f2433">全部純資産直入法</text>
+            <text x="30" y="170" fill="#1f2433">部分純資産直入法</text>
+          </g>
+          <!-- 全部 -->
+          <rect x="30" y="56" width="150" height="42" rx="10" fill="#e6eefe"/>
+          <text x="105" y="83" text-anchor="middle" font-size="15" font-weight="700" fill="#2f6fec">評価差益 ＋</text>
+          <rect x="200" y="56" width="150" height="42" rx="10" fill="#fde7ef"/>
+          <text x="275" y="83" text-anchor="middle" font-size="15" font-weight="700" fill="#e0457b">評価差損 −</text>
+          <path d="M360 77 H520" stroke="#7a4fd8" stroke-width="4"/>
+          <polygon points="518,69 534,77 518,85" fill="#7a4fd8"/>
+          <rect x="540" y="52" width="230" height="50" rx="12" fill="#7a4fd8"/>
+          <text x="655" y="83" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">どちらも 純資産（BS）</text>
+
+          <!-- 部分 -->
+          <rect x="30" y="186" width="150" height="42" rx="10" fill="#e6eefe"/>
+          <text x="105" y="213" text-anchor="middle" font-size="15" font-weight="700" fill="#2f6fec">評価差益 ＋</text>
+          <rect x="30" y="232" width="150" height="34" rx="10" fill="#fde7ef"/>
+          <text x="105" y="255" text-anchor="middle" font-size="15" font-weight="700" fill="#e0457b">評価差損 −</text>
+          <path d="M190 207 H520" stroke="#7a4fd8" stroke-width="4"/>
+          <polygon points="518,199 534,207 518,215" fill="#7a4fd8"/>
+          <rect x="540" y="184" width="230" height="44" rx="12" fill="#7a4fd8"/>
+          <text x="655" y="212" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">純資産（BS）</text>
+          <path d="M190 249 H520" stroke="#e0457b" stroke-width="4"/>
+          <polygon points="518,241 534,249 518,257" fill="#e0457b"/>
+          <rect x="540" y="232" width="230" height="34" rx="12" fill="#e0457b"/>
+          <text x="655" y="255" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">当期の損失（PL）</text>
+        </svg>
+        <div class="cap">部分純資産直入法は「損だけPLへ」＝保守主義の考え方</div>
+      </div>
+
+      <span class="entry-label c-green">仕訳（税効果は考えない）</span>
+<div class="entry"><div class="je-cm">A株：取得原価800 → 時価900（＋100）</div><div class="je-cm">B株：取得原価500 → 時価420（−80）</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>その他有価証券</i><b>100</b></span><span class="je-c"><i>その他有価証券評価差額金</i><b>100</b></span></div></div><div class="je-entry"><div class="je-row"><span class="je-d"><i>投資有価証券評価損</i><b>80</b></span><span class="je-c"><i>その他有価証券</i><b>80</b></span></div></div><div class="je-cm">※ 翌期首には洗替えで取得原価に戻す</div></div>
+    </div>
+
+    <!-- 例5 引当金 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-yellow">引当金</span><span class="ttl">例題5：引当金の計上要件</span></div>
+      <div class="stmt">発生の可能性が低い偶発事象に係る費用又は損失であっても、金額を合理的に見積ることができる場合には、引当金を<span class="trap">計上しなければならない</span>。</div>
+      <div class="judge"><span class="mark x">×</span><span>②条件（要件の削除）＋⑤語尾のすり替え</span></div>
+      <div class="fix">発生の可能性の低い偶発事象に係る費用又は損失については、引当金を<span class="ok-word">計上することはできない</span>。</div>
+      <p>引当金は次の<b>4つの要件をすべて</b>満たしたときに計上します。1つでも欠けたらアウトです。</p>
+      <div class="req">
+        <div class="pc c-blue">将来の特定の<br>費用・損失<small>何のための引当金か</small></div><span class="plus">＋</span>
+        <div class="pc c-purple">当期以前の<br>事象に起因<small>原因はもう起きている</small></div><span class="plus">＋</span>
+        <div class="pc c-pink">発生の<br>可能性が高い<small>← 例題5はここが欠けた</small></div><span class="plus">＋</span>
+        <div class="pc c-green">金額を合理的に<br>見積れる<small>いくらか分かる</small></div>
+      </div>
+      <span class="entry-label c-orange">要件を満たす場合の仕訳</span>
+<div class="entry"><div class="je-cm">当期販売の製品に対する保証費用を50と見積った（発生の可能性が高い）</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>製品保証引当金繰入</i><b>50</b></span><span class="je-c"><i>製品保証引当金</i><b>50</b></span></div></div><div class="je-cm">発生の可能性が低い場合 → 仕訳なし</div></div>
+    </div>
+
+    <!-- 例6 収益認識 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-pink">収益認識</span><span class="ttl">例題6：進捗度が見積れない場合</span></div>
+      <div class="stmt">一定の期間にわたり充足される履行義務について、進捗度を合理的に見積ることができないが、発生する費用を回収することが見込まれる場合には、<span class="trap">履行義務を完全に充足した時点で一括して</span>収益を認識する。</div>
+      <div class="judge"><span class="mark x">×</span><span>④処理のすり替え</span></div>
+      <div class="fix">進捗度を合理的に見積ることができる時まで、<span class="ok-word">原価回収基準</span>（発生した費用のうち回収が見込まれる額で収益を認識）により処理する。</div>
+      <span class="entry-label c-pink">仕訳（原価回収基準）</span>
+<div class="entry"><div class="je-cm">当期の発生原価300（全額回収見込み）、進捗度は見積れない</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>売上原価</i><b>300</b></span><span class="je-c"><i>買掛金など</i><b>300</b></span></div></div><div class="je-entry"><div class="je-row"><span class="je-d"><i>契約資産</i><b>300</b></span><span class="je-c"><i>売上高</i><b>300</b></span></div></div><div class="je-cm">→ 売上300 − 原価300 ＝ 利益ゼロ。利益は進捗度が見積れるようになってから出る</div></div>
+    </div>
+
+    <!-- 例7 棚卸資産 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-orange">棚卸資産</span><span class="ttl">例題7：簿価切下額の表示</span></div>
+      <div class="stmt">通常の販売目的で保有する棚卸資産の収益性の低下による簿価切下額は、<span class="trap">すべて特別損失</span>に計上する。</div>
+      <div class="judge"><span class="mark x">×</span><span>④処理（表示区分）＋「すべて」の言い切り</span></div>
+      <div class="fix">原則は<span class="ok-word">売上原価</span>。製造に関連し不可避的に発生するものは製造原価、臨時の事象に起因し、かつ多額であるときは特別損失。</div>
+      <span class="entry-label c-orange">仕訳</span>
+<div class="entry"><div class="je-cm">期末商品：取得原価500 → 正味売却価額430（切下額70）</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>商品評価損</i><b>70</b></span><span class="je-c"><i>繰越商品</i><b>70</b></span></div></div><div class="je-entry"><div class="je-row"><span class="je-d"><i>売上原価</i><b>70</b></span><span class="je-c"><i>商品評価損</i><b>70</b></span></div></div><div class="je-cm">→ 原則どおり売上原価に含めて表示</div></div>
+    </div>
+
+    <!-- 例8 退職給付 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-purple">退職給付</span><span class="ttl">例題8：数理計算上の差異</span></div>
+      <div class="stmt">数理計算上の差異は、発生した年度に全額を費用処理<span class="trap">しなければならない</span>。</div>
+      <div class="judge"><span class="mark x">×</span><span>⑤語尾のすり替え（容認 → 強制）</span></div>
+      <div class="fix">原則は<span class="ok-word">平均残存勤務期間以内の一定の年数で按分</span>して毎期費用処理。発生年度に一括処理することも<span class="ok-word">できる</span>が、強制ではない。</div>
+      <span class="entry-label c-purple">仕訳（10年で定額償却、発生年度から）</span>
+<div class="entry"><div class="je-cm">当期末に数理計算上の差異（不利差異）100が発生 → 100 ÷ 10年 ＝ 10</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>退職給付費用</i><b>10</b></span><span class="je-c"><i>退職給付引当金</i><b>10</b></span></div></div><div class="je-cm">※ 個別財務諸表の場合。未処理の90は翌期以降に費用処理</div></div>
+    </div>
+
+    <!-- 例9 自己株式 -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-green">純資産</span><span class="ttl">例題9：自己株式処分差益</span></div>
+      <div class="stmt">自己株式を処分した際の自己株式処分差益は、<span class="trap">営業外収益</span>として損益計算書に計上する。</div>
+      <div class="judge"><span class="mark x">×</span><span>④処理のすり替え（純資産 → 損益）</span></div>
+      <div class="fix">自己株式処分差益は<span class="ok-word">その他資本剰余金</span>に計上する（株主との資本取引なので損益にしない）。</div>
+      <span class="entry-label c-green">仕訳</span>
+<div class="entry"><div class="je-cm">帳簿価額400の自己株式を450で処分（現金受取）</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>現金</i><b>450</b></span><span class="je-c"><i>自己株式</i><b>400</b></span></div><div class="je-row"><span class="je-d"></span><span class="je-c"><i>その他資本剰余金</i><b>50</b></span></div></div></div>
+    </div>
+
+    <!-- 例10 負ののれん -->
+    <div class="card">
+      <div class="ex-head"><span class="topic c-blue">連結会計</span><span class="ttl">例題10：負ののれん</span></div>
+      <div class="stmt">負ののれんが生じた場合には、<span class="trap">負債として計上し、20年以内のその効果の及ぶ期間にわたって規則的に償却する</span>。</div>
+      <div class="judge"><span class="mark x">×</span><span>①対象のすり替え（のれんのルールを負ののれんに）</span></div>
+      <div class="fix">負ののれんは、生じた事業年度の<span class="ok-word">利益（特別利益）</span>として処理する。20年以内の償却は「のれん（正ののれん）」のルール。</div>
+      <span class="entry-label c-blue">仕訳（投資と資本の相殺消去）</span>
+<div class="entry"><div class="je-cm">子会社株式100%を900で取得、子会社の純資産（時価評価後）1,000</div><div class="je-entry"><div class="je-row"><span class="je-d"><i>資本金など</i><b>1,000</b></span><span class="je-c"><i>子会社株式</i><b>900</b></span></div><div class="je-row"><span class="je-d"></span><span class="je-c"><i>負ののれん発生益</i><b>100</b></span></div></div></div>
+    </div>
+  </section>
+
+  <!-- ===== 7 ===== -->
+  <section id="s7">
+    <div class="sec-head">
+      <div class="sec-no c-pink">7</div>
+      <h2>「理由を書け」の書き方<span class="sub">「AではなくB」の型で20〜40字</span></h2>
+    </div>
+    <p>×の理由を書かせる問題では、<b>すり替えられた部分だけを、正しい語句に直す</b>のが基本。長い説明はいりません。</p>
+
+    <div class="card">
+      <h3 style="margin-top:0">型：<span class="t-pink">〇〇</span>ではなく、<span class="t-green">△△</span>である。</h3>
+      <div class="reason"><span class="bad">割引後</span><span class="arr">→</span><span class="good">割引前</span></div>
+      <p>例題1の理由：「減損損失の認識の判定は、<b>割引後ではなく割引前</b>の将来キャッシュ・フローで行うため。」</p>
+      <div class="reason"><span class="bad">営業外収益</span><span class="arr">→</span><span class="good">その他資本剰余金</span></div>
+      <p>例題9の理由：「自己株式処分差益は資本取引から生じるため、<b>損益ではなくその他資本剰余金</b>に計上する。」</p>
+      <div class="reason"><span class="bad">しなければならない</span><span class="arr">→</span><span class="good">できる</span></div>
+      <p>例題8の理由：「数理計算上の差異は、原則として平均残存勤務期間以内の一定の年数で按分して費用処理し、発生年度の一括処理は<b>容認されているにすぎない</b>ため。」</p>
+    </div>
+
+    <div class="callout tip">
+      <b>部分点をとるコツ</b>
+      「どこが違うか」と「正しくは何か」の<b>両方</b>を書く。「誤りだから」「基準と違うから」だけでは点になりません。
+    </div>
+  </section>
+
+  <!-- ===== 8 ===== -->
+  <section id="s8">
+    <div class="sec-head">
+      <div class="sec-no c-purple">8</div>
+      <h2>○×確認クイズ<span class="sub">タップで答え合わせ</span></h2>
+    </div>
+    <p>例題に出てこなかった論点も混ぜています。5パーツを意識して挑戦してみましょう。</p>
+
+    <div id="quiz"></div>
+    <div class="score">正解 <b id="sc">0</b> / <span id="tot">0</span>　回答済み <span id="done">0</span></div>
+    <button class="retry" id="retry" type="button">もう一度解く</button>
+  </section>
+
+  <!-- ===== 9 ===== -->
+  <section id="s9">
+    <div class="sec-head">
+      <div class="sec-no c-green">9</div>
+      <h2>まとめ<span class="sub">正誤問題は「暗記」より「疑う場所」</span></h2>
+    </div>
+    <div class="summary-box">
+      <ul>
+        <li>×文は<b>正しい文の1か所</b>だけを書き換えて作られることが多い。</li>
+        <li>疑う場所は<span class="t-blue">対象</span>・<span class="t-purple">条件</span>・<span class="t-orange">数字</span>・<span class="t-green">処理</span>・<span class="t-pink">語尾</span>の5つ。</li>
+        <li>語尾は「できない＞しなければならない＞原則として＞できる」の強さで確認。</li>
+        <li><b>割引前（減損の認識）と割引後（資産除去債務）</b>、<b>遡及（方針）と将来（見積り）</b>のように、逆にされやすいペアはセットで覚える。</li>
+        <li>処理の話は<b>仕訳を切って</b>確かめる。勘定科目が浮かべば○×はほぼ決まる。</li>
+        <li>理由は「<b>AではなくB</b>」の型で、違う場所と正しい内容の両方を書く。</li>
+      </ul>
+    </div>
+    <p style="margin-top:18px">税効果会計の正誤対策には <a href="kurinobe-zeikin-shisan.html">繰延税金資産 図解ガイド</a> もどうぞ。</p>
+  </section>
+
+</div>
+
+<footer>簿記1級 会計学 ── 正誤問題 攻略ガイド</footer>
+
+<script>
+const QUIZ = [
+  { q: "貸付金のうち、決算日の翌日から起算して1年を超えて期限が到来するものは、流動資産に表示する。",
+    a: "x", e: "1年を超えるものは固定資産（投資その他の資産）。③数字ではなく④表示区分のすり替え。" },
+  { q: "研究開発費は、すべて発生時に費用として処理しなければならない。",
+    a: "o", e: "研究開発費は資産計上できず、発生時に費用処理する。「すべて」「しなければならない」でも本当に例外がない○文。" },
+  { q: "繰延税金資産は、流動資産に表示する。",
+    a: "x", e: "繰延税金資産は投資その他の資産、繰延税金負債は固定負債に表示する。" },
+  { q: "のれんは、20年以内のその効果の及ぶ期間にわたって、定額法その他の合理的な方法により規則的に償却する。",
+    a: "o", e: "基準どおりの正しい文。「10年以内」に変えられたら×。" },
+  { q: "その他有価証券のうち市場価格のない株式等以外のものについて時価が著しく下落したときは、回復する見込があると認められる場合を除き、時価をもって貸借対照表価額とし、評価差額は当期の損失として処理しなければならない。",
+    a: "o", e: "減損処理（強制評価減）の正しい文。「回復する見込があると認められる場合を除き」が消されていたら×。" },
+  { q: "市場販売目的のソフトウェアの見込有効期間は、原則として5年以内とする。",
+    a: "x", e: "市場販売目的は原則3年以内。5年以内は自社利用ソフトウェアの耐用年数。" },
+  { q: "会計方針の変更を行った場合には、原則として、新たな会計方針を過去の期間のすべてに遡及適用する。",
+    a: "o", e: "会計方針の変更は原則として遡及適用する。見積りの変更と入れ替えられやすい。" },
+  { q: "減価償却方法の変更は会計方針の変更に該当するため、原則として遡及適用しなければならない。",
+    a: "x", e: "減価償却方法の変更は会計方針の変更ではあるが、見積りの変更と区別するのが困難なため、見積りの変更と同様に扱い遡及適用しない。" },
+];
+
+const box = document.getElementById("quiz");
+const sc = document.getElementById("sc");
+const done = document.getElementById("done");
+document.getElementById("tot").textContent = QUIZ.length;
+let score = 0, answered = 0;
+
+function render() {
+  box.innerHTML = "";
+  score = 0; answered = 0; sc.textContent = 0; done.textContent = 0;
+  QUIZ.forEach((item, i) => {
+    const d = document.createElement("div");
+    d.className = "qz";
+    d.innerHTML =
+      '<div class="qtext"><span class="qn">Q' + (i + 1) + '</span><span>' + item.q + '</span></div>' +
+      '<div class="btns"><button type="button" class="o" data-v="o">○</button><button type="button" class="x" data-v="x">×</button></div>' +
+      '<div class="res"><span class="verdict"></span>' + item.e + '</div>';
+    d.querySelectorAll("button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const ok = btn.dataset.v === item.a;
+        d.classList.add(ok ? "right" : "wrong");
+        d.querySelectorAll("button").forEach(b => b.disabled = true);
+        btn.classList.add("picked");
+        d.querySelector(".verdict").textContent =
+          (ok ? "正解！" : "残念…") + "　答えは " + (item.a === "o" ? "○" : "×");
+        answered++; if (ok) score++;
+        sc.textContent = score; done.textContent = answered;
+      });
+    });
+    box.appendChild(d);
+  });
+}
+render();
+document.getElementById("retry").addEventListener("click", () => {
+  render();
+  document.getElementById("s8").scrollIntoView({ behavior: "smooth" });
+});
+</script>
+
+</body>
+</html>
