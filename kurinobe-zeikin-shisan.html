@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>繰延税金資産 図解ガイド</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #fbf8f3;
+    --card: #ffffff;
+    --ink: #1f2433;
+    --sub: #5b6275;
+    --line: #e6e1d8;
+    --blue: #2f6fec;     /* 会計 */
+    --blue-soft: #e6eefe;
+    --orange: #f07a1a;   /* 税務 */
+    --orange-soft: #fff0e2;
+    --green: #12a37a;    /* 資産 */
+    --green-soft: #e1f6ee;
+    --pink: #e0457b;     /* 調整 */
+    --pink-soft: #fde7ef;
+    --purple: #7a4fd8;
+    --purple-soft: #efe8fd;
+    --yellow: #f4b400;
+    --yellow-soft: #fff6d6;
+    --code-bg: #1f2433;
+    --code-ink: #f4f1ea;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.9;
+  }
+  a { color: var(--blue); }
+  b { font-weight: 700; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    background:
+      radial-gradient(circle at 12% 20%, rgba(255,255,255,0.25) 0 90px, transparent 91px),
+      radial-gradient(circle at 88% 75%, rgba(255,255,255,0.18) 0 130px, transparent 131px),
+      linear-gradient(135deg, #2f6fec 0%, #7a4fd8 45%, #e0457b 100%);
+    color: #fff;
+    padding: 64px 16px 88px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero .kicker {
+    display: inline-block; font-size: 13px; font-weight: 700; letter-spacing: 3px;
+    background: rgba(255,255,255,0.2); padding: 4px 14px; border-radius: 999px;
+  }
+  .hero h1 { font-size: clamp(30px, 6vw, 48px); font-weight: 900; margin: 16px 0 8px; line-height: 1.3; }
+  .hero p { font-size: 17px; max-width: 640px; margin: 0 auto; opacity: 0.95; }
+  .hero .catch {
+    margin: 26px auto 0; display: inline-block; background: #fff; color: var(--ink);
+    padding: 12px 22px; border-radius: 14px; font-weight: 700; font-size: 17px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+  }
+  .hero .catch .em { color: var(--green); }
+
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 16px; }
+
+  /* ---------- toc ---------- */
+  .toc {
+    margin: -44px auto 0; position: relative; z-index: 2;
+    background: var(--card); border-radius: 18px; padding: 20px 22px;
+    box-shadow: 0 12px 34px rgba(31,36,51,0.1);
+  }
+  .toc-title { font-size: 13px; font-weight: 700; color: var(--sub); letter-spacing: 2px; margin-bottom: 8px; }
+  .toc-list { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc-list a {
+    text-decoration: none; font-size: 13px; font-weight: 700; padding: 6px 14px;
+    border-radius: 999px; color: var(--ink); background: var(--bg); border: 1px solid var(--line);
+  }
+  .toc-list a:hover { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); }
+
+  /* ---------- section ---------- */
+  section { margin: 56px 0; }
+  .sec-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+  .sec-no {
+    flex: none; width: 46px; height: 46px; border-radius: 14px; color: #fff;
+    display: grid; place-items: center; font-weight: 900; font-size: 18px;
+  }
+  .sec-head h2 { margin: 0; font-size: clamp(21px, 4vw, 27px); font-weight: 900; line-height: 1.4; }
+  .sec-head .sub { display: block; font-size: 13px; font-weight: 500; color: var(--sub); }
+  .c-blue { background: var(--blue); } .c-orange { background: var(--orange); }
+  .c-green { background: var(--green); } .c-pink { background: var(--pink); }
+  .c-purple { background: var(--purple); } .c-yellow { background: var(--yellow); }
+
+  p { margin: 8px 0; font-size: 16px; }
+  ul { margin: 6px 0; padding-left: 22px; }
+  li { font-size: 16px; margin: 3px 0; }
+  h3 { font-size: 18px; margin: 26px 0 6px; font-weight: 700; }
+
+  .card {
+    background: var(--card); border-radius: 18px; padding: 22px 24px; margin: 16px 0;
+    box-shadow: 0 4px 18px rgba(31,36,51,0.06); border: 1px solid var(--line);
+  }
+  .figure {
+    background: var(--card); border-radius: 18px; padding: 16px; margin: 18px 0;
+    border: 1px solid var(--line); box-shadow: 0 4px 18px rgba(31,36,51,0.06);
+  }
+  .figure svg { width: 100%; height: auto; display: block; }
+  .figure .cap { font-size: 13px; color: var(--sub); text-align: center; margin-top: 6px; }
+
+  .hl-blue { background: linear-gradient(transparent 60%, #cfe0ff 60%); font-weight: 700; }
+  .hl-orange { background: linear-gradient(transparent 60%, #ffd9b5 60%); font-weight: 700; }
+  .hl-green { background: linear-gradient(transparent 60%, #bfeedd 60%); font-weight: 700; }
+  .hl-pink { background: linear-gradient(transparent 60%, #fcc9da 60%); font-weight: 700; }
+  .t-blue { color: var(--blue); font-weight: 700; }
+  .t-orange { color: var(--orange); font-weight: 700; }
+  .t-green { color: var(--green); font-weight: 700; }
+  .t-pink { color: var(--pink); font-weight: 700; }
+  .t-purple { color: var(--purple); font-weight: 700; }
+
+  .callout {
+    border-radius: 14px; padding: 14px 18px 14px 54px; margin: 16px 0; position: relative;
+    font-size: 15px;
+  }
+  .callout::before {
+    position: absolute; left: 16px; top: 13px; width: 26px; height: 26px; border-radius: 50%;
+    display: grid; place-items: center; color: #fff; font-weight: 900; font-size: 15px;
+  }
+  .callout.point { background: var(--yellow-soft); }
+  .callout.point::before { content: "!"; background: var(--yellow); }
+  .callout.tip { background: var(--green-soft); }
+  .callout.tip::before { content: "✓"; background: var(--green); }
+  .callout.warn { background: var(--pink-soft); }
+  .callout.warn::before { content: "×"; background: var(--pink); }
+  .callout > b:first-child { display: block; margin-bottom: 2px; }
+
+  /* 公式 */
+  .formula {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px;
+    margin: 18px 0; font-weight: 700; font-size: 16px;
+  }
+  .formula .box { padding: 12px 18px; border-radius: 14px; color: #fff; text-align: center; line-height: 1.5; }
+  .formula .op { font-size: 24px; color: var(--sub); }
+
+  /* 仕訳 */
+  pre.entry {
+    margin: 10px 0; padding: 14px 18px; border-radius: 12px; background: var(--code-bg);
+    color: var(--code-ink); font-size: 14.5px; line-height: 1.85;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+  pre.entry .dr { color: #8fb5ff; }
+  pre.entry .cr { color: #ffb37a; }
+  pre.entry .cm { color: #9aa1b3; }
+  .entry-label {
+    display: inline-block; font-size: 12px; font-weight: 700; color: #fff; padding: 2px 10px;
+    border-radius: 999px; margin-top: 10px;
+  }
+
+  /* T勘定 */
+  .t-acc { margin: 12px 0; max-width: 520px; font-size: 14.5px; }
+  .t-acc .t-name { text-align: center; font-weight: 700; padding-bottom: 4px; border-bottom: 2px solid var(--ink); }
+  .t-acc .t-body { display: flex; }
+  .t-acc .t-side { flex: 1; padding: 6px 10px; min-height: 40px; }
+  .t-acc .t-side + .t-side { border-left: 2px solid var(--ink); }
+  .t-acc .t-row { display: flex; justify-content: space-between; gap: 8px; line-height: 1.9; }
+
+  /* 損益計算書(箇条書き風) */
+  .pl {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px;
+    font-size: 15px; flex: 1; min-width: 260px;
+  }
+  .pl-title { font-weight: 900; margin-bottom: 6px; }
+  .pl-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+  .pl-row.indent { padding-left: 1em; }
+  .pl-row.total { border-top: 2px solid var(--ink); margin-top: 4px; padding-top: 6px; font-weight: 900; }
+  .pl-row .adj { color: var(--pink); font-weight: 700; }
+  .pl-wrap { display: flex; flex-wrap: wrap; gap: 14px; margin: 14px 0; }
+  .badge { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #fff; }
+
+  /* 原因カード */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin: 14px 0; }
+  .mini {
+    border-radius: 16px; padding: 16px 18px; background: var(--card); border: 1px solid var(--line);
+    border-top: 6px solid var(--c, var(--blue));
+  }
+  .mini .ttl { font-weight: 900; font-size: 16px; margin-bottom: 4px; }
+  .mini p { font-size: 14.5px; margin: 4px 0; line-height: 1.8; }
+  .mini .tag {
+    display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 999px;
+    background: var(--bg); color: var(--sub); margin-top: 4px;
+  }
+
+  /* ステップ */
+  .steps { counter-reset: st; list-style: none; padding: 0; margin: 14px 0; }
+  .steps li {
+    counter-increment: st; position: relative; padding: 12px 16px 12px 58px; margin: 10px 0;
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  }
+  .steps li::before {
+    content: counter(st); position: absolute; left: 14px; top: 12px; width: 30px; height: 30px;
+    border-radius: 50%; background: var(--purple); color: #fff; font-weight: 900;
+    display: grid; place-items: center;
+  }
+
+  /* クイズ */
+  details.q {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; margin: 12px 0;
+    padding: 0; overflow: hidden;
+  }
+  details.q summary {
+    cursor: pointer; padding: 14px 18px; font-weight: 700; list-style: none; display: flex; gap: 12px;
+  }
+  details.q summary::-webkit-details-marker { display: none; }
+  details.q summary .qn {
+    flex: none; background: var(--blue); color: #fff; border-radius: 8px; padding: 0 10px; height: 28px;
+    display: grid; place-items: center; font-size: 13px;
+  }
+  details.q summary .open { margin-left: auto; color: var(--blue); font-size: 13px; flex: none; }
+  details.q[open] summary .open { color: var(--sub); }
+  details.q .ans { padding: 4px 18px 16px; border-top: 1px dashed var(--line); }
+
+  .summary-box {
+    background: linear-gradient(135deg, var(--blue-soft), var(--purple-soft) 50%, var(--pink-soft));
+    border-radius: 20px; padding: 24px 26px;
+  }
+  .summary-box li { margin: 6px 0; }
+
+  footer { text-align: center; color: var(--sub); font-size: 13px; padding: 30px 16px 50px; }
+
+  @media (max-width: 560px) {
+    .card { padding: 18px 16px; }
+    .callout { padding-left: 50px; }
+    pre.entry { font-size: 13px; padding: 12px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <span class="kicker">税効果会計 入門</span>
+  <h1>繰延税金資産って<br>なに？</h1>
+  <p>会計のルールと税金のルールの「ズレ」を調整して、<br>税金を「本来払うべき年」に合わせるしくみです。</p>
+  <div class="catch">ひとことで言うと → <span class="em">税金の前払い分</span>（あとで戻ってくる税金）</div>
+</header>
+
+<div class="wrap">
+
+  <nav class="toc">
+    <div class="toc-title">もくじ</div>
+    <div class="toc-list">
+      <a href="#s1">1. ズレはなぜ起きる？</a>
+      <a href="#s2">2. 一時差異と永久差異</a>
+      <a href="#s3">3. 数字で見る</a>
+      <a href="#s4">4. 仕訳と勘定</a>
+      <a href="#s5">5. 主な発生原因</a>
+      <a href="#s6">6. 差額で仕訳する</a>
+      <a href="#s7">7. 税率が変わったら</a>
+      <a href="#s8">8. 回収可能性</a>
+      <a href="#s9">9. BSでの表示</a>
+      <a href="#s10">10. 確認クイズ</a>
+    </div>
+  </nav>
+
+  <!-- ===== 1 ===== -->
+  <section id="s1">
+    <div class="sec-head">
+      <div class="sec-no c-blue">1</div>
+      <h2>ズレはなぜ起きる？<span class="sub">会計の「利益」と税務の「所得」は別物</span></h2>
+    </div>
+    <p>会社の儲けを計算するルールは、実は<b>2種類</b>あります。</p>
+    <ul>
+      <li><span class="t-blue">会計（企業会計）</span>：株主や投資家に「会社の実力」を正しく見せるためのルール。<br>収益 − 費用 ＝ <b>税引前当期純利益</b></li>
+      <li><span class="t-orange">税務（法人税法）</span>：税金を公平・確実に集めるためのルール。<br>益金 − 損金 ＝ <b>課税所得</b></li>
+    </ul>
+    <p>目的が違うので、たとえば「貸倒引当金を多めに積んだ」とき、会計では費用になっても、税務では<span class="hl-orange">「まだ損金とは認めない」</span>と言われることがあります。</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 330" role="img" aria-label="会計の利益と税務の課税所得のズレ">
+        <defs>
+          <linearGradient id="gB" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#5a8ff5"/><stop offset="1" stop-color="#2f6fec"/></linearGradient>
+          <linearGradient id="gO" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#ffa45c"/><stop offset="1" stop-color="#f07a1a"/></linearGradient>
+        </defs>
+        <!-- 会計 -->
+        <rect x="40" y="20" width="320" height="290" rx="22" fill="#e6eefe"/>
+        <text x="200" y="58" text-anchor="middle" font-size="22" font-weight="900" fill="#2f6fec">会計のものさし</text>
+        <rect x="80" y="90" width="110" height="190" rx="10" fill="url(#gB)" opacity="0.35"/>
+        <text x="135" y="190" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2433">収益</text>
+        <rect x="210" y="90" width="110" height="80" rx="10" fill="#fff" stroke="#2f6fec" stroke-width="2"/>
+        <text x="265" y="136" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2433">費用</text>
+        <rect x="210" y="180" width="110" height="100" rx="10" fill="url(#gB)"/>
+        <text x="265" y="225" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">税引前</text>
+        <text x="265" y="247" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">純利益</text>
+
+        <!-- 税務 -->
+        <rect x="440" y="20" width="320" height="290" rx="22" fill="#fff0e2"/>
+        <text x="600" y="58" text-anchor="middle" font-size="22" font-weight="900" fill="#f07a1a">税務のものさし</text>
+        <rect x="480" y="90" width="110" height="190" rx="10" fill="url(#gO)" opacity="0.35"/>
+        <text x="535" y="190" text-anchor="middle" font-size="18" font-weight="700" fill="#1f2433">益金</text>
+        <rect x="610" y="90" width="110" height="60" rx="10" fill="#fff" stroke="#f07a1a" stroke-width="2"/>
+        <text x="665" y="126" text-anchor="middle" font-size="16" font-weight="700" fill="#1f2433">損金</text>
+        <rect x="610" y="160" width="110" height="120" rx="10" fill="url(#gO)"/>
+        <text x="665" y="214" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">課税所得</text>
+        <text x="665" y="236" text-anchor="middle" font-size="12" fill="#fff">（利益より大きい）</text>
+
+        <!-- ズレ -->
+        <path d="M372 150 L428 150" stroke="#e0457b" stroke-width="4" stroke-dasharray="6 6"/>
+        <circle cx="400" cy="150" r="30" fill="#e0457b"/>
+        <text x="400" y="146" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">ズレ</text>
+        <text x="400" y="164" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">発生！</text>
+      </svg>
+      <div class="cap">会計では費用でも、税務では損金にならない部分がある → 課税所得のほうが大きくなる</div>
+    </div>
+
+    <div class="callout point">
+      <b>何が困るの？</b>
+      税金（法人税等）は<span class="t-orange">課税所得</span>をもとに計算されるのに、損益計算書の利益は<span class="t-blue">会計</span>のルールで出しています。そのままだと「利益に対して税金が多すぎる年」「少なすぎる年」が出てきて、当期純利益がゆがみます。このゆがみを直すのが<b>税効果会計</b>です。
+    </div>
+  </section>
+
+  <!-- ===== 2 ===== -->
+  <section id="s2">
+    <div class="sec-head">
+      <div class="sec-no c-purple">2</div>
+      <h2>一時差異と永久差異<span class="sub">「いつか解消するズレ」だけが対象</span></h2>
+    </div>
+    <p>ズレには2つのタイプがあります。税効果会計で調整するのは<span class="hl-pink">一時差異（いつか解消するズレ）</span>だけです。</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 400" role="img" aria-label="差異の分類図">
+        <rect x="290" y="16" width="220" height="56" rx="28" fill="#1f2433"/>
+        <text x="400" y="51" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">会計と税務のズレ</text>
+        <path d="M400 72 L400 96 L190 96 L190 120 M400 96 L610 96 L610 120" fill="none" stroke="#9aa1b3" stroke-width="3"/>
+
+        <!-- 一時差異 -->
+        <rect x="60" y="120" width="260" height="70" rx="16" fill="#7a4fd8"/>
+        <text x="190" y="152" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">一時差異</text>
+        <text x="190" y="176" text-anchor="middle" font-size="13" fill="#fff">いつか解消する → 税効果の対象</text>
+
+        <!-- 永久差異 -->
+        <rect x="480" y="120" width="260" height="70" rx="16" fill="#c9ccd6"/>
+        <text x="610" y="152" text-anchor="middle" font-size="19" font-weight="900" fill="#1f2433">永久差異</text>
+        <text x="610" y="176" text-anchor="middle" font-size="13" fill="#1f2433">ずっと解消しない → 対象外</text>
+        <text x="610" y="218" text-anchor="middle" font-size="13" fill="#5b6275">例：交際費の損金不算入</text>
+        <text x="610" y="240" text-anchor="middle" font-size="13" fill="#5b6275">　　受取配当金の益金不算入</text>
+        <text x="610" y="262" text-anchor="middle" font-size="13" fill="#5b6275">　　罰金・科料</text>
+
+        <path d="M190 190 L190 214 L105 214 L105 236 M190 214 L275 214 L275 236" fill="none" stroke="#9aa1b3" stroke-width="3"/>
+
+        <!-- 将来減算 -->
+        <rect x="16" y="236" width="178" height="148" rx="16" fill="#e1f6ee" stroke="#12a37a" stroke-width="3"/>
+        <text x="105" y="266" text-anchor="middle" font-size="15" font-weight="900" fill="#12a37a">将来減算一時差異</text>
+        <text x="105" y="292" text-anchor="middle" font-size="12" fill="#1f2433">今は多く払う</text>
+        <text x="105" y="310" text-anchor="middle" font-size="12" fill="#1f2433">将来の税金が減る</text>
+        <rect x="32" y="326" width="146" height="40" rx="20" fill="#12a37a"/>
+        <text x="105" y="352" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">繰延税金資産</text>
+
+        <!-- 将来加算 -->
+        <rect x="206" y="236" width="178" height="148" rx="16" fill="#fde7ef" stroke="#e0457b" stroke-width="3"/>
+        <text x="295" y="266" text-anchor="middle" font-size="15" font-weight="900" fill="#e0457b">将来加算一時差異</text>
+        <text x="295" y="292" text-anchor="middle" font-size="12" fill="#1f2433">今は少なく払う</text>
+        <text x="295" y="310" text-anchor="middle" font-size="12" fill="#1f2433">将来の税金が増える</text>
+        <rect x="222" y="326" width="146" height="40" rx="20" fill="#e0457b"/>
+        <text x="295" y="352" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">繰延税金負債</text>
+
+        <text x="610" y="320" text-anchor="middle" font-size="40">🚫</text>
+        <text x="610" y="362" text-anchor="middle" font-size="13" font-weight="700" fill="#5b6275">仕訳しない</text>
+      </svg>
+      <div class="cap">このページの主役は、左下の「将来減算一時差異 → 繰延税金資産」</div>
+    </div>
+
+    <div class="grid">
+      <div class="mini" style="--c: var(--green)">
+        <div class="ttl t-green">将来減算一時差異</div>
+        <p>今期は「損金にならない」ので課税所得が増え、<b>税金を先に多く払っている</b>状態。将来、損金になる年に税金が減る。</p>
+        <p>→ 払いすぎた税金は「将来戻ってくる権利」＝<b>資産</b></p>
+      </div>
+      <div class="mini" style="--c: var(--pink)">
+        <div class="ttl t-pink">将来加算一時差異</div>
+        <p>今期は税金が少なく済んでいるが、将来の課税所得が増えて<b>あとで多く払う</b>状態。</p>
+        <p>→ 将来払う義務＝<b>負債</b>（繰延税金負債）</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 3 ===== -->
+  <section id="s3">
+    <div class="sec-head">
+      <div class="sec-no c-orange">3</div>
+      <h2>数字で見てみよう<span class="sub">税効果なし vs あり の当期純利益</span></h2>
+    </div>
+    <div class="card">
+      <p><b>設例</b></p>
+      <ul>
+        <li>X1年度の<span class="t-blue">税引前当期純利益</span>は 10,000 円</li>
+        <li>貸倒引当金を積んだが、そのうち <b>1,000 円</b>は税務上の限度額を超えていて<span class="t-orange">損金不算入</span></li>
+        <li>X2年度に実際に貸倒れが起き、その 1,000 円が<span class="t-orange">損金算入（認容）</span>された</li>
+        <li>法定実効税率は <b>30%</b>、X2年度の税引前当期純利益も 10,000 円</li>
+      </ul>
+    </div>
+
+    <h3>① 課税所得と法人税等</h3>
+    <pre class="entry"><span class="cm">【X1年度】</span>
+税引前当期純利益      10,000
+＋ 貸倒引当金 限度超過額   1,000   <span class="cm">← 損金不算入（加算）</span>
+＝ 課税所得          11,000
+法人税等  11,000 × 30% ＝ 3,300
+
+<span class="cm">【X2年度】</span>
+税引前当期純利益      10,000
+− 貸倒引当金 認容額      1,000   <span class="cm">← 前期の超過額が損金に（減算）</span>
+＝ 課税所得           9,000
+法人税等   9,000 × 30% ＝ 2,700</pre>
+
+    <h3>② 損益計算書をくらべる（X1年度）</h3>
+    <div class="pl-wrap">
+      <div class="pl">
+        <div class="pl-title"><span class="badge" style="background:#9aa1b3">税効果なし</span></div>
+        <div class="pl-row"><span>税引前当期純利益</span><span>10,000</span></div>
+        <div class="pl-row"><span>法人税等</span><span>3,300</span></div>
+        <div class="pl-row total"><span>当期純利益</span><span>6,700</span></div>
+        <p style="font-size:14px;color:var(--sub);margin-top:8px">税負担率 33% … 実効税率30%とズレている</p>
+      </div>
+      <div class="pl" style="border:2px solid var(--green)">
+        <div class="pl-title"><span class="badge" style="background:var(--green)">税効果あり</span></div>
+        <div class="pl-row"><span>税引前当期純利益</span><span>10,000</span></div>
+        <div class="pl-row"><span>法人税等</span><span>3,300</span></div>
+        <div class="pl-row"><span>法人税等調整額</span><span class="adj">△300</span></div>
+        <div class="pl-row indent"><span>（税金費用 合計）</span><span>3,000</span></div>
+        <div class="pl-row total"><span>当期純利益</span><span>7,000</span></div>
+        <p style="font-size:14px;color:var(--green);font-weight:700;margin-top:8px">税負担率 30% … 利益と税金がきれいに対応！</p>
+      </div>
+    </div>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 380" role="img" aria-label="2年間の税金の流れ">
+        <text x="400" y="26" text-anchor="middle" font-size="20" font-weight="900" fill="#1f2433">2年間で見ると「前払い → 取り崩し」</text>
+        <!-- 軸 -->
+        <line x1="70" y1="300" x2="760" y2="300" stroke="#c9ccd6" stroke-width="2"/>
+        <text x="60" y="94" text-anchor="end" font-size="12" fill="#5b6275">3,300</text>
+        <text x="60" y="124" text-anchor="end" font-size="12" fill="#5b6275">3,000</text>
+        <line x1="70" y1="120" x2="760" y2="120" stroke="#12a37a" stroke-width="2" stroke-dasharray="6 6"/>
+        <text x="410" y="176" text-anchor="middle" font-size="12" font-weight="700" fill="#12a37a">- - - あるべき税金費用</text>
+        <text x="410" y="194" text-anchor="middle" font-size="12" font-weight="700" fill="#12a37a">3,000（10,000×30%）</text>
+
+        <!-- X1 -->
+        <text x="230" y="330" text-anchor="middle" font-size="17" font-weight="900" fill="#1f2433">X1年度</text>
+        <rect x="140" y="90" width="80" height="210" rx="8" fill="#f07a1a"/>
+        <text x="180" y="210" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">納付</text>
+        <text x="180" y="230" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">3,300</text>
+        <rect x="240" y="120" width="80" height="180" rx="8" fill="#2f6fec"/>
+        <text x="280" y="210" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">費用</text>
+        <text x="280" y="230" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">3,000</text>
+        <!-- 前払い -->
+        <rect x="140" y="90" width="80" height="30" rx="8" fill="#12a37a"/>
+        <text x="180" y="111" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">300</text>
+        <path d="M222 105 C 300 60, 340 56, 370 64" fill="none" stroke="#12a37a" stroke-width="3" marker-end="url(#ar)"/>
+
+        <!-- 貯金箱 -->
+        <defs>
+          <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#12a37a"/></marker>
+          <marker id="ar2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#e0457b"/></marker>
+        </defs>
+        <ellipse cx="420" cy="76" rx="46" ry="34" fill="#e1f6ee" stroke="#12a37a" stroke-width="3"/>
+        <rect x="404" y="44" width="32" height="6" rx="3" fill="#12a37a"/>
+        <text x="420" y="74" text-anchor="middle" font-size="12" font-weight="900" fill="#12a37a">繰延税金</text>
+        <text x="420" y="90" text-anchor="middle" font-size="12" font-weight="900" fill="#12a37a">資産 300</text>
+        <text x="420" y="142" text-anchor="middle" font-size="12" fill="#5b6275">X1期末BSに計上</text>
+
+        <!-- X2 -->
+        <text x="590" y="330" text-anchor="middle" font-size="17" font-weight="900" fill="#1f2433">X2年度</text>
+        <rect x="500" y="147" width="80" height="153" rx="8" fill="#f07a1a"/>
+        <text x="540" y="230" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">納付</text>
+        <text x="540" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">2,700</text>
+        <rect x="600" y="120" width="80" height="180" rx="8" fill="#2f6fec"/>
+        <rect x="600" y="120" width="80" height="27" rx="8" fill="#e0457b"/>
+        <text x="640" y="139" text-anchor="middle" font-size="12" font-weight="700" fill="#fff">+300</text>
+        <text x="640" y="230" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">費用</text>
+        <text x="640" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#fff">3,000</text>
+        <path d="M466 80 C 560 64, 620 80, 636 112" fill="none" stroke="#e0457b" stroke-width="3" marker-end="url(#ar2)"/>
+        <text x="560" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="#e0457b">取り崩して費用に</text>
+
+        <text x="400" y="366" text-anchor="middle" font-size="13" fill="#5b6275">オレンジ＝実際に納める税金、青＝損益計算書の税金費用（法人税等＋法人税等調整額）</text>
+      </svg>
+      <div class="cap">2年間の合計は 納付 6,000 ＝ 費用 6,000。タイミングを「利益が出た年」に合わせているだけ</div>
+    </div>
+
+    <div class="callout tip">
+      <b>ここがキモ</b>
+      X1年度に多く払った 300 円は、X2年度に税金が 300 円少なくなることで<span class="hl-green">実質的に戻ってくる</span>。だから「税金の前払い＝資産」として貸借対照表に載せるのです。
+    </div>
+  </section>
+
+  <!-- ===== 4 ===== -->
+  <section id="s4">
+    <div class="sec-head">
+      <div class="sec-no c-green">4</div>
+      <h2>仕訳と勘定記入<span class="sub">相手科目は「法人税等調整額」</span></h2>
+    </div>
+
+    <div class="formula">
+      <div class="box" style="background:var(--purple)">将来減算<br>一時差異</div>
+      <div class="op">×</div>
+      <div class="box" style="background:var(--orange)">法定<br>実効税率</div>
+      <div class="op">＝</div>
+      <div class="box" style="background:var(--green)">繰延税金<br>資産</div>
+    </div>
+    <p style="text-align:center">1,000 × 30% ＝ <b class="t-green">300</b></p>
+
+    <span class="entry-label" style="background:var(--green)">X1年度末：差異が発生</span>
+    <pre class="entry"><span class="dr">(借) 繰延税金資産     300</span>   <span class="cr">(貸) 法人税等調整額    300</span>
+<span class="cm">→ 法人税等調整額が貸方 ＝ 税金費用を 300 減らす</span></pre>
+
+    <span class="entry-label" style="background:var(--pink)">X2年度末：差異が解消</span>
+    <pre class="entry"><span class="dr">(借) 法人税等調整額    300</span>   <span class="cr">(貸) 繰延税金資産     300</span>
+<span class="cm">→ 法人税等調整額が借方 ＝ 税金費用を 300 増やす</span></pre>
+
+    <p>参考までに、法人税等そのものの計上仕訳（X1年度、中間納付なしの場合）はこうなります。</p>
+    <pre class="entry"><span class="dr">(借) 法人税、住民税及び事業税  3,300</span>   <span class="cr">(貸) 未払法人税等   3,300</span></pre>
+
+    <h3>勘定記入</h3>
+    <div class="grid">
+      <div>
+        <div class="t-acc">
+          <div class="t-name">繰延税金資産</div>
+          <div class="t-body">
+            <div class="t-side">
+              <div class="t-row"><span>X1 法人税等調整額</span><span>300</span></div>
+            </div>
+            <div class="t-side">
+              <div class="t-row"><span>X1 次期繰越</span><span>300</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-acc">
+          <div class="t-name">繰延税金資産</div>
+          <div class="t-body">
+            <div class="t-side">
+              <div class="t-row"><span>X2 前期繰越</span><span>300</span></div>
+            </div>
+            <div class="t-side">
+              <div class="t-row"><span>X2 法人税等調整額</span><span>300</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="t-acc">
+          <div class="t-name">法人税等調整額（X1）</div>
+          <div class="t-body">
+            <div class="t-side">
+              <div class="t-row"><span>損益</span><span>300</span></div>
+            </div>
+            <div class="t-side">
+              <div class="t-row"><span>繰延税金資産</span><span>300</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="t-acc">
+          <div class="t-name">法人税等調整額（X2）</div>
+          <div class="t-body">
+            <div class="t-side">
+              <div class="t-row"><span>繰延税金資産</span><span>300</span></div>
+            </div>
+            <div class="t-side">
+              <div class="t-row"><span>損益</span><span>300</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout point">
+      <b>覚え方</b>
+      繰延税金資産が<span class="t-green">増える</span>とき → 法人税等調整額は<span class="t-pink">貸方</span>（税金費用のマイナス）。<br>
+      繰延税金資産が<span class="t-green">減る</span>とき → 法人税等調整額は<span class="t-pink">借方</span>（税金費用のプラス）。
+    </div>
+  </section>
+
+  <!-- ===== 5 ===== -->
+  <section id="s5">
+    <div class="sec-head">
+      <div class="sec-no c-pink">5</div>
+      <h2>繰延税金資産が生まれる主な原因<span class="sub">試験でよく出るパターン</span></h2>
+    </div>
+    <div class="grid">
+      <div class="mini" style="--c: var(--blue)">
+        <div class="ttl">貸倒引当金の繰入限度超過額</div>
+        <p>税務の限度額を超えた繰入額は損金不算入。実際に貸倒れたとき（または戻入時）に解消。</p>
+        <span class="tag">2級・1級 頻出</span>
+      </div>
+      <div class="mini" style="--c: var(--orange)">
+        <div class="ttl">減価償却費の償却限度超過額</div>
+        <p>会計上の耐用年数が税法より短いときなど。税務上の耐用年数の後半や売却・除却時に解消。</p>
+        <span class="tag">2級・1級 頻出</span>
+      </div>
+      <div class="mini" style="--c: var(--purple)">
+        <div class="ttl">棚卸資産の評価損（否認）</div>
+        <p>税務で認められない評価損。その商品を販売・廃棄したときに解消。</p>
+        <span class="tag">1級</span>
+      </div>
+      <div class="mini" style="--c: var(--green)">
+        <div class="ttl">賞与引当金・退職給付引当金</div>
+        <p>引当時は損金不算入。実際に支払ったときに損金算入されて解消。</p>
+        <span class="tag">1級</span>
+      </div>
+      <div class="mini" style="--c: var(--yellow)">
+        <div class="ttl">税務上の繰越欠損金</div>
+        <p>赤字を翌期以降の黒字と相殺でき、将来の税金が減る。一時差異ではないが「一時差異等」として繰延税金資産の対象。</p>
+        <span class="tag">回収可能性に要注意</span>
+      </div>
+      <div class="mini" style="--c: var(--pink)">
+        <div class="ttl">その他有価証券の評価差損</div>
+        <p>時価評価の差損は税務では認められない。<b>相手科目は法人税等調整額ではなく「その他有価証券評価差額金」</b>（純資産）。</p>
+        <span class="tag">2級・1級 ひっかけ注意</span>
+      </div>
+    </div>
+
+    <h3>その他有価証券の仕訳（全部純資産直入法）</h3>
+    <p>取得原価 5,000、期末時価 4,000、実効税率 30% の場合。</p>
+    <pre class="entry"><span class="dr">(借) 繰延税金資産             300</span>   <span class="cr">(貸) その他有価証券  1,000</span>
+<span class="dr">    その他有価証券評価差額金  700</span>
+<span class="cm">→ 損益を通らないので、法人税等調整額は使わない</span>
+<span class="cm">→ 翌期首には逆仕訳（洗替法）で元に戻す</span></pre>
+  </section>
+
+  <!-- ===== 6 ===== -->
+  <section id="s6">
+    <div class="sec-head">
+      <div class="sec-no c-yellow">6</div>
+      <h2>実務・試験では「差額」で仕訳する<span class="sub">期首残高 → 期末残高 の増減だけを計上</span></h2>
+    </div>
+    <p>毎期すべての差異を発生・解消で追いかけるのは大変なので、<span class="hl-blue">期末にあるべき残高を計算 → 期首残高との差額だけ仕訳</span>するのが一般的です。</p>
+
+    <ol class="steps">
+      <li>期末の将来減算一時差異の合計を集める（例：2,500）</li>
+      <li>期末の繰延税金資産を計算する：2,500 × 30% ＝ <b>750</b></li>
+      <li>期首の繰延税金資産を確認する（例：差異 2,000 × 30% ＝ <b>600</b>）</li>
+      <li>差額 750 − 600 ＝ <b class="t-green">150 の増加</b> → 仕訳する</li>
+    </ol>
+
+    <pre class="entry"><span class="dr">(借) 繰延税金資産     150</span>   <span class="cr">(貸) 法人税等調整額    150</span></pre>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 220" role="img" aria-label="期首と期末の繰延税金資産の差額">
+        <text x="140" y="34" text-anchor="middle" font-size="16" font-weight="900" fill="#1f2433">期首</text>
+        <rect x="80" y="70" width="120" height="120" rx="10" fill="#bfeedd"/>
+        <text x="140" y="136" text-anchor="middle" font-size="22" font-weight="900" fill="#12a37a">600</text>
+
+        <path d="M220 130 L300 130" stroke="#9aa1b3" stroke-width="3" marker-end="url(#ar3)"/>
+        <defs><marker id="ar3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9aa1b3"/></marker></defs>
+
+        <text x="380" y="34" text-anchor="middle" font-size="16" font-weight="900" fill="#1f2433">期末</text>
+        <rect x="320" y="70" width="120" height="120" rx="10" fill="#bfeedd"/>
+        <rect x="320" y="40" width="120" height="30" rx="8" fill="#12a37a"/>
+        <text x="380" y="61" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">＋150</text>
+        <text x="380" y="136" text-anchor="middle" font-size="22" font-weight="900" fill="#12a37a">750</text>
+
+        <rect x="500" y="62" width="270" height="110" rx="16" fill="#fde7ef"/>
+        <text x="635" y="100" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">増えた 150 だけ</text>
+        <text x="635" y="126" text-anchor="middle" font-size="15" font-weight="700" fill="#e0457b">法人税等調整額（貸方）</text>
+        <text x="635" y="152" text-anchor="middle" font-size="13" fill="#5b6275">減ったときは借方に計上</text>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ===== 7 ===== -->
+  <section id="s7">
+    <div class="sec-head">
+      <div class="sec-no c-orange">7</div>
+      <h2>税率が変わったら？<span class="sub">資産負債法：解消するときの税率で計算し直す</span></h2>
+    </div>
+    <p>繰延税金資産は「将来戻ってくる税金」なので、<span class="hl-orange">将来（解消する年）の税率</span>で計算します。税法改正で税率が変わったら、期末の残高を新しい税率で計算し直します。</p>
+    <div class="card">
+      <p><b>例</b>：将来減算一時差異 2,000、税率が 30% → 28% に引き下げ（差異の増減なし）</p>
+      <ul>
+        <li>旧税率の残高：2,000 × 30% ＝ 600</li>
+        <li>新税率の残高：2,000 × 28% ＝ 560</li>
+        <li>差額：<b class="t-pink">40 の減少</b></li>
+      </ul>
+      <pre class="entry"><span class="dr">(借) 法人税等調整額    40</span>   <span class="cr">(貸) 繰延税金資産     40</span>
+<span class="cm">→ 税率が下がると、戻ってくる税金も減る＝資産の目減り</span></pre>
+    </div>
+    <p>法定実効税率の求め方（事業税の損金算入を考慮した計算）は、<a href="houtei-jikkou-zeiritsu-quiz.html">法定実効税率のランダム問題</a>で練習できます。</p>
+  </section>
+
+  <!-- ===== 8 ===== -->
+  <section id="s8">
+    <div class="sec-head">
+      <div class="sec-no c-purple">8</div>
+      <h2>回収可能性<span class="sub">「将来ちゃんと税金が減るの？」のチェック</span></h2>
+    </div>
+    <p>繰延税金資産が「戻ってくる」のは、<b>将来、税金を払うだけの課税所得がある</b>ときだけです。ずっと赤字なら、損金が増えても減らす税金がありません。</p>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 280" role="img" aria-label="回収可能性の判断">
+        <rect x="20" y="96" width="190" height="90" rx="18" fill="#e1f6ee" stroke="#12a37a" stroke-width="3"/>
+        <text x="115" y="134" text-anchor="middle" font-size="16" font-weight="900" fill="#12a37a">繰延税金資産</text>
+        <text x="115" y="160" text-anchor="middle" font-size="13" fill="#1f2433">（計上したい）</text>
+
+        <path d="M212 141 L282 141" stroke="#9aa1b3" stroke-width="3" marker-end="url(#ar3)"/>
+
+        <polygon points="400,40 520,141 400,242 280,141" fill="#fff6d6" stroke="#f4b400" stroke-width="3"/>
+        <text x="400" y="124" text-anchor="middle" font-size="15" font-weight="900" fill="#1f2433">将来の</text>
+        <text x="400" y="146" text-anchor="middle" font-size="15" font-weight="900" fill="#1f2433">課税所得で</text>
+        <text x="400" y="168" text-anchor="middle" font-size="15" font-weight="900" fill="#1f2433">回収できる？</text>
+
+        <path d="M520 141 L560 141 L560 80 L590 80" fill="none" stroke="#12a37a" stroke-width="3"/>
+        <text x="552" y="70" text-anchor="end" font-size="14" font-weight="900" fill="#12a37a">YES</text>
+        <rect x="590" y="44" width="190" height="72" rx="16" fill="#12a37a"/>
+        <text x="685" y="76" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">BSに計上する</text>
+        <text x="685" y="100" text-anchor="middle" font-size="12" fill="#fff">（回収できる分だけ）</text>
+
+        <path d="M560 141 L560 202 L590 202" fill="none" stroke="#e0457b" stroke-width="3"/>
+        <text x="552" y="226" text-anchor="end" font-size="14" font-weight="900" fill="#e0457b">NO</text>
+        <rect x="590" y="166" width="190" height="72" rx="16" fill="#e0457b"/>
+        <text x="685" y="198" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">計上しない</text>
+        <text x="685" y="222" text-anchor="middle" font-size="12" fill="#fff">（計上済みなら取り崩す）</text>
+      </svg>
+      <div class="cap">「払いすぎた税金」でも、取り戻すあてがなければ資産とは言えない</div>
+    </div>
+
+    <h3>企業の分類（1級・実務レベル）</h3>
+    <p>回収可能性は、過去の業績などから会社を5つに分類して判断します（回収可能性適用指針）。</p>
+    <ul>
+      <li><span class="t-green">分類1</span>：毎期十分な課税所得 → 原則として全額計上</li>
+      <li><span class="t-blue">分類2</span>：安定的に課税所得 → スケジューリング可能な差異は全額計上</li>
+      <li><span class="t-purple">分類3</span>：業績が不安定 → おおむね5年以内の見積課税所得の範囲で計上</li>
+      <li><span class="t-orange">分類4</span>：重要な欠損金がある → 翌期の見積課税所得の範囲で計上</li>
+      <li><span class="t-pink">分類5</span>：継続して重要な欠損金 → 原則として計上しない</li>
+    </ul>
+
+    <div class="callout warn">
+      <b>ニュースで見る「繰延税金資産の取り崩し」</b>
+      業績が悪化して回収可能性がないと判断されると、繰延税金資産を取り崩します。仕訳は（借）法人税等調整額 ／（貸）繰延税金資産 なので、<b>税金費用が増えて当期純利益が大きく減る</b>。決算発表で「税効果の取り崩しで最終赤字」と報じられるのはこのケースです。
+    </div>
+  </section>
+
+  <!-- ===== 9 ===== -->
+  <section id="s9">
+    <div class="sec-head">
+      <div class="sec-no c-blue">9</div>
+      <h2>貸借対照表での表示<span class="sub">固定資産「投資その他の資産」に表示</span></h2>
+    </div>
+    <ul>
+      <li>繰延税金資産は<span class="hl-blue">固定資産の「投資その他の資産」</span>に表示します。</li>
+      <li>繰延税金負債は<span class="hl-pink">固定負債</span>に表示します。</li>
+      <li>同じ納税主体の繰延税金資産と繰延税金負債は、<b>相殺して</b>差額だけを表示します。</li>
+    </ul>
+
+    <div class="figure">
+      <svg viewBox="0 0 800 300" role="img" aria-label="貸借対照表での繰延税金資産の位置">
+        <text x="400" y="30" text-anchor="middle" font-size="18" font-weight="900" fill="#1f2433">貸借対照表</text>
+        <line x1="400" y1="44" x2="400" y2="286" stroke="#1f2433" stroke-width="2"/>
+        <line x1="60" y1="44" x2="740" y2="44" stroke="#1f2433" stroke-width="2"/>
+
+        <rect x="70" y="56" width="320" height="58" rx="10" fill="#e6eefe"/>
+        <text x="230" y="91" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">流動資産</text>
+        <rect x="70" y="122" width="320" height="58" rx="10" fill="#e6eefe"/>
+        <text x="230" y="157" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">有形・無形固定資産</text>
+        <rect x="70" y="188" width="320" height="90" rx="10" fill="#e6eefe"/>
+        <text x="230" y="214" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">投資その他の資産</text>
+        <rect x="100" y="226" width="260" height="40" rx="20" fill="#12a37a"/>
+        <text x="230" y="252" text-anchor="middle" font-size="15" font-weight="900" fill="#fff">繰延税金資産 600</text>
+
+        <rect x="410" y="56" width="320" height="58" rx="10" fill="#fde7ef"/>
+        <text x="570" y="91" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">流動負債</text>
+        <rect x="410" y="122" width="320" height="58" rx="10" fill="#fde7ef"/>
+        <text x="570" y="146" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">固定負債</text>
+        <text x="570" y="168" text-anchor="middle" font-size="12" fill="#5b6275">（繰延税金負債はここ。今回は相殺で消える）</text>
+        <rect x="410" y="188" width="320" height="90" rx="10" fill="#efe8fd"/>
+        <text x="570" y="238" text-anchor="middle" font-size="15" font-weight="700" fill="#1f2433">純資産</text>
+      </svg>
+      <div class="cap">例：繰延税金資産 900 と繰延税金負債 300 → 相殺して「繰延税金資産 600」だけを表示</div>
+    </div>
+
+    <div class="callout point">
+      <b>昔の知識に注意</b>
+      以前は流動・固定に分けて表示していましたが、2018年の基準改正（税効果会計基準一部改正）で<b>すべて固定区分</b>に表示するようになりました。古いテキストの「流動資産の繰延税金資産」は今の試験では使いません。
+    </div>
+  </section>
+
+  <!-- ===== 10 ===== -->
+  <section id="s10">
+    <div class="sec-head">
+      <div class="sec-no c-green">10</div>
+      <h2>確認クイズ<span class="sub">クリックで答えが開きます</span></h2>
+    </div>
+
+    <details class="q">
+      <summary><span class="qn">Q1</span><span>減価償却費の償却限度超過額が 4,000 発生した。実効税率 30% のときの仕訳は？</span><span class="open">答えを見る</span></summary>
+      <div class="ans">
+        <p>4,000 × 30% ＝ 1,200 の繰延税金資産を計上します。</p>
+        <pre class="entry"><span class="dr">(借) 繰延税金資産    1,200</span>   <span class="cr">(貸) 法人税等調整額   1,200</span></pre>
+      </div>
+    </details>
+
+    <details class="q">
+      <summary><span class="qn">Q2</span><span>交際費の損金不算入額 500 について税効果会計を適用する？</span><span class="open">答えを見る</span></summary>
+      <div class="ans">
+        <p><b>適用しません。</b>交際費の損金不算入は将来も損金にならない<span class="t-purple">永久差異</span>なので、繰延税金資産は計上しません（仕訳なし）。</p>
+      </div>
+    </details>
+
+    <details class="q">
+      <summary><span class="qn">Q3</span><span>期首の繰延税金資産 900（差異 3,000）、期末の将来減算一時差異 2,200。実効税率 30% のときの仕訳は？</span><span class="open">答えを見る</span></summary>
+      <div class="ans">
+        <p>期末のあるべき残高 2,200 × 30% ＝ 660。期首 900 から <b>240 減少</b>。</p>
+        <pre class="entry"><span class="dr">(借) 法人税等調整額    240</span>   <span class="cr">(貸) 繰延税金資産     240</span></pre>
+        <div class="t-acc">
+          <div class="t-name">繰延税金資産</div>
+          <div class="t-body">
+            <div class="t-side">
+              <div class="t-row"><span>前期繰越</span><span>900</span></div>
+            </div>
+            <div class="t-side">
+              <div class="t-row"><span>法人税等調整額</span><span>240</span></div>
+              <div class="t-row"><span>次期繰越</span><span>660</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <details class="q">
+      <summary><span class="qn">Q4</span><span>その他有価証券（取得原価 8,000、時価 7,000）の評価差損に税効果を適用。実効税率 30%、全部純資産直入法の仕訳は？</span><span class="open">答えを見る</span></summary>
+      <div class="ans">
+        <p>差損 1,000 × 30% ＝ 300 が繰延税金資産、残り 700 がその他有価証券評価差額金（借方）。<b>法人税等調整額は使いません。</b></p>
+        <pre class="entry"><span class="dr">(借) 繰延税金資産             300</span>   <span class="cr">(貸) その他有価証券  1,000</span>
+<span class="dr">    その他有価証券評価差額金  700</span></pre>
+      </div>
+    </details>
+  </section>
+
+  <!-- まとめ -->
+  <section>
+    <div class="summary-box">
+      <h2 style="margin:0 0 8px;font-size:22px;font-weight:900">まとめ</h2>
+      <ul>
+        <li>繰延税金資産は<b>「将来戻ってくる税金の前払い分」</b></li>
+        <li>生まれる原因は<b>将来減算一時差異</b>（今は損金にならないが、将来損金になるもの）</li>
+        <li>金額は <b>将来減算一時差異 × 法定実効税率</b>（解消年度の税率）</li>
+        <li>相手科目は<b>法人税等調整額</b>。ただしその他有価証券は<b>その他有価証券評価差額金</b></li>
+        <li>永久差異（交際費・受取配当金など）は対象外</li>
+        <li>将来の課税所得で<b>回収できる分だけ</b>計上できる</li>
+        <li>BSでは<b>投資その他の資産</b>に表示し、繰延税金負債と相殺する</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<footer>繰延税金資産 図解ガイド ／ 税効果会計の基本</footer>
+
+</body>
+</html>
