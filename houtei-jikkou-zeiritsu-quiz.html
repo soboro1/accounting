@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>法定実効税率 ランダム問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .figure { border: 1px solid rgba(212,162,76,0.35); border-radius: 12px; background: rgba(255,255,255,0.03); }
+  .figure summary { cursor: pointer; padding: 12px 18px; font-size: 14px; font-weight: 700; color: #d4a24c; }
+  .figure img { display: block; width: 100%; height: auto; border-radius: 0 0 12px 12px; }
+
+  .mode-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .mode-row button { padding: 7px 14px; font-size: 13px; }
+  .mode-row button.on { color: #101b2d; background: #d4a24c; border-color: #d4a24c; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+  .problem-line b { color: #f6f1e6; }
+  .problem-line.item { padding-left: 1em; text-indent: -1em; }
+
+  .inputs-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .input-group { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; line-height: 1.5; }
+  .input-group input {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  .input-group input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .hint { font-size: 12px; color: #8b93a1; line-height: 1.6; }
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 10px; }
+  .result-card.show { display: flex; }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .your { font-size: 13px; color: #c7c0b0; line-height: 1.7; }
+  .ex { font-size: 14px; line-height: 1.85; color: #e8e3d8; display: flex; flex-direction: column; gap: 12px; }
+  .ex h3 { font-size: 13px; letter-spacing: 2px; color: #d4a24c; margin: 0 0 4px 0; }
+  .ex p { margin: 0; }
+  .ex ul { margin: 0; padding-left: 1.3em; }
+  .ex b { color: #f6f1e6; }
+  .ex .calc { font-family: 'Noto Sans JP', sans-serif; background: rgba(0,0,0,0.22); border-radius: 8px; padding: 10px 14px; white-space: pre-wrap; margin: 0; }
+
+  /* 仕訳 */
+  .je { display: flex; flex-direction: column; gap: 2px; background: rgba(0,0,0,0.22); border-radius: 8px; padding: 6px 0; }
+  .je-row { display: flex; flex-wrap: wrap; gap: 2px 18px; padding: 4px 14px; }
+  .je-row + .je-row { border-top: 1px dashed rgba(255,255,255,0.12); }
+  .je-side { flex: 1; min-width: 230px; display: flex; justify-content: space-between; gap: 10px; }
+  .je-side .n { color: #f6f1e6; }
+  .je-side .a { font-variant-numeric: tabular-nums; color: #f6f1e6; }
+  .je-none { background: rgba(0,0,0,0.22); border-radius: 8px; padding: 8px 14px; }
+
+  /* 勘定記入(T字) */
+  .taccts { display: flex; flex-wrap: wrap; gap: 14px; }
+  .tac { flex: 1; min-width: 260px; }
+  .tac .tn { text-align: center; font-weight: 700; color: #f6f1e6; border-bottom: 2px solid #c7c0b0; padding-bottom: 2px; }
+  .tac .tb { display: flex; }
+  .tac .tc { flex: 1; padding: 4px 8px; display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+  .tac .tc + .tc { border-left: 2px solid #c7c0b0; }
+  .tac .tl { display: flex; justify-content: space-between; gap: 6px; }
+  .tac .tl .a { font-variant-numeric: tabular-nums; }
+
+  /* 図 */
+  .ex ol { margin: 0; padding-left: 1.5em; }
+  .dg { background: rgba(0,0,0,0.22); border-radius: 10px; padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+  .dg + .dg { margin-top: 10px; }
+  .dg .dt { font-size: 13.5px; font-weight: 700; color: #f6f1e6; }
+  .dg .cap { font-size: 12.5px; color: #aab3bf; line-height: 1.7; }
+  .dg .calc { background: rgba(255,255,255,0.04); }
+  .bl { display: flex; flex-direction: column; gap: 4px; }
+  .bl.tight { margin-top: -8px; }
+  .bh { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 13px; color: #e8e3d8; }
+  .bh .bv { font-variant-numeric: tabular-nums; color: #f6f1e6; font-weight: 700; }
+  .bt { display: flex; height: 24px; border-radius: 5px; overflow: hidden; background: rgba(255,255,255,0.06); }
+  .bt span { display: flex; align-items: center; justify-content: center; height: 100%; flex: none; overflow: hidden; }
+  .bt em { font-style: normal; font-size: 11.5px; font-weight: 700; color: #101b2d; white-space: nowrap; }
+  .lg { display: flex; flex-wrap: wrap; gap: 2px 14px; font-size: 12px; color: #c7c0b0; line-height: 1.7; }
+  .lg i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .lg i.dash { background: transparent !important; border: 2px dashed #d4a24c; width: 8px; height: 8px; }
+  .flw { display: flex; align-items: stretch; gap: 6px; }
+  .fbx { flex: 1; border: 2px solid; border-radius: 10px; padding: 8px 10px; text-align: center; background: rgba(255,255,255,0.03); display: flex; flex-direction: column; justify-content: center; }
+  .fbx .ft { font-size: 12.5px; color: #c7c0b0; line-height: 1.5; }
+  .fbx .fv { font-size: 17px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .fbx .fs { font-size: 11.5px; color: #aab3bf; line-height: 1.5; }
+  .farr { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #d4a24c; font-weight: 700; font-size: 12px; line-height: 1.4; text-align: center; min-width: 72px; max-width: 120px; }
+  .farr .ar { font-size: 18px; }
+  .dg svg { width: 100%; max-width: 520px; height: auto; display: block; margin: 0 auto; }
+  @media (max-width: 560px) {
+    .flw { flex-direction: column; }
+    .farr { flex-direction: row; gap: 8px; min-width: 0; max-width: none; }
+    .farr .ar { transform: rotate(90deg); }
+  }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">BOOKKEEPING 税効果会計 法定実効税率</div>
+      <h1>法定実効税率 ランダム問題</h1>
+    </div>
+    <div>
+      <div class="score-label">スコア</div>
+      <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+    </div>
+  </div>
+
+  <details class="figure">
+    <summary>しくみの図を見る(法定実効税率の計算の流れ)</summary>
+    <img src="法定実効税率_図解.png" alt="法定実効税率のしくみの図解">
+  </details>
+
+  <div class="mode-row" id="modeRow"></div>
+
+  <div class="topic-badge" id="topicBadge"></div>
+
+  <div class="problem-card" id="problemCard"></div>
+
+  <div class="inputs-row">
+    <div class="input-group" id="group1">
+      <label id="label1" for="input1"></label>
+      <input type="text" id="input1" inputmode="decimal" autocomplete="off">
+    </div>
+    <div class="input-group" id="group2">
+      <label id="label2" for="input2"></label>
+      <input type="text" id="input2" inputmode="decimal" autocomplete="off">
+    </div>
+  </div>
+  <div class="hint" id="hintText"></div>
+  <div class="error" id="errorText"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="checkBtn">解答する</button>
+    <button class="btn-secondary" id="nextBtn">次の問題へ</button>
+  </div>
+
+  <div class="result-card" id="resultCard">
+    <div class="result-title" id="resultTitle"></div>
+    <div class="your" id="yourAnswer"></div>
+    <div class="ex" id="resultExplanation"></div>
+  </div>
+
+  <div class="footer-note">簿記2級・1級 税効果会計の練習用アプリ(自己採点)。解説には仕訳と勘定記入も出ます。</div>
+
+</div>
+
+<script>
+(function () {
+  var state = { problem: null, score: 0, total: 0, mode: 'all' };
+
+  function randMultiple(min, max, step) {
+    var n = Math.floor(Math.random() * ((max - min) / step + 1));
+    return min + n * step;
+  }
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function fmt(n) {
+    var r = Math.round(n);
+    var s = Math.abs(r).toLocaleString('ja-JP');
+    return (r < 0 ? '△' : '') + s;
+  }
+  function yen(n) { return fmt(n) + '円'; }
+  function pct(p, d) { return (Math.round(p * Math.pow(10, d)) / Math.pow(10, d)).toFixed(d); }
+  function r2(x) { return Math.round(x * 100) / 100; }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
+
+  // 仕訳:rows = [[借方科目, 金額, 貸方科目, 金額], ...]
+  function je(rows) {
+    if (!rows || rows.length === 0) return '<div class="je-none">仕訳なし</div>';
+    return '<div class="je">' + rows.map(function (r) {
+      function side(mark, name, amt) {
+        if (!name) return '<div class="je-side"></div>';
+        return '<div class="je-side"><span class="n">' + mark + name + '</span><span class="a">' + fmt(amt) + '</span></div>';
+      }
+      return '<div class="je-row">' + side('(借)', r[0], r[1]) + side('(貸)', r[2], r[3]) + '</div>';
+    }).join('') + '</div>';
+  }
+  // 勘定記入:dr/cr = [[相手科目, 金額], ...]
+  function tacct(name, dr, cr) {
+    function col(lines) {
+      return '<div class="tc">' + lines.map(function (l) {
+        return '<div class="tl"><span>' + l[0] + '</span><span class="a">' + fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<div class="tac"><div class="tn">' + name + '</div><div class="tb">' + col(dr) + col(cr) + '</div></div>';
+  }
+  function sec(title, html) { return '<div><h3>' + title + '</h3>' + html + '</div>'; }
+  function ul(items) { return '<ul>' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ul>'; }
+  function calc(text) { return '<pre class="calc">' + text + '</pre>'; }
+
+  // ===== 図の部品 =====
+  var C = { blue: '#5b8def', sky: '#8fb8ff', green: '#5fb36a', orange: '#e09a3e', gray: '#7c8796', red: '#e0705a', gold: '#d4a24c', purple: '#a78bfa', teal: '#4fb3b3' };
+  var HATCH = ';background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.4) 0 4px,transparent 4px 8px)';
+  function ol(items) { return '<ol>' + items.map(function (i) { return '<li>' + i + '</li>'; }).join('') + '</ol>'; }
+  function dg(title, html, cap) {
+    return '<div class="dg">' + (title ? '<div class="dt">' + title + '</div>' : '') + html + (cap ? '<div class="cap">' + cap + '</div>' : '') + '</div>';
+  }
+  function legend(items) {
+    return '<div class="lg">' + items.map(function (it) {
+      return '<span><i' + (it.dash ? ' class="dash"' : '') + ' style="background:' + it.c + (it.hatch ? HATCH : '') + '"></i>' + it.t + '</span>';
+    }).join('') + '</div>';
+  }
+  // 横棒:segs = [{v, c, t, in, hatch}]、max = 目盛りの最大値、opt.offset = 左の空き
+  function bar(label, note, segs, max, opt) {
+    opt = opt || {};
+    var html = '<div class="bl' + (label || note ? '' : ' tight') + '">' + (label || note ? '<div class="bh"><span>' + label + '</span><span class="bv">' + (note || '') + '</span></div>' : '') + '<div class="bt">';
+    if (opt.offset > 0) html += '<span style="width:' + (opt.offset / max * 100) + '%"></span>';
+    segs.forEach(function (sg) {
+      var w = Math.max(0, sg.v / max * 100);
+      html += '<span style="width:' + w + '%;background:' + sg.c + (sg.hatch ? HATCH : '') + '">' + (sg.in && w > 14 ? '<em>' + sg.in + '</em>' : '') + '</span>';
+    });
+    html += '</div>';
+    if (opt.legend) {
+      var lg = segs.filter(function (sg) { return sg.t; });
+      if (lg.length) html += legend(lg);
+    }
+    return html + '</div>';
+  }
+  // 流れ:boxes = [{t, v, s, c}]、arrows = 矢印に添える文字
+  function flow(boxes, arrows) {
+    var html = '<div class="flw">';
+    boxes.forEach(function (b, i) {
+      if (i > 0) html += '<div class="farr"><span>' + ((arrows && arrows[i - 1]) || '') + '</span><span class="ar">▶</span></div>';
+      html += '<div class="fbx" style="border-color:' + b.c + '"><div class="ft">' + b.t + '</div><div class="fv" style="color:' + b.c + '">' + b.v + '</div>' + (b.s ? '<div class="fs">' + b.s + '</div>' : '') + '</div>';
+    });
+    return html + '</div>';
+  }
+  function man(n) { return (Math.round(n / 1000) / 10) + '万'; }
+
+  // ① 法定実効税率の計算
+  function genRate() {
+    var corp = pick([23.2, 23.2, 25.5, 23.4]);
+    var chiho = pick([10.3, 10.3, 4.4]);
+    var jumin = pick([7.0, 7.0, 12.9, 10.4]);
+    var jigyo = pick([3.6, 3.6, 7.0, 6.0, 4.0]);
+    var rateOnTax = r2(chiho + jumin);
+    var numer = corp * (1 + rateOnTax / 100) + jigyo;
+    var simple = r2(numer);
+    var eff = r2(numer / (1 + jigyo / 100));
+    var e = jigyo / 100;
+    var segs0 = [
+      { v: corp, c: C.blue, t: '法人税 ' + pct(corp, 2) },
+      { v: corp * chiho / 100, c: C.sky, t: '地方法人税 ' + pct(corp * chiho / 100, 2) },
+      { v: corp * jumin / 100, c: C.green, t: '住民税 ' + pct(corp * jumin / 100, 2) },
+      { v: jigyo, c: C.orange, t: '事業税 ' + pct(jigyo, 2) }
+    ];
+    var segs1 = segs0.map(function (sg) {
+      return { v: sg.v / (1 + e), c: sg.c, t: sg.t.replace(/[\d.]+$/, '') + pct(sg.v / (1 + e), 2) };
+    });
+    segs0[0].in = '法人税'; segs1[0].in = '法人税';
+    var A = 100 * e / (1 + e), B = 100 / (1 + e);
+    var steps = ol([
+      '税金を<b>所得に掛ける税</b>(法人税・事業税)と、<b>法人税額に掛ける税</b>(地方法人税・住民税)に分ける。',
+      '法人税額に掛ける税率を足し(' + chiho + '% ＋ ' + jumin.toFixed(1) + '% ＝ ' + rateOnTax + '%)、法人税率に(1 ＋ その率)を掛ける。',
+      '事業税率を足す → これが①の単純な合計 ' + pct(simple, 2) + '%。',
+      '(1 ＋ 事業税率)＝ ' + (1 + e).toFixed(3).replace(/0+$/, '') + ' で割る → これが②の法定実効税率 ' + pct(eff, 2) + '%。'
+    ]);
+    var diagram =
+      dg('所得100にかかる税金(目盛りは所得100が全体)',
+        bar('所得', '100', [{ v: 100, c: C.gray, in: '所得 100' }], 100) +
+        bar('① 単純に足した税金', pct(simple, 2), segs0, 100, { legend: true }) +
+        bar('② 事業税の損金算入を考えた税金', pct(eff, 2), segs1, 100, { legend: true }),
+        '②は①の各税金をすべて ' + (1 + e).toFixed(3).replace(/0+$/, '') + ' で割った大きさです。どの税金も少しずつ小さくなります。') +
+      dg('なぜ(1 ＋ 事業税率)で割るの?',
+        flow([
+          { t: '会計上の所得', v: '100', c: C.gray },
+          { t: '課税所得', v: pct(B, 2), s: '100 ÷ ' + (1 + e).toFixed(3).replace(/0+$/, ''), c: C.sky },
+          { t: '税金の合計', v: pct(eff, 2), s: pct(B, 2) + ' × ' + pct(simple, 2) + '%', c: C.gold }
+        ], ['事業税 ' + pct(A, 2) + ' が<br>損金になる', '単純な合計の<br>税率を掛ける']) +
+        calc(
+          '事業税は払った分だけ翌年の所得を減らします。毎年同じ利益が続くとすると、\n' +
+          '課税所得 ＝ 100 − 事業税、事業税 ＝ 課税所得 × ' + jigyo + '%\n' +
+          '→ 課税所得 ＝ 100 ÷(1 ＋ ' + (e).toFixed(3).replace(/0+$/, '') + ')＝ ' + pct(B, 2) + '\n' +
+          '→ 事業税   ＝ ' + pct(B, 2) + ' × ' + jigyo + '% ＝ ' + pct(A, 2) + '(100 − ' + pct(B, 2) + ' と一致)\n\n' +
+          '課税所得 ' + pct(B, 2) + ' に税金をかけると\n' +
+          '法人税     ' + pct(B, 2) + ' × ' + corp + '% ＝ ' + pct(B * corp / 100, 2) + '\n' +
+          '地方法人税 ' + pct(B * corp / 100, 2) + ' × ' + chiho + '% ＝ ' + pct(B * corp / 100 * chiho / 100, 2) + '\n' +
+          '住民税     ' + pct(B * corp / 100, 2) + ' × ' + jumin.toFixed(1) + '% ＝ ' + pct(B * corp / 100 * jumin / 100, 2) + '\n' +
+          '事業税     ' + pct(B, 2) + ' × ' + jigyo + '% ＝ ' + pct(A, 2) + '\n' +
+          '合計 ≒ ' + pct(eff, 2) + ' → 所得100に対して ' + pct(eff, 2) + '%'
+        ),
+        '「事業税を払う → 所得が減る → 全部の税金が減る」の効果をまとめて織り込むのが、(1 ＋ 事業税率)で割る意味です。');
+    return {
+      topic: '法定実効税率の計算',
+      lines: [
+        'ある会社に適用される税率は次のとおりである。',
+        '<span class="problem-line item">・法人税率:<b>' + corp + '%</b>(課税所得に対して)</span>',
+        '<span class="problem-line item">・地方法人税率:<b>' + chiho + '%</b>(法人税額に対して)</span>',
+        '<span class="problem-line item">・住民税率(法人税割):<b>' + jumin.toFixed(1) + '%</b>(法人税額に対して)</span>',
+        '<span class="problem-line item">・事業税率(特別法人事業税を含む):<b>' + jigyo + '%</b>(課税所得に対して)</span>',
+        '事業税は損金に算入されるものとして、法定実効税率を求めなさい。'
+      ],
+      labels: ['① 事業税の損金算入を考えない単純な合計(%)', '② 法定実効税率(%)'],
+      hint: '%の数字だけを、小数第2位まで入力(第3位を四捨五入)。例:29.74',
+      answers: [simple, eff],
+      tol: [0.011, 0.011],
+      show: [pct(simple, 2) + '%', pct(eff, 2) + '%'],
+      explanation:
+        sec('解き方の手順', steps) +
+        sec('考え方', ul([
+          '地方法人税と住民税は<b>法人税額</b>に税率を掛けるので、法人税率にまとめて掛けます。',
+          '事業税は<b>課税所得</b>に直接かかるので足します。',
+          '事業税は納めた年度に損金になり課税所得が減るため、最後に<b>(1 ＋ 事業税率)で割ります</b>。'
+        ])) +
+        sec('図で見る', diagram) +
+        sec('計算', calc(
+          '法人税額にかかる税率:' + chiho + '% ＋ ' + jumin.toFixed(1) + '% ＝ ' + rateOnTax + '%\n' +
+          '① ' + corp + '% ×(1 ＋ ' + (rateOnTax / 100).toFixed(3).replace(/0+$/, '') + ')＋ ' + jigyo + '%\n' +
+          '  ＝ ' + pct(corp * (1 + rateOnTax / 100), 2) + '% ＋ ' + jigyo + '% ＝ ' + pct(simple, 2) + '%\n' +
+          '② ' + pct(numer, 4) + '% ÷ ' + (1 + jigyo / 100).toFixed(3).replace(/0+$/, '') + ' ＝ ' + pct(eff, 2) + '%'
+        )) +
+        sec('ポイント', ul([
+          '①と②の差(' + pct(simple - eff, 2) + 'ポイント)が、事業税の損金算入による税負担の軽減分です。',
+          '住民税の均等割や、外形標準課税の付加価値割・資本割は所得に連動しないので入れません。'
+        ]))
+    };
+  }
+
+  // 一時差異の項目
+  var DIFF_ITEMS = [
+    '貸倒引当金の繰入限度超過額',
+    '減価償却費の償却限度超過額',
+    '未払事業税',
+    '賞与引当金の損金不算入額',
+    '棚卸資産評価損の損金不算入額'
+  ];
+
+  // ② 繰延税金資産と法人税等調整額(期首残高あり)
+  function genDTA() {
+    var rate = pick([30, 30, 35, 40]);
+    var items = DIFF_ITEMS.slice().sort(function () { return Math.random() - 0.5; }).slice(0, 3);
+    var rows = items.map(function (name) {
+      return { name: name, beg: randMultiple(20000, 300000, 10000), end: randMultiple(20000, 300000, 10000) };
+    });
+    var begSum = rows.reduce(function (s, r) { return s + r.beg; }, 0);
+    var endSum = rows.reduce(function (s, r) { return s + r.end; }, 0);
+    if (begSum === endSum) rows[0].end += 10000, endSum += 10000;
+    var begDTA = begSum * rate / 100;
+    var endDTA = endSum * rate / 100;
+    var adj = endDTA - begDTA; // +なら貸方(費用の減少)
+    var entry = adj > 0
+      ? [['繰延税金資産', adj, '法人税等調整額', adj]]
+      : [['法人税等調整額', -adj, '繰延税金資産', -adj]];
+    var drLines = [['前期繰越', begDTA]];
+    var crLines = [];
+    if (adj > 0) drLines.push(['法人税等調整額', adj]); else crLines.push(['法人税等調整額', -adj]);
+    crLines.push(['次期繰越', endDTA]);
+    var adjDr = adj < 0 ? [['繰延税金資産', -adj]] : [];
+    var adjCr = adj > 0 ? [['繰延税金資産', adj]] : [];
+    var maxItem = rows.reduce(function (m, r) { return Math.max(m, r.beg, r.end); }, 0);
+    var maxSum = Math.max(begSum, endSum);
+    var up = adj > 0;
+    var steps = ol([
+      '期首の一時差異を合計して × ' + rate + '% → 期首の繰延税金資産(前期繰越)' + yen(begDTA) + '。',
+      '期末の一時差異を合計して × ' + rate + '% → 期末に必要な繰延税金資産 ' + yen(endDTA) + '(①の答え)。',
+      '期末 − 期首 ＝ ' + fmt(adj) + '円。' + (up ? '増えたので、増えた分を<b>貸方</b>の法人税等調整額にする(②は＋)。' : '減ったので、減った分を<b>借方</b>の法人税等調整額にする(②は−)。')
+    ]);
+    var diagram =
+      dg('一時差異の期首と期末',
+        legend([{ c: C.gray, t: '期首' }, { c: C.blue, t: '期末' }]) +
+        rows.map(function (r) {
+          return bar(r.name, fmt(r.beg) + ' → ' + fmt(r.end), [{ v: r.beg, c: C.gray }], maxItem) +
+                 bar('', '', [{ v: r.end, c: C.blue }], maxItem);
+        }).join('') +
+        bar('<b>合計</b>', fmt(begSum) + ' → ' + fmt(endSum), [{ v: begSum, c: C.gray, in: '期首 ' + man(begSum) }], maxSum) +
+        bar('', '', [{ v: endSum, c: C.blue, in: '期末 ' + man(endSum) }], maxSum),
+        '項目ごとに増えたり減ったりしますが、計算に使うのは<b>合計</b>です。') +
+      dg('繰延税金資産の動き(× ' + rate + '%)',
+        flow([
+          { t: '期首の繰延税金資産', v: fmt(begDTA), s: fmt(begSum) + ' × ' + rate + '%', c: C.gray },
+          { t: '期末の繰延税金資産', v: fmt(endDTA), s: fmt(endSum) + ' × ' + rate + '%', c: C.blue }
+        ], ['法人税等調整額<br>' + (up ? '貸方 ' : '借方 ') + fmt(Math.abs(adj))]),
+        '繰延税金資産は「将来、税金が減る効果」です。' +
+        (up ? '差異が増えた → 将来の減税効果が増えた → 資産が増え、当期の税金費用は<b>減ります</b>(法人税等調整額が貸方)。'
+            : '差異が減った → 将来の減税効果が減った(当期に使った) → 資産が減り、当期の税金費用は<b>増えます</b>(法人税等調整額が借方)。'));
+    return {
+      topic: '繰延税金資産と法人税等調整額',
+      lines: ['当期末の決算において、税効果会計を適用する。将来減算一時差異は次のとおりである。']
+        .concat(rows.map(function (r) {
+          return '<span class="problem-line item">・' + r.name + ':期首 <b>' + yen(r.beg) + '</b> → 期末 <b>' + yen(r.end) + '</b></span>';
+        }))
+        .concat(['法定実効税率は前期・当期とも <b>' + rate + '%</b>、繰延税金資産の回収可能性に問題はない。']),
+      labels: ['① 期末の繰延税金資産(円)', '② 当期の法人税等調整額(円) 貸方なら＋、借方なら−'],
+      hint: '半角数字で入力(カンマは入れても可)。②は借方(税金費用が増える)ならマイナスを付ける。',
+      answers: [endDTA, adj],
+      tol: [0, 0],
+      show: [yen(endDTA), (adj > 0 ? '貸方 ' : '借方 ') + yen(Math.abs(adj))],
+      explanation:
+        sec('解き方の手順', steps) +
+        sec('考え方', ul([
+          '繰延税金資産は<b>期末の一時差異の合計 × 法定実効税率</b>で計算します。',
+          '法人税等調整額は、期首と期末の繰延税金資産の<b>差額だけ</b>を計上します。'
+        ])) +
+        sec('図で見る', diagram) +
+        sec('計算', calc(
+          '期首の一時差異:' + rows.map(function (r) { return fmt(r.beg); }).join(' ＋ ') + ' ＝ ' + yen(begSum) + '\n' +
+          '期末の一時差異:' + rows.map(function (r) { return fmt(r.end); }).join(' ＋ ') + ' ＝ ' + yen(endSum) + '\n' +
+          '期首の繰延税金資産:' + fmt(begSum) + ' × ' + rate + '% ＝ ' + yen(begDTA) + '\n' +
+          '期末の繰延税金資産:' + fmt(endSum) + ' × ' + rate + '% ＝ ' + yen(endDTA) + '\n' +
+          '差額:' + fmt(endDTA) + ' − ' + fmt(begDTA) + ' ＝ ' + fmt(adj) + '円' +
+          (adj > 0 ? '(資産が増える → 法人税等調整額は貸方)' : '(資産が減る → 法人税等調整額は借方)')
+        )) +
+        sec('仕訳', je(entry)) +
+        sec('勘定記入', '<div class="taccts">' + tacct('繰延税金資産', drLines, crLines) + tacct('法人税等調整額', adjDr, adjCr) + '</div>') +
+        sec('ポイント', ul([
+          '法人税等調整額が<b>貸方</b>なら損益計算書で法人税等から<b>差し引き</b>、<b>借方</b>なら<b>加算</b>します。',
+          '項目ごとに増減を計算して合計しても、合計どうしの差額で計算しても結果は同じです。'
+        ]))
+    };
+  }
+
+  // ③ 損益計算書の税金費用と当期純利益
+  function genPL() {
+    var rate = pick([30, 30, 35, 40]);
+    var pretax = randMultiple(800000, 3000000, 100000);
+    var tempName = pick(DIFF_ITEMS.slice(0, 2).concat(DIFF_ITEMS.slice(3)));
+    var temp = randMultiple(50000, 300000, 10000);
+    var hasPerm = Math.random() < 0.6;
+    var perm = hasPerm ? randMultiple(20000, 150000, 10000) : 0;
+    var taxable = pretax + temp + perm;
+    var tax = taxable * rate / 100;
+    var adj = temp * rate / 100;
+    var net = pretax - tax + adj;
+    var burden = (tax - adj) / pretax * 100;
+    var lines = [
+      '当期の税引前当期純利益は <b>' + yen(pretax) + '</b> である。税務上の調整項目は次のとおり(いずれも当期に新たに発生したもの)。',
+      '<span class="problem-line item">・' + tempName + ':<b>' + yen(temp) + '</b>(将来減算一時差異)</span>'
+    ];
+    if (hasPerm) lines.push('<span class="problem-line item">・交際費の損金不算入額:<b>' + yen(perm) + '</b>(永久差異)</span>');
+    lines.push('法定実効税率は <b>' + rate + '%</b>、法人税等は課税所得 × ' + rate + '% で計算する。');
+    var permNote = hasPerm
+      ? '交際費の損金不算入額は<b>永久差異</b>なので税効果を適用しません。そのため税負担率は ' + pct(burden, 2) + '% となり、実効税率 ' + rate + '% より高くなります。'
+      : '永久差異がないので、税金費用(' + yen(tax - adj) + ')はちょうど税引前当期純利益の ' + rate + '% になります。';
+    var tP = pretax * rate / 100, tT = temp * rate / 100, tQ = perm * rate / 100;
+    var steps = ol([
+      '税引前当期純利益に、税務上の加算項目を足して<b>課税所得</b>を出す(' + fmt(pretax) + ' → ' + fmt(taxable) + ')。',
+      '課税所得 × ' + rate + '% ＝ <b>法人税、住民税及び事業税</b> ' + yen(tax) + '(①の答え。実際に納める額)。',
+      '<b>一時差異だけ</b> × ' + rate + '% ＝ 法人税等調整額 ' + yen(adj) + '(貸方)。' + (hasPerm ? '交際費(永久差異)には計算しない。' : ''),
+      '税引前当期純利益 −(法人税等 − 法人税等調整額)＝ 当期純利益 ' + yen(net) + '(②の答え)。'
+    ]);
+    var segIncome = [{ v: pretax, c: C.blue, in: '税引前利益', t: '税引前当期純利益 ' + fmt(pretax) },
+                     { v: temp, c: C.orange, t: '一時差異 ＋' + fmt(temp) }];
+    if (hasPerm) segIncome.push({ v: perm, c: C.red, t: '永久差異(交際費)＋' + fmt(perm) });
+    var segTax = [{ v: tP, c: C.blue, in: '利益の' + rate + '%', t: fmt(pretax) + ' × ' + rate + '% ＝ ' + fmt(tP) },
+                  { v: tT, c: C.orange, t: '一時差異の分 ' + fmt(tT) }];
+    if (hasPerm) segTax.push({ v: tQ, c: C.red, t: '永久差異の分 ' + fmt(tQ) });
+    var segCost = [{ v: tP, c: C.blue, in: '利益の' + rate + '%' }];
+    if (hasPerm) segCost.push({ v: tQ, c: C.red });
+    var diagram =
+      dg('会計上の利益と課税所得のずれ',
+        bar('税引前当期純利益(会計)', fmt(pretax), [{ v: pretax, c: C.blue, in: '税引前利益' }], taxable) +
+        bar('課税所得(税務)', fmt(taxable), segIncome, taxable, { legend: true }),
+        '税務では費用として認められない分を足し戻すので、課税所得のほうが大きくなります。') +
+      dg('税金の中身(すべて × ' + rate + '%)',
+        bar('法人税、住民税及び事業税(納める額)', fmt(tax), segTax, tax, { legend: true }) +
+        bar('法人税等調整額(一時差異の分を取り消す)', '△' + fmt(adj), [{ v: tT, c: C.orange, hatch: true }], tax, { offset: tP }) +
+        bar('損益計算書の税金費用', fmt(tax - adj) + '(負担率 ' + pct(burden, 2) + '%)', segCost, tax),
+        hasPerm
+          ? 'オレンジ(一時差異の分)は将来取り戻せる税金なので、法人税等調整額で当期の費用から外します。赤(交際費の分)は取り戻せないので費用に残り、負担率が ' + rate + '% より高くなります。'
+          : 'オレンジ(一時差異の分)は将来取り戻せる税金なので、法人税等調整額で当期の費用から外します。残った税金費用は、ちょうど税引前利益の ' + rate + '% です。');
+    return {
+      topic: '損益計算書の税金費用',
+      lines: lines,
+      labels: ['① 法人税、住民税及び事業税(円)', '② 当期純利益(円)'],
+      hint: '半角数字で入力(カンマは入れても可)。',
+      answers: [tax, net],
+      tol: [0, 0],
+      show: [yen(tax), yen(net)],
+      explanation:
+        sec('解き方の手順', steps) +
+        sec('考え方', ul([
+          '<b>法人税、住民税及び事業税</b>は、税務上の課税所得 × 税率で計算します(実際に納める額)。',
+          '<b>一時差異</b>だけに税効果を適用し、法人税等調整額で税金費用を調整します。',
+          '交際費などの<b>永久差異</b>は将来も解消しないので、税効果を適用しません。'
+        ])) +
+        sec('図で見る', diagram) +
+        sec('計算', calc(
+          '課税所得:' + fmt(pretax) + ' ＋ ' + fmt(temp) + (hasPerm ? ' ＋ ' + fmt(perm) : '') + ' ＝ ' + yen(taxable) + '\n' +
+          '法人税等:' + fmt(taxable) + ' × ' + rate + '% ＝ ' + yen(tax) + '\n' +
+          '法人税等調整額:' + fmt(temp) + ' × ' + rate + '% ＝ ' + yen(adj) + '(貸方)\n' +
+          '当期純利益:' + fmt(pretax) + ' −(' + fmt(tax) + ' − ' + fmt(adj) + ')＝ ' + yen(net)
+        )) +
+        sec('仕訳', je([
+          ['法人税、住民税及び事業税', tax, '未払法人税等', tax],
+          ['繰延税金資産', adj, '法人税等調整額', adj]
+        ]) + '<p style="margin-top:6px">※中間納付はないものとしています。中間納付があれば、その分は貸方「仮払法人税等」になります。</p>') +
+        sec('損益計算書(下の部分)', calc(
+          '税引前当期純利益          ' + fmt(pretax) + '\n' +
+          '法人税、住民税及び事業税  ' + fmt(tax) + '\n' +
+          '法人税等調整額            △' + fmt(adj) + '   → 差し引き ' + fmt(tax - adj) + '\n' +
+          '当期純利益                ' + fmt(net)
+        )) +
+        sec('ポイント', '<p>' + permNote + '</p>')
+    };
+  }
+
+  // ④ 税率変更
+  function genChange() {
+    var oldR = pick([30, 35, 40]);
+    var newR = pick([28, 30, 32, 35].filter(function (x) { return x !== oldR; }));
+    var beg = randMultiple(200000, 800000, 10000);
+    var end = randMultiple(200000, 800000, 10000);
+    var begDTA = beg * oldR / 100;
+    var endDTA = end * newR / 100;
+    var adj = endDTA - begDTA;
+    var byChange = beg * (newR - oldR) / 100;     // 期首差異の税率変更分
+    var byDiff = (end - beg) * newR / 100;         // 差異の増減分(新税率)
+    var entry = adj > 0
+      ? [['繰延税金資産', adj, '法人税等調整額', adj]]
+      : (adj < 0 ? [['法人税等調整額', -adj, '繰延税金資産', -adj]] : []);
+    var drLines = [['前期繰越', begDTA]];
+    var crLines = [];
+    if (adj > 0) drLines.push(['法人税等調整額', adj]); else if (adj < 0) crLines.push(['法人税等調整額', -adj]);
+    crLines.push(['次期繰越', endDTA]);
+    var W = 460, H = 300, px0 = 70, px1 = 440, py0 = 250, py1 = 28;
+    var maxD = Math.max(beg, end) * 1.12, maxR = 45;
+    function X(d) { return px0 + d / maxD * (px1 - px0); }
+    function Y(r) { return py0 - r / maxR * (py0 - py1); }
+    var rateCol = newR < oldR ? C.red : C.green;
+    var diffCol = end > beg ? C.green : C.red;
+    var lo = Math.min(beg, end), hi = Math.max(beg, end);
+    var svg = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans JP, sans-serif">' +
+      // 期末(新税率)
+      '<rect x="' + px0 + '" y="' + Y(newR) + '" width="' + (X(end) - px0) + '" height="' + (py0 - Y(newR)) + '" fill="' + C.blue + '" fill-opacity="0.35" stroke="' + C.blue + '" stroke-width="2"/>' +
+      // 税率変更の影響
+      '<rect x="' + px0 + '" y="' + Math.min(Y(newR), Y(oldR)) + '" width="' + (X(beg) - px0) + '" height="' + Math.abs(Y(newR) - Y(oldR)) + '" fill="' + rateCol + '" fill-opacity="0.8"/>' +
+      // 差異の増減の影響
+      '<rect x="' + X(lo) + '" y="' + Y(newR) + '" width="' + (X(hi) - X(lo)) + '" height="' + (py0 - Y(newR)) + '" fill="' + diffCol + '" fill-opacity="0.8"/>' +
+      // 期首(旧税率)
+      '<rect x="' + px0 + '" y="' + Y(oldR) + '" width="' + (X(beg) - px0) + '" height="' + (py0 - Y(oldR)) + '" fill="none" stroke="' + C.gold + '" stroke-width="2.5" stroke-dasharray="7 5"/>' +
+      // 軸
+      '<line x1="' + px0 + '" y1="' + py0 + '" x2="' + (px1 + 8) + '" y2="' + py0 + '" stroke="#c7c0b0" stroke-width="2"/>' +
+      '<line x1="' + px0 + '" y1="' + py0 + '" x2="' + px0 + '" y2="' + (py1 - 8) + '" stroke="#c7c0b0" stroke-width="2"/>' +
+      '<text x="' + (px0 - 8) + '" y="' + (Y(oldR) + 5) + '" fill="' + C.gold + '" font-size="16" font-weight="700" text-anchor="end">' + oldR + '%</text>' +
+      '<text x="' + (px0 - 8) + '" y="' + (Y(newR) + 5 + (Math.abs(Y(newR) - Y(oldR)) < 18 ? (newR < oldR ? 12 : -12) : 0)) + '" fill="' + C.sky + '" font-size="16" font-weight="700" text-anchor="end">' + newR + '%</text>' +
+      '<text x="' + X(beg) + '" y="' + (py0 + 22) + '" fill="' + C.gold + '" font-size="16" font-weight="700" text-anchor="middle">' + man(beg) + '</text>' +
+      '<text x="' + X(end) + '" y="' + (py0 + 22 + (Math.abs(X(end) - X(beg)) < 56 ? 20 : 0)) + '" fill="' + C.sky + '" font-size="16" font-weight="700" text-anchor="middle">' + man(end) + '</text>' +
+      '<text x="' + (px0 - 8) + '" y="' + (py1 - 12) + '" fill="#c7c0b0" font-size="14" text-anchor="end">税率</text>' +
+      '<text x="' + (px1 + 8) + '" y="' + (py0 + 44) + '" fill="#c7c0b0" font-size="14" text-anchor="end">一時差異</text>' +
+      '</svg>';
+    var steps = ol([
+      '期首の残高は前期に計上した額のまま:' + fmt(beg) + ' × 旧税率 ' + oldR + '% ＝ ' + yen(begDTA) + '。',
+      '期末の残高は<b>新しい税率</b>で計算:' + fmt(end) + ' × ' + newR + '% ＝ ' + yen(endDTA) + '(①の答え)。',
+      '期末 − 期首 ＝ ' + fmt(adj) + '円 が法人税等調整額(②の答え)。',
+      '下の面積図のように「税率変更の影響」と「差異の増減の影響」に分けると、検算できます。'
+    ]);
+    var diagram =
+      dg('面積図(横 ＝ 一時差異、縦 ＝ 税率、面積 ＝ 繰延税金資産)',
+        svg +
+        legend([
+          { c: C.gold, dash: true, t: '点線の枠:期首 ' + fmt(beg) + ' × ' + oldR + '% ＝ ' + fmt(begDTA) },
+          { c: C.blue, t: '青の枠:期末 ' + fmt(end) + ' × ' + newR + '% ＝ ' + fmt(endDTA) },
+          { c: rateCol, t: '税率変更の影響 ' + fmt(byChange) },
+          { c: diffCol, t: '差異の増減の影響 ' + fmt(byDiff) }
+        ]),
+        '緑は繰延税金資産を増やす部分(貸方)、赤は減らす部分(借方)です。2つを足すと法人税等調整額 ' + fmt(adj) + '円 になります。') +
+      dg('2段階に分けた動き',
+        flow([
+          { t: '期首', v: fmt(begDTA), s: fmt(beg) + ' × ' + oldR + '%', c: C.gold },
+          { t: '税率だけ変える', v: fmt(beg * newR / 100), s: fmt(beg) + ' × ' + newR + '%', c: C.gray },
+          { t: '期末', v: fmt(endDTA), s: fmt(end) + ' × ' + newR + '%', c: C.blue }
+        ], ['税率変更<br>' + fmt(byChange), '差異の増減<br>' + fmt(byDiff)]));
+    return {
+      topic: '税率が変わったとき',
+      lines: [
+        '前期末の将来減算一時差異は <b>' + yen(beg) + '</b>、法定実効税率 <b>' + oldR + '%</b> で繰延税金資産を計上していた。',
+        '当期中に税法が改正され、翌期以降に解消する一時差異に適用される法定実効税率は <b>' + newR + '%</b> となった(当期末までに成立済み)。',
+        '当期末の将来減算一時差異は <b>' + yen(end) + '</b> である。'
+      ],
+      labels: ['① 期末の繰延税金資産(円)', '② 当期の法人税等調整額(円) 貸方なら＋、借方なら−'],
+      hint: '半角数字で入力(カンマは入れても可)。②は借方ならマイナスを付ける。',
+      answers: [endDTA, adj],
+      tol: [0, 0],
+      show: [yen(endDTA), adj === 0 ? '0円' : (adj > 0 ? '貸方 ' : '借方 ') + yen(Math.abs(adj))],
+      explanation:
+        sec('解き方の手順', steps) +
+        sec('考え方', ul([
+          '繰延税金資産は、差異が<b>解消する年度の税率</b>で計算します(資産負債法)。',
+          'だから期末残高は<b>新しい税率 ' + newR + '%</b> で計算し直します。期首残高は前期の旧税率 ' + oldR + '% のままです。',
+          '法人税等調整額は、期末残高と期首残高の差額です。'
+        ])) +
+        sec('図で見る', diagram) +
+        sec('計算', calc(
+          '期首の繰延税金資産:' + fmt(beg) + ' × ' + oldR + '% ＝ ' + yen(begDTA) + '\n' +
+          '期末の繰延税金資産:' + fmt(end) + ' × ' + newR + '% ＝ ' + yen(endDTA) + '\n' +
+          '法人税等調整額:' + fmt(endDTA) + ' − ' + fmt(begDTA) + ' ＝ ' + fmt(adj) + '円\n\n' +
+          '(内訳)\n' +
+          '税率変更の影響:' + fmt(beg) + ' ×(' + newR + '% − ' + oldR + '%)＝ ' + fmt(byChange) + '円\n' +
+          '差異の増減:(' + fmt(end) + ' − ' + fmt(beg) + ')× ' + newR + '% ＝ ' + fmt(byDiff) + '円\n' +
+          '合計:' + fmt(byChange + byDiff) + '円'
+        )) +
+        sec('仕訳', je(entry)) +
+        sec('勘定記入', '<div class="taccts">' + tacct('繰延税金資産', drLines, crLines) + '</div>') +
+        sec('ポイント', ul([
+          '税率が下がると、同じ差異でも将来減る税金が少なくなるので、繰延税金資産は<b>減ります</b>(税金費用が増える)。',
+          '税率変更の影響も、まとめて<b>法人税等調整額</b>で処理します。'
+        ]))
+    };
+  }
+
+  // ⑤ 税負担率と差異分析
+  function genBurden() {
+    var rate = pick([30, 30, 35]);
+    var pretax = randMultiple(1000000, 4000000, 200000);
+    var kosai = randMultiple(40000, 200000, 20000);
+    var haito = randMultiple(20000, 200000, 20000);
+    var kintou = pick([70000, 180000, 290000, 50000]);
+    var taxable = pretax + kosai - haito;
+    var tax = taxable * rate / 100 + kintou;
+    var burden = tax / pretax * 100;
+    var eK = kosai * rate / pretax, eH = -haito * rate / pretax, eU = kintou / pretax * 100;
+    var p0 = rate, p1 = rate + eK, p2 = p1 + eH, p3 = p2 + eU;
+    var loA = Math.max(0, Math.floor(Math.min(p0, p1, p2, p3)) - 2), hiA = Math.ceil(Math.max(p0, p1, p2, p3)) + 1, span = hiA - loA;
+    var steps = ol([
+      '課税所得 ＝ 税引前当期純利益 ＋ 交際費(損金不算入)− 受取配当金(益金不算入)＝ ' + yen(taxable) + '。',
+      '課税所得 × ' + rate + '% に、所得に関係なくかかる<b>均等割</b>を足す → 法人税等 ' + yen(tax) + '(①の答え)。',
+      '法人税等 ÷ 税引前当期純利益 ＝ 税負担率 ' + pct(burden, 2) + '%(②の答え)。',
+      '検算:法定実効税率に、各項目の影響(金額 × ' + rate + '% ÷ 税引前利益)を足し引きしても同じになる。'
+    ]);
+    var diagram =
+      dg('会計上の利益と課税所得のずれ',
+        bar('税引前当期純利益', fmt(pretax), [{ v: pretax - haito, c: C.blue, in: '課税される利益' }, { v: haito, c: C.green, hatch: true, t: '受取配当金(益金不算入)△' + fmt(haito) }], pretax + kosai, { legend: true }) +
+        bar('課税所得', fmt(taxable), [{ v: pretax - haito, c: C.blue, in: '課税される利益' }, { v: kosai, c: C.red, t: '交際費(損金不算入)＋' + fmt(kosai) }], pretax + kosai, { legend: true }),
+        '受取配当金は利益に入っているのに課税されず、交際費は費用なのに税務では費用にならない(=課税される)ので、ずれが生まれます。') +
+      dg('実効税率 ' + rate + '% から税負担率 ' + pct(burden, 2) + '% まで(目盛りは ' + loA + '%〜' + hiA + '% を拡大)',
+        bar('法定実効税率', pct(p0, 2) + '%', [{ v: p0 - loA, c: C.gray }], span) +
+        bar('交際費の損金不算入', '＋' + pct(eK, 2) + '%', [{ v: eK, c: C.red }], span, { offset: p0 - loA }) +
+        bar('受取配当金の益金不算入', '△' + pct(-eH, 2) + '%', [{ v: -eH, c: C.green }], span, { offset: p2 - loA }) +
+        bar('住民税の均等割', '＋' + pct(eU, 2) + '%', [{ v: eU, c: C.red }], span, { offset: p2 - loA }) +
+        bar('<b>税負担率</b>', pct(p3, 2) + '%', [{ v: p3 - loA, c: C.gold }], span),
+        '赤は負担率を上げる要因、緑は下げる要因です。どれも永久差異(または所得に関係ない税金)なので、税効果会計では調整されません。');
+    return {
+      topic: '税負担率と実効税率の差異',
+      lines: [
+        '当期の税引前当期純利益は <b>' + yen(pretax) + '</b>、法定実効税率は <b>' + rate + '%</b> である。',
+        '<span class="problem-line item">・交際費の損金不算入額:<b>' + yen(kosai) + '</b></span>',
+        '<span class="problem-line item">・受取配当金の益金不算入額:<b>' + yen(haito) + '</b></span>',
+        '<span class="problem-line item">・住民税の均等割:<b>' + yen(kintou) + '</b></span>',
+        '一時差異はない。法人税等(均等割を含む)と、税負担率(法人税等 ÷ 税引前当期純利益)を求めなさい。'
+      ],
+      labels: ['① 法人税、住民税及び事業税(円)', '② 税負担率(%)'],
+      hint: '①は半角数字。②は%の数字だけを小数第2位まで(第3位を四捨五入)。',
+      answers: [tax, r2(burden)],
+      tol: [0, 0.011],
+      show: [yen(tax), pct(burden, 2) + '%'],
+      explanation:
+        sec('解き方の手順', steps) +
+        sec('考え方', ul([
+          'どれも<b>永久差異</b>(将来も解消しない差異)なので、税効果会計の対象外です。',
+          'そのため実際の税負担率は、法定実効税率 ' + rate + '% からずれます。',
+          '均等割は所得に関係なく決まった額がかかるので、所得 × 税率とは別に足します。'
+        ])) +
+        sec('図で見る', diagram) +
+        sec('計算', calc(
+          '課税所得:' + fmt(pretax) + ' ＋ ' + fmt(kosai) + ' − ' + fmt(haito) + ' ＝ ' + yen(taxable) + '\n' +
+          '所得にかかる税金:' + fmt(taxable) + ' × ' + rate + '% ＝ ' + yen(taxable * rate / 100) + '\n' +
+          '法人税等:' + fmt(taxable * rate / 100) + ' ＋ 均等割 ' + fmt(kintou) + ' ＝ ' + yen(tax) + '\n' +
+          '税負担率:' + fmt(tax) + ' ÷ ' + fmt(pretax) + ' ＝ ' + pct(burden, 2) + '%'
+        )) +
+        sec('差異の分析(有価証券報告書の税効果注記と同じ考え方)', ul([
+          '法定実効税率:' + rate + '.00%',
+          '交際費の損金不算入:＋' + pct(eK, 2) + '%(' + fmt(kosai) + ' × ' + rate + '% ÷ ' + fmt(pretax) + ')',
+          '受取配当金の益金不算入:△' + pct(-eH, 2) + '%(' + fmt(haito) + ' × ' + rate + '% ÷ ' + fmt(pretax) + ')',
+          '住民税の均等割:＋' + pct(eU, 2) + '%(' + fmt(kintou) + ' ÷ ' + fmt(pretax) + ')',
+          '<b>税負担率:' + pct(burden, 2) + '%</b>'
+        ])) +
+        sec('仕訳', je([['法人税、住民税及び事業税', tax, '未払法人税等', tax]]) +
+          '<p style="margin-top:6px">※永久差異なので、繰延税金資産・法人税等調整額の仕訳はありません。</p>')
+    };
+  }
+
+  // ⑥ その他有価証券の評価差額(純資産直入)
+  function genSecurities() {
+    var rate = pick([30, 30, 35, 40]);
+    var cost = randMultiple(500000, 2000000, 50000);
+    var diff = randMultiple(50000, 400000, 10000) * (Math.random() < 0.55 ? 1 : -1);
+    var mv = cost + diff;
+    var taxPart = Math.abs(diff) * rate / 100;
+    var netPart = diff * (100 - rate) / 100; // +なら貸方
+    var gain = diff > 0;
+    var jeHtml = gain
+      ? je([['その他有価証券', diff, '繰延税金負債', taxPart], ['', 0, 'その他有価証券評価差額金', netPart]])
+      : je([['繰延税金資産', taxPart, 'その他有価証券', -diff], ['その他有価証券評価差額金', -netPart, '', 0]]);
+    var absD = Math.abs(diff), absN = Math.abs(netPart);
+    var steps = ol([
+      '評価差額 ＝ 時価 − 取得原価 ＝ ' + fmt(mv) + ' − ' + fmt(cost) + ' ＝ ' + fmt(diff) + '円(評価差' + (gain ? '益' : '損') + ')。',
+      '評価差額 × ' + rate + '% ＝ ' + yen(taxPart) + ' → 繰延税金' + (gain ? '負債' : '資産') + '(①の答え)。',
+      '残りの ' + (100 - rate) + '% ＝ ' + yen(absN) + ' → その他有価証券評価差額金(' + (gain ? '貸方、②は＋' : '借方、②は−') + ')。',
+      '損益計算書を通らないので<b>法人税等調整額は使わない</b>。翌期首に逆仕訳で振り戻す。'
+    ]);
+    var diagram =
+      dg('取得原価と時価',
+        bar('取得原価', fmt(cost), [{ v: cost, c: C.gray, in: '取得原価' }], Math.max(cost, mv)) +
+        (gain
+          ? bar('期末時価', fmt(mv), [{ v: cost, c: C.gray, in: '取得原価' }, { v: diff, c: C.green, t: '評価差益 ' + fmt(diff) }], mv, { legend: true })
+          : bar('期末時価', fmt(mv), [{ v: mv, c: C.gray, in: '時価' }, { v: absD, c: C.red, hatch: true, t: '評価差損 ' + fmt(absD) + '(なくなった分)' }], cost, { legend: true }))) +
+      dg('評価差額 ' + fmt(absD) + ' の分け方',
+        bar('評価差額', fmt(absD), [
+          { v: taxPart, c: C.orange, in: rate + '%', t: '繰延税金' + (gain ? '負債' : '資産') + ' ' + fmt(taxPart) + '(' + rate + '%)' },
+          { v: absN, c: C.purple, in: (100 - rate) + '%', t: 'その他有価証券評価差額金 ' + fmt(absN) + '(' + (100 - rate) + '%)' }
+        ], absD, { legend: true }) +
+        flow([
+          { t: '評価差' + (gain ? '益' : '損'), v: fmt(absD), c: gain ? C.green : C.red },
+          { t: '繰延税金' + (gain ? '負債' : '資産'), v: fmt(taxPart), s: gain ? '固定負債に表示' : '投資その他の資産に表示', c: C.orange },
+          { t: 'その他有価証券評価差額金', v: (gain ? '' : '△') + fmt(absN), s: '純資産の部(評価・換算差額等)', c: C.purple }
+        ], ['× ' + rate + '%', '残り ' + (100 - rate) + '%']),
+        gain
+          ? '値上がり益は売ったときに課税されます。その将来の税金 ' + rate + '% 分を先に負債にしておき、残りだけを純資産にします。'
+          : '値下がり損は売ったときに税金を減らします。その将来の減税効果 ' + rate + '% 分を資産にし、残りだけを純資産のマイナスにします。');
+    return {
+      topic: 'その他有価証券と税効果',
+      lines: [
+        '当期末に保有するその他有価証券の取得原価は <b>' + yen(cost) + '</b>、期末時価は <b>' + yen(mv) + '</b> である。',
+        '全部純資産直入法を採用し、税効果会計を適用する。法定実効税率は <b>' + rate + '%</b> とする。'
+      ],
+      labels: [
+        '① 繰延税金資産または繰延税金負債の金額(円)',
+        '② その他有価証券評価差額金(円) 貸方なら＋、借方なら−'
+      ],
+      hint: '半角数字で入力(カンマは入れても可)。①は金額だけ、②は借方(評価差損)ならマイナスを付ける。',
+      answers: [taxPart, netPart],
+      tol: [0, 0],
+      show: [(gain ? '繰延税金負債 ' : '繰延税金資産 ') + yen(taxPart), (gain ? '貸方 ' : '借方 ') + yen(Math.abs(netPart))],
+      explanation:
+        sec('解き方の手順', steps) +
+        sec('考え方', ul([
+          '評価差額 ' + yen(Math.abs(diff)) + ' のうち、<b>実効税率 ' + rate + '% 分</b>は将来の税金として繰延税金' + (gain ? '負債' : '資産') + 'にします。',
+          '残りの <b>' + (100 - rate) + '% 分</b>だけを、その他有価証券評価差額金(純資産)にします。',
+          '損益を通さないので、<b>法人税等調整額は使いません</b>(ここがよく出るひっかけ)。'
+        ])) +
+        sec('図で見る', diagram) +
+        sec('計算', calc(
+          '評価差額:' + fmt(mv) + ' − ' + fmt(cost) + ' ＝ ' + fmt(diff) + '円(評価差' + (gain ? '益' : '損') + ')\n' +
+          '繰延税金' + (gain ? '負債' : '資産') + ':' + fmt(Math.abs(diff)) + ' × ' + rate + '% ＝ ' + yen(taxPart) + '\n' +
+          '評価差額金:' + fmt(Math.abs(diff)) + ' ×(1 − ' + rate + '%)＝ ' + yen(Math.abs(netPart)) + '(' + (gain ? '貸方' : '借方') + ')'
+        )) +
+        sec('仕訳', jeHtml) +
+        sec('ポイント', ul([
+          '翌期首には、この仕訳を逆にして<b>振り戻し</b>ます(洗い替え方式)。',
+          '評価差' + (gain ? '益なので一時差異は「将来加算一時差異」→ 繰延税金負債' : '損なので一時差異は「将来減算一時差異」→ 繰延税金資産') + 'になります。'
+        ]))
+    };
+  }
+
+  var GENERATORS = [
+    { key: 'rate', name: '実効税率の計算', fn: genRate },
+    { key: 'dta', name: '繰延税金資産', fn: genDTA },
+    { key: 'pl', name: '税金費用とPL', fn: genPL },
+    { key: 'change', name: '税率変更', fn: genChange },
+    { key: 'burden', name: '税負担率', fn: genBurden },
+    { key: 'sec', name: 'その他有価証券', fn: genSecurities }
+  ];
+
+  function generateProblem() {
+    var list = state.mode === 'all' ? GENERATORS : GENERATORS.filter(function (g) { return g.key === state.mode; });
+    return pick(list).fn();
+  }
+
+  function renderModes() {
+    var row = document.getElementById('modeRow');
+    var modes = [{ key: 'all', name: 'すべて' }].concat(GENERATORS);
+    row.innerHTML = modes.map(function (m) {
+      return '<button class="btn-secondary' + (state.mode === m.key ? ' on' : '') + '" data-mode="' + m.key + '">' + m.name + '</button>';
+    }).join('');
+    Array.prototype.forEach.call(row.querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () {
+        state.mode = b.getAttribute('data-mode');
+        renderModes();
+        handleNext();
+      });
+    });
+  }
+
+  function renderProblem() {
+    var p = state.problem;
+    document.getElementById('topicBadge').textContent = p.topic;
+    document.getElementById('problemCard').innerHTML = p.lines.map(function (l) {
+      return l.indexOf('<span class="problem-line') === 0 ? l : '<div class="problem-line">' + l + '</div>';
+    }).join('');
+    document.getElementById('label1').textContent = p.labels[0];
+    document.getElementById('label2').textContent = p.labels[1];
+    document.getElementById('hintText').textContent = p.hint;
+    document.getElementById('input1').value = '';
+    document.getElementById('input2').value = '';
+    document.getElementById('errorText').style.display = 'none';
+    document.getElementById('resultCard').classList.remove('show');
+    document.getElementById('input1').focus({ preventScroll: true });
+  }
+
+  function parseSigned(v) {
+    var t = String(v).trim()
+      .replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円%％\s]/g, '')
+      .replace(/[−ー–△▲－]/g, '-')
+      .replace(/．/g, '.');
+    if (t === '' || !/^[+-]?\d+(\.\d+)?$/.test(t)) return NaN;
+    return Number(t);
+  }
+
+  function isClose(a, b, tol) {
+    return Math.abs(a - b) <= tol + 1e-9;
+  }
+
+  function handleCheck() {
+    var raw1 = document.getElementById('input1').value;
+    var raw2 = document.getElementById('input2').value;
+    var u1 = parseSigned(raw1);
+    var u2 = parseSigned(raw2);
+    var errEl = document.getElementById('errorText');
+    if (isNaN(u1) || isNaN(u2)) {
+      errEl.textContent = '両方の欄に数値を入力してください';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+
+    var p = state.problem;
+    var ok1 = isClose(u1, p.answers[0], p.tol[0]);
+    var ok2 = isClose(u2, p.answers[1], p.tol[1]);
+    var isCorrect = ok1 && ok2;
+    if (!p.answered) {
+      state.total += 1;
+      if (isCorrect) state.score += 1;
+      p.answered = true;
+    }
+    document.getElementById('score').textContent = state.score;
+    document.getElementById('total').textContent = state.total;
+
+    var resultCard = document.getElementById('resultCard');
+    var resultTitle = document.getElementById('resultTitle');
+    resultTitle.textContent = isCorrect ? '正解です!' : (ok1 || ok2 ? '片方だけ正解です。解説で確認しましょう。' : '不正解です。解説で確認しましょう。');
+    resultTitle.style.color = isCorrect ? '#8fc24a' : '#f0997b';
+    resultCard.style.borderColor = isCorrect ? '#639922' : '#D85A30';
+    resultCard.style.background = isCorrect ? 'rgba(99,153,34,0.14)' : 'rgba(216,90,48,0.14)';
+    document.getElementById('yourAnswer').innerHTML =
+      '正解 → ①' + esc(p.show[0]) + (ok1 ? ' ○' : ' ×') + '  ②' + esc(p.show[1]) + (ok2 ? ' ○' : ' ×');
+    document.getElementById('resultExplanation').innerHTML = p.explanation;
+    resultCard.classList.add('show');
+  }
+
+  function handleNext() {
+    state.problem = generateProblem();
+    renderProblem();
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', handleCheck);
+  document.getElementById('nextBtn').addEventListener('click', handleNext);
+  document.getElementById('input1').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+  document.getElementById('input2').addEventListener('keydown', function (e) { if (e.key === 'Enter') handleCheck(); });
+
+  renderModes();
+  state.problem = generateProblem();
+  renderProblem();
+})();
+</script>
+</body>
+</html>

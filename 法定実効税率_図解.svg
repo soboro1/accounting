@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+  <foreignObject x="0" y="0" width="1600" height="900">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Hiragino Sans','Noto Sans CJK JP',sans-serif;color:#1F3A5F;width:1600px;height:900px;box-sizing:border-box;padding:28px 52px 0;">
+      <style>
+        .ttl{font-size:38px;font-weight:800;margin:0;letter-spacing:1px}
+        .sub{font-size:18px;color:#4A5D78;margin:6px 0 16px}
+        .sub b{color:#C2410C}
+        .row{display:grid;grid-template-columns:1fr 64px 1fr 64px 1fr;align-items:stretch}
+        .cell{background:#fff;border:2px solid #C9D6E8;border-radius:22px;padding:16px 22px 14px;box-sizing:border-box;height:452px;display:flex;flex-direction:column}
+        .step{display:inline-block;font-size:15px;font-weight:800;color:#fff;border-radius:999px;padding:3px 14px;align-self:flex-start}
+        .h{font-size:25px;font-weight:800;margin:8px 0 10px}
+        .arrow{display:flex;align-items:center;justify-content:center;font-size:44px;font-weight:800;color:#94A3B8}
+        .tx{display:flex;align-items:center;gap:10px;margin:0 0 9px;font-size:17px}
+        .tx .bar{height:30px;border-radius:6px;color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;padding-left:8px;box-sizing:border-box;flex:none}
+        .tx .lb{line-height:1.3;color:#2A3B55}
+        .tx .lb small{display:block;font-size:13px;color:#7C8BA3}
+        .note{font-size:15.5px;line-height:1.6;color:#2A3B55;background:#F1F5FB;border-radius:12px;padding:9px 13px;margin-top:auto}
+        .note b{color:#C2410C}
+        .calc{font-size:19px;line-height:1.85;color:#2A3B55;margin:2px 0 8px}
+        .calc .big{font-size:30px;font-weight:800;color:#1F3A5F}
+        .calc .red{color:#C2410C;font-weight:800}
+        .flow{display:flex;flex-direction:column;gap:6px;margin:4px 0 10px}
+        .fl{border-radius:10px;padding:7px 12px;font-size:16.5px;line-height:1.45;font-weight:700}
+        .dn{text-align:center;color:#94A3B8;font-weight:800;font-size:18px;line-height:1}
+        .ans{background:#C2410C;color:#fff;border-radius:14px;text-align:center;padding:8px 0 6px;margin-top:auto}
+        .ans .n{font-size:40px;font-weight:800;letter-spacing:1px}
+        .ans .s{font-size:14px;font-weight:700;opacity:.92}
+        .foot{display:grid;grid-template-columns:760px 1fr;gap:18px;margin-top:18px}
+        .fb{background:#1F3A5F;color:#fff;border-radius:18px;padding:16px 24px;box-sizing:border-box;height:248px}
+        .fb .lbl{display:inline-block;background:#fff;color:#1F3A5F;font-size:14px;font-weight:800;border-radius:999px;padding:2px 12px}
+        .fx{display:flex;align-items:center;gap:14px;margin:22px 0 20px}
+        .fx .lhs{font-size:22px;font-weight:800;color:#FCD34D;white-space:nowrap}
+        .frac{display:flex;flex-direction:column;align-items:center;font-size:19px;font-weight:700;white-space:nowrap}
+        .frac .num{padding:0 6px 6px;border-bottom:2px solid #fff}
+        .frac .den{padding-top:6px}
+        .fb .sm{font-size:15px;line-height:1.6;color:#DCE6F5}
+        .fb .sm b{color:#FCD34D}
+        .te{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:10px}
+        .te .k{font-size:15px;font-weight:800;color:#FCD34D;margin-bottom:6px}
+        .je{background:#fff;color:#1F3A5F;border-radius:10px;padding:8px 12px;font-size:16px;font-weight:700;line-height:1.6}
+        .pl{font-size:15.5px;line-height:1.65;color:#fff}
+        .pl .r{display:flex;justify-content:space-between;border-bottom:1px dashed rgba(255,255,255,.25)}
+        .pl .r.t{border-bottom:none;font-weight:800;color:#FCD34D}
+      </style>
+      <p class="ttl">法定実効税率のしくみ</p>
+      <p class="sub">利益100にかかる税金を全部足し、<b>事業税が翌年の損金になる効果</b>を差し引くと、税率は<b>約29.74%</b>(資本金1億円超の大法人・標準税率)</p>
+
+      <div class="row">
+        <div class="cell" style="border-top:8px solid #2563EB">
+          <span class="step" style="background:#2563EB">STEP 1</span>
+          <div class="h">利益100に4つの税金がかかる</div>
+          <div class="tx"><div class="bar" style="width:232px;background:#2563EB">23.2</div><div class="lb">法人税<small>所得 × 23.2%</small></div></div>
+          <div class="tx"><div class="bar" style="width:46px;background:#60A5FA">2.39</div><div class="lb">地方法人税<small>法人税額 × 10.3%</small></div></div>
+          <div class="tx"><div class="bar" style="width:46px;background:#16A34A">1.62</div><div class="lb">住民税(法人税割)<small>法人税額 × 7.0%</small></div></div>
+          <div class="tx"><div class="bar" style="width:62px;background:#D97706">3.6</div><div class="lb">事業税＋特別法人事業税<small>所得 × 3.6%(1.0%＋その260%)</small></div></div>
+          <div class="tx" style="margin-top:4px;border-top:2px dashed #C9D6E8;padding-top:10px"><div class="bar" style="width:120px;background:#64748B">合計 30.81</div><div class="lb">単純に足した税金</div></div>
+          <div class="note">地方法人税と住民税は<b>法人税額</b>に、法人税と事業税は<b>所得</b>に税率を掛ける。だから式ではまとめ方が違う</div>
+        </div>
+        <div class="arrow">▶</div>
+
+        <div class="cell" style="border-top:8px solid #64748B">
+          <span class="step" style="background:#64748B">STEP 2</span>
+          <div class="h">単純に足すと 30.81%</div>
+          <div class="calc">
+            法人税額にかかる分をまとめる<br/>
+            23.2 ×(1 ＋ 0.103 ＋ 0.07)＝ 27.21<br/>
+            所得にかかる事業税を足す<br/>
+            27.21 ＋ 3.6 ＝ <span class="big">30.81</span><br/>
+            <span class="red">→ 利益の約31%が税金?</span>
+          </div>
+          <div class="note">ただし、これは<b>払いすぎの計算</b>。事業税を払うと、その分が翌年の<b>損金(税務上の費用)</b>になり、課税所得が減るから</div>
+        </div>
+        <div class="arrow">▶</div>
+
+        <div class="cell" style="border-top:8px solid #C2410C">
+          <span class="step" style="background:#C2410C">STEP 3</span>
+          <div class="h">事業税の損金算入で割り戻す</div>
+          <div class="flow">
+            <div class="fl" style="background:#FFEDD5;color:#9A3412">事業税を払う → 翌年に損金算入</div>
+            <div class="dn">▼</div>
+            <div class="fl" style="background:#FFEDD5;color:#9A3412">課税所得は 100 ÷ 1.036 に縮む</div>
+            <div class="dn">▼</div>
+            <div class="fl" style="background:#FFEDD5;color:#9A3412">30.81 ÷ 1.036</div>
+          </div>
+          <div class="ans"><div class="n">29.74%</div><div class="s">これが法定実効税率(防衛特別法人税の導入後は約30.6%)</div></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div class="fb">
+          <span class="lbl">計算式</span>
+          <div class="fx">
+            <div class="lhs">法定実効税率 ＝</div>
+            <div class="frac">
+              <div class="num">法人税率 ×(1＋地方法人税率＋住民税率)＋ 事業税率</div>
+              <div class="den">1 ＋ 事業税率</div>
+            </div>
+          </div>
+          <div class="sm" style="font-size:17px;margin-bottom:8px">例:(23.2% × 1.173 ＋ 3.6%)÷ 1.036 ＝ <b>29.74%</b>(試験では「30%」などで与えられる)</div>
+          <div class="sm">外形標準課税の<b>付加価値割・資本割</b>と住民税の<b>均等割</b>は、所得に連動しないので<b>入れない</b></div>
+        </div>
+        <div class="fb">
+          <span class="lbl">簿記での使い方(税効果会計)</span>
+          <div class="te">
+            <div>
+              <div class="k">一時差異 100,000 × 実効税率30%</div>
+              <div class="je">(借)繰延税金資産 30,000<br/>(貸)法人税等調整額 30,000</div>
+              <div class="sm" style="margin-top:8px">差異が<b>解消する年度</b>の税率を使う。<br/>交際費など<b>永久差異</b>には使わない</div>
+            </div>
+            <div class="pl">
+              <div class="r"><span>税引前当期純利益</span><span>1,000,000</span></div>
+              <div class="r"><span>法人税、住民税及び事業税</span><span>330,000</span></div>
+              <div class="r"><span>法人税等調整額</span><span>△30,000</span></div>
+              <div class="r t"><span>税金費用 → ちょうど30%</span><span>300,000</span></div>
+              <div class="sm" style="margin-top:6px">税金費用を税引前利益 × 実効税率に揃えるのが目的</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>
