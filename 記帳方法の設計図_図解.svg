@@ -1,0 +1,183 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F3A5F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="64" text-anchor="middle" font-size="44" font-weight="800" fill="#1F3A5F">財務諸表の記帳方法 設計図</text>
+<text x="800" y="104" text-anchor="middle" font-size="23" fill="#4A5D78">会社の記帳ルールを作るときに決める8つの領域と設定項目</text>
+<rect x="60" y="126" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="2"/>
+<path d="M61.0 182 V146 a19.0 19.0 0 0 1 19.0 -19.0 H396 a19.0 19.0 0 0 1 19.0 19.0 V182 Z" fill="#1F6FEB"/>
+<circle cx="94" cy="155" r="19" fill="#FFFFFF"/>
+<text x="94" y="164" text-anchor="middle" font-size="24" font-weight="800" fill="#1F6FEB">1</text>
+<text x="124" y="164" font-size="25" font-weight="800" fill="#FFFFFF">前提条件</text>
+<rect x="76" y="194" width="324" height="34" rx="10" fill="#E6F0FF"/>
+<text x="238.0" y="218" text-anchor="middle" font-size="19" font-weight="700" fill="#1F6FEB">すべての土台</text>
+<circle cx="90" cy="257" r="5" fill="#1F6FEB"/>
+<text x="104" y="264" font-size="20" fill="#1F3A5F">会計基準(日本基準/IFRS)</text>
+<circle cx="90" cy="291" r="5" fill="#1F6FEB"/>
+<text x="104" y="298" font-size="20" fill="#1F3A5F">決算日・月次決算の有無</text>
+<circle cx="90" cy="325" r="5" fill="#1F6FEB"/>
+<text x="104" y="332" font-size="20" fill="#1F3A5F">記帳単位(本支店・部門)</text>
+<circle cx="90" cy="359" r="5" fill="#1F6FEB"/>
+<text x="104" y="366" font-size="20" fill="#1F3A5F">消費税：税抜/税込方式</text>
+<circle cx="90" cy="393" r="5" fill="#1F6FEB"/>
+<text x="104" y="400" font-size="20" fill="#1F3A5F">課税方式・インボイス</text>
+<circle cx="90" cy="427" r="5" fill="#1F6FEB"/>
+<text x="104" y="434" font-size="20" fill="#1F3A5F">通貨と端数処理</text>
+<rect x="434" y="126" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#0FA18D" stroke-width="2"/>
+<path d="M435.0 182 V146 a19.0 19.0 0 0 1 19.0 -19.0 H770 a19.0 19.0 0 0 1 19.0 19.0 V182 Z" fill="#0FA18D"/>
+<circle cx="468" cy="155" r="19" fill="#FFFFFF"/>
+<text x="468" y="164" text-anchor="middle" font-size="24" font-weight="800" fill="#0FA18D">2</text>
+<text x="498" y="164" font-size="25" font-weight="800" fill="#FFFFFF">帳簿組織</text>
+<rect x="450" y="194" width="324" height="34" rx="10" fill="#E2F6F2"/>
+<text x="612.0" y="218" text-anchor="middle" font-size="19" font-weight="700" fill="#0FA18D">帳簿の形とつなぎ方</text>
+<circle cx="464" cy="257" r="5" fill="#0FA18D"/>
+<text x="478" y="264" font-size="20" fill="#1F3A5F">主要簿：仕訳帳・総勘定元帳</text>
+<circle cx="464" cy="291" r="5" fill="#0FA18D"/>
+<text x="478" y="298" font-size="20" fill="#1F3A5F">補助記入帳：現金出納帳 等</text>
+<circle cx="464" cy="325" r="5" fill="#0FA18D"/>
+<text x="478" y="332" font-size="20" fill="#1F3A5F">補助元帳：売掛金元帳 等</text>
+<circle cx="464" cy="359" r="5" fill="#0FA18D"/>
+<text x="478" y="366" font-size="20" fill="#1F3A5F">起票：伝票制/会計ソフト</text>
+<circle cx="464" cy="393" r="5" fill="#0FA18D"/>
+<text x="478" y="400" font-size="20" fill="#1F3A5F">転記：1件ずつ/仕訳日計表</text>
+<circle cx="464" cy="427" r="5" fill="#0FA18D"/>
+<text x="478" y="434" font-size="20" fill="#1F3A5F">使うシステム</text>
+<rect x="808" y="126" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<path d="M809.0 182 V146 a19.0 19.0 0 0 1 19.0 -19.0 H1144 a19.0 19.0 0 0 1 19.0 19.0 V182 Z" fill="#7C3AED"/>
+<circle cx="842" cy="155" r="19" fill="#FFFFFF"/>
+<text x="842" y="164" text-anchor="middle" font-size="24" font-weight="800" fill="#7C3AED">3</text>
+<text x="872" y="164" font-size="25" font-weight="800" fill="#FFFFFF">勘定科目体系</text>
+<rect x="824" y="194" width="324" height="34" rx="10" fill="#F1EBFF"/>
+<text x="986.0" y="218" text-anchor="middle" font-size="19" font-weight="700" fill="#7C3AED">会社の“科目の辞書”</text>
+<circle cx="838" cy="257" r="5" fill="#7C3AED"/>
+<text x="852" y="264" font-size="20" fill="#1F3A5F">5要素ごとの科目一覧</text>
+<circle cx="838" cy="291" r="5" fill="#7C3AED"/>
+<text x="852" y="298" font-size="20" fill="#1F3A5F">科目コード(1xxx=資産…)</text>
+<circle cx="838" cy="325" r="5" fill="#7C3AED"/>
+<text x="852" y="332" font-size="20" fill="#1F3A5F">補助科目(口座・取引先)</text>
+<circle cx="838" cy="359" r="5" fill="#7C3AED"/>
+<text x="852" y="366" font-size="20" fill="#1F3A5F">部門・プロジェクトのタグ</text>
+<circle cx="838" cy="393" r="5" fill="#7C3AED"/>
+<text x="852" y="400" font-size="20" fill="#1F3A5F">費用科目の細かさ</text>
+<circle cx="838" cy="427" r="5" fill="#7C3AED"/>
+<text x="852" y="434" font-size="20" fill="#1F3A5F">表示科目へのまとめ方</text>
+<rect x="1182" y="126" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#E8543F" stroke-width="4"/>
+<path d="M1184.0 182 V146 a18.0 18.0 0 0 1 18.0 -18.0 H1518 a18.0 18.0 0 0 1 18.0 18.0 V182 Z" fill="#E8543F"/>
+<circle cx="1216" cy="155" r="19" fill="#FFFFFF"/>
+<text x="1216" y="164" text-anchor="middle" font-size="24" font-weight="800" fill="#E8543F">4</text>
+<text x="1246" y="164" font-size="25" font-weight="800" fill="#FFFFFF">会計方針</text>
+<rect x="1452" y="140" width="70" height="30" rx="15" fill="#FFFFFF"/>
+<text x="1487" y="161" text-anchor="middle" font-size="17" font-weight="800" fill="#E8543F">最重要</text>
+<rect x="1198" y="194" width="324" height="34" rx="10" fill="#FDECE8"/>
+<text x="1360.0" y="218" text-anchor="middle" font-size="19" font-weight="700" fill="#E8543F">数字そのものが変わる</text>
+<circle cx="1212" cy="257" r="5" fill="#E8543F"/>
+<text x="1226" y="264" font-size="20" fill="#1F3A5F">収益を計上するタイミング</text>
+<circle cx="1212" cy="291" r="5" fill="#E8543F"/>
+<text x="1226" y="298" font-size="20" fill="#1F3A5F">三分法/売上原価対立法</text>
+<circle cx="1212" cy="325" r="5" fill="#E8543F"/>
+<text x="1226" y="332" font-size="20" fill="#1F3A5F">払出単価：先入先出 等</text>
+<circle cx="1212" cy="359" r="5" fill="#E8543F"/>
+<text x="1226" y="366" font-size="20" fill="#1F3A5F">減価償却：方法・記帳法</text>
+<circle cx="1212" cy="393" r="5" fill="#E8543F"/>
+<text x="1226" y="400" font-size="20" fill="#1F3A5F">引当金・有価証券の評価</text>
+<circle cx="1212" cy="427" r="5" fill="#E8543F"/>
+<text x="1226" y="434" font-size="20" fill="#1F3A5F">外貨換算・税効果会計</text>
+<rect x="60" y="460" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#F07C1E" stroke-width="2"/>
+<path d="M61.0 516 V480 a19.0 19.0 0 0 1 19.0 -19.0 H396 a19.0 19.0 0 0 1 19.0 19.0 V516 Z" fill="#F07C1E"/>
+<circle cx="94" cy="489" r="19" fill="#FFFFFF"/>
+<text x="94" y="498" text-anchor="middle" font-size="24" font-weight="800" fill="#F07C1E">5</text>
+<text x="124" y="498" font-size="25" font-weight="800" fill="#FFFFFF">日常取引のルール</text>
+<rect x="76" y="528" width="324" height="34" rx="10" fill="#FEF1E4"/>
+<text x="238.0" y="552" text-anchor="middle" font-size="19" font-weight="700" fill="#F07C1E">取引ごとの“仕訳の型”</text>
+<circle cx="90" cy="591" r="5" fill="#F07C1E"/>
+<text x="104" y="598" font-size="20" fill="#1F3A5F">小口現金(定額資金前渡法)</text>
+<circle cx="90" cy="625" r="5" fill="#F07C1E"/>
+<text x="104" y="632" font-size="20" fill="#1F3A5F">現金過不足の処理</text>
+<circle cx="90" cy="659" r="5" fill="#F07C1E"/>
+<text x="104" y="666" font-size="20" fill="#1F3A5F">手形・電子記録債権</text>
+<circle cx="90" cy="693" r="5" fill="#F07C1E"/>
+<text x="104" y="700" font-size="20" fill="#1F3A5F">給与と預り金</text>
+<circle cx="90" cy="727" r="5" fill="#F07C1E"/>
+<text x="104" y="734" font-size="20" fill="#1F3A5F">経過勘定と再振替</text>
+<circle cx="90" cy="761" r="5" fill="#F07C1E"/>
+<text x="104" y="768" font-size="20" fill="#1F3A5F">証憑と承認の流れ</text>
+<rect x="434" y="460" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+<path d="M435.0 516 V480 a19.0 19.0 0 0 1 19.0 -19.0 H770 a19.0 19.0 0 0 1 19.0 19.0 V516 Z" fill="#16A34A"/>
+<circle cx="468" cy="489" r="19" fill="#FFFFFF"/>
+<text x="468" y="498" text-anchor="middle" font-size="24" font-weight="800" fill="#16A34A">6</text>
+<text x="498" y="498" font-size="25" font-weight="800" fill="#FFFFFF">月次・決算プロセス</text>
+<rect x="450" y="528" width="324" height="34" rx="10" fill="#E3F7EA"/>
+<text x="612.0" y="552" text-anchor="middle" font-size="19" font-weight="700" fill="#16A34A">締めの手順</text>
+<circle cx="464" cy="591" r="5" fill="#16A34A"/>
+<text x="478" y="598" font-size="20" fill="#1F3A5F">締め日・月次決算の期限</text>
+<circle cx="464" cy="625" r="5" fill="#16A34A"/>
+<text x="478" y="632" font-size="20" fill="#1F3A5F">試算表の作成とチェック</text>
+<circle cx="464" cy="659" r="5" fill="#16A34A"/>
+<text x="478" y="666" font-size="20" fill="#1F3A5F">実地棚卸</text>
+<circle cx="464" cy="693" r="5" fill="#16A34A"/>
+<text x="478" y="700" font-size="20" fill="#1F3A5F">決算整理事項の一覧</text>
+<circle cx="464" cy="727" r="5" fill="#16A34A"/>
+<text x="478" y="734" font-size="20" fill="#1F3A5F">精算表の作成</text>
+<circle cx="464" cy="761" r="5" fill="#16A34A"/>
+<text x="478" y="768" font-size="20" fill="#1F3A5F">締切：英米式/大陸式</text>
+<rect x="808" y="460" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#1F3A5F" stroke-width="2"/>
+<path d="M809.0 516 V480 a19.0 19.0 0 0 1 19.0 -19.0 H1144 a19.0 19.0 0 0 1 19.0 19.0 V516 Z" fill="#1F3A5F"/>
+<circle cx="842" cy="489" r="19" fill="#FFFFFF"/>
+<text x="842" y="498" text-anchor="middle" font-size="24" font-weight="800" fill="#1F3A5F">7</text>
+<text x="872" y="498" font-size="25" font-weight="800" fill="#FFFFFF">財務諸表の表示</text>
+<rect x="824" y="528" width="324" height="34" rx="10" fill="#E8EDF4"/>
+<text x="986.0" y="552" text-anchor="middle" font-size="19" font-weight="700" fill="#1F3A5F">数字の見せ方</text>
+<circle cx="838" cy="591" r="5" fill="#1F3A5F"/>
+<text x="852" y="598" font-size="20" fill="#1F3A5F">BS：営業循環基準→1年基準</text>
+<circle cx="838" cy="625" r="5" fill="#1F3A5F"/>
+<text x="852" y="632" font-size="20" fill="#1F3A5F">配列：流動性/固定性</text>
+<circle cx="838" cy="659" r="5" fill="#1F3A5F"/>
+<text x="852" y="666" font-size="20" fill="#1F3A5F">様式：報告式/勘定式</text>
+<circle cx="838" cy="693" r="5" fill="#1F3A5F"/>
+<text x="852" y="700" font-size="20" fill="#1F3A5F">PL：区分損益計算</text>
+<circle cx="838" cy="727" r="5" fill="#1F3A5F"/>
+<text x="852" y="734" font-size="20" fill="#1F3A5F">株主資本等変動計算書・注記</text>
+<circle cx="838" cy="761" r="5" fill="#1F3A5F"/>
+<text x="852" y="768" font-size="20" fill="#1F3A5F">CF：直接法/間接法</text>
+<rect x="1182" y="460" width="356" height="318" rx="20" fill="#FFFFFF" stroke="#D9367D" stroke-width="2"/>
+<path d="M1183.0 516 V480 a19.0 19.0 0 0 1 19.0 -19.0 H1518 a19.0 19.0 0 0 1 19.0 19.0 V516 Z" fill="#D9367D"/>
+<circle cx="1216" cy="489" r="19" fill="#FFFFFF"/>
+<text x="1216" y="498" text-anchor="middle" font-size="24" font-weight="800" fill="#D9367D">8</text>
+<text x="1246" y="498" font-size="25" font-weight="800" fill="#FFFFFF">統制・保存・税務</text>
+<rect x="1198" y="528" width="324" height="34" rx="10" fill="#FCE8F1"/>
+<text x="1360.0" y="552" text-anchor="middle" font-size="19" font-weight="700" fill="#D9367D">記録を守る仕組み</text>
+<circle cx="1212" cy="591" r="5" fill="#D9367D"/>
+<text x="1226" y="598" font-size="20" fill="#1F3A5F">職務分掌(起票・承認・支払)</text>
+<circle cx="1212" cy="625" r="5" fill="#D9367D"/>
+<text x="1226" y="632" font-size="20" fill="#1F3A5F">保存：会社法10年・税法7年</text>
+<circle cx="1212" cy="659" r="5" fill="#D9367D"/>
+<text x="1226" y="666" font-size="20" fill="#1F3A5F">電子帳簿保存法への対応</text>
+<circle cx="1212" cy="693" r="5" fill="#D9367D"/>
+<text x="1226" y="700" font-size="20" fill="#1F3A5F">スキャナ保存の有無</text>
+<circle cx="1212" cy="727" r="5" fill="#D9367D"/>
+<text x="1226" y="734" font-size="20" fill="#1F3A5F">申告調整の管理</text>
+<circle cx="1212" cy="761" r="5" fill="#D9367D"/>
+<text x="1226" y="768" font-size="20" fill="#1F3A5F">決算の承認手続き</text>
+<rect x="60" y="802" width="1480" height="80" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="92" y="840" font-size="24" font-weight="800" fill="#1F3A5F">設計の順番</text>
+<text x="92" y="866" font-size="16" fill="#4A5D78">⑧は全工程で並行して整える</text>
+<rect x="330" y="819" width="140" height="46" rx="23" fill="#1F6FEB"/>
+<text x="400.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">① 前提条件</text>
+<path d="M476 842 L498 842" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="504" y="819" width="140" height="46" rx="23" fill="#E8543F"/>
+<text x="574.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">④ 会計方針</text>
+<path d="M650 842 L672 842" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="678" y="819" width="140" height="46" rx="23" fill="#7C3AED"/>
+<text x="748.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">③ 勘定科目</text>
+<path d="M824 842 L846 842" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="852" y="819" width="140" height="46" rx="23" fill="#0FA18D"/>
+<text x="922.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">② 帳簿組織</text>
+<path d="M998 842 L1020 842" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1026" y="819" width="140" height="46" rx="23" fill="#F07C1E"/>
+<text x="1096.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">⑤ 仕訳の型</text>
+<path d="M1172 842 L1194 842" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1200" y="819" width="140" height="46" rx="23" fill="#16A34A"/>
+<text x="1270.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">⑥ 決算手順</text>
+<path d="M1346 842 L1368 842" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="1374" y="819" width="140" height="46" rx="23" fill="#1F3A5F"/>
+<text x="1444.0" y="849" text-anchor="middle" font-size="19" font-weight="800" fill="#FFFFFF">⑦ 表示ルール</text>
+</svg>

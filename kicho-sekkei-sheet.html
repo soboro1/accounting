@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="会社の財務諸表の記帳方法を設計するための記入式シート。8つの領域・62項目を選んで埋めると、選んだ方法の仕訳例が表示される。">
+<title>記帳設計シート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+:root{
+  --bg:#F5F8FC; --surface:#FFFFFF; --ink:#1F3A5F; --muted:#4A5D78; --line:#C9D6E8; --soft:#EEF3FA;
+  --accent:#1F6FEB; --ok:#16A34A; --on-solid:#FFFFFF;
+  --f-body:"Zen Kaku Gothic New","Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono",monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1624; --surface:#17213A; --ink:#E6ECF7; --muted:#A3B1CC; --line:#2C3A58; --soft:#1E2A47;
+    --accent:#5B9BFF; --ok:#4ADE80; --on-solid:#0F1624; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1624; --surface:#17213A; --ink:#E6ECF7; --muted:#A3B1CC; --line:#2C3A58; --soft:#1E2A47;
+  --accent:#5B9BFF; --ok:#4ADE80; --on-solid:#0F1624; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);line-height:1.7;font-size:16px}
+.wrap{max-width:980px;margin:0 auto;padding:28px 16px 80px}
+header h1{font-size:clamp(26px,5vw,36px);font-weight:900;margin:0 0 4px;letter-spacing:.02em}
+header p.lead{margin:0 0 18px;color:var(--muted)}
+.topbar{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:14px}
+.company{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.company label{font-weight:700;white-space:nowrap}
+.company input{flex:1;min-width:0}
+input[type=text],textarea{font:inherit;color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:10px;padding:8px 12px;width:100%}
+input[type=text]:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{min-height:64px;resize:vertical}
+.progress{display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:10px;background:var(--soft);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--ok);border-radius:99px;transition:width .3s}
+.progress b{font-family:var(--f-data);font-size:15px;white-space:nowrap}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button{font:inherit;cursor:pointer}
+.btn{border:1.5px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 14px;font-size:14px;font-weight:700}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--on-solid)}
+.btn.primary:hover{color:var(--on-solid);opacity:.9}
+.order{margin:22px 0 8px}
+.order h2{font-size:17px;margin:0 0 8px}
+.order ol{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.order li{display:flex;align-items:center;gap:6px}
+.order li:not(:last-child)::after{content:"→";color:var(--muted);font-weight:700}
+.order a{display:inline-block;color:#fff;text-decoration:none;font-weight:700;font-size:14px;padding:4px 12px;border-radius:99px}
+.order small{display:block;color:var(--muted);margin-top:6px}
+section.sec{background:var(--surface);border:1px solid var(--line);border-radius:20px;margin-top:22px;overflow:hidden;scroll-margin-top:12px}
+.sec-head{padding:14px 18px;color:#fff;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sec-head .num{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:900;font-size:19px;flex:none}
+.sec-head h2{margin:0;font-size:21px;font-weight:900}
+.sec-head .tag{font-size:14px;opacity:.95;flex:1;min-width:180px}
+.sec-head .cnt{font-family:var(--f-data);font-size:14px;background:rgba(255,255,255,.2);padding:2px 10px;border-radius:99px}
+.items{padding:6px 18px 18px}
+.item{padding:16px 0;border-bottom:1px dashed var(--line)}
+.item:last-child{border-bottom:none}
+.item-top{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.item-id{font-family:var(--f-data);font-size:13px;color:var(--muted)}
+.item h3{margin:0;font-size:17px;font-weight:700}
+.item .done{font-size:12px;font-weight:700;color:var(--ok);border:1.5px solid var(--ok);border-radius:99px;padding:0 8px;visibility:hidden}
+.item.filled .done{visibility:visible}
+.hint{margin:2px 0 10px;color:var(--muted);font-size:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);border-radius:12px;padding:6px 12px;font-size:15px;text-align:left}
+.chip:hover{border-color:var(--c)}
+.chip[aria-pressed="true"]{background:var(--c);border-color:var(--c);color:#fff;font-weight:700}
+.chip.multi[aria-pressed="true"]::before{content:"✓ "}
+.journal{margin-top:12px;background:var(--soft);border-radius:12px;padding:10px 14px}
+.journal .jt{font-size:13px;font-weight:700;color:var(--c-text,var(--muted));margin-bottom:4px}
+.entry{margin:6px 0 10px}
+.entry:last-child{margin-bottom:2px}
+.entry .cap{font-size:13px;color:var(--muted)}
+.je{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;font-family:var(--f-data);font-size:14px;line-height:1.75}
+.je .side{display:grid;grid-template-columns:auto 1fr auto;gap:0 6px}
+.je .lr{color:var(--muted)}
+.je .amt{text-align:right;font-variant-numeric:tabular-nums}
+.memo{padding:0 18px 18px}
+.memo label{font-size:14px;font-weight:700;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:8px 18px;border-radius:99px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none}
+.toast.show{opacity:1}
+footer{margin-top:28px;color:var(--muted);font-size:13px}
+@media (max-width:560px){
+  .je{grid-template-columns:1fr}
+  .sec-head .tag{min-width:0;flex-basis:100%;order:3}
+}
+@media print{
+  body{background:#fff;color:#000}
+  .tools,.toast{display:none}
+  section.sec{break-inside:avoid-page;border-color:#bbb}
+  .chip:not([aria-pressed="true"]){display:none}
+  .item{break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>記帳設計シート</h1>
+  <p class="lead">会社の財務諸表をどう記帳するかを、8つの領域・<span id="total"></span>項目で決めていくシートです。選択肢を選ぶと、その方法の仕訳例が表示されます。入力内容はこのブラウザに自動で保存されます。</p>
+</header>
+
+<div class="topbar">
+  <div class="company"><label for="company">会社名</label><input type="text" id="company" placeholder="例:株式会社サンプル商事"></div>
+  <div class="progress"><div class="bar"><i id="bar"></i></div><b id="prog">0 / 0 決定</b></div>
+  <div class="tools">
+    <button class="btn primary" id="copy">テキストでコピー</button>
+    <button class="btn" id="example">記入例を入れる</button>
+    <button class="btn" id="print">印刷・PDF</button>
+    <button class="btn" id="clear">全部消す</button>
+  </div>
+</div>
+
+<nav class="order" aria-label="設計の順番">
+  <h2>設計の順番</h2>
+  <ol id="order"></ol>
+  <small>会計方針を先に決めないと、必要な勘定科目が決まりません。⑧は全工程で並行して整えます。</small>
+</nav>
+
+<main id="main"></main>
+<footer>入力内容はこのブラウザの中だけに保存されます(別の端末やブラウザには引き継がれません)。</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [{"no": 1, "title": "前提条件", "tag": "すべての土台。ここが決まらないと他が決まらない", "color": "#1F6FEB", "items": [{"id": "1-1", "label": "適用する会計基準", "type": "choice", "options": ["企業会計基準(日本基準)", "中小企業の会計に関する指針", "中小企業の会計に関する基本要領", "IFRS(国際財務報告基準)"], "hint": "上場会社や会計監査人を置く会社は企業会計基準。中小企業は指針か要領を選ぶことが多い", "example": "中小企業の会計に関する指針"}, {"id": "1-2", "label": "決算日(会計期間)", "type": "text", "hint": "例:3月31日(4月1日〜翌3月31日)", "example": "3月31日"}, {"id": "1-3", "label": "月次決算", "type": "choice", "options": ["毎月行う", "四半期ごとに行う", "年1回の決算だけ"], "hint": "毎月行うと、試算表で業績を早く確認できる", "example": "毎月行う"}, {"id": "1-4", "label": "記帳の単位", "type": "choice", "options": ["会社全体で1本", "本支店会計", "部門別会計"], "hint": "支店が独立して記帳するなら本支店会計。決算で本支店合併財務諸表を作る", "example": "部門別会計"}, {"id": "1-5", "label": "消費税の経理方式", "type": "choice", "options": ["税抜方式", "税込方式"], "hint": "税抜方式は消費税を仮払消費税・仮受消費税で分けて記録する。課税事業者は税抜方式が一般的", "example": "税抜方式", "journal": {"税抜方式": [{"t": "商品1,000円(税100円)を掛けで仕入れた", "dr": [["仕入", 1000], ["仮払消費税", 100]], "cr": [["買掛金", 1100]]}, {"t": "決算:仮受消費税300・仮払消費税100を相殺", "dr": [["仮受消費税", 300]], "cr": [["仮払消費税", 100], ["未払消費税", 200]]}], "税込方式": [{"t": "商品1,000円(税100円)を掛けで仕入れた", "dr": [["仕入", 1100]], "cr": [["買掛金", 1100]]}, {"t": "決算:納付額200を計上", "dr": [["租税公課", 200]], "cr": [["未払消費税", 200]]}]}}, {"id": "1-6", "label": "消費税の計算方法", "type": "choice", "options": ["本則課税(原則課税)", "簡易課税", "免税事業者"], "hint": "簡易課税は基準期間の課税売上高5,000万円以下で、届出をした場合に選べる", "example": "本則課税(原則課税)"}, {"id": "1-7", "label": "インボイス(適格請求書発行事業者)", "type": "choice", "options": ["登録している", "登録していない"], "hint": "仕入先が未登録の場合、仕入税額控除の経過措置の扱いも決めておく", "example": "登録している"}, {"id": "1-8", "label": "通貨と端数処理", "type": "text", "hint": "例:円単位、1円未満は切り捨て", "example": "円単位・1円未満切り捨て"}]}, {"no": 2, "title": "帳簿組織", "tag": "どの帳簿を置き、どうつなぐか", "color": "#0FA18D", "items": [{"id": "2-1", "label": "仕訳の起票方法", "type": "choice", "options": ["仕訳帳に直接記入", "会計ソフトに直接入力", "三伝票制(入金・出金・振替)", "五伝票制(+売上・仕入)"], "hint": "伝票制にすると、担当者ごとに分けて起票しやすい", "example": "会計ソフトに直接入力", "journal": {"三伝票制(入金・出金・振替)": [{"t": "入金伝票「売掛金 50,000」の意味", "dr": [["現金", 50000]], "cr": [["売掛金", 50000]]}, {"t": "出金伝票「旅費交通費 3,000」の意味", "dr": [["旅費交通費", 3000]], "cr": [["現金", 3000]]}], "五伝票制(+売上・仕入)": [{"t": "売上伝票「A社 80,000」の意味(すべて掛けとして起票)", "dr": [["売掛金", 80000]], "cr": [["売上", 80000]]}]}}, {"id": "2-2", "label": "一部現金取引の起票", "type": "choice", "options": ["取引を分解して起票", "いったん全額掛けとして起票"], "hint": "例:売上100,000のうち30,000を現金で受け取り、残りは掛け。伝票制を使うときに決める", "example": "いったん全額掛けとして起票", "journal": {"取引を分解して起票": [{"t": "入金伝票", "dr": [["現金", 30000]], "cr": [["売上", 30000]]}, {"t": "振替伝票", "dr": [["売掛金", 70000]], "cr": [["売上", 70000]]}], "いったん全額掛けとして起票": [{"t": "振替伝票", "dr": [["売掛金", 100000]], "cr": [["売上", 100000]]}, {"t": "入金伝票", "dr": [["現金", 30000]], "cr": [["売掛金", 30000]]}]}}, {"id": "2-3", "label": "総勘定元帳への転記", "type": "choice", "options": ["仕訳ごとに1件ずつ転記", "仕訳日計表で毎日まとめて転記", "仕訳週計表で毎週まとめて転記"], "hint": "会計ソフトなら入力と同時に自動で転記される", "example": "仕訳ごとに1件ずつ転記"}, {"id": "2-4", "label": "使う補助記入帳", "type": "multi", "options": ["現金出納帳", "当座預金出納帳", "小口現金出納帳", "売上帳", "仕入帳", "受取手形記入帳", "支払手形記入帳"], "hint": "取引の明細を日付順に記録する帳簿", "example": "現金出納帳・当座預金出納帳・売上帳・仕入帳", "exampleList": ["現金出納帳", "当座預金出納帳", "売上帳", "仕入帳"]}, {"id": "2-5", "label": "使う補助元帳", "type": "multi", "options": ["売掛金元帳(得意先元帳)", "買掛金元帳(仕入先元帳)", "商品有高帳", "固定資産台帳"], "hint": "勘定の内訳を、相手先別・品目別に記録する帳簿", "example": "売掛金元帳(得意先元帳)・買掛金元帳(仕入先元帳)・固定資産台帳", "exampleList": ["売掛金元帳(得意先元帳)", "買掛金元帳(仕入先元帳)", "固定資産台帳"]}, {"id": "2-6", "label": "使う会計ソフト・システム", "type": "text", "hint": "例:クラウド会計ソフト、販売管理システムと連携", "example": "クラウド会計ソフト(銀行明細を自動取込)"}]}, {"no": 3, "title": "勘定科目体系", "tag": "会社の“科目の辞書”を作る", "color": "#7C3AED", "items": [{"id": "3-1", "label": "科目コードのルール", "type": "text", "hint": "例:4桁で、先頭1=資産、2=負債、3=純資産、4=収益、5〜=費用", "example": "4桁(1xxx資産・2xxx負債・3xxx純資産・4xxx収益・5xxx以降費用)"}, {"id": "3-2", "label": "預金の補助科目", "type": "choice", "options": ["口座ごとに設定する", "設定しない"], "hint": "口座ごとに分けると、銀行残高との照合がしやすい", "example": "口座ごとに設定する"}, {"id": "3-3", "label": "売掛金・買掛金の内訳管理", "type": "choice", "options": ["取引先ごとに補助科目を設定", "補助元帳だけで管理", "管理しない"], "hint": "総勘定元帳の売掛金(統制勘定)と、取引先別の合計が一致するようにする", "example": "取引先ごとに補助科目を設定"}, {"id": "3-4", "label": "部門・プロジェクトの管理", "type": "choice", "options": ["部門タグを使う", "部門とプロジェクトのタグを使う", "使わない"], "hint": "管理会計(部門別の損益)を見るかどうかで決める", "example": "部門タグを使う"}, {"id": "3-5", "label": "費用科目の細かさ", "type": "text", "hint": "例:消耗品費と事務用品費を分けるか。分けすぎると入力ミスが増える", "example": "少額の備品・文具はまとめて消耗品費"}, {"id": "3-6", "label": "表示科目へのまとめ方", "type": "text", "hint": "帳簿の科目を財務諸表の表示科目にまとめるルール", "example": "現金・当座預金・普通預金 → 現金及び預金"}]}, {"no": 4, "title": "会計方針", "tag": "財務諸表の数字そのものが変わる最重要部分", "color": "#E8543F", "items": [{"id": "4-1", "label": "収益を計上するタイミング", "type": "choice", "options": ["出荷基準", "着荷基準", "検収基準"], "hint": "収益認識基準では、支配が顧客に移った時点で計上する。国内販売なら出荷基準も認められる場合がある", "example": "出荷基準", "journal": {"*": [{"t": "仕訳の形は同じで、計上する日が変わる", "dr": [["売掛金", 150000]], "cr": [["売上", 150000]]}]}}, {"id": "4-2", "label": "商品売買の記帳法", "type": "choice", "options": ["三分法", "売上原価対立法", "分記法"], "hint": "原価1,000円の商品を1,500円で掛け売りした場合で比べる", "example": "三分法", "journal": {"三分法": [{"t": "販売時", "dr": [["売掛金", 1500]], "cr": [["売上", 1500]]}, {"t": "決算:期首商品200・期末商品300", "dr": [["仕入", 200]], "cr": [["繰越商品", 200]]}, {"t": "", "dr": [["繰越商品", 300]], "cr": [["仕入", 300]]}], "売上原価対立法": [{"t": "販売時に原価も計上する", "dr": [["売掛金", 1500]], "cr": [["売上", 1500]]}, {"t": "", "dr": [["売上原価", 1000]], "cr": [["商品", 1000]]}], "分記法": [{"t": "販売時に利益を分けて計上する", "dr": [["売掛金", 1500]], "cr": [["商品", 1000], ["商品売買益", 500]]}]}}, {"id": "4-3", "label": "払出単価の計算方法", "type": "choice", "options": ["先入先出法", "移動平均法", "総平均法"], "hint": "商品有高帳の付け方と売上原価の金額が変わる", "example": "移動平均法"}, {"id": "4-4", "label": "棚卸資産の簿価切下げ", "type": "choice", "options": ["洗替法", "切放法"], "hint": "正味売却価額が帳簿価額を下回ったら切り下げる。洗替法は翌期首に戻し入れる", "example": "洗替法", "journal": {"洗替法": [{"t": "決算:評価損20を計上", "dr": [["商品評価損", 20]], "cr": [["繰越商品", 20]]}, {"t": "翌期首:戻し入れ", "dr": [["繰越商品", 20]], "cr": [["商品評価損戻入益", 20]]}], "切放法": [{"t": "決算:評価損20を計上(翌期は戻さない)", "dr": [["商品評価損", 20]], "cr": [["繰越商品", 20]]}]}}, {"id": "4-5", "label": "減価償却の方法", "type": "choice", "options": ["定額法", "定率法(200%定率法)", "生産高比例法"], "hint": "例:取得原価1,000,000円・耐用年数5年・残存価額0の備品の1年目", "example": "定額法", "journal": {"定額法": [{"t": "1,000,000 ÷ 5年 = 200,000", "dr": [["減価償却費", 200000]], "cr": [["備品減価償却累計額", 200000]]}], "定率法(200%定率法)": [{"t": "償却率 1÷5年×200% = 0.400、1,000,000 × 0.400 = 400,000", "dr": [["減価償却費", 400000]], "cr": [["備品減価償却累計額", 400000]]}], "生産高比例法": [{"t": "総見積生産量10,000個のうち当期2,500個 → 1,000,000 × 2,500/10,000 = 250,000", "dr": [["減価償却費", 250000]], "cr": [["機械装置減価償却累計額", 250000]]}]}}, {"id": "4-6", "label": "減価償却の記帳方法", "type": "choice", "options": ["間接法", "直接法"], "hint": "間接法なら、取得原価と累計額を両方残せる", "example": "間接法", "journal": {"間接法": [{"t": "", "dr": [["減価償却費", 100]], "cr": [["備品減価償却累計額", 100]]}], "直接法": [{"t": "", "dr": [["減価償却費", 100]], "cr": [["備品", 100]]}]}}, {"id": "4-7", "label": "固定資産に計上する基準", "type": "text", "hint": "例:取得価額10万円以上は資産に計上し、未満は消耗品費", "example": "取得価額10万円以上を資産計上"}, {"id": "4-8", "label": "貸倒引当金の繰入方法", "type": "choice", "options": ["差額補充法", "洗替法"], "hint": "例:設定額300、決算前の引当金残高100", "example": "差額補充法", "journal": {"差額補充法": [{"t": "不足する200だけ繰り入れる", "dr": [["貸倒引当金繰入", 200]], "cr": [["貸倒引当金", 200]]}], "洗替法": [{"t": "残高100を戻し入れ、300を改めて繰り入れる", "dr": [["貸倒引当金", 100]], "cr": [["貸倒引当金戻入", 100]]}, {"t": "", "dr": [["貸倒引当金繰入", 300]], "cr": [["貸倒引当金", 300]]}]}}, {"id": "4-9", "label": "貸倒見積高の算定", "type": "text", "hint": "一般債権は貸倒実績率法、貸倒懸念債権は財務内容評価法など、債権の区分ごとに決める", "example": "一般債権:過去3年の貸倒実績率"}, {"id": "4-10", "label": "その他に計上する引当金", "type": "multi", "options": ["賞与引当金", "退職給付引当金", "修繕引当金", "製品保証引当金"], "hint": "将来の費用で、発生の可能性が高く金額を見積もれるものを計上する", "example": "賞与引当金", "exampleList": ["賞与引当金"]}, {"id": "4-11", "label": "その他有価証券の評価差額", "type": "choice", "options": ["全部純資産直入法", "部分純資産直入法"], "hint": "違いが出るのは評価差損のとき。例:取得原価1,000、期末時価900", "example": "全部純資産直入法", "journal": {"全部純資産直入法": [{"t": "評価差損も純資産に直接計上(税効果は省略)", "dr": [["その他有価証券評価差額金", 100]], "cr": [["その他有価証券", 100]]}], "部分純資産直入法": [{"t": "評価差損は当期の損失に計上(税効果は省略)", "dr": [["投資有価証券評価損", 100]], "cr": [["その他有価証券", 100]]}]}}, {"id": "4-12", "label": "外貨建取引の換算レート", "type": "text", "hint": "取引日の直物レートが原則。前月末レートなど合理的なレートを使うこともある", "example": "取引日の直物レート(TTM)"}, {"id": "4-13", "label": "税効果会計", "type": "choice", "options": ["適用する", "適用しない"], "hint": "会計上の利益と税務上の所得のズレのうち、一時差異を調整する", "example": "適用する", "journal": {"適用する": [{"t": "減価償却の損金算入限度超過額1,000、実効税率30%", "dr": [["繰延税金資産", 300]], "cr": [["法人税等調整額", 300]]}]}}]}, {"no": 5, "title": "日常取引の記帳ルール", "tag": "取引ごとに“仕訳の型”を決める", "color": "#F07C1E", "items": [{"id": "5-1", "label": "小口現金", "type": "choice", "options": ["定額資金前渡法(インプレスト・システム)", "随時補給法", "小口現金を置かない"], "hint": "定額資金前渡法は、使った分だけを補給して毎回同じ額に戻す", "example": "定額資金前渡法(インプレスト・システム)", "journal": {"定額資金前渡法(インプレスト・システム)": [{"t": "30,000を前渡し", "dr": [["小口現金", 30000]], "cr": [["当座預金", 30000]]}, {"t": "使った分の報告を受け、すぐ補給した", "dr": [["旅費交通費", 8000], ["消耗品費", 5000]], "cr": [["当座預金", 13000]]}]}}, {"id": "5-2", "label": "現金過不足の処理", "type": "text", "hint": "原因が分かるまでは現金過不足で処理し、決算まで分からなければ雑損・雑益へ", "example": "原因不明分は決算で雑損・雑益に振替", "journal": {"*": [{"t": "帳簿より現金が500少なかった", "dr": [["現金過不足", 500]], "cr": [["現金", 500]]}, {"t": "決算:原因が分からなかった", "dr": [["雑損", 500]], "cr": [["現金過不足", 500]]}]}}, {"id": "5-3", "label": "受け取る・支払う手段", "type": "multi", "options": ["約束手形", "電子記録債権・債務", "クレジット払い", "銀行振込のみ"], "hint": "使う手段ごとに勘定科目を用意する", "example": "電子記録債権・債務・銀行振込のみ", "exampleList": ["電子記録債権・債務", "銀行振込のみ"]}, {"id": "5-4", "label": "クレジット売上の手数料", "type": "choice", "options": ["販売時に計上", "入金時に計上"], "hint": "例:売上100,000、手数料4%", "example": "販売時に計上", "journal": {"販売時に計上": [{"t": "", "dr": [["クレジット売掛金", 96000], ["支払手数料", 4000]], "cr": [["売上", 100000]]}], "入金時に計上": [{"t": "販売時", "dr": [["クレジット売掛金", 100000]], "cr": [["売上", 100000]]}, {"t": "入金時", "dr": [["普通預金", 96000], ["支払手数料", 4000]], "cr": [["クレジット売掛金", 100000]]}]}}, {"id": "5-5", "label": "給与の預り金", "type": "choice", "options": ["内容ごとに分ける", "預り金1つにまとめる"], "hint": "源泉所得税・住民税・社会保険料を分けると、納付額の確認がしやすい", "example": "内容ごとに分ける", "journal": {"内容ごとに分ける": [{"t": "給料300,000を普通預金から支払った", "dr": [["給料", 300000]], "cr": [["所得税預り金", 20000], ["社会保険料預り金", 40000], ["普通預金", 240000]]}], "預り金1つにまとめる": [{"t": "給料300,000を普通預金から支払った", "dr": [["給料", 300000]], "cr": [["預り金", 60000], ["普通預金", 240000]]}]}}, {"id": "5-6", "label": "経過勘定(前払・未払など)の計上", "type": "choice", "options": ["毎月計上する", "決算時だけ計上する"], "hint": "月次決算をするなら毎月計上する", "example": "毎月計上する"}, {"id": "5-7", "label": "期首の再振替仕訳", "type": "choice", "options": ["行う", "行わない"], "hint": "経過勘定を期首に元の費用・収益の勘定へ戻す", "example": "行う", "journal": {"行う": [{"t": "決算:家賃10,000が未払い", "dr": [["支払家賃", 10000]], "cr": [["未払家賃", 10000]]}, {"t": "翌期首:再振替", "dr": [["未払家賃", 10000]], "cr": [["支払家賃", 10000]]}]}}, {"id": "5-8", "label": "証憑と承認の流れ", "type": "text", "hint": "どの書類を根拠に、誰が起票して誰が承認するか", "example": "請求書を経理が起票 → 課長が承認 → 月末に支払"}, {"id": "5-9", "label": "仮払金・仮受金の精算期限", "type": "text", "hint": "長く残ると内容が分からなくなるので期限を決める", "example": "発生した月の月末まで"}]}, {"no": 6, "title": "月次・決算プロセス", "tag": "締めの手順とスケジュール", "color": "#16A34A", "items": [{"id": "6-1", "label": "売上・仕入の締め日", "type": "text", "hint": "例:末日締め、20日締め", "example": "末日締め"}, {"id": "6-2", "label": "月次決算の完了期限", "type": "text", "hint": "例:翌月10営業日まで", "example": "翌月10営業日まで"}, {"id": "6-3", "label": "作る試算表", "type": "choice", "options": ["合計残高試算表", "残高試算表", "合計試算表"], "hint": "合計残高試算表なら、取引の量と残高を両方確認できる", "example": "合計残高試算表"}, {"id": "6-4", "label": "実地棚卸", "type": "choice", "options": ["年1回(決算時)", "毎月", "循環棚卸(場所ごとに順番に)"], "hint": "帳簿の数量と実際の数量の差は棚卸減耗損になる", "example": "年1回(決算時)", "journal": {"*": [{"t": "帳簿数量100個・実地数量95個・原価@10", "dr": [["棚卸減耗損", 50]], "cr": [["繰越商品", 50]]}]}}, {"id": "6-5", "label": "決算整理事項", "type": "multi", "options": ["売上原価の計算", "減価償却", "貸倒引当金", "経過勘定", "有価証券の評価", "外貨建項目の換算", "その他の引当金", "法人税等", "消費税の整理"], "hint": "毎回のチェックリストにする", "example": "売上原価の計算・減価償却・貸倒引当金・経過勘定・法人税等・消費税の整理", "journal": {"*": [{"t": "法人税等の計上:年税額500,000、中間納付200,000", "dr": [["法人税、住民税及び事業税", 500000]], "cr": [["仮払法人税等", 200000], ["未払法人税等", 300000]]}]}, "exampleList": ["売上原価の計算", "減価償却", "貸倒引当金", "経過勘定", "法人税等", "消費税の整理"]}, {"id": "6-6", "label": "精算表", "type": "choice", "options": ["8桁精算表を作る", "10桁精算表を作る", "作らない"], "hint": "10桁は8桁に修正後試算表の欄を加えたもの", "example": "作らない"}, {"id": "6-7", "label": "帳簿の締切方法", "type": "choice", "options": ["英米式決算法", "大陸式決算法"], "hint": "英米式は資産・負債・純資産を繰越記入で締め切る。大陸式は残高勘定に振り替える", "example": "英米式決算法", "journal": {"英米式決算法": [{"t": "資産・負債・純資産の勘定には仕訳をせず、元帳に「次期繰越」と直接書いて締め切る", "dr": [], "cr": []}, {"t": "収益・費用は損益勘定に振り替える", "dr": [["売上", 1500]], "cr": [["損益", 1500]]}], "大陸式決算法": [{"t": "資産・負債・純資産も、仕訳で残高勘定に振り替える", "dr": [["残高", 50000]], "cr": [["現金", 50000]]}, {"t": "", "dr": [["買掛金", 20000]], "cr": [["残高", 20000]]}]}}]}, {"no": 7, "title": "財務諸表の表示ルール", "tag": "作った数字をどう見せるか", "color": "#1F3A5F", "items": [{"id": "7-1", "label": "流動・固定の区分", "type": "text", "hint": "まず正常営業循環基準で判定し、それ以外は1年基準で分ける", "example": "正常営業循環基準 → 1年基準"}, {"id": "7-2", "label": "貸借対照表の配列", "type": "choice", "options": ["流動性配列法", "固定性配列法"], "hint": "一般の会社は流動性配列法。電力会社などは固定性配列法", "example": "流動性配列法"}, {"id": "7-3", "label": "財務諸表の様式", "type": "choice", "options": ["報告式", "勘定式", "損益計算書は報告式・貸借対照表は勘定式"], "hint": "報告式は上から下へ並べる様式。勘定式は左右に並べる様式", "example": "損益計算書は報告式・貸借対照表は勘定式"}, {"id": "7-4", "label": "損益計算書の区分", "type": "text", "hint": "売上総利益 → 営業利益 → 経常利益 → 税引前当期純利益 → 当期純利益", "example": "区分損益計算(5段階の利益)"}, {"id": "7-5", "label": "キャッシュ・フロー計算書", "type": "choice", "options": ["作らない", "作る(営業CFは間接法)", "作る(営業CFは直接法)"], "hint": "上場会社などは作成が必要。間接法は税引前当期純利益から調整する", "example": "作らない"}, {"id": "7-6", "label": "株主資本等変動計算書・注記", "type": "text", "hint": "会社計算規則・財務諸表等規則のどちらに従うか", "example": "会社計算規則に従って作成"}, {"id": "7-7", "label": "金額の表示単位", "type": "choice", "options": ["円単位", "千円単位", "百万円単位"], "hint": "単位未満の端数の処理(切り捨てなど)も決める", "example": "千円単位"}]}, {"no": 8, "title": "統制・保存・税務", "tag": "間違い・不正を防ぎ、記録を守る", "color": "#D9367D", "items": [{"id": "8-1", "label": "職務分掌", "type": "text", "hint": "起票・承認・支払を同じ人にさせない", "example": "起票:担当者/承認:経理課長/支払:財務担当"}, {"id": "8-2", "label": "帳簿書類の保存期間", "type": "text", "hint": "会社法では会計帳簿は10年。法人税法では原則7年(欠損金が出た事業年度は10年)", "example": "帳簿は10年、その他の税務書類は7年以上"}, {"id": "8-3", "label": "電子取引データの保存", "type": "choice", "options": ["会計ソフト・クラウドに保存", "社内サーバーに検索できる形で保存", "事務処理規程を作って保存"], "hint": "電子帳簿保存法により、メールやPDFで受け取った請求書は電子のまま保存する", "example": "会計ソフト・クラウドに保存"}, {"id": "8-4", "label": "紙の書類のスキャナ保存", "type": "choice", "options": ["使う", "使わない"], "hint": "使う場合は、読み取りの期限や解像度などの要件を満たす", "example": "使わない"}, {"id": "8-5", "label": "申告調整の管理", "type": "text", "hint": "会計上の利益と課税所得の差(加算・減算)を一覧で管理する", "example": "加算・減算項目を別表四の項目ごとに一覧管理"}, {"id": "8-6", "label": "決算の承認", "type": "text", "hint": "誰の承認で財務諸表を確定させるか", "example": "取締役会で承認 → 定時株主総会で承認(または報告)"}]}];
+const KEY = "kicho-sekkei-v1";
+const NUM = "①②③④⑤⑥⑦⑧";
+let state = {company:"", values:{}, memo:{}};
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (s) state = Object.assign(state, s); } catch(e) {}
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {} }
+
+const allItems = DATA.flatMap(s => s.items.map(it => Object.assign({sec:s}, it)));
+document.getElementById("total").textContent = allItems.length;
+
+const fmt = n => n.toLocaleString("ja-JP");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function isFilled(it){
+  const v = state.values[it.id];
+  return Array.isArray(v) ? v.length > 0 : !!(v && String(v).trim());
+}
+
+function sideHTML(lr, rows){
+  if (!rows.length) return '<div class="side"></div>';
+  return '<div class="side">' + rows.map((r,i) =>
+    `<span class="lr">${i===0 ? "("+lr+")" : ""}</span><span>${esc(r[0])}</span><span class="amt">${fmt(r[1])}</span>`).join("") + '</div>';
+}
+function journalHTML(it){
+  if (!it.journal) return "";
+  let key, label;
+  if (it.journal["*"]) { key = "*"; label = "仕訳の例"; }
+  else {
+    const v = state.values[it.id];
+    if (v && it.journal[v]) { key = v; label = `仕訳の例(${v})`; }
+    else if (!v) { key = Object.keys(it.journal)[0]; label = `仕訳の例(${key}の場合)`; }
+    else return "";
+  }
+  const entries = it.journal[key].map(e => {
+    const cap = e.t ? `<div class="cap">${esc(e.t)}</div>` : "";
+    const body = (e.dr.length || e.cr.length) ? `<div class="je">${sideHTML("借",e.dr)}${sideHTML("貸",e.cr)}</div>` : "";
+    return `<div class="entry">${cap}${body}</div>`;
+  }).join("");
+  return `<div class="journal"><div class="jt">${esc(label)}</div>${entries}</div>`;
+}
+
+function itemHTML(it, color){
+  let input;
+  if (it.type === "text") {
+    input = `<input type="text" data-id="${it.id}" value="${esc(state.values[it.id]||"")}" placeholder="例:${esc(it.example)}">`;
+  } else {
+    const v = state.values[it.id];
+    input = '<div class="chips">' + it.options.map(o => {
+      const on = it.type === "multi" ? (Array.isArray(v) && v.includes(o)) : v === o;
+      return `<button type="button" class="chip ${it.type==="multi"?"multi":""}" data-id="${it.id}" data-opt="${esc(o)}" aria-pressed="${on}">${esc(o)}</button>`;
+    }).join("") + '</div>';
+  }
+  return `<div class="item ${isFilled(it)?"filled":""}" id="item-${it.id}">
+    <div class="item-top"><span class="item-id">${it.id}</span><h3>${esc(it.label)}</h3><span class="done">決定</span></div>
+    <p class="hint">${esc(it.hint)}</p>${input}<div class="jbox">${journalHTML(it)}</div></div>`;
+}
+
+function render(){
+  document.getElementById("company").value = state.company || "";
+  document.getElementById("order").innerHTML = [1,4,3,2,5,6,7].map(n => {
+    const s = DATA[n-1];
+    return `<li><a href="#sec-${n}" style="background:${s.color}">${NUM[n-1]} ${esc(s.title)}</a></li>`;
+  }).join("");
+  document.getElementById("main").innerHTML = DATA.map(s => `
+    <section class="sec" id="sec-${s.no}" style="--c:${s.color}">
+      <div class="sec-head" style="background:${s.color}">
+        <span class="num" style="color:${s.color}">${s.no}</span><h2>${esc(s.title)}</h2>
+        <span class="tag">${esc(s.tag)}</span><span class="cnt" id="cnt-${s.no}"></span>
+      </div>
+      <div class="items">${s.items.map(it => itemHTML(it, s.color)).join("")}</div>
+      <div class="memo"><label for="memo-${s.no}">この領域のメモ・決めた理由</label>
+        <textarea id="memo-${s.no}" data-memo="${s.no}">${esc(state.memo[s.no]||"")}</textarea></div>
+    </section>`).join("");
+  updateProgress();
+}
+
+function refreshItem(id){
+  const it = allItems.find(x => x.id === id);
+  const el = document.getElementById("item-"+id);
+  el.classList.toggle("filled", isFilled(it));
+  el.querySelector(".jbox").innerHTML = journalHTML(it);
+  updateProgress();
+}
+function updateProgress(){
+  const done = allItems.filter(isFilled).length;
+  document.getElementById("prog").textContent = `${done} / ${allItems.length} 決定`;
+  document.getElementById("bar").style.width = (done/allItems.length*100) + "%";
+  DATA.forEach(s => {
+    const d = s.items.filter(it => isFilled(it)).length;
+    const el = document.getElementById("cnt-"+s.no); if (el) el.textContent = `${d}/${s.items.length}`;
+  });
+}
+
+document.addEventListener("click", e => {
+  const chip = e.target.closest(".chip"); if (!chip) return;
+  const id = chip.dataset.id, opt = chip.dataset.opt;
+  const it = allItems.find(x => x.id === id);
+  if (it.type === "multi") {
+    const arr = Array.isArray(state.values[id]) ? state.values[id] : [];
+    state.values[id] = arr.includes(opt) ? arr.filter(x => x !== opt) : it.options.filter(o => o === opt || arr.includes(o));
+  } else {
+    state.values[id] = state.values[id] === opt ? "" : opt;
+  }
+  chip.parentElement.querySelectorAll(".chip").forEach(c => {
+    const v = state.values[id];
+    c.setAttribute("aria-pressed", it.type === "multi" ? v.includes(c.dataset.opt) : v === c.dataset.opt);
+  });
+  save(); refreshItem(id);
+});
+document.addEventListener("input", e => {
+  const t = e.target;
+  if (t.id === "company") { state.company = t.value; save(); return; }
+  if (t.dataset.memo) { state.memo[t.dataset.memo] = t.value; save(); return; }
+  if (t.dataset.id) { state.values[t.dataset.id] = t.value; save(); refreshItem(t.dataset.id); }
+});
+
+function toast(msg){ const t = document.getElementById("toast"); t.textContent = msg; t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 1800); }
+
+document.getElementById("example").onclick = () => {
+  const empty = allItems.filter(it => !isFilled(it));
+  if (!empty.length) { toast("すべて記入済みです"); return; }
+  if (!confirm(`空欄の${empty.length}項目に記入例を入れます。入力済みの項目はそのままです。`)) return;
+  empty.forEach(it => { state.values[it.id] = it.type === "multi" ? it.exampleList.slice() : it.example; });
+  if (!state.company) state.company = "株式会社サンプル商事";
+  save(); render(); toast("記入例を入れました");
+};
+document.getElementById("clear").onclick = () => {
+  if (!confirm("入力内容をすべて消します。よろしいですか?")) return;
+  state = {company:"", values:{}, memo:{}}; save(); render(); toast("消去しました");
+};
+document.getElementById("print").onclick = () => window.print();
+document.getElementById("copy").onclick = async () => {
+  const lines = [`記帳設計シート${state.company ? "(" + state.company + ")" : ""}`, ""];
+  DATA.forEach(s => {
+    lines.push(`【${NUM[s.no-1]} ${s.title}】`);
+    s.items.forEach(it => {
+      const v = state.values[it.id];
+      const txt = Array.isArray(v) ? v.join("・") : (v || "");
+      lines.push(`・${it.label}:${txt || "(未定)"}`);
+    });
+    if (state.memo[s.no]) lines.push(`  メモ:${state.memo[s.no]}`);
+    lines.push("");
+  });
+  try { await navigator.clipboard.writeText(lines.join("\n")); toast("コピーしました"); }
+  catch(e) { toast("コピーできませんでした"); }
+};
+
+render();
+</script>
+</body>
+</html>
