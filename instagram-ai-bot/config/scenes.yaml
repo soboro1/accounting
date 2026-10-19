@@ -1,0 +1,109 @@
+# ============================================================
+# シーンプール
+#   毎回ここからランダムに 1 つ選ばれます（直近 N 件と重複しないよう state で制御）。
+#   増やすほど飽きられにくくなります。まずは 20〜30 件を目安に。
+#   weight を上げるとその子が選ばれやすくなります（省略時は 1）。
+# ============================================================
+
+scenes:
+  - id: cafe_morning
+    weight: 2
+    setting: sitting by the window of a quiet Tokyo cafe, morning sunlight through the glass, latte on the table
+    outfit: oversized beige knit sweater, simple gold necklace
+    pose: resting chin on hand, looking out the window, slight smile
+    mood: 朝のカフェ。静かで、少し眠い
+  - id: park_walk
+    setting: walking along a tree-lined path in a city park, autumn leaves on the ground, late afternoon golden hour
+    outfit: long camel coat over a white blouse, tote bag on shoulder
+    pose: mid-stride, glancing back over her shoulder at the camera
+    mood: 散歩の途中。ちょっと肌寒い
+  - id: home_evening
+    setting: at home in a warmly lit living room, soft lamp light, books and a small plant in the background
+    outfit: grey oversized hoodie, hair tied up loosely
+    pose: sitting cross-legged on the sofa, holding a mug with both hands
+    mood: 家。だらっとした夜
+  - id: seaside
+    setting: standing on a quiet beach at sunset, calm waves, warm orange sky
+    outfit: white linen shirt over a camisole, denim shorts
+    pose: barefoot, hair moving in the sea breeze, looking at the horizon
+    mood: 海。ひとり旅の途中
+  - id: bookstore
+    setting: browsing in a small independent bookstore, tall wooden shelves, warm indoor lighting
+    outfit: navy cardigan over a striped shirt, round glasses
+    pose: holding an open book, reading, unaware of the camera
+    mood: 本屋。目当ての本は見つからなかった
+  - id: night_city
+    setting: on a Tokyo street at night, neon signs and bokeh city lights behind her, wet pavement reflections
+    outfit: black leather jacket over a white tee
+    pose: standing still, hands in pockets, calm direct gaze at the camera
+    mood: 夜。仕事終わりに寄り道
+  - id: rooftop
+    setting: on an apartment rooftop at dusk, city skyline in the distance, purple and blue sky
+    outfit: light blue denim jacket, white dress underneath
+    pose: leaning on the railing, wind in her hair, looking away from the camera
+    mood: 屋上。風が気持ちいい
+  - id: train_window
+    setting: sitting by the window of a local train, countryside passing outside, soft overcast daylight
+    outfit: beige trench coat, headphones around her neck
+    pose: head resting against the window, eyes half closed
+    mood: 電車。目的地はまだ先
+  - id: kitchen_cooking
+    setting: in a bright small kitchen, morning light, ingredients on the counter
+    outfit: white t-shirt with an apron, sleeves rolled up
+    pose: laughing while holding a wooden spoon, looking at the camera
+    mood: 料理中。たぶん失敗する
+  - id: flower_shop
+    setting: outside a flower shop on a narrow street, buckets of fresh flowers around her, soft cloudy daylight
+    outfit: pale green midi dress, small crossbody bag
+    pose: crouching to look at the flowers, gentle smile
+    mood: 花屋。買うつもりはなかった
+  - id: rain_umbrella
+    setting: on a city sidewalk in light rain, holding a clear umbrella, blurred umbrellas and headlights behind
+    outfit: dark navy coat, ankle boots
+    pose: looking up at the rain through the clear umbrella
+    mood: 雨。傘を持っててよかった
+  - id: gym_morning
+    setting: in a bright modern gym near a large window, early morning light
+    outfit: simple grey athletic top and leggings, hair in a high ponytail
+    pose: sitting on a bench, towel around neck, catching her breath
+    mood: 朝トレ。今日はちゃんと来た
+  - id: study_desk
+    setting: at a wooden desk in a quiet room, laptop and notebooks, desk lamp on, night
+    outfit: cream loungewear set, blanket over her shoulders
+    pose: stretching her arms above her head, tired but content
+    mood: 作業。あと少しで終わる
+  - id: festival_night
+    setting: at a Japanese summer festival at night, paper lanterns and food stalls glowing behind her
+    outfit: light blue yukata with a white obi, hair pinned up
+    pose: holding a small paper fan, turning toward the camera with a soft smile
+    mood: 夏祭り。人が多い
+  - id: art_museum
+    setting: in a minimal white art museum hall, soft even lighting, a large painting blurred behind her
+    outfit: black turtleneck, wide-leg trousers
+    pose: standing with arms crossed, looking at something off-frame
+    mood: 美術館。よくわからなかったけど好きだった
+  - id: convenience_store
+    setting: outside a Japanese convenience store at night, fluorescent light spilling onto the sidewalk
+    outfit: oversized grey sweatshirt, shorts, sandals
+    pose: sitting on the curb, holding an ice cream, relaxed
+    mood: コンビニ。夜食を買いに
+  - id: mountain_hike
+    setting: on a mountain trail overlooking a valley, clear blue sky, midday sun
+    outfit: olive windbreaker, small backpack, cap
+    pose: standing at a lookout point, arms slightly out, smiling widely
+    mood: 山。登ってよかった
+  - id: laundry_day
+    setting: on a small apartment balcony hanging laundry, bright midday sun, blue sky
+    outfit: white tank top and light blue pajama pants
+    pose: reaching up to hang a shirt, caught mid-motion
+    mood: 洗濯日和
+  - id: record_store
+    setting: in a vintage record store, crates of vinyl, warm dusty light
+    outfit: brown corduroy jacket over a black tee
+    pose: flipping through records, head tilted, focused
+    mood: レコード屋。ジャケ買いしそう
+  - id: winter_street
+    setting: on a snowy street in the evening, warm shop windows glowing behind her, snowflakes in the air
+    outfit: thick cream coat, red scarf, knitted gloves
+    pose: breathing into her hands to warm them, cheeks slightly pink
+    mood: 雪。手が冷たい

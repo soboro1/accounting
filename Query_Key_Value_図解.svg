@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F3A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="86" text-anchor="middle" font-size="50" font-weight="800" fill="#1F3A5F">Query・Key・Value</text>
+  <text x="800" y="134" text-anchor="middle" font-size="26" fill="#4A5D78">Attention が「どの単語に注目するか」を決める3つの役割</text>
+
+  <!-- Card 1: roles -->
+  <rect x="60" y="180" width="700" height="480" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="120" cy="240" r="34" fill="#1F6FEB"/>
+  <text x="120" y="253" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="175" y="252" font-size="36" font-weight="800" fill="#1F3A5F">3つの役割</text>
+
+  <!-- Query -->
+  <rect x="100" y="300" width="170" height="86" rx="16" fill="#7C3AED"/>
+  <text x="185" y="341" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">Query</text>
+  <text x="185" y="372" text-anchor="middle" font-size="22" fill="#EDE9FE">問い</text>
+  <text x="295" y="338" font-size="25" font-weight="800" fill="#1F3A5F">「私は何を探している？」</text>
+  <text x="295" y="372" font-size="22" fill="#4A5D78">図書館なら…探したい本のテーマ</text>
+
+  <!-- Key -->
+  <rect x="100" y="410" width="170" height="86" rx="16" fill="#1F6FEB"/>
+  <text x="185" y="451" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">Key</text>
+  <text x="185" y="482" text-anchor="middle" font-size="22" fill="#DCE9FF">目印</text>
+  <text x="295" y="448" font-size="25" font-weight="800" fill="#1F3A5F">「私はこんな情報を持つ」</text>
+  <text x="295" y="482" font-size="22" fill="#4A5D78">図書館なら…本の背表紙のラベル</text>
+
+  <!-- Value -->
+  <rect x="100" y="520" width="170" height="86" rx="16" fill="#16A34A"/>
+  <text x="185" y="561" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">Value</text>
+  <text x="185" y="592" text-anchor="middle" font-size="22" fill="#DDF7E6">中身</text>
+  <text x="295" y="558" font-size="25" font-weight="800" fill="#1F3A5F">「実際に渡せる情報です」</text>
+  <text x="295" y="592" font-size="22" fill="#4A5D78">図書館なら…本の中身（本文）</text>
+
+  <text x="410" y="640" text-anchor="middle" font-size="21" fill="#4A5D78">Q と K を見比べて、合う単語の V を多く受け取る</text>
+
+  <!-- Card 2: example -->
+  <rect x="800" y="180" width="740" height="480" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="860" cy="240" r="34" fill="#16A34A"/>
+  <text x="860" y="253" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="915" y="252" font-size="34" font-weight="800" fill="#1F3A5F">「下ろした」はどこを見る？</text>
+
+  <!-- column headers -->
+  <text x="1155" y="296" text-anchor="middle" font-size="20" font-weight="700" fill="#1F6FEB">Key（各単語の目印）</text>
+  <text x="1370" y="296" text-anchor="middle" font-size="20" font-weight="700" fill="#4A5D78">合う度合い</text>
+
+  <!-- Query box -->
+  <text x="930" y="376" text-anchor="middle" font-size="20" font-weight="700" fill="#7C3AED">Query</text>
+  <rect x="840" y="386" width="180" height="70" rx="14" fill="#7C3AED"/>
+  <text x="930" y="432" text-anchor="middle" font-size="28" font-weight="800" fill="#FFFFFF">下ろした</text>
+  <text x="930" y="496" text-anchor="middle" font-size="21" fill="#4A5D78">銀行の窓口で、</text>
+  <text x="930" y="524" text-anchor="middle" font-size="21" fill="#4A5D78">お金を下ろした</text>
+
+  <!-- arrows from query to keys -->
+  <path d="M1024 410 L1084 344" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M1024 421 L1084 421" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <path d="M1024 432 L1084 498" stroke="#7C3AED" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+  <!-- key rows -->
+  <rect x="1090" y="316" width="130" height="56" rx="12" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="1155" y="353" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">窓口</text>
+  <rect x="1240" y="330" width="130" height="28" rx="8" fill="#1F6FEB"/>
+  <text x="1384" y="353" font-size="24" font-weight="800" fill="#1F3A5F">50%</text>
+
+  <rect x="1090" y="394" width="130" height="56" rx="12" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="1155" y="431" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">お金</text>
+  <rect x="1240" y="408" width="104" height="28" rx="8" fill="#1F6FEB"/>
+  <text x="1358" y="431" font-size="24" font-weight="800" fill="#1F3A5F">40%</text>
+
+  <rect x="1090" y="472" width="130" height="56" rx="12" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1155" y="509" text-anchor="middle" font-size="26" font-weight="700" fill="#4A5D78">銀行</text>
+  <rect x="1240" y="486" width="26" height="28" rx="8" fill="#9DB4D3"/>
+  <text x="1280" y="509" font-size="24" font-weight="700" fill="#4A5D78">10%</text>
+
+  <!-- mix -->
+  <path d="M1130 540 L1130 576" stroke="#16A34A" stroke-width="3" marker-end="url(#arrowG)"/>
+  <text x="1150" y="565" font-size="21" font-weight="700" fill="#16A34A">Value を割合どおりに混ぜる</text>
+  <rect x="1100" y="586" width="410" height="56" rx="14" fill="#E3F7EA" stroke="#16A34A" stroke-width="2"/>
+  <text x="1305" y="623" text-anchor="middle" font-size="24" font-weight="800" fill="#1F3A5F">「お金を引き出す」意味の表現に</text>
+
+  <!-- Bottom band -->
+  <rect x="60" y="700" width="1480" height="150" rx="24" fill="#1F3A5F"/>
+  <text x="110" y="752" font-size="30" font-weight="800" fill="#FFD166">計算の流れ</text>
+  <text x="1490" y="752" text-anchor="end" font-size="24" font-family="Menlo, monospace" fill="#FFFFFF">softmax(Q·Kᵀ/√d)·V</text>
+
+  <rect x="100" y="775" width="310" height="54" rx="12" fill="#FFFFFF"/>
+  <text x="255" y="810" text-anchor="middle" font-size="23" font-weight="800" fill="#1F3A5F">① Q と K を見比べる</text>
+  <path d="M416 802 L448 802" stroke="#FFD166" stroke-width="3" marker-end="url(#arrowW)"/>
+  <rect x="456" y="775" width="310" height="54" rx="12" fill="#FFFFFF"/>
+  <text x="611" y="810" text-anchor="middle" font-size="23" font-weight="800" fill="#1F3A5F">② 割合に直す</text>
+  <path d="M772 802 L804 802" stroke="#FFD166" stroke-width="3" marker-end="url(#arrowW)"/>
+  <rect x="812" y="775" width="310" height="54" rx="12" fill="#FFFFFF"/>
+  <text x="967" y="810" text-anchor="middle" font-size="23" font-weight="800" fill="#1F3A5F">③ V を割合で混ぜる</text>
+  <path d="M1128 802 L1160 802" stroke="#FFD166" stroke-width="3" marker-end="url(#arrowW)"/>
+  <rect x="1168" y="775" width="310" height="54" rx="12" fill="#7C3AED"/>
+  <text x="1323" y="810" text-anchor="middle" font-size="23" font-weight="800" fill="#FFFFFF">④ 文脈つきの表現に</text>
+</svg>

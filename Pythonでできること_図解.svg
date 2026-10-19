@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+  <foreignObject x="0" y="0" width="1600" height="900">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Hiragino Sans','Noto Sans CJK JP',sans-serif;color:#1F3A5F;width:1600px;height:900px;box-sizing:border-box;padding:46px 56px 0;">
+      <style>
+        .ttl{font-size:40px;font-weight:800;margin:0;letter-spacing:1px}
+        .sub{font-size:19px;color:#4A5D78;margin:10px 0 24px}
+        .grid{display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:268px 212px;gap:20px}
+        .card{background:#fff;border:2px solid #C9D6E8;border-radius:24px;padding:18px 24px;box-sizing:border-box;position:relative}
+        .card.top{border:3px solid #F59E0B}
+        .star{position:absolute;top:16px;right:20px;background:#F59E0B;color:#fff;font-size:15px;font-weight:800;border-radius:999px;padding:3px 12px}
+        .no{display:inline-flex;width:40px;height:40px;border-radius:12px;color:#fff;font-size:22px;font-weight:800;align-items:center;justify-content:center;margin-right:12px}
+        .h{display:flex;align-items:center;font-size:25px;font-weight:800;margin-bottom:12px}
+        ul{margin:0;padding-left:1.1em}
+        li{font-size:20px;line-height:1.5;margin:0 0 8px;color:#2A3B55}
+        .pt{margin-top:12px;font-size:19px;font-weight:700;color:#1F6FEB}
+        .bottom{margin-top:22px;display:grid;grid-template-columns:1fr 1.35fr;gap:20px}
+        .weak{background:#fff;border:2px dashed #94A3B8;border-radius:20px;padding:18px 26px;font-size:20px;line-height:1.55;color:#475569}
+        .weak b{color:#334155}
+        .sum{background:#1F3A5F;border-radius:20px;color:#fff;padding:14px 26px;display:flex;align-items:center;gap:18px}
+        .sum .k{background:#16A34A;border-radius:999px;font-weight:800;font-size:18px;padding:4px 16px;white-space:nowrap}
+        .sum .t{font-size:23px;font-weight:700;line-height:1.55}
+        .sum .t span{color:#FCD34D}
+      </style>
+      <p class="ttl">Pythonで結局なにができるの？</p>
+      <p class="sub">ひとことで言うと「パソコンでやる面倒な作業を、代わりにやらせる道具」　★＝特に得意な3分野</p>
+      <div class="grid">
+        <div class="card top">
+          <span class="star">★ 一番身近</span>
+          <div class="h"><span class="no" style="background:#1F6FEB">1</span>事務作業の自動化</div>
+          <ul>
+            <li>Excel100個を開いて集計 → 1つにまとめる</li>
+            <li>ファイル名を一括で変更</li>
+            <li>毎朝サイトから情報を取ってメール送信</li>
+          </ul>
+          <div class="pt">→ 手作業1時間が数秒に</div>
+        </div>
+        <div class="card top">
+          <span class="star">★ 得意</span>
+          <div class="h"><span class="no" style="background:#16A34A">2</span>データ分析・グラフ</div>
+          <ul>
+            <li>売上を月別・商品別に集計</li>
+            <li>平均や伸び率を計算してグラフ化</li>
+            <li>例：仕訳帳 → 試算表を自動作成</li>
+          </ul>
+          <div class="pt">→ Excelより大量データ・何度でも同じ手順</div>
+        </div>
+        <div class="card top">
+          <span class="star">★ 人気No.1の理由</span>
+          <div class="h"><span class="no" style="background:#7C3AED">3</span>AI・機械学習</div>
+          <ul>
+            <li>ChatGPTやClaudeの開発もほぼPython</li>
+            <li>過去データから来月の売上を予測</li>
+          </ul>
+          <div class="pt">→ AI分野の共通語</div>
+        </div>
+        <div class="card">
+          <div class="h"><span class="no" style="background:#0891B2">4</span>Webから情報を集める</div>
+          <ul>
+            <li>求人・価格比較サイトの情報を自動収集</li>
+            <li>「スクレイピング」と呼ばれる</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="h"><span class="no" style="background:#DB2777">5</span>Webアプリの裏側</div>
+          <ul>
+            <li>Instagram・YouTubeのサーバー側の一部</li>
+            <li>自分の勉強用アプリも作れる</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="h"><span class="no" style="background:#EA580C">6</span>ちょっとしたツール作り</div>
+          <ul>
+            <li>計算ツール・クイズアプリ</li>
+            <li>チャットボット など</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bottom">
+        <div class="weak">
+          <b>あまり向いていないもの</b><br/>
+          スマホアプリ（Swift / Kotlin）・ゲーム（C# / C++）<br/>
+          Webページの見た目（HTML / CSS / JavaScript）
+        </div>
+        <div class="sum">
+          <span class="k">まとめ</span>
+          <span class="t">Pythonは「書きやすくて、なんでもそこそこできる万能ナイフ」<br/>特に <span>自動化・データ分析・AI</span> の3つが強い</span>
+        </div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>

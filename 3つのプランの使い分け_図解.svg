@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="64" font-size="46" font-weight="800" fill="#1F3A5F" text-anchor="middle">3つのプランの使い分け</text>
+<text x="800" y="104" font-size="23" font-weight="400" fill="#4A5D78" text-anchor="middle">「差異をいつ・誰の責任として知りたいか」と「記帳の手間」の兼ね合いで決まる</text>
+<rect x="60" y="128" width="480" height="520" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="84" y="146" width="230" height="36" rx="18" fill="#E8F1FE"/>
+<text x="199.0" y="171" font-size="18" font-weight="700" fill="#1F6FEB" text-anchor="middle">記帳の手間を省きたい</text>
+<text x="84" y="226" font-size="32" font-weight="800" fill="#1F6FEB" text-anchor="start">パーシャルプラン</text>
+<line x1="84" y1="242" x2="516" y2="242" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="84" y="252" width="6" height="18" rx="3" fill="#1F6FEB"/>
+<text x="100" y="266" font-size="16" font-weight="700" fill="#1F6FEB" text-anchor="start">差異が分かるタイミング</text>
+<text x="84" y="295" font-size="19" font-weight="500" fill="#1F3A5F" text-anchor="start">月末に生産量が確定してから、</text>
+<text x="84" y="322" font-size="19" font-weight="500" fill="#1F3A5F" text-anchor="start">まとめて計算する(アウトプット法)</text>
+<line x1="84" y1="340" x2="516" y2="340" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="84" y="350" width="6" height="18" rx="3" fill="#16A34A"/>
+<text x="100" y="364" font-size="16" font-weight="700" fill="#16A34A" text-anchor="start">長所</text>
+<text x="84" y="393" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">記帳がいちばん簡単</text>
+<text x="84" y="420" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">投入のつど標準と比べなくてよい</text>
+<line x1="84" y1="438" x2="516" y2="438" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="84" y="448" width="6" height="18" rx="3" fill="#4A5D78"/>
+<text x="100" y="462" font-size="16" font-weight="700" fill="#4A5D78" text-anchor="start">短所</text>
+<text x="84" y="491" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">差異が分かるのが遅い</text>
+<text x="84" y="518" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">価格差異も混ざり、現場の責任がぼやける</text>
+<line x1="84" y1="536" x2="516" y2="536" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="84" y="546" width="6" height="18" rx="3" fill="#7C3AED"/>
+<text x="100" y="560" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="start">向いている場面</text>
+<text x="84" y="589" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">製品の種類が多く、投入のつど</text>
+<text x="84" y="616" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">標準消費量を追えない工場</text>
+<rect x="560" y="128" width="480" height="520" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="584" y="146" width="300" height="36" rx="18" fill="#F1E9FE"/>
+<text x="734.0" y="171" font-size="18" font-weight="700" fill="#7C3AED" text-anchor="middle">現場の責任をはっきりさせたい</text>
+<text x="584" y="226" font-size="32" font-weight="800" fill="#7C3AED" text-anchor="start">修正パーシャルプラン</text>
+<line x1="584" y1="242" x2="1016" y2="242" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="584" y="252" width="6" height="18" rx="3" fill="#1F6FEB"/>
+<text x="600" y="266" font-size="16" font-weight="700" fill="#1F6FEB" text-anchor="start">差異が分かるタイミング</text>
+<text x="584" y="295" font-size="19" font-weight="500" fill="#1F3A5F" text-anchor="start">価格面の差異は材料・賃金勘定で、</text>
+<text x="584" y="322" font-size="19" font-weight="500" fill="#1F3A5F" text-anchor="start">数量面の差異は月末に仕掛品勘定で</text>
+<line x1="584" y1="340" x2="1016" y2="340" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="584" y="350" width="6" height="18" rx="3" fill="#16A34A"/>
+<text x="600" y="364" font-size="16" font-weight="700" fill="#16A34A" text-anchor="start">長所</text>
+<text x="584" y="393" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">現場が管理できる差異だけが</text>
+<text x="584" y="420" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品勘定に残る(責任会計向き)</text>
+<line x1="584" y1="438" x2="1016" y2="438" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="584" y="448" width="6" height="18" rx="3" fill="#4A5D78"/>
+<text x="600" y="462" font-size="16" font-weight="700" fill="#4A5D78" text-anchor="start">短所</text>
+<text x="584" y="491" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">数量差異・時間差異が分かるのは</text>
+<text x="584" y="518" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">パーシャルプランと同じく月末</text>
+<line x1="584" y1="536" x2="1016" y2="536" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="584" y="546" width="6" height="18" rx="3" fill="#7C3AED"/>
+<text x="600" y="560" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="start">向いている場面</text>
+<text x="584" y="589" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">製造現場の能率を評価したい工場</text>
+<text x="584" y="616" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">材料価格や賃率を現場が決められない場合</text>
+<rect x="1060" y="128" width="480" height="520" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1084" y="146" width="300" height="36" rx="18" fill="#E6F6EC"/>
+<text x="1234.0" y="171" font-size="18" font-weight="700" fill="#16A34A" text-anchor="middle">早く差異を知って手を打ちたい</text>
+<text x="1084" y="226" font-size="32" font-weight="800" fill="#16A34A" text-anchor="start">シングルプラン</text>
+<line x1="1084" y1="242" x2="1516" y2="242" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="1084" y="252" width="6" height="18" rx="3" fill="#1F6FEB"/>
+<text x="1100" y="266" font-size="16" font-weight="700" fill="#1F6FEB" text-anchor="start">差異が分かるタイミング</text>
+<text x="1084" y="295" font-size="19" font-weight="500" fill="#1F3A5F" text-anchor="start">材料を出庫した時点・作業をした時点で</text>
+<text x="1084" y="322" font-size="19" font-weight="500" fill="#1F3A5F" text-anchor="start">すぐ分かる(インプット法)</text>
+<line x1="1084" y1="340" x2="1516" y2="340" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="1084" y="350" width="6" height="18" rx="3" fill="#16A34A"/>
+<text x="1100" y="364" font-size="16" font-weight="700" fill="#16A34A" text-anchor="start">長所</text>
+<text x="1084" y="393" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">原因をすぐ調べて対策できる</text>
+<text x="1084" y="420" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">原価管理にいちばん役立つ</text>
+<line x1="1084" y1="438" x2="1516" y2="438" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="1084" y="448" width="6" height="18" rx="3" fill="#4A5D78"/>
+<text x="1100" y="462" font-size="16" font-weight="700" fill="#4A5D78" text-anchor="start">短所</text>
+<text x="1084" y="491" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">投入のつど標準消費量と比べるので、</text>
+<text x="1084" y="518" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">記帳の手間が大きい</text>
+<line x1="1084" y1="536" x2="1516" y2="536" stroke="#C9D6E8" stroke-width="1.5"/>
+<rect x="1084" y="546" width="6" height="18" rx="3" fill="#7C3AED"/>
+<text x="1100" y="560" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="start">向いている場面</text>
+<text x="1084" y="589" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">製品の種類が少ない大量生産</text>
+<text x="1084" y="616" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">指図書ごとに標準消費量が決まっている工場</text>
+<rect x="60" y="664" width="1480" height="100" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="90" y="704" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="start">記帳の手間</text>
+<text x="376" y="704" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="end">少ない</text>
+<polygon points="390,697 1380,689 1380,705" fill="#4A5D78" opacity="0.85"/><polygon points="1380,682 1410,697 1380,712" fill="#4A5D78" opacity="0.85"/>
+<text x="1424" y="704" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">多い</text>
+<text x="90" y="742" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="start">原価管理への役立ち</text>
+<text x="376" y="742" font-size="19" font-weight="400" fill="#16A34A" text-anchor="end">小さい</text>
+<polygon points="390,735 1380,727 1380,743" fill="#16A34A" opacity="0.85"/><polygon points="1380,720 1410,735 1380,750" fill="#16A34A" opacity="0.85"/>
+<text x="1424" y="742" font-size="19" font-weight="400" fill="#16A34A" text-anchor="start">大きい</text>
+<rect x="60" y="780" width="1480" height="92" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="807" width="120" height="38" rx="19" fill="#E9EEF6"/>
+<text x="150" y="833" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="middle">試験では</text>
+<text x="234" y="820" font-size="21" font-weight="500" fill="#1F3A5F" text-anchor="start">解く側がプランを選ぶことはない。問題文の指示に従う。</text>
+<text x="234" y="852" font-size="21" font-weight="400" fill="#4A5D78" text-anchor="start">指示の例:「パーシャルプランによる」「仕掛品勘定の借方は実際原価で記入している」</text>
+</svg>

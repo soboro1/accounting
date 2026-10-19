@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="60" font-size="44" font-weight="800" fill="#1F3A5F" text-anchor="middle">能率差異の求め方</text>
+<text x="800" y="98" font-size="23" font-weight="400" fill="#4A5D78" text-anchor="middle">能率差異 = 標準配賦率 ×(標準操業度 − 実際操業度)。標準より余分に使った時間を金額にする</text>
+<rect x="40" y="120" width="740" height="492" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="64" y="138" width="692" height="152" rx="16" fill="#F5F8FC"/>
+<rect x="82" y="152" width="86" height="30" rx="15" fill="#1F3A5F"/>
+<text x="125" y="173" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle">STEP 1</text>
+<text x="182" y="175" font-size="20" font-weight="800" fill="#1F3A5F" text-anchor="start">標準操業度を求める</text>
+<text x="728" y="174" font-size="15" font-weight="400" fill="#4A5D78" text-anchor="end">作った量なら何時間で済むはずだったか</text>
+<text x="92" y="222" font-size="18" font-weight="700" fill="#1F3A5F" text-anchor="start">当月投入量</text>
+<text x="200" y="222" font-size="17" font-weight="400" fill="#1F3A5F" text-anchor="start">完成 1,200 + 月末 200×60% − 月初 600×50%</text>
+<text x="728" y="222" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">1,020個</text>
+<text x="92" y="258" font-size="18" font-weight="700" fill="#1F3A5F" text-anchor="start">標準操業度</text>
+<text x="200" y="258" font-size="17" font-weight="400" fill="#1F3A5F" text-anchor="start">1,020個 × 1個あたり標準時間 5h</text>
+<text x="728" y="258" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="end">5,100h</text>
+<line x1="410" y1="294" x2="410" y2="306" stroke="#4A5D78" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="64" y="314" width="692" height="100" rx="16" fill="#F5F8FC"/>
+<rect x="82" y="328" width="86" height="30" rx="15" fill="#1F3A5F"/>
+<text x="125" y="349" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle">STEP 2</text>
+<text x="182" y="351" font-size="20" font-weight="800" fill="#1F3A5F" text-anchor="start">実際操業度との差を出す</text>
+<text x="728" y="350" font-size="15" font-weight="400" fill="#4A5D78" text-anchor="end">標準 − 実際 の順で引く</text>
+<text x="92" y="394" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">標準操業度 5,100h − 実際操業度 5,350h =</text>
+<text x="728" y="394" font-size="24" font-weight="800" fill="#7C3AED" text-anchor="end">△250h</text>
+<line x1="410" y1="418" x2="410" y2="430" stroke="#4A5D78" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="64" y="438" width="692" height="158" rx="16" fill="#F5F8FC"/>
+<rect x="82" y="452" width="86" height="30" rx="15" fill="#1F3A5F"/>
+<text x="125" y="473" font-size="15" font-weight="800" fill="#FFFFFF" text-anchor="middle">STEP 3</text>
+<text x="182" y="475" font-size="20" font-weight="800" fill="#1F3A5F" text-anchor="start">標準配賦率を掛ける</text>
+<text x="728" y="474" font-size="15" font-weight="400" fill="#4A5D78" text-anchor="end">@1,500 = 変動費率 @900 + 固定費率 @600</text>
+<text x="92" y="518" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">標準配賦率 @1,500 × △250h =</text>
+<text x="728" y="518" font-size="24" font-weight="800" fill="#7C3AED" text-anchor="end">△375,000</text>
+<text x="92" y="550" font-size="15" font-weight="400" fill="#4A5D78" text-anchor="start">内訳:変動費 @900 × △250h = △225,000 / 固定費 @600 × △250h = △150,000</text>
+<text x="92" y="580" font-size="17" font-weight="400" fill="#1F3A5F" text-anchor="start">マイナス = 標準より多く時間を使った →</text>
+<text x="728" y="580" font-size="20" font-weight="800" fill="#7C3AED" text-anchor="end">不利差異</text>
+<rect x="800" y="120" width="760" height="492" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="828" y="160" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="start">時間の長さで比べる</text>
+<text x="1532" y="160" font-size="14" font-weight="400" fill="#4A5D78" text-anchor="end">※ 差は大きく描いています</text>
+<text x="840" y="198" font-size="18" font-weight="800" fill="#1F3A5F" text-anchor="start">標準操業度</text>
+<text x="1430" y="198" font-size="20" font-weight="800" fill="#1F3A5F" text-anchor="end">5,100h</text>
+<rect x="840" y="208" width="590" height="46" fill="#E9EEF6" stroke="#1F3A5F" stroke-width="2"/>
+<text x="1135.0" y="237" font-size="16" font-weight="600" fill="#1F3A5F" text-anchor="middle">作った量(1,020個)なら、これで済むはずの時間</text>
+<text x="840" y="286" font-size="18" font-weight="800" fill="#1F6FEB" text-anchor="start">実際操業度</text>
+<text x="1520" y="286" font-size="20" font-weight="800" fill="#1F6FEB" text-anchor="end">5,350h</text>
+<rect x="840" y="296" width="590" height="46" fill="#E8F1FE" stroke="#1F6FEB" stroke-width="2"/>
+<text x="1135.0" y="325" font-size="16" font-weight="600" fill="#1F6FEB" text-anchor="middle">実際に掛かった時間</text>
+<rect x="1430" y="296" width="90" height="46" fill="#F1E9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="1475.0" y="326" font-size="18" font-weight="800" fill="#7C3AED" text-anchor="middle">250h</text>
+<line x1="1430" y1="254" x2="1430" y2="296" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="1475.0" y1="342" x2="1475.0" y2="358" stroke="#7C3AED" stroke-width="2"/>
+<text x="1520" y="380" font-size="18" font-weight="800" fill="#7C3AED" text-anchor="end">余分に使った 250h × 標準配賦率 @1,500 = 能率差異 375,000(不利)</text>
+<rect x="904" y="394" width="300" height="36" rx="10" fill="#E8F1FE"/>
+<text x="920" y="418" font-size="16" font-weight="800" fill="#1F6FEB" text-anchor="start">変動費</text>
+<text x="1188" y="418" font-size="16" font-weight="700" fill="#1F6FEB" text-anchor="end">@900 × 250h = 225,000</text>
+<rect x="1220" y="394" width="300" height="36" rx="10" fill="#E6F6EC"/>
+<text x="1236" y="418" font-size="16" font-weight="800" fill="#16A34A" text-anchor="start">固定費</text>
+<text x="1504" y="418" font-size="16" font-weight="700" fill="#16A34A" text-anchor="end">@600 × 250h = 150,000</text>
+<line x1="828" y1="450" x2="1532" y2="450" stroke="#C9D6E8" stroke-width="1.5"/>
+<text x="828" y="484" font-size="19" font-weight="800" fill="#1F3A5F" text-anchor="start">なぜ標準配賦率を掛けるのか</text>
+<text x="828" y="516" font-size="17" font-weight="400" fill="#4A5D78" text-anchor="start">製造間接費は「1時間あたり @1,500」で製品に配賦している。</text>
+<text x="828" y="544" font-size="17" font-weight="400" fill="#4A5D78" text-anchor="start">標準より余分に使った250時間ぶんは、製品の原価にならずムダになる。</text>
+<text x="828" y="572" font-size="17" font-weight="400" fill="#4A5D78" text-anchor="start">だから「余分な時間 × 1時間あたりの金額」で、作業能率の悪さを金額にする。</text>
+<rect x="40" y="628" width="940" height="244" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="64" y="646" width="170" height="36" rx="18" fill="#FDEDE3"/>
+<text x="149" y="671" font-size="18" font-weight="800" fill="#C2410C" text-anchor="middle">よくある間違い</text>
+<text x="68" y="718" font-size="17" font-weight="800" fill="#C2410C" text-anchor="start">✕</text>
+<text x="94" y="718" font-size="17" fill="#1F3A5F">完成品 1,200個で標準操業度を計算する<tspan fill="#4A5D78">　→　</tspan><tspan fill="#16A34A" font-weight="700">当月投入量 1,020個(換算量)を使う</tspan></text>
+<text x="68" y="756" font-size="17" font-weight="800" fill="#C2410C" text-anchor="start">✕</text>
+<text x="94" y="756" font-size="17" fill="#1F3A5F">予算操業度(5,200h)と比べる<tspan fill="#4A5D78">　→　</tspan><tspan fill="#16A34A" font-weight="700">比べるのは標準操業度と実際操業度</tspan></text>
+<text x="68" y="794" font-size="17" font-weight="800" fill="#C2410C" text-anchor="start">✕</text>
+<text x="94" y="794" font-size="17" fill="#1F3A5F">変動費率 @900 だけを掛ける<tspan fill="#4A5D78">　→　</tspan><tspan fill="#16A34A" font-weight="700">この問題は標準配賦率 @1,500(問題文の指示を確認)</tspan></text>
+<text x="68" y="832" font-size="17" font-weight="800" fill="#C2410C" text-anchor="start">✕</text>
+<text x="94" y="832" font-size="17" fill="#1F3A5F">引く順番を逆にする<tspan fill="#4A5D78">　→　</tspan><tspan fill="#16A34A" font-weight="700">標準 − 実際。マイナスが不利</tspan></text>
+<rect x="1000" y="628" width="560" height="244" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1024" y="646" width="90" height="36" rx="18" fill="#E9EEF6"/>
+<text x="1069" y="671" font-size="18" font-weight="800" fill="#1F3A5F" text-anchor="middle">仕訳</text>
+<text x="1028" y="716" font-size="15" font-weight="800" fill="#7C3AED" text-anchor="start">不利差異(今回):能率差異は借方</text>
+<text x="1028" y="746" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="1076" y="746" font-size="18" font-weight="600" fill="#1F3A5F" text-anchor="start">能率差異</text>
+<text x="1268" y="746" font-size="18" font-weight="700" fill="#1F3A5F" text-anchor="end">375,000</text>
+<text x="1296" y="746" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1344" y="746" font-size="18" font-weight="600" fill="#1F3A5F" text-anchor="start">製造間接費</text>
+<text x="1532" y="746" font-size="18" font-weight="700" fill="#1F3A5F" text-anchor="end">375,000</text>
+<text x="1028" y="786" font-size="15" font-weight="800" fill="#4A5D78" text-anchor="start">有利差異の場合:能率差異は貸方</text>
+<text x="1028" y="816" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="1076" y="816" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">製造間接費</text>
+<text x="1268" y="816" font-size="18" font-weight="700" fill="#4A5D78" text-anchor="end">×××</text>
+<text x="1296" y="816" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1344" y="816" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">能率差異</text>
+<text x="1532" y="816" font-size="18" font-weight="700" fill="#4A5D78" text-anchor="end">×××</text>
+<text x="1028" y="852" font-size="14" font-weight="400" fill="#4A5D78" text-anchor="start">※ パーシャルプランでは「製造間接費」が「仕掛品」になる</text>
+</svg>

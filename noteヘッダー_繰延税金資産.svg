@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="670" viewBox="0 0 1280 670" font-family="'Noto Sans JP', 'Hiragino Sans', sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f6fec"/>
+      <stop offset="0.48" stop-color="#7a4fd8"/>
+      <stop offset="1" stop-color="#e0457b"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="14" stdDeviation="18" flood-color="#1f2433" flood-opacity="0.25"/>
+    </filter>
+    <marker id="arG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 z" fill="#12a37a"/>
+    </marker>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1280" height="670" fill="url(#bg)"/>
+  <circle cx="90" cy="40" r="130" fill="#fff" opacity="0.12"/>
+  <circle cx="1220" cy="640" r="190" fill="#fff" opacity="0.10"/>
+  <circle cx="640" cy="690" r="90" fill="#fff" opacity="0.08"/>
+  <g fill="#fff" opacity="0.35">
+    <circle cx="610" cy="96" r="4"/><circle cx="634" cy="96" r="4"/><circle cx="658" cy="96" r="4"/>
+    <circle cx="610" cy="120" r="4"/><circle cx="634" cy="120" r="4"/><circle cx="658" cy="120" r="4"/>
+  </g>
+
+  <!-- 左:テキスト -->
+  <rect x="80" y="104" width="330" height="48" rx="24" fill="#fff" fill-opacity="0.22"/>
+  <text x="245" y="137" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">簿記2級・1級 | 税効果会計</text>
+
+  <text x="80" y="246" font-size="66" font-weight="900" fill="#fff">繰延税金資産は</text>
+  <text x="80" y="342" font-size="88" font-weight="900" fill="#fff">税金の<tspan fill="#ffe680">前払い</tspan></text>
+
+  <text x="80" y="414" font-size="28" font-weight="700" fill="#fff" opacity="0.95">会計と税務の「ズレ」から図でわかる</text>
+
+  <g font-size="22" font-weight="700" text-anchor="middle">
+    <rect x="80" y="456" width="156" height="50" rx="25" fill="#fff"/>
+    <text x="158" y="489" fill="#2f6fec">仕訳と勘定</text>
+    <rect x="250" y="456" width="156" height="50" rx="25" fill="#fff"/>
+    <text x="328" y="489" fill="#7a4fd8">回収可能性</text>
+    <rect x="420" y="456" width="156" height="50" rx="25" fill="#fff"/>
+    <text x="498" y="489" fill="#e0457b">確認クイズ</text>
+  </g>
+
+  <text x="80" y="572" font-size="20" font-weight="500" fill="#fff" opacity="0.88">図解つき・登録不要の無料Webページ</text>
+
+  <!-- 右:図のカード -->
+  <rect x="712" y="96" width="488" height="478" rx="28" fill="#fff" filter="url(#shadow)"/>
+  <text x="956" y="148" text-anchor="middle" font-size="21" font-weight="900" fill="#1f2433">払いすぎた税金は、あとで戻ってくる</text>
+
+  <line x1="748" y1="380" x2="1170" y2="380" stroke="#d6d9e0" stroke-width="3"/>
+
+  <!-- X1 納付 -->
+  <rect x="770" y="232" width="96" height="148" rx="10" fill="#f07a1a"/>
+  <rect x="770" y="194" width="96" height="40" rx="10" fill="#12a37a"/>
+  <text x="818" y="221" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">300</text>
+  <text x="818" y="300" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">納付</text>
+  <text x="818" y="326" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">3,300</text>
+  <text x="818" y="410" text-anchor="middle" font-size="18" font-weight="900" fill="#1f2433">X1年度</text>
+
+  <!-- 矢印とコイン -->
+  <path d="M870 206 C 920 170, 960 172, 990 196" fill="none" stroke="#12a37a" stroke-width="4" marker-end="url(#arG)"/>
+  <circle cx="928" cy="176" r="13" fill="#f4b400" stroke="#fff" stroke-width="3"/>
+  <text x="928" y="182" text-anchor="middle" font-size="14" font-weight="900" fill="#fff">¥</text>
+
+  <!-- 貯金箱 -->
+  <rect x="1028" y="320" width="18" height="28" rx="6" fill="#12a37a"/>
+  <rect x="1112" y="320" width="18" height="28" rx="6" fill="#12a37a"/>
+  <ellipse cx="1078" cy="262" rx="98" ry="72" fill="#e1f6ee" stroke="#12a37a" stroke-width="4"/>
+  <ellipse cx="1178" cy="262" rx="12" ry="20" fill="#e1f6ee" stroke="#12a37a" stroke-width="4"/>
+  <rect x="1058" y="196" width="40" height="8" rx="4" fill="#12a37a"/>
+  <text x="1078" y="256" text-anchor="middle" font-size="20" font-weight="900" fill="#12a37a">繰延税金資産</text>
+  <text x="1078" y="288" text-anchor="middle" font-size="24" font-weight="900" fill="#12a37a">300</text>
+  <text x="1078" y="410" text-anchor="middle" font-size="16" font-weight="700" fill="#5b6275">X2年度の税金が300減る</text>
+
+  <!-- 仕訳 -->
+  <rect x="744" y="436" width="424" height="108" rx="16" fill="#1f2433"/>
+  <text x="776" y="480" font-size="21" font-weight="700" fill="#8fb5ff">(借) 繰延税金資産</text>
+  <text x="1136" y="480" text-anchor="end" font-size="21" font-weight="700" fill="#8fb5ff">300</text>
+  <text x="776" y="520" font-size="21" font-weight="700" fill="#ffb37a">(貸) 法人税等調整額</text>
+  <text x="1136" y="520" text-anchor="end" font-size="21" font-weight="700" fill="#ffb37a">300</text>
+</svg>

@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="68" font-size="48" font-weight="800" fill="#1F3A5F" text-anchor="middle">修正パーシャルプラン</text>
+<text x="800" y="110" font-size="23" font-weight="400" fill="#4A5D78" text-anchor="middle">材料と賃金を「標準単価 × 実際消費量」で仕掛品へ振り替える方法(製造間接費はパーシャルプランと同じ)</text>
+<rect x="60" y="135" width="640" height="505" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="90" y="178" font-size="24" font-weight="800" fill="#1F3A5F" text-anchor="start">材料・賃金・製造間接費の勘定</text>
+<text x="380.0" y="222" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">材料</text>
+<line x1="90" y1="234" x2="670" y2="234" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="380.0" y1="234" x2="380.0" y2="306" stroke="#1F3A5F" stroke-width="3"/>
+<text x="106" y="261" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">実際消費額</text>
+<text x="364.0" y="261" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">192,400</text>
+<rect x="384.0" y="239" width="282.0" height="29" rx="8" fill="#E6F6EC"/>
+<text x="396.0" y="261" font-size="20" font-weight="700" fill="#16A34A" text-anchor="start">仕掛品</text>
+<text x="654" y="261" font-size="20" font-weight="700" fill="#16A34A" text-anchor="end">185,000</text>
+<rect x="384.0" y="270" width="282.0" height="29" rx="8" fill="#E8F1FE"/>
+<text x="396.0" y="292" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="start">価格差異</text>
+<text x="654" y="292" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="end">7,400</text>
+<text x="380" y="323" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="middle">仕掛品へ:標準 @100 × 実際 1,850kg(実際単価は @104)</text>
+<text x="380.0" y="364" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">賃金</text>
+<line x1="90" y1="376" x2="670" y2="376" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="380.0" y1="376" x2="380.0" y2="448" stroke="#1F3A5F" stroke-width="3"/>
+<text x="106" y="403" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">実際消費額</text>
+<text x="364.0" y="403" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">969,000</text>
+<rect x="384.0" y="381" width="282.0" height="29" rx="8" fill="#E6F6EC"/>
+<text x="396.0" y="403" font-size="20" font-weight="700" fill="#16A34A" text-anchor="start">仕掛品</text>
+<text x="654" y="403" font-size="20" font-weight="700" fill="#16A34A" text-anchor="end">950,000</text>
+<rect x="384.0" y="412" width="282.0" height="29" rx="8" fill="#E8F1FE"/>
+<text x="396.0" y="434" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="start">賃率差異</text>
+<text x="654" y="434" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="end">19,000</text>
+<text x="380" y="465" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="middle">仕掛品へ:標準 @1,000 × 実際 950h(実際賃率は @1,020)</text>
+<text x="380.0" y="506" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">製造間接費</text>
+<line x1="90" y1="518" x2="670" y2="518" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="380.0" y1="518" x2="380.0" y2="590" stroke="#1F3A5F" stroke-width="3"/>
+<text x="106" y="545" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">実際発生額</text>
+<text x="364.0" y="545" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<rect x="384.0" y="523" width="282.0" height="29" rx="8" fill="#E6F6EC"/>
+<text x="396.0" y="545" font-size="20" font-weight="700" fill="#16A34A" text-anchor="start">仕掛品</text>
+<text x="654" y="545" font-size="20" font-weight="700" fill="#16A34A" text-anchor="end">500,000</text>
+<text x="380" y="607" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="middle">仕掛品へ:実際発生額のまま(パーシャルプランと同じ)</text>
+<rect x="760" y="135" width="780" height="505" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="790" y="178" font-size="24" font-weight="800" fill="#1F3A5F" text-anchor="start">仕掛品勘定</text>
+<text x="1150.0" y="222" font-size="24" font-weight="800" fill="#1F3A5F" text-anchor="middle">仕掛品</text>
+<line x1="790" y1="234" x2="1510" y2="234" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="1150.0" y1="234" x2="1150.0" y2="396" stroke="#1F3A5F" stroke-width="3"/>
+<rect x="794" y="244" width="352.0" height="31" rx="8" fill="#E6F6EC"/>
+<text x="806" y="268" font-size="22" font-weight="700" fill="#16A34A" text-anchor="start">材料<tspan font-size="17">(標準単価 × 実際数量)</tspan></text>
+<text x="1134.0" y="268" font-size="22" font-weight="700" fill="#16A34A" text-anchor="end">185,000</text>
+<rect x="794" y="282" width="352.0" height="31" rx="8" fill="#E6F6EC"/>
+<text x="806" y="306" font-size="22" font-weight="700" fill="#16A34A" text-anchor="start">賃金<tspan font-size="17">(標準賃率 × 実際時間)</tspan></text>
+<text x="1134.0" y="306" font-size="22" font-weight="700" fill="#16A34A" text-anchor="end">950,000</text>
+<rect x="794" y="320" width="352.0" height="31" rx="8" fill="#E6F6EC"/>
+<text x="806" y="344" font-size="22" font-weight="700" fill="#16A34A" text-anchor="start">製造間接費<tspan font-size="17">(実際発生額)</tspan></text>
+<text x="1134.0" y="344" font-size="22" font-weight="700" fill="#16A34A" text-anchor="end">500,000</text>
+<text x="1166.0" y="268" font-size="22" font-weight="400" fill="#1F3A5F" text-anchor="start">製品<tspan font-size="17">(標準原価)</tspan></text>
+<text x="1494" y="268" font-size="22" font-weight="700" fill="#1F3A5F" text-anchor="end">1,530,000</text>
+<rect x="1154.0" y="282" width="352.0" height="31" rx="8" fill="#F1E9FE"/>
+<text x="1166.0" y="306" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="start">数量差異</text>
+<text x="1494" y="306" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="end">5,000</text>
+<rect x="1154.0" y="320" width="352.0" height="31" rx="8" fill="#F1E9FE"/>
+<text x="1166.0" y="344" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="start">時間差異</text>
+<text x="1494" y="344" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<rect x="1154.0" y="358" width="352.0" height="31" rx="8" fill="#F1E9FE"/>
+<text x="1166.0" y="382" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="start">製造間接費差異</text>
+<text x="1494" y="382" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<line x1="1010" y1="404" x2="1134" y2="404" stroke="#1F3A5F" stroke-width="2"/>
+<line x1="1010" y1="440" x2="1134" y2="440" stroke="#1F3A5F" stroke-width="2"/>
+<line x1="1010" y1="445" x2="1134" y2="445" stroke="#1F3A5F" stroke-width="2"/>
+<text x="1134" y="431" font-size="22" font-weight="700" fill="#1F3A5F" text-anchor="end">1,635,000</text>
+<line x1="1370" y1="404" x2="1494" y2="404" stroke="#1F3A5F" stroke-width="2"/>
+<line x1="1370" y1="440" x2="1494" y2="440" stroke="#1F3A5F" stroke-width="2"/>
+<line x1="1370" y1="445" x2="1494" y2="445" stroke="#1F3A5F" stroke-width="2"/>
+<text x="1494" y="431" font-size="22" font-weight="700" fill="#1F3A5F" text-anchor="end">1,635,000</text>
+<circle cx="803" cy="487" r="9" fill="#1F6FEB"/>
+<text x="824" y="494" font-size="21" font-weight="700" fill="#1F6FEB" text-anchor="start">価格面の差異(価格差異・賃率差異)→ 材料・賃金勘定で把握</text>
+<text x="824" y="526" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">現場では管理できない差異なので、仕掛品勘定には入れない</text>
+<circle cx="803" cy="565" r="9" fill="#7C3AED"/>
+<text x="824" y="572" font-size="21" font-weight="700" fill="#7C3AED" text-anchor="start">数量面の差異(数量差異・時間差異)→ 仕掛品勘定で把握</text>
+<text x="824" y="604" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">現場が管理できる差異だけが仕掛品勘定に残る(製造間接費差異もここ)</text>
+<path d="M672 254 C 735 254, 725 262, 786 262" fill="none" stroke="#16A34A" stroke-width="3" marker-end="url(#arr)"/>
+<path d="M672 396 C 735 396, 725 300, 786 300" fill="none" stroke="#16A34A" stroke-width="3" marker-end="url(#arr)"/>
+<path d="M672 538 C 735 538, 725 338, 786 338" fill="none" stroke="#16A34A" stroke-width="3" marker-end="url(#arr)"/>
+<rect x="60" y="655" width="1480" height="220" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="680" width="84" height="36" rx="18" fill="#EEF2F8"/>
+<text x="132" y="705" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="middle">仕訳</text>
+<text x="210" y="706" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="258" y="706" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="530" y="706" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">185,000</text>
+<text x="555" y="706" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="603" y="706" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">材料</text>
+<text x="810" y="706" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">185,000</text>
+<text x="210" y="738" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="258" y="738" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="start">価格差異</text>
+<text x="530" y="738" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="end">7,400</text>
+<text x="555" y="738" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="603" y="738" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="start">材料</text>
+<text x="810" y="738" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="end">7,400</text>
+<text x="210" y="770" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="258" y="770" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="530" y="770" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">950,000</text>
+<text x="555" y="770" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="603" y="770" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">賃金</text>
+<text x="810" y="770" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">950,000</text>
+<text x="210" y="802" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="258" y="802" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="start">賃率差異</text>
+<text x="530" y="802" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="end">19,000</text>
+<text x="555" y="802" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="603" y="802" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="start">賃金</text>
+<text x="810" y="802" font-size="19" font-weight="700" fill="#1F6FEB" text-anchor="end">19,000</text>
+<text x="210" y="834" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="258" y="834" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="530" y="834" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<text x="555" y="834" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="603" y="834" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">製造間接費</text>
+<text x="810" y="834" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<text x="860" y="706" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="908" y="706" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">製品</text>
+<text x="1210" y="706" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">1,530,000</text>
+<text x="1235" y="706" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1283" y="706" font-size="19" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="1500" y="706" font-size="19" font-weight="700" fill="#1F3A5F" text-anchor="end">1,530,000</text>
+<text x="860" y="738" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="908" y="738" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="start">数量差異</text>
+<text x="1210" y="738" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="end">5,000</text>
+<text x="1235" y="738" font-size="19" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1283" y="738" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="start">仕掛品</text>
+<text x="1500" y="738" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="end">105,000</text>
+
+<text x="908" y="770" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="start">時間差異</text>
+<text x="1210" y="770" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+
+<text x="908" y="802" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="start">製造間接費差異</text>
+<text x="1210" y="802" font-size="19" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<line x1="830" y1="684" x2="830" y2="846" stroke="#C9D6E8" stroke-width="2"/>
+</svg>

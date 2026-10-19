@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="72" text-anchor="middle" font-size="42" font-weight="700" fill="#1F3A5F">経理 × IT　資格を取る順番</text>
+  <text x="800" y="116" text-anchor="middle" font-size="22" fill="#4A5D78">経理部で働く人が「ITも分かる経理」を目指す場合の例（2027年度からの新制度を前提）</text>
+
+  <!-- 制度変更の説明 -->
+  <rect x="50" y="150" width="690" height="250" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="82" y="196" font-size="26" font-weight="700" fill="#7C3AED">2027年度から試験制度が変わる（予定）</text>
+  <g font-size="20" fill="#1F3A5F">
+    <text x="82" y="240">・応用情報と高度試験は2026年度で終了</text>
+    <text x="82" y="271" fill="#4A5D78">　（ITストラテジスト、プロジェクトマネージャなど）</text>
+    <text x="82" y="302">・プロフェッショナルデジタルスキル試験（仮称）に再編</text>
+    <text x="82" y="333" fill="#4A5D78">　区分：マネジメント／データ・AI／システム</text>
+    <text x="82" y="364">・新試験は2027年度の夏〜秋頃に開始予定</text>
+  </g>
+
+  <!-- 階段の矢印 -->
+  <g fill="none" stroke="#7C3AED" stroke-width="4" stroke-linecap="round" marker-end="url(#arr)">
+    <path d="M 300 566 Q 300 520 412 520"/>
+    <path d="M 670 456 Q 670 410 782 410"/>
+    <path d="M 1040 346 Q 1040 300 1152 300"/>
+  </g>
+
+  <!-- STEP 1 -->
+  <g>
+    <rect x="50" y="570" width="350" height="210" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <rect x="74" y="592" width="96" height="34" rx="17" fill="#16A34A"/>
+    <text x="122" y="616" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">STEP 1</text>
+    <text x="74" y="668" font-size="30" font-weight="700" fill="#1F3A5F">簿記</text>
+    <text x="74" y="712" font-size="19" fill="#4A5D78">経理部で直接評価される力</text>
+    <text x="74" y="742" font-size="19" font-weight="700" fill="#16A34A">まずここが土台</text>
+  </g>
+
+  <!-- STEP 2 -->
+  <g>
+    <rect x="420" y="460" width="350" height="210" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <rect x="444" y="482" width="96" height="34" rx="17" fill="#1F6FEB"/>
+    <text x="492" y="506" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">STEP 2</text>
+    <text x="444" y="558" font-size="30" font-weight="700" fill="#1F3A5F">ITパスポート</text>
+    <text x="444" y="602" font-size="19" fill="#4A5D78">ITの入口。制度変更後も残る</text>
+    <text x="444" y="632" font-size="17" fill="#4A5D78">2027年度春頃から出題分野を再編</text>
+  </g>
+
+  <!-- STEP 3 -->
+  <g>
+    <rect x="790" y="350" width="350" height="210" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <rect x="814" y="372" width="96" height="34" rx="17" fill="#1F6FEB"/>
+    <text x="862" y="396" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">STEP 3</text>
+    <text x="814" y="444" font-size="26" font-weight="700" fill="#1F3A5F">データマネジメント</text>
+    <text x="814" y="478" font-size="26" font-weight="700" fill="#1F3A5F">試験<tspan font-size="17" font-weight="400" fill="#4A5D78">（仮称・新設）</tspan></text>
+    <text x="814" y="514" font-size="19" fill="#4A5D78">データの整備・管理を扱う</text>
+    <text x="814" y="542" font-size="19" font-weight="700" fill="#1F6FEB">データを扱う経理と相性が良い</text>
+  </g>
+
+  <!-- STEP 4 -->
+  <g>
+    <rect x="1160" y="240" width="350" height="210" rx="24" fill="#FFFFFF" stroke="#7C3AED" stroke-width="3"/>
+    <rect x="1184" y="262" width="96" height="34" rx="17" fill="#7C3AED"/>
+    <text x="1232" y="286" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">STEP 4</text>
+    <text x="1184" y="334" font-size="26" font-weight="700" fill="#1F3A5F">プロフェッショナル</text>
+    <text x="1184" y="368" font-size="26" font-weight="700" fill="#1F3A5F">デジタルスキル試験<tspan font-size="17" font-weight="400" fill="#4A5D78">（仮称）</tspan></text>
+    <text x="1184" y="404" font-size="20" font-weight="700" fill="#7C3AED">マネジメント区分</text>
+    <text x="1184" y="432" font-size="18" fill="#4A5D78">IT投資の評価・プロジェクト推進</text>
+  </g>
+
+  <!-- 分岐 -->
+  <g fill="none" stroke="#9AAAC0" stroke-width="3" stroke-dasharray="6 6">
+    <path d="M 965 560 L 965 600"/>
+    <path d="M 1335 450 L 1335 490"/>
+  </g>
+  <g>
+    <rect x="790" y="600" width="350" height="110" rx="20" fill="#FFFFFF" stroke="#9AAAC0" stroke-width="2" stroke-dasharray="8 6"/>
+    <text x="814" y="640" font-size="18" fill="#4A5D78">技術も学びたいなら</text>
+    <text x="814" y="680" font-size="25" font-weight="700" fill="#1F3A5F">基本情報技術者</text>
+  </g>
+  <g>
+    <rect x="1160" y="490" width="350" height="130" rx="20" fill="#FFFFFF" stroke="#9AAAC0" stroke-width="2" stroke-dasharray="8 6"/>
+    <text x="1184" y="528" font-size="18" fill="#4A5D78">セキュリティを深めるなら</text>
+    <text x="1184" y="566" font-size="25" font-weight="700" fill="#1F3A5F">情報処理安全確保支援士</text>
+    <text x="1184" y="598" font-size="17" fill="#4A5D78">制度変更後も残る</text>
+  </g>
+
+  <!-- 注意 -->
+  <rect x="50" y="812" width="1500" height="60" rx="18" fill="#FFF7ED" stroke="#EA9A3B" stroke-width="2"/>
+  <text x="800" y="850" text-anchor="middle" font-size="21" fill="#1F3A5F"><tspan font-weight="700" fill="#C2410C">注意：</tspan>新試験の名称は仮称で、出題数・合格基準・日程は未確定。受験前にIPAの公式サイトで確認（2026年10月時点）</text>
+</svg>

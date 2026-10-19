@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="72" text-anchor="middle" font-size="48" font-weight="800" fill="#1F3A5F">予算操業度と標準操業度の違い</text>
+  <text x="800" y="114" text-anchor="middle" font-size="24" fill="#4A5D78">どちらも「生産量 × 標準時間(1個あたり5時間)」。違うのは、掛ける生産量が「計画」か「実際」か</text>
+
+  <!-- ===== 予算操業度 card ===== -->
+  <rect x="60" y="140" width="720" height="300" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="90" y="164" width="236" height="38" rx="19" fill="#E8F1FE"/>
+  <text x="208" y="190" text-anchor="middle" font-size="20" font-weight="700" fill="#1F6FEB">期首に決まる(計画)</text>
+  <text x="90" y="250" font-size="40" font-weight="800" fill="#1F6FEB">予算操業度</text>
+  <text x="310" y="250" font-size="22" fill="#4A5D78">「今月はこれだけ稼働する」という計画</text>
+  <rect x="90" y="274" width="660" height="68" rx="14" fill="#E8F1FE"/>
+  <text x="420" y="318" text-anchor="middle" font-size="26" font-weight="700" fill="#1F3A5F">計画生産量 1,040個 × 標準時間 5h = <tspan fill="#1F6FEB" font-size="30">5,200h</tspan></text>
+  <text x="90" y="382" font-size="20" fill="#4A5D78">・資料にそのまま書いてある(年間で与えられたら ÷12)</text>
+  <text x="90" y="414" font-size="20" fill="#4A5D78">・使い道:操業度差異を2つに分ける境目</text>
+
+  <!-- ===== 標準操業度 card ===== -->
+  <rect x="820" y="140" width="720" height="300" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="850" y="164" width="316" height="38" rx="19" fill="#E6F6EC"/>
+  <text x="1008" y="190" text-anchor="middle" font-size="20" font-weight="700" fill="#16A34A">月末に決まる(実績から計算)</text>
+  <text x="850" y="250" font-size="40" font-weight="800" fill="#16A34A">標準操業度</text>
+  <text x="1070" y="250" font-size="22" fill="#4A5D78">作った量なら本来これで済むはずの時間</text>
+  <rect x="850" y="274" width="660" height="68" rx="14" fill="#E6F6EC"/>
+  <text x="1180" y="318" text-anchor="middle" font-size="26" font-weight="700" fill="#1F3A5F">実際生産量 1,020個 × 標準時間 5h = <tspan fill="#16A34A" font-size="30">5,100h</tspan></text>
+  <text x="850" y="382" font-size="20" fill="#4A5D78">・自分で計算する(当月投入の換算量 × 標準時間)</text>
+  <text x="850" y="414" font-size="20" fill="#4A5D78">・使い道:標準配賦額の計算、能率差異</text>
+
+  <!-- ===== Axis card ===== -->
+  <rect x="60" y="465" width="1480" height="400" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="512" font-size="26" font-weight="800" fill="#1F3A5F">時間の軸に並べると、それぞれが差異の境目になる</text>
+
+  <!-- guides -->
+  <g stroke="#C9D6E8" stroke-width="2" stroke-dasharray="6 6">
+    <line x1="300" y1="632" x2="300" y2="675"/>
+    <line x1="940" y1="632" x2="940" y2="735"/>
+    <line x1="620" y1="632" x2="620" y2="795"/>
+    <line x1="1340" y1="632" x2="1340" y2="795"/>
+  </g>
+
+  <!-- axis -->
+  <line x1="140" y1="620" x2="1470" y2="620" stroke="#4A5D78" stroke-width="3" marker-end="url(#arrowGray)"/>
+  <text x="1486" y="627" font-size="20" fill="#4A5D78">時間</text>
+
+  <!-- points -->
+  <circle cx="300" cy="620" r="12" fill="#16A34A"/>
+  <text x="300" y="556" text-anchor="middle" font-size="22" font-weight="800" fill="#16A34A">標準操業度</text>
+  <text x="300" y="590" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">5,100h</text>
+
+  <circle cx="620" cy="620" r="12" fill="#1F6FEB"/>
+  <text x="620" y="556" text-anchor="middle" font-size="22" font-weight="800" fill="#1F6FEB">予算操業度</text>
+  <text x="620" y="590" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">5,200h</text>
+
+  <circle cx="940" cy="620" r="10" fill="#7C3AED"/>
+  <text x="940" y="556" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">実際操業度(実際に掛かった時間)</text>
+  <text x="940" y="590" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">5,350h</text>
+
+  <circle cx="1340" cy="620" r="10" fill="#4A5D78"/>
+  <text x="1340" y="556" text-anchor="middle" font-size="22" font-weight="700" fill="#4A5D78">実際的生産能力(基準)</text>
+  <text x="1340" y="590" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">6,000h</text>
+
+  <!-- 能率差異 -->
+  <g stroke="#1F3A5F" stroke-width="3" stroke-linecap="round">
+    <line x1="300" y1="675" x2="940" y2="675"/>
+    <line x1="300" y1="664" x2="300" y2="686"/>
+    <line x1="940" y1="664" x2="940" y2="686"/>
+  </g>
+  <rect x="558" y="657" width="124" height="36" rx="8" fill="#FFFFFF"/>
+  <text x="620" y="683" text-anchor="middle" font-size="22" font-weight="800" fill="#1F3A5F">能率差異</text>
+  <text x="964" y="682" font-size="20" fill="#4A5D78">標準 と 実際 の差 → 作業能率の良否</text>
+
+  <!-- 予算操業度差異 -->
+  <g stroke="#1F3A5F" stroke-width="3" stroke-linecap="round">
+    <line x1="620" y1="735" x2="940" y2="735"/>
+    <line x1="620" y1="724" x2="620" y2="746"/>
+    <line x1="940" y1="724" x2="940" y2="746"/>
+  </g>
+  <rect x="686" y="717" width="188" height="36" rx="8" fill="#FFFFFF"/>
+  <text x="780" y="743" text-anchor="middle" font-size="22" font-weight="800" fill="#1F3A5F">予算操業度差異</text>
+  <text x="964" y="742" font-size="20" fill="#4A5D78">実際 と 予算 の差 → 稼働時間のずれ</text>
+
+  <!-- 予想遊休能力差異 -->
+  <g stroke="#1F3A5F" stroke-width="3" stroke-linecap="round">
+    <line x1="620" y1="795" x2="1340" y2="795"/>
+    <line x1="620" y1="784" x2="620" y2="806"/>
+    <line x1="1340" y1="784" x2="1340" y2="806"/>
+  </g>
+  <rect x="875" y="777" width="210" height="36" rx="8" fill="#FFFFFF"/>
+  <text x="980" y="803" text-anchor="middle" font-size="22" font-weight="800" fill="#1F3A5F">予想遊休能力差異</text>
+  <text x="596" y="802" text-anchor="end" font-size="20" fill="#4A5D78">予算 と 能力 の差 → 計画段階の遊休</text>
+
+  <text x="1510" y="845" text-anchor="end" font-size="18" fill="#4A5D78">※ 軸の間隔は実際の比率どおりではありません</text>
+</svg>

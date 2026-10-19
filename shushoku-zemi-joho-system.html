@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>就職先研究ゼミ：情報システムの仕事</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d; color: #f6f1e6;
+    display: flex; justify-content: center; padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 18px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0; line-height: 1.5; }
+  h2 { font-size: 21px; margin: 4px 0 0; }
+  h3 { font-size: 16px; color: #d4a24c; margin: 22px 0 6px; }
+  .lead { color: #9aa5b1; font-size: 14px; margin: 6px 0 0; line-height: 1.8; }
+  .part-title { font-size: 13px; letter-spacing: 2px; color: #9aa5b1; font-weight: 700; margin: 12px 0 -4px; }
+
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tab { font: inherit; font-size: 14px; font-weight: 700; cursor: pointer; padding: 9px 18px; border-radius: 999px;
+    border: 1px solid rgba(212,162,76,0.4); background: transparent; color: #d4a24c; }
+  .tab.on { background: #d4a24c; color: #101b2d; }
+  .view { display: none; flex-direction: column; gap: 14px; }
+  .view.on { display: flex; }
+
+  .story { display: flex; gap: 10px; flex-wrap: wrap; align-items: stretch; }
+  .story .st { flex: 1 1 200px; padding: 14px 16px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.03); font-size: 14px; line-height: 1.7; }
+  .story .st b { display: block; font-size: 12px; letter-spacing: 1px; margin-bottom: 4px; }
+  .story .st.p b { color: #f0997b; } .story .st.s b { color: #7fd1a0; } .story .st.r b { color: #8fb4ff; } .story .st.f b { color: #d4a24c; }
+
+  details.lesson { border: 1px solid rgba(212,162,76,0.3); border-radius: 12px; background: rgba(255,255,255,0.03); }
+  details.lesson[open] { border-color: rgba(212,162,76,0.6); }
+  details.lesson > summary { list-style: none; display: flex; align-items: center; gap: 14px; padding: 14px 18px; cursor: pointer; }
+  details.lesson > summary::-webkit-details-marker { display: none; }
+  details.lesson > summary:hover { background: rgba(212,162,76,0.07); border-radius: 12px; }
+  .num { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+    background: rgba(212,162,76,0.18); color: #d4a24c; font-weight: 700; font-size: 14px; }
+  summary .t { flex: 1; font-size: 15px; font-weight: 500; }
+  summary .t small { display: block; color: #8b93a1; font-size: 12px; font-weight: 400; margin-top: 2px; }
+  summary .arrow { color: #8b93a1; font-size: 12px; transition: transform .15s; }
+  details[open] > summary .arrow { transform: rotate(90deg); }
+
+  .body { font-size: 15px; line-height: 1.95; color: #e8e3d8; padding: 0 22px 20px; }
+  .card .body { padding: 0; }
+  .body p { margin: 8px 0; }
+  .body ul, .body ol { margin: 6px 0; padding-left: 1.4em; }
+  .body li { margin: 4px 0; }
+  .body b { color: #f6f1e6; }
+  .body em { font-style: normal; color: #d4a24c; font-weight: 700; }
+  .body a { color: #8fb4ff; }
+  .box { border-left: 4px solid #d4a24c; background: rgba(212,162,76,0.08); padding: 10px 14px; margin: 12px 0; border-radius: 0 8px 8px 0; font-size: 14px; }
+  .box.ng { border-color: #f0997b; background: rgba(240,153,123,0.08); }
+  .box.ok { border-color: #7fd1a0; background: rgba(127,209,160,0.08); }
+  .box.memo { border-color: #8fb4ff; background: rgba(143,180,255,0.08); }
+  .box .lb { display: block; font-size: 12px; font-weight: 700; letter-spacing: 1px; margin-bottom: 2px; color: #d4a24c; }
+  .box.ng .lb { color: #f0997b; } .box.ok .lb { color: #7fd1a0; } .box.memo .lb { color: #8fb4ff; }
+  pre { white-space: pre-wrap; background: #0b1422; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 14px; font-family: inherit; font-size: 14px; line-height: 1.8; margin: 8px 0; }
+
+  .card { padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px; background: rgba(255,255,255,0.03); }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+  .badge { display: inline-flex; align-self: flex-start; padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c; font-size: 13px; font-weight: 700; color: #d4a24c; }
+  .q { font-size: 17px; line-height: 1.9; margin: 0; white-space: pre-line; }
+  .opt { display: block; width: 100%; text-align: left; margin: 10px 0 0; padding: 13px 16px; border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.15); background: #0e1726; color: #f6f1e6; font: inherit; font-size: 15px; line-height: 1.7; cursor: pointer; }
+  .opt:hover:not(:disabled) { border-color: #d4a24c; }
+  .opt:disabled { cursor: default; }
+  .opt.correct { border: 2px solid #7fd1a0; background: rgba(127,209,160,0.12); }
+  .opt.wrong { border: 2px solid #f0997b; background: rgba(240,153,123,0.12); }
+  .exp { margin-top: 14px; padding: 14px 18px; border-radius: 10px; font-size: 14px; line-height: 1.85; border: 2px solid; }
+  .exp.ok { border-color: #7fd1a0; } .exp.ng { border-color: #f0997b; }
+  .exp .rt { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .exp.ok .rt { color: #7fd1a0; } .exp.ng .rt { color: #f0997b; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  button.b { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.b:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+  .big { font-size: 44px; font-weight: 700; color: #d4a24c; text-align: center; margin: 6px 0; }
+  .center { text-align: center; }
+
+  .slots { display: flex; gap: 8px; flex-wrap: wrap; }
+  .slot { font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; padding: 7px 16px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.2); background: #0e1726; color: #9aa5b1; }
+  .slot.on { border-color: #d4a24c; color: #d4a24c; background: rgba(212,162,76,0.12); }
+  .wl { margin: 14px 0 4px; font-weight: 700; font-size: 14px; }
+  .wh { display: block; font-weight: 400; font-size: 12px; color: #8b93a1; }
+  textarea, input.txt { width: 100%; padding: 10px 12px; font: inherit; font-size: 15px; line-height: 1.7; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; resize: vertical; }
+  textarea::placeholder, input.txt::placeholder { color: #6b7688; }
+  textarea:focus, input.txt:focus { outline: none; border-color: #d4a24c; }
+  .saved { font-size: 12px; color: #7fd1a0; min-height: 1em; }
+  .src { font-size: 13px; color: #9aa5b1; line-height: 1.8; }
+  .src a { color: #8fb4ff; word-break: break-all; }
+  @media (max-width: 520px) { h1 { font-size: 21px; } .body { padding: 0 16px 16px; } .card { padding: 16px; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div>
+    <div class="kicker">就職先研究ゼミ ／ IT・Web業界</div>
+    <h1>情報システムの仕事<br>― 課題・やりがい・向いている人</h1>
+    <p class="lead">情報システムの仕事が直面している課題(人手不足・属人化・レガシーシステム・サイバーセキュリティ・生成AIやクラウドへの対応)と、広がるノーコード・ローコード開発、この仕事のやりがい、向いている人の特徴を、ゼミのキーワードに沿って整理します。(2026年10月時点の情報)</p>
+    <p class="lead">ここでいう「情報システムの仕事」には、事業会社の情報システム部門(社内SE)と、システムを提供するIT企業(SIerなど)の両方を含みます。</p>
+  </div>
+
+  <div class="story">
+    <div class="st p"><b>課題</b>人手不足(2030年に最大79万人不足)／属人化／レガシーシステム／サイバーセキュリティ／生成AI・クラウドへの急速な対応</div>
+    <div class="st s"><b>動向</b>ノーコード・ローコード開発の浸透(現場が自分で仕組みを作る)</div>
+    <div class="st r"><b>やりがい</b>直接感謝される／モノづくりの面白さ／会社全体を良くする実感／一生物の手に職</div>
+    <div class="st f"><b>向いている人</b>問題解決が好き／コミュニケーション／細かいことに気づく／新技術への好奇心／縁の下の力持ち思考／論理的思考</div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-v="lecture">講義</button>
+    <button class="tab" data-v="quiz">確認クイズ</button>
+    <button class="tab" data-v="self">自己分析</button>
+    <button class="tab" data-v="sheet">企業研究シート</button>
+    <button class="tab" data-v="present">発表の論点</button>
+  </div>
+
+  <!-- ================= 講義 ================= -->
+  <div class="view on" id="v-lecture">
+
+    <div class="part-title">PART 1　情報システムが直面する課題</div>
+
+    <details class="lesson" open>
+      <summary><span class="num">1</span><span class="t">業務の属人化とは何か<small>「あの人しか分からない」が会社のリスクになる</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <p><em>属人化</em>とは、ある業務の手順・判断基準・データの置き場所を<b>特定の人しか知らない状態</b>のことです。反対の言葉は<em>標準化</em>(誰がやっても同じ結果になる状態)です。</p>
+        <h3>よくある属人化の例</h3>
+        <ul>
+          <li>前任者が作ったExcelマクロ(VBA)で毎月の集計をしているが、中身を読める人がもういない</li>
+          <li>受注の手順が紙と口頭で引き継がれていて、マニュアルがない</li>
+          <li>顧客とのやり取りが担当者個人のメールにしか残っていない</li>
+          <li>古い基幹システムを直せるベテランが社内に1人だけ</li>
+          <li>月次決算の締め手順を、経理の担当者1人だけが把握している</li>
+        </ul>
+        <h3>何が困るのか</h3>
+        <ul>
+          <li><b>止まる</b>：その人が休む・異動する・退職すると業務が止まる</li>
+          <li><b>引き継げない</b>：新人に教えるのに時間がかかり、教える側の手も取られる</li>
+          <li><b>ミスや不正に気づけない</b>：他の人がチェックできない(内部統制の弱点)</li>
+          <li><b>改善が進まない</b>：やり方が見えないので、ムダも見えない</li>
+          <li><b>品質がばらつく</b>：担当者によって結果や対応が違う</li>
+        </ul>
+        <div class="box memo"><span class="lb">簿記の視点</span>経理では「職務分掌」と「相互牽制」(1人に処理と承認を両方やらせない)が内部統制の基本です。属人化した業務は、この牽制が効かなくなっている状態だと言えます。</div>
+        <div class="box ng"><span class="lb">混同しやすい点</span>「専門性が高い」ことと「属人化している」ことは別です。専門家がいても、手順や判断の根拠が記録・共有されていれば属人化ではありません。問題なのは<b>見えない・引き継げない</b>ことです。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">2</span><span class="t">慢性的な人手不足<small>IT人材は2030年に最大79万人不足</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <p>日本の人手不足は景気の波による一時的なものではなく、人口構造から来る<em>慢性的</em>なものです。</p>
+        <ul>
+          <li><b>働き手そのものが減っている</b>：15〜64歳の生産年齢人口は1995年の約8,700万人をピークに減り続け、現在は約7,400万人です</li>
+          <li><b>IT人材が偏っている</b>：日本ではIT人材の約7割がIT企業側にいて、一般の事業会社の中には少ないと言われます。現場が「システムを直したい」と思っても、頼める人が社内にいません</li>
+        </ul>
+        <h3>「2030年に79万人不足」の中身</h3>
+        <p>出典は経済産業省の「IT人材需給に関する調査」(2019年)です。IT需要の伸び方を3通りに分けて、2030年の不足数を試算しています。</p>
+        <ul>
+          <li>需要の伸びが大きい場合(高位)：<b>約79万人</b>不足</li>
+          <li>中くらいの場合(中位)：約45万人不足</li>
+          <li>小さい場合(低位)：約16万人不足</li>
+        </ul>
+        <p>つまり「79万人」は<b>最も需要が伸びた場合の最大値</b>です。発表では「最大で約79万人」と言うのが正確です。どのシナリオでも不足するという点が重要です。</p>
+        <div class="box memo"><span class="lb">数だけでなく質の不足も</span>IPAの「DX動向2025」では、DXを進める人材が不足していると答えた企業は日本で85.1%でした。米国は23.8%、ドイツは44.6%で、日本が突出しています。足りないのは人数だけでなく、「業務とITの両方が分かる人」です。</div>
+        <h3>属人化と人手不足の悪循環</h3>
+<pre>人が足りない
+  → 1人が何役も兼ねる・マニュアルを作る時間がない
+  → 業務が属人化する
+  → 引継ぎと教育に時間がかかる・休めない
+  → 離職が増える・採用しても定着しない
+  → さらに人が足りない</pre>
+        <p>つまり、採用を増やすだけでは解決しません。<b>少ない人数でも回るように、業務を「仕組み」に置き換える</b>必要があります。ここがノーコード・ローコードの出番です。</p>
+        <div class="box"><span class="lb">ポイント</span>IT部門や外部ベンダーに頼むと「高い・遅い・順番待ち」になりがちです。その結果、現場はExcelで自力対応し、それがまた属人化を生んできました。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">3</span><span class="t">レガシーシステムへの対処<small>「2025年の崖」と、古いシステムの刷新</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <p><em>レガシーシステム</em>とは、古い技術で作られ、長年の改修で複雑になり、<b>中身が分からなくなった(ブラックボックス化した)システム</b>のことです。単に「古い」ことよりも、「分からない・直せない」ことが問題です。</p>
+        <h3>なぜ問題なのか</h3>
+        <ul>
+          <li>設計書が残っておらず、作った人は退職している(システムの属人化)</li>
+          <li>COBOLなど、扱える技術者が減っている言語で書かれている</li>
+          <li>維持するだけでお金と人が取られ、新しい取り組みに回せない</li>
+          <li>新しいサービスやクラウド、AIとつなぎにくい</li>
+          <li>古い機器やソフトはサポートが切れ、セキュリティの穴になる</li>
+        </ul>
+        <h3>「2025年の崖」</h3>
+        <p>経済産業省の「DXレポート」(2018年)が使った言葉です。レガシーシステムを放置すると、<b>2025年以降、最大で年12兆円の経済損失</b>が生じうると警告しました。同レポートは、21年以上動いている基幹系システムが約2割から約6割に増えること、IT予算の約8割が維持管理に使われていることも指摘しています。</p>
+        <p>2025年を過ぎた現在も解決したわけではありません。IPAの「DX動向2025」は、刷新が進んだ企業と進まない企業の<b>二極化</b>を報告しています。</p>
+        <h3>対処の方法(モダナイゼーション)</h3>
+        <ul>
+          <li><b>リホスト</b>：プログラムはそのまま、動かす場所だけクラウドなどへ移す</li>
+          <li><b>リライト</b>：同じ機能のまま、新しい言語で書き直す</li>
+          <li><b>リビルド</b>：業務から見直して作り直す</li>
+          <li><b>リプレース</b>：市販のパッケージやクラウドサービスに置き換える</li>
+        </ul>
+        <h3>なぜ進みにくいのか</h3>
+        <ul>
+          <li>毎日使っているので止められない</li>
+          <li>現在の仕様が分からないので、移行の範囲と費用を見積もれない</li>
+          <li>「今動いているものに何億円もかける理由」を経営に説明しにくい</li>
+          <li>刷新を担う人がいない(人手不足)</li>
+        </ul>
+        <div class="box memo"><span class="lb">簿記の視点</span>自社利用のソフトウェアは無形固定資産として、原則5年で償却します。帳簿の上では償却が終わっていても、現場では20年以上使われ続けている、というのがレガシーシステムの姿です。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">4</span><span class="t">高度化するサイバーセキュリティ対策<small>止まれば事業が止まる時代</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>いま何が脅威なのか</h3>
+        <p>IPAの「情報セキュリティ10大脅威 2026」(組織向け)の上位は次のとおりです。</p>
+        <ol>
+          <li><b>ランサム攻撃による被害</b>：データを暗号化して使えなくし、身代金を要求する。11年連続で選出</li>
+          <li><b>サプライチェーンや委託先を狙った攻撃</b>：守りの弱い取引先や委託先を踏み台にする</li>
+          <li><b>AIの利用をめぐるサイバーリスク</b>：2026年に初めて選出</li>
+        </ol>
+        <p>2024年のKADOKAWA、2025年のアサヒグループホールディングスやアスクルのように、ランサムウェアで受注・出荷などの業務が長期間止まる事例が続いています。情報が漏れるだけでなく、<b>事業そのものが止まる</b>ことが経営上の問題になっています。</p>
+        <h3>なぜ「高度化」しているのか</h3>
+        <ul>
+          <li>攻撃が分業化・ビジネス化し、専門知識がなくても攻撃できる仕組みが出回っている</li>
+          <li>テレワークとクラウドで「社内は安全、社外は危険」という境界がなくなった</li>
+          <li>VPN機器などの脆弱性や、設定ミスを突かれる</li>
+          <li>生成AIで、自然な文面の詐欺メールが作りやすくなった</li>
+        </ul>
+        <h3>対策の考え方</h3>
+        <ul>
+          <li><b>ゼロトラスト</b>：社内・社外を問わず「何も信頼しない」前提で、毎回確認する</li>
+          <li>多要素認証、端末の監視(EDR)、修正プログラムの早期適用</li>
+          <li>ネットワークから切り離したバックアップ</li>
+          <li>社員教育と、事故が起きたときの対応手順(CSIRT)の整備</li>
+          <li>委託先・取引先の管理</li>
+        </ul>
+        <div class="box"><span class="lb">情報システム担当の難しさ</span>セキュリティは「何も起きなくて当たり前」で、成果が見えにくい仕事です。それでも、会社を止めないための最後の砦であり、経営課題として重みが増しています。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">5</span><span class="t">生成AI・クラウドなどへの急速な対応<small>技術の変化が、計画のサイクルより速い</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>クラウド</h3>
+        <p>自社でサーバーを買って置く形(オンプレミス)から、インターネット経由で必要な分だけ借りる形への移行です。</p>
+        <ul>
+          <li><b>利点</b>：初期費用が小さい、すぐ始められる、利用量に合わせて増減できる、常に最新の機能が使える</li>
+          <li><b>課題</b>：使った分だけ課金されるので費用管理が難しい、設定ミスが情報漏えいに直結する、扱える人材が足りない</li>
+        </ul>
+        <div class="box memo"><span class="lb">簿記の視点</span>サーバーを買えば固定資産になり、減価償却で費用化します。クラウドは毎月の利用料がそのまま費用になります。「資産を持つ」から「サービスを利用する」への変化は、財務諸表の形も変えます。</div>
+        <h3>生成AI</h3>
+        <ul>
+          <li>2022年末のChatGPT公開以降、文章作成・要約・プログラム作成・問い合わせ対応などに一気に広がった</li>
+          <li>IPAの「DX動向2026」は、AI導入が大企業を中心に広がっている一方、<b>業務効率化の段階から新しい価値づくりへ進めること</b>が課題だとしている</li>
+          <li>最近は、指示を受けて複数の作業を自分で進める「AIエージェント」の活用が論点になっている</li>
+        </ul>
+        <h3>情報システム担当がやること</h3>
+        <ul>
+          <li>利用ルールを決める(機密情報や個人情報を入力しない、出力を必ず人が確認する など)</li>
+          <li>社員が勝手に使う「シャドーAI」を防ぎ、安全に使える環境を用意する</li>
+          <li>誤った回答(ハルシネーション)や著作権のリスクを周知する</li>
+          <li>どの業務に使うと効果が大きいかを、現場と一緒に探す</li>
+        </ul>
+        <h3>なぜ「急速な対応」が大変なのか</h3>
+        <p>会社の予算や計画は1年単位ですが、AIやクラウドは数か月で状況が変わります。しかも、レガシーシステムの維持やセキュリティ対策と<b>同時に</b>進めなければなりません。担当者は学び続けることが前提になります。</p>
+      </div>
+    </details>
+
+    <div class="card">
+      <div class="body">
+        <h3 style="margin-top:0">5つの課題はつながっている</h3>
+<pre>人手不足 ── 刷新や対策に手が回らない
+   │
+属人化 ── 分かる人が1人だけ → その人が抜けると止まる
+   │
+レガシーシステム ── 属人化の積み重ねでブラックボックス化
+   │                サポート切れがセキュリティの穴に
+サイバーセキュリティ ── 守る範囲がクラウド・AIで広がる
+   │
+生成AI・クラウド ── 対応したいが、人も時間も足りない(最初に戻る)</pre>
+        <p>発表では、課題を並べるだけでなく<b>つながりを説明する</b>と理解の深さが伝わります。この悪循環を断つ手段の1つとして注目されているのが、次のノーコード・ローコードです。</p>
+      </div>
+    </div>
+
+    <div class="part-title">PART 2　動向:ノーコード・ローコード開発の浸透</div>
+
+    <details class="lesson">
+      <summary><span class="num">6</span><span class="t">ノーコード・ローコードとは<small>プログラムを「書く」から「組み立てる」へ</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>3つの作り方</h3>
+        <ul>
+          <li><b>スクラッチ開発(プロコード)</b>：プログラムを一から書く。自由度は最も高いが、時間・費用・専門人材が必要</li>
+          <li><b>ローコード</b>：画面の部品やデータの流れをマウス操作で組み立て、足りない部分だけコードを書く。主にエンジニアや情報システム部門が使う<br>例：OutSystems、Mendix、Microsoft Power Apps、intra-mart、Salesforce Platform</li>
+          <li><b>ノーコード</b>：コードを一切書かない。業務部門の人が自分で作れる<br>例：kintone、STUDIO、Shopify、Yappli、Zapier</li>
+        </ul>
+        <p>両者の境界ははっきりしていません。たとえばkintoneは基本はノーコードですが、JavaScriptで機能を足せるのでローコード的にも使えます。サイボウズ自身も「ノーコード/ローコードで業務システムを実装できるプラットフォーム」と説明しています。</p>
+        <h3>市民開発(シチズン・デベロップメント)</h3>
+        <p>エンジニアではない業務部門の人が、自分の業務に使うアプリを自分で作ることを<em>市民開発</em>と呼びます。業務をいちばんよく知っている人が直接作るので、要件を伝える手間とズレが減ります。</p>
+        <div class="box memo"><span class="lb">身近なたとえ</span>スクラッチは「注文住宅を一から設計して建てる」、ローコードは「規格化された部材を使い、必要な所だけ特注する」、ノーコードは「家具を選んで自分で組み立てる」に近いです。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">7</span><span class="t">なぜ浸透しているのか<small>5つの追い風</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <ol>
+          <li><b>人手不足</b>：エンジニアを採用できないので、今いる社員で作れる方法が必要になった</li>
+          <li><b>属人化の解消ニーズ</b>：Excelや紙に散らばった業務を、共有できる仕組みに置き換えたい</li>
+          <li><b>内製化の流れ</b>：外部に丸投げすると遅く、社内に知識が残らない。自社で作って自社で直したい。経済産業省のDXレポート(2018年)が指摘した「2025年の崖」(古いシステムを放置すると競争力を失う)も背中を押した</li>
+          <li><b>クラウドの普及</b>：サーバーを用意しなくても、申し込めばすぐ使える。ミック経済研究所の調査では、2024年度のライセンス提供形態はクラウドが約9割</li>
+          <li><b>生成AIとの融合</b>：「こういうアプリが欲しい」と文章で伝えるとアプリの土台ができる機能が各ツールに載り始めた。2026年現在の論点は「AIを開発工程のどこまで任せるか」に移っている</li>
+        </ol>
+        <div class="box"><span class="lb">数字で見る浸透</span>ガートナーは、ローコードツールの利用者のうちIT部門以外の人が占める割合が、2021年の60%から2026年には80%以上になると予測していました。「作る人」がIT部門の外へ広がっているということです。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">8</span><span class="t">属人化をどう解消するのか<small>仕組みに置き換わる4つのポイント</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <ul>
+          <li><b>データが1か所に集まる</b>：個人のExcelやメールではなく、全員が同じデータベースを見る</li>
+          <li><b>手順が画面とワークフローになる</b>：「申請→承認→処理」の流れがシステムに組み込まれ、頭の中のルールが見える形になる</li>
+          <li><b>履歴と権限が残る</b>：いつ・誰が・何を変えたかが記録され、チェックできる</li>
+          <li><b>直せる人が増える</b>：設定画面で変更できるので、作った本人以外でも手を入れられる</li>
+        </ul>
+        <h3>例：経費精算</h3>
+        <div class="box ng"><span class="lb">Before(属人化)</span>紙の申請書を経理の担当者が受け取り、自作のExcelに手入力。勘定科目の判断基準は担当者の頭の中。担当者が休むと支払いが遅れる。</div>
+        <div class="box ok"><span class="lb">After(仕組み化)</span>社員がスマホから申請し、上長が承認。科目は選択肢から選ぶので判断がそろう。データはそのまま会計ソフトへ連携。誰がどこで止めているかも一覧で分かる。</div>
+        <p>人手不足の面でも、<b>転記・確認・催促といった「人がつなぐ作業」が減る</b>ことが効きます。採用で人を増やすのではなく、1人あたりの作業を減らす発想です。</p>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">9</span><span class="t">落とし穴：新しい属人化<small>ツールを入れただけでは解決しない</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <p>ゼミの発表で差がつくのはここです。ノーコード・ローコードは属人化を解消する一方で、<em>新しい属人化を生む</em>こともあります。</p>
+        <h3>起こりがちな問題</h3>
+        <ul>
+          <li><b>野良アプリ</b>：現場が勝手に作ったアプリが乱立し、IT部門が把握できない(シャドーIT)</li>
+          <li><b>作った人しか分からないアプリ</b>：Excelマクロの属人化が、アプリの属人化に置き換わっただけになる</li>
+          <li><b>データの分断</b>：部署ごとに似たアプリができ、同じ顧客情報が何か所にも存在する</li>
+          <li><b>ベンダーロックイン</b>：特定のツールに依存し、料金改定やサービス終了の影響を受ける</li>
+          <li><b>限界</b>：複雑な計算、大量データ、高い性能が必要な処理には向かないことがある</li>
+          <li><b>セキュリティ</b>：権限設定のミスで、見せてはいけない情報が見えてしまう</li>
+        </ul>
+        <h3>対策(ガバナンス)</h3>
+        <ul>
+          <li>アプリの作成ルール・命名ルール・台帳を決め、定期的に棚卸しする</li>
+          <li>管理者を必ず複数人にする</li>
+          <li>設計の意図を簡単なドキュメントに残す</li>
+          <li>推進チーム(CoE)を置き、現場の相談窓口と審査役にする</li>
+          <li>現場が作る範囲と、IT部門・外部の専門家が作る範囲を分ける</li>
+        </ul>
+        <div class="box"><span class="lb">就職先研究としての意味</span>この「ガバナンスと伴走」こそが、情報システムの新しい仕事になっています。ツールを入れるだけでなく、<b>使いこなせる状態まで支援する</b>仕事です。PART 4で詳しく見ます。</div>
+      </div>
+    </details>
+
+    <div class="part-title">PART 3　やりがい・魅力と、向いている人</div>
+
+    <details class="lesson">
+      <summary><span class="num">10</span><span class="t">4つのやりがい<small>感謝・モノづくり・全社への貢献・手に職</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>① ユーザーから直接感謝される</h3>
+        <ul>
+          <li>社内SEの場合、システムを使うのは同じ会社の社員です。顔が見える距離で「楽になった、ありがとう」と言ってもらえます</li>
+          <li>IT企業の場合も、顧客の現場に入って一緒に作る仕事では、利用者の反応を直接受け取れます</li>
+          <li>ノーコード・ローコードの普及で、要望を聞いてから形にするまでが短くなり、反応をもらえる機会が増えています</li>
+        </ul>
+        <h3>② モノづくりの面白さ</h3>
+        <ul>
+          <li>何もない所から、業務を整理し、設計し、動く仕組みにする。自分の作ったものが毎日使われます</li>
+          <li>企画から運用・改善まで一貫して関われるのが、情報システムの仕事の特徴です</li>
+          <li>「作って終わり」ではなく、使われ方を見て直していく面白さがあります</li>
+        </ul>
+        <h3>③ 会社全体を良くしているという実感を持てる</h3>
+        <ul>
+          <li>営業・製造・経理・人事など、すべての部門と関わります。会社の業務全体を見渡せる数少ない仕事です</li>
+          <li>1つの改善が全社員に効きます。たとえば1人1日10分の作業を減らすと、500人の会社では1日あたり約83時間の時間が生まれます</li>
+          <li>レガシーシステムの刷新やセキュリティ対策は、経営に直結する仕事です</li>
+        </ul>
+        <h3>④ 一生物の手に職がつく</h3>
+        <ul>
+          <li>ITの知識と業務の知識の組み合わせは、業種が変わっても通用します</li>
+          <li>IT人材は最大79万人不足すると試算されており、必要とされ続ける可能性が高い分野です</li>
+          <li>ITパスポート、基本情報技術者、情報処理安全確保支援士など、力を示す国家資格も整っています(応用情報と高度試験は2027年度から新試験に再編予定)</li>
+        </ul>
+        <div class="box ng"><span class="lb">やりがいの裏側も知っておく</span>直接感謝される仕事は、不具合が起きれば直接苦情も受けます。システムは「動いて当たり前」と見られがちです。また、「一生物」といっても、一度身につければ終わりではなく、<b>学び続ける人にとっての一生物</b>です。面接では、良い面だけでなく大変さも理解していることを示すと説得力が増します。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">11</span><span class="t">課題とやりがいは表裏一体<small>志望動機につなげる考え方</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <p>PART 1の課題は、見方を変えるとそのままやりがいの源です。課題が大きいからこそ、解いたときの価値も大きくなります。</p>
+        <ul>
+          <li><b>属人化</b> → 仕組みに置き換えると、現場から直接感謝される(①)</li>
+          <li><b>レガシーシステム</b> → 刷新は大仕事だが、会社全体を良くする実感が最も大きい(③)</li>
+          <li><b>サイバーセキュリティ</b> → 会社を守るという責任と誇り(③)</li>
+          <li><b>生成AI・クラウド</b> → 新しい技術で作る面白さ(②)と、学び続けることで伸びる市場価値(④)</li>
+          <li><b>人手不足</b> → 必要とされ続ける。手に職の価値が高い(④)</li>
+          <li><b>ノーコード・ローコード</b> → 早く作って早く反応をもらえる(①②)</li>
+        </ul>
+        <div class="box ok"><span class="lb">志望動機に使うときの例</span>「経理の実務を学ぶ中で、集計作業が特定の人のExcelに頼っている問題を知りました。こうした属人化を仕組みで解消し、現場から直接『楽になった』と言ってもらえる仕事がしたいと考え、情報システムの仕事を志望しています」のように、<b>課題への関心 → やりがい → 自分の経験</b>の順につなげます。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">12</span><span class="t">向いている人の6つの特徴<small>問題解決・コミュニケーション・細部・好奇心・縁の下・論理</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>① 問題解決が好き</h3>
+        <ul>
+          <li>情報システムの仕事は、誰かの「困った」から始まります。原因を探り、手を打ち、効果を確かめる。この繰り返しです</li>
+          <li>場面の例：「システムが遅い」と言われたら、どの処理が・いつ・誰の環境で遅いのかを切り分けて原因を突き止める</li>
+          <li>属人化の解消もレガシーシステムの刷新も、大きな問題解決そのものです</li>
+        </ul>
+        <h3>② コミュニケーション</h3>
+        <ul>
+          <li>ここで言うのは「話がうまい」ことではなく、<b>聞く力</b>と<b>翻訳する力</b>です</li>
+          <li>現場の言葉をITの言葉に直し、ITの話を専門用語なしで現場や経営に伝えます</li>
+          <li>利用部門、経営層、外部のIT企業の間に立って調整する場面が多い仕事です</li>
+        </ul>
+        <div class="box ng"><span class="lb">よくある誤解</span>「黙々とパソコンに向かう仕事」というイメージは実態と違います。人と話す時間のほうが長いことも珍しくありません。</div>
+        <h3>③ 細かいことに気づく</h3>
+        <ul>
+          <li>設定1つのミスが、情報漏えいやシステム停止につながります</li>
+          <li>テストでは「普段と違う場合」に気づけるかが勝負です。月末、うるう年、空欄、桁数の多い金額など</li>
+          <li>いつもと違う動きやエラーの記録に早く気づくことが、サイバー攻撃の被害を小さくします</li>
+        </ul>
+        <div class="box memo"><span class="lb">簿記とのつながり</span>貸借が1円合わないとき、原因を見つけるまで追いかける感覚は、そのままシステムのテストや不具合調査に活きます。</div>
+        <h3>④ 新技術への好奇心</h3>
+        <ul>
+          <li>生成AIやクラウドのように、数か月で状況が変わる分野です。学び続けることを楽しめる人が強い</li>
+          <li>まず自分で触ってみる姿勢が大切です</li>
+          <li>ただし「新しいから使う」ではなく、<b>自社の課題に効くかどうか</b>で判断する冷静さも必要です</li>
+        </ul>
+        <h3>⑤ 縁の下の力持ち思考</h3>
+        <ul>
+          <li>システムは「動いて当たり前」。主役はシステムを使って成果を出す現場です</li>
+          <li>セキュリティや運用のように、何も起きないことが成果になる仕事も多くあります</li>
+          <li>目立たなくても、人や会社を支えることに喜びを感じられる人に向いています</li>
+        </ul>
+        <h3>⑥ 論理的思考</h3>
+        <ul>
+          <li>原因と結果を筋道立てて考える力です。不具合調査では「ここまでは正常、ここからおかしい」と範囲を絞り込みます</li>
+          <li>業務を「手順」と「条件(もし〜なら)」に分解できないと、システムにはできません</li>
+          <li>「なぜこの投資が必要か」を経営に説明するときにも、筋の通った説明が求められます</li>
+        </ul>
+        <h3>やりがいとの対応</h3>
+        <ul>
+          <li>問題解決 ＋ コミュニケーション → ユーザーから直接感謝される</li>
+          <li>論理的思考 ＋ 細かいことに気づく → モノづくりの面白さ</li>
+          <li>縁の下の力持ち思考 → 会社全体を良くしているという実感</li>
+          <li>新技術への好奇心 → 一生物の手に職</li>
+        </ul>
+        <div class="box"><span class="lb">6つ全部そろっている必要はない</span>チームで補い合う仕事です。自分の強みを1つか2つはっきりさせ、それを<b>具体的なエピソード</b>で語れるようにしましょう。「自己分析」タブで整理できます。</div>
+        <h3>自己PRの型</h3>
+<pre>① 強み(6つの特徴のどれか)
+② エピソード:どんな状況で・何をして・どうなったか
+③ 情報システムの仕事でどう活きるか</pre>
+        <div class="box ok"><span class="lb">例(細かいことに気づく)</span>「簿記の学習で、残高が合わない原因を仕訳まで戻って一つずつ確認し、転記ミスを見つけました。小さなずれを見逃さず原因まで追う姿勢は、システムのテストや障害調査で活かせると考えています」</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">13</span><span class="t">IT資格と、経理部での使い道<small>2027年度から試験制度が大きく変わる</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <p>ITストラテジスト、プロジェクトマネージャ、情報セキュリティの3つは、IPAの情報処理技術者試験の中で最も難しい「高度区分(レベル4)」にあたる国家試験です。合格率はおおむね15〜20%前後で、実務経験を前提にした記述・論述が出ます。</p>
+        <h3>重要：2027年度から制度が変わる</h3>
+        <p>経済産業省とIPAは試験制度の再編を進めています。以下は2026年10月時点の公表内容で、<b>名称は仮称、細部は検討中</b>です。</p>
+        <ul>
+          <li><b>応用情報技術者試験と高度試験(ITストラテジスト、プロジェクトマネージャなど)は2026年度で終了</b>し、<em>プロフェッショナルデジタルスキル試験(仮称)</em>に再編されます</li>
+          <li>新試験は3区分です
+            <ul>
+              <li><b>マネジメント</b>：データやデジタル技術の活用を管理・推進する力</li>
+              <li><b>データ・AI</b>：データ基盤の構築やデータ整備の力。ビジネスとシステムの中間的な性格</li>
+              <li><b>システム</b>：要件定義から設計・開発・運用までを主導する力。従来のITエンジニア向けに近い</li>
+            </ul>
+          </li>
+          <li>開始は2027年度の夏〜秋頃の予定。全区分がコンピューターで受けるCBT方式・選択式になり、記述や論述はなくなる方向です。IPAは「問うスキル水準は変えない」としています</li>
+          <li><b>情報処理安全確保支援士試験は残ります</b>(方式と時間は見直し)</li>
+          <li>ITパスポートの次の段階として、<em>データマネジメント試験(仮称)</em>が新設されます。AI活用の前提になるデータの整備・管理を扱い、ビジネスパーソン全般が対象です</li>
+        </ul>
+        <div class="box"><span class="lb">つまり</span>これから勉強を始めるなら、ITストラテジストやプロジェクトマネージャという名前の試験を目標にするのではなく、<b>新制度のどの区分を目指すか</b>で考える必要があります。両試験の内容は、新試験の「マネジメント」区分に引き継がれると考えられます(正式な対応関係は公表資料で確認してください)。</div>
+        <div class="box memo"><span class="lb">名称の注意</span>「情報セキュリティスペシャリスト試験」は2016年で終了し、2017年から<b>情報処理安全確保支援士試験</b>に引き継がれています。正式名称は「プロジェクトマネージャ」(最後を伸ばさない)です。</div>
+        <h3>経理部で役に立つか</h3>
+        <p>結論：<b>仕訳・決算・税務といった経理の日常業務には直結しません。役に立つのは「経理 × IT」の場面</b>です。その場面は増えています。</p>
+        <h3>ITストラテジスト(経理との相性：高い)</h3>
+        <ul>
+          <li>経営戦略に沿ってIT投資を企画し、費用対効果を評価する力を問う試験です</li>
+          <li>投資の採算計算や事業計画など、会計・財務の知識と重なる部分が多い</li>
+          <li>活きる場面：会計システムの入替を経営に提案する、IT投資の予算を審査する、経営企画へ進む</li>
+        </ul>
+        <h3>プロジェクトマネージャ(相性：場面による)</h3>
+        <ul>
+          <li>期限・費用・品質・人を管理して、計画どおりに完了させる力を問う試験です</li>
+          <li>活きる場面：会計システムやERPの導入、インボイス制度や電子帳簿保存法のような制度対応で、経理側のリーダーを務めるとき</li>
+          <li>決算そのものも「期限が決まった共同作業」なので、段取りの考え方は応用できます</li>
+        </ul>
+        <h3>情報処理安全確保支援士(相性：知識は役立つが、資格は過剰)</h3>
+        <ul>
+          <li>経理は送金・口座情報・給与など、狙われやすい情報とお金を扱います。取引先を装って振込先を変更させる詐欺メールの標的は経理です</li>
+          <li>内部統制(J-SOX)のうち、ITに関わる統制を理解するのにも役立ちます</li>
+          <li>ただし試験は技術寄りで、経理担当者に求められる水準を大きく超えます</li>
+        </ul>
+        <h3>現実的な順番(新制度を前提に)</h3>
+        <ol>
+          <li><b>経理部で働くなら、まず簿記</b>。経理部で直接評価されるのは簿記や税務の力です</li>
+          <li>ITの入口は<b>ITパスポート</b>。制度が変わっても残ります(2027年度春頃から出題分野を再編)</li>
+          <li>次は<b>データマネジメント試験(仮称)</b>が経理と相性が良さそうです。経理は会社のデータを最も多く扱う部門の1つだからです。技術も学びたいなら基本情報技術者</li>
+          <li>その先は<b>プロフェッショナルデジタルスキル試験(仮称)のマネジメント区分</b>。IT投資の評価やプロジェクトの推進など、経理 × ITで使う内容に最も近い区分です</li>
+        </ol>
+        <div class="box ng"><span class="lb">注意</span>新試験の実施要領(出題数・合格基準・日程)はまだ確定していません。受験を決める前に、IPAの公式サイトで最新情報を確認してください。</div>
+        <div class="box ok"><span class="lb">なぜ差がつくのか</span>簿記が分かる人も、ITが分かる人も大勢います。両方分かる人は少数です。経理のExcel作業の属人化を解消する、会計システムの導入で現場とIT部門の橋渡しをする、といった役割は、その両方が分かる人にしかできません。</div>
+      </div>
+    </details>
+
+    <div class="part-title">PART 4　業界と就職先を見る</div>
+
+    <details class="lesson">
+      <summary><span class="num">14</span><span class="t">市場の数字<small>調査会社によって規模が違う理由</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>国内市場の主な調査</h3>
+        <ul>
+          <li><b>ITR</b>：2023年度 812億円(前年度比14.5%増)。2023〜2028年度の年平均成長率は12.3%の予測</li>
+          <li><b>IDC Japan</b>：2023年 1,225億円 → 2028年 2,701億円。年平均成長率17.1%の予測</li>
+          <li><b>デロイト トーマツ ミック経済研究所</b>：2023年度 3,144億円 → 2024年度 3,589億円 → 2025年度 4,085億円(見込み)</li>
+        </ul>
+        <h3>なぜこんなに違うのか</h3>
+        <p>数え方の範囲が違うからです。ミック経済研究所の数字は、ツールのライセンスだけでなく<b>コンサルティング・SI(導入支援)や保守</b>まで含んでいます。2024年度の内訳は次のとおりです。</p>
+        <ul>
+          <li>コンサルティング・SI：55.0%</li>
+          <li>ソフトウェアライセンス：38.5%</li>
+          <li>保守・サポート：6.5%</li>
+        </ul>
+        <div class="box ok"><span class="lb">ここが就職先研究のポイント</span>市場の半分以上は「ツールそのもの」ではなく「導入を支援するサービス」です。つまり、ツールを作る会社だけでなく、<b>導入・定着を支援する会社にも大きな仕事がある</b>ということです。</div>
+        <p>同じ調査では、ノーコードは2024年度に前年比128.8%と特に伸びが大きく、ローコードは大企業を中心に2ケタ成長が続いているとされています。</p>
+        <div class="box memo"><span class="lb">発表で数字を使うときの注意</span>必ず「どの調査会社の・いつの・何を含む数字か」を添えましょう。出典の違う数字を並べて比べるのは避けます。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">15</span><span class="t">主なツールと会社の地図<small>用途ごとに整理する</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>業務アプリ(社内の仕組みを作る)</h3>
+        <ul>
+          <li>kintone(サイボウズ)：2026年6月末で契約中42,000社。2022年にkintoneの連結売上高が100億円を突破</li>
+          <li>Power Apps / Power Automate(Microsoft)：Microsoft 365と相性がよく、大企業で普及</li>
+          <li>Salesforce Platform、ServiceNow：顧客管理やIT運用を軸にした大企業向け基盤</li>
+          <li>OutSystems、Mendix：本格的なシステム開発向けのローコード</li>
+          <li>intra-mart(NTTデータ イントラマート)：ワークフローに強い国産基盤</li>
+        </ul>
+        <h3>Webサイト・EC(Web系)</h3>
+        <ul>
+          <li>STUDIO、Wix、Webflow：コードを書かずにサイトをデザイン・公開</li>
+          <li>Shopify、BASE、STORES：ネットショップを構築</li>
+        </ul>
+        <h3>モバイルアプリ</h3>
+        <ul>
+          <li>Yappli(ヤプリ)、Bubble、FlutterFlow</li>
+        </ul>
+        <h3>自動化・データ連携</h3>
+        <ul>
+          <li>Zapier、Make、ASTERIA Warp(アステリア)：別々のサービス同士をつなぐ</li>
+        </ul>
+        <h3>AIアプリの構築</h3>
+        <ul>
+          <li>Dify など：生成AIを使ったチャットボットや業務フローを画面操作で作る</li>
+        </ul>
+        <div class="box memo"><span class="lb">調べ方のコツ</span>気になるツールがあれば、公式サイトの「導入事例」と「パートナー一覧」を見てください。事例からは<b>どんな課題に効くのか</b>、パートナー一覧からは<b>その周りで仕事をしている会社</b>が分かります。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">16</span><span class="t">IT・Web業界の仕事はどう変わるか<small>「作る量」から「課題を解く力」へ</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>SIer・受託開発会社</h3>
+        <ul>
+          <li>従来は「エンジニアの人数×期間(人月)」で売上が決まる仕事が中心でした</li>
+          <li>コードを書く工数は減る方向です。一方で、要件定義・業務設計・データ設計・既存システムとの連携・ガバナンス整備の重要度は上がります</li>
+          <li>「作って納品」から、顧客が自分で作れるよう支える<b>伴走支援・内製化支援</b>へ事業を広げる会社が増えています</li>
+        </ul>
+        <h3>Web制作会社</h3>
+        <ul>
+          <li>コーディング工程は短くなり、戦略設計・デザイン・公開後の運用やマーケティング支援に価値が移っています</li>
+          <li>STUDIOやShopifyの構築を専門にする制作会社も増えています</li>
+        </ul>
+        <h3>事業会社の情報システム部門</h3>
+        <ul>
+          <li>「頼まれたものを作る・発注する」役割から、「現場が安全に作れる環境を整え、支援・統制する」役割へ</li>
+        </ul>
+        <h3>エンジニアの仕事はなくなるのか</h3>
+        <p>なくなりません。ツール自体の開発、プラグインやAPI連携の開発、複雑で大規模なシステム、性能やセキュリティが厳しい領域は、引き続き専門のエンジニアが担います。変わるのは<b>求められる力の比重</b>です。</p>
+        <div class="box"><span class="lb">これから評価される力</span>業務を理解して整理する力、相手の課題を聞き出す力、データの持ち方を設計する力、ツールとAIを組み合わせる力。簿記や業務知識を持つ人がITを学ぶ価値は、以前より大きくなっています。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">17</span><span class="t">就職先の4つの類型<small>同じテーマでも、立場で仕事がまったく違う</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>① ツールベンダー(作って提供する側)</h3>
+        <ul>
+          <li>例：サイボウズ、ヤプリ、STUDIO、アステリア、NTTデータ イントラマート、外資ではMicrosoft、Salesforce、ServiceNow</li>
+          <li>職種：開発エンジニア、営業、プリセールス、カスタマーサクセス、パートナー営業</li>
+          <li>収益：月額・年額の利用料(ストック型)。解約されないことが重要</li>
+        </ul>
+        <h3>② 導入支援パートナー・SIer(広めて定着させる側)</h3>
+        <ul>
+          <li>例：各ツールの認定パートナー企業、大手・中堅のSIer、ITコンサルティング会社</li>
+          <li>レガシーシステムの刷新、クラウド移行、セキュリティ対策を専門にする会社もここに入ります</li>
+          <li>職種：ITコンサルタント、システムエンジニア、プロジェクトマネージャー、セキュリティエンジニア</li>
+          <li>収益：導入・開発の対価に加え、伴走支援や監視・運用の月額契約も増加</li>
+        </ul>
+        <h3>③ 事業会社(使う側)</h3>
+        <ul>
+          <li>例：メーカー、小売、金融、自治体などの情報システム部門・DX推進部門</li>
+          <li>職種：社内SE、DX推進担当、業務改善担当</li>
+          <li>特徴：自社の業務を深く知り、長く改善に関われる。利用者が同じ会社の社員なので、直接感謝されやすい</li>
+        </ul>
+        <h3>④ Web制作・マーケティング支援会社(Web系)</h3>
+        <ul>
+          <li>職種：Webディレクター、デザイナー、フロントエンドエンジニア、EC構築担当</li>
+          <li>特徴：ノーコードツールを使って短納期で作り、運用と成果改善まで請け負う</li>
+        </ul>
+        <div class="box memo"><span class="lb">自分に問う</span>「ツールを作りたい」のか、「お客さんの課題を解きたい」のか、「自社の業務を良くしたい」のか。どれに近いかで、見るべき会社が変わります。</div>
+      </div>
+    </details>
+
+    <details class="lesson">
+      <summary><span class="num">18</span><span class="t">企業研究の進め方<small>このテーマで会社を見るときのチェックポイント</small></span><span class="arrow">▶</span></summary>
+      <div class="body">
+        <h3>見るべきポイント</h3>
+        <ul>
+          <li><b>どの立場か</b>：前の項目の①〜④のどれに当たるか</li>
+          <li><b>何で稼いでいるか</b>：利用料(ストック)か、開発の対価(フロー)か、その割合はどう変化しているか</li>
+          <li><b>扱うツール</b>：自社製品か、他社製品の導入支援か。特定のツールへの依存度は高いか</li>
+          <li><b>生成AIへの対応</b>：製品やサービスにAIをどう組み込んでいるか</li>
+          <li><b>顧客の課題</b>：導入事例に「属人化」「人手不足」がどう出てくるか</li>
+          <li><b>人の育て方</b>：未経験者の研修、資格取得支援、配属の決まり方</li>
+        </ul>
+        <h3>情報源</h3>
+        <ul>
+          <li>決算説明資料・有価証券報告書：売上の内訳、成長率、事業のリスク</li>
+          <li>中期経営計画：これからどこに力を入れるか</li>
+          <li>導入事例ページ：顧客の業種と課題</li>
+          <li>採用ページ・社員インタビュー・技術ブログ：実際の仕事内容</li>
+        </ul>
+        <div class="box memo"><span class="lb">簿記の知識が効く所</span>ストック型の会社は「契約社数・解約率・継続的な売上」が、人月型の会社は「受注残高・1人あたり売上・外注費の割合」が注目点です。決算資料の数字から会社の稼ぎ方を読めると、志望動機に説得力が出ます。</div>
+        <h3>面接での逆質問の例</h3>
+        <ul>
+          <li>「お客様がツール導入後に、アプリの乱立や新たな属人化で困るケースには、どのように支援されていますか」</li>
+          <li>「生成AIの普及で、御社の導入支援の内容はこの1〜2年でどう変わりましたか」</li>
+          <li>「入社後、業務知識と技術のどちらを先に身につけることが期待されますか」</li>
+        </ul>
+        <h3>志望動機の型</h3>
+<pre>① 関心を持った課題
+   (例:属人化と人手不足で業務が回らなくなる現場)
+② その課題に対する会社の取り組み
+   (製品・サービス・導入事例から具体的に)
+③ 自分が貢献できること
+   (簿記の知識、Excel・VBAの経験、学んだITの知識など)
+④ 入社後にやりたいこと</pre>
+      </div>
+    </details>
+
+    <div class="card">
+      <div class="body">
+        <h3 style="margin-top:0">参考にした公開情報</h3>
+        <div class="src">
+          ・ITR 国内ローコード/ノーコード開発市場予測(2025年2月、@IT)<br><a href="https://atmarkit.itmedia.co.jp/ait/articles/2502/07/news084.html" target="_blank" rel="noopener">https://atmarkit.itmedia.co.jp/ait/articles/2502/07/news084.html</a><br>
+          ・IDC Japan 市場予測(2024年11月、@IT)<br><a href="https://atmarkit.itmedia.co.jp/ait/articles/2411/26/news059.html" target="_blank" rel="noopener">https://atmarkit.itmedia.co.jp/ait/articles/2411/26/news059.html</a><br>
+          ・デロイト トーマツ ミック経済研究所 市場調査(2025年6月、IT Leaders)<br><a href="https://it.impress.co.jp/articles/-/28053" target="_blank" rel="noopener">https://it.impress.co.jp/articles/-/28053</a><br>
+          ・サイボウズ IRグループ面談資料(2026年8月27日)<br><a href="https://cybozu.co.jp/company/ir/meeting/pdf/2608_01.pdf" target="_blank" rel="noopener">https://cybozu.co.jp/company/ir/meeting/pdf/2608_01.pdf</a><br>
+          ・IPA「情報セキュリティ10大脅威 2026」<br><a href="https://www.ipa.go.jp/security/10threats/10threats2026.html" target="_blank" rel="noopener">https://www.ipa.go.jp/security/10threats/10threats2026.html</a><br>
+          ・IPA「DX動向2025」<br><a href="https://www.ipa.go.jp/digital/chousa/dx-trend/dx-trend-2025.html" target="_blank" rel="noopener">https://www.ipa.go.jp/digital/chousa/dx-trend/dx-trend-2025.html</a><br>
+          ・IPA「DX動向2026」のポイント(2026年7月)を紹介した記事<br><a href="https://zaikei.co.jp/releases/3528972/" target="_blank" rel="noopener">https://zaikei.co.jp/releases/3528972/</a><br>
+          ・情報処理技術者試験の再編(2026年5月、@IT)<br><a href="https://atmarkit.itmedia.co.jp/ait/articles/2605/15/news044.html" target="_blank" rel="noopener">https://atmarkit.itmedia.co.jp/ait/articles/2605/15/news044.html</a><br>
+          ・同(2026年4月、キーマンズネット)<br><a href="https://kn.itmedia.co.jp/kn/articles/2604/24/news045.html" target="_blank" rel="noopener">https://kn.itmedia.co.jp/kn/articles/2604/24/news045.html</a><br>
+          ・IPA 新試験制度のシラバス案<br><a href="https://www.ipa.go.jp/shiken/syllabus/henkou/2026/20260630.html" target="_blank" rel="noopener">https://www.ipa.go.jp/shiken/syllabus/henkou/2026/20260630.html</a><br>
+          ・IT人材の不足数(経済産業省「IT人材需給に関する調査」2019年)、「2025年の崖」(経済産業省「DXレポート」2018年)、生産年齢人口、IT人材の偏在(約7割)、ガートナーの予測は、広く引用されている数字を使っています。発表で使うときは、経済産業省・総務省・IPA・ガートナーの原典で確認してください。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= クイズ ================= -->
+  <div class="view" id="v-quiz">
+    <div class="topbar">
+      <span class="badge" id="qBadge">第1問</span>
+      <div><div class="score-label">正解数</div><div class="score-value" id="qScore">0 / 0</div></div>
+    </div>
+    <div class="card" id="qCard"></div>
+    <div class="buttons-row">
+      <button class="b btn-primary" id="qNext" style="display:none">次の問題へ</button>
+      <button class="b btn-secondary" id="qRestart">最初からやり直す</button>
+    </div>
+  </div>
+
+  <!-- ================= 自己分析 ================= -->
+  <div class="view" id="v-self">
+    <p class="lead" style="margin:0">向いている人の6つの特徴について、自分に当てはまる度合いを選び、根拠になるエピソードを書きます。入力内容はこのブラウザに自動保存されます。</p>
+    <div class="card" id="selfCard"></div>
+    <div class="card">
+      <div class="wl" style="margin-top:0">いちばんの強みと、その理由<span class="wh">上の6つから1つか2つ選び、自己PRの型(強み → エピソード → 仕事でどう活きるか)でまとめる</span></div>
+      <textarea rows="5" id="selfSummary"></textarea>
+      <div class="buttons-row" style="margin-top:14px">
+        <button class="b btn-primary" id="selfCopy">自己分析をコピー</button>
+        <span class="saved" id="selfMsg"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 企業研究シート ================= -->
+  <div class="view" id="v-sheet">
+    <p class="lead" style="margin:0">気になる会社を3社まで整理できます。入力内容はこのブラウザに自動保存されます。</p>
+    <div class="slots" id="slots">
+      <button class="slot on" data-s="0">企業A</button>
+      <button class="slot" data-s="1">企業B</button>
+      <button class="slot" data-s="2">企業C</button>
+    </div>
+    <div class="card">
+      <div class="wl">企業名</div>
+      <input class="txt" data-f="name" placeholder="例:サイボウズ株式会社">
+      <div class="wl">立場(4類型のどれか)<span class="wh">①ツールベンダー ②導入支援・SIer ③事業会社 ④Web制作・マーケ支援</span></div>
+      <input class="txt" data-f="type" placeholder="例:① ツールベンダー">
+      <div class="wl">扱っているツール・サービス<span class="wh">自社製品か、他社製品の導入支援か</span></div>
+      <textarea rows="2" data-f="tools"></textarea>
+      <div class="wl">何で稼いでいるか<span class="wh">利用料(ストック)と開発の対価(フロー)の割合、売上の伸び</span></div>
+      <textarea rows="3" data-f="model"></textarea>
+      <div class="wl">顧客(または自社)のどんな課題を解いているか<span class="wh">人手不足・属人化・レガシーシステム・セキュリティ・AIやクラウド対応のどれに当たるか</span></div>
+      <textarea rows="3" data-f="issue"></textarea>
+      <div class="wl">生成AIへの対応</div>
+      <textarea rows="2" data-f="ai"></textarea>
+      <div class="wl">強みと、気になる点・リスク</div>
+      <textarea rows="3" data-f="swot"></textarea>
+      <div class="wl">この会社で得られそうなやりがい<span class="wh">直接の感謝／モノづくり／会社全体への貢献／手に職 のどれが強いか</span></div>
+      <textarea rows="2" data-f="joy"></textarea>
+      <div class="wl">自分が活かせること・やりたい職種</div>
+      <textarea rows="3" data-f="me"></textarea>
+      <div class="wl">聞いてみたいこと(逆質問)</div>
+      <textarea rows="2" data-f="ask"></textarea>
+      <div class="buttons-row" style="margin-top:14px">
+        <button class="b btn-primary" id="copyBtn">この企業の内容をコピー</button>
+        <span class="saved" id="savedMsg"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 発表の論点 ================= -->
+  <div class="view" id="v-present">
+    <div class="card"><div class="body">
+      <h3 style="margin-top:0">発表の流れ(例・10分)</h3>
+      <ol>
+        <li><b>課題</b>(3分)：人手不足(最大79万人)、属人化、レガシーシステム、サイバーセキュリティ、生成AI・クラウドへの対応。5つがつながっていることを示す</li>
+        <li><b>動向</b>(2分)：ノーコード・ローコード開発の浸透。なぜ課題の解決策になるのか、新しい属人化という落とし穴は何か</li>
+        <li><b>やりがい・魅力</b>(2分)：直接の感謝、モノづくり、会社全体への貢献、手に職。課題の大きさと表裏一体であること</li>
+        <li><b>向いている人と自分</b>(2分)：6つの特徴のうち自分の強みはどれか。エピソードを1つ添え、4類型のどこを志望するかにつなげる</li>
+        <li><b>まとめ</b>(1分)：自分の言葉で一文にする</li>
+      </ol>
+      <h3>議論したい問い</h3>
+      <ul>
+        <li>5つの課題のうち、最初に手を付けるべきものはどれか。その理由は何か</li>
+        <li>レガシーシステムの刷新に何億円もかけることを、経営者にどう説明するか</li>
+        <li>「何も起きなくて当たり前」のセキュリティの仕事は、どう評価されるべきか</li>
+        <li>社内SEとIT企業(SIer)では、4つのやりがいの感じ方はどう違うか</li>
+        <li>向いている人の6つの特徴のうち、生成AIが広がっても人に残るものはどれか</li>
+        <li>ノーコード・ローコードは属人化を「解消する」のか、「形を変えるだけ」なのか。分かれ目は何か</li>
+        <li>人手不足の解決策として、採用・外注・仕組み化はそれぞれどんな場面で有効か</li>
+        <li>生成AIがコードを書けるようになると、ノーコード・ローコードツールは不要になるのか、むしろ重要になるのか</li>
+        <li>市場の半分以上が導入支援だという事実は、SIerにとって追い風か、逆風か</li>
+        <li>10年後も価値が残るのは、どんな力を持った人材か</li>
+      </ul>
+      <h3>自分の意見をまとめる型</h3>
+<pre>主張:私は〇〇だと考える
+理由:なぜなら△△だからである(数字や事例を1つ)
+反論への備え:確かに□□という見方もあるが、〜
+結論:だから就職先としては〇〇の立場の会社に注目している</pre>
+      <div class="box ok"><span class="lb">一段深い発表にするには</span>「ツールを入れれば解決する」で終わらせず、<b>入れた後に何が起きるか</b>(定着・統制・新しい属人化)まで踏み込むと、聞き手の印象に残ります。</div>
+    </div></div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  var store = {
+    get: function (k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { return false; } }
+  };
+
+  // タブ
+  each('#tabs .tab', function (b) {
+    b.addEventListener('click', function () {
+      each('#tabs .tab', function (x) { x.classList.toggle('on', x === b); });
+      each('.view', function (v) { v.classList.toggle('on', v.id === 'v-' + b.getAttribute('data-v')); });
+      window.scrollTo(0, 0);
+    });
+  });
+
+  // クイズ(各問題の選択肢は先頭が正解。表示時にシャッフルする)
+  var QUIZ = [
+    { q: '「業務の属人化」の説明として最も適切なものはどれですか。',
+      o: ['ある業務の手順や判断基準を、特定の人しか知らない状態', '専門知識を持つ社員が多く在籍している状態', '業務をすべて外部の会社に委託している状態', '誰がやっても同じ結果になるよう手順が決まっている状態'],
+      e: '属人化の本質は「見えない・引き継げない」ことです。専門性が高いこと自体は属人化ではありません。4つ目は反対語の「標準化」の説明です。' },
+    { q: '属人化が内部統制の面で問題になる主な理由はどれですか。',
+      o: ['他の人がチェックできず、ミスや不正に気づきにくいから', '担当者の給与が高くなるから', 'システムの利用料が増えるから', '業務のスピードが必ず遅くなるから'],
+      e: '1人しか分からない業務は、相互牽制(他の人によるチェック)が効きません。' },
+    { q: '日本の人手不足が「慢性的」と言われる最大の理由はどれですか。',
+      o: ['生産年齢人口が長期的に減り続けているから', '一時的に景気が良くなっているから', '企業が採用活動をやめたから', '転職する人が減ったから'],
+      e: '景気の波ではなく人口構造が原因なので、採用を増やすだけでは解決しにくい問題です。' },
+    { q: '属人化と人手不足の関係として正しいものはどれですか。',
+      o: ['人手不足が属人化を招き、属人化が離職や教育負担を通じて人手不足を悪化させる', '人手不足が進むと属人化は自然に解消される', '2つは互いに関係のない別々の問題である', '属人化が進むほど採用しやすくなる'],
+      e: '兼務が増えてマニュアルを作る余裕がなくなり、引継ぎや教育の負担でさらに人が足りなくなる悪循環です。' },
+    { q: '「IT人材が2030年に約79万人不足する」という数字の説明として正しいものはどれですか。',
+      o: ['経済産業省の試算で、IT需要の伸びが最も大きい場合の最大値である', '2030年に確実に起きると政府が確定させた数字である', 'すでに2020年時点で不足していた人数である', 'セキュリティ人材だけを数えた人数である'],
+      e: '経済産業省「IT人材需給に関する調査」(2019年)の高位シナリオの数字です。中位では約45万人、低位では約16万人の不足と試算されています。' },
+    { q: 'レガシーシステムの問題の本質として最も適切なものはどれですか。',
+      o: ['長年の改修で中身が分からなくなり、直せなくなっていること', '画面のデザインが古いこと', '導入したときの費用が高かったこと', '利用している社員の数が多いこと'],
+      e: '単に古いことではなく、ブラックボックス化して「分からない・直せない」ことが問題です。属人化の積み重ねとも言えます。' },
+    { q: '「2025年の崖」で警告された内容はどれですか。',
+      o: ['レガシーシステムを放置すると、2025年以降に最大で年12兆円の経済損失が生じうる', '2025年にすべてのパソコンが使えなくなる', '2025年にIT企業の半数が倒産する', '2025年に生産年齢人口がゼロになる'],
+      e: '経済産業省「DXレポート」(2018年)の指摘です。維持管理に予算と人が取られ、新しい取り組みができなくなることを警告しました。' },
+    { q: 'レガシーシステムへの対処のうち、市販のパッケージやクラウドサービスに置き換える方法はどれですか。',
+      o: ['リプレース', 'リホスト', 'リライト', 'リビルド'],
+      e: 'リホストは動かす場所だけ移す、リライトは新しい言語で書き直す、リビルドは業務から見直して作り直す方法です。' },
+    { q: 'IPA「情報セキュリティ10大脅威 2026」(組織向け)で1位になった脅威はどれですか。',
+      o: ['ランサム攻撃による被害', '内部不正による情報漏えい', 'パスワードの使い回し', '迷惑メールの増加'],
+      e: 'ランサム攻撃は11年連続で選出されています。2位はサプライチェーンや委託先を狙った攻撃、3位は初選出の「AIの利用をめぐるサイバーリスク」です。' },
+    { q: '「ゼロトラスト」の考え方として正しいものはどれですか。',
+      o: ['社内・社外を問わず、何も信頼しない前提で毎回確認する', '社内ネットワークの中は無条件に信頼する', 'セキュリティ対策を一切行わない', '信頼できる社員にだけ全権限を与える'],
+      e: 'テレワークとクラウドの普及で「社内は安全」という境界がなくなったことから広まった考え方です。' },
+    { q: '社内で生成AIを使うときのルールとして最も重要なものはどれですか。',
+      o: ['機密情報や個人情報を入力せず、出力は必ず人が確認する', '出力は常に正しいので、そのまま社外に出す', '会社に知らせず、個人の判断で自由に使う', '利用を全面的に禁止し、今後も検討しない'],
+      e: '情報漏えい、誤った回答(ハルシネーション)、著作権のリスクがあります。禁止するのではなく、安全に使える環境とルールを整えるのが情報システム担当の役割です。' },
+    { q: '社内SEが「ユーザーから直接感謝される」やりがいを感じやすい理由はどれですか。',
+      o: ['システムを使うのが同じ会社の社員で、反応が直接届くから', '社外の顧客と一切関わらないから', '給与が他の職種より必ず高いから', 'システムの不具合が起きないから'],
+      e: '顔が見える距離で使ってもらえることが特徴です。その反面、不具合があれば苦情も直接届きます。' },
+    { q: '「一生物の手に職がつく」という魅力について、最も適切な理解はどれですか。',
+      o: ['需要は続くが、技術の変化が速いので学び続けることが前提になる', '一度身につければ、その後は学ばなくてよい', '資格を1つ取れば将来は保証される', 'ITの知識だけあれば、業務の知識は必要ない'],
+      e: '人手不足で需要は続きますが、生成AIやクラウドのように変化が速い分野です。ITと業務の両方が分かる人の価値が高まっています。' },
+    { q: '情報システムの仕事で求められる「コミュニケーション」の説明として最も適切なものはどれですか。',
+      o: ['相手の話を聞き、現場の言葉とITの言葉を互いに翻訳して伝える力', '初対面の人と雑談で盛り上がる力', '専門用語を多く使って詳しく説明する力', '大勢の前で長く話し続ける力'],
+      e: '話のうまさではなく、聞く力と翻訳する力です。利用部門・経営層・外部のIT企業の間に立って調整する場面が多い仕事です。' },
+    { q: '「細かいことに気づく」力が特に活きる場面はどれですか。',
+      o: ['テストで、月末や空欄など普段と違う場合の不具合を見つける', '会議で自分の意見を一番に発言する', '新しい技術の情報を集める', '長時間の作業を続ける'],
+      e: '設定1つのミスが情報漏えいや停止につながる仕事です。例外的なケースや、いつもと違う動きに気づけることが大きな強みになります。' },
+    { q: '「縁の下の力持ち思考」が情報システムの仕事に合う理由はどれですか。',
+      o: ['システムは動いて当たり前で、主役はそれを使って成果を出す現場だから', '人と関わらずに1人で完結できる仕事だから', '成果が必ず社内で大きく表彰されるから', '責任の軽い仕事が多いから'],
+      e: 'セキュリティや運用のように「何も起きないこと」が成果になる仕事も多く、支えることに価値を感じられる人に向いています。' },
+    { q: '「新技術への好奇心」について、情報システム担当として最も望ましい姿勢はどれですか。',
+      o: ['自分で試して学びつつ、自社の課題に効くかどうかで導入を判断する', '新しい技術は発表されたらすぐ全社に導入する', '実績が10年以上ある技術以外は検討しない', '技術の選定はすべて外部の会社に任せる'],
+      e: '好奇心と冷静な判断の両方が必要です。「新しいから使う」ではなく「課題に効くから使う」が基本です。' },
+    { q: '不具合の原因を調べるときの「論理的思考」の使い方として適切なものはどれですか。',
+      o: ['「ここまでは正常、ここからおかしい」と範囲を絞り込んでいく', '思いついた対策を順番を決めずに全部試す', '最初に疑った所を原因だと決めて直す', '再起動して直れば原因は調べない'],
+      e: '切り分けによって原因の範囲を狭めていくのが基本です。業務を手順と条件に分解する場面でも同じ力を使います。' },
+    { q: 'ノーコードとローコードの違いとして適切なものはどれですか。',
+      o: ['ノーコードはコードを書かず、ローコードは必要な部分だけコードを書く', 'ノーコードは無料で、ローコードは有料である', 'ノーコードはスマホ専用で、ローコードはパソコン専用である', 'ノーコードは大企業向けで、ローコードは個人向けである'],
+      e: 'コードを書く量の違いです。ただし境界ははっきりせず、kintoneのように両方の使い方ができるツールもあります。' },
+    { q: '「市民開発」とは何を指しますか。',
+      o: ['エンジニアではない業務部門の人が、自分でアプリを作ること', '自治体が住民向けのアプリを作ること', 'オープンソースのソフトを無償で公開すること', '海外の開発会社に開発を委託すること'],
+      e: '業務をいちばんよく知る人が直接作るので、要件の伝達ミスが減ります。' },
+    { q: 'ノーコード・ローコードが属人化の解消に効く理由として、最も適切なものはどれですか。',
+      o: ['データと手順が共有の仕組みに載り、他の人にも見えるようになるから', '担当者を1人に固定できるから', 'マニュアルを作る必要が完全になくなるから', '処理速度がスクラッチ開発より必ず速いから'],
+      e: 'データの一元化、手順のワークフロー化、履歴と権限の記録によって「見える・引き継げる」状態になります。' },
+    { q: 'ノーコード・ローコードの導入で起こりうる「新しい属人化」の例はどれですか。',
+      o: ['作った本人しか仕組みを理解していないアプリが社内に乱立する', '全社員が同じデータを見られるようになる', '承認の履歴が自動で記録される', 'アプリの管理者を複数人にする'],
+      e: 'いわゆる野良アプリの問題です。Excelマクロの属人化が、アプリの属人化に置き換わっただけになる恐れがあります。' },
+    { q: '野良アプリへの対策として適切でないものはどれですか。',
+      o: ['現場の判断に完全に任せ、IT部門は一切関与しない', '作成ルールと台帳を整備し、定期的に棚卸しする', '管理者を複数人にする', '推進チーム(CoE)を置いて相談窓口にする'],
+      e: '放任は乱立を招きます。現場の自由と全社の統制のバランスを取るのがガバナンスです。' },
+    { q: '調査会社によってローコード/ノーコードの国内市場規模が大きく異なる主な理由はどれですか。',
+      o: ['ライセンスだけか、導入支援(SI)なども含むかなど、集計の範囲が違うから', '調査会社のどれかが必ず間違っているから', '為替レートの違いだけが原因だから', '調査した月が違うだけだから'],
+      e: 'ミック経済研究所の数字はコンサルティング・SIや保守を含むため大きくなります。数字を使うときは出典と範囲を必ず確認します。' },
+    { q: 'ミック経済研究所の調査(2024年度)で、市場の中で最も大きな割合を占めたのはどれですか。',
+      o: ['コンサルティング・SI(導入支援)', 'ソフトウェアライセンス', '保守・サポート', 'ハードウェア販売'],
+      e: 'コンサルティング・SIが55.0%、ライセンスが38.5%、保守・サポートが6.5%でした。導入を支援する会社にも大きな仕事があることを示しています。' },
+    { q: 'ノーコード・ローコードの浸透によって、SIerで重要度が上がると考えられる仕事はどれですか。',
+      o: ['業務設計や伴走支援、ガバナンスの整備', '単純なコーディング作業の量', '紙の帳票の印刷', 'エンジニアの人数を増やすことだけ'],
+      e: 'コードを書く工数は減る一方、業務を整理し、顧客が自分で作れるよう支える仕事の価値が上がります。' },
+    { q: '利用料で稼ぐストック型のツールベンダーを研究するとき、特に注目すべき指標はどれですか。',
+      o: ['契約社数や解約率、継続的な売上の伸び', '受注残高と外注費の割合だけ', '工場の稼働率', '在庫回転率'],
+      e: 'ストック型は「使い続けてもらうこと」が収益の源です。人月型の会社なら受注残高や1人あたり売上が注目点になります。' },
+    { q: '事業会社の情報システム部門の役割は、市民開発の広がりでどう変わると考えられますか。',
+      o: ['現場が安全に作れる環境を整え、支援・統制する役割が強まる', '不要になり、すべて廃止される', 'すべてのアプリを自分たちだけで作る役割が強まる', 'パソコンの修理だけを担当するようになる'],
+      e: '「作る・発注する」から「整える・支える・統制する」へと比重が移ります。' }
+  ];
+  var order, idx, score, answered;
+  function startQuiz() { order = shuffle(QUIZ); idx = 0; score = 0; answered = 0; renderQ(); }
+  function renderQ() {
+    $('qNext').style.display = 'none';
+    $('qScore').textContent = score + ' / ' + answered;
+    if (idx >= order.length) {
+      $('qBadge').textContent = '結果';
+      var rate = Math.round(score / order.length * 100);
+      var msg = rate >= 85 ? '発表の土台は十分です。「発表の論点」で自分の意見をまとめましょう。'
+        : rate >= 60 ? 'あと一歩です。間違えた所の講義をもう一度読んでみましょう。'
+        : '講義のPART 1から順に読み直すと、全体のつながりが見えてきます。';
+      $('qCard').innerHTML = '<p class="center" style="margin:0;color:#9aa5b1">全' + order.length + '問中</p><div class="big">' + score + '問 正解</div><p class="center" style="margin:0;line-height:1.8">' + msg + '</p>';
+      return;
+    }
+    var item = order[idx];
+    $('qBadge').textContent = '第' + (idx + 1) + '問 / ' + order.length;
+    var card = $('qCard');
+    card.innerHTML = '';
+    var q = document.createElement('p'); q.className = 'q'; q.textContent = item.q; card.appendChild(q);
+    shuffle(item.o).forEach(function (text) {
+      var b = document.createElement('button'); b.className = 'opt'; b.textContent = text;
+      b.addEventListener('click', function () { answer(b, text, item); });
+      card.appendChild(b);
+    });
+  }
+  function answer(btn, text, item) {
+    var ok = text === item.o[0];
+    each('#qCard .opt', function (x) {
+      x.disabled = true;
+      if (x.textContent === item.o[0]) x.classList.add('correct');
+    });
+    if (!ok) btn.classList.add('wrong');
+    answered++; if (ok) score++;
+    $('qScore').textContent = score + ' / ' + answered;
+    var ex = document.createElement('div'); ex.className = 'exp ' + (ok ? 'ok' : 'ng');
+    var rt = document.createElement('div'); rt.className = 'rt'; rt.textContent = ok ? '正解' : '不正解';
+    var tx = document.createElement('div'); tx.textContent = item.e;
+    ex.appendChild(rt); ex.appendChild(tx); $('qCard').appendChild(ex);
+    $('qNext').textContent = idx + 1 >= order.length ? '結果を見る' : '次の問題へ';
+    $('qNext').style.display = '';
+  }
+  $('qNext').addEventListener('click', function () { idx++; renderQ(); window.scrollTo(0, 0); });
+  $('qRestart').addEventListener('click', startQuiz);
+  startQuiz();
+
+  // 自己分析
+  var TRAITS = [
+    { k: 'solve', t: '問題解決が好き', h: '不便や困りごとの原因を考え、改善した経験' },
+    { k: 'comm', t: 'コミュニケーション', h: '相手の話を聞いて整理した、分かりやすく伝えた経験' },
+    { k: 'detail', t: '細かいことに気づく', h: 'ミスや違和感に気づいて防いだ、直した経験' },
+    { k: 'curious', t: '新技術への好奇心', h: '新しいツールや技術を自分で試した、学んだ経験' },
+    { k: 'support', t: '縁の下の力持ち思考', h: '目立たない役割でチームや人を支えた経験' },
+    { k: 'logic', t: '論理的思考', h: '筋道を立てて考えた、説明した経験' }
+  ];
+  var LEVELS = ['当てはまる', 'やや当てはまる', 'これから伸ばす'];
+  var SELF_KEY = 'shushokuZemiSelf';
+  var self = store.get(SELF_KEY);
+  if (!self || typeof self !== 'object' || Array.isArray(self)) self = {};
+  var selfTimer = null;
+  function saveSelf() {
+    clearTimeout(selfTimer);
+    selfTimer = setTimeout(function () {
+      $('selfMsg').textContent = store.set(SELF_KEY, self) ? '保存しました' : 'このブラウザでは保存できません(コピーで控えてください)';
+    }, 400);
+  }
+  TRAITS.forEach(function (tr, i) {
+    var wl = document.createElement('div'); wl.className = 'wl'; if (i === 0) wl.style.marginTop = '0';
+    wl.textContent = '①②③④⑤⑥'.charAt(i) + ' ' + tr.t;
+    var wh = document.createElement('span'); wh.className = 'wh'; wh.textContent = tr.h; wl.appendChild(wh);
+    var row = document.createElement('div'); row.className = 'slots'; row.style.margin = '6px 0 8px';
+    LEVELS.forEach(function (lv) {
+      var b = document.createElement('button'); b.className = 'slot' + (self[tr.k + 'Lv'] === lv ? ' on' : ''); b.textContent = lv;
+      b.addEventListener('click', function () {
+        self[tr.k + 'Lv'] = self[tr.k + 'Lv'] === lv ? '' : lv;
+        Array.prototype.forEach.call(row.children, function (x) { x.classList.toggle('on', x.textContent === self[tr.k + 'Lv']); });
+        saveSelf();
+      });
+      row.appendChild(b);
+    });
+    var ta = document.createElement('textarea'); ta.rows = 2; ta.placeholder = 'エピソード(どんな状況で・何をして・どうなったか)';
+    ta.value = self[tr.k] || '';
+    ta.addEventListener('input', function () { self[tr.k] = ta.value; saveSelf(); });
+    $('selfCard').appendChild(wl); $('selfCard').appendChild(row); $('selfCard').appendChild(ta);
+  });
+  $('selfSummary').value = self.summary || '';
+  $('selfSummary').addEventListener('input', function () { self.summary = $('selfSummary').value; saveSelf(); });
+  $('selfCopy').addEventListener('click', function () {
+    var text = TRAITS.map(function (tr) {
+      return '■ ' + tr.t + '(' + (self[tr.k + 'Lv'] || '未選択') + ')\n' + (self[tr.k] || '(未記入)');
+    }).join('\n\n') + '\n\n■ いちばんの強みと、その理由\n' + (self.summary || '(未記入)');
+    function done(ok) { $('selfMsg').textContent = ok ? 'コピーしました' : 'コピーできませんでした'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else { done(false); }
+  });
+
+  // 企業研究シート
+  var KEY ='shushokuZemiNocodeSheet';
+  var LABELS = { name: '企業名', type: '立場', tools: '扱っているツール・サービス', model: '何で稼いでいるか', issue: '顧客のどんな課題を解いているか',
+    ai: '生成AIへの対応', swot: '強みと、気になる点・リスク', joy: 'この会社で得られそうなやりがい', me: '自分が活かせること・やりたい職種', ask: '聞いてみたいこと' };
+  var sheets = store.get(KEY);
+  if (!Array.isArray(sheets) || sheets.length !== 3) sheets = [{}, {}, {}];
+  var cur = 0, timer = null;
+  function slotLabels() {
+    each('#slots .slot', function (b) {
+      var i = +b.getAttribute('data-s');
+      b.textContent = (sheets[i] && sheets[i].name) ? sheets[i].name : '企業' + 'ABC'.charAt(i);
+      b.classList.toggle('on', i === cur);
+    });
+  }
+  function loadSheet() {
+    each('#v-sheet [data-f]', function (el) { el.value = (sheets[cur] && sheets[cur][el.getAttribute('data-f')]) || ''; });
+    slotLabels();
+  }
+  each('#slots .slot', function (b) {
+    b.addEventListener('click', function () { cur = +b.getAttribute('data-s'); loadSheet(); });
+  });
+  each('#v-sheet [data-f]', function (el) {
+    el.addEventListener('input', function () {
+      sheets[cur][el.getAttribute('data-f')] = el.value;
+      if (el.getAttribute('data-f') === 'name') slotLabels();
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        $('savedMsg').textContent = store.set(KEY, sheets) ? '保存しました' : 'このブラウザでは保存できません(コピーで控えてください)';
+      }, 400);
+    });
+  });
+  $('copyBtn').addEventListener('click', function () {
+    var text = Object.keys(LABELS).map(function (k) { return '■ ' + LABELS[k] + '\n' + ((sheets[cur] && sheets[cur][k]) || '(未記入)'); }).join('\n\n');
+    function done(ok) { $('savedMsg').textContent = ok ? 'コピーしました' : 'コピーできませんでした'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+    } else { done(false); }
+  });
+  loadSheet();
+})();
+</script>
+</body>
+</html>

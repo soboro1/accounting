@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="80" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">なぜ pandas などのライブラリを使うの？</text>
+  <text x="800" y="125" text-anchor="middle" font-size="26" fill="#4A5D78">必須ではない。「誰かが作った完成品」を借りると、楽で・速くて・確実だから</text>
+
+  <!-- ===== Reason 1 ===== -->
+  <rect x="60" y="160" width="472" height="380" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="112" cy="204" r="22" fill="#7C3AED"/>
+  <text x="112" y="214" text-anchor="middle" font-size="27" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="146" y="215" font-size="30" font-weight="800" fill="#1F3A5F">自分で書かなくて済む</text>
+  <text x="90" y="256" font-size="20" fill="#4A5D78">表データの集計も、借りればすぐ</text>
+  <rect x="90" y="280" width="412" height="150" rx="12" fill="#1F2937"/>
+  <text x="112" y="324" font-size="18" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">import</tspan><tspan fill="#F9FAFB"> pandas </tspan><tspan fill="#C4B5FD">as</tspan><tspan fill="#F9FAFB"> pd</tspan></text>
+  <text x="112" y="362" font-size="18" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">df = pd.read_csv(</tspan><tspan fill="#A7F3D0">"sales.csv"</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <text x="112" y="400" font-size="18" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">df.groupby(</tspan><tspan fill="#A7F3D0">"月"</tspan><tspan fill="#F9FAFB">)[</tspan><tspan fill="#A7F3D0">"売上"</tspan><tspan fill="#F9FAFB">].sum()</tspan></text>
+  <text x="296" y="478" text-anchor="middle" font-size="22" font-weight="800" fill="#5B21B6">約10行のコード → 3行</text>
+  <text x="296" y="512" text-anchor="middle" font-size="19" fill="#1F3A5F">複雑な処理ほど、この差は大きくなる</text>
+
+  <!-- ===== Reason 2 ===== -->
+  <rect x="564" y="160" width="472" height="380" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="616" cy="204" r="22" fill="#1F6FEB"/>
+  <text x="616" y="214" text-anchor="middle" font-size="27" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="650" y="215" font-size="30" font-weight="800" fill="#1F3A5F">速い</text>
+  <text x="594" y="256" font-size="20" fill="#4A5D78">重い計算は、機械語が担当する</text>
+  <rect x="594" y="280" width="412" height="46" rx="12" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="800" y="310" text-anchor="middle" font-size="19" fill="#1F3A5F">あなたのコード（Python で楽に書く）</text>
+  <line x1="800" y1="332" x2="800" y2="353" stroke="#4A5D78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <rect x="594" y="362" width="412" height="46" rx="12" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="800" y="392" text-anchor="middle" font-size="19" font-weight="800" fill="#1D4ED8">pandas の中身（機械語になっている）</text>
+  <line x1="800" y1="414" x2="800" y2="435" stroke="#4A5D78" stroke-width="3" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <rect x="594" y="444" width="412" height="46" rx="12" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="800" y="474" text-anchor="middle" font-size="19" font-weight="800" fill="#166534">M1 が直接、高速に実行</text>
+  <text x="800" y="520" text-anchor="middle" font-size="19" fill="#1F3A5F">100万行のデータでも実用的な速さ</text>
+
+  <!-- ===== Reason 3 ===== -->
+  <rect x="1068" y="160" width="472" height="380" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="1120" cy="204" r="22" fill="#16A34A"/>
+  <text x="1120" y="214" text-anchor="middle" font-size="27" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="1154" y="215" font-size="30" font-weight="800" fill="#1F3A5F">間違いが少ない</text>
+  <text x="1098" y="256" font-size="20" fill="#4A5D78">みんなで使って直してきたコード</text>
+  <rect x="1098" y="280" width="412" height="54" rx="12" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1122" y="315" font-size="20" fill="#166534"><tspan font-weight="800">✓</tspan>  世界中の人が毎日使っている</text>
+  <rect x="1098" y="346" width="412" height="54" rx="12" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1122" y="381" font-size="20" fill="#166534"><tspan font-weight="800">✓</tspan>  不具合は見つかるたびに修正</text>
+  <rect x="1098" y="412" width="412" height="54" rx="12" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1122" y="447" font-size="20" fill="#166534"><tspan font-weight="800">✓</tspan>  使い方の情報がたくさんある</text>
+  <text x="1304" y="510" text-anchor="middle" font-size="22" font-weight="800" fill="#166534">自分で一から書くより信頼できる</text>
+
+  <!-- ===== Bottom left: two kinds ===== -->
+  <rect x="60" y="565" width="860" height="300" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="615" font-size="30" font-weight="800" fill="#1F3A5F">ライブラリは2種類</text>
+
+  <rect x="90" y="640" width="390" height="195" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="285" y="672" text-anchor="middle" font-size="17" font-weight="800" fill="#4A5D78">python3 に最初から同梱</text>
+  <text x="285" y="714" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">標準ライブラリ</text>
+  <text x="285" y="754" text-anchor="middle" font-size="20" fill="#1F3A5F" font-family="'Menlo','SF Mono',monospace">math / datetime / csv</text>
+  <text x="285" y="802" text-anchor="middle" font-size="19" fill="#4A5D78">入れる作業はいらない</text>
+
+  <rect x="500" y="640" width="390" height="195" rx="14" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="695" y="672" text-anchor="middle" font-size="17" font-weight="800" fill="#5B21B6">あとから追加で入れる</text>
+  <text x="695" y="714" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">外部ライブラリ</text>
+  <text x="695" y="754" text-anchor="middle" font-size="20" fill="#1F3A5F" font-family="'Menlo','SF Mono',monospace">pandas / NumPy</text>
+  <rect x="570" y="774" width="250" height="40" rx="10" fill="#1F2937"/>
+  <text x="695" y="800" text-anchor="middle" font-size="18" fill="#6EE7B7" font-family="'Menlo','SF Mono',monospace">pip install pandas</text>
+
+  <!-- ===== Bottom right: this Mac ===== -->
+  <rect x="950" y="565" width="590" height="300" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="980" y="615" font-size="30" font-weight="800" fill="#1F3A5F">このMacの場合</text>
+
+  <rect x="980" y="640" width="530" height="90" rx="14" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1245" y="678" text-anchor="middle" font-size="22" font-weight="800" fill="#166534">pandas 2.2.2 がすでに入っている</text>
+  <text x="1245" y="710" text-anchor="middle" font-size="18" fill="#166534">Anaconda はデータ分析向けの配布版だから</text>
+
+  <rect x="980" y="745" width="530" height="90" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1245" y="783" text-anchor="middle" font-size="20" font-weight="800" fill="#1F3A5F">たとえ：ライブラリは市販のカレールー</text>
+  <text x="1245" y="815" text-anchor="middle" font-size="18" fill="#4A5D78">スパイスからでも作れるが、早くて失敗しにくい</text>
+</svg>

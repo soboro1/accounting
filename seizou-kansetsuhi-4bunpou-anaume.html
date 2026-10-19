@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>製造間接費差異分析 4分法 穴埋め問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+  .app { width: 100%; max-width: 860px; display: flex; flex-direction: column; gap: 20px; }
+  .header-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  button { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 26px; font-size: 15px; font-weight: 700; border: none; }
+  button:hover { filter: brightness(1.1); }
+  button:active { filter: brightness(0.95); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c; }
+  .control { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #c7c0b0; }
+  .control select {
+    padding: 8px 10px; font-size: 14px; border-radius: 8px; font-family: inherit;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6;
+  }
+
+  .card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 4px 14px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 12px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  h2 { font-size: 19px; font-weight: 700; margin: 8px 0 4px 0; }
+  .data-list { margin: 0; padding-left: 20px; }
+  .data-list li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  .note { font-size: 13px; line-height: 1.8; color: #9aa5b1; }
+
+  .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+  .tree ul { margin-left: 8px; padding-left: 18px; border-left: 2px solid rgba(212,162,76,0.3); }
+  .tree li { font-size: 15.5px; line-height: 2.5; color: #e8e3d8; }
+  .tree li.branch > .line { font-weight: 700; color: #f6f1e6; }
+  .fixed { color: #f6f1e6; font-weight: 500; }
+
+  .blank { display: inline-flex; align-items: center; gap: 6px; vertical-align: middle; margin: 0 2px; }
+  .blank input, .blank select {
+    padding: 5px 8px; font-size: 15px; border-radius: 8px; font-family: inherit;
+    border: 1px solid rgba(212,162,76,0.5); background: #0e1726; color: #f6f1e6;
+  }
+  .blank input.term { width: 10.5em; }
+  .blank input.num { width: 6.5em; text-align: right; }
+  .blank input:focus, .blank select:focus { outline: none; border-color: #d4a24c; box-shadow: 0 0 0 2px rgba(212,162,76,0.25); }
+  .blank.ok input, .blank.ok select { border-color: #5dcaa5; background: rgba(93,202,165,0.12); opacity: 1; color: #f6f1e6; }
+  .blank.ng input, .blank.ng select { border-color: #f0997b; background: rgba(240,153,123,0.12); opacity: 1; color: #f6f1e6; }
+  .blank .ans { font-size: 13px; font-weight: 700; color: #5dcaa5; white-space: nowrap; line-height: 1.4; }
+  .blank .ans::before { content: "→ "; }
+
+  .wordbank { display: none; flex-wrap: wrap; gap: 8px; }
+  .wordbank.show { display: flex; }
+  .chip { font-size: 13px; padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.2); color: #c7c0b0; }
+
+  .result { display: none; }
+  .result.show { display: flex; }
+  .result-score { font-size: 20px; font-weight: 700; color: #d4a24c; }
+  pre {
+    margin: 4px 0; font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; line-height: 1.8;
+    color: #e8e3d8; background: #0e1726; border-radius: 8px; padding: 12px 14px; overflow-x: auto;
+  }
+  h3 { font-size: 15px; font-weight: 700; color: #d4a24c; margin: 12px 0 0 0; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header-row">
+    <div>
+      <div class="kicker">標準原価計算 / 工業簿記1級</div>
+      <h1>製造間接費差異分析 4分法 穴埋め問題</h1>
+    </div>
+    <div>
+      <div class="score-label">正解数</div>
+      <div class="score-value" id="score">– / –</div>
+    </div>
+  </div>
+
+  <div class="buttons-row">
+    <label class="control">穴の量
+      <select id="rate">
+        <option value="0.3">少なめ</option>
+        <option value="0.55" selected>ふつう</option>
+        <option value="1">全部</option>
+      </select>
+    </label>
+    <button class="btn-secondary" id="new">新しい穴で出題</button>
+    <button class="btn-secondary" id="bank-btn">語群を表示</button>
+  </div>
+
+  <div class="card">
+    <div class="badge">資料</div>
+    <ul class="data-list">
+      <li>年間固定費予算 43,200,000円、変動費率 @900円/時間</li>
+      <li>年間の実際的生産能力(基準操業度) 72,000時間</li>
+      <li>年間の予算操業度 62,400時間</li>
+      <li>製品1個あたりの標準直接作業時間 5時間</li>
+      <li>当月の生産データ:月初仕掛品 600個(加工進捗度50%)、当月完成品 1,200個、月末仕掛品 200個(加工進捗度60%)</li>
+      <li>当月の実際操業度 5,350時間、製造間接費の実際発生額 8,390,000円</li>
+    </ul>
+    <div class="note">空欄に入る語句・金額を答えてください。金額や時間は数字だけ入力します(カンマはあってもなくても可)。</div>
+    <div class="wordbank" id="wordbank"></div>
+  </div>
+
+  <div id="sections" style="display:flex;flex-direction:column;gap:20px;"></div>
+
+  <div class="buttons-row">
+    <button class="btn-primary" id="grade">採点する</button>
+    <button class="btn-secondary" id="new2">新しい穴で出題</button>
+  </div>
+
+  <div class="card result" id="result">
+    <div class="badge">解説</div>
+    <div class="result-score" id="result-score"></div>
+    <h3>事前計算</h3>
+<pre>固定費予算(月間)  = 43,200,000 ÷ 12 = 3,600,000円
+実際的生産能力(月間)= 72,000h ÷ 12 = 6,000h
+予算操業度(月間)  = 62,400h ÷ 12 = 5,200h
+固定費率   = 3,600,000 ÷ 6,000h = @600
+標準配賦率 = @900 + @600 = @1,500
+当月投入量 = 1,200個 + 200個×60% − 600個×50% = 1,020個
+標準操業度 = 1,020個 × 5h = 5,100h</pre>
+    <h3>4つの差異</h3>
+<pre>標準操業度 → 実際操業度 → 予算操業度 → 実際的生産能力
+ 5,100h       5,350h       5,200h        6,000h
+
+予算差異         =(@900 × 5,350h + 3,600,000)− 8,390,000 = + 25,000(有利)
+能率差異         = @1,500 ×(5,100h − 5,350h)             = △375,000(不利)
+予算操業度差異   = @600 ×(5,350h − 5,200h)               = + 90,000(有利)
+予想遊休能力差異 = @600 ×(5,200h − 6,000h)               = △480,000(不利)
+                                                     合計   △740,000
+検算:標準配賦額 @1,500 × 5,100h − 実際発生額 8,390,000   = △740,000</pre>
+    <h3>仕訳(パーシャルプラン)</h3>
+<pre>(借) 能率差異           375,000  (貸) 仕掛品           740,000
+     予想遊休能力差異   480,000       予算差異          25,000
+                                      予算操業度差異    90,000</pre>
+    <h3>勘定記入</h3>
+<pre>                   仕掛品(製造間接費分)
+------------------------------------------------------------
+製造間接費      8,390,000 | 標準配賦額(製品など) 7,650,000
+予算差異           25,000 | 能率差異                 375,000
+予算操業度差異     90,000 | 予想遊休能力差異         480,000
+               ----------                         ----------
+                8,505,000                          8,505,000</pre>
+    <div class="note">シングルプランの場合は、仕訳の「仕掛品」が「製造間接費」になります。</div>
+  </div>
+
+</div>
+<script>
+  // {{答え|別解}} が空欄候補。末尾 # は同じ行の # 同士で順不同を認める。
+  const TREE = [
+    { t: '前提知識と4つの操業度', c: [
+      { t: '{{標準操業度}}:当月投入量 × {{標準時間|製品1個あたり標準時間|1個あたり標準時間|単位あたり標準時間|標準直接作業時間}}({{5,100}}時間)' },
+      { t: '{{予算操業度|期待実際操業度}}:当初計画した時間({{5,200}}時間)' },
+      { t: '{{実際操業度}}:実際に工場を稼働した時間(5,350時間)' },
+      { t: '{{実際的生産能力}}:工場の最大の生産能力({{6,000}}時間)' }
+    ]},
+    { t: '事前計算のステップ', c: [
+      { t: '年間データを{{月間|月次|1か月|1ヶ月|一か月}}データへ換算' },
+      { t: '固定費率:{{固定費予算|固定費予算額|月間固定費予算}} ÷ {{基準操業度|実際的生産能力}}(@{{600}}円)' },
+      { t: '標準配賦率:{{変動費率#}} + {{固定費率#}}(@{{1,500}}円)' },
+      { t: '当月投入量:完成品 + {{月末|月末仕掛品}}換算量 − {{月初|月初仕掛品}}換算量({{1,020}}個)' }
+    ]},
+    { t: '4つの差異分析', c: [
+      { t: '予算差異', c: [
+        { t: '比較内容:実際操業度の{{予算許容額#}}と{{実際発生額#}}' },
+        { t: '意味:支出面の管理状況や単価の変動' },
+        { t: '計算結果:{{25,000}}円・{{有利}}' }
+      ]},
+      { t: '能率差異', c: [
+        { t: '比較内容:{{標準操業度#}}と{{実際操業度#}}' },
+        { t: '意味:作業能率の良否({{標準配賦率}}を乗算)' },
+        { t: '計算結果:{{375,000}}円・{{不利}}' }
+      ]},
+      { t: '{{予算操業度差異}}', c: [
+        { t: '比較内容:{{実際操業度#}}と{{予算操業度#|期待実際操業度}}' },
+        { t: '意味:計画と比べた実際の稼働時間の違い({{固定費率}}を乗算)' },
+        { t: '計算結果:{{90,000}}円・{{有利}}' }
+      ]},
+      { t: '{{予想遊休能力差異}}', c: [
+        { t: '比較内容:{{予算操業度#|期待実際操業度}}と{{実際的生産能力#|基準操業度}}' },
+        { t: '意味:上位計画によって生じる遊休能力({{固定費率}}を乗算)' },
+        { t: '計算結果:{{480,000}}円・{{不利}}' }
+      ]}
+    ]},
+    { t: '検算と仕訳', c: [
+      { t: '差異合計の検算:{{標準配賦額#}}と{{実際発生額#}}の差額と一致' },
+      { t: '勘定記入の原則:有利差異は原則として{{貸方}}、不利差異は{{借方}}' },
+      { t: '差異を振り替える仕訳', c: [
+        { t: '能率差異:{{借方}}に {{375,000}}円' },
+        { t: '予想遊休能力差異:{{借方}}に {{480,000}}円' },
+        { t: '予算差異:{{貸方}}に {{25,000}}円' },
+        { t: '予算操業度差異:{{貸方}}に {{90,000}}円' },
+        { t: 'パーシャルプランの相手勘定:{{仕掛品}}を{{貸方}}に {{740,000}}円(純額)' }
+      ]}
+    ]},
+    { t: 'よくある間違い', c: [
+      { t: '固定費率の分母に{{予算操業度|期待実際操業度}}を使う誤り' },
+      { t: '年間数値と月間数値を混ぜる誤り' },
+      { t: '{{完成品|完成品数量|完成品量}}だけで標準操業度を計算する誤り' },
+      { t: '能率差異に{{変動費率}}だけを掛ける誤り' }
+    ]}
+  ];
+
+  const SELECTS = { '有利': ['有利', '不利'], '不利': ['有利', '不利'], '借方': ['借方', '貸方'], '貸方': ['借方', '貸方'] };
+  const RE = /\{\{(.+?)\}\}/g;
+  const KEY = 'seizou-kansetsuhi-4bunpou-anaume-rate';
+
+  const sectionsEl = document.getElementById('sections');
+  const scoreEl = document.getElementById('score');
+  const resultEl = document.getElementById('result');
+  const resultScoreEl = document.getElementById('result-score');
+  const rateEl = document.getElementById('rate');
+  const bankEl = document.getElementById('wordbank');
+  const bankBtn = document.getElementById('bank-btn');
+
+  let blanks = [];
+  let lineSeq = 0;
+
+  function parseSpec(raw) {
+    const swap = /#/.test(raw);
+    const answers = raw.replace(/#/g, '').split('|');
+    const kind = SELECTS[answers[0]] ? 'select' : /^[\d,]+$/.test(answers[0]) ? 'num' : 'term';
+    return { answers, kind, swap };
+  }
+
+  function norm(v, kind) {
+    v = v.normalize('NFKC').replace(/[\s,、]/g, '');
+    if (kind === 'num') v = v.replace(/[^\d]/g, '');
+    return v;
+  }
+
+  function buildLine(text, rate) {
+    const line = document.createElement('span');
+    line.className = 'line';
+    const lineId = ++lineSeq;
+    let last = 0, m;
+    RE.lastIndex = 0;
+    while ((m = RE.exec(text))) {
+      if (m.index > last) line.append(text.slice(last, m.index));
+      const spec = parseSpec(m[1]);
+      if (Math.random() < rate) {
+        const wrap = document.createElement('span');
+        wrap.className = 'blank';
+        let el;
+        if (spec.kind === 'select') {
+          el = document.createElement('select');
+          el.append(new Option('—', ''));
+          SELECTS[spec.answers[0]].forEach(o => el.append(new Option(o, o)));
+        } else {
+          el = document.createElement('input');
+          el.type = 'text';
+          el.className = spec.kind;
+          el.autocomplete = 'off';
+          if (spec.kind === 'num') el.inputMode = 'numeric';
+        }
+        el.setAttribute('aria-label', '空欄' + (blanks.length + 1));
+        wrap.append(el);
+        line.append(wrap);
+        blanks.push({ ...spec, el, wrap, lineId });
+      } else {
+        const s = document.createElement('span');
+        s.className = 'fixed';
+        s.textContent = spec.answers[0];
+        line.append(s);
+      }
+      last = RE.lastIndex;
+    }
+    if (last < text.length) line.append(text.slice(last));
+    return line;
+  }
+
+  function buildList(nodes, rate) {
+    const ul = document.createElement('ul');
+    nodes.forEach(n => {
+      const li = document.createElement('li');
+      if (n.c) li.className = 'branch';
+      li.append(buildLine(n.t, rate));
+      if (n.c) li.append(buildList(n.c, rate));
+      ul.append(li);
+    });
+    return ul;
+  }
+
+  function newRound() {
+    const rate = parseFloat(rateEl.value);
+    blanks = [];
+    sectionsEl.textContent = '';
+    TREE.forEach((sec, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      const badge = document.createElement('div');
+      badge.className = 'badge';
+      badge.textContent = 'BRANCH ' + (i + 1);
+      const h2 = document.createElement('h2');
+      h2.textContent = sec.t;
+      const list = buildList(sec.c, rate);
+      list.className = 'tree';
+      card.append(badge, h2, list);
+      sectionsEl.append(card);
+    });
+    scoreEl.textContent = '– / ' + blanks.length;
+    resultEl.classList.remove('show');
+  }
+
+  function matches(b, v) { return v !== '' && b.answers.some(a => norm(a, b.kind) === v); }
+
+  function grade() {
+    blanks.forEach(b => { b.val = norm(b.el.value, b.kind); });
+    let correct = 0;
+    blanks.forEach(b => {
+      let ok = matches(b, b.val);
+      if (!ok && b.swap) {
+        const p = blanks.find(o => o !== b && o.swap && o.lineId === b.lineId);
+        if (p && matches(p, b.val) && matches(b, p.val)) ok = true;
+      }
+      b.wrap.classList.remove('ok', 'ng');
+      b.wrap.querySelectorAll('.ans').forEach(a => a.remove());
+      b.wrap.classList.add(ok ? 'ok' : 'ng');
+      if (ok) correct++;
+      else {
+        const a = document.createElement('span');
+        a.className = 'ans';
+        a.textContent = b.answers[0];
+        b.wrap.append(a);
+      }
+    });
+    scoreEl.textContent = correct + ' / ' + blanks.length;
+    resultScoreEl.textContent = blanks.length + '問中 ' + correct + '問正解';
+    resultEl.classList.add('show');
+  }
+
+  function buildBank() {
+    const terms = new Set();
+    (function walk(nodes) {
+      nodes.forEach(n => {
+        let m;
+        RE.lastIndex = 0;
+        while ((m = RE.exec(n.t))) {
+          const spec = parseSpec(m[1]);
+          if (spec.kind === 'term') terms.add(spec.answers[0]);
+        }
+        if (n.c) walk(n.c);
+      });
+    })(TREE);
+    Array.from(terms).sort((a, b) => a.localeCompare(b, 'ja')).forEach(t => {
+      const c = document.createElement('span');
+      c.className = 'chip';
+      c.textContent = t;
+      bankEl.append(c);
+    });
+  }
+
+  try { const saved = localStorage.getItem(KEY); if (saved && rateEl.querySelector('option[value="' + saved + '"]')) rateEl.value = saved; } catch (e) {}
+
+  rateEl.addEventListener('change', () => {
+    try { localStorage.setItem(KEY, rateEl.value); } catch (e) {}
+    newRound();
+  });
+  document.getElementById('new').addEventListener('click', newRound);
+  document.getElementById('new2').addEventListener('click', () => { newRound(); window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  document.getElementById('grade').addEventListener('click', grade);
+  bankBtn.addEventListener('click', () => {
+    const show = bankEl.classList.toggle('show');
+    bankBtn.textContent = show ? '語群を隠す' : '語群を表示';
+  });
+  sectionsEl.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.isComposing) return;
+    const i = blanks.findIndex(b => b.el === e.target);
+    if (i >= 0 && blanks[i + 1]) { e.preventDefault(); blanks[i + 1].el.focus(); }
+  });
+
+  buildBank();
+  newRound();
+</script>
+</body>
+</html>

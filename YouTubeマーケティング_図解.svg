@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+  <foreignObject x="0" y="0" width="1600" height="900">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Hiragino Sans','Noto Sans CJK JP',sans-serif;color:#1F3A5F;width:1600px;height:900px;box-sizing:border-box;padding:30px 56px 0;">
+      <style>
+        .ttl{font-size:36px;font-weight:800;margin:0;letter-spacing:1px}
+        .ttl span{color:#DC2626}
+        .sub{font-size:17px;color:#4A5D78;margin:6px 0 14px}
+        .def{background:#1F3A5F;color:#fff;border-radius:18px;padding:14px 26px;font-size:19px;line-height:1.6}
+        .def .lb{display:inline-block;background:#fff;color:#1F3A5F;font-size:14px;font-weight:800;border-radius:999px;padding:2px 12px;margin-right:10px;vertical-align:2px}
+        .def b{color:#FCD34D}
+        .def .old{display:block;font-size:14px;color:#C9D6E8;margin-top:2px}
+        .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:16px}
+        .cell{background:#fff;border:2px solid #C9D6E8;border-radius:24px;padding:14px 18px 10px;box-sizing:border-box;height:480px;position:relative}
+        .no{display:inline-flex;width:34px;height:34px;border-radius:50%;color:#fff;font-weight:800;font-size:18px;align-items:center;justify-content:center;margin-right:8px}
+        .kw{font-size:23px;font-weight:800;display:flex;align-items:center}
+        .q{font-size:15.5px;color:#7C8BA3;margin:4px 0 8px}
+        .yt{font-size:16.5px;font-weight:800;color:#DC2626;margin:2px 0 4px}
+        ul{margin:0;padding-left:1.1em}
+        li{font-size:18.5px;line-height:1.55;margin:0 0 10px;color:#2A3B55}
+        li b{color:#1F3A5F}
+        .kpi{position:absolute;left:18px;right:18px;bottom:12px;border-top:2px dashed #C9D6E8;padding-top:8px;font-size:16px;color:#4A5D78}
+        .kpi b{color:#1F3A5F}
+        .foot{margin-top:20px;display:flex;align-items:center;gap:10px;font-size:17px;color:#4A5D78}
+        .step{background:#fff;border:2px solid #C9D6E8;border-radius:999px;padding:6px 16px;font-weight:700;color:#1F3A5F}
+        .ar{color:#7C8BA3;font-weight:800}
+      </style>
+      <p class="ttl"><span>▶</span> YouTubeマーケティングを「日本マーケティング協会の定義」で読み解く</p>
+      <p class="sub">定義の4つのキーワードを、YouTubeで「何をするか」に置きかえると全体像がつかめる</p>
+
+      <div class="def">
+        <span class="lb">JMA 2024年新定義</span>顧客や社会と共に<b>①価値を創造</b>し、その価値を<b>②広く浸透</b>させることによって、ステークホルダーとの<b>③関係性を醸成</b>し、<b>④より豊かで持続可能な社会</b>を実現するための構想でありプロセスである。
+        <span class="old">※1990年の旧定義は「企業が…市場創造のための総合的活動」= 企業目線。新定義は「顧客・社会と一緒に」へ広がった(34年ぶりの改定)</span>
+      </div>
+
+      <div class="grid">
+        <div class="cell" style="border-top:8px solid #7C3AED">
+          <div class="kw"><span class="no" style="background:#7C3AED">1</span>共に価値を創造</div>
+          <div class="q">企業だけで作らず、視聴者と一緒に作る</div>
+          <div class="yt">YouTubeでやること</div>
+          <ul>
+            <li><b>コメント・コミュニティ投稿</b>の声から次の企画を決める</li>
+            <li>視聴者の<b>悩みに答える動画</b>(ハウツー・比較・レビュー)</li>
+            <li><b>クリエイターとのタイアップ</b>で、相手の得意な表現で作る</li>
+          </ul>
+          <div class="kpi">見る数字:<b>コメント数・高評価率</b></div>
+        </div>
+        <div class="cell" style="border-top:8px solid #DC2626">
+          <div class="kw"><span class="no" style="background:#DC2626">2</span>広く浸透させる</div>
+          <div class="q">作った価値を、届くべき人に届ける</div>
+          <div class="yt">YouTubeでやること</div>
+          <ul>
+            <li><b>検索</b>:タイトル・説明文に視聴者が探す言葉を入れる</li>
+            <li><b>おすすめ</b>:サムネイルで押され(CTR)、最後まで見られる(視聴維持率)動画が広がる</li>
+            <li><b>ショート→長尺</b>への導線、<b>YouTube広告</b>で後押し</li>
+          </ul>
+          <div class="kpi">見る数字:<b>インプレッション・CTR・視聴維持率</b></div>
+        </div>
+        <div class="cell" style="border-top:8px solid #1F6FEB">
+          <div class="kw"><span class="no" style="background:#1F6FEB">3</span>関係性を醸成</div>
+          <div class="q">1回見て終わり、にしない</div>
+          <div class="yt">YouTubeでやること</div>
+          <ul>
+            <li><b>チャンネル登録・通知</b>で「また見る」理由を作る</li>
+            <li><b>決まった曜日に投稿</b>、シリーズ化・再生リスト</li>
+            <li><b>ライブ配信・メンバーシップ</b>で双方向のつながり</li>
+          </ul>
+          <div class="kpi">見る数字:<b>登録者数・リピーター・総再生時間</b></div>
+        </div>
+        <div class="cell" style="border-top:8px solid #16A34A">
+          <div class="kw"><span class="no" style="background:#16A34A">4</span>豊かで持続可能な社会</div>
+          <div class="q">短期の再生数より、長く信頼される</div>
+          <div class="yt">YouTubeでやること</div>
+          <ul>
+            <li><b>広告・PRはきちんと表示</b>(2023年10月〜ステマ規制)</li>
+            <li>誇張・炎上狙いをせず<b>正確な情報</b>を出す</li>
+            <li>学び・社会課題など<b>見た人の役に立つ</b>テーマを続ける</li>
+          </ul>
+          <div class="kpi">見る数字:<b>指名検索・ブランド好意度・LTV</b></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <b style="color:#1F3A5F">視聴者の流れ:</b>
+        <span class="step">見つける(検索・おすすめ)</span><span class="ar">→</span>
+        <span class="step">見る(CTR・維持率)</span><span class="ar">→</span>
+        <span class="step">つながる(登録・コメント)</span><span class="ar">→</span>
+        <span class="step">行動する(概要欄リンク・購入)</span><span class="ar">→</span>
+        <span class="step" style="border-color:#16A34A;color:#16A34A">ファンが広める</span>
+      </div>
+    </div>
+  </foreignObject>
+</svg>

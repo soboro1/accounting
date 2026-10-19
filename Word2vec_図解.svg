@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F3A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="86" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">Word2vec</text>
+  <text x="800" y="134" text-anchor="middle" font-size="26" fill="#4A5D78">単語を「数字の並び」に変えて、意味の近さを測る技術</text>
+
+  <!-- Card 1: context -> vector -->
+  <rect x="60" y="180" width="700" height="480" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="120" cy="240" r="34" fill="#1F6FEB"/>
+  <text x="120" y="253" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="175" y="252" font-size="36" font-weight="800" fill="#1F3A5F">文脈から学ぶ</text>
+
+  <text x="410" y="318" text-anchor="middle" font-size="24" fill="#4A5D78">似た文脈で使われる単語は、意味も似ている</text>
+
+  <!-- sentence 1 -->
+  <text x="100" y="385" font-size="24" fill="#4A5D78">文1</text>
+  <rect x="160" y="352" width="110" height="52" rx="10" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="215" y="388" text-anchor="middle" font-size="24" fill="#1F3A5F">かわいい</text>
+  <rect x="285" y="352" width="90" height="52" rx="10" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="330" y="388" text-anchor="middle" font-size="26" font-weight="800" fill="#1F6FEB">犬</text>
+  <rect x="390" y="352" width="110" height="52" rx="10" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="445" y="388" text-anchor="middle" font-size="24" fill="#1F3A5F">を飼う</text>
+
+  <!-- sentence 2 -->
+  <text x="100" y="465" font-size="24" fill="#4A5D78">文2</text>
+  <rect x="160" y="432" width="110" height="52" rx="10" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="215" y="468" text-anchor="middle" font-size="24" fill="#1F3A5F">かわいい</text>
+  <rect x="285" y="432" width="90" height="52" rx="10" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="330" y="468" text-anchor="middle" font-size="26" font-weight="800" fill="#1F6FEB">猫</text>
+  <rect x="390" y="432" width="110" height="52" rx="10" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="445" y="468" text-anchor="middle" font-size="24" fill="#1F3A5F">を飼う</text>
+
+  <!-- sentence 3 -->
+  <text x="100" y="545" font-size="24" fill="#4A5D78">文3</text>
+  <rect x="160" y="512" width="110" height="52" rx="10" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="215" y="548" text-anchor="middle" font-size="24" fill="#1F3A5F">明日の</text>
+  <rect x="285" y="512" width="90" height="52" rx="10" fill="#FDECEC" stroke="#DC2626" stroke-width="3"/>
+  <text x="330" y="548" text-anchor="middle" font-size="26" font-weight="800" fill="#DC2626">会議</text>
+  <rect x="390" y="512" width="110" height="52" rx="10" fill="#EEF2F8" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="445" y="548" text-anchor="middle" font-size="24" fill="#1F3A5F">に出る</text>
+
+  <path d="M512 420 L548 420" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="556" y="352" width="190" height="212" rx="14" fill="#F5F0FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="651" y="402" text-anchor="middle" font-size="22" font-weight="700" fill="#7C3AED">数字の並び</text>
+  <text x="651" y="446" text-anchor="middle" font-size="19" font-family="Menlo, monospace" fill="#1F3A5F">犬  [0.8 0.3 …]</text>
+  <text x="651" y="486" text-anchor="middle" font-size="19" font-family="Menlo, monospace" fill="#1F3A5F">猫  [0.7 0.4 …]</text>
+  <text x="651" y="526" text-anchor="middle" font-size="19" font-family="Menlo, monospace" fill="#1F3A5F">会議[0.1 0.9 …]</text>
+
+  <text x="410" y="620" text-anchor="middle" font-size="24" fill="#1F3A5F">犬と猫は文脈が同じなので<tspan font-weight="800" fill="#1F6FEB">数字も近く</tspan>なる</text>
+
+  <!-- Card 2: map -->
+  <rect x="800" y="180" width="740" height="480" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="860" cy="240" r="34" fill="#16A34A"/>
+  <text x="860" y="253" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="915" y="252" font-size="36" font-weight="800" fill="#1F3A5F">意味の地図になる</text>
+
+  <!-- map area -->
+  <rect x="840" y="290" width="660" height="340" rx="16" fill="#F8FAFD" stroke="#E1E8F2" stroke-width="2"/>
+
+  <!-- animal cluster -->
+  <ellipse cx="1030" cy="430" rx="130" ry="66" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2" stroke-dasharray="8 6"/>
+  <circle cx="985" cy="425" r="9" fill="#1F6FEB"/>
+  <text x="985" y="405" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">犬</text>
+  <circle cx="1070" cy="445" r="9" fill="#1F6FEB"/>
+  <text x="1096" y="452" font-size="24" font-weight="700" fill="#1F3A5F">猫</text>
+  <text x="1030" y="526" text-anchor="middle" font-size="20" fill="#1F6FEB">動物のグループ</text>
+
+  <!-- work cluster -->
+  <ellipse cx="1320" cy="500" rx="130" ry="58" fill="#FDECEC" stroke="#DC2626" stroke-width="2" stroke-dasharray="8 6"/>
+  <circle cx="1275" cy="505" r="9" fill="#DC2626"/>
+  <text x="1275" y="485" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">会議</text>
+  <circle cx="1360" cy="515" r="9" fill="#DC2626"/>
+  <text x="1376" y="522" font-size="24" font-weight="700" fill="#1F3A5F">出張</text>
+  <text x="1320" y="590" text-anchor="middle" font-size="20" fill="#DC2626">仕事のグループ</text>
+
+  <!-- distance -->
+  <path d="M1160 470 L1205 485" stroke="#4A5D78" stroke-width="2" stroke-dasharray="4 6" marker-end="url(#arrow)"/>
+  <text x="1300" y="345" text-anchor="middle" font-size="22" fill="#4A5D78">遠い = 意味が違う</text>
+  <text x="1030" y="328" text-anchor="middle" font-size="22" fill="#4A5D78">近い = 意味が似ている</text>
+
+  <!-- Bottom: analogy -->
+  <rect x="60" y="700" width="1480" height="150" rx="24" fill="#1F3A5F"/>
+  <text x="110" y="752" font-size="30" font-weight="800" fill="#FFD166">意味の足し算・引き算ができる</text>
+
+  <rect x="110" y="775" width="130" height="52" rx="12" fill="#FFFFFF"/>
+  <text x="175" y="811" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">王様</text>
+  <text x="270" y="812" text-anchor="middle" font-size="34" font-weight="800" fill="#FFD166">−</text>
+  <rect x="300" y="775" width="110" height="52" rx="12" fill="#FFFFFF"/>
+  <text x="355" y="811" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">男</text>
+  <text x="440" y="812" text-anchor="middle" font-size="34" font-weight="800" fill="#FFD166">+</text>
+  <rect x="470" y="775" width="110" height="52" rx="12" fill="#FFFFFF"/>
+  <text x="525" y="811" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">女</text>
+  <text x="610" y="812" text-anchor="middle" font-size="34" font-weight="800" fill="#FFD166">≒</text>
+  <rect x="640" y="775" width="130" height="52" rx="12" fill="#7C3AED"/>
+  <text x="705" y="811" text-anchor="middle" font-size="26" font-weight="800" fill="#FFFFFF">女王</text>
+
+  <text x="830" y="800" font-size="24" fill="#FFFFFF">単語を数字にすると、意味の関係も計算で扱える。</text>
+  <text x="830" y="838" font-size="24" fill="#FFFFFF">ただし「銀行」の意味は文脈によらず1つだけ。</text>
+</svg>

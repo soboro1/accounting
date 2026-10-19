@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: #101b2d;
+  color: #f6f1e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.w {
+  position: relative; width: 100%; max-width: 560px;
+  padding: 16px 18px 14px; border-radius: 14px; overflow: hidden;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(212,162,76,0.35);
+}
+.w::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+  background: linear-gradient(90deg, #5aa9f0, #3ec1a6, #ffd36b, #f0785a, #f27ba8, #9b8cf0);
+}
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.ttl { font-size: 13px; font-weight: 700; letter-spacing: 2px; color: #d4a24c; }
+.chips { display: flex; gap: 6px; }
+.chip {
+  font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+  padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  background: transparent; color: #d4a24c;
+}
+.chip.on { background: #d4a24c; color: #101b2d; }
+
+.exam { margin-top: 10px; text-align: center; font-size: 14px; font-weight: 700; color: #e8e3d8; }
+.exam span { display: inline-block; }
+.count { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
+.pre, .unit { font-size: 18px; font-weight: 700; color: #e8e3d8; }
+.num { font-size: 60px; font-weight: 700; line-height: 1.15; color: #fac775; font-variant-numeric: tabular-nums; }
+.msg { display: none; text-align: center; font-size: 26px; font-weight: 700; color: #fac775; margin: 8px 0 6px; }
+
+.bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.badge { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1px solid; }
+.badge.open { color: #5dcaa5; border-color: #1d9e75; background: rgba(29,158,117,0.12); }
+.badge.wait { color: #d4a24c; border-color: #d4a24c; background: rgba(212,162,76,0.12); }
+.badge.closed { color: #9aa5b1; border-color: #6b7688; }
+.bottom a { font-size: 13px; font-weight: 700; color: #d4a24c; text-decoration: none; }
+.bottom a:hover { text-decoration: underline; }
+
+@media (max-width: 420px) {
+  body { padding: 8px; }
+  .w { padding: 14px 14px 12px; }
+  .ttl { font-size: 12px; letter-spacing: 1px; }
+  .chips { gap: 4px; }
+  .chip { padding: 3px 9px; font-size: 12px; }
+  .exam { margin-top: 8px; font-size: 13px; }
+  .num { font-size: 50px; }
+  .pre, .unit { font-size: 16px; }
+  .badge .long { display: none; }
+}

@@ -1,0 +1,780 @@
+<title>VBA道場</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+JP:wght@400;500;600;700&display=swap">
+<script src="vba.js"></script>
+<script src="runtime.js"></script>
+<script src="lessons.js"></script>
+<script src="guide.js"></script>
+<style>
+:root{
+  --paper:#F5F7F3; --surface:#FFFFFF; --surface2:#EDF1EA; --sunken:#E6EBE2;
+  --line:#D7DED2; --line-strong:#BCC6B6;
+  --ink:#16211B; --ink2:#5C6D61; --ink3:#8A998F;
+  --accent:#1D7A4D; --accent-ink:#FFFFFF; --accent-soft:#E2EFE7; --accent-line:#A8CDB8;
+  --ok:#1D7A4D; --ok-soft:#E2EFE7; --warn:#A96600; --err:#B8352B; --err-soft:#FBE9E7;
+  --kw:#0F4FA8; --cm:#4C7A37; --st:#973A18; --nm:#7A4497; --fn:#0A6E70;
+  --grid-line:#DDE3D8; --grid-head:#E9EDE4; --shadow:0 1px 2px rgba(20,33,26,.06),0 8px 24px -12px rgba(20,33,26,.18);
+  --fig1-bg:#E2EFE7; --fig1-line:#A8CDB8; --fig1-ink:#14532F; --fig1-ink2:#2F7A52;
+  --fig2-bg:#FAECE7; --fig2-line:#E3AF97; --fig2-ink:#7A3316; --fig2-ink2:#A8502C;
+  --fig3-bg:#EDF1EA; --fig3-line:#C2CBBC; --fig3-ink:#2C3A31; --fig3-ink2:#56665B;
+  --sans:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic UI",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#10140F; --surface:#171C16; --surface2:#1C2219; --sunken:#0C0F0B;
+    --line:#2B332A; --line-strong:#3C453A;
+    --ink:#E3EAE1; --ink2:#95A394; --ink3:#6E7C6D;
+    --accent:#4FBE83; --accent-ink:#08150E; --accent-soft:#17301F; --accent-line:#2E5A3D;
+    --ok:#4FBE83; --ok-soft:#16301E; --warn:#D79A3A; --err:#E8796C; --err-soft:#2E1614;
+    --kw:#82B2F0; --cm:#8FC073; --st:#E2A07C; --nm:#C7A0E6; --fn:#5FC0BE;
+    --grid-line:#2A322A; --grid-head:#232A22;
+    --fig1-bg:#17301F; --fig1-line:#33684A; --fig1-ink:#BFE8CF; --fig1-ink2:#8CC9A5;
+    --fig2-bg:#33201A; --fig2-line:#7A4634; --fig2-ink:#F3C4AE; --fig2-ink2:#D29B7F;
+    --fig3-bg:#1E241F; --fig3-line:#3C453A; --fig3-ink:#D7DFD6; --fig3-ink2:#9DAB9E;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10140F; --surface:#171C16; --surface2:#1C2219; --sunken:#0C0F0B;
+  --line:#2B332A; --line-strong:#3C453A;
+  --ink:#E3EAE1; --ink2:#95A394; --ink3:#6E7C6D;
+  --accent:#4FBE83; --accent-ink:#08150E; --accent-soft:#17301F; --accent-line:#2E5A3D;
+  --ok:#4FBE83; --ok-soft:#16301E; --warn:#D79A3A; --err:#E8796C; --err-soft:#2E1614;
+  --kw:#82B2F0; --cm:#8FC073; --st:#E2A07C; --nm:#C7A0E6; --fn:#5FC0BE;
+  --grid-line:#2A322A; --grid-head:#232A22;
+  --fig1-bg:#17301F; --fig1-line:#33684A; --fig1-ink:#BFE8CF; --fig1-ink2:#8CC9A5;
+  --fig2-bg:#33201A; --fig2-line:#7A4634; --fig2-ink:#F3C4AE; --fig2-ink2:#D29B7F;
+  --fig3-bg:#1E241F; --fig3-line:#3C453A; --fig3-ink:#D7DFD6; --fig3-ink2:#9DAB9E;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px -14px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.7;
+  -webkit-font-smoothing:antialiased;display:flex;flex-direction:column;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+code,kbd{font-family:var(--mono);font-size:.9em}
+pre code{font:inherit;font-size:inherit;line-height:inherit;letter-spacing:inherit;background:none;padding:0}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+
+/* ---- ヘッダー ---- */
+.topbar{display:flex;align-items:center;gap:16px;padding:10px 16px;padding-top:calc(10px + env(safe-area-inset-top,0px));
+  background:var(--surface);border-bottom:1px solid var(--line);flex:0 0 auto;z-index:20}
+.brand{display:flex;align-items:baseline;gap:8px;font-weight:700;letter-spacing:.01em;white-space:nowrap}
+.brand .mark{font-family:var(--mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  background:var(--accent);color:var(--accent-ink);padding:3px 7px;border-radius:3px}
+.brand b{font-size:15px}
+.prog{display:flex;align-items:center;gap:10px;margin-left:auto;min-width:0}
+.prog .bar{width:130px;height:6px;border-radius:99px;background:var(--sunken);overflow:hidden;flex:0 0 auto}
+.prog .bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .35s ease}
+.prog .count{font-family:var(--mono);font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums;white-space:nowrap}
+.ghost{background:transparent;border:1px solid var(--line);border-radius:6px;padding:5px 11px;font-size:12.5px;color:var(--ink2);white-space:nowrap;flex:0 0 auto}
+.ghost:hover{border-color:var(--line-strong);color:var(--ink)}
+
+/* ---- モバイル用タブ ---- */
+.mtabs{display:none;flex:0 0 auto;background:var(--surface);border-bottom:1px solid var(--line);padding:0 8px;gap:2px}
+.mtabs button{flex:1;background:none;border:0;border-bottom:2px solid transparent;padding:10px 4px;font-size:13px;color:var(--ink2);font-weight:500}
+.mtabs button[aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* ---- 3ペイン ---- */
+.bench{flex:1 1 auto;min-height:0;display:grid;grid-template-columns:216px minmax(0,1fr) minmax(0,1.32fr);gap:1px;background:var(--line)}
+.pane{background:var(--paper);min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden}
+
+/* ---- カリキュラム ---- */
+.rail{background:var(--surface2);overflow-y:auto;padding:12px 0 24px}
+.lvl{padding:16px 14px 6px;display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.lvl .n,.lvl .t{white-space:nowrap}
+.lvl:first-child{padding-top:6px}
+.lvl .n{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--accent);
+  border:1px solid var(--accent-line);border-radius:3px;padding:1px 5px}
+.lvl .t{font-size:12px;font-weight:600}
+.lvl .d{font-size:11px;color:var(--ink3)}
+.item{display:flex;align-items:center;gap:8px;width:100%;text-align:left;background:none;border:0;
+  padding:7px 14px 7px 12px;font-size:13px;color:var(--ink2);border-left:3px solid transparent;line-height:1.4}
+.item:hover{background:var(--surface);color:var(--ink)}
+.item[aria-current="true"]{background:var(--surface);color:var(--ink);font-weight:600;border-left-color:var(--accent)}
+.item .tick{flex:0 0 16px;width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line-strong);
+  display:grid;place-items:center;font-size:10px;color:transparent}
+.item.done .tick{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+
+/* ---- 課題文 ---- */
+.brief{overflow-y:auto;padding:22px 26px 40px}
+.brief .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--accent);font-weight:600}
+.brief h2{margin:4px 0 14px;font-size:21px;line-height:1.35;letter-spacing:-.01em;text-wrap:balance}
+.goal{background:var(--accent-soft);border:1px solid var(--accent-line);border-radius:8px;padding:13px 15px;margin-bottom:18px;font-size:13.5px}
+.goal .lab{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:4px}
+.brief p{margin:0 0 12px;max-width:62ch}
+.brief ul,.brief ol{margin:0 0 12px;padding-left:1.35em;max-width:62ch}
+.brief li{margin-bottom:5px}
+.brief code{background:var(--sunken);padding:1px 5px;border-radius:3px;color:var(--kw)}
+.brief b{font-weight:600}
+pre.mini{background:var(--sunken);border:1px solid var(--line);border-left:3px solid var(--accent-line);
+  border-radius:0 6px 6px 0;padding:11px 13px;margin:0 0 14px;overflow-x:auto;
+  font-family:var(--mono);font-size:12.5px;line-height:1.65;color:var(--ink)}
+p.note{background:var(--surface2);border:1px solid var(--line);border-radius:6px;padding:10px 13px;font-size:12.5px;color:var(--ink2)}
+.helpers{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.brief h3{margin:28px 0 10px;font-size:16px;letter-spacing:-.005em;text-wrap:balance}
+.guide{max-width:780px;margin:0 auto}
+.guide p,.guide ul{max-width:none}
+.figwrap{margin:8px 0 18px}
+.fig{width:100%;height:auto;display:block;margin:0}
+.fig text{font-family:var(--sans)}
+.fig .t{font-size:14px;fill:var(--ink)}
+.fig .ts{font-size:12px;fill:var(--ink2)}
+.fig .th{font-size:14px;font-weight:600;fill:var(--ink)}
+.fig .box{fill:var(--surface);stroke:var(--line-strong);stroke-width:.5}
+.fig .dash{fill:none;stroke:var(--line-strong);stroke-width:.5;stroke-dasharray:4 3}
+.fig .arr{stroke:var(--ink2);stroke-width:1.5;fill:none}
+.fig .g-1 rect{fill:var(--fig1-bg);stroke:var(--fig1-line);stroke-width:.5}
+.fig .g-1 .th{fill:var(--fig1-ink)}
+.fig .g-1 .ts{fill:var(--fig1-ink2)}
+.fig .g-2 rect{fill:var(--fig2-bg);stroke:var(--fig2-line);stroke-width:.5}
+.fig .g-2 .th{fill:var(--fig2-ink)}
+.fig .g-2 .ts{fill:var(--fig2-ink2)}
+.fig .g-3 rect{fill:var(--fig3-bg);stroke:var(--fig3-line);stroke-width:.5}
+.fig .g-3 .th{fill:var(--fig3-ink)}
+.fig .g-3 .ts{fill:var(--fig3-ink2)}
+.item .gtick{flex:0 0 16px;width:16px;height:16px;border-radius:4px;border:1px solid var(--accent-line);
+  background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:9px;font-weight:600}
+body[data-mode="guide"] .bench{grid-template-columns:216px minmax(0,1fr)}
+body[data-mode="guide"] #paneCode{display:none}
+.hintbox{margin-top:12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);overflow:hidden}
+.hintbox .h{padding:9px 13px;font-size:12.5px;border-bottom:1px solid var(--line)}
+.hintbox .h:last-child{border-bottom:0}
+.hintbox .h b{font-family:var(--mono);font-size:11px;color:var(--accent);margin-right:8px}
+.solbox{margin-top:12px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.solbox pre{margin:0;padding:12px 14px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.7;background:var(--sunken)}
+.solbox .foot{padding:8px 12px;border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+
+/* ---- 右ペイン ---- */
+.work{display:grid;grid-template-rows:minmax(160px,1.05fr) auto minmax(150px,1fr);min-height:0}
+.block{display:flex;flex-direction:column;min-height:0;overflow:hidden;background:var(--surface)}
+.blockhead{display:flex;align-items:center;gap:10px;padding:7px 12px;background:var(--surface2);
+  border-bottom:1px solid var(--line);flex:0 0 auto;flex-wrap:wrap}
+.blockhead .ttl{font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;font-weight:600;color:var(--ink2);text-transform:uppercase}
+.blockhead .sp{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.run{background:var(--accent);color:var(--accent-ink);border:0;border-radius:6px;padding:6px 15px;font-size:13px;font-weight:600;
+  display:inline-flex;align-items:center;gap:6px}
+.run:hover{filter:brightness(1.08)}
+.run:disabled{opacity:.5;cursor:default}
+.mini-btn{background:transparent;border:1px solid var(--line);border-radius:5px;padding:4px 9px;font-size:11.5px;color:var(--ink2)}
+.mini-btn:hover{border-color:var(--line-strong);color:var(--ink)}
+.chk{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--ink2);cursor:pointer;
+  user-select:none;white-space:nowrap}
+.chk input{accent-color:var(--accent);width:13px;height:13px;margin:0;cursor:pointer}
+.chk:hover{color:var(--ink)}
+.result.pending{background:var(--surface2);color:var(--ink2)}
+.result.pending .ic{background:var(--line);color:var(--ink2)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:6px;
+  opacity:0;transition:opacity .2s}
+.dot.on{opacity:1;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.dot.on{animation:none}}
+
+/* ---- エディタ ---- */
+.edit{position:relative;flex:1 1 auto;min-height:0;display:flex;background:var(--surface);overflow:hidden}
+.gutter{flex:0 0 auto;padding:12px 8px 12px 12px;background:var(--surface2);border-right:1px solid var(--line);
+  font-family:var(--mono);font-size:13px;line-height:1.65;color:var(--ink3);text-align:right;white-space:pre;
+  overflow:hidden;user-select:none;font-variant-numeric:tabular-nums;min-width:38px}
+.codearea{position:relative;flex:1 1 auto;min-width:0}
+.codearea pre,.codearea textarea{margin:0;position:absolute;inset:0;padding:12px 14px;
+  font-family:var(--mono);font-size:13px;line-height:1.65;tab-size:4;white-space:pre;overflow:auto;border:0}
+.codearea pre{pointer-events:none;color:var(--ink);background:transparent;overflow:hidden}
+.codearea textarea{background:transparent;color:transparent;caret-color:var(--accent);resize:none;outline:none;display:block}
+.codearea textarea::selection{background:rgba(29,122,77,.22);color:transparent}
+.tok-kw{color:var(--kw);font-weight:600}
+.tok-ty{color:var(--kw)}
+.tok-cm{color:var(--cm);font-style:italic}
+.tok-st{color:var(--st)}
+.tok-nm{color:var(--nm)}
+.tok-fn{color:var(--fn)}
+
+/* ---- 結果バー ---- */
+.result{flex:0 0 auto;padding:10px 14px;font-size:13px;display:flex;gap:9px;align-items:flex-start;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface2);color:var(--ink2)}
+.result .ic{flex:0 0 18px;width:18px;height:18px;border-radius:50%;display:grid;place-items:center;font-size:11px;
+  background:var(--line);color:var(--ink2);margin-top:2px;font-weight:700}
+.result.ok{background:var(--ok-soft);color:var(--ink)}
+.result.ok .ic{background:var(--ok);color:var(--accent-ink)}
+.result.ng{background:var(--err-soft);color:var(--ink)}
+.result.ng .ic{background:var(--err);color:#fff}
+.result .meta{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--ink3);white-space:nowrap;padding-left:10px}
+
+/* ---- シート ---- */
+.sheetbox{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;background:var(--surface)}
+.gridwrap{flex:1 1 auto;overflow:auto;background:var(--surface)}
+table.sheet{border-collapse:separate;border-spacing:0;font-size:12px;font-family:var(--sans);white-space:nowrap}
+table.sheet th,table.sheet td{border-right:1px solid var(--grid-line);border-bottom:1px solid var(--grid-line);
+  padding:3px 7px;height:23px;font-weight:400;max-width:190px;overflow:hidden;text-overflow:ellipsis}
+table.sheet thead th{position:sticky;top:0;z-index:2;background:var(--grid-head);color:var(--ink2);
+  text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;font-weight:600}
+table.sheet tbody th{position:sticky;left:0;z-index:1;background:var(--grid-head);color:var(--ink3);
+  text-align:center;font-family:var(--mono);font-size:10.5px;min-width:34px;font-variant-numeric:tabular-nums}
+table.sheet thead th:first-child{left:0;z-index:3}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+td.chg{box-shadow:inset 0 0 0 2px var(--accent)}
+.stabs{flex:0 0 auto;display:flex;gap:1px;padding:0 8px;background:var(--surface2);border-top:1px solid var(--line);overflow-x:auto}
+.stabs button{background:transparent;border:0;border-top:2px solid transparent;padding:6px 11px;font-size:12px;color:var(--ink2);white-space:nowrap}
+.stabs button[aria-selected="true"]{background:var(--surface);color:var(--ink);font-weight:600;border-top-color:var(--accent)}
+
+/* ---- 出力 ---- */
+.console{flex:1 1 auto;overflow-y:auto;padding:8px 12px;font-family:var(--mono);font-size:12px;line-height:1.6;background:var(--sunken)}
+.console .row{display:flex;gap:9px;padding:4px 0;border-bottom:1px dotted var(--line)}
+.console .row:last-child{border-bottom:0}
+.console .tag{flex:0 0 auto;font-size:9.5px;letter-spacing:.08em;padding:1px 5px;border-radius:3px;height:fit-content;margin-top:2px;
+  background:var(--line);color:var(--ink2);font-weight:600}
+.console .tag.msg{background:var(--accent-soft);color:var(--accent);border:1px solid var(--accent-line)}
+.console .txt{white-space:pre-wrap;word-break:break-word;color:var(--ink)}
+.console .empty{color:var(--ink3);font-style:italic}
+
+/* ---- モーダル ---- */
+dialog{border:1px solid var(--line);border-radius:12px;padding:0;background:var(--surface);color:var(--ink);
+  max-width:min(680px,92vw);width:100%;box-shadow:var(--shadow)}
+dialog::backdrop{background:rgba(10,18,13,.5)}
+.dlg-h{display:flex;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
+.dlg-h h3{margin:0;font-size:15px}
+.dlg-h button{margin-left:auto;background:none;border:0;color:var(--ink2);font-size:18px;line-height:1;padding:2px 6px}
+.dlg-b{padding:16px 18px 22px;max-height:66vh;overflow-y:auto;font-size:13px}
+.dlg-b h4{margin:16px 0 6px;font-size:12px;font-family:var(--mono);letter-spacing:.1em;color:var(--accent);text-transform:uppercase}
+.dlg-b h4:first-child{margin-top:0}
+.dlg-b code{background:var(--sunken);padding:1px 5px;border-radius:3px;font-size:12px}
+.dlg-b p{margin:0 0 10px;color:var(--ink2)}
+.syn{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.syn span{background:var(--sunken);border:1px solid var(--line);border-radius:4px;padding:2px 7px;font-family:var(--mono);font-size:11.5px}
+
+/* ---- レスポンシブ ---- */
+@media (max-width:1180px){
+  .bench{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);grid-template-rows:auto minmax(0,1fr)}
+  .rail{grid-column:1/-1;display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;padding:0;align-items:stretch;gap:0}
+  .rail .lvl{display:none}
+  .item{width:auto;flex:0 0 auto;padding:8px 12px;border-left:0;border-bottom:3px solid transparent;white-space:nowrap}
+  .item[aria-current="true"]{border-left-color:transparent;border-bottom-color:var(--accent)}
+}
+@media (max-width:860px){
+  body{overflow:auto}
+  .topbar{gap:10px;padding-left:12px;padding-right:12px}
+  .prog .bar{display:none}
+  .mtabs{display:flex}
+  .bench{display:block;background:var(--paper)}
+  .pane{height:auto;overflow:visible}
+  .rail{display:flex;flex-direction:row;overflow-x:auto;overflow-y:hidden;border-bottom:1px solid var(--line)}
+  .brief{max-height:none;overflow:visible;padding:18px 16px 30px}
+  .work{display:flex;flex-direction:column}
+  .edit{min-height:300px}
+  .gridwrap{max-height:52vh}
+  .console{max-height:180px}
+  body[data-pane="brief"] #paneCode{display:none}
+  body[data-pane="code"] #paneBriefWrap,body[data-pane="code"] #paneSheet{display:none}
+  body[data-pane="sheet"] #paneBriefWrap,body[data-pane="sheet"] .edit{display:none}
+  body[data-pane="sheet"] .gridwrap{max-height:none}
+  body[data-pane="sheet"] #paneSheet{flex:1 1 auto}
+  .bench{grid-template-columns:1fr}
+}
+@media (max-width:760px){
+  .figwrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;padding:6px}
+  .fig{width:680px;max-width:none}
+}
+@media (max-width:1180px){
+  body[data-mode="guide"] .bench{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:860px){
+  body[data-mode="guide"] .mtabs{display:none}
+  body[data-mode="guide"] #paneBriefWrap{display:flex}
+  .guide{max-width:none}
+}
+</style>
+
+<header class="topbar">
+  <div class="brand"><span class="mark">VBA</span><b>道場</b></div>
+  <div class="prog">
+    <div class="bar"><i id="pbar" style="width:0%"></i></div>
+    <span class="count" id="pcount">0 / 16</span>
+  </div>
+  <button class="ghost" id="refBtn">対応構文</button>
+</header>
+
+<nav class="mtabs" id="mtabs" role="tablist">
+  <button role="tab" data-pane="brief" aria-selected="true">課題</button>
+  <button role="tab" data-pane="code" aria-selected="false">コード</button>
+  <button role="tab" data-pane="sheet" aria-selected="false">シート</button>
+</nav>
+
+<main class="bench">
+  <aside class="pane rail" id="rail"></aside>
+
+  <section class="pane" id="paneBriefWrap">
+    <div class="brief" id="brief"></div>
+  </section>
+
+  <section class="pane work" id="paneCode">
+    <div class="block">
+      <div class="blockhead">
+        <span class="ttl">標準モジュール</span>
+        <span class="dot" id="dot" aria-hidden="true"></span>
+        <span class="sp">
+          <label class="chk" for="autoRun"><input type="checkbox" id="autoRun" checked>自動実行</label>
+          <button class="mini-btn" id="resetBtn">最初から</button>
+          <button class="run" id="runBtn">▶ 実行</button>
+        </span>
+      </div>
+      <div class="edit">
+        <div class="gutter" id="gutter">1</div>
+        <div class="codearea">
+          <pre aria-hidden="true"><code id="hl"></code></pre>
+          <textarea id="code" wrap="off" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="VBA コード"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="result" id="result"><span class="ic">▶</span><span id="resultText">「▶ 実行」を押すと、書いたコードが右のシートに反映されます。</span></div>
+
+    <div class="block" id="paneSheet">
+      <div class="blockhead">
+        <span class="ttl" id="sheetTitle">ワークシート</span>
+        <span class="sp">
+          <button class="mini-btn" id="tabSheet" aria-pressed="true">シート</button>
+          <button class="mini-btn" id="tabOut" aria-pressed="false">出力</button>
+        </span>
+      </div>
+      <div class="sheetbox" id="sheetBox">
+        <div class="gridwrap" id="gridwrap"></div>
+        <div class="stabs" id="stabs"></div>
+      </div>
+      <div class="console" id="console" hidden></div>
+    </div>
+  </section>
+</main>
+
+<dialog id="refDlg">
+  <div class="dlg-h"><h3>このアプリで動く VBA</h3><button id="refClose" aria-label="閉じる">×</button></div>
+  <div class="dlg-b" id="refBody"></div>
+</dialog>
+
+<script>
+(function(){
+'use strict';
+var RT = window.VBARuntime, L = window.VBALessons;
+var lessons = L.lessons, levels = L.levels;
+
+var el = function(id){ return document.getElementById(id); };
+var state = { id: '__guide', solved: {}, drafts: {}, sheet: null, view: 'sheet', autoRun: true };
+var wb = null, base = null, lastRun = null, hintsShown = 0, solutionShown = false;
+
+/* ---------- 保存（db があれば db、無ければ localStorage） ---------- */
+var db = null, saveTimer = null;
+function loadLocal(){
+  try { var s = localStorage.getItem('vbadojo'); if (s) Object.assign(state, JSON.parse(s)); } catch(e){}
+}
+function persist(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(function(){
+    var payload = { id: state.id, solved: state.solved, drafts: state.drafts, autoRun: state.autoRun };
+    try { localStorage.setItem('vbadojo', JSON.stringify(payload)); } catch(e){}
+    if (db) { try { db.doc('progress/state').set(payload); } catch(e){} }
+  }, 500);
+}
+loadLocal();
+(async function(){
+  try { db = await (window.claude && window.claude.use ? window.claude.use('db') : null); } catch(e){ db = null; }
+  if (!db) return;
+  try {
+    var d = await db.doc('progress/state').get();
+    if (d && d.solved){ state.solved = Object.assign({}, d.solved, state.solved); state.drafts = Object.assign({}, d.drafts, state.drafts); renderRail(); renderProgress(); }
+  } catch(e){}
+})();
+
+/* ---------- シンタックスハイライト ---------- */
+var KW = ['Option','Explicit','Sub','Function','End','Dim','As','Set','Const','ReDim','Preserve','If','Then','ElseIf','Else','For','To','Step','Next','Each','In','Do','While','Until','Loop','Wend','Select','Case','Is','With','Exit','Call','On','Error','Resume','GoTo','And','Or','Not','Mod','True','False','Nothing','Empty','New','ByVal','ByRef','Optional','Private','Public','Static','Erase'];
+var TY = ['Long','Integer','String','Double','Single','Boolean','Date','Variant','Currency','Object','Worksheet','Workbook','Range','Collection'];
+var FN = ['MsgBox','InputBox','Format','Len','Left','Right','Mid','Trim','LTrim','RTrim','UCase','LCase','InStr','Replace','Split','Join','Array','UBound','LBound','IsNumeric','IsEmpty','IsDate','IsError','IsArray','CStr','CLng','CInt','CDbl','CDate','CBool','Val','Int','Fix','Abs','Round','Rnd','Timer','Now','Year','Month','Day','Weekday','DateSerial','Chr','Asc','Space','RGB','StrConv','CreateObject','TypeName','IIf','Sgn','Sqr','Hex','DateAdd','DateDiff','WorksheetFunction','ThisWorkbook','Worksheets','Cells','Application','ActiveSheet','Rows','Columns'];
+var reHL = new RegExp(
+  "('[^\\n]*)" +
+  "|(\"(?:[^\"\\n])*\")" +
+  "|\\b(" + KW.join('|') + ")\\b" +
+  "|\\b(" + TY.join('|') + ")\\b" +
+  "|\\b(" + FN.join('|') + ")\\b" +
+  "|\\b(\\d+(?:\\.\\d+)?)\\b", 'gi');
+function esc(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function highlight(src){
+  return esc(src).replace(reHL, function(m, cm, st, kw, ty, fn, nm){
+    if (cm) return '<span class="tok-cm">' + cm + '</span>';
+    if (st) return '<span class="tok-st">' + st + '</span>';
+    if (kw) return '<span class="tok-kw">' + kw + '</span>';
+    if (ty) return '<span class="tok-ty">' + ty + '</span>';
+    if (fn) return '<span class="tok-fn">' + fn + '</span>';
+    if (nm) return '<span class="tok-nm">' + nm + '</span>';
+    return m;
+  });
+}
+
+/* ---------- エディタ ---------- */
+var ta = el('code'), hl = el('hl'), gutter = el('gutter');
+function syncEditor(){
+  var src = ta.value;
+  hl.innerHTML = highlight(src) + '\n';
+  var n = src.split('\n').length;
+  var g = '';
+  for (var i=1;i<=n;i++) g += i + '\n';
+  gutter.textContent = g;
+  gutter.scrollTop = ta.scrollTop;
+}
+ta.addEventListener('input', function(){
+  syncEditor();
+  state.drafts[state.id] = ta.value;
+  persist();
+  scheduleAuto();
+});
+ta.addEventListener('scroll', function(){
+  hl.parentNode.scrollTop = ta.scrollTop;
+  hl.parentNode.scrollLeft = ta.scrollLeft;
+  gutter.scrollTop = ta.scrollTop;
+});
+ta.addEventListener('keydown', function(e){
+  if (e.key === 'Tab'){
+    e.preventDefault();
+    var s = ta.selectionStart, t = ta.selectionEnd;
+    ta.setRangeText('    ', s, t, 'end');
+    ta.dispatchEvent(new Event('input'));
+  } else if (e.key === 'Enter'){
+    var pos = ta.selectionStart;
+    var lineStart = ta.value.lastIndexOf('\n', pos - 1) + 1;
+    var indent = (/^[ \t]*/.exec(ta.value.slice(lineStart, pos)) || [''])[0];
+    if (indent){
+      e.preventDefault();
+      ta.setRangeText('\n' + indent, ta.selectionStart, ta.selectionEnd, 'end');
+      ta.dispatchEvent(new Event('input'));
+    }
+  } else if ((e.metaKey || e.ctrlKey) && (e.key === 'Enter' || e.key === 's')){
+    e.preventDefault(); run();
+  }
+});
+
+/* ---------- シート描画 ---------- */
+function bgr(n){ return 'rgb(' + (n & 255) + ',' + ((n >> 8) & 255) + ',' + ((n >> 16) & 255) + ')'; }
+function renderSheet(){
+  var name = state.sheet, s = wb.byName(name);
+  if (!s){ s = wb.sheets[0]; state.sheet = s.name; }
+  var b = s.bounds();
+  var rows = Math.min(Math.max(b.rows + 4, 14), 120);
+  var cols = Math.min(Math.max(b.cols + 2, 7), 20);
+  var bs = base.byName(s.name);
+
+  var h = '<table class="sheet"><thead><tr><th></th>';
+  for (var c=1;c<=cols;c++) h += '<th>' + RT.colLetter(c) + '</th>';
+  h += '</tr></thead><tbody>';
+  for (var r=1;r<=rows;r++){
+    h += '<tr><th>' + r + '</th>';
+    for (var c2=1;c2<=cols;c2++){
+      var cell = s.cells.get(r + ':' + c2);
+      var v = cell ? cell.v : undefined;
+      var txt = '', cls = [], style = [];
+      if (v !== undefined && v !== null && !(v && v.__empty)){
+        try { txt = RT.applyFormat(v, cell && cell.fmt); } catch(e){ txt = String(v); }
+        if (typeof v === 'number' || RT.isDate(v)) cls.push('num');
+      }
+      if (cell){
+        if (cell.fill !== undefined){
+          style.push('background:' + bgr(cell.fill));
+          style.push('color:' + (cell.fcolor !== undefined ? bgr(cell.fcolor) : '#16211B'));
+        } else if (cell.fcolor !== undefined && cell.fcolor !== 0){
+          style.push('color:' + bgr(cell.fcolor));
+        }
+        if (cell.bold) style.push('font-weight:600');
+        if (cell.italic) style.push('font-style:italic');
+      }
+      var ov = bs ? bs.cells.get(r + ':' + c2) : null;
+      var was = ov ? ov.v : undefined;
+      var changed = (txt !== '' || was !== undefined) && String(was === undefined ? '' : was) !== String(v === undefined ? '' : v);
+      if (changed && lastRun) cls.push('chg');
+      h += '<td' + (cls.length ? ' class="' + cls.join(' ') + '"' : '') +
+           (style.length ? ' style="' + style.join(';') + '"' : '') + '>' + esc(txt) + '</td>';
+    }
+    h += '</tr>';
+  }
+  el('gridwrap').innerHTML = h + '</tbody></table>';
+
+  var t = '';
+  wb.sheets.forEach(function(sh){
+    t += '<button type="button" data-sheet="' + esc(sh.name) + '" aria-selected="' + (sh.name === state.sheet) + '">' + esc(sh.name) + '</button>';
+  });
+  el('stabs').innerHTML = t;
+}
+el('stabs').addEventListener('click', function(e){
+  var b = e.target.closest('button[data-sheet]');
+  if (!b) return;
+  state.sheet = b.getAttribute('data-sheet');
+  renderSheet();
+});
+
+function renderConsole(){
+  var out = lastRun ? lastRun.out : [];
+  if (!out.length){ el('console').innerHTML = '<div class="empty">MsgBox や Debug.Print の出力がここに出ます。</div>'; return; }
+  el('console').innerHTML = out.map(function(o){
+    var tag = o.kind === 'msgbox' ? 'MsgBox' : o.kind === 'debug' ? 'Debug' : 'Input';
+    return '<div class="row"><span class="tag' + (o.kind === 'msgbox' ? ' msg' : '') + '">' + tag + '</span><span class="txt">' + esc(o.text) + '</span></div>';
+  }).join('');
+}
+function setView(v){
+  state.view = v;
+  el('sheetBox').hidden = v !== 'sheet';
+  el('console').hidden = v !== 'out';
+  el('tabSheet').setAttribute('aria-pressed', v === 'sheet');
+  el('tabOut').setAttribute('aria-pressed', v === 'out');
+  el('sheetTitle').textContent = v === 'sheet' ? 'ワークシート' : 'イミディエイト';
+}
+el('tabSheet').addEventListener('click', function(){ setView('sheet'); });
+el('tabOut').addEventListener('click', function(){ setView('out'); });
+
+/* ---------- 実行 ---------- */
+function lesson(){ return lessons.filter(function(x){ return x.id === state.id; })[0] || lessons[0]; }
+function resetBook(){
+  wb = L.buildWorkbook();
+  base = L.buildWorkbook();
+  var les = lesson();
+  state.sheet = les.sheet;
+  lastRun = null;
+}
+function setResult(kind, text, meta){
+  var r = el('result');
+  r.className = 'result' + (kind ? ' ' + kind : '');
+  r.querySelector('.ic').textContent = kind === 'ok' ? '✓' : kind === 'ng' ? '!' : '▶';
+  el('resultText').textContent = text;
+  var m = r.querySelector('.meta');
+  if (m) m.remove();
+  if (meta){
+    var sp = document.createElement('span');
+    sp.className = 'meta'; sp.textContent = meta;
+    r.appendChild(sp);
+  }
+}
+var autoTimer = null, lastRunCode = null;
+function scheduleAuto(){
+  if (!el('autoRun').checked) return;
+  clearTimeout(autoTimer);
+  el('dot').classList.add('on');
+  autoTimer = setTimeout(function(){
+    el('dot').classList.remove('on');
+    if (ta.value === lastRunCode) return;
+    run({ auto: true });
+  }, 650);
+}
+function run(opt){
+  opt = opt || {};
+  clearTimeout(autoTimer);
+  el('dot').classList.remove('on');
+  lastRunCode = ta.value;
+
+  var les = lesson();
+  wb = L.buildWorkbook();
+  base = L.buildWorkbook();
+  var t0 = performance.now();
+  var res = RT.run(ta.value, wb, { maxSteps: opt.auto ? 400000 : 4000000 });
+  var ms = performance.now() - t0;
+  lastRun = res.ok ? res : null;
+
+  if (!res.ok){
+    // 打っている途中の文法エラーは、赤く警告せず控えめに出す
+    if (opt.auto && res.phase === 'parse'){
+      setResult('pending', '書きかけです — ' + res.error.description);
+      renderSheet(); renderConsole();
+      return;
+    }
+    setResult('ng', (res.phase === 'parse' ? 'コンパイルエラー — ' : '実行時エラー — ') + res.error.description);
+    renderSheet(); renderConsole();
+    if (res.out.length) setView('out');
+    return;
+  }
+  var chk;
+  try { chk = les.check({ wb: wb, base: base, out: res.out, code: ta.value }); }
+  catch (e){ chk = { ok: false, msg: '採点中に問題が起きました: ' + e.message }; }
+
+  var meta = 'Excel とのやり取り ' + res.access + ' 回 / ' + ms.toFixed(0) + 'ms';
+  if (chk.ok){
+    setResult('ok', chk.msg, meta);
+    if (!state.solved[les.id]){ state.solved[les.id] = true; renderRail(); renderProgress(); }
+    persist();
+  } else {
+    setResult('ng', chk.msg, meta);
+  }
+  renderSheet(); renderConsole();
+  if (state.view === 'out' && !res.out.length) setView('sheet');
+  revealChange();
+}
+// 変更されたセルが枠の外なら、そこまでスクロールする（ページ自体は動かさない）
+function revealChange(){
+  var gw = el('gridwrap'), td = gw.querySelector('td.chg');
+  if (!td) return;
+  var g = gw.getBoundingClientRect(), t = td.getBoundingClientRect();
+  if (t.top < g.top || t.bottom > g.bottom) gw.scrollTop += (t.top - g.top) - gw.clientHeight / 3;
+  if (t.left < g.left || t.right > g.right) gw.scrollLeft += (t.left - g.left) - gw.clientWidth / 3;
+}
+el('runBtn').addEventListener('click', function(){ run(); });
+el('autoRun').addEventListener('change', function(){
+  state.autoRun = el('autoRun').checked;
+  persist();
+  if (state.autoRun) scheduleAuto();
+});
+el('resetBtn').addEventListener('click', function(){
+  var les = lesson();
+  if (!confirm('書いたコードを消して、最初の状態に戻します。よろしいですか？')) return;
+  ta.value = les.starter;
+  delete state.drafts[les.id];
+  syncEditor(); resetBook(); renderSheet(); renderConsole();
+  setResult('', '最初の状態に戻しました。');
+  persist();
+});
+
+/* ---------- レッスン表示 ---------- */
+function renderBrief(){
+  var les = lesson(), lv = levels.filter(function(x){ return x.n === les.level; })[0];
+  var idx = lessons.indexOf(les) + 1;
+  var h = '<div class="eyebrow">LEVEL ' + les.level + ' · ' + lv.name + ' — 第' + idx + '問</div>';
+  h += '<h2>' + les.title + '</h2>';
+  h += '<div class="goal"><span class="lab">やること</span>' + les.goal + '</div>';
+  h += les.body;
+  h += '<div class="helpers">' +
+       '<button class="mini-btn" id="hintBtn">ヒントを見る（' + les.hints.length + '）</button>' +
+       '<button class="mini-btn" id="solBtn">解答例を見る</button>' +
+       '</div><div id="hintWrap"></div><div id="solWrap"></div>';
+  el('brief').innerHTML = h;
+  el('brief').scrollTop = 0;
+  el('hintBtn').addEventListener('click', function(){
+    if (hintsShown >= les.hints.length) return;
+    hintsShown++;
+    renderHints();
+    if (hintsShown >= les.hints.length) el('hintBtn').disabled = true;
+  });
+  el('solBtn').addEventListener('click', function(){
+    solutionShown = !solutionShown;
+    renderSolution();
+  });
+  renderHints(); renderSolution();
+}
+function renderHints(){
+  var les = lesson(), w = el('hintWrap');
+  if (!hintsShown){ w.innerHTML = ''; return; }
+  var h = '<div class="hintbox">';
+  for (var i=0;i<hintsShown;i++) h += '<div class="h"><b>ヒント' + (i+1) + '</b>' + les.hints[i] + '</div>';
+  w.innerHTML = h + '</div>';
+  var btn = el('hintBtn');
+  if (btn) btn.textContent = hintsShown >= les.hints.length ? 'ヒントは以上です' : 'つぎのヒント（' + (les.hints.length - hintsShown) + '）';
+}
+function renderSolution(){
+  var les = lesson(), w = el('solWrap');
+  if (!solutionShown){ w.innerHTML = ''; el('solBtn').textContent = '解答例を見る'; return; }
+  el('solBtn').textContent = '解答例を隠す';
+  w.innerHTML = '<div class="solbox"><pre><code>' + highlight(les.solution) + '</code></pre>' +
+    '<div class="foot"><button class="mini-btn" id="useSol">エディタに入れる</button>' +
+    '<span style="font-size:11.5px;color:var(--ink3)">写すより、読んでから自分で書くほうが身につきます。</span></div></div>';
+  el('useSol').addEventListener('click', function(){
+    ta.value = les.solution;
+    state.drafts[les.id] = ta.value;
+    syncEditor(); persist();
+    if (el('autoRun').checked) run();
+    else setResult('', '解答例をエディタに入れました。「▶ 実行」で動きを確かめてください。');
+  });
+}
+function renderRail(){
+  var h = '<div class="lvl"><span class="n">読みもの</span></div>' +
+    '<button type="button" class="item" data-id="__guide"' +
+    (state.id === '__guide' ? ' aria-current="true"' : '') +
+    '><span class="gtick">図</span>VBAの仕組み</button>';
+  var cur = null;
+  lessons.forEach(function(les, i){
+    if (les.level !== cur){
+      cur = les.level;
+      var lv = levels.filter(function(x){ return x.n === cur; })[0];
+      h += '<div class="lvl"><span class="n">LV' + lv.n + '</span><span class="t">' + lv.name + '</span><span class="d">' + lv.desc + '</span></div>';
+    }
+    h += '<button type="button" class="item' + (state.solved[les.id] ? ' done' : '') + '" data-id="' + les.id + '"' +
+         (les.id === state.id ? ' aria-current="true"' : '') + '><span class="tick">✓</span>' + les.title + '</button>';
+  });
+  el('rail').innerHTML = h;
+  var act = el('rail').querySelector('[aria-current="true"]');
+  if (act && act.scrollIntoView) act.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+}
+el('rail').addEventListener('click', function(e){
+  var b = e.target.closest('.item');
+  if (b) select(b.getAttribute('data-id'));
+});
+function renderProgress(){
+  var n = lessons.filter(function(l){ return state.solved[l.id]; }).length;
+  el('pbar').style.width = (n / lessons.length * 100) + '%';
+  el('pcount').textContent = n + ' / ' + lessons.length;
+}
+function firstUnsolved(){
+  for (var i=0;i<lessons.length;i++) if (!state.solved[lessons[i].id]) return lessons[i].id;
+  return lessons[0].id;
+}
+function openGuide(){
+  clearTimeout(autoTimer);
+  el('dot').classList.remove('on');
+  lastRunCode = null;
+  state.id = '__guide';
+  document.body.setAttribute('data-mode', 'guide');
+  document.body.setAttribute('data-pane', 'brief');
+  Array.prototype.forEach.call(el('mtabs').children, function(x){ x.setAttribute('aria-selected', x.getAttribute('data-pane') === 'brief'); });
+  el('brief').innerHTML = window.VBAGuide.html;
+  el('brief').scrollTop = 0;
+  var b = el('guideStart');
+  if (b) b.addEventListener('click', function(){ select(firstUnsolved()); });
+  renderRail();
+  persist();
+}
+function select(id){
+  if (id === '__guide') return openGuide();
+  document.body.removeAttribute('data-mode');
+  clearTimeout(autoTimer);
+  el('dot').classList.remove('on');
+  lastRunCode = null;
+  state.id = id;
+  hintsShown = 0; solutionShown = false;
+  var les = lesson();
+  ta.value = state.drafts[id] !== undefined ? state.drafts[id] : les.starter;
+  syncEditor(); resetBook(); renderRail(); renderBrief(); renderSheet(); renderConsole();
+  setResult('', state.solved[id] ? 'クリア済みの問題です。書き直して試せます。'
+    : (el('autoRun').checked ? 'コードを書くと、手が止まったところで自動的に実行されます。' : '「▶ 実行」を押すと、書いたコードがシートに反映されます。'));
+  setView('sheet');
+  persist();
+}
+
+/* ---------- モバイルタブ ---------- */
+document.body.setAttribute('data-pane', 'brief');
+el('mtabs').addEventListener('click', function(e){
+  var b = e.target.closest('button[data-pane]');
+  if (!b) return;
+  document.body.setAttribute('data-pane', b.getAttribute('data-pane'));
+  Array.prototype.forEach.call(el('mtabs').children, function(x){ x.setAttribute('aria-selected', x === b); });
+});
+
+/* ---------- 対応構文ダイアログ ---------- */
+el('refBody').innerHTML = [
+ '<p>このアプリは、Excel 本体ではなく<b>ブラウザ上の VBA インタプリタ</b>でコードを動かしています。学習に必要な範囲を実装してあり、下の構文はそのまま動きます。',
+ '実務で書いたコードをそのまま貼ると、未対応の命令でエラーになることがあります。</p>',
+ '<h4>制御構造</h4><div class="syn"><span>Sub / End Sub</span><span>Function</span><span>Dim / ReDim</span><span>Const</span><span>Set</span>',
+ '<span>If / ElseIf / Else</span><span>For / Next</span><span>For Each</span><span>Do While / Until</span><span>Select Case</span>',
+ '<span>With</span><span>Exit For / Do / Sub</span><span>On Error Resume Next</span><span>On Error GoTo ラベル</span><span>Option Explicit</span></div>',
+ '<h4>Excel オブジェクト</h4><div class="syn"><span>Worksheets("名前")</span><span>ThisWorkbook</span><span>ActiveSheet</span><span>Range("A1:C3")</span>',
+ '<span>Cells(行, 列)</span><span>.Value</span><span>.Row / .Column / .Count</span><span>.End(xlUp)</span><span>.Offset / .Resize</span>',
+ '<span>.CurrentRegion</span><span>.Font.Bold / .Color</span><span>.Interior.Color</span><span>.NumberFormat</span><span>.ClearContents</span>',
+ '<span>Rows.Count</span><span>WorksheetFunction.Sum ほか</span><span>Application.VLookup</span></div>',
+ '<h4>関数</h4><div class="syn"><span>MsgBox</span><span>Format</span><span>Left / Right / Mid</span><span>Trim</span><span>Replace</span><span>InStr</span>',
+ '<span>Split / Join</span><span>UCase / LCase</span><span>StrConv</span><span>Array / UBound / LBound</span><span>IsNumeric / IsEmpty / IsError</span>',
+ '<span>CStr / CLng / CDbl / CDate</span><span>Int / Abs / Round</span><span>Now / Date / Year / Month</span><span>RGB</span><span>CreateObject("Scripting.Dictionary")</span>',
+ '<span>Debug.Print</span></div>',
+ '<h4>未対応のもの</h4><p>ユーザーフォーム、外部ファイルの読み書き、ピボットテーブル、オートフィルタ、並べ替え（Sort）、印刷・PDF 出力、API 呼び出し。',
+ 'これらは実際の Excel で試してください。同じフォルダの <b>問題集.md</b> に、そこまで含めた課題があります。</p>',
+ '<h4>キーボード</h4><p><kbd>Tab</kbd> で4スペース、<kbd>Ctrl</kbd>（<kbd>⌘</kbd>）<kbd>+ Enter</kbd> で実行。</p>',
+ '<h4>そもそも VBA とは</h4><p>左の一覧のいちばん上にある「VBAの仕組み」に、図で解説したページがあります。</p>'
+].join('');
+el('refBtn').addEventListener('click', function(){ el('refDlg').showModal(); });
+el('refClose').addEventListener('click', function(){ el('refDlg').close(); });
+
+/* ---------- 起動 ---------- */
+if (state.id !== '__guide' && !lessons.filter(function(l){ return l.id === state.id; }).length) state.id = lessons[0].id;
+if (state.autoRun === false) el('autoRun').checked = false;
+renderProgress();
+select(state.id);
+})();
+</script>

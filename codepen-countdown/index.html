@@ -1,0 +1,191 @@
+<!--
+ 日商簿記の試験日まで
+ あと何日?
+
+ 右の「Run Pen」を
+ 押すと表示されます →
+-->
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日商簿記 試験日カウントダウン</title>
+</head>
+<body>
+<div class="w">
+  <div class="top">
+    <span class="ttl">日商簿記 試験日まで</span>
+    <div class="chips">
+      <button class="chip" data-grade="3">3級</button>
+      <button class="chip" data-grade="2">2級</button>
+      <button class="chip" data-grade="1">1級</button>
+    </div>
+  </div>
+  <div class="exam" id="exam"></div>
+  <div class="count" id="count">
+    <span class="pre">あと</span><span class="num" id="num"></span><span class="unit">日</span>
+  </div>
+  <div class="msg" id="msg"></div>
+  <div class="bottom">
+    <span class="badge" id="badge"></span>
+    <a href="https://soboro1.github.io/accounting/boki-countdown.html" target="_blank" rel="noopener">詳しく見る →</a>
+  </div>
+</div>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background: #101b2d;
+  color: #f6f1e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+.w {
+  position: relative; width: 100%; max-width: 560px;
+  padding: 16px 18px 14px; border-radius: 14px; overflow: hidden;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(212,162,76,0.35);
+}
+.w::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px;
+  background: linear-gradient(90deg, #5aa9f0, #3ec1a6, #ffd36b, #f0785a, #f27ba8, #9b8cf0);
+}
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.ttl { font-size: 13px; font-weight: 700; letter-spacing: 2px; color: #d4a24c; }
+.chips { display: flex; gap: 6px; }
+.chip {
+  font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+  padding: 4px 12px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  background: transparent; color: #d4a24c;
+}
+.chip.on { background: #d4a24c; color: #101b2d; }
+
+.exam { margin-top: 10px; text-align: center; font-size: 14px; font-weight: 700; color: #e8e3d8; }
+.exam span { display: inline-block; }
+.count { display: flex; align-items: baseline; justify-content: center; gap: 6px; }
+.pre, .unit { font-size: 18px; font-weight: 700; color: #e8e3d8; }
+.num { font-size: 60px; font-weight: 700; line-height: 1.15; color: #fac775; font-variant-numeric: tabular-nums; }
+.msg { display: none; text-align: center; font-size: 26px; font-weight: 700; color: #fac775; margin: 8px 0 6px; }
+
+.bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+.badge { font-size: 12px; font-weight: 700; padding: 3px 10px; border-radius: 999px; border: 1px solid; }
+.badge.open { color: #5dcaa5; border-color: #1d9e75; background: rgba(29,158,117,0.12); }
+.badge.wait { color: #d4a24c; border-color: #d4a24c; background: rgba(212,162,76,0.12); }
+.badge.closed { color: #9aa5b1; border-color: #6b7688; }
+.bottom a { font-size: 13px; font-weight: 700; color: #d4a24c; text-decoration: none; }
+.bottom a:hover { text-decoration: underline; }
+
+@media (max-width: 420px) {
+  body { padding: 8px; }
+  .w { padding: 14px 14px 12px; }
+  .ttl { font-size: 12px; letter-spacing: 1px; }
+  .chips { gap: 4px; }
+  .chip { padding: 3px 9px; font-size: 12px; }
+  .exam { margin-top: 8px; font-size: 13px; }
+  .num { font-size: 50px; }
+  .pre, .unit { font-size: 16px; }
+  .badge .long { display: none; }
+}
+</style>
+
+<script>
+(function () {
+  // ===== 日程データ(更新するときはここを書き換える) =====
+  var EXAMS = [
+    { no: 174, date: '2026-11-15', grades: [1, 2, 3], apply: { start: '2026-09-28', end: '2026-10-19' } },
+    { no: 175, date: '2027-02-28', grades: [2, 3] },
+    { no: 176, date: null, approx: '2027年6月(予定)', grades: [1, 2, 3] }
+  ];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var DOW = '日月火水木金土';
+
+  function parse(s) {
+    var p = s.split('-');
+    return new Date(+p[0], +p[1] - 1, +p[2]);
+  }
+  function today() {
+    var n = new Date();
+    return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+  }
+  function diff(a, b) { return Math.round((b - a) / 86400000); }
+  function fmt(d) { return d.getFullYear() + '年' + (d.getMonth() + 1) + '月' + d.getDate() + '日(' + DOW[d.getDay()] + ')'; }
+
+  var grade = 3;
+  try { grade = +localStorage.getItem('bokiCountdownMini') || 3; } catch (e) {}
+
+  function nextExam(t) {
+    for (var i = 0; i < EXAMS.length; i++) {
+      var e = EXAMS[i];
+      if (e.grades.indexOf(grade) >= 0 && (!e.date || diff(t, parse(e.date)) >= 0)) return e;
+    }
+    return null;
+  }
+
+  function setBadge(cls, text) {
+    $('badge').className = 'badge ' + cls;
+    $('badge').innerHTML = text;
+  }
+
+  function render() {
+    var t = today();
+    Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (b) {
+      b.classList.toggle('on', +b.getAttribute('data-grade') === grade);
+    });
+
+    var e = nextExam(t);
+    $('count').style.display = 'none';
+    $('msg').style.display = 'none';
+    if (!e) {
+      $('exam').textContent = grade + '級';
+      $('msg').textContent = '日程未発表';
+      $('msg').style.display = 'block';
+      setBadge('wait', '申込:未発表');
+      return;
+    }
+
+    $('exam').innerHTML = '<span>第' + e.no + '回 統一試験・' + grade + '級</span> <span>' + (e.date ? fmt(parse(e.date)) : e.approx) + '</span>';
+    if (!e.date) {
+      $('msg').textContent = '日程未発表';
+      $('msg').style.display = 'block';
+    } else {
+      var n = diff(t, parse(e.date));
+      if (n === 0) {
+        $('msg').textContent = '今日が試験日!';
+        $('msg').style.display = 'block';
+      } else {
+        $('num').textContent = n;
+        $('count').style.display = 'flex';
+      }
+    }
+
+    if (e.apply) {
+      var st = parse(e.apply.start), en = parse(e.apply.end);
+      if (t < st) setBadge('wait', '申込:受付前');
+      else if (t <= en) setBadge('open', '申込受付中<span class="long">(締切は地域ごと)</span>');
+      else setBadge('closed', '申込:多くの地域で終了');
+    } else {
+      setBadge('wait', '申込:未発表');
+    }
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (b) {
+    b.addEventListener('click', function () {
+      grade = +b.getAttribute('data-grade');
+      try { localStorage.setItem('bokiCountdownMini', grade); } catch (e) {}
+      render();
+    });
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+  <foreignObject x="0" y="0" width="1600" height="900">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Hiragino Sans','Noto Sans CJK JP',sans-serif;color:#1F3A5F;width:1600px;height:900px;box-sizing:border-box;padding:30px 56px 0;">
+      <style>
+        .ttl{font-size:40px;font-weight:800;margin:0;letter-spacing:1px}
+        .sub{font-size:21px;color:#4A5D78;margin:8px 0 18px}
+        .sub b{color:#1F3A5F}
+        .row{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+        .cell{background:#fff;border:2px solid #C9D6E8;border-radius:24px;padding:18px 26px;box-sizing:border-box;height:560px}
+        .hd{font-size:28px;font-weight:800;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+        .no{display:inline-flex;width:42px;height:42px;border-radius:50%;color:#fff;font-size:22px;align-items:center;justify-content:center}
+        .hd small{font-size:18px;color:#7C8BA3;font-weight:700}
+        .ba{display:grid;grid-template-columns:200px 44px 1fr;align-items:center;gap:6px}
+        .before{background:#F1F5F9;border:2px dashed #94A3B8;border-radius:16px;padding:14px;text-align:center;color:#64748B;font-size:19px;line-height:1.5;height:250px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center}
+        .before .q{font-size:46px;font-weight:800;color:#94A3B8;line-height:1.1}
+        .arrow{font-size:38px;color:#7C3AED;font-weight:800;text-align:center}
+        .card{background:#F5F3FF;border:2px solid #7C3AED;border-radius:16px;padding:12px 16px;height:250px;box-sizing:border-box}
+        .who{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+        .face{font-size:44px;line-height:1}
+        .nm{font-size:22px;font-weight:800;color:#7C3AED}
+        .nm small{display:block;font-size:15px;color:#4A5D78;font-weight:700}
+        .ln{font-size:18.5px;line-height:1.55;color:#2A3B55}
+        .ln b{color:#1F3A5F}
+        .lbl{font-size:15px;color:#7C8BA3;margin:8px 0 0;text-align:center}
+        .eff{margin-top:16px;border-radius:16px;padding:14px 18px;font-size:20px;line-height:1.6;font-weight:700}
+        .eff .big{font-size:24px;font-weight:800}
+        .ex{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        .exb{background:#EFF6FF;border:2px solid #BFDBFE;border-radius:16px;padding:14px 10px;text-align:center;height:250px;box-sizing:border-box}
+        .exb .ic{font-size:50px;line-height:1.2}
+        .exb .t{font-size:21px;font-weight:800;color:#1F6FEB;margin:6px 0 4px}
+        .exb .d{font-size:17px;color:#2A3B55;line-height:1.5}
+        .tips{margin-top:14px;font-size:19px;line-height:1.6;color:#2A3B55;padding-left:4px}
+        .tips b{color:#1F3A5F}
+        .tips .tl{font-size:16px;font-weight:800;color:#7C8BA3;letter-spacing:1px}
+        .foot{margin-top:18px;background:#1F3A5F;border-radius:18px;padding:16px 26px;color:#fff;display:flex;align-items:center;justify-content:center;gap:16px;font-size:22px;font-weight:700}
+        .pill{background:#fff;border-radius:999px;padding:6px 18px;font-weight:800}
+        .foot .ar{color:#FCD34D;font-weight:800;font-size:26px}
+        .foot .res{color:#FCD34D;font-weight:800}
+      </style>
+      <p class="ttl">「キャラ化」ってなに?</p>
+      <p class="sub">お客さんも、発信する自分も<b>「1人の人物」</b>として描く。すると、<b>誰が考えても同じ答え</b>にたどり着ける</p>
+
+      <div class="row">
+        <div class="cell" style="border-top:8px solid #7C3AED">
+          <div class="hd"><span class="no" style="background:#7C3AED">1</span>お客さんをキャラにする<small>だれに話す?</small></div>
+          <div class="ba">
+            <div class="before"><div class="q">?</div>「20〜30代の<br/>社会人」<br/><span style="font-size:15px">顔が浮かばない</span></div>
+            <div class="arrow">→</div>
+            <div class="card">
+              <div class="who"><span class="face">👩‍💼</span><div class="nm">ミナミさん<small>27歳・経理に異動して半年</small></div></div>
+              <div class="ln"><b>悩み:</b>差異分析がわからない<br/><b>時間:</b>夜23時から、スマホで15分だけ<br/><b>口ぐせ:</b>「結局、何の仕訳?」<br/><b>願い:</b>2級に受かって職場で頼られたい</div>
+            </div>
+          </div>
+          <div class="eff" style="background:#F5F3FF;color:#5B21B6">
+            <span class="big">「ミナミさんなら、これ見る?」</span><br/>で決められる。人によって意見がぶれない
+          </div>
+          <div class="tips"><div class="tl">つくるコツ</div>✔ <b>本物のお客さんの声</b>から作る(想像で盛らない)<br/>✔ キャラは<b>1人に絞る</b>(何人もいると主役がいなくなる)</div>
+        </div>
+
+        <div class="cell" style="border-top:8px solid #1F6FEB">
+          <div class="hd"><span class="no" style="background:#1F6FEB">2</span>発信する側をキャラにする<small>だれとして話す?</small></div>
+          <div class="ex">
+            <div class="exb"><div class="ic">🐻</div><div class="t">マスコット</div><div class="d">ご当地キャラ<br/>企業の公式キャラ</div></div>
+            <div class="exb"><div class="ic">🎥</div><div class="t">人物</div><div class="d">YouTuber・社長の<br/>「その人らしさ」</div></div>
+            <div class="exb"><div class="ic">💬</div><div class="t">中の人</div><div class="d">企業SNSに<br/>人格を持たせる</div></div>
+          </div>
+          <div class="eff" style="background:#EFF6FF;color:#1E40AF">
+            <span class="big">会社ではなく「人」として好かれる</span><br/>親しみ・信頼が生まれ、まねされにくい
+          </div>
+          <div class="tips"><div class="tl">気をつけること</div>✔ <b>キャラをぶらさない</b>(動画ごとに変わると信頼が崩れる)<br/>✔ 本人の性格を<b>少し強調するくらい</b>にする(無理は続かない)</div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <span class="pill" style="color:#7C3AED">👩‍💼 ミナミさんに向けて</span>
+        <span class="ar">＋</span>
+        <span class="pill" style="color:#1F6FEB">🎥 元経理の先輩キャラが話す</span>
+        <span class="ar">＝</span>
+        <span class="res">言葉づかい・動画の長さ・サムネが一気に決まる</span>
+      </div>
+    </div>
+  </foreignObject>
+</svg>

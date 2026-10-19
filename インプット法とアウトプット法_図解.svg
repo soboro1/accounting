@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="64" font-size="46" font-weight="800" fill="#1F3A5F" text-anchor="middle">インプット法とアウトプット法の違い</text>
+<text x="800" y="104" font-size="23" font-weight="400" fill="#4A5D78" text-anchor="middle">数量面の差異を「いつ」把握するかの違い(例:材料の標準 4kg/個・@100円、当月450個を3ロットで生産)</text>
+<rect x="60" y="128" width="1480" height="290" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="150" width="196" height="36" rx="18" fill="#E6F6EC"/>
+<text x="188.0" y="175" font-size="18" font-weight="700" fill="#16A34A" text-anchor="middle">投入のたびに把握</text>
+<text x="90" y="234" font-size="38" font-weight="800" fill="#16A34A" text-anchor="start">インプット法</text>
+<text x="90" y="274" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">材料を出庫する時点(インプット)で、</text>
+<text x="90" y="301" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">標準消費量と実際消費量を比べる。</text>
+<text x="90" y="342" font-size="18" font-weight="700" fill="#16A34A" text-anchor="start">→ シングルプランと結びつく</text>
+<line x1="510" y1="328" x2="1500" y2="328" stroke="#4A5D78" stroke-width="3" marker-end="url(#arr)"/>
+<text x="510" y="360" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">月初</text>
+<rect x="545.0" y="158" width="210" height="130" rx="14" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+<line x1="650" y1="288" x2="650" y2="320" stroke="#16A34A" stroke-width="2"/>
+<circle cx="650" cy="328" r="9" fill="#16A34A"/>
+<text x="650" y="188" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">ロット1(150個)</text>
+<text x="650" y="216" font-size="16" font-weight="400" fill="#1F3A5F" text-anchor="middle">標準 600kg / 実際 610kg</text>
+<text x="650" y="244" font-size="22" font-weight="800" fill="#7C3AED" text-anchor="middle">△1,000円</text>
+<text x="650" y="272" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="middle">その場で分かる</text>
+<rect x="775.0" y="158" width="210" height="130" rx="14" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+<line x1="880" y1="288" x2="880" y2="320" stroke="#16A34A" stroke-width="2"/>
+<circle cx="880" cy="328" r="9" fill="#16A34A"/>
+<text x="880" y="188" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">ロット2(150個)</text>
+<text x="880" y="216" font-size="16" font-weight="400" fill="#1F3A5F" text-anchor="middle">標準 600kg / 実際 625kg</text>
+<text x="880" y="244" font-size="22" font-weight="800" fill="#7C3AED" text-anchor="middle">△2,500円</text>
+<text x="880" y="272" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="middle">その場で分かる</text>
+<rect x="1005.0" y="158" width="210" height="130" rx="14" fill="#FFFFFF" stroke="#16A34A" stroke-width="2"/>
+<line x1="1110" y1="288" x2="1110" y2="320" stroke="#16A34A" stroke-width="2"/>
+<circle cx="1110" cy="328" r="9" fill="#16A34A"/>
+<text x="1110" y="188" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">ロット3(150個)</text>
+<text x="1110" y="216" font-size="16" font-weight="400" fill="#1F3A5F" text-anchor="middle">標準 600kg / 実際 615kg</text>
+<text x="1110" y="244" font-size="22" font-weight="800" fill="#7C3AED" text-anchor="middle">△1,500円</text>
+<text x="1110" y="272" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="middle">その場で分かる</text>
+<rect x="1245.0" y="158" width="250" height="130" rx="14" fill="#FFFFFF" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="1370" y1="288" x2="1370" y2="320" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<circle cx="1370" cy="328" r="9" fill="#8B9AB0"/>
+<text x="1370" y="188" font-size="17" font-weight="700" fill="#8B9AB0" text-anchor="middle">月末</text>
+<text x="1370" y="216" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">追加の計算はいらない</text>
+<text x="1370" y="244" font-size="22" font-weight="800" fill="#8B9AB0" text-anchor="middle">合計 △5,000円</text>
+<text x="1370" y="272" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">(すでに把握済み)</text>
+<text x="1000" y="390" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="middle">出庫のつど標準と比べるので、原因をすぐ調べられる(そのぶん手間は掛かる)</text>
+<rect x="60" y="432" width="1480" height="290" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="454" width="214" height="36" rx="18" fill="#E8F1FE"/>
+<text x="197.0" y="479" font-size="18" font-weight="700" fill="#1F6FEB" text-anchor="middle">月末にまとめて把握</text>
+<text x="90" y="538" font-size="38" font-weight="800" fill="#1F6FEB" text-anchor="start">アウトプット法</text>
+<text x="90" y="578" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">月末に生産量(アウトプット)が確定して</text>
+<text x="90" y="605" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">から、標準消費量を計算して比べる。</text>
+<text x="90" y="646" font-size="18" font-weight="700" fill="#1F6FEB" text-anchor="start">→ パーシャルプラン、</text>
+<text x="90" y="673" font-size="18" font-weight="700" fill="#1F6FEB" text-anchor="start">　 修正パーシャルプランと結びつく</text>
+<line x1="510" y1="632" x2="1500" y2="632" stroke="#4A5D78" stroke-width="3" marker-end="url(#arr)"/>
+<text x="510" y="664" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="start">月初</text>
+<rect x="545.0" y="462" width="210" height="130" rx="14" fill="#FFFFFF" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="650" y1="592" x2="650" y2="624" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<circle cx="650" cy="632" r="9" fill="#8B9AB0"/>
+<text x="650" y="492" font-size="17" font-weight="700" fill="#8B9AB0" text-anchor="middle">ロット1(150個)</text>
+<text x="650" y="520" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">実際 610kg</text>
+<text x="650" y="548" font-size="22" font-weight="800" fill="#8B9AB0" text-anchor="middle">―</text>
+<text x="650" y="576" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">標準とはまだ比べない</text>
+<rect x="775.0" y="462" width="210" height="130" rx="14" fill="#FFFFFF" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="880" y1="592" x2="880" y2="624" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<circle cx="880" cy="632" r="9" fill="#8B9AB0"/>
+<text x="880" y="492" font-size="17" font-weight="700" fill="#8B9AB0" text-anchor="middle">ロット2(150個)</text>
+<text x="880" y="520" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">実際 625kg</text>
+<text x="880" y="548" font-size="22" font-weight="800" fill="#8B9AB0" text-anchor="middle">―</text>
+<text x="880" y="576" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">標準とはまだ比べない</text>
+<rect x="1005.0" y="462" width="210" height="130" rx="14" fill="#FFFFFF" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<line x1="1110" y1="592" x2="1110" y2="624" stroke="#8B9AB0" stroke-width="2" stroke-dasharray="6 5"/>
+<circle cx="1110" cy="632" r="9" fill="#8B9AB0"/>
+<text x="1110" y="492" font-size="17" font-weight="700" fill="#8B9AB0" text-anchor="middle">ロット3(150個)</text>
+<text x="1110" y="520" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">実際 615kg</text>
+<text x="1110" y="548" font-size="22" font-weight="800" fill="#8B9AB0" text-anchor="middle">―</text>
+<text x="1110" y="576" font-size="16" font-weight="400" fill="#8B9AB0" text-anchor="middle">標準とはまだ比べない</text>
+<rect x="1245.0" y="462" width="250" height="130" rx="14" fill="#E8F1FE" stroke="#1F6FEB" stroke-width="2"/>
+<line x1="1370" y1="592" x2="1370" y2="624" stroke="#1F6FEB" stroke-width="2"/>
+<circle cx="1370" cy="632" r="9" fill="#1F6FEB"/>
+<text x="1370" y="492" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">月末:450個の生産が確定</text>
+<text x="1370" y="520" font-size="16" font-weight="400" fill="#1F3A5F" text-anchor="middle">標準 1,800kg / 実際 1,850kg</text>
+<text x="1370" y="548" font-size="22" font-weight="800" fill="#7C3AED" text-anchor="middle">△5,000円</text>
+<text x="1370" y="576" font-size="16" font-weight="700" fill="#7C3AED" text-anchor="middle">まとめて分かる</text>
+<text x="1000" y="694" font-size="18" font-weight="400" fill="#4A5D78" text-anchor="middle">標準消費量 = 生産量 450個 × 4kg。計算は月末の1回で済む(そのぶん分かるのが遅い)</text>
+<rect x="60" y="738" width="1480" height="134" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="786" width="120" height="38" rx="19" fill="#E9EEF6"/>
+<text x="150" y="812" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="middle">ポイント</text>
+<text x="234" y="780" font-size="21" font-weight="500" fill="#1F3A5F" text-anchor="start">どちらの方法でも差異の合計は同じ(この例では数量差異 5,000円の不利差異)。違うのは分かるタイミングだけ。</text>
+<text x="234" y="814" font-size="21" font-weight="400" fill="#4A5D78" text-anchor="start">インプット法は、出庫の時点で標準消費量が分かっていないと使えない(指図書ごとに標準が決まっている場合など)。</text>
+<text x="234" y="848" font-size="21" font-weight="400" fill="#4A5D78" text-anchor="start">賃金も同じ考え方:インプット法は作業のつど標準時間と比べ、アウトプット法は月末にまとめて比べる。</text>
+</svg>

@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F6FEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowP" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="86" text-anchor="middle" font-size="50" font-weight="800" fill="#1F3A5F">dots の仕組み</text>
+  <text x="800" y="134" text-anchor="middle" font-size="26" fill="#4A5D78">目標を任せると、自分専用のパソコンで働き続けるAIエージェント</text>
+
+  <!-- Main card -->
+  <rect x="60" y="170" width="1480" height="370" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="116" cy="222" r="30" fill="#1F6FEB"/>
+  <text x="116" y="234" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="162" y="234" font-size="32" font-weight="800" fill="#1F3A5F">全体の流れ</text>
+
+  <!-- You -->
+  <rect x="110" y="290" width="220" height="190" rx="18" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="220" y="336" text-anchor="middle" font-size="34" font-weight="800" fill="#1F3A5F">あなた</text>
+  <text x="220" y="384" text-anchor="middle" font-size="20" fill="#4A5D78">例:</text>
+  <text x="220" y="414" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">「毎週、応募状況を</text>
+  <text x="220" y="444" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">まとめて」</text>
+
+  <!-- dot -->
+  <rect x="560" y="270" width="540" height="230" rx="20" fill="#F5F0FF" stroke="#7C3AED" stroke-width="3"/>
+  <text x="830" y="312" text-anchor="middle" font-size="30" font-weight="800" fill="#7C3AED">dot（あなた専用の1体）</text>
+
+  <rect x="585" y="336" width="150" height="80" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="660" y="368" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">専用の</text>
+  <text x="660" y="397" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">クラウドPC</text>
+  <rect x="755" y="336" width="150" height="80" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="830" y="368" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">自分の</text>
+  <text x="830" y="397" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">ブラウザ</text>
+  <rect x="925" y="336" width="150" height="80" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1000" y="368" text-anchor="middle" font-size="19" font-weight="700" fill="#1F3A5F">フィードバック</text>
+  <text x="1000" y="397" text-anchor="middle" font-size="21" font-weight="700" fill="#1F3A5F">から学ぶ</text>
+
+  <text x="830" y="460" text-anchor="middle" font-size="22" fill="#1F3A5F">目標を持ち続けて、バックグラウンドで作業</text>
+  <text x="830" y="488" text-anchor="middle" font-size="20" fill="#4A5D78">（あなたが他の作業をしている間も動く）</text>
+
+  <!-- Apps -->
+  <rect x="1290" y="270" width="200" height="230" rx="18" fill="#E3F7EA" stroke="#16A34A" stroke-width="3"/>
+  <text x="1390" y="316" text-anchor="middle" font-size="30" font-weight="800" fill="#1F3A5F">アプリ</text>
+  <text x="1390" y="366" text-anchor="middle" font-size="23" font-weight="700" fill="#1F3A5F">Slack</text>
+  <text x="1390" y="402" text-anchor="middle" font-size="23" font-weight="700" fill="#1F3A5F">Teams</text>
+  <text x="1390" y="438" text-anchor="middle" font-size="23" font-weight="700" fill="#1F3A5F">メール</text>
+  <text x="1390" y="478" text-anchor="middle" font-size="21" fill="#16A34A" font-weight="800">ほか4000以上</text>
+
+  <!-- arrows -->
+  <text x="445" y="334" text-anchor="middle" font-size="21" font-weight="800" fill="#1F6FEB">① 目標を任せる</text>
+  <path d="M336 350 L554 350" stroke="#1F6FEB" stroke-width="3.5" marker-end="url(#arrowB)"/>
+
+  <path d="M554 420 L336 420" stroke="#7C3AED" stroke-width="3.5" marker-end="url(#arrowP)"/>
+  <text x="445" y="454" text-anchor="middle" font-size="20" font-weight="800" fill="#7C3AED">③ 必要なときだけ確認</text>
+
+  <text x="1195" y="364" text-anchor="middle" font-size="21" font-weight="800" fill="#16A34A">② アプリを操作</text>
+  <path d="M1106 380 L1284 380" stroke="#16A34A" stroke-width="3.5" marker-start="url(#arrowG)" marker-end="url(#arrowG)"/>
+
+  <!-- Bottom left: difference -->
+  <rect x="60" y="570" width="700" height="210" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="116" cy="622" r="30" fill="#E8590C"/>
+  <text x="116" y="634" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="162" y="634" font-size="30" font-weight="800" fill="#1F3A5F">エージェントモードとの違い</text>
+
+  <rect x="100" y="666" width="210" height="44" rx="22" fill="#EEF2F8" stroke="#9DB4D3" stroke-width="2"/>
+  <text x="205" y="696" text-anchor="middle" font-size="21" font-weight="700" fill="#4A5D78">エージェントモード</text>
+  <text x="330" y="696" font-size="23" fill="#1F3A5F">1つの作業をやって終わり</text>
+
+  <rect x="100" y="726" width="210" height="44" rx="22" fill="#F5F0FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="205" y="756" text-anchor="middle" font-size="21" font-weight="800" fill="#7C3AED">dots</text>
+  <text x="330" y="756" font-size="23" font-weight="700" fill="#1F3A5F">目標を持ち、自分で動き続ける</text>
+
+  <!-- Bottom right: safety -->
+  <rect x="800" y="570" width="740" height="210" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="856" cy="622" r="30" fill="#16A34A"/>
+  <text x="856" y="634" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="902" y="634" font-size="30" font-weight="800" fill="#1F3A5F">安全のしくみ</text>
+
+  <text x="840" y="684" font-size="23" fill="#1F3A5F">お金を動かす・パスワードを変えるなどの</text>
+  <text x="840" y="718" font-size="23" font-weight="800" fill="#16A34A">重要な操作は、人が自分で行う</text>
+  <text x="840" y="752" font-size="23" fill="#1F3A5F">判断が必要なときは、あなたに確認が届く</text>
+
+  <!-- Footer note -->
+  <text x="800" y="832" text-anchor="middle" font-size="20" fill="#4A5D78">※ 接続アプリ数や使われるモデル名は、解説記事などの報道にもとづく情報です。</text>
+</svg>

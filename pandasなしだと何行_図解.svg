@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="80" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">pandas を使わないと、何行必要？</text>
+  <text x="800" y="125" text-anchor="middle" font-size="26" fill="#4A5D78">同じ処理（CSVを読んで、月ごとに売上を合計）を3通りで書いて比べた</text>
+
+  <!-- ===== A: pandas ===== -->
+  <rect x="60" y="160" width="730" height="172" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="202" font-size="26" font-weight="800" fill="#1F3A5F">pandas を使う</text>
+  <rect x="660" y="172" width="100" height="40" rx="20" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="710" y="200" text-anchor="middle" font-size="24" font-weight="800" fill="#166534">3行</text>
+  <rect x="90" y="222" width="670" height="96" rx="12" fill="#1F2937"/>
+  <text x="118" y="251" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">1</text>
+  <text x="132.0" y="251" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">import</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">pandas</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">as</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">pd</tspan></text>
+  <text x="118" y="275" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">2</text>
+  <text x="132.0" y="275" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">df</tspan><tspan fill="#F9FAFB"> = </tspan><tspan fill="#F9FAFB">pd</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">read_csv</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"sales.csv"</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <text x="118" y="299" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">3</text>
+  <text x="132.0" y="299" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">print</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">df</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">groupby</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"月"</tspan><tspan fill="#F9FAFB">)[</tspan><tspan fill="#A7F3D0">"売上"</tspan><tspan fill="#F9FAFB">].</tspan><tspan fill="#F9FAFB">sum</tspan><tspan fill="#F9FAFB">())</tspan></text>
+
+  <!-- ===== B: csv module ===== -->
+  <rect x="60" y="352" width="730" height="268" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="394" font-size="26" font-weight="800" fill="#1F3A5F">標準ライブラリの csv を使う</text>
+  <rect x="660" y="364" width="100" height="40" rx="20" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="710" y="392" text-anchor="middle" font-size="24" font-weight="800" fill="#1D4ED8">7行</text>
+  <rect x="90" y="414" width="670" height="192" rx="12" fill="#1F2937"/>
+  <text x="118" y="443" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">1</text>
+  <text x="132.0" y="443" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">import</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">csv</tspan></text>
+  <text x="118" y="467" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">2</text>
+  <text x="132.0" y="467" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB"> = {}</tspan></text>
+  <text x="118" y="491" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">3</text>
+  <text x="132.0" y="491" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">with</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">open</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"sales.csv"</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">encoding</tspan><tspan fill="#F9FAFB">=</tspan><tspan fill="#A7F3D0">"utf-8"</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">newline</tspan><tspan fill="#F9FAFB">=</tspan><tspan fill="#A7F3D0">""</tspan><tspan fill="#F9FAFB">) </tspan><tspan fill="#C4B5FD">as</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">f</tspan><tspan fill="#F9FAFB">:</tspan></text>
+  <text x="118" y="515" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">4</text>
+  <text x="166.9" y="515" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">for</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">row</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">in</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">csv</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">DictReader</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">f</tspan><tspan fill="#F9FAFB">):</tspan></text>
+  <text x="118" y="539" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">5</text>
+  <text x="201.8" y="539" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#F9FAFB">row</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#A7F3D0">"月"</tspan><tspan fill="#F9FAFB">]] = </tspan><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">get</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">row</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#A7F3D0">"月"</tspan><tspan fill="#F9FAFB">], 0) + </tspan><tspan fill="#C4B5FD">int</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">row</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#A7F3D0">"売上"</tspan><tspan fill="#F9FAFB">])</tspan></text>
+  <text x="118" y="563" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">6</text>
+  <text x="132.0" y="563" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">for</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">total</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">in</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">items</tspan><tspan fill="#F9FAFB">():</tspan></text>
+  <text x="118" y="587" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">7</text>
+  <text x="166.9" y="587" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">print</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">total</tspan><tspan fill="#F9FAFB">)</tspan></text>
+
+  <!-- ===== C: no library ===== -->
+  <rect x="820" y="160" width="720" height="460" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="850" y="202" font-size="26" font-weight="800" fill="#1F3A5F">ライブラリを一切使わない</text>
+  <rect x="1410" y="172" width="100" height="40" rx="20" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1460" y="200" text-anchor="middle" font-size="24" font-weight="800" fill="#5B21B6">11行</text>
+  <rect x="850" y="222" width="660" height="288" rx="12" fill="#1F2937"/>
+  <text x="878" y="251" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">1</text>
+  <text x="892.0" y="251" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB"> = {}</tspan></text>
+  <text x="878" y="275" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">2</text>
+  <text x="892.0" y="275" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">with</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">open</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"sales.csv"</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">encoding</tspan><tspan fill="#F9FAFB">=</tspan><tspan fill="#A7F3D0">"utf-8"</tspan><tspan fill="#F9FAFB">) </tspan><tspan fill="#C4B5FD">as</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">f</tspan><tspan fill="#F9FAFB">:</tspan></text>
+  <text x="878" y="299" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">3</text>
+  <text x="926.9" y="299" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">header</tspan><tspan fill="#F9FAFB"> = </tspan><tspan fill="#F9FAFB">f</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">readline</tspan><tspan fill="#F9FAFB">().</tspan><tspan fill="#F9FAFB">strip</tspan><tspan fill="#F9FAFB">().</tspan><tspan fill="#F9FAFB">split</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">","</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <text x="878" y="323" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">4</text>
+  <text x="926.9" y="323" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">month_i</tspan><tspan fill="#F9FAFB"> = </tspan><tspan fill="#F9FAFB">header</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">index</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"月"</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <text x="878" y="347" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">5</text>
+  <text x="926.9" y="347" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">sales_i</tspan><tspan fill="#F9FAFB"> = </tspan><tspan fill="#F9FAFB">header</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">index</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"売上"</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <text x="878" y="371" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">6</text>
+  <text x="926.9" y="371" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">for</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">line</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">in</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">f</tspan><tspan fill="#F9FAFB">:</tspan></text>
+  <text x="878" y="395" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">7</text>
+  <text x="961.8" y="395" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">cols</tspan><tspan fill="#F9FAFB"> = </tspan><tspan fill="#F9FAFB">line</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">strip</tspan><tspan fill="#F9FAFB">().</tspan><tspan fill="#F9FAFB">split</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">","</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <text x="878" y="419" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">8</text>
+  <text x="961.8" y="419" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB"> = </tspan><tspan fill="#F9FAFB">cols</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#F9FAFB">month_i</tspan><tspan fill="#F9FAFB">]</tspan></text>
+  <text x="878" y="443" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">9</text>
+  <text x="961.8" y="443" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB">] = </tspan><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">get</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB">, 0) + </tspan><tspan fill="#C4B5FD">int</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">cols</tspan><tspan fill="#F9FAFB">[</tspan><tspan fill="#F9FAFB">sales_i</tspan><tspan fill="#F9FAFB">])</tspan></text>
+  <text x="878" y="467" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">10</text>
+  <text x="892.0" y="467" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">for</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">total</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#C4B5FD">in</tspan><tspan fill="#F9FAFB"> </tspan><tspan fill="#F9FAFB">totals</tspan><tspan fill="#F9FAFB">.</tspan><tspan fill="#F9FAFB">items</tspan><tspan fill="#F9FAFB">():</tspan></text>
+  <text x="878" y="491" text-anchor="end" font-size="12" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">11</text>
+  <text x="926.9" y="491" font-size="14.5" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">print</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#F9FAFB">month</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#F9FAFB">total</tspan><tspan fill="#F9FAFB">)</tspan></text>
+  <rect x="850" y="524" width="660" height="82" rx="12" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1180" y="559" text-anchor="middle" font-size="19" font-weight="800" fill="#5B21B6">注意：カンマで区切るだけの単純な方法</text>
+  <text x="1180" y="587" text-anchor="middle" font-size="18" fill="#1F3A5F">値の中にカンマがあると、列がずれる（下の例）</text>
+
+  <!-- ===== Bottom ===== -->
+  <rect x="60" y="646" width="1480" height="219" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="694" font-size="28" font-weight="800" fill="#1F3A5F">行数より大きい差</text>
+  <text x="1510" y="692" text-anchor="end" font-size="20" fill="#4A5D78">例外に全部自力で対応すると数十〜数百行 → pandas なら read_csv の1行</text>
+
+  <rect x="90" y="712" width="710" height="126" rx="12" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="110" y="745" font-size="17" fill="#4A5D78">CSVの1行</text>
+  <text x="250" y="745" font-size="18" fill="#1F3A5F" font-family="'Menlo','SF Mono',monospace">4月,"東京都,港区",1200</text>
+  <text x="110" y="782" font-size="17" fill="#4A5D78">区切るだけ</text>
+  <text x="250" y="782" font-size="18" fill="#1F3A5F" font-family="'Menlo','SF Mono',monospace">4月 | "東京都 | 港区" | 1200</text>
+  <text x="560" y="782" font-size="18" font-weight="800" fill="#5B21B6">→ 4列に割れてしまう</text>
+  <text x="110" y="819" font-size="17" fill="#4A5D78">csv / pandas</text>
+  <text x="250" y="819" font-size="18" fill="#1F3A5F" font-family="'Menlo','SF Mono',monospace">4月 | 東京都,港区 | 1200</text>
+  <text x="560" y="819" font-size="18" font-weight="800" fill="#166534">→ 3列で正しく読める</text>
+
+  <rect x="830" y="712" width="330" height="54" rx="12" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="995" y="746" text-anchor="middle" font-size="20" fill="#5B21B6">値の中のカンマ・改行</text>
+  <rect x="1180" y="712" width="330" height="54" rx="12" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1345" y="746" text-anchor="middle" font-size="20" fill="#5B21B6">空欄などの欠損値</text>
+  <rect x="830" y="784" width="330" height="54" rx="12" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="995" y="818" text-anchor="middle" font-size="20" fill="#5B21B6">数字・日付の自動判別</text>
+  <rect x="1180" y="784" width="330" height="54" rx="12" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1345" y="818" text-anchor="middle" font-size="20" fill="#5B21B6">文字コードの違い</text>
+</svg>

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<defs><marker id="arr1F6FEB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F6FEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker><marker id="arr16A34A" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="72" font-size="48" font-weight="800" fill="#1F3A5F" text-anchor="middle">パーシャルプランとシングルプランの違い</text>
+<text x="800" y="114" font-size="23" font-weight="400" fill="#4A5D78" text-anchor="middle">違いは、仕掛品勘定の借方を「実際原価」で書くか「標準原価」で書くか(例:実際発生額 500,000円、標準配賦額 450,000円)</text>
+<rect x="60" y="140" width="720" height="620" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="162" width="280" height="38" rx="19" fill="#E8F1FE"/>
+<text x="230.0" y="188" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="middle">仕掛品の借方 = 実際原価</text>
+<text x="90" y="248" font-size="38" font-weight="800" fill="#1F6FEB" text-anchor="start">パーシャルプラン</text>
+<text x="410" y="248" font-size="22" font-weight="400" fill="#4A5D78" text-anchor="start">差異は仕掛品勘定に出る</text>
+<text x="420" y="292" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">製造間接費</text>
+<line x1="90" y1="304" x2="750" y2="304" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="420" y1="304" x2="420" y2="376" stroke="#1F3A5F" stroke-width="3"/>
+<text x="110" y="331" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">実際発生額</text>
+<text x="400" y="331" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<text x="440" y="331" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="730" y="331" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<line x1="420" y1="386" x2="420" y2="412" stroke="#1F6FEB" stroke-width="3" marker-end="url(#arr1F6FEB)"/>
+<text x="440" y="406" font-size="18" font-weight="700" fill="#1F6FEB" text-anchor="start">実際発生額のまま振り替える</text>
+<text x="420" y="446" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">仕掛品</text>
+<line x1="90" y1="458" x2="750" y2="458" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="420" y1="458" x2="420" y2="530" stroke="#1F3A5F" stroke-width="3"/>
+<rect x="98" y="463" width="314" height="29" rx="8" fill="#E8F1FE"/>
+<text x="110" y="485" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="start">製造間接費<tspan font-size="16">(実際原価)</tspan></text>
+<text x="400" y="485" font-size="20" font-weight="700" fill="#1F6FEB" text-anchor="end">500,000</text>
+<text x="440" y="485" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">製品<tspan font-size="16">(標準原価)</tspan></text>
+<text x="730" y="485" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<rect x="428" y="494" width="314" height="29" rx="8" fill="#F1E9FE"/>
+<text x="440" y="516" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="start">原価差異</text>
+<text x="730" y="516" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<rect x="90" y="556" width="660" height="180" rx="14" fill="#F5F8FC"/>
+<text x="110" y="586" font-size="18" font-weight="700" fill="#4A5D78" text-anchor="start">仕訳</text>
+<text x="110" y="624" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="160" y="624" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="400" y="624" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<text x="440" y="624" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="490" y="624" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">製造間接費</text>
+<text x="730" y="624" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<text x="110" y="662" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="160" y="662" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">製品</text>
+<text x="400" y="662" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<text x="440" y="662" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="490" y="662" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="730" y="662" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<text x="110" y="700" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="160" y="700" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="start">原価差異</text>
+<text x="400" y="700" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<text x="440" y="700" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="490" y="700" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="start">仕掛品</text>
+<text x="730" y="700" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<rect x="820" y="140" width="720" height="620" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="850" y="162" width="280" height="38" rx="19" fill="#E6F6EC"/>
+<text x="990.0" y="188" font-size="20" font-weight="700" fill="#16A34A" text-anchor="middle">仕掛品の借方 = 標準原価</text>
+<text x="850" y="248" font-size="38" font-weight="800" fill="#16A34A" text-anchor="start">シングルプラン</text>
+<text x="1132" y="248" font-size="22" font-weight="400" fill="#4A5D78" text-anchor="start">差異は製造間接費勘定に出る</text>
+<text x="1180" y="292" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">製造間接費</text>
+<line x1="850" y1="304" x2="1510" y2="304" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="1180" y1="304" x2="1180" y2="376" stroke="#1F3A5F" stroke-width="3"/>
+<text x="870" y="331" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">実際発生額</text>
+<text x="1160" y="331" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">500,000</text>
+<text x="1200" y="331" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="1490" y="331" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<rect x="1188" y="340" width="314" height="29" rx="8" fill="#F1E9FE"/>
+<text x="1200" y="362" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="start">原価差異</text>
+<text x="1490" y="362" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<line x1="1180" y1="386" x2="1180" y2="412" stroke="#16A34A" stroke-width="3" marker-end="url(#arr16A34A)"/>
+<text x="1200" y="406" font-size="18" font-weight="700" fill="#16A34A" text-anchor="start">標準配賦額で振り替える</text>
+<text x="1180" y="446" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="middle">仕掛品</text>
+<line x1="850" y1="458" x2="1510" y2="458" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="1180" y1="458" x2="1180" y2="530" stroke="#1F3A5F" stroke-width="3"/>
+<rect x="858" y="463" width="314" height="29" rx="8" fill="#E6F6EC"/>
+<text x="870" y="485" font-size="20" font-weight="700" fill="#16A34A" text-anchor="start">製造間接費<tspan font-size="16">(標準原価)</tspan></text>
+<text x="1160" y="485" font-size="20" font-weight="700" fill="#16A34A" text-anchor="end">450,000</text>
+<text x="1200" y="485" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">製品<tspan font-size="16">(標準原価)</tspan></text>
+<text x="1490" y="485" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<rect x="850" y="556" width="660" height="180" rx="14" fill="#F5F8FC"/>
+<text x="870" y="586" font-size="18" font-weight="700" fill="#4A5D78" text-anchor="start">仕訳</text>
+<text x="870" y="624" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="920" y="624" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="1160" y="624" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<text x="1200" y="624" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1250" y="624" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">製造間接費</text>
+<text x="1490" y="624" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<text x="870" y="662" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="920" y="662" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="start">原価差異</text>
+<text x="1160" y="662" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<text x="1200" y="662" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1250" y="662" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="start">製造間接費</text>
+<text x="1490" y="662" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">50,000</text>
+<text x="870" y="700" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(借)</text>
+<text x="920" y="700" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">製品</text>
+<text x="1160" y="700" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<text x="1200" y="700" font-size="20" font-weight="400" fill="#4A5D78" text-anchor="start">(貸)</text>
+<text x="1250" y="700" font-size="20" font-weight="400" fill="#1F3A5F" text-anchor="start">仕掛品</text>
+<text x="1490" y="700" font-size="20" font-weight="700" fill="#1F3A5F" text-anchor="end">450,000</text>
+<rect x="60" y="780" width="1480" height="92" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="90" y="807" width="110" height="38" rx="19" fill="#F1E9FE"/>
+<text x="145" y="833" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="middle">共通点</text>
+<text x="224" y="820" font-size="21" font-weight="500" fill="#1F3A5F" text-anchor="start">仕掛品勘定の貸方(完成品原価)は、どちらも標準原価。原価差異の金額も同じ(50,000円の不利差異)。</text>
+<text x="224" y="852" font-size="21" font-weight="400" fill="#4A5D78" text-anchor="start">見分け方:仕掛品勘定に差異が載っていればパーシャルプラン、載っていなければシングルプラン。</text>
+</svg>

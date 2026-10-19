@@ -1,0 +1,1069 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。討議資料「財務会計の概念フレームワーク」と「時価の算定に関する会計基準」の出やすい論点を、図・仕訳・ひっかけ例・○×チェック15問でまとめた学習ページ。">
+<style>
+/* 単体公開用の最小リセット(Artifactの外枠が持っていたもの) */
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>概念フレームワークと時価算定</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(概念FW)はティール系、PART2(時価算定)はコーラル系で色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む学習ページ */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：概念FW */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：時価算定 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：概念FWの補助 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：時価算定の補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fw{border-color:var(--c2);color:var(--c2t)}
+.top a.n-mv{border-color:var(--c3);color:var(--c3t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-fw{color:var(--c2t)}
+.hero h1 .h-x{color:var(--c1);padding-inline:.15em}
+.hero h1 .h-mv{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.on{fill:var(--on-solid)}
+.f-fw{fill:var(--c2t)} .f-mv{fill:var(--c3t)} .f-bl{fill:var(--c4t)} .f-pk{fill:var(--c7t)} .f-or{fill:var(--c8t)}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:5 5}
+.ln.mv{stroke:var(--c3)}
+.mk{fill:var(--muted)}
+.mk.mv{fill:var(--c3)}
+.b-fw{fill:color-mix(in srgb,var(--c2) 16%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-mv{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-bl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-card{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.b-card.fwl{stroke:var(--c2)} .b-card.mvl{stroke:var(--c3)}
+.s-fw{fill:var(--c2)} .s-mv{fill:var(--c3)} .s-or{fill:var(--c8)} .s-pk{fill:var(--c7)}
+.s-grey{fill:color-mix(in srgb,var(--muted) 18%,var(--surface))}
+.s-sun{fill:color-mix(in srgb,var(--c1) 28%,var(--surface))}
+.s-fwsoft{fill:color-mix(in srgb,var(--c2) 22%,var(--surface))}
+.axis{stroke:var(--line);stroke-width:1.5}
+.br{fill:none;stroke-width:2}
+.br.mv{stroke:var(--c3)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fw .part-head{background:var(--c2)}
+.part-mv .part-head{background:var(--c3)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fw .tag{background:var(--c2)}
+.part-mv .tag{background:var(--c3)}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fw .pts li::before{background:var(--c2)}
+.part-mv .pts li::before{background:var(--c3)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-fw .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-mv .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fw .def-l{color:var(--c2t)} .part-mv .def-l{color:var(--c3t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.je-none{font-family:var(--f-body);font-weight:700;color:var(--muted)}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 170px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.arr{transform:rotate(90deg);align-self:center}}
+.node.fw{border-color:var(--c2)} .node.bl{border-color:var(--c4)} .node.mv{border-color:var(--c3)} .node.or{border-color:var(--c8)}
+.node.solid-fw{background:var(--c2);border-color:var(--c2);color:var(--on-solid)}
+.node.solid-fw small{color:var(--on-solid);opacity:.85}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c2)}
+.chap:nth-child(2){background:var(--c4)}
+.chap:nth-child(3){background:var(--c8)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 質的特性ツリー */
+.qtree{display:grid;gap:0;justify-items:center}
+.qroot{background:var(--c4);color:var(--on-solid);border-radius:16px;padding:12px 22px;text-align:center;font-weight:700;font-size:19px;position:relative}
+.qroot small{display:block;font-size:12.5px;font-weight:500;opacity:.9}
+.qroot::after{content:"";position:absolute;left:50%;bottom:-22px;height:22px;border-left:2px solid var(--muted)}
+.qbr{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;width:100%;padding-top:44px;position:relative}
+.qbr::before{content:"";position:absolute;top:22px;left:16.66%;right:16.66%;border-top:2px solid var(--muted)}
+.qb{position:relative;background:var(--surface);border:2px solid var(--c4);border-radius:14px;padding:12px 14px;display:grid;gap:8px}
+.qb::before{content:"";position:absolute;left:50%;top:-24px;height:22px;border-left:2px solid var(--muted)}
+.qb.gen{border-style:dashed;border-color:var(--c8)}
+.qh{font-weight:700;text-align:center;font-size:16px}
+.qb.gen .qh{color:var(--c8t)}
+.qb:not(.gen) .qh{color:var(--c4t)}
+.qb ul{list-style:none;display:grid;gap:6px}
+.qb li{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border-radius:10px;padding:6px 10px;font-size:14.5px;line-height:1.55}
+.qb.gen li{background:color-mix(in srgb,var(--c8) 12%,var(--surface))}
+.qb li small{display:block;color:var(--muted);font-size:12.5px}
+@media (max-width:700px){
+  .qbr{grid-template-columns:1fr;padding-top:24px}
+  .qbr::before{display:none}
+  .qb::before{display:none}
+  .qroot::after{display:none}
+}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.biz{background:color-mix(in srgb,var(--c2) 12%,var(--surface));border:2px solid var(--c2)}
+.lane.fin{background:color-mix(in srgb,var(--c3) 11%,var(--surface));border:2px solid var(--c3)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.biz .lane-h{color:var(--c2t)} .lane.fin .lane-h{color:var(--c3t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:8px 10px;line-height:1.6}
+.steps li::before{content:counter(st);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+.lane-m{font-weight:700;padding:8px 12px;border-radius:10px;background:var(--surface);text-align:center}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.chip.fw{border-color:var(--c2)} .chip.bl{border-color:var(--c4)} .chip.mv{border-color:var(--c3)} .chip.or{border-color:var(--c8)}
+.chip.out{border-style:dashed;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--ng);text-decoration-thickness:2px}
+.chip.in{background:color-mix(in srgb,var(--c3) 14%,var(--surface));border-color:var(--c3)}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* BS図 */
+.bs{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);border-radius:12px;overflow:hidden;max-width:560px;background:var(--surface)}
+.bs > div{padding:12px;display:grid;gap:6px;align-content:start}
+.bs .as{background:color-mix(in srgb,var(--c2) 14%,var(--surface));border-right:2px solid var(--ink)}
+.bs .rt{display:grid;grid-template-rows:auto 1fr;padding:0}
+.bs .li{padding:12px;background:color-mix(in srgb,var(--c8) 13%,var(--surface));border-bottom:2px solid var(--ink)}
+.bs .eq{padding:12px;background:color-mix(in srgb,var(--c4) 12%,var(--surface));display:grid;gap:6px}
+.bs b{font-size:16px}
+.bs small{font-size:13px;color:var(--muted);line-height:1.6}
+.bs .in{border-radius:8px;padding:6px 8px;background:var(--surface);font-size:13.5px;line-height:1.55}
+
+/* 入口・出口 */
+.exit{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center}
+.ex{border-radius:16px;padding:14px 16px;display:grid;gap:4px;border:2px solid}
+.ex.ng{border-color:var(--ng);border-style:dashed;background:color-mix(in srgb,var(--ng) 7%,var(--surface))}
+.ex.ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.ex-h{display:flex;gap:8px;align-items:center;font-weight:700;font-size:17px}
+.ex small{font-size:14px;color:var(--muted);line-height:1.65}
+.ex-mid{display:grid;justify-items:center;gap:4px;font-weight:700;color:var(--muted)}
+.ex-mid .core{background:var(--c3);color:var(--on-solid);border-radius:14px;padding:12px 16px;text-align:center;line-height:1.5}
+@media (max-width:640px){.exit{grid-template-columns:1fr}}
+
+/* アプローチ */
+.apps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.app{border-radius:16px;padding:14px 16px;background:var(--surface);border-top:6px solid;display:grid;gap:6px;box-shadow:0 1px 0 var(--line)}
+.app:nth-child(1){border-color:var(--c3)} .app:nth-child(2){border-color:var(--c8)} .app:nth-child(3){border-color:var(--c1)}
+.app b{font-size:17px}
+.app small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* レベル判定の例 */
+.lvex{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.lvin{border-radius:12px;padding:8px 12px;font-weight:700;background:var(--surface);border:2px solid var(--line);font-size:14.5px}
+.lvin small{display:block;font-size:12.5px;font-weight:500;color:var(--muted)}
+.lvin.l2{border-color:var(--c8)} .lvin.l3{border-color:var(--c7)}
+.lvout{border-radius:12px;padding:8px 14px;font-weight:700;background:var(--c7);color:var(--on-solid)}
+
+/* 改正前後 */
+.ba{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.ba-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.ba-card h4{font-size:16.5px}
+.before,.after{border-radius:12px;padding:10px 12px;display:grid;gap:2px;line-height:1.65}
+.before{background:color-mix(in srgb,var(--muted) 12%,var(--surface))}
+.before p{text-decoration:line-through;text-decoration-color:var(--ng);text-decoration-thickness:2px;color:var(--muted)}
+.after{background:color-mix(in srgb,var(--c3) 13%,var(--surface));font-weight:700}
+.ba-l{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--muted)}
+.after .ba-l{color:var(--c3t)}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fw{background:var(--c2)} .qno.mv{background:var(--c3)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fw{border-color:var(--c2)} .prio-card.mv{border-color:var(--c3)}
+.prio-card h3{font-size:18px}
+.prio-card.fw h3{color:var(--c2t)} .prio-card.mv h3{color:var(--c3t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fw li::before{background:var(--c2)} .prio-card.mv li::before{background:var(--c3)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fw" href="#fw">PART1 概念フレームワーク</a>
+    <a class="n-mv" href="#fv">PART2 時価算定</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">日商簿記1級　会計学　理論対策</p>
+  <h1><span class="h-fw">概念フレームワーク</span><span class="h-x">×</span><span class="h-mv">時価算定</span></h1>
+  <p class="lead">討議資料「財務会計の概念フレームワーク」と「時価の算定に関する会計基準」は、どちらも<mark>定義の文言</mark>と<mark>ひっかけの言い回し</mark>がそのまま問われる分野です。2つは別々の基準ですが、下の図のように1本の線でつながっています。</p>
+  <figure class="fig">
+    <svg viewBox="0 0 760 250" role="img" aria-label="概念フレームワークは投資の性質で測り方を決め、事業投資は取得原価、金融投資は時価で測る。その時価の測り方を定めるのが時価算定基準。">
+      <defs><marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+      <marker id="ah1m" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk mv"/></marker></defs>
+      <rect x="10" y="35" width="200" height="180" rx="18" class="b-fw"/>
+      <text x="110" y="92" class="t-h f-fw c">概念</text>
+      <text x="110" y="120" class="t-h f-fw c">フレームワーク</text>
+      <text x="110" y="160" class="t-s c">投資の性質で</text>
+      <text x="110" y="182" class="t-s c">測り方を決める</text>
+      <path d="M212 110 C250 110 250 67 286 67" class="ln" marker-end="url(#ah1)"/>
+      <path d="M212 140 C250 140 250 183 286 183" class="ln" marker-end="url(#ah1)"/>
+      <rect x="290" y="30" width="200" height="74" rx="14" class="b-card fwl"/>
+      <text x="390" y="62" class="t-b c">事業投資</text>
+      <text x="390" y="88" class="t-s c">→ 取得原価で測る</text>
+      <rect x="290" y="146" width="200" height="74" rx="14" class="b-card mvl"/>
+      <text x="390" y="178" class="t-b c">金融投資</text>
+      <text x="390" y="204" class="t-s c">→ 時価で測る</text>
+      <path d="M492 183 L554 183" class="ln mv" marker-end="url(#ah1m)"/>
+      <rect x="560" y="130" width="190" height="106" rx="18" class="b-mv"/>
+      <text x="655" y="170" class="t-h f-mv c">時価算定基準</text>
+      <text x="655" y="200" class="t-s c">その「時価」の</text>
+      <text x="655" y="222" class="t-s c">測り方を決める</text>
+      <path d="M492 67 L554 67" class="ln dash"/>
+      <text x="562" y="60" class="t-xs">原価で測るもの（減損など）は</text>
+      <text x="562" y="80" class="t-xs">時価算定基準の対象外</text>
+    </svg>
+    <figcaption>概念フレームワークが「何を時価で測るか」を決め、時価算定基準が「その時価をどう算定するか」を決めます。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART 1 ============ -->
+<section id="fw" class="part part-fw">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>討議資料「財務会計の概念フレームワーク」</h2>
+    <p>企業会計基準委員会が2006年に公表した討議資料です。会計基準の「土台にある考え方」をまとめています。理論問題では、定義の空欄補充と正誤問題でよく出ます。</p>
+  </div>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">全体像</span><h3>4章でできている</h3></div>
+    <div class="chapters">
+      <div class="chap"><span>第1章</span><b>財務報告の目的</b><small>誰のために、何を開示するか</small></div>
+      <div class="chap"><span>第2章</span><b>会計情報の質的特性</b><small>役に立つ情報の条件</small></div>
+      <div class="chap"><span>第3章</span><b>財務諸表の構成要素</b><small>資産・負債・利益の定義</small></div>
+      <div class="chap"><span>第4章</span><b>認識と測定</b><small>いつ載せて、いくらで測るか</small></div>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">序文</span><h3>概念フレームワークの位置づけ</h3></div>
+    <ul class="pts">
+      <li>会計基準の基礎にある<span class="hl">前提や概念を要約</span>したものです。</li>
+      <li>将来の基準開発の<span class="hl">指針</span>になります。</li>
+      <li>一方で、今ある個別の会計基準の<span class="hl">改廃を直接提案するものではありません</span>。</li>
+      <li>正式な会計基準ではなく、今も「討議資料」の段階です。</li>
+    </ul>
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「概念フレームワークは、既存の会計基準の改廃を求めるものである」<span class="why">→ 改廃を直接提案するものではありません。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">第1章</span><h3>財務報告の目的</h3></div>
+    <div class="def">
+      <span class="def-l">財務報告の目的</span>
+      <p class="def-t">投資家の意思決定に役立つよう、投資の<span class="hl">ポジション（ストック）</span>と、その<span class="hl">成果（フロー）</span>を測定して開示すること。</p>
+    </div>
+    <div class="flow" role="img" aria-label="企業がポジションと成果を開示し、投資家がそれを使って企業価値を自分で見積もる流れ">
+      <div class="node fw"><b>企業（経営者）</b><small>ポジションと成果を測定して開示する</small></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node bl"><b>財務報告</b><small>B/S（ポジション）<br>P/L（成果）</small></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node or"><b>投資家</b><small>自分の責任で情報を使う</small></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node solid-fw"><b>企業価値を見積もる</b><small>これは投資家の役割。財務報告が企業価値そのものを示すわけではない</small></div>
+    </div>
+    <ul class="pts">
+      <li><span class="hl">自己創設のれんは計上しません。</span><span class="sub">計上すると、経営者が自社の価値を自己評価して開示することになり、財務報告の目的に反するためです。</span></li>
+      <li>主な利用者は<span class="hl">投資家</span>です。<span class="sub">配当制限や税務などの利害調整に使われるのは「副次的な利用」です。</span></li>
+      <li>ディスクロージャーには、経営者と投資家の間の<span class="hl">情報の非対称性を緩和</span>する役割があります。</li>
+    </ul>
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「財務報告の目的は、企業価値を直接表示することである」<span class="why">→ 企業価値を見積もるのは投資家の役割です。</span></span></li>
+        <li><span class="mark x">×</span><span>「自己創設のれんも、有用な情報なので資産に計上すべきである」<span class="why">→ 経営者の自己評価になるため計上しません。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">第2章</span><h3>会計情報の質的特性</h3></div>
+    <p class="prose">空欄補充の定番です。どの特性がどこにぶら下がるか、ツリーの形で覚えます。</p>
+    <div class="fig">
+      <div class="qtree">
+        <div class="qroot">意思決定有用性<small>最も基本的な特性</small></div>
+        <div class="qbr">
+          <div class="qb">
+            <div class="qh">意思決定との関連性</div>
+            <ul>
+              <li>情報価値の存在<small>将来の投資成果の予測に役立つ</small></li>
+              <li>情報ニーズの充足<small>投資家が求めている情報である</small></li>
+            </ul>
+          </div>
+          <div class="qb">
+            <div class="qh">信頼性</div>
+            <ul>
+              <li>中立性<small>一部の関係者の利害だけを重視しない</small></li>
+              <li>検証可能性<small>測定者の主観に左右されない</small></li>
+              <li>表現の忠実性<small>事実と分類項目がはっきり対応する</small></li>
+            </ul>
+          </div>
+          <div class="qb gen">
+            <div class="qh">一般的制約となる特性</div>
+            <ul>
+              <li>内的整合性<small>個別基準が全体の考え方と矛盾しない</small></li>
+              <li>比較可能性<small>同じ事実には同じ処理、違う事実には違う処理</small></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="cap">関連性と信頼性は意思決定有用性を直接支えます。内的整合性と比較可能性は、全体を支える「一般的制約」です（点線の枠）。関連性と信頼性はトレードオフになる場合があります。</p>
+    </div>
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「信頼性は、中立性・検証可能性・比較可能性からなる」<span class="why">→ 比較可能性は一般的制約です。信頼性の3つ目は「表現の忠実性」。</span></span></li>
+        <li><span class="mark x">×</span><span>「内的整合性は、意思決定との関連性の下位概念である」<span class="why">→ 内的整合性も一般的制約です。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">第3章</span><h3>財務諸表の構成要素</h3></div>
+    <p class="prose">定義の文言がそのまま出る、最頻出のパートです。色の付いた部分がキーワードです。</p>
+    <div class="defs">
+      <div class="def"><span class="def-l">資産</span><p class="def-t">過去の取引または事象の結果として、報告主体が<span class="hl">支配</span>している<span class="hl">経済的資源</span>。</p><p class="def-n">支配＝所有権の有無にかかわらず、資源を利用して便益を受けられる状態。</p></div>
+      <div class="def"><span class="def-l">負債</span><p class="def-t">過去の取引または事象の結果として、報告主体が支配している経済的資源を放棄もしくは引き渡す<span class="hl">義務、またはその同等物</span>。</p><p class="def-n">同等物には、法律上の義務に準じるものも含まれる。</p></div>
+      <div class="def"><span class="def-l">経済的資源</span><p class="def-t"><span class="hl">キャッシュの獲得に貢献する便益の源泉</span>。</p><p class="def-n">実物財に限らず金融資産も含む。市場で売れるかどうかは問わない。</p></div>
+      <div class="def"><span class="def-l">純資産</span><p class="def-t">資産と負債の<span class="hl">差額</span>。</p><p class="def-n">独自の定義は持たない。株主資本は、純資産のうち株主（連結では親会社株主）に帰属する部分。</p></div>
+      <div class="def"><span class="def-l">包括利益</span><p class="def-t">純資産の変動額のうち、株主・子会社の少数株主（現在の非支配株主）・将来それらになり得るオプションの所有者との<span class="hl">直接的な取引によらない部分</span>。</p></div>
+      <div class="def"><span class="def-l">純利益</span><p class="def-t">純資産の変動額（資本取引による部分を除く）のうち、その期間中に<span class="hl">リスクから解放された投資の成果</span>であって、報告主体の所有者に帰属する部分。</p></div>
+      <div class="def"><span class="def-l">収益</span><p class="def-t">純利益を増加させる項目。資産の増加や負債の減少に見合う額のうち、<span class="hl">投資のリスクから解放された部分</span>。</p></div>
+      <div class="def"><span class="def-l">費用</span><p class="def-t">純利益を減少させる項目。資産の減少や負債の増加に見合う額のうち、<span class="hl">投資のリスクから解放された部分</span>。</p></div>
+    </div>
+
+    <div class="two">
+      <div class="box">
+        <h4>貸借対照表の中の位置</h4>
+        <div class="bs" role="img" aria-label="貸借対照表。左に資産、右上に負債、右下に純資産。純資産は株主資本と、新株予約権・非支配株主持分に分かれる。">
+          <div class="as"><b>資産</b><small>支配している経済的資源</small></div>
+          <div class="rt">
+            <div class="li"><b>負債</b><br><small>引き渡す義務・同等物</small></div>
+            <div class="eq"><b>純資産</b><small>資産と負債の差額</small>
+              <div class="in">株主資本</div>
+              <div class="in">新株予約権・非支配株主持分<br><small>返済義務がないので負債ではない</small></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <h4>定義の順番と考え方</h4>
+        <ul class="pts">
+          <li>まず<span class="hl">資産と負債</span>を定義し、そこから純資産と包括利益を導きます。</li>
+          <li>ただし純利益には、<span class="hl">リスクからの解放</span>という独自の意味が与えられています。</li>
+          <li>つまり資産負債アプローチ一辺倒ではなく、<span class="hl">純利益を重視</span>する立場です。</li>
+          <li>純利益と包括利益の差は<span class="hl">リサイクリング</span>でつながります。</li>
+        </ul>
+      </div>
+    </div>
+
+    <figure class="fig">
+      <svg viewBox="0 0 760 262" role="img" aria-label="純資産の変動額は資本取引と包括利益に分かれ、包括利益は純利益とその他の包括利益に分かれる。その他の包括利益は売却などでリスクから解放されると純利益に振り替わる。">
+        <defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker></defs>
+        <text x="10" y="24" class="t-b">純資産の変動額（1期間）</text>
+        <rect x="10" y="36" width="210" height="48" rx="8" class="s-grey"/>
+        <text x="115" y="57" class="t-s c">資本取引</text>
+        <text x="115" y="76" class="t-xs c">増資・配当など</text>
+        <rect x="224" y="36" width="526" height="48" rx="8" class="s-fwsoft"/>
+        <text x="487" y="66" class="t-b c">包括利益</text>
+        <path d="M224 86 L224 122" class="ln dash"/>
+        <path d="M750 86 L750 122" class="ln dash"/>
+        <text x="10" y="148" class="t-b">包括利益の中身</text>
+        <rect x="224" y="124" width="330" height="52" rx="8" class="s-fw"/>
+        <text x="389" y="147" class="t-b on c">純利益</text>
+        <text x="389" y="167" class="t-xs on c">リスクから解放された成果</text>
+        <rect x="558" y="124" width="192" height="52" rx="8" class="s-sun"/>
+        <text x="654" y="147" class="t-b c">その他の包括利益</text>
+        <text x="654" y="167" class="t-xs c">まだ解放されていない</text>
+        <path d="M654 178 C654 232 420 232 402 182" class="ln" marker-end="url(#ah2)"/>
+        <text x="527" y="254" class="t-s c">売却などで解放 → 純利益へ（リサイクリング）</text>
+      </svg>
+      <figcaption>帯の長さは説明用のイメージで、金額の比率ではありません。</figcaption>
+    </figure>
+
+    <div class="je">
+      <p class="je-t">仕訳で確認：その他有価証券（取得原価1,000、税効果は省略）</p>
+      <p class="je-n">① 期末に時価が1,100へ上昇 → 包括利益には入るが、純利益には入らない</p>
+      <div class="je-row"><span class="dc">（借）</span><span>その他有価証券</span><span class="amt">100</span><span class="dc">（貸）</span><span>その他有価証券評価差額金</span><span class="amt">100</span></div>
+      <p class="je-n">② 翌期首に洗替え</p>
+      <div class="je-row"><span class="dc">（借）</span><span>その他有価証券評価差額金</span><span class="amt">100</span><span class="dc">（貸）</span><span>その他有価証券</span><span class="amt">100</span></div>
+      <p class="je-n">③ 1,100で売却 → ここでリスクから解放され、純利益になる</p>
+      <div class="je-row"><span class="dc">（借）</span><span>現金預金</span><span class="amt">1,100</span><span class="dc">（貸）</span><span>その他有価証券</span><span class="amt">1,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc">（貸）</span><span>投資有価証券売却益</span><span class="amt">100</span></div>
+      <p class="je-n">包括利益計算書では、前期に計上済みの100を「組替調整額」として差し引き、二重計上を防ぎます。</p>
+    </div>
+
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「資産の定義には、法的な所有権が必要である」<span class="why">→ 必要なのは「支配」。所有権の有無は問いません。</span></span></li>
+        <li><span class="mark x">×</span><span>「包括利益は、純利益に代わる最も重要な利益である」<span class="why">→ 純利益は今も重視されています。</span></span></li>
+        <li><span class="mark x">×</span><span>「新株予約権は、将来株式を渡す義務なので負債である」<span class="why">→ 返済義務がないので純資産です。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">第3・4章</span><h3>リスクからの解放と「2つの投資」</h3></div>
+    <div class="def">
+      <span class="def-l">リスクからの解放</span>
+      <p class="def-t">投資にあたって期待された成果が、<span class="hl">事実として確定する</span>こと。</p>
+    </div>
+    <div class="lanes">
+      <div class="lane biz">
+        <p class="lane-h">事業投資<small>例：商品・製品・機械・工場</small></p>
+        <ol class="steps">
+          <li>資産を買って事業に使う</li>
+          <li>保有している間<em>値上がりしても成果にはしない</em></li>
+          <li class="star">売れて代金が確定する<em>ここで事業のリスクから解放＝成果</em></li>
+        </ol>
+        <p class="lane-m">測り方：取得原価</p>
+      </div>
+      <div class="lane fin">
+        <p class="lane-h">金融投資<small>例：売買目的有価証券・デリバティブ</small></p>
+        <ol class="steps">
+          <li>時価の変動で儲けるために買う</li>
+          <li class="star">時価が動く<em>値動きそのものが成果</em></li>
+          <li>いつでも売れる<em>売却に事業上の制約がない</em></li>
+        </ol>
+        <p class="lane-m">測り方：時価</p>
+      </div>
+    </div>
+    <div class="je">
+      <p class="je-t">仕訳で比べる：期末に時価が100上がった</p>
+      <p class="je-n">売買目的有価証券（金融投資）→ すぐに純利益</p>
+      <div class="je-row"><span class="dc">（借）</span><span>売買目的有価証券</span><span class="amt">100</span><span class="dc">（貸）</span><span>有価証券評価益</span><span class="amt">100</span></div>
+      <p class="je-n">商品・土地など（事業投資）→ 値上がりしても仕訳なし</p>
+      <p class="je-none">仕訳なし（売れるまでリスクから解放されない）</p>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">第4章</span><h3>認識：いつ財務諸表に載せるか</h3></div>
+    <div class="flow" role="img" aria-label="契約を結んだだけでは認識しない。少なくとも一方が履行したときに認識する。">
+      <div class="node"><b>① 契約を結ぶ</b><small>お互いにまだ何もしていない＝<b>双務未履行</b><br>→ 原則として認識しない</small></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node fw"><b>② 一方が履行する</b><small>商品を渡した／代金を受け取った<br>→ <b>ここで認識する</b></small></div>
+      <div class="arr" aria-hidden="true">→</div>
+      <div class="node"><b>③ 双方が履行する</b><small>取引が完了</small></div>
+    </div>
+    <ul class="pts">
+      <li>例外：<span class="hl">金融商品（デリバティブなど）</span>は、双務未履行でも<span class="hl">契約した時点で認識</span>します。<span class="sub">契約した時から時価の変動リスクにさらされているためです。</span></li>
+      <li>認識するには、<span class="hl">一定程度の発生の可能性（蓋然性）</span>も必要です。</li>
+    </ul>
+    <div class="je">
+      <p class="je-t">仕訳で確認</p>
+      <p class="je-n">商品の注文を受けただけ</p>
+      <p class="je-none">仕訳なし（双務未履行）</p>
+      <p class="je-n">先物契約を結び、期末に評価益が50出た → 契約時から認識している</p>
+      <div class="je-row"><span class="dc">（借）</span><span>先物取引差金</span><span class="amt">50</span><span class="dc">（貸）</span><span>先物損益</span><span class="amt">50</span></div>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">第4章</span><h3>測定：いくらで測るか</h3></div>
+    <div class="two">
+      <div class="box">
+        <h4>資産の測定属性</h4>
+        <div class="chips">
+          <span class="chip fw">取得原価<small>原始取得原価・未償却原価</small></span>
+          <span class="chip fw">市場価格<small>購買市場と売却市場を区別する→再調達原価・正味実現可能価額</small></span>
+          <span class="chip fw">割引価値<small>下の図の3パターン</small></span>
+          <span class="chip fw">入金予定額<small>割り引かずに単純合計</small></span>
+          <span class="chip fw">被投資企業の純資産額に基づく額<small>持分法</small></span>
+        </div>
+      </div>
+      <div class="box">
+        <h4>負債の測定属性</h4>
+        <div class="chips">
+          <span class="chip or">支払予定額<small>割り引かない</small></span>
+          <span class="chip or">現金受入額<small>前受金など</small></span>
+          <span class="chip or">割引価値<small>例：退職給付債務</small></span>
+          <span class="chip or">市場価格<small>トレーディング目的の負債</small></span>
+        </div>
+      </div>
+    </div>
+
+    <figure class="fig">
+      <svg viewBox="0 0 760 296" role="img" aria-label="割引価値の3パターン。将来キャッシュフローを見積り直さないなら償却原価。見積り直して割引率も改訂するなら利用価値や市場価格を推定する割引価値。見積り直すが割引率は当初のままならキャッシュ・フロー見積法による債権評価。">
+        <defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker></defs>
+        <rect x="10" y="118" width="200" height="64" rx="32" class="b-bl"/>
+        <text x="110" y="145" class="t-b c">将来CFを</text>
+        <text x="110" y="167" class="t-b c">見積り直す？</text>
+        <rect x="280" y="34" width="200" height="64" rx="32" class="b-bl"/>
+        <text x="380" y="61" class="t-b c">割引率も</text>
+        <text x="380" y="83" class="t-b c">改訂する？</text>
+        <path d="M170 122 C200 84 236 66 276 66" class="ln" marker-end="url(#ah3)"/>
+        <text x="200" y="84" class="t-s f-bl">する</text>
+        <rect x="540" y="8" width="210" height="72" rx="12" class="b-card fwl"/>
+        <text x="645" y="38" class="t-b c">利用価値（使用価値）</text>
+        <text x="645" y="62" class="t-xs c">市場価格を推定する割引価値も</text>
+        <rect x="540" y="108" width="210" height="72" rx="12" class="b-card fwl"/>
+        <text x="645" y="138" class="t-b c">CF見積法の債権評価</text>
+        <text x="645" y="162" class="t-xs c">割引率は当初のまま</text>
+        <rect x="540" y="214" width="210" height="72" rx="12" class="b-card fwl"/>
+        <text x="645" y="244" class="t-b c">償却原価</text>
+        <text x="645" y="268" class="t-xs c">CFも割引率も当初のまま</text>
+        <path d="M482 58 L536 46" class="ln" marker-end="url(#ah3)"/>
+        <text x="496" y="42" class="t-s f-bl">する</text>
+        <path d="M482 78 L536 138" class="ln" marker-end="url(#ah3)"/>
+        <text x="476" y="128" class="t-s f-bl">しない</text>
+        <path d="M170 178 C220 250 400 250 536 250" class="ln" marker-end="url(#ah3)"/>
+        <text x="282" y="226" class="t-s f-bl">しない</text>
+      </svg>
+      <figcaption>割引価値は「将来キャッシュフローを見積り直すか」「割引率を改訂するか」の2つの質問で3つに分かれます。</figcaption>
+    </figure>
+
+    <div class="two">
+      <div class="box">
+        <h4>収益の測定：何に着目するか</h4>
+        <div class="chips">
+          <span class="chip bl">交換</span>
+          <span class="chip bl">市場価格の変動</span>
+          <span class="chip bl">契約の部分的な履行</span>
+          <span class="chip bl">被投資企業の活動成果</span>
+        </div>
+      </div>
+      <div class="box">
+        <h4>費用の測定：何に着目するか</h4>
+        <div class="chips">
+          <span class="chip bl">交換</span>
+          <span class="chip bl">市場価格の変動</span>
+          <span class="chip bl">契約の部分的な履行</span>
+          <span class="chip bl">利用の事実<small>減価償却など</small></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「入金予定額は、将来の入金額を割り引いた金額である」<span class="why">→ 割り引かずに単純合計します。</span></span></li>
+        <li><span class="mark x">×</span><span>「双務未履行の契約も、原則として認識する」<span class="why">→ 原則は認識しません。例外は金融商品です。</span></span></li>
+        <li><span class="mark x">×</span><span>「償却原価は、将来キャッシュフローを見積り直す割引価値である」<span class="why">→ CFも割引率も見直さないパターンです。</span></span></li>
+      </ul>
+    </div>
+  </article>
+</section>
+
+<!-- ============ PART 2 ============ -->
+<section id="fv" class="part part-mv">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>時価の算定に関する会計基準</h2>
+    <p>企業会計基準第30号です。IFRS第13号との整合を図るために作られました。定義・適用範囲・時価のレベル・改正点が理論で問われ、主要な市場の考え方は計算でも出ます。</p>
+  </div>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">背景</span><h3>なぜこの基準ができたのか</h3></div>
+    <ul class="pts">
+      <li>国際的な会計基準（IFRS第13号・米国基準ASC820）との<span class="hl">比較可能性</span>を高めるためです。</li>
+      <li>基本方針は、<span class="hl">IFRS第13号の定めを原則としてすべて取り入れる</span>ことです。</li>
+      <li>日本の実務に配慮した「その他の取扱い」は、適用指針に置かれています。</li>
+      <li>これまでの「公正な評価額」という用語は、<span class="hl">「時価」に統一</span>されました。</li>
+    </ul>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">最頻出</span><h3>時価の定義</h3></div>
+    <div class="def">
+      <span class="def-l">時価</span>
+      <p class="def-t">算定日において<span class="hl">市場参加者</span>間で<span class="hl">秩序ある取引</span>が行われると想定した場合の、当該取引における資産の<span class="hl">売却によって受け取る価格</span>または負債の<span class="hl">移転のために支払う価格</span>。</p>
+    </div>
+    <div class="exit" role="img" aria-label="時価は入口価格ではなく出口価格">
+      <div class="ex ng"><p class="ex-h"><span class="mark x">×</span>入口価格</p><small>資産を取得するために支払う価格</small></div>
+      <div class="ex-mid"><div class="core">資産<br>負債</div></div>
+      <div class="ex ok"><p class="ex-h"><span class="mark o">○</span>出口価格</p><small>資産：売却して受け取る価格<br>負債：移転のために支払う価格</small></div>
+    </div>
+    <ul class="pts">
+      <li>市場参加者が使うであろう仮定で算定します。<span class="hl">企業固有の仮定は使いません。</span></li>
+      <li>秩序ある取引とは、市場参加者がふだん行う取引です。<span class="sub">強制清算や投げ売りのような、強いられた取引は含みません。</span></li>
+      <li>負債は「決済」ではなく<span class="hl">「移転」</span>を想定します。<span class="sub">不履行リスク（自社の信用リスクを含む）は、移転の前後で同じと仮定します。</span></li>
+    </ul>
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「時価とは、資産を取得するために支払う価格である」<span class="why">→ 出口価格です。</span></span></li>
+        <li><span class="mark x">×</span><span>「負債の時価には、自社の信用リスクを反映しない」<span class="why">→ 反映します。</span></span></li>
+        <li><span class="mark x">×</span><span>「負債の時価は、決済を想定して算定する」<span class="why">→ 移転を想定します。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">適用範囲</span><h3>どこに使う基準か</h3></div>
+    <div class="two">
+      <div class="grp">
+        <p class="grp-l">適用される（この2つだけ）</p>
+        <div class="chips">
+          <span class="chip in">金融商品</span>
+          <span class="chip in">トレーディング目的で保有する棚卸資産</span>
+        </div>
+      </div>
+      <div class="grp">
+        <p class="grp-l">適用されない（正誤問題の定番）</p>
+        <div class="chips">
+          <span class="chip out">固定資産の減損</span>
+          <span class="chip out">賃貸等不動産の時価の注記</span>
+          <span class="chip out">企業結合の取得原価の配分</span>
+          <span class="chip out">ストック・オプション</span>
+        </div>
+      </div>
+    </div>
+    <p class="prose">IFRS第13号にある<span class="hl">最有効使用</span>の考え方は、非金融資産に使うものなので取り入れていません。</p>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">計算でも出る</span><h3>主要な市場と最も有利な市場</h3></div>
+    <ul class="pts">
+      <li><span class="hl">主要な市場</span>：取引の量と頻度が最も大きい市場。原則としてここで時価を算定します。</li>
+      <li><span class="hl">最も有利な市場</span>：主要な市場がないときに使います。取引コストと輸送コストを引いた手取りが最も大きい市場です。</li>
+      <li>取引コストは、<span class="hl">市場を選ぶときには考慮</span>しますが、<span class="hl">時価からは差し引きません</span>。</li>
+      <li>輸送コストは、場所が資産の特性にあたる場合、<span class="hl">時価から差し引きます</span>。</li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 760 238" role="img" aria-label="市場Aは価格26、取引コスト3、輸送コスト2で手取り21。市場Bは価格25、取引コスト1、輸送コスト2で手取り22。Aが主要な市場なら時価24、主要な市場がなくBが最も有利なら時価23。">
+        <text x="10" y="58" class="t-b">市場A</text>
+        <text x="10" y="78" class="t-xs">価格 26</text>
+        <path d="M150 36 L150 28 L630 28 L630 36" class="br mv"/>
+        <text x="390" y="20" class="t-s f-mv c" font-weight="700">時価 24（Aが主要な市場の場合）</text>
+        <rect x="150" y="40" width="420" height="40" class="s-mv"/>
+        <text x="360" y="66" class="t-s on c" font-weight="700">手取り 21</text>
+        <rect x="570" y="40" width="60" height="40" class="s-sun"/>
+        <text x="600" y="65" class="c" font-size="12.5" style="fill:var(--ink)">取引3</text>
+        <rect x="630" y="40" width="40" height="40" class="s-grey"/>
+        <text x="650" y="65" class="c" font-size="12.5" style="fill:var(--ink)">輸送2</text>
+
+        <text x="10" y="158" class="t-b">市場B</text>
+        <text x="10" y="178" class="t-xs">価格 25</text>
+        <path d="M150 136 L150 128 L610 128 L610 136" class="br mv"/>
+        <text x="380" y="120" class="t-s f-mv c" font-weight="700">時価 23（主要な市場がなく、Bが最も有利な場合）</text>
+        <rect x="150" y="140" width="440" height="40" class="s-mv"/>
+        <text x="370" y="166" class="t-s on c" font-weight="700">手取り 22</text>
+        <rect x="590" y="140" width="20" height="40" class="s-sun"/>
+        <rect x="610" y="140" width="40" height="40" class="s-grey"/>
+        <text x="630" y="165" class="c" font-size="12.5" style="fill:var(--ink)">輸送2</text>
+        <text x="600" y="198" class="t-xs c">取引1</text>
+
+        <line x1="150" y1="210" x2="670" y2="210" class="axis"/>
+        <g class="t-xs">
+          <line x1="150" y1="206" x2="150" y2="214" class="axis"/><text x="150" y="230" class="t-xs c">0</text>
+          <line x1="250" y1="206" x2="250" y2="214" class="axis"/><text x="250" y="230" class="t-xs c">5</text>
+          <line x1="350" y1="206" x2="350" y2="214" class="axis"/><text x="350" y="230" class="t-xs c">10</text>
+          <line x1="450" y1="206" x2="450" y2="214" class="axis"/><text x="450" y="230" class="t-xs c">15</text>
+          <line x1="550" y1="206" x2="550" y2="214" class="axis"/><text x="550" y="230" class="t-xs c">20</text>
+          <line x1="650" y1="206" x2="650" y2="214" class="axis"/><text x="650" y="230" class="t-xs c">25</text>
+        </g>
+      </svg>
+      <figcaption>バーの長さは価格に比例しています。時価の範囲（上のカッコ）は「価格−輸送コスト」で、取引コスト（黄色）は時価の中に残ったままです。主要な市場がない場合、手取りが大きいB（22＞21）が最も有利な市場になります。</figcaption>
+    </figure>
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「市場Bの時価は、取引コストと輸送コストを引いた22である」<span class="why">→ 取引コストは時価から引かないので23です。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">評価技法</span><h3>時価を算定する3つのアプローチ</h3></div>
+    <div class="apps">
+      <div class="app"><b>マーケット・アプローチ</b><small>同じ資産や類似の資産の市場取引の価格を使う</small></div>
+      <div class="app"><b>インカム・アプローチ</b><small>将来キャッシュフローを現在価値に割り引くなどして算定する</small></div>
+      <div class="app"><b>コスト・アプローチ</b><small>資産の能力を置き換えるのに必要な金額（再調達原価）を使う</small></div>
+    </div>
+    <ul class="pts">
+      <li>状況に合っていて、十分なデータが手に入る技法を使います。複数の組み合わせも可能です。</li>
+      <li>評価技法は<span class="hl">継続して適用</span>します。</li>
+      <li>評価技法や適用方法を変えた場合は、<span class="hl">会計上の見積りの変更</span>として扱います。遡って修正はしません。</li>
+    </ul>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">最重要</span><h3>インプットと時価のレベル</h3></div>
+    <p class="prose">評価技法を使うときは、<span class="hl">観察できるインプットを最大限</span>使い、<span class="hl">観察できないインプットは最小限</span>にします。インプットは3つのレベルに分かれます。</p>
+    <figure class="fig">
+      <svg viewBox="0 0 760 262" role="img" aria-label="時価のレベルのピラミッド。上からレベル1、レベル2、レベル3。上ほど客観的。">
+        <polygon points="210,10 270,90 150,90" class="s-mv"/>
+        <polygon points="150,90 270,90 330,170 90,170" class="s-or"/>
+        <polygon points="90,170 330,170 390,250 30,250" class="s-pk"/>
+        <text x="210" y="74" class="t-b on c">L1</text>
+        <text x="210" y="138" class="t-b on c">L2</text>
+        <text x="210" y="218" class="t-b on c">L3</text>
+        <path d="M250 55 L408 55" class="ln dash"/>
+        <path d="M304 130 L408 130" class="ln dash"/>
+        <path d="M364 210 L408 210" class="ln dash"/>
+        <text x="418" y="40" class="t-b f-mv">レベル1</text>
+        <text x="418" y="62" class="t-s">活発な市場の、同じ資産の相場価格</text>
+        <text x="418" y="82" class="t-xs">原則として調整せずに使う</text>
+        <text x="418" y="118" class="t-b f-or">レベル2</text>
+        <text x="418" y="140" class="t-s">レベル1以外で観察できるインプット</text>
+        <text x="418" y="160" class="t-xs">例：類似資産の価格、観察できる金利</text>
+        <text x="418" y="198" class="t-b f-pk">レベル3</text>
+        <text x="418" y="220" class="t-s">観察できないインプット</text>
+        <text x="418" y="240" class="t-xs">市場参加者が使う仮定（リスクの仮定を含む）を反映</text>
+      </svg>
+      <figcaption>上ほど客観的で、下ほど見積りの要素が強くなります。</figcaption>
+    </figure>
+
+    <div class="def">
+      <span class="def-l">レベルの決め方</span>
+      <p class="def-t">時価の算定に<span class="hl">重要な影響を与えるインプット</span>が属するレベルのうち、<span class="hl">最も低いレベル</span>に分類する。</p>
+    </div>
+    <div class="lvex" role="img" aria-label="レベル2の金利と、重要なレベル3の見積りを使った場合、時価はレベル3">
+      <span class="lvin l2">観察できる金利<small>レベル2</small></span>
+      <span class="arr" aria-hidden="true">＋</span>
+      <span class="lvin l3">自社で見積もった回収見込み（重要）<small>レベル3</small></span>
+      <span class="arr" aria-hidden="true">＝</span>
+      <span class="lvout">時価はレベル3</span>
+    </div>
+
+    <div class="je">
+      <p class="je-t">ブロック（大量保有）の調整はできない</p>
+      <p class="je-n">上場株式10,000株、市場価格@500</p>
+      <div class="je-row"><span class="dc">時価</span><span>500 × 10,000株</span><span class="amt">5,000,000</span><span></span><span></span><span></span></div>
+      <p class="je-n">「大量に売ると値崩れする」としてディスカウントするのは不可。レベル1の相場価格×数量のままです。</p>
+    </div>
+
+    <div class="trap">
+      <p class="trap-t">ひっかけ注意</p>
+      <ul>
+        <li><span class="mark x">×</span><span>「時価のレベルは、重要なインプットのうち最も高いレベルに分類する」<span class="why">→ 最も低いレベルです。</span></span></li>
+        <li><span class="mark x">×</span><span>「レベル1の相場価格でも、大量保有なら調整できる」<span class="why">→ 保有数量を理由にした調整はできません。</span></span></li>
+      </ul>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">特別な扱い</span><h3>覚えておきたい細かいルール</h3></div>
+    <div class="two">
+      <div class="box"><h4>取引が著しく減ったとき</h4><p>取引の量や頻度が著しく下がった場合は、取引価格や相場価格がそのまま時価といえるかを検討し、必要なら調整します。秩序ある取引でない取引価格は重視しません。</p></div>
+      <div class="box"><h4>取引価格＝時価とは限らない</h4><p>関連当事者との取引、強いられた取引、取引単位が違う、主要な市場が違う、といった場合は、当初認識の取引価格と時価がずれることがあります。</p></div>
+      <div class="box"><h4>正味ポジションでの算定</h4><p>市場リスクや特定の相手先の信用リスクについて、金融資産と金融負債を相殺した正味ポジションで時価を算定できます。リスク管理方針の文書化が条件です。</p></div>
+      <div class="box"><h4>第三者から入手した価格</h4><p>ブローカーなどから入手した相場価格は、この基準に沿って算定されていると企業が確かめた場合に時価として使えます。</p></div>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">改正点</span><h3>金融商品会計基準などで変わったこと</h3></div>
+    <div class="ba">
+      <div class="ba-card">
+        <h4>時価の把握が困難な有価証券</h4>
+        <div class="before"><span class="ba-l">改正前</span><p>「時価を把握することが極めて困難と認められる有価証券」は取得原価など</p></div>
+        <div class="after"><span class="ba-l">改正後</span>この区分は廃止。<span class="hl">市場価格のない株式等は取得原価</span>。債券などは評価技法で時価を算定する</div>
+      </div>
+      <div class="ba-card">
+        <h4>その他有価証券の期末評価</h4>
+        <div class="before"><span class="ba-l">改正前</span><p>期末前1か月の市場価格の平均も使えた</p></div>
+        <div class="after"><span class="ba-l">改正後</span>1か月平均の容認規定は削除。<span class="hl">期末日の時価だけ</span>を使う</div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>市場価格のない株式等とは、市場で取引されていない株式や出資金など、株式と同じように持分の請求権を生じさせるものです。</li>
+      <li>投資信託は、一定の要件を満たせば<span class="hl">基準価額を時価とみなせる</span>扱いが適用指針にあります。</li>
+      <li>組合などへの出資は、持分相当額を<span class="hl">純額で計上</span>する扱いが認められています。</li>
+    </ul>
+    <div class="je">
+      <p class="je-t">仕訳で確認：その他有価証券（取得原価1,000、全部純資産直入法、税効果は省略）</p>
+      <p class="je-n">期末日の時価1,200、期末前1か月の平均1,150 → 使うのは1,200だけ</p>
+      <div class="je-row"><span class="dc">（借）</span><span>その他有価証券</span><span class="amt">200</span><span class="dc">（貸）</span><span>その他有価証券評価差額金</span><span class="amt">200</span></div>
+      <p class="je-n">市場価格のない非上場株式（取得原価300）</p>
+      <p class="je-none">期末の評価替えの仕訳なし（取得原価300のまま）</p>
+    </div>
+  </article>
+
+  <article class="unit">
+    <div class="unit-head"><span class="tag">開示</span><h3>注記で求められること</h3></div>
+    <ul class="pts">
+      <li>金融商品の時価について、<span class="hl">レベルごとの内訳</span>を注記します。</li>
+      <li>貸借対照表に時価で計上しているもののうち、<span class="hl">レベル3の時価</span>は追加の注記があります。
+        <span class="sub">期首から期末への調整表／重要な観察できないインプットの定量的な情報／評価プロセスの説明／インプットを変えたときの感応度の定性的な説明</span></li>
+    </ul>
+  </article>
+</section>
+
+<!-- ============ クイズ ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック 15問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。</p>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">15</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card fw">
+      <h3>概念フレームワーク：まずここから</h3>
+      <ol>
+        <li>構成要素の定義（資産・負債・包括利益・純利益）の文言</li>
+        <li>質的特性のツリー構造</li>
+        <li>リスクからの解放と、事業投資・金融投資の区分</li>
+        <li>割引価値の3パターン</li>
+        <li>双務未履行の契約と自己創設のれん</li>
+      </ol>
+    </div>
+    <div class="prio-card mv">
+      <h3>時価算定基準：まずここから</h3>
+      <ol>
+        <li>時価の定義（出口価格・市場参加者・秩序ある取引・負債は移転）</li>
+        <li>レベル1〜3の定義と「最も低いレベル」のルール</li>
+        <li>主要な市場と最も有利な市場、取引コストと輸送コストの扱い</li>
+        <li>改正点（市場価格のない株式等は取得原価、1か月平均の削除）</li>
+        <li>適用範囲（金融商品とトレーディング目的の棚卸資産だけ）</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>2つをつなげて覚えるコツ：</b>概念フレームワークの「金融投資は時価、事業投資は原価」という考え方が、時価算定基準の適用範囲（金融商品とトレーディング目的の棚卸資産）にそのまま表れています。どちらも「値動きそのものが成果になる資産」です。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準委員会 討議資料「財務会計の概念フレームワーク」（2006年）、企業会計基準第30号「時価の算定に関する会計基準」、企業会計基準適用指針第31号「時価の算定に関する会計基準の適用指針」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"fw", q:"概念フレームワークは、既存の会計基準の改廃を直接提案するものである。", a:false, e:"基礎にある前提や概念を要約したもので、既存基準の改廃を直接提案するものではありません。"},
+    {p:"fw", q:"財務報告の目的は、投資のポジションとその成果を測定して開示することである。", a:true, e:"ポジション（ストック）と成果（フロー）の開示が目的です。"},
+    {p:"fw", q:"自己創設のれんは、企業価値を示す有用な情報なので資産に計上すべきとされる。", a:false, e:"経営者が自社の価値を自己評価して開示することになり、財務報告の目的に反するため計上しません。"},
+    {p:"fw", q:"比較可能性は、信頼性を構成する特性の1つである。", a:false, e:"比較可能性は内的整合性とともに「一般的制約となる特性」です。信頼性は中立性・検証可能性・表現の忠実性です。"},
+    {p:"fw", q:"資産の定義では、報告主体が法的な所有権を持っていることが必要である。", a:false, e:"必要なのは「支配」です。所有権の有無にかかわらず、資源を利用して便益を受けられる状態を指します。"},
+    {p:"fw", q:"純利益は、期中にリスクから解放された投資の成果であって、報告主体の所有者に帰属する部分である。", a:true, e:"純利益の定義そのものです。キーワードは「リスクからの解放」。"},
+    {p:"fw", q:"双務未履行の契約は、原則として財務諸表に認識しない。", a:true, e:"少なくとも一方が履行したときに認識します。例外は金融商品（デリバティブなど）です。"},
+    {p:"fw", q:"償却原価は、将来キャッシュフローを見積り直さず、割引率も改訂しない場合の割引価値である。", a:true, e:"CFも割引率も当初のままのパターンが償却原価です。"},
+    {p:"mv", q:"時価とは、資産を取得するために支払う価格である。", a:false, e:"時価は出口価格です。資産なら売却によって受け取る価格です。"},
+    {p:"mv", q:"負債の時価には、自社の不履行リスク（信用リスク）を反映させない。", a:false, e:"自社の信用リスクを含む不履行リスクを反映します。移転の前後で同じと仮定します。"},
+    {p:"mv", q:"時価のレベルは、時価の算定に重要な影響を与えるインプットのうち、最も高いレベルに分類する。", a:false, e:"最も低いレベルに分類します。"},
+    {p:"mv", q:"最も有利な市場を判定するときは取引コストを考慮するが、時価そのものからは取引コストを差し引かない。", a:true, e:"取引コストは市場選択にだけ使います。輸送コストは場所が資産の特性なら時価から差し引きます。"},
+    {p:"mv", q:"市場価格のない株式等は、取得原価をもって貸借対照表価額とする。", a:true, e:"「時価を把握することが極めて困難」の区分が廃止され、市場価格のない株式等は取得原価になりました。"},
+    {p:"mv", q:"その他有価証券は、期末前1か月の市場価格の平均に基づいて評価することもできる。", a:false, e:"1か月平均の容認規定は削除されました。期末日の時価だけを使います。"},
+    {p:"mv", q:"時価算定基準は、固定資産の減損損失の測定にも適用される。", a:false, e:"適用範囲は金融商品とトレーディング目的で保有する棚卸資産だけです。"}
+  ];
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done");
+  var ok = 0, done = 0;
+  document.getElementById("sc-all").textContent = Q.length;
+
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0; update();
+    Q.forEach(function(item, i){
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (i+1) + (item.p === "fw" ? " 概念FW" : " 時価");
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "q" + i + "-o"), bX = mk("×", "q" + i + "-x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live","polite");
+      function pick(ans, btn){
+        bO.disabled = bX.disabled = true;
+        var right = ans === item.a;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        if(!right){ (item.a ? bO : bX).classList.add("answer"); }
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは" + (item.a ? "○" : "×");
+        var d = document.createElement("span"); d.textContent = item.e;
+        res.appendChild(h); res.appendChild(d); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ pick(true, bO); });
+      bX.addEventListener("click", function(){ pick(false, bX); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+  function mk(label, id){
+    var b = document.createElement("button"); b.type = "button"; b.className = "ox"; b.id = id; b.textContent = label;
+    b.setAttribute("aria-label", label === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  document.getElementById("qz-reset").addEventListener("click", render);
+  render();
+})();
+</script>
+
+</body>
+</html>

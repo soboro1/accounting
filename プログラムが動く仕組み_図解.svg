@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="80" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">プログラムが動くしくみ</text>
+  <text x="800" y="125" text-anchor="middle" font-size="26" fill="#4A5D78">人間が書いた文章を「0と1」に翻訳して、CPUが1つずつ実行する</text>
+
+  <!-- ===== Card 1: source code ===== -->
+  <rect x="60" y="165" width="420" height="445" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="112" cy="203" r="24" fill="#7C3AED"/>
+  <text x="112" y="215" text-anchor="middle" font-size="30" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="150" y="216" font-size="36" font-weight="800" fill="#1F3A5F">ソースコード</text>
+  <text x="90" y="256" font-size="22" fill="#4A5D78">人間がプログラミング言語で書く</text>
+
+  <!-- editor window -->
+  <rect x="90" y="280" width="360" height="170" rx="12" fill="#1F2937"/>
+  <path d="M90 292 a12 12 0 0 1 12 -12 h336 a12 12 0 0 1 12 12 v26 h-360 z" fill="#374151"/>
+  <circle cx="110" cy="299" r="5" fill="#F87171"/>
+  <circle cx="126" cy="299" r="5" fill="#FBBF24"/>
+  <circle cx="142" cy="299" r="5" fill="#34D399"/>
+  <text x="270" y="305" text-anchor="middle" font-size="16" fill="#D1D5DB" font-family="'Menlo','SF Mono',monospace">hello.py</text>
+  <text x="112" y="378" font-size="20" fill="#6B7280" font-family="'Menlo','SF Mono',monospace">1</text>
+  <text x="142" y="380" font-size="32" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">print</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#FDE68A">1 + 2</tspan><tspan fill="#F9FAFB">)</tspan></text>
+
+  <text x="270" y="498" text-anchor="middle" font-size="22" fill="#1F3A5F">英語に近い言葉で書いた</text>
+  <text x="270" y="530" text-anchor="middle" font-size="22" fill="#1F3A5F">ただのテキストファイル</text>
+  <rect x="120" y="552" width="300" height="38" rx="19" fill="#F3EEFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="270" y="578" text-anchor="middle" font-size="20" fill="#5B21B6">このままでは動かない</text>
+
+  <!-- arrow 1 -> 2 -->
+  <line x1="494" y1="388" x2="574" y2="388" stroke="#4A5D78" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <!-- ===== Card 2: translation ===== -->
+  <rect x="590" y="165" width="420" height="445" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="642" cy="203" r="24" fill="#1F6FEB"/>
+  <text x="642" y="215" text-anchor="middle" font-size="30" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="680" y="216" font-size="36" font-weight="800" fill="#1F3A5F">翻訳</text>
+  <text x="620" y="256" font-size="22" fill="#4A5D78">コンピュータが分かる言葉に直す</text>
+
+  <rect x="620" y="280" width="360" height="145" rx="14" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="800" y="322" text-anchor="middle" font-size="26" font-weight="800" fill="#1D4ED8">コンパイル方式</text>
+  <text x="800" y="360" text-anchor="middle" font-size="22" fill="#1F3A5F">実行前に、全部まとめて翻訳</text>
+  <text x="800" y="398" text-anchor="middle" font-size="20" fill="#4A5D78">C ・ Go ・ Rust など</text>
+
+  <rect x="620" y="445" width="360" height="145" rx="14" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="800" y="487" text-anchor="middle" font-size="26" font-weight="800" fill="#1D4ED8">インタプリタ方式</text>
+  <text x="800" y="525" text-anchor="middle" font-size="22" fill="#1F3A5F">実行しながら、少しずつ翻訳</text>
+  <text x="800" y="563" text-anchor="middle" font-size="20" fill="#4A5D78">Python ・ JavaScript など</text>
+
+  <!-- arrow 2 -> 3 -->
+  <line x1="1024" y1="388" x2="1104" y2="388" stroke="#4A5D78" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <!-- ===== Card 3: execution ===== -->
+  <rect x="1120" y="165" width="420" height="445" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="1172" cy="203" r="24" fill="#16A34A"/>
+  <text x="1172" y="215" text-anchor="middle" font-size="30" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="1210" y="216" font-size="36" font-weight="800" fill="#1F3A5F">実行</text>
+  <text x="1150" y="256" font-size="22" fill="#4A5D78">CPUが機械語を1つずつ処理する</text>
+
+  <!-- machine code -->
+  <rect x="1150" y="280" width="360" height="70" rx="12" fill="#1F2937"/>
+  <text x="1330" y="309" text-anchor="middle" font-size="16" fill="#9CA3AF">機械語（0と1の命令）</text>
+  <text x="1330" y="337" text-anchor="middle" font-size="22" fill="#6EE7B7" font-family="'Menlo','SF Mono',monospace">10110000 00000011 ...</text>
+
+  <!-- CPU chip -->
+  <g stroke="#1F3A5F" stroke-width="4" stroke-linecap="round">
+    <line x1="1185" y1="366" x2="1185" y2="378"/><line x1="1215" y1="366" x2="1215" y2="378"/><line x1="1245" y1="366" x2="1245" y2="378"/>
+    <line x1="1185" y1="498" x2="1185" y2="510"/><line x1="1215" y1="498" x2="1215" y2="510"/><line x1="1245" y1="498" x2="1245" y2="510"/>
+    <line x1="1143" y1="408" x2="1155" y2="408"/><line x1="1143" y1="438" x2="1155" y2="438"/><line x1="1143" y1="468" x2="1155" y2="468"/>
+    <line x1="1275" y1="408" x2="1287" y2="408"/><line x1="1275" y1="438" x2="1287" y2="438"/><line x1="1275" y1="468" x2="1287" y2="468"/>
+  </g>
+  <rect x="1155" y="378" width="120" height="120" rx="12" fill="#1F3A5F"/>
+  <rect x="1171" y="394" width="88" height="88" rx="6" fill="none" stroke="#7FA3D1" stroke-width="2"/>
+  <text x="1215" y="449" text-anchor="middle" font-size="30" font-weight="800" fill="#FFFFFF">CPU</text>
+
+  <!-- fetch / decode / execute -->
+  <rect x="1310" y="374" width="200" height="38" rx="10" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1410" y="401" text-anchor="middle" font-size="22" fill="#166534">① 取り出す</text>
+  <rect x="1310" y="419" width="200" height="38" rx="10" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1410" y="446" text-anchor="middle" font-size="22" fill="#166534">② 解読する</text>
+  <rect x="1310" y="464" width="200" height="38" rx="10" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1410" y="491" text-anchor="middle" font-size="22" fill="#166534">③ 実行する</text>
+
+  <text x="1330" y="545" text-anchor="middle" font-size="22" fill="#1F3A5F">この3つをひたすら繰り返す</text>
+  <rect x="1180" y="558" width="300" height="38" rx="19" fill="#E9F9EF" stroke="#16A34A" stroke-width="1.5"/>
+  <text x="1330" y="584" text-anchor="middle" font-size="20" font-weight="800" fill="#166534">1秒間に数十億回</text>
+
+  <!-- ===== Bottom: example ===== -->
+  <rect x="60" y="640" width="1480" height="220" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="692" font-size="30" font-weight="800" fill="#1F3A5F">例：print(1 + 2) を実行すると</text>
+  <text x="1510" y="690" text-anchor="end" font-size="20" fill="#4A5D78">※ 画面・キーボード・ファイルの操作は、OS（macOS・Windows）が仲介する</text>
+
+  <g>
+    <rect x="90" y="715" width="320" height="120" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="118" cy="743" r="16" fill="#4A5D78"/>
+    <text x="118" y="751" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">1</text>
+    <text x="250" y="787" text-anchor="middle" font-size="22" fill="#1F3A5F">Pythonが文字を読み</text>
+    <text x="250" y="819" text-anchor="middle" font-size="22" fill="#1F3A5F">意味を解析する</text>
+  </g>
+  <line x1="418" y1="775" x2="446" y2="775" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="456" y="715" width="320" height="120" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="484" cy="743" r="16" fill="#4A5D78"/>
+    <text x="484" y="751" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">2</text>
+    <text x="616" y="787" text-anchor="middle" font-size="22" fill="#1F3A5F">CPUが 1 + 2 を計算</text>
+    <text x="616" y="819" text-anchor="middle" font-size="22" fill="#1F3A5F">結果は 3</text>
+  </g>
+  <line x1="784" y1="775" x2="812" y2="775" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="822" y="715" width="320" height="120" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="850" cy="743" r="16" fill="#4A5D78"/>
+    <text x="850" y="751" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">3</text>
+    <text x="982" y="787" text-anchor="middle" font-size="22" fill="#1F3A5F">PythonがOSに</text>
+    <text x="982" y="819" text-anchor="middle" font-size="22" fill="#1F3A5F">「3を表示して」と頼む</text>
+  </g>
+  <line x1="1150" y1="775" x2="1178" y2="775" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="1188" y="715" width="320" height="120" rx="14" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+    <circle cx="1216" cy="743" r="16" fill="#16A34A"/>
+    <text x="1216" y="751" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">4</text>
+    <text x="1348" y="787" text-anchor="middle" font-size="22" fill="#166534">OSが画面に</text>
+    <text x="1348" y="819" text-anchor="middle" font-size="22" font-weight="800" fill="#166534">「3」を描く</text>
+  </g>
+</svg>

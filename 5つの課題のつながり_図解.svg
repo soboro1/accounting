@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Noto Sans JP',sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L12 6 L0 12 Z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="72" text-anchor="middle" font-size="42" font-weight="700" fill="#1F3A5F">情報システムの5つの課題はつながっている</text>
+  <text x="800" y="116" text-anchor="middle" font-size="22" fill="#4A5D78">1つの課題が次の課題を悪化させ、ぐるっと回って最初に戻る</text>
+
+  <!-- 中央 -->
+  <circle cx="800" cy="500" r="150" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2" stroke-dasharray="8 8"/>
+  <text x="800" y="488" text-anchor="middle" font-size="46" font-weight="700" fill="#7C3AED">悪循環</text>
+  <text x="800" y="532" text-anchor="middle" font-size="20" fill="#4A5D78">別々に対処しても、</text>
+  <text x="800" y="560" text-anchor="middle" font-size="20" fill="#4A5D78">他の課題に足を引っ張られる</text>
+
+  <!-- 矢印 -->
+  <g fill="none" stroke="#7C3AED" stroke-width="4" stroke-linecap="round" marker-end="url(#arr)">
+    <path d="M 996 215 Q 1250 215 1288 330"/>
+    <path d="M 1250 466 L 1192 660"/>
+    <path d="M 934 730 L 670 730"/>
+    <path d="M 420 664 L 352 470"/>
+    <path d="M 312 334 Q 350 215 600 215"/>
+  </g>
+
+  <!-- 矢印のラベル -->
+  <g font-size="21" fill="#1F3A5F" font-weight="600">
+    <text x="1022" y="186">兼務が増え、手順を残す余裕がない</text>
+    <text x="1268" y="552">分かる人が抜け、</text>
+    <text x="1268" y="582">中身がブラックボックス化</text>
+    <text x="802" y="690" text-anchor="middle">サポート切れが</text>
+    <text x="802" y="717" text-anchor="middle">攻撃の入口になる</text>
+    <text x="352" y="552" text-anchor="end">対策に人と予算を取られ、</text>
+    <text x="362" y="582" text-anchor="end">新技術への対応が遅れる</text>
+    <text x="582" y="186" text-anchor="end">学ぶこと・やることが増え続ける</text>
+  </g>
+
+  <!-- カード1 人手不足 -->
+  <g>
+    <rect x="610" y="155" width="380" height="120" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="662" cy="215" r="27" fill="#1F6FEB"/>
+    <text x="662" y="225" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="704" y="207" font-size="27" font-weight="700" fill="#1F3A5F">慢性的な人手不足</text>
+    <text x="704" y="243" font-size="19" fill="#4A5D78">2030年に最大79万人不足</text>
+  </g>
+
+  <!-- カード2 属人化 -->
+  <g>
+    <rect x="1100" y="340" width="380" height="120" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="1152" cy="400" r="27" fill="#1F6FEB"/>
+    <text x="1152" y="410" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="1194" y="392" font-size="27" font-weight="700" fill="#1F3A5F">業務の属人化</text>
+    <text x="1194" y="428" font-size="19" fill="#4A5D78">特定の人しか手順を知らない</text>
+  </g>
+
+  <!-- カード3 レガシー -->
+  <g>
+    <rect x="940" y="670" width="380" height="120" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="992" cy="730" r="27" fill="#1F6FEB"/>
+    <text x="992" y="740" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="1034" y="722" font-size="27" font-weight="700" fill="#1F3A5F">レガシーシステム</text>
+    <text x="1034" y="758" font-size="19" fill="#4A5D78">古く複雑で、中身が分からない</text>
+  </g>
+
+  <!-- カード4 セキュリティ -->
+  <g>
+    <rect x="280" y="670" width="380" height="120" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="332" cy="730" r="27" fill="#1F6FEB"/>
+    <text x="332" y="740" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="374" y="722" font-size="25" font-weight="700" fill="#1F3A5F">サイバーセキュリティ</text>
+    <text x="374" y="758" font-size="19" fill="#4A5D78">止まれば事業が止まる</text>
+  </g>
+
+  <!-- カード5 生成AI・クラウド -->
+  <g>
+    <rect x="120" y="340" width="380" height="120" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="172" cy="400" r="27" fill="#1F6FEB"/>
+    <text x="172" y="410" text-anchor="middle" font-size="28" font-weight="700" fill="#FFFFFF">5</text>
+    <text x="214" y="392" font-size="25" font-weight="700" fill="#1F3A5F">生成AI・クラウド対応</text>
+    <text x="214" y="428" font-size="19" fill="#4A5D78">変化が速く、学び続ける必要</text>
+  </g>
+
+  <!-- 断ち切る手段 -->
+  <rect x="140" y="818" width="1320" height="60" rx="18" fill="#ECFDF3" stroke="#16A34A" stroke-width="2"/>
+  <text x="800" y="857" text-anchor="middle" font-size="22" fill="#1F3A5F"><tspan font-weight="700" fill="#16A34A">断ち切る手段の1つ：</tspan>ノーコード・ローコードで業務を「仕組み」に置き換える（属人化と人手不足の両方に効く）</text>
+</svg>

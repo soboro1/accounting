@@ -1,0 +1,1099 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Webデザイン入門 Figma編 テキストと問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul, ol { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+  a { color: #d4a24c; }
+  .lead { font-size: 15px; line-height: 1.9; color: #c7c0b0; margin: 0; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  code, kbd, pre.code, .opt.mono { font-family: 'SFMono-Regular', Menlo, Consolas, 'Noto Sans JP', monospace; }
+  code { font-size: 13.5px; padding: 1px 6px; border-radius: 4px; background: #0b1320; color: #fac775; }
+  kbd {
+    font-size: 12.5px; padding: 2px 7px; border-radius: 5px; background: #1b2940; color: #f6f1e6;
+    border: 1px solid rgba(255,255,255,0.18); border-bottom-width: 2px; white-space: nowrap;
+  }
+  pre.code {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 13.5px; line-height: 1.75; color: #f6f1e6;
+    white-space: pre; overflow-x: auto;
+  }
+  pre.code .cm { color: #8b93a1; }
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; font-size: 14px; font-weight: 700; }
+  .flow .step { padding: 8px 14px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.45); background: rgba(212,162,76,0.1); color: #fac775; }
+  .flow .arrow { color: #9aa5b1; }
+
+  /* 対応を見せる行(Figma ⇄ CSS) */
+  .pairs { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+  .pair { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14px; line-height: 1.7; }
+  .pair .from { min-width: 190px; color: #f6f1e6; font-weight: 500; }
+  .pair .arrow { color: #9aa5b1; }
+
+  .btn-chapter { margin-top: 14px; }
+
+  /* ---- 図解・デモ(明るい背景=実際のデザインの見本) ---- */
+  .demo {
+    margin: 12px 0; padding: 16px; border-radius: 10px; background: #f4f1ea; color: #1f2a3c;
+    font-size: 14px; line-height: 1.7;
+  }
+  .demo-label { font-size: 12px; font-weight: 700; letter-spacing: 1px; color: #6b7688; margin-bottom: 8px; }
+  .demo-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+  .demo-card { background: #fff; border-radius: 8px; padding: 14px; border: 1px solid #e2ddd0; min-width: 0; }
+  .demo-card .cap { font-size: 12px; font-weight: 700; margin-bottom: 8px; }
+  .demo-card .cap.bad { color: #c2452d; }
+  .demo-card .cap.good { color: #17805f; }
+
+  /* 4原則の見本 */
+  .ex-bad p, .ex-good p { color: #1f2a3c; margin: 0; }
+  .ex-bad .t { font-size: 14px; text-align: center; line-height: 2.2; }
+  .ex-good .ttl { font-size: 17px; font-weight: 700; line-height: 1.4; }
+  .ex-good .sub { font-size: 12px; color: #6b7688; margin-top: 2px; }
+  .ex-good .body { font-size: 13px; margin-top: 12px; line-height: 1.7; }
+  .ex-good .cta { display: inline-block; margin-top: 12px; padding: 6px 14px; border-radius: 6px; background: #1f4fd8; color: #fff; font-size: 12px; font-weight: 700; }
+
+  /* 余白スケール */
+  .scale { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 12px; }
+  .scale div { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: #6b7688; }
+  .scale i { display: block; background: #1f4fd8; border-radius: 2px; height: 28px; }
+
+  /* 配色バー */
+  .ratio { display: flex; height: 36px; border-radius: 6px; overflow: hidden; font-size: 12px; font-weight: 700; }
+  .ratio div { display: flex; align-items: center; justify-content: center; }
+
+  /* コントラストチェッカー */
+  .cc-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+  .cc-row label { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 700; color: #1f2a3c; }
+  .cc-row input[type=color] { width: 40px; height: 30px; padding: 0; border: 1px solid #c9c2b2; border-radius: 6px; background: #fff; cursor: pointer; }
+  .cc-sample { margin-top: 10px; padding: 14px 16px; border-radius: 8px; border: 1px solid #e2ddd0; font-size: 16px; }
+  .cc-sample small { display: block; font-size: 24px; font-weight: 700; margin-top: 2px; }
+  .cc-result { margin-top: 10px; font-size: 14px; color: #1f2a3c; }
+  .cc-result b { color: #1f2a3c; font-size: 20px; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; margin-left: 6px; }
+  .tag.ok { background: #d9f2e8; color: #0f6b4e; }
+  .tag.ng { background: #fbe2da; color: #b13c22; }
+
+  /* オートレイアウト体験 */
+  .al-controls { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .al-line { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .al-line .name { width: 96px; font-size: 12px; font-weight: 700; color: #4a5568; }
+  .seg {
+    font-family: inherit; cursor: pointer; font-size: 12px; font-weight: 700; padding: 5px 12px;
+    border-radius: 6px; border: 1px solid #c9c2b2; background: #fff; color: #1f2a3c;
+  }
+  .seg.on { background: #1f4fd8; border-color: #1f4fd8; color: #fff; }
+  .al-frame {
+    display: flex; min-height: 150px; border: 2px dashed #8fa3d9; border-radius: 8px;
+    background: repeating-linear-gradient(45deg, #e6ecfb, #e6ecfb 6px, #dbe4fa 6px, #dbe4fa 12px);
+  }
+  .al-inner { display: flex; flex: 1; min-width: 0; background: #fff; background-clip: content-box; }
+  .al-item {
+    display: flex; align-items: center; justify-content: center; border-radius: 6px; color: #fff;
+    font-size: 13px; font-weight: 700; background: #1f4fd8; min-width: 0;
+  }
+  .al-item:nth-child(1) { padding: 8px 14px; }
+  .al-item:nth-child(2) { padding: 18px 26px; background: #17805f; }
+  .al-item:nth-child(3) { padding: 12px 18px; background: #b8791c; }
+  .al-figma { margin-top: 10px; font-size: 13px; color: #1f2a3c; }
+  .demo pre.code { margin: 10px 0 0; }
+
+  /* 制約の図 */
+  .cons { position: relative; height: 70px; border: 2px dashed #8fa3d9; border-radius: 8px; background: #fff; margin-top: 6px; }
+  .cons .box { position: absolute; top: 15px; height: 36px; border-radius: 6px; background: #1f4fd8; color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
+  .cons-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .cons-wrap .w60 { width: 60%; }
+  .cons-cap { font-size: 12px; font-weight: 700; color: #4a5568; }
+
+  /* ---- 練習問題 ---- */
+  .quiz { display: flex; flex-direction: column; gap: 16px; padding-top: 8px; }
+  .header-row { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .score-label { font-size: 13px; color: #9aa5b1; text-align: right; }
+  .score-value { font-size: 22px; font-weight: 700; color: #d4a24c; text-align: right; }
+
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+
+  .topic-badge {
+    display: inline-flex; align-self: flex-start;
+    padding: 6px 16px; border-radius: 999px;
+    background: rgba(212,162,76,0.18); border: 1px solid #d4a24c;
+    font-size: 13px; font-weight: 700; color: #d4a24c; letter-spacing: 1px;
+  }
+  .problem-card {
+    padding: 20px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); display: flex; flex-direction: column; gap: 6px;
+  }
+  .problem-line { font-size: 16px; line-height: 1.9; color: #e8e3d8; }
+
+  .answer-area { display: flex; flex-direction: column; gap: 12px; }
+  .options { display: flex; flex-wrap: wrap; gap: 10px; }
+  .options.stack { flex-direction: column; }
+  .opt {
+    font-family: inherit; cursor: pointer; font-size: 15px; padding: 10px 18px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; text-align: left;
+  }
+  .opt.mono { font-size: 14px; white-space: pre-wrap; line-height: 1.7; }
+  .opt.sel { border-color: #d4a24c; background: rgba(212,162,76,0.2); }
+  .opt:disabled { cursor: default; }
+  .input-group { max-width: 280px; display: flex; flex-direction: column; gap: 6px; }
+  .input-group label { font-size: 14px; color: #c7c0b0; }
+  .input-unit { display: flex; align-items: center; gap: 8px; font-size: 15px; color: #c7c0b0; }
+  .input-group input {
+    flex: 1; min-width: 0; padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  .input-group input:focus { outline: none; border-color: #d4a24c; }
+
+  .error { font-size: 13px; color: #f0997b; display: none; }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  button.main:disabled { opacity: 0.45; cursor: default; filter: none; }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .result-card { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: none; flex-direction: column; gap: 8px; }
+  .result-card.show { display: flex; }
+  .result-card.ok { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .result-card.ng { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .result-title { font-size: 17px; font-weight: 700; }
+  .result-card.ok .result-title { color: #5dcaa5; }
+  .result-card.ng .result-title { color: #f0997b; }
+  .result-explanation { font-size: 14px; line-height: 1.8; color: #e8e3d8; white-space: pre-wrap; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; }
+
+  @media (max-width: 600px) {
+    .demo-cols { grid-template-columns: minmax(0, 1fr); }
+    .pair .from { min-width: 0; width: 100%; }
+    .pair .arrow { display: none; }
+  }
+  @media (max-width: 520px) {
+    .chapter, .problem-card { padding: 18px 16px; }
+    h1 { font-size: 22px; }
+    .al-line .name { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div>
+    <div class="kicker">WEB DESIGN × FIGMA</div>
+    <h1>Webデザイン入門 Figma編 テキストと問題</h1>
+  </div>
+  <p class="lead">「デザインの基礎」→「Figmaで形にする」→「HTML/CSSで実装する」を1本の流れで学びます。Figmaのオートレイアウトは、CSSのFlexboxとほぼ同じ考え方です。ここをつなげて覚えると、デザインもコーディングも一気に楽になります。</p>
+
+  <nav class="toc">
+    <a href="#ch1">1. デザインの基礎</a>
+    <a href="#ch2">2. Figmaの基本</a>
+    <a href="#ch3">3. オートレイアウト</a>
+    <a href="#ch4">4. コンポーネントとスタイル</a>
+    <a href="#ch5">5. 制約とレスポンシブ</a>
+    <a href="#ch6">6. FigmaからHTML/CSSへ</a>
+    <a href="#work">実習課題</a>
+    <a href="#quiz">練習問題</a>
+  </nav>
+
+  <!-- ===== 第1章 ===== -->
+  <section class="chapter" id="ch1">
+    <div class="chapter-no">CHAPTER 1</div>
+    <h2>デザインの基礎</h2>
+
+    <h3>デザインの4原則</h3>
+    <p>センスではなく、<span class="mark">4つのルール</span>で見やすさは決まります。迷ったらこの4つに戻ります。</p>
+    <ul>
+      <li><b>近接</b>:関係のあるものは近づけ、関係のないものは離す</li>
+      <li><b>整列</b>:端や中心を、見えない線でそろえる</li>
+      <li><b>反復</b>:同じ役割のものには、同じ色・形・サイズをくり返す</li>
+      <li><b>対比</b>:大事なものと、そうでないものの差をはっきりつける</li>
+    </ul>
+    <div class="demo">
+      <div class="demo-label">同じ文章でも、4原則でここまで変わる</div>
+      <div class="demo-cols">
+        <div class="demo-card ex-bad">
+          <div class="cap bad">× 原則なし</div>
+          <p class="t">Figma入門講座</p>
+          <p class="t">10月25日(日)14:00〜</p>
+          <p class="t">初心者向けに基本操作を学びます</p>
+          <p class="t">申し込む</p>
+        </div>
+        <div class="demo-card ex-good">
+          <div class="cap good">○ 原則あり</div>
+          <p class="ttl">Figma入門講座</p>
+          <p class="sub">10月25日(日)14:00〜</p>
+          <p class="body">初心者向けに基本操作を学びます</p>
+          <span class="cta">申し込む</span>
+        </div>
+      </div>
+    </div>
+    <div class="note">右の見本では、タイトルと日時を近づけ(近接)、左端をそろえ(整列)、タイトルを大きく太くし、ボタンに色をつけています(対比)。</div>
+
+    <h3>余白は「8の倍数」で決める</h3>
+    <p>余白やサイズを <b>8・16・24・32・40・48…</b> と8の倍数にそろえると、迷いがなくなり、全体にリズムが出ます。細かい調整には4も使います。</p>
+    <div class="demo">
+      <div class="scale">
+        <div><i style="width:4px"></i>4</div>
+        <div><i style="width:8px"></i>8</div>
+        <div><i style="width:16px"></i>16</div>
+        <div><i style="width:24px"></i>24</div>
+        <div><i style="width:32px"></i>32</div>
+        <div><i style="width:48px"></i>48</div>
+        <div><i style="width:64px"></i>64</div>
+      </div>
+    </div>
+
+    <h3>配色は3色・70:25:5</h3>
+    <ul>
+      <li><b>ベースカラー(約70%)</b>:背景。白や薄いグレーなど</li>
+      <li><b>メインカラー(約25%)</b>:サイトの印象を決める色</li>
+      <li><b>アクセントカラー(約5%)</b>:ボタンなど、一番目立たせたいところだけ</li>
+    </ul>
+    <div class="demo">
+      <div class="ratio">
+        <div style="flex:70;background:#ffffff;color:#1f2a3c;border:1px solid #e2ddd0">ベース 70</div>
+        <div style="flex:25;background:#1f2a3c;color:#fff">メイン 25</div>
+        <div style="flex:5;background:#e8590c"></div>
+      </div>
+    </div>
+
+    <h3>文字の基本</h3>
+    <ul>
+      <li>本文の文字サイズは <b>16px</b> が基準</li>
+      <li>日本語の本文の行間(line-height)は <b>1.5〜1.8</b> が読みやすい</li>
+      <li>フォントの種類は2つまで、太さとサイズの差でメリハリをつける</li>
+    </ul>
+    <pre class="code">行間の計算:文字サイズ × 行間の倍率
+(例)16px × 1.75 = 28px  → Figmaの行間は「28」または「175%」</pre>
+
+    <h3>コントラスト比(読めるかどうかの基準)</h3>
+    <p>文字色と背景色の明るさの差を「コントラスト比」といいます。アクセシビリティの基準(WCAG)では、次の値が目安です。</p>
+    <ul>
+      <li>ふつうの本文:<b>4.5:1 以上</b>(AA)</li>
+      <li>大きな文字(24px以上、または太字で約19px以上):<b>3:1 以上</b>(AA)</li>
+    </ul>
+    <div class="demo">
+      <div class="demo-label">コントラストチェッカー(色を変えて試せます)</div>
+      <div class="cc-row">
+        <label>文字色 <input type="color" id="ccFg" value="#999999"></label>
+        <label>背景色 <input type="color" id="ccBg" value="#ffffff"></label>
+      </div>
+      <div class="cc-sample" id="ccSample">本文のサンプルです。読みやすいですか?<small>大きな見出し</small></div>
+      <div class="cc-result" id="ccResult"></div>
+    </div>
+
+    <button class="main btn-secondary btn-chapter" data-go="1">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第2章 ===== -->
+  <section class="chapter" id="ch2">
+    <div class="chapter-no">CHAPTER 2</div>
+    <h2>Figmaの基本</h2>
+
+    <h3>Figmaとは</h3>
+    <p>Figmaは、ブラウザで動くデザインツールです。インストール不要で、複数人が同じファイルを同時に編集でき、無料プランから始められます。Webデザインの現場で、いま最も広く使われています。</p>
+
+    <h3>ファイルの構造</h3>
+    <div class="flow">
+      <span class="step">ファイル</span><span class="arrow">›</span>
+      <span class="step">ページ</span><span class="arrow">›</span>
+      <span class="step">フレーム</span><span class="arrow">›</span>
+      <span class="step">レイヤー(図形・テキスト・画像)</span>
+    </div>
+    <ul>
+      <li><b>フレーム</b>:画面1枚分の「台紙」。中にさらにフレームを入れて、ヘッダーやカードなどのパーツも作る</li>
+      <li><b>レイヤー</b>:左のパネルに並ぶ、1つ1つの部品。上にあるものほど手前に表示される</li>
+    </ul>
+
+    <h3>フレームとグループの違い</h3>
+    <ul>
+      <li><b>フレーム</b>:自分のサイズ・塗り・角丸を持てる箱。オートレイアウトや制約を設定できる。HTMLの <code>&lt;div&gt;</code> にあたる</li>
+      <li><b>グループ</b>:複数のレイヤーをまとめて動かすためだけのもの。大きさは中身で決まる</li>
+    </ul>
+    <div class="note">Webデザインでは、基本的に<b>フレーム</b>を使います。あとでHTML/CSSにするとき、フレームがそのまま1つの要素になるからです。</div>
+
+    <h3>まず覚えるショートカット</h3>
+    <p>MacのCmdは、WindowsではCtrlです(OptionはAlt)。</p>
+    <ul>
+      <li><kbd>F</kbd> フレーム / <kbd>R</kbd> 長方形 / <kbd>O</kbd> 楕円 / <kbd>T</kbd> テキスト / <kbd>V</kbd> 移動(選択)</li>
+      <li><kbd>Shift</kbd>+<kbd>A</kbd> オートレイアウトを追加</li>
+      <li><kbd>Cmd</kbd>+<kbd>D</kbd> 複製 / <kbd>Cmd</kbd>+<kbd>G</kbd> グループ化 / <kbd>Cmd</kbd>+<kbd>R</kbd> レイヤー名の変更</li>
+      <li><kbd>Option</kbd>+<kbd>Cmd</kbd>+<kbd>G</kbd> 選択範囲をフレーム化</li>
+      <li><kbd>Option</kbd>+<kbd>Cmd</kbd>+<kbd>K</kbd> コンポーネントを作成</li>
+      <li><kbd>Shift</kbd>+<kbd>1</kbd> 全体を表示 / <kbd>Shift</kbd>+<kbd>2</kbd> 選択したものを拡大表示</li>
+      <li><kbd>Option</kbd> を押しながらマウスを動かす:ほかの要素との距離(余白)を表示</li>
+    </ul>
+
+    <h3>レイヤーには名前をつける</h3>
+    <p>「Frame 127」のままにせず、<code>header</code> <code>card</code> <code>button</code> のように役割で名前をつけます。この名前が、そのままHTMLのクラス名の候補になります。</p>
+
+    <button class="main btn-secondary btn-chapter" data-go="2">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第3章 ===== -->
+  <section class="chapter" id="ch3">
+    <div class="chapter-no">CHAPTER 3</div>
+    <h2>オートレイアウト</h2>
+
+    <h3>中身に合わせて伸び縮みする箱</h3>
+    <p>フレームを選んで <kbd>Shift</kbd>+<kbd>A</kbd> を押すと、<span class="mark">オートレイアウト</span>になります。中の要素が自動で並び、文字数が変わっても余白が保たれます。Figmaで一番大事な機能です。</p>
+
+    <h3>決めるのは4つだけ</h3>
+    <ul>
+      <li><b>方向</b>:横に並べるか、縦に並べるか(折り返しもできる)</li>
+      <li><b>アイテムの間隔</b>:要素と要素のあいだの距離</li>
+      <li><b>パディング</b>:フレームの内側の端と、中身のあいだの余白</li>
+      <li><b>揃え</b>:左・中央・右、上・中央・下のどこに寄せるか</li>
+    </ul>
+
+    <h3>サイズの3つの決め方</h3>
+    <ul>
+      <li><b>固定(Fixed)</b>:数値で決めた大きさのまま</li>
+      <li><b>コンテンツを内包(Hug)</b>:中身にぴったり合わせて大きさが決まる</li>
+      <li><b>コンテナに合わせて拡大(Fill)</b>:親フレームの残りのスペースいっぱいに広がる</li>
+    </ul>
+    <pre class="code">内包(Hug)のときの幅の計算:
+幅 = 中身の幅の合計 + 間隔 ×(個数 − 1)+ 左右のパディング
+
+(例)幅80の要素が3つ、間隔16、左右のパディング24
+80 × 3 + 16 × 2 + 24 × 2 = 320</pre>
+    <pre class="code">拡大(Fill)のときの幅の計算:
+1つの幅 =(親の幅 − 左右のパディング − 間隔 ×(個数 − 1))÷ 個数
+
+(例)親の幅416、左右のパディング24、間隔16、子が3つ
+(416 − 24 × 2 − 16 × 2)÷ 3 = 112</pre>
+
+    <h3>動かして確かめる</h3>
+    <div class="demo">
+      <div class="demo-label">オートレイアウト体験(下に対応するCSSが出ます)</div>
+      <div class="al-controls" id="alControls">
+        <div class="al-line"><span class="name">方向</span>
+          <button class="seg" data-k="dir" data-v="row">横</button>
+          <button class="seg" data-k="dir" data-v="column">縦</button>
+        </div>
+        <div class="al-line"><span class="name">アイテムの間隔</span>
+          <button class="seg" data-k="gap" data-v="0">0</button>
+          <button class="seg" data-k="gap" data-v="8">8</button>
+          <button class="seg" data-k="gap" data-v="16">16</button>
+          <button class="seg" data-k="gap" data-v="32">32</button>
+          <button class="seg" data-k="gap" data-v="auto">自動</button>
+        </div>
+        <div class="al-line"><span class="name">パディング</span>
+          <button class="seg" data-k="pad" data-v="0">0</button>
+          <button class="seg" data-k="pad" data-v="8">8</button>
+          <button class="seg" data-k="pad" data-v="16">16</button>
+          <button class="seg" data-k="pad" data-v="32">32</button>
+        </div>
+        <div class="al-line"><span class="name">並ぶ方向の揃え</span>
+          <button class="seg" data-k="main" data-v="flex-start">先頭</button>
+          <button class="seg" data-k="main" data-v="center">中央</button>
+          <button class="seg" data-k="main" data-v="flex-end">末尾</button>
+        </div>
+        <div class="al-line"><span class="name">垂直方向の揃え</span>
+          <button class="seg" data-k="cross" data-v="flex-start">先頭</button>
+          <button class="seg" data-k="cross" data-v="center">中央</button>
+          <button class="seg" data-k="cross" data-v="flex-end">末尾</button>
+        </div>
+        <div class="al-line"><span class="name">子のサイズ</span>
+          <button class="seg" data-k="child" data-v="hug">内包(Hug)</button>
+          <button class="seg" data-k="child" data-v="fill">拡大(Fill)</button>
+        </div>
+      </div>
+      <div class="al-frame" id="alFrame">
+        <div class="al-inner" id="alInner">
+          <div class="al-item">A</div><div class="al-item">B</div><div class="al-item">C</div>
+        </div>
+      </div>
+      <div class="al-figma" id="alNote"></div>
+      <pre class="code" id="alCss"></pre>
+    </div>
+    <div class="note">しま模様の部分がパディングです。間隔を「自動」にすると、要素が両端にそろい、あいだが均等に広がります(CSSの <code>space-between</code>)。</div>
+
+    <h3>入れ子にして画面を組む</h3>
+    <p>オートレイアウトの中に、オートレイアウトを入れていきます。「横並びのヘッダー」の中に「横並びのナビ」、「縦並びのカード」の中に「横並びのボタン行」…というように、<b>縦と横の箱を重ねる</b>だけでページ全体が組めます。</p>
+
+    <button class="main btn-secondary btn-chapter" data-go="3">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第4章 ===== -->
+  <section class="chapter" id="ch4">
+    <div class="chapter-no">CHAPTER 4</div>
+    <h2>コンポーネントとスタイル</h2>
+
+    <h3>コンポーネント = 使い回せる部品</h3>
+    <p>ボタンやカードなど、何度も使うパーツは<span class="mark">コンポーネント</span>にします(<kbd>Option</kbd>+<kbd>Cmd</kbd>+<kbd>K</kbd>)。</p>
+    <ul>
+      <li><b>メインコンポーネント</b>:元になる部品。ここを直すと、すべてのコピーに反映される</li>
+      <li><b>インスタンス</b>:メインから作ったコピー。文字や色だけを個別に変えられる(上書き)</li>
+    </ul>
+    <div class="flow">
+      <span class="step">メインコンポーネントを修正</span><span class="arrow">→</span>
+      <span class="step">すべてのインスタンスに反映</span>
+    </div>
+    <div class="note">インスタンスで上書きした部分(たとえばボタンの文字)は、メインを変更しても保たれます。メインとのつながりを切りたいときは「インスタンスの切り離し」をします。</div>
+
+    <h3>バリアント = 状態やサイズ違いをまとめる</h3>
+    <p>ボタンの「通常・ホバー・無効」や「大・中・小」のような違いは、<b>バリアント</b>として1つのコンポーネントにまとめます。インスタンス側では、プロパティを切り替えるだけで見た目が変わります。</p>
+
+    <h3>スタイルとバリアブル</h3>
+    <ul>
+      <li><b>カラースタイル</b>:色に名前をつけて登録(例:<code>primary</code>)</li>
+      <li><b>テキストスタイル</b>:フォント・サイズ・太さ・行間・字間のセット(文字色は含まない)</li>
+      <li><b>エフェクトスタイル</b>:シャドウやぼかし</li>
+      <li><b>バリアブル</b>:色や数値に名前をつけた「変数」。ライト/ダークなどのモードで値を切り替えられる</li>
+    </ul>
+    <p>色やサイズを直接入力せず、スタイルやバリアブルから選ぶようにすると、あとから「メインカラーを変えたい」となっても1か所の修正で済みます。CSSでいう<b>CSS変数(カスタムプロパティ)</b>と同じ考え方です。</p>
+    <pre class="code">Figmaのバリアブル          CSSの変数
+color/primary = #1F4FD8  →  --color-primary: #1f4fd8;
+space/md      = 16       →  --space-md: 16px;</pre>
+
+    <button class="main btn-secondary btn-chapter" data-go="4">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第5章 ===== -->
+  <section class="chapter" id="ch5">
+    <div class="chapter-no">CHAPTER 5</div>
+    <h2>制約とレスポンシブ</h2>
+
+    <h3>制約 = 親の大きさが変わったときの動き方</h3>
+    <p>オートレイアウトではないフレームの中では、<span class="mark">制約</span>で「親フレームのどこにくっつくか」を決めます。</p>
+    <ul>
+      <li><b>左</b>:左端からの距離を保つ(初期設定)</li>
+      <li><b>右</b>:右端からの距離を保つ</li>
+      <li><b>左右</b>:左右両方の距離を保つ → 幅が伸び縮みする</li>
+      <li><b>中央</b>:中心からのずれを保つ</li>
+      <li><b>拡大縮小</b>:親に対する割合を保つ</li>
+    </ul>
+    <div class="demo">
+      <div class="demo-label">親フレームを広げたとき(上:元の幅 / 下:広げたあと)</div>
+      <div class="cons-wrap">
+        <div class="cons-cap">制約「右」:右端からの距離が同じ</div>
+        <div class="cons w60"><div class="box" style="right:16px;width:80px">ボタン</div></div>
+        <div class="cons"><div class="box" style="right:16px;width:80px">ボタン</div></div>
+        <div class="cons-cap">制約「左右」:幅が伸びる</div>
+        <div class="cons w60"><div class="box" style="left:16px;right:16px">バナー</div></div>
+        <div class="cons"><div class="box" style="left:16px;right:16px">バナー</div></div>
+      </div>
+    </div>
+    <pre class="code">(例)幅400の親 → 600に広げる。子は 左から40・幅120(右から240)
+
+制約「右」  :右から240を保つ → 新しいX = 600 − 240 − 120 = 240
+制約「左右」:左40・右240を保つ → 新しい幅 = 600 − 40 − 240 = 320
+制約「中央」:広がった分の半分だけ動く → 新しいX = 40 + 200 ÷ 2 = 140
+制約「拡大縮小」:1.5倍になる → 新しい幅 = 120 × 1.5 = 180</pre>
+
+    <h3>レスポンシブデザイン</h3>
+    <p>スマホ・タブレット・パソコンなど、画面の幅に合わせてレイアウトを切り替えることを<b>レスポンシブデザイン</b>といいます。切り替える境目の幅が<span class="mark">ブレイクポイント</span>です。</p>
+    <ul>
+      <li>スマホ:〜767px(デザインは幅375や390で作ることが多い)</li>
+      <li>タブレット:768px〜</li>
+      <li>パソコン:1024px〜(デザインは幅1280や1440で作ることが多い)</li>
+    </ul>
+    <div class="note">小さい画面から先に作る進め方を<b>モバイルファースト</b>といいます。スマホで入り切る内容に絞ってから、広い画面で横に並べ直すと破綻しにくくなります。</div>
+
+    <h3>カラムグリッド</h3>
+    <p>フレームに「レイアウトグリッド」を設定すると、縦のガイド(カラム)が表示されます。パソコンは<b>12カラム</b>、スマホは<b>4カラム</b>がよく使われます。12は2・3・4・6で割り切れるので、2列にも3列にも4列にも分けやすいからです。</p>
+    <pre class="code">1カラムの幅 =(全体の幅 − 左右のマージン × 2 − ガター ×(カラム数 − 1))÷ カラム数
+
+(例)全体1200、マージン0、ガター24、12カラム
+(1200 − 24 × 11)÷ 12 = 78</pre>
+
+    <h3>広がりすぎを止める</h3>
+    <p>オートレイアウトのフレームには、<b>最小幅・最大幅</b>を設定できます。本文が横に広がりすぎると読みにくいので、「最大幅 1200」のように上限を決めます(CSSの <code>max-width</code>)。</p>
+
+    <button class="main btn-secondary btn-chapter" data-go="5">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 第6章 ===== -->
+  <section class="chapter" id="ch6">
+    <div class="chapter-no">CHAPTER 6</div>
+    <h2>FigmaからHTML/CSSへ</h2>
+
+    <h3>フレーム = 要素、オートレイアウト = Flexbox</h3>
+    <p>Figmaの設定は、ほぼそのままCSSに置き換えられます。</p>
+    <div class="pairs">
+      <div class="pair"><span class="from">フレーム</span><span class="arrow">→</span><code>&lt;div&gt;</code> などの要素</div>
+      <div class="pair"><span class="from">オートレイアウト</span><span class="arrow">→</span><code>display: flex;</code></div>
+      <div class="pair"><span class="from">方向(横 / 縦)</span><span class="arrow">→</span><code>flex-direction: row;</code> / <code>column;</code></div>
+      <div class="pair"><span class="from">アイテムの間隔</span><span class="arrow">→</span><code>gap</code></div>
+      <div class="pair"><span class="from">間隔「自動」</span><span class="arrow">→</span><code>justify-content: space-between;</code></div>
+      <div class="pair"><span class="from">パディング</span><span class="arrow">→</span><code>padding</code></div>
+      <div class="pair"><span class="from">並ぶ方向の揃え</span><span class="arrow">→</span><code>justify-content</code></div>
+      <div class="pair"><span class="from">垂直方向の揃え</span><span class="arrow">→</span><code>align-items</code></div>
+      <div class="pair"><span class="from">折り返し</span><span class="arrow">→</span><code>flex-wrap: wrap;</code></div>
+      <div class="pair"><span class="from">内包(Hug)</span><span class="arrow">→</span>幅を指定しない(<code>width: fit-content;</code>)</div>
+      <div class="pair"><span class="from">拡大(Fill)</span><span class="arrow">→</span><code>flex: 1;</code>(並ぶ方向) / <code>align-self: stretch;</code>(垂直方向)</div>
+      <div class="pair"><span class="from">固定(Fixed)</span><span class="arrow">→</span><code>width: 320px;</code> のように数値で指定</div>
+    </div>
+
+    <h3>見た目のプロパティ</h3>
+    <div class="pairs">
+      <div class="pair"><span class="from">塗り(フレーム・図形)</span><span class="arrow">→</span><code>background-color</code></div>
+      <div class="pair"><span class="from">塗り(テキスト)</span><span class="arrow">→</span><code>color</code></div>
+      <div class="pair"><span class="from">線(ストローク)</span><span class="arrow">→</span><code>border</code></div>
+      <div class="pair"><span class="from">角の半径</span><span class="arrow">→</span><code>border-radius</code></div>
+      <div class="pair"><span class="from">ドロップシャドウ</span><span class="arrow">→</span><code>box-shadow</code></div>
+      <div class="pair"><span class="from">不透明度</span><span class="arrow">→</span><code>opacity</code></div>
+      <div class="pair"><span class="from">行間 / 字間</span><span class="arrow">→</span><code>line-height</code> / <code>letter-spacing</code></div>
+    </div>
+
+    <h3>カードを実装してみる</h3>
+    <pre class="code"><span class="cm">Figmaの設定</span>
+card  :オートレイアウト(縦)/ 間隔12 / パディング24 / 角の半径12 / 塗り #FFFFFF / 幅320(固定)
+title :20px・太字     text:14px・行間1.75
+button:オートレイアウト(横)/ パディング 上下12・左右24 / 角の半径8 / 塗り #1F4FD8</pre>
+    <pre class="code">&lt;article class="card"&gt;
+  &lt;h2 class="card-title"&gt;Figma入門講座&lt;/h2&gt;
+  &lt;p class="card-text"&gt;初心者向けに基本操作を学びます。&lt;/p&gt;
+  &lt;a class="button" href="#"&gt;申し込む&lt;/a&gt;
+&lt;/article&gt;</pre>
+    <pre class="code">.card {
+  display: flex;
+  flex-direction: column;   <span class="cm">/* 方向:縦 */</span>
+  gap: 12px;                <span class="cm">/* アイテムの間隔 */</span>
+  padding: 24px;            <span class="cm">/* パディング */</span>
+  width: 320px;             <span class="cm">/* 固定 */</span>
+  border-radius: 12px;      <span class="cm">/* 角の半径 */</span>
+  background-color: #ffffff;
+}
+.card-title { font-size: 1.25rem; font-weight: 700; }
+.card-text  { font-size: 0.875rem; line-height: 1.75; }
+.button {
+  display: flex;
+  justify-content: center;
+  align-self: flex-start;   <span class="cm">/* 内包(Hug):文字の長さに合わせる */</span>
+  padding: 12px 24px;       <span class="cm">/* 上下12・左右24 */</span>
+  border-radius: 8px;
+  background-color: #1f4fd8;
+  color: #ffffff;           <span class="cm">/* テキストの塗り */</span>
+}</pre>
+
+    <h3>paddingの書き方</h3>
+    <pre class="code">padding: 24px;                 <span class="cm">/* 上下左右すべて24 */</span>
+padding: 12px 24px;            <span class="cm">/* 上下12・左右24 */</span>
+padding: 8px 16px 24px 32px;   <span class="cm">/* 上8・右16・下24・左32(時計回り) */</span></pre>
+
+    <h3>pxとrem</h3>
+    <p>Figmaの数値はpxですが、CSSの文字サイズは <b>rem</b> で書くのが一般的です。remは「ブラウザの基準の文字サイズ(ふつう16px)の何倍か」を表し、利用者が文字を大きくする設定をしたときに一緒に拡大されます。</p>
+    <pre class="code">rem = px ÷ 16
+(例)24px ÷ 16 = 1.5rem   14px ÷ 16 = 0.875rem</pre>
+
+    <h3>レスポンシブはメディアクエリで</h3>
+    <pre class="code"><span class="cm">/* モバイルファースト:まずスマホ用(縦並び) */</span>
+.cards { display: flex; flex-direction: column; gap: 16px; }
+
+<span class="cm">/* 768px以上になったら横並びに */</span>
+@media (min-width: 768px) {
+  .cards { flex-direction: row; gap: 24px; }
+}</pre>
+
+    <h3>開発モードと書き出し</h3>
+    <ul>
+      <li><b>開発モード</b>(<kbd>Shift</kbd>+<kbd>D</kbd>):要素を選ぶと、サイズ・余白・色・CSSのコードを確認できる(有料プラン向けの機能。無料でも右パネルで数値は確認できる)</li>
+      <li><b>書き出し</b>:右パネルの「エクスポート」から。ロゴやアイコンは<b>SVG</b>、写真は<b>JPG</b>、透過が必要な画像は<b>PNG</b></li>
+      <li>PNG・JPGは <b>2x</b>(2倍)で書き出すと、高解像度の画面でもぼやけない(表示幅300pxなら600pxの画像になる)</li>
+    </ul>
+    <div class="note">出てきたCSSをそのまま貼るのではなく、「どのフレームがどのHTML要素になるか」を自分で決めるのがコツです。見出しは <code>&lt;h1&gt;</code>〜、ナビは <code>&lt;nav&gt;</code>、ボタンは <code>&lt;button&gt;</code> か <code>&lt;a&gt;</code> と、意味に合ったタグを選びます。</div>
+
+    <button class="main btn-secondary btn-chapter" data-go="6">この章の問題を解く</button>
+  </section>
+
+  <!-- ===== 実習課題 ===== -->
+  <section class="chapter" id="work">
+    <div class="chapter-no">HANDS-ON</div>
+    <h2>実習課題(Figmaで作って、コードにする)</h2>
+    <p>読むだけでは身につかないので、小さいものから順に手を動かします。</p>
+
+    <h3>課題1 ボタン</h3>
+    <ol>
+      <li><kbd>T</kbd> で「申し込む」と入力し、<kbd>Shift</kbd>+<kbd>A</kbd> でオートレイアウトにする</li>
+      <li>パディングを上下12・左右24、角の半径8、塗りを好きな色に</li>
+      <li>文字を「資料をダウンロードする」に変えて、余白が保たれることを確かめる</li>
+      <li><kbd>Option</kbd>+<kbd>Cmd</kbd>+<kbd>K</kbd> でコンポーネントにする</li>
+    </ol>
+
+    <h3>課題2 カード</h3>
+    <ol>
+      <li>タイトル・説明文・課題1のボタン(インスタンス)を選んで <kbd>Shift</kbd>+<kbd>A</kbd></li>
+      <li>方向を縦、間隔12、パディング24、幅320(固定)にする</li>
+      <li>説明文の幅を「拡大(Fill)」にして、カードの幅を変えても折り返すことを確かめる</li>
+      <li>第6章のコードを見ずに、HTMLとCSSを書いてみる</li>
+    </ol>
+
+    <h3>課題3 ヘッダーとカード一覧</h3>
+    <ol>
+      <li>幅1280のフレームを作り、12カラムのレイアウトグリッドを設定する</li>
+      <li>ロゴとナビを横並びにし、間隔を「自動」にして両端にそろえる</li>
+      <li>カードを3枚、横並び・間隔24で並べ、カードの幅を「拡大(Fill)」にする</li>
+      <li>幅375のフレームにも同じ内容を縦並びで作り、メディアクエリで切り替えるCSSを書く</li>
+    </ol>
+  </section>
+
+  <!-- ===== 練習問題 ===== -->
+  <section class="quiz" id="quiz">
+    <div class="header-row">
+      <div>
+        <div class="kicker">PRACTICE</div>
+        <h2>練習問題(ランダム出題)</h2>
+      </div>
+      <div>
+        <div class="score-label">スコア</div>
+        <div class="score-value"><span id="score">0</span> / <span id="total">0</span></div>
+      </div>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="chip on" data-ch="0">すべて</button>
+      <button class="chip" data-ch="1">1. デザインの基礎</button>
+      <button class="chip" data-ch="2">2. Figmaの基本</button>
+      <button class="chip" data-ch="3">3. オートレイアウト</button>
+      <button class="chip" data-ch="4">4. コンポーネント</button>
+      <button class="chip" data-ch="5">5. 制約とレスポンシブ</button>
+      <button class="chip" data-ch="6">6. HTML/CSSへ</button>
+    </div>
+
+    <div class="topic-badge" id="topicBadge"></div>
+    <div class="problem-card" id="problemCard"></div>
+    <div class="answer-area" id="answerArea"></div>
+    <div class="error" id="errorText"></div>
+
+    <div class="buttons-row">
+      <button class="main btn-primary" id="checkBtn">解答する</button>
+      <button class="main btn-secondary" id="nextBtn">次の問題へ</button>
+    </div>
+
+    <div class="result-card" id="resultCard">
+      <div class="result-title" id="resultTitle"></div>
+      <div class="result-explanation" id="resultExplanation"></div>
+    </div>
+
+    <div class="footer-note">Webデザイン入門 Figma編(デザインの基礎・Figma・HTML/CSSの実装)の練習用アプリ。Figmaのメニュー名はバージョンによって少し異なることがあります。</div>
+  </section>
+
+</div>
+
+<script>
+(function () {
+  function $(id) { return document.getElementById(id); }
+  function each(sel, fn) { Array.prototype.forEach.call(document.querySelectorAll(sel), fn); }
+
+  // ================= コントラストチェッカー =================
+  function lum(hex) {
+    var c = [1, 3, 5].map(function (i) {
+      var v = parseInt(hex.substr(i, 2), 16) / 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  }
+  function updateContrast() {
+    var fg = $('ccFg').value, bg = $('ccBg').value;
+    var a = lum(fg), b = lum(bg);
+    var ratio = (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    $('ccSample').style.color = fg; $('ccSample').style.background = bg;
+    function tag(ok, label) { return '<span class="tag ' + (ok ? 'ok' : 'ng') + '">' + label + (ok ? ' OK' : ' NG') + '</span>'; }
+    $('ccResult').innerHTML = 'コントラスト比 <b>' + (Math.floor(ratio * 100) / 100).toFixed(2) + '</b> : 1' +
+      tag(ratio >= 4.5, '本文(4.5以上)') + tag(ratio >= 3, '大きな文字(3以上)');
+  }
+  $('ccFg').addEventListener('input', updateContrast);
+  $('ccBg').addEventListener('input', updateContrast);
+  updateContrast();
+
+  // ================= オートレイアウト体験 =================
+  var al = { dir: 'row', gap: '16', pad: '16', main: 'flex-start', cross: 'center', child: 'hug' };
+  var AL_WORD = { 'flex-start': '先頭', 'center': '中央', 'flex-end': '末尾' };
+  function updateAL() {
+    each('#alControls .seg', function (b) { b.classList.toggle('on', al[b.getAttribute('data-k')] === b.getAttribute('data-v')); });
+    var inner = $('alInner'), auto = al.gap === 'auto', fill = al.child === 'fill';
+    $('alFrame').style.padding = al.pad + 'px';
+    inner.style.flexDirection = al.dir;
+    inner.style.gap = auto ? '0px' : al.gap + 'px';
+    inner.style.justifyContent = auto ? 'space-between' : al.main;
+    inner.style.alignItems = al.cross;
+    each('#alInner .al-item', function (x) { x.style.flex = fill ? '1' : '0 0 auto'; });
+
+    var css = ['.frame {', '  display: flex;', '  flex-direction: ' + al.dir + ';'];
+    if (auto) css.push('  justify-content: space-between;');
+    else { css.push('  gap: ' + al.gap + 'px;'); css.push('  justify-content: ' + al.main + ';'); }
+    css.push('  align-items: ' + al.cross + ';');
+    css.push('  padding: ' + al.pad + 'px;');
+    css.push('}');
+    if (fill) css.push('.item { flex: 1; }');
+    $('alCss').textContent = css.join('\n');
+
+    var note = '';
+    if (fill) note = '子が「拡大(Fill)」なので、残りのスペースを3つで分け合っています。' + (auto ? '' : '(並ぶ方向の揃えは効きません)');
+    else if (auto) note = '間隔が「自動」なので、両端にそろって均等に広がります。(並ぶ方向の揃えは効きません)';
+    else note = '並ぶ方向=' + (al.dir === 'row' ? '横' : '縦') + '、揃え=' + AL_WORD[al.main] + '・' + AL_WORD[al.cross];
+    $('alNote').textContent = note;
+  }
+  each('#alControls .seg', function (b) {
+    b.addEventListener('click', function () { al[b.getAttribute('data-k')] = b.getAttribute('data-v'); updateAL(); });
+  });
+  updateAL();
+
+  // ================= 練習問題 =================
+  var state = { problem: null, score: 0, total: 0, chapter: 0, answered: false, choice: null, lastKey: '' };
+  var CH_NAME = { 1: 'デザインの基礎', 2: 'Figmaの基本', 3: 'オートレイアウト', 4: 'コンポーネントとスタイル', 5: '制約とレスポンシブ', 6: 'FigmaからHTML/CSSへ' };
+
+  function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function pickN(arr, n) { return shuffle(arr).slice(0, n); }
+  function fmt(n) { return String(Math.round(n * 1000) / 1000); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９．]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/px|rem|[,，\s]/gi, '');
+    if (!/^\d+(\.\d+)?$/.test(s)) return null;
+    return parseFloat(s);
+  }
+
+  function numP(ch, topic, lines, answer, unit, explain) {
+    return { ch: ch, topic: topic, kind: 'number', lines: lines, answer: answer, unit: unit, explain: explain };
+  }
+  function choiceP(ch, topic, lines, options, answer, explain, mono) {
+    return { ch: ch, topic: topic, kind: 'choice', lines: lines, options: shuffle(options), answer: answer, explain: explain, mono: !!mono };
+  }
+  function knowProblem(ch, pool) {
+    var k = pick(pool);
+    return choiceP(ch, '知識問題', [k.q], [k.a].concat(k.o), k.a, '正解は「' + k.a + '」。\n' + k.e, k.mono);
+  }
+
+  // ---- 第1章 デザインの基礎 ----
+  var K1 = [
+    { q: '関係のある要素どうしを近づけて、ひとまとまりに見せる原則は?', a: '近接', o: ['整列', '反復', '対比'], e: '近いものは仲間、離れたものは別のグループに見えます。' },
+    { q: '要素の端や中心を、見えない線でそろえる原則は?', a: '整列', o: ['近接', '反復', '対比'], e: '左端をそろえるだけでも、まとまって見えます。' },
+    { q: '同じ役割の要素に、同じ色・形・サイズをくり返し使う原則は?', a: '反復', o: ['近接', '整列', '対比'], e: 'くり返すことで、ページ全体に一貫性が出ます。' },
+    { q: '見出しを本文より大きく太くして、差をはっきりつける原則は?', a: '対比', o: ['近接', '整列', '反復'], e: '大事なものとそうでないものの差を、中途半端にせずはっきりつけます。' },
+    { q: '配色の目安「ベース:メイン:アクセント」として正しいものは?', a: '70:25:5', o: ['33:33:33', '5:25:70', '50:50:0'], e: 'ベース(背景)が約70%、メインが約25%、アクセントは約5%だけ使います。' },
+    { q: 'ふつうの本文テキストで必要なコントラスト比(WCAGのAA)は?', a: '4.5:1 以上', o: ['1.5:1 以上', '3:1 以上', '21:1 以上'], e: '本文は4.5:1以上、大きな文字は3:1以上が目安です。' },
+    { q: '大きな文字(24px以上など)で必要なコントラスト比(WCAGのAA)は?', a: '3:1 以上', o: ['4.5:1 以上', '1:1 以上', '7:1 以上'], e: '大きな文字は読みやすいので、基準が少しゆるくなります。' },
+    { q: 'Webの本文の文字サイズとして、基準になるのは?', a: '16px', o: ['8px', '10px', '24px'], e: 'ブラウザの初期設定も16pxです。' },
+    { q: '日本語の本文で読みやすい行間(line-height)の目安は?', a: '1.5〜1.8', o: ['0.8〜1.0', '1.0〜1.2', '2.5〜3.0'], e: '日本語は文字が詰まって見えるので、英文より広めにとります。' },
+    { q: 'アクセントカラーの使い方として正しいものは?', a: 'ボタンなど、一番目立たせたいところだけに使う', o: ['背景全体に使う', '本文の文字色に使う', 'できるだけ多くの場所に使う'], e: '使う場所を絞るから目立ちます。' }
+  ];
+  function gen1Spacing() {
+    var ok = pick([8, 16, 24, 32, 40, 48, 56, 64]);
+    var ng = pickN([10, 15, 18, 20, 25, 30, 35, 45, 50], 3);
+    return choiceP(1, '余白のルール', ['余白を「8の倍数」でそろえるルールに合っているのは?'],
+      [ok + 'px'].concat(ng.map(function (x) { return x + 'px'; })), ok + 'px',
+      ok + ' ÷ 8 = ' + (ok / 8) + ' で割り切れます。\n8・16・24・32・40・48…から選ぶと、迷わず統一感が出ます。');
+  }
+  function gen1LineHeight() {
+    var c = pick([[16, 1.5], [16, 1.75], [16, 2], [14, 1.5], [14, 2], [18, 1.5], [18, 2], [20, 1.5], [20, 1.6], [20, 1.8], [24, 1.5], [32, 1.25], [40, 1.2]]);
+    return numP(1, '行間の計算', ['文字サイズ<b>' + c[0] + 'px</b>、line-height<b>' + c[1] + '</b>(' + Math.round(c[1] * 100) + '%)のテキストがある。', '1行の高さ(行間)は何px?'],
+      c[0] * c[1], 'px', '行間 = 文字サイズ × 倍率\n' + c[0] + ' × ' + c[1] + ' = ' + fmt(c[0] * c[1]) + 'px');
+  }
+  function gen1() { return pick([function () { return knowProblem(1, K1); }, function () { return knowProblem(1, K1); }, gen1Spacing, gen1LineHeight])(); }
+
+  // ---- 第2章 Figmaの基本 ----
+  var K2 = [
+    { q: 'フレームツールのショートカットは?', a: 'F', o: ['R', 'T', 'V'], e: 'FrameのFです。' },
+    { q: '長方形ツールのショートカットは?', a: 'R', o: ['F', 'O', 'L'], e: 'RectangleのRです。' },
+    { q: 'テキストツールのショートカットは?', a: 'T', o: ['F', 'R', 'P'], e: 'TextのTです。' },
+    { q: '移動(選択)ツールのショートカットは?', a: 'V', o: ['M', 'S', 'H'], e: 'Vで移動ツールに戻ります。Hは手のひらツールです。' },
+    { q: '選択したレイヤーを複製するショートカットは?(Mac)', a: 'Cmd + D', o: ['Cmd + G', 'Cmd + R', 'Shift + A'], e: 'DuplicateのDです。WindowsではCtrl + D。' },
+    { q: 'キャンバス全体を画面に収めて表示するショートカットは?', a: 'Shift + 1', o: ['Shift + A', 'Shift + D', 'Cmd + 1'], e: 'Shift + 2 は、選択したものを拡大表示します。' },
+    { q: 'フレームとグループの違いとして正しいものは?', a: 'フレームは自分のサイズを持ち、オートレイアウトや制約を設定できる', o: ['グループだけがオートレイアウトにできる', 'フレームは中に何も入れられない', '違いはなく、名前が異なるだけ'], e: 'グループはまとめて動かすためだけのもの。Webデザインでは基本的にフレームを使います。' },
+    { q: 'Webページ1画面分のデザインを置く「台紙」にあたるものは?', a: 'フレーム', o: ['ページ', 'グループ', 'スタイル'], e: 'ファイル › ページ › フレーム › レイヤー の順に入れ子になっています。' },
+    { q: 'Figmaのフレームは、HTMLでいうと何に近い?', a: '<div> などの要素', o: ['<br>', 'コメント', 'class属性'], e: 'フレームが1つの箱(要素)になります。' },
+    { q: 'ほかの要素との距離(余白)を確かめる操作は?(Mac)', a: '要素を選び、Optionを押しながら別の要素にマウスを重ねる', o: ['要素をダブルクリックする', 'Shiftを押しながらドラッグする', '要素を右クリックして削除する'], e: '赤い線と数値で距離が表示されます。WindowsではAltです。' },
+    { q: 'レイヤー名を「Frame 127」のままにしないほうがよい理由は?', a: '役割がわからず、実装するときのクラス名の手がかりにもならないから', o: ['ファイルが開けなくなるから', '色が変わってしまうから', '書き出しができなくなるから'], e: 'header・card・button のように役割で名前をつけます。' }
+  ];
+  function gen2() { return knowProblem(2, K2); }
+
+  // ---- 第3章 オートレイアウト ----
+  var K3 = [
+    { q: 'オートレイアウトを追加するショートカットは?', a: 'Shift + A', o: ['Shift + D', 'Cmd + G', 'Shift + 1'], e: 'フレームやレイヤーを選んで Shift + A。' },
+    { q: '中身にぴったり合わせて大きさが決まる設定は?', a: 'コンテンツを内包(Hug)', o: ['固定(Fixed)', 'コンテナに合わせて拡大(Fill)', '拡大縮小(Scale)'], e: '文字数が増えれば、箱も一緒に大きくなります。' },
+    { q: '親フレームの残りのスペースいっぱいに広がる設定は?', a: 'コンテナに合わせて拡大(Fill)', o: ['固定(Fixed)', 'コンテンツを内包(Hug)', '絶対位置'], e: '親の大きさが変わると、一緒に伸び縮みします。' },
+    { q: 'フレームの内側の端と、中身のあいだの余白は?', a: 'パディング', o: ['アイテムの間隔', 'マージン', 'ガター'], e: '要素どうしのあいだは「アイテムの間隔」、端と中身のあいだは「パディング」です。' },
+    { q: 'アイテムの間隔を「自動」にすると、どうなる?', a: '要素が両端にそろい、あいだが均等に広がる', o: ['要素がすべて重なる', '要素がすべて中央に集まる', '間隔が0になる'], e: 'CSSの justify-content: space-between と同じ動きです。' },
+    { q: 'オートレイアウトの中で、1つの要素だけ流れから外して自由に置く設定は?', a: '絶対位置', o: ['コンテンツを内包', 'バリアント', 'クリップ'], e: '通知バッジなどを角に重ねるときに使います。CSSの position: absolute にあたります。' },
+    { q: 'ボタンの文字数が変わっても、左右の余白を同じに保つには?', a: 'オートレイアウトにして、幅を「内包(Hug)」にする', o: ['幅を「固定」にする', 'グループ化する', '文字を小さくする'], e: 'パディングが保たれたまま、文字に合わせて幅が変わります。' },
+    { q: 'カードの中の説明文を、カードの幅に合わせて折り返させるには?', a: '説明文の幅を「拡大(Fill)」にする', o: ['説明文の幅を「内包(Hug)」にする', '説明文をグループ化する', 'カードの塗りを消す'], e: 'Hugだと1行のまま伸びてしまいます。Fillにすると、親の幅で折り返します。' }
+  ];
+  function gen3Hug() {
+    var n = pick([2, 3, 4, 5]), w = pick([40, 48, 56, 64, 80, 96, 120]), g = pick([8, 12, 16, 24]), p = pick([8, 16, 24, 32]);
+    var ans = n * w + (n - 1) * g + 2 * p;
+    return numP(3, '内包(Hug)の幅', ['横方向のオートレイアウトに、幅<b>' + w + '</b>の要素が<b>' + n + 'つ</b>並んでいる。', 'アイテムの間隔は<b>' + g + '</b>、左右のパディングはそれぞれ<b>' + p + '</b>。', 'フレームの幅を「内包(Hug)」にすると、幅は何px?'],
+      ans, 'px', '幅 = 中身の合計 + 間隔 ×(個数 − 1)+ 左右のパディング\n' + w + ' × ' + n + ' + ' + g + ' × ' + (n - 1) + ' + ' + p + ' × 2 = ' + ans + 'px\n\n間隔は「要素のあいだ」なので、個数より1つ少なくなります。');
+  }
+  function gen3Fill() {
+    var n = pick([2, 3, 4]), k = pick([64, 80, 96, 104, 120, 144, 160, 200]), g = pick([8, 16, 24]), p = pick([16, 24, 32]);
+    var W = n * k + (n - 1) * g + 2 * p;
+    return numP(3, '拡大(Fill)の幅', ['幅<b>' + W + '</b>(固定)の横方向オートレイアウトに、子が<b>' + n + 'つ</b>ある。', 'アイテムの間隔は<b>' + g + '</b>、左右のパディングはそれぞれ<b>' + p + '</b>。', '子の幅をすべて「拡大(Fill)」にすると、1つの幅は何px?'],
+      k, 'px', '1つの幅 =(親の幅 − 左右のパディング − 間隔 ×(個数 − 1))÷ 個数\n(' + W + ' − ' + (2 * p) + ' − ' + (g * (n - 1)) + ')÷ ' + n + ' = ' + k + 'px');
+  }
+  function gen3Height() {
+    var L = pick([20, 24, 28, 32]), v = pick([8, 12, 16, 20]);
+    return numP(3, 'ボタンの高さ', ['ボタンをオートレイアウトで作った。中のテキストの行間は<b>' + L + 'px</b>、上下のパディングはそれぞれ<b>' + v + '</b>。', '高さを「内包(Hug)」にすると、ボタンの高さは何px?'],
+      L + 2 * v, 'px', '高さ = テキストの行間 + 上下のパディング\n' + L + ' + ' + v + ' × 2 = ' + (L + 2 * v) + 'px\n\nテキストの高さは、文字サイズではなく「行間」で決まります。');
+  }
+  function gen3() { return pick([function () { return knowProblem(3, K3); }, function () { return knowProblem(3, K3); }, gen3Hug, gen3Fill, gen3Height])(); }
+
+  // ---- 第4章 コンポーネントとスタイル ----
+  var K4 = [
+    { q: 'コンポーネントの「元になる部品」を何という?', a: 'メインコンポーネント', o: ['インスタンス', 'バリアント', 'スタイル'], e: 'メインを修正すると、すべてのインスタンスに反映されます。' },
+    { q: 'メインコンポーネントから作った「コピー」を何という?', a: 'インスタンス', o: ['バリアント', 'バリアブル', 'グループ'], e: 'インスタンスでは、文字や色などを個別に上書きできます。' },
+    { q: 'メインコンポーネントの角の半径を変えた。インスタンスはどうなる?', a: 'すべてのインスタンスの角の半径も変わる', o: ['何も変わらない', 'インスタンスが削除される', '最初の1つだけ変わる'], e: 'これがコンポーネントを使う一番の理由です。修正が1か所で済みます。' },
+    { q: 'インスタンスでボタンの文字を書き換えたあと、メインの色を変えた。どうなる?', a: '色は変わり、書き換えた文字はそのまま残る', o: ['文字も元に戻る', '色は変わらない', 'インスタンスが切り離される'], e: '上書きした部分は保たれ、上書きしていない部分だけメインに合わせて変わります。' },
+    { q: 'ボタンの「通常・ホバー・無効」を1つのコンポーネントにまとめる機能は?', a: 'バリアント', o: ['制約', 'エクスポート', 'レイアウトグリッド'], e: 'インスタンス側で、プロパティを切り替えるだけで状態を変えられます。' },
+    { q: 'コンポーネントを作成するショートカットは?(Mac)', a: 'Option + Cmd + K', o: ['Option + Cmd + G', 'Shift + A', 'Cmd + D'], e: 'WindowsではCtrl + Alt + K。Option + Cmd + G はフレーム化です。' },
+    { q: '色や数値に名前をつけ、ライト/ダークなどのモードで値を切り替えられる機能は?', a: 'バリアブル', o: ['バリアント', 'インスタンス', '制約'], e: 'CSSの変数(カスタムプロパティ)と同じ考え方です。名前が似ているバリアントと区別しましょう。' },
+    { q: 'テキストスタイルに「含まれない」ものは?', a: '文字色', o: ['フォントの種類', '文字サイズ', '行間'], e: '色はカラースタイル(またはバリアブル)で別に管理します。' },
+    { q: 'インスタンスをメインコンポーネントと無関係なふつうのフレームに戻す操作は?', a: 'インスタンスの切り離し', o: ['バリアントの追加', 'オートレイアウトの削除', 'フレーム化'], e: '切り離すと、メインを変更しても反映されなくなります。' },
+    { q: '色を直接入力せず、スタイルやバリアブルから選ぶ利点は?', a: 'あとから色を変えるとき、1か所の修正で全体に反映できる', o: ['ファイルが開けなくなるのを防げる', '画像の書き出しが速くなる', 'フォントが自動で変わる'], e: '実装でも同じ名前のCSS変数にすると、デザインとコードがそろいます。' },
+    { q: 'Figmaのバリアブル「color/primary」は、CSSでは何にあたる?', a: 'CSS変数(--color-primary)', o: ['メディアクエリ', 'idセレクタ', 'コメント'], e: ':root { --color-primary: #1f4fd8; } のように定義し、var(--color-primary) で使います。' }
+  ];
+  function gen4() { return knowProblem(4, K4); }
+
+  // ---- 第5章 制約とレスポンシブ ----
+  var K5 = [
+    { q: '親フレームを広げても、右端からの距離を保つ制約は?', a: '右', o: ['左', '中央', '拡大縮小'], e: 'ヘッダー右上のボタンなどに使います。' },
+    { q: '親フレームを広げると、左右の余白を保ったまま幅が伸びる制約は?', a: '左右', o: ['左', '中央', '右'], e: '左と右の両方の距離を保つので、幅が変わります。' },
+    { q: '親フレームに対する割合を保つ制約は?', a: '拡大縮小', o: ['左右', '中央', '左'], e: '親が1.5倍になれば、位置も幅も1.5倍になります。' },
+    { q: '画面の幅に応じてレイアウトを切り替える「境目の幅」を何という?', a: 'ブレイクポイント', o: ['ガター', 'パディング', 'バリアント'], e: '768pxや1024pxなどがよく使われます。' },
+    { q: 'CSSで、画面の幅ごとにスタイルを切り替える仕組みは?', a: 'メディアクエリ', o: ['疑似要素', 'セレクタ', 'リセットCSS'], e: '@media (min-width: 768px) { … } のように書きます。' },
+    { q: '小さい画面(スマホ)から先にデザイン・実装する進め方は?', a: 'モバイルファースト', o: ['デスクトップファースト', 'ピクセルパーフェクト', 'フラットデザイン'], e: 'CSSでは、基本をスマホ用に書き、min-width のメディアクエリで広い画面用を足します。' },
+    { q: 'パソコン向けのデザインでよく使われるカラム数は?', a: '12カラム', o: ['5カラム', '7カラム', '11カラム'], e: '12は2・3・4・6で割り切れるので、いろいろな分け方ができます。' },
+    { q: 'カラムとカラムのあいだの溝を何という?', a: 'ガター', o: ['マージン', 'パディング', 'ベースライン'], e: '外側の余白がマージン、カラムのあいだがガターです。' },
+    { q: '本文が横に広がりすぎないよう、幅の上限を決めるCSSは?', a: 'max-width', o: ['min-width', 'overflow', 'z-index'], e: 'Figmaでは、オートレイアウトのフレームに「最大幅」を設定します。' }
+  ];
+  function gen5Constraint() {
+    var W0 = pick([400, 800]), W1 = W0 * pick([1.5, 2]);
+    var w = pick([80, 120, 160, 200]), x = pick([20, 40, 60, 80]), r = W0 - x - w, d = W1 - W0;
+    var base = ['幅<b>' + W0 + '</b>の親フレームの中に、左から<b>' + x + '</b>の位置に幅<b>' + w + '</b>の要素がある(右からは' + r + ')。', '親フレームの幅を<b>' + W1 + '</b>に広げた。'];
+    var v = pick(['right', 'lr', 'center', 'scale', 'left']);
+    if (v === 'right') return numP(5, '制約「右」', base.concat(['水平方向の制約が「<b>右</b>」のとき、要素のX(左からの位置)はいくつになる?']), W1 - r - w, 'px',
+      '「右」は右端からの距離(' + r + ')を保ち、幅は変わりません。\nX = ' + W1 + ' − ' + r + ' − ' + w + ' = ' + (W1 - r - w));
+    if (v === 'lr') return numP(5, '制約「左右」', base.concat(['水平方向の制約が「<b>左右</b>」のとき、要素の幅はいくつになる?']), W1 - x - r, 'px',
+      '「左右」は左(' + x + ')と右(' + r + ')の距離を両方保つので、幅が伸びます。\n幅 = ' + W1 + ' − ' + x + ' − ' + r + ' = ' + (W1 - x - r));
+    if (v === 'center') return numP(5, '制約「中央」', base.concat(['水平方向の制約が「<b>中央</b>」のとき、要素のX(左からの位置)はいくつになる?']), x + d / 2, 'px',
+      '「中央」は親の中心からのずれを保ちます。親が' + d + '広がると中心は' + (d / 2) + '右に動くので、要素も同じだけ動きます。\nX = ' + x + ' + ' + d + ' ÷ 2 = ' + (x + d / 2));
+    if (v === 'scale') return numP(5, '制約「拡大縮小」', base.concat(['水平方向の制約が「<b>拡大縮小</b>」のとき、要素の幅はいくつになる?']), w * W1 / W0, 'px',
+      '「拡大縮小」は親に対する割合を保ちます。親は ' + W1 + ' ÷ ' + W0 + ' = ' + fmt(W1 / W0) + '倍。\n幅 = ' + w + ' × ' + fmt(W1 / W0) + ' = ' + fmt(w * W1 / W0));
+    return numP(5, '制約「左」', base.concat(['水平方向の制約が「<b>左</b>」のとき、要素の右端から親の右端までの距離はいくつになる?']), W1 - x - w, 'px',
+      '「左」は左からの距離(' + x + ')と幅(' + w + ')がそのままなので、広がった分はすべて右側の余白になります。\n' + W1 + ' − ' + x + ' − ' + w + ' = ' + (W1 - x - w));
+  }
+  function gen5Grid() {
+    var c = pick([4, 6, 12]), g = pick([16, 20, 24, 32]), m = pick([0, 16, 24, 40]), col = pick([48, 56, 60, 64, 72, 78, 80, 88]);
+    var W = c * col + (c - 1) * g + 2 * m;
+    return numP(5, 'カラムグリッド', ['幅<b>' + W + '</b>のフレームに、<b>' + c + 'カラム</b>のレイアウトグリッドを設定した。', '左右のマージンはそれぞれ<b>' + m + '</b>、ガターは<b>' + g + '</b>。', '1カラムの幅は何px?'],
+      col, 'px', '1カラムの幅 =(全体 − マージン × 2 − ガター ×(カラム数 − 1))÷ カラム数\n(' + W + ' − ' + (2 * m) + ' − ' + g + ' × ' + (c - 1) + ')÷ ' + c + ' = ' + col + 'px\n\nガターは「カラムのあいだ」なので、カラム数より1つ少なくなります。');
+  }
+  function gen5Span() {
+    var col = pick([56, 64, 72, 78, 80]), g = pick([16, 24, 32]), n = pick([2, 3, 4, 6]);
+    var ans = n * col + (n - 1) * g;
+    return numP(5, 'カラムをまたぐ幅', ['1カラムの幅が<b>' + col + '</b>、ガターが<b>' + g + '</b>の12カラムグリッドがある。', '<b>' + n + 'カラム分</b>の幅を持つカードは何px?'],
+      ans, 'px', n + 'カラム分 = カラム × ' + n + ' + そのあいだのガター × ' + (n - 1) + '\n' + col + ' × ' + n + ' + ' + g + ' × ' + (n - 1) + ' = ' + ans + 'px');
+  }
+  function gen5() { return pick([function () { return knowProblem(5, K5); }, function () { return knowProblem(5, K5); }, gen5Constraint, gen5Constraint, gen5Grid, gen5Span])(); }
+
+  // ---- 第6章 FigmaからHTML/CSSへ ----
+  var K6 = [
+    { q: 'Figmaのオートレイアウトに最も近いCSSは?', a: 'Flexbox(display: flex)', o: ['float', 'position: fixed', 'display: none'], e: '方向・間隔・揃えの考え方が、ほぼそのまま対応します。' },
+    { q: 'オートレイアウトの「アイテムの間隔」にあたるCSSは?', a: 'gap', o: ['padding', 'margin-top', 'letter-spacing'], e: 'gap は flex や grid の子どうしのあいだの距離です。', mono: true },
+    { q: 'オートレイアウトの間隔「自動」にあたるCSSは?', a: 'justify-content: space-between;', o: ['justify-content: center;', 'align-items: stretch;', 'gap: auto;'], e: '両端にそろえて、残りを均等に配ります。', mono: true },
+    { q: '横方向のオートレイアウトで、子の幅を「拡大(Fill)」にした。子に書くCSSは?', a: 'flex: 1;', o: ['width: fit-content;', 'flex: none;', 'display: inline;'], e: '並ぶ方向の残りスペースを分け合います。垂直方向のFillは align-self: stretch です。', mono: true },
+    { q: '横方向のオートレイアウトで、垂直方向の揃えを「中央」にした。親に書くCSSは?', a: 'align-items: center;', o: ['justify-content: center;', 'text-align: center;', 'vertical-align: middle;'], e: '並ぶ方向が justify-content、それと垂直な方向が align-items です。', mono: true },
+    { q: 'Figmaでテキストの「塗り」にあたるCSSは?', a: 'color', o: ['background-color', 'fill-text', 'border-color'], e: 'フレームや図形の塗りは background-color、テキストの塗りは color です。', mono: true },
+    { q: 'Figmaの「角の半径」にあたるCSSは?', a: 'border-radius', o: ['border-width', 'outline', 'corner-size'], e: '角の半径8 → border-radius: 8px;', mono: true },
+    { q: 'Figmaの「ドロップシャドウ」にあたるCSSは?', a: 'box-shadow', o: ['text-decoration', 'filter: blur()', 'opacity'], e: 'X・Y・ぼかし・色の順に指定します。', mono: true },
+    { q: 'Figmaの「線(ストローク)」にあたるCSSは?', a: 'border', o: ['padding', 'gap', 'line-height'], e: '太さ・種類・色を指定します。例:border: 1px solid #ddd;', mono: true },
+    { q: 'ロゴやアイコンの書き出しに向いている形式は?', a: 'SVG', o: ['JPG', 'PDF', 'GIF'], e: 'SVGはベクター形式なので、拡大してもぼやけず、ファイルも軽くなります。' },
+    { q: '写真の書き出しに向いている形式は?', a: 'JPG', o: ['SVG', 'TXT', 'CSS'], e: '写真は色数が多いのでJPG。透過が必要ならPNGを使います。' },
+    { q: '開発モードに切り替えるショートカットは?', a: 'Shift + D', o: ['Shift + A', 'Shift + 1', 'Cmd + D'], e: 'サイズ・余白・色・CSSコードを確認できます。' },
+    { q: 'サイト内のメニュー(ナビゲーション)を囲むのにふさわしいHTMLタグは?', a: '<nav>', o: ['<span>', '<br>', '<img>'], e: '見た目ではなく、意味に合ったタグを選びます(セマンティックHTML)。', mono: true },
+    { q: '文字サイズを px ではなく rem で書く利点は?', a: '利用者がブラウザの文字サイズを変えたとき、一緒に拡大される', o: ['画像がきれいになる', 'ファイルが暗号化される', '色のコントラストが上がる'], e: 'remはブラウザの基準サイズ(ふつう16px)の何倍かを表します。' },
+    { q: 'モバイルファーストで「768px以上のとき」のスタイルを書くには?', a: '@media (min-width: 768px) { … }', o: ['@media (max-height: 768px) { … }', '@import 768px;', '@width 768px { … }'], e: 'min-width は「その幅以上」という意味です。', mono: true }
+  ];
+  function gen6Rem() {
+    var px = pick([12, 14, 18, 20, 24, 28, 32, 40, 48, 56, 64]);
+    return numP(6, 'px → rem', ['Figmaで文字サイズが<b>' + px + 'px</b>だった。', '基準の文字サイズを16pxとすると、何rem?'], px / 16, 'rem',
+      'rem = px ÷ 16\n' + px + ' ÷ 16 = ' + fmt(px / 16) + 'rem');
+  }
+  function gen6Pad2() {
+    var vs = pickN([8, 12, 16, 24, 32, 40], 2), v = vs[0], h = vs[1];
+    var a = 'padding: ' + v + 'px ' + h + 'px;';
+    return choiceP(6, 'paddingの書き方', ['Figmaでパディングが「上下<b>' + v + '</b>・左右<b>' + h + '</b>」だった。', 'CSSの書き方として正しいものは?'],
+      [a, 'padding: ' + h + 'px ' + v + 'px;', 'gap: ' + v + 'px ' + h + 'px;', 'padding: ' + v + 'px ' + v + 'px ' + h + 'px ' + h + 'px;'], a,
+      '正解は「' + a + '」。\n値が2つのときは「上下 左右」の順です。', true);
+  }
+  function gen6Pad4() {
+    var s = pickN([4, 8, 12, 16, 24, 32, 40, 48], 4), T = s[0], R = s[1], B = s[2], L = s[3];
+    function f(a, b, c, d) { return 'padding: ' + a + 'px ' + b + 'px ' + c + 'px ' + d + 'px;'; }
+    var a = f(T, R, B, L);
+    return choiceP(6, 'paddingの書き方', ['Figmaでパディングが「上<b>' + T + '</b>・右<b>' + R + '</b>・下<b>' + B + '</b>・左<b>' + L + '</b>」だった。', 'CSSの書き方として正しいものは?'],
+      [a, f(T, B, L, R), f(L, T, R, B), f(T, L, B, R)], a,
+      '正解は「' + a + '」。\n値が4つのときは「上 → 右 → 下 → 左」の時計回りです。', true);
+  }
+  function gen6Flex() {
+    var dir = pick(['row', 'column']), other = dir === 'row' ? 'column' : 'row', g = pick([8, 12, 16, 24, 32]);
+    function css(d, prop) { return 'display: flex;\nflex-direction: ' + d + ';\n' + prop + ': ' + g + 'px;'; }
+    var a = css(dir, 'gap');
+    return choiceP(6, 'オートレイアウト → CSS', ['Figmaで「オートレイアウト(<b>' + (dir === 'row' ? '横' : '縦') + '</b>)・アイテムの間隔<b>' + g + '</b>」のフレームがある。', '親要素に書くCSSとして正しいものは?'],
+      [a, css(other, 'gap'), css(dir, 'padding'), css(other, 'padding')], a,
+      '正解:\n' + a + '\n\n横は row、縦は column。要素どうしのあいだは gap です(padding はフレームの内側の余白)。', true);
+  }
+  function gen6Export() {
+    var w = pick([120, 160, 240, 300, 320, 360, 400, 480]), s = pick([2, 3]);
+    return numP(6, '書き出しサイズ', ['Figma上で幅<b>' + w + 'px</b>の画像を、<b>' + s + 'x</b>でPNGに書き出した。', '書き出された画像の幅は何px?'], w * s, 'px',
+      w + ' × ' + s + ' = ' + (w * s) + 'px\n\n高解像度の画面でぼやけないよう、表示サイズの2倍以上で書き出します。CSSでの表示幅は' + w + 'pxのままです。');
+  }
+  function gen6() { return pick([function () { return knowProblem(6, K6); }, function () { return knowProblem(6, K6); }, function () { return knowProblem(6, K6); }, gen6Rem, gen6Pad2, gen6Pad4, gen6Flex, gen6Export])(); }
+
+  var GENS = { 1: gen1, 2: gen2, 3: gen3, 4: gen4, 5: gen5, 6: gen6 };
+
+  // ---- 表示 ----
+  function render() {
+    var p = state.problem;
+    state.answered = false; state.choice = null;
+    $('topicBadge').textContent = 'CH' + p.ch + ' ' + CH_NAME[p.ch] + '|' + p.topic;
+    $('problemCard').innerHTML = p.lines.map(function (l) {
+      // 知識問題の本文はタグを含むことがある(<nav>など)ので、<b>以外はエスケープする
+      var safe = l.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/&lt;(\/?)b>/g, '<$1b>');
+      return '<div class="problem-line">' + safe + '</div>';
+    }).join('');
+
+    var area = $('answerArea'); area.innerHTML = '';
+    if (p.kind === 'choice') {
+      var box = document.createElement('div');
+      box.className = 'options' + (p.options.some(function (o) { return o.length > 12; }) ? ' stack' : '');
+      p.options.forEach(function (o) {
+        var b = document.createElement('button');
+        b.className = 'opt' + (p.mono ? ' mono' : ''); b.textContent = o;
+        b.addEventListener('click', function () {
+          if (state.answered) return;
+          state.choice = o;
+          each('#answerArea .opt', function (x) { x.classList.toggle('sel', x === b); });
+          hideError();
+        });
+        box.appendChild(b);
+      });
+      area.appendChild(box);
+    } else {
+      var grp = document.createElement('div'); grp.className = 'input-group';
+      var lab = document.createElement('label'); lab.setAttribute('for', 'numIn'); lab.textContent = '答え(半角数字)';
+      var row = document.createElement('div'); row.className = 'input-unit';
+      var inp = document.createElement('input'); inp.id = 'numIn'; inp.type = 'text'; inp.inputMode = 'decimal'; inp.placeholder = '例:' + (p.unit === 'rem' ? '1.5' : '320'); inp.autocomplete = 'off';
+      var unit = document.createElement('span'); unit.textContent = p.unit;
+      inp.addEventListener('input', hideError);
+      inp.addEventListener('keydown', function (e) { if (e.key === 'Enter') check(); });
+      row.appendChild(inp); row.appendChild(unit); grp.appendChild(lab); grp.appendChild(row); area.appendChild(grp);
+    }
+    hideError();
+    $('resultCard').className = 'result-card';
+    $('checkBtn').disabled = false;
+  }
+
+  function showError(msg) { $('errorText').textContent = msg; $('errorText').style.display = 'block'; }
+  function hideError() { $('errorText').style.display = 'none'; }
+
+  function check() {
+    if (state.answered) return;
+    var p = state.problem, ok, yours;
+    if (p.kind === 'choice') {
+      if (state.choice === null) return showError('選択肢を1つ選んでください。');
+      ok = state.choice === p.answer; yours = state.choice;
+    } else {
+      var n = parseNum($('numIn').value);
+      if (n === null) return showError('数字を半角で入力してください(小数は 1.5 のように)。');
+      ok = Math.abs(n - p.answer) < 0.005; yours = fmt(n) + p.unit;
+    }
+    state.answered = true;
+    state.total++; if (ok) state.score++;
+    $('score').textContent = state.score; $('total').textContent = state.total;
+    each('#answerArea .opt, #answerArea input', function (x) { x.disabled = true; });
+    $('checkBtn').disabled = true;
+    $('resultCard').className = 'result-card show ' + (ok ? 'ok' : 'ng');
+    $('resultTitle').textContent = ok ? '正解!' : '不正解';
+    var body = p.kind === 'number' ? '答え:' + fmt(p.answer) + p.unit + '\n\n' + p.explain : p.explain;
+    $('resultExplanation').textContent = (ok ? '' : 'あなたの解答:' + yours + '\n\n') + body;
+  }
+
+  function next() {
+    var p, key, tries = 0;
+    do {
+      var ch = state.chapter || pick([1, 2, 3, 4, 5, 6]);
+      p = GENS[ch]();
+      key = p.lines.join('|');
+    } while (key === state.lastKey && ++tries < 8);
+    state.lastKey = key;
+    state.problem = p;
+    render();
+  }
+
+  function setChapter(ch) {
+    state.chapter = ch;
+    each('#filters .chip', function (c) { c.classList.toggle('on', +c.getAttribute('data-ch') === ch); });
+    next();
+  }
+
+  each('#filters .chip', function (c) {
+    c.addEventListener('click', function () { setChapter(+c.getAttribute('data-ch')); });
+  });
+  each('.btn-chapter', function (b) {
+    b.addEventListener('click', function () {
+      setChapter(+b.getAttribute('data-go'));
+      $('quiz').scrollIntoView();
+    });
+  });
+  $('checkBtn').addEventListener('click', check);
+  $('nextBtn').addEventListener('click', next);
+
+  next();
+})();
+</script>
+</body>
+</html>

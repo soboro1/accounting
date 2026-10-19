@@ -1,0 +1,1074 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全経簿記1級 模擬試験</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px 64px;
+  }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  h4 { font-size: 15px; font-weight: 700; margin: 14px 0 4px; color: #fac775; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul, ol { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  .mark { color: #d4a24c; font-weight: 700; }
+
+  .note {
+    margin: 10px 0; padding: 10px 14px; border-left: 3px solid #d4a24c;
+    background: rgba(212,162,76,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8;
+  }
+
+  /* 上部バー(科目切り替え・タイマー) */
+  .bar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;
+    padding: 10px 0; background: rgba(16,27,45,0.96); border-bottom: 1px solid rgba(212,162,76,0.25);
+  }
+  .tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: inherit; cursor: pointer; font-size: 13px; font-weight: 700;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+    background: transparent; color: #d4a24c;
+  }
+  .chip.on { background: #d4a24c; color: #101b2d; }
+  .timer { display: flex; align-items: center; gap: 8px; }
+  .timer-label { font-size: 12px; color: #9aa5b1; }
+  .timer-value { font-size: 22px; font-weight: 700; color: #d4a24c; font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
+  .timer-value.over { color: #f0997b; }
+  .mini {
+    font-family: inherit; cursor: pointer; font-size: 12px; font-weight: 700;
+    padding: 6px 12px; border-radius: 999px; border: none; background: #d4a24c; color: #101b2d;
+  }
+  .mini.ghost { background: transparent; color: #d4a24c; border: 1px solid rgba(212,162,76,0.5); }
+  .timer-note { font-size: 13px; color: #f0997b; }
+
+  .subject { display: flex; flex-direction: column; gap: 20px; }
+  .subject, .q, .summary { scroll-margin-top: 120px; }
+  .subject-head { display: flex; flex-direction: column; gap: 4px; }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+  .q-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
+  .q-score { font-size: 18px; font-weight: 700; color: #d4a24c; white-space: nowrap; }
+
+  pre.entry {
+    margin: 8px 0; padding: 12px 16px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; overflow-x: auto;
+  }
+
+  /* 試算表・財務諸表などの書式 */
+  .stmt { margin: 10px 0; padding: 10px 16px 12px; border-radius: 8px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); }
+  .stmt-title { font-size: 14px; font-weight: 700; color: #d4a24c; margin: 6px 0 4px; }
+  .row {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px 12px;
+    padding: 5px 0; border-bottom: 1px dashed rgba(255,255,255,0.08); font-size: 14px; color: #e8e3d8;
+  }
+  .row:last-child { border-bottom: none; }
+  .row .amt { margin-left: auto; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .row.ind .lbl { padding-left: 1.2em; }
+  .row.sub .lbl { padding-left: 0.6em; color: #c7c0b0; }
+  .row.head .lbl { font-weight: 700; color: #fac775; }
+  .row.total { font-weight: 700; border-top: 1px solid rgba(212,162,76,0.45); }
+
+  .items { margin: 6px 0; padding-left: 0; list-style: none; counter-reset: none; }
+  .items li { margin: 8px 0; }
+  .qline { font-size: 15px; line-height: 2.1; color: #e8e3d8; margin: 8px 0; }
+
+  /* 解答欄 */
+  .unit { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 6px; border-radius: 8px; padding: 2px; }
+  .unit .bno { font-weight: 700; color: #d4a24c; }
+  input.num, select.word, select.dir, .jrow select, .jrow input {
+    padding: 8px 10px; font-size: 15px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input.num { width: 150px; text-align: right; font-variant-numeric: tabular-nums; }
+  input.num.short { width: 100px; }
+  select.word { min-width: 140px; }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus { outline: none; border-color: #d4a24c; }
+  input:disabled, select:disabled { opacity: 0.85; }
+  .unit.ok input, .unit.ok select { border-color: #1d9e75; background: rgba(29,158,117,0.12); }
+  .unit.ng input, .unit.ng select { border-color: #d85a30; background: rgba(216,90,48,0.12); }
+  .ans-show { font-size: 13px; font-weight: 700; color: #5dcaa5; white-space: nowrap; }
+  .ans-block { display: block; margin-top: 6px; }
+  .ans-block pre.entry { border-color: rgba(29,158,117,0.5); }
+
+  .jq { margin: 16px 0 6px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06); }
+  .unit.journal { display: block; padding: 0; }
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 6px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jside-title { font-size: 14px; color: #c7c0b0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.4; min-width: 0; width: 0; }
+  .jrow input { flex: 1; min-width: 0; width: 0; text-align: right; }
+  .unit.journal.ok .jside-title::after { content: ' ✓'; color: #5dcaa5; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+
+  .kaisetsu { margin-top: 16px; padding-top: 12px; border-top: 1px solid rgba(212,162,76,0.35); }
+
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+  button.main { font-family: inherit; cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  .btn-primary { color: #101b2d; background: #d4a24c; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+
+  .summary { padding: 18px 22px; border-radius: 12px; border: 2px solid; display: flex; flex-direction: column; gap: 6px; }
+  .summary.pass { border-color: #1d9e75; background: rgba(29,158,117,0.08); }
+  .summary.fail { border-color: #d85a30; background: rgba(216,90,48,0.08); }
+  .sum-title { font-size: 20px; font-weight: 700; }
+  .summary.pass .sum-title { color: #5dcaa5; }
+  .summary.fail .sum-title { color: #f0997b; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; line-height: 1.8; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .chapter { padding: 18px 16px; }
+    .stmt { padding: 8px 12px 10px; }
+    h1 { font-size: 22px; }
+    input.num { width: 130px; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div>
+    <div class="kicker">ZENKEI BOOKKEEPING LV.1 MOCK EXAM</div>
+    <h1>全経簿記1級 模擬試験 第1回</h1>
+  </div>
+
+  <div class="note">
+    全経簿記能力検定1級の出題形式に合わせた<b>オリジナル問題</b>です(実際の過去問ではありません)。<br>
+    ・2科目(商業簿記・財務会計/原価計算・管理会計)、各100点・試験時間90分<br>
+    ・各科目<b>70点以上</b>で科目合格、2科目とも合格すると1級合格<br>
+    ・金額は半角数字で入力(カンマはあってもなくてもOK)。解き終わったら下の「採点する」を押すと、配点どおりに採点して解説を表示します。
+  </div>
+
+  <div class="bar">
+    <div class="tabs" id="tabs">
+      <button class="chip on" data-s="shou">商業簿記・財務会計</button>
+      <button class="chip" data-s="gen">原価計算・管理会計</button>
+    </div>
+    <div class="timer">
+      <span class="timer-label">残り</span>
+      <span class="timer-value" id="timer">90:00</span>
+      <button class="mini" id="timerBtn">スタート</button>
+      <button class="mini ghost" id="timerReset">リセット</button>
+    </div>
+    <div class="timer-note" id="timerNote" hidden>時間終了です。採点してみましょう。</div>
+  </div>
+
+  <!-- =========================================================
+       商業簿記・財務会計
+       ========================================================= -->
+  <section class="subject" id="subj-shou">
+    <div class="subject-head">
+      <div class="kicker">SUBJECT 1</div>
+      <h2>商業簿記・財務会計(100点・90分)</h2>
+    </div>
+
+    <!-- 第1問 -->
+    <section class="chapter q" data-title="第1問 理論">
+      <div class="q-head">
+        <div><div class="chapter-no">第1問 ・ 10点(各2点)</div><h2>理論(語群選択)</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>次の文章は企業会計原則などの考え方を述べたものです。( )に当てはまる語句を語群から選びなさい。</p>
+      <div class="qline">ア 企業会計は、企業の財政状態および経営成績に関して、( <span class="unit" data-pt="2"><select class="word" data-ans="真実な報告" data-list="riron1" aria-label="ア"></select></span> )を提供するものでなければならない。</div>
+      <div class="qline">イ 企業会計は、その処理の原則および手続を毎期( <span class="unit" data-pt="2"><select class="word" data-ans="継続して" data-list="riron1" aria-label="イ"></select></span> )適用し、みだりにこれを変更してはならない。</div>
+      <div class="qline">ウ 企業の財政に不利な影響を及ぼす可能性がある場合には、これに備えて適当に( <span class="unit" data-pt="2"><select class="word" data-ans="健全な" data-list="riron1" aria-label="ウ"></select></span> )会計処理をしなければならない。</div>
+      <div class="qline">エ 費用および収益は、その発生源泉に従って明瞭に分類し、各収益項目とそれに関連する費用項目とを損益計算書に( <span class="unit" data-pt="2"><select class="word" data-ans="対応表示" data-list="riron1" aria-label="エ"></select></span> )しなければならない。</div>
+      <div class="qline">オ 貸借対照表に記載する資産の価額は、原則として、当該資産の( <span class="unit" data-pt="2"><select class="word" data-ans="取得原価" data-list="riron1" aria-label="オ"></select></span> )を基礎として計上しなければならない。</div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <ul>
+          <li><b>ア 真実な報告</b>:真実性の原則。一般原則の中でいちばん上位にある原則です。ここでの「真実」は、1つの正解しかない絶対的な真実ではなく、認められた方法の中から選んで処理した結果としての<span class="mark">相対的な真実</span>です。</li>
+          <li><b>イ 継続して</b>:継続性の原則。毎期同じ方法を使うことで期間比較ができ、利益操作も防げます。正当な理由があれば変更できます。</li>
+          <li><b>ウ 健全な</b>:保守主義(安全性)の原則。予想される損失には早めに備え、利益は控えめに見積もる考え方です。ただし、過度に保守的な処理は真実な報告をゆがめるので認められません。</li>
+          <li><b>エ 対応表示</b>:費用収益対応表示の原則。売上高と売上原価のように、関係する収益と費用を対応させて表示します。</li>
+          <li><b>オ 取得原価</b>:取得原価主義。資産は原則として取得したときの支出額をもとに評価します。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 第2問 -->
+    <section class="chapter q" data-title="第2問 仕訳">
+      <div class="q-head">
+        <div><div class="chapter-no">第2問 ・ 20点(各4点)</div><h2>仕訳</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>次の取引について仕訳を示しなさい。勘定科目は選択肢から選ぶこと。会計期間は毎年4月1日から翌年3月31日までの1年とする。</p>
+
+      <div class="jq">
+        <div class="qline">(1) ×1年4月1日に、額面総額10,000,000円の社債を額面100円につき96円で発行した(償還期間5年、償却原価法(定額法)を適用)。×3年4月1日に、このうち額面3,000,000円分を額面100円につき98円で買入償還し、代金は当座預金から支払った。なお、社債利息は考慮しなくてよい。</div>
+        <div class="unit journal" data-pt="4" data-dr='[["社債",2928000],["社債償還損",12000]]' data-cr='[["当座預金",2940000]]'></div>
+      </div>
+      <div class="jq">
+        <div class="qline">(2) かねて米国の仕入先から商品20,000ドルを掛けで輸入していた(輸入時の為替相場は1ドル=145円)。本日、この買掛金を当座預金から支払った。支払時の為替相場は1ドル=148円である。なお、輸入から支払までの間に決算日はない。</div>
+        <div class="unit journal" data-pt="4" data-dr='[["買掛金",2900000],["為替差損益",60000]]' data-cr='[["当座預金",2960000]]'></div>
+      </div>
+      <div class="jq">
+        <div class="qline">(3) 株主総会で、繰越利益剰余金を財源として、株主配当金2,500,000円の支払い、会社法が定める額の利益準備金の積立て、別途積立金300,000円の積立てを決議した。決議時の資本金は50,000,000円、資本準備金は8,500,000円、利益準備金は3,800,000円である。</div>
+        <div class="unit journal" data-pt="4" data-dr='[["繰越利益剰余金",3000000]]' data-cr='[["未払配当金",2500000],["利益準備金",200000],["別途積立金",300000]]'></div>
+      </div>
+      <div class="jq">
+        <div class="qline">(4) ×1年4月1日に、ファイナンス・リース取引に該当するリース契約を結んで備品を調達し、利子抜き法で処理している(リース期間5年、年間リース料600,000円を毎年3月31日に後払い、見積現金購入価額2,700,000円、利息は定額法で配分)。本日×2年3月31日、第1回のリース料を当座預金から支払った。</div>
+        <div class="unit journal" data-pt="4" data-dr='[["リース債務",540000],["支払利息",60000]]' data-cr='[["当座預金",600000]]'></div>
+      </div>
+      <div class="jq">
+        <div class="qline">(5) 営業用の車両(取得原価3,000,000円、減価償却累計額1,800,000円、間接法で記帳)を下取りに出し、新しい車両4,000,000円を購入した。下取価格は1,000,000円で、新車両の代金との差額は翌月末に支払うことにした。なお、当期分の減価償却は考慮しなくてよい。</div>
+        <div class="unit journal" data-pt="4" data-dr='[["車両運搬具",4000000],["車両運搬具減価償却累計額",1800000],["固定資産売却損",200000]]' data-cr='[["車両運搬具",3000000],["未払金",3000000]]'></div>
+      </div>
+      <p class="hint">2行目以降は、科目が複数必要なときだけ入力してください。</p>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+
+        <h4>(1) 社債の買入償還</h4>
+        <pre class="entry">(借)社債          2,928,000   (貸)当座預金   2,940,000
+    社債償還損       12,000</pre>
+        <ul>
+          <li>買入償還するときは、まず<span class="mark">償還する日までの償却原価(帳簿価額)</span>を出します。</li>
+        </ul>
+        <pre class="entry">発行価額      10,000,000 × 96/100 = 9,600,000
+毎期の償却額  (10,000,000 − 9,600,000) ÷ 5年 = 80,000
+×3年4月1日の帳簿価額  9,600,000 + 80,000 × 2年 = 9,760,000
+償還分の帳簿価額      9,760,000 × 3,000,000/10,000,000 = 2,928,000
+支払額        3,000,000 × 98/100 = 2,940,000
+社債償還損    2,940,000 − 2,928,000 = 12,000</pre>
+        <ul>
+          <li>帳簿価額より多く払ったので「損」になります。少なく払えば社債償還益です。</li>
+        </ul>
+
+        <h4>(2) 外貨建買掛金の決済</h4>
+        <pre class="entry">(借)買掛金      2,900,000   (貸)当座預金   2,960,000
+    為替差損益     60,000</pre>
+        <pre class="entry">買掛金の帳簿価額  20,000ドル × 145円 = 2,900,000
+支払額            20,000ドル × 148円 = 2,960,000
+差額 60,000 → 多く払ったので為替差損(借方)</pre>
+
+        <h4>(3) 剰余金の配当と利益準備金の積立て</h4>
+        <pre class="entry">(借)繰越利益剰余金  3,000,000   (貸)未払配当金   2,500,000
+                                     利益準備金     200,000
+                                     別途積立金     300,000</pre>
+        <ul>
+          <li>利益準備金は、次の2つのうち<span class="mark">少ないほう</span>を積み立てます。</li>
+        </ul>
+        <pre class="entry">① 配当額の1/10          2,500,000 × 1/10 = 250,000
+② 積立ての上限までの残り  50,000,000 × 1/4 − (8,500,000 + 3,800,000) = 200,000
+→ 少ないほうの200,000を積み立てる</pre>
+        <ul>
+          <li>上限は「資本金の1/4」で、資本準備金と利益準備金の<b>合計</b>で判定する点がポイントです。</li>
+        </ul>
+
+        <h4>(4) ファイナンス・リース(利子抜き法)のリース料支払い</h4>
+        <pre class="entry">(借)リース債務    540,000   (貸)当座預金   600,000
+    支払利息       60,000</pre>
+        <pre class="entry">利息の総額  600,000 × 5年 − 2,700,000 = 300,000
+1年分の利息  300,000 ÷ 5年 = 60,000
+リース債務の返済分  600,000 − 60,000 = 540,000</pre>
+        <ul>
+          <li>利子抜き法では、契約時に見積現金購入価額2,700,000円で「備品/リース債務」を計上しています。支払ったリース料は、利息部分と元本の返済部分に分けます。</li>
+        </ul>
+
+        <h4>(5) 固定資産の買換え</h4>
+        <pre class="entry">(借)車両運搬具                 4,000,000   (貸)車両運搬具   3,000,000
+    車両運搬具減価償却累計額   1,800,000       未払金       3,000,000
+    固定資産売却損              200,000</pre>
+        <pre class="entry">旧車両の帳簿価額  3,000,000 − 1,800,000 = 1,200,000
+下取価格 1,000,000 との差額 200,000 → 固定資産売却損
+未払金  4,000,000 − 1,000,000 = 3,000,000</pre>
+        <ul>
+          <li>買換えは「旧車両を下取価格で売って、その代金を新車両の支払いに充てた」と考えると整理しやすくなります。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 第3問 -->
+    <section class="chapter q" data-title="第3問 本支店会計">
+      <div class="q-head">
+        <div><div class="chapter-no">第3問 ・ 30点(各5点)</div><h2>本支店会計</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>次の資料にもとづいて、(1)〜(6)の金額を答えなさい。会計期間は×1年4月1日〜×2年3月31日で、法人税等は考慮しない。</p>
+
+      <div class="stmt">
+        <div class="stmt-title">資料1 決算整理前残高試算表(一部)</div>
+        <div class="row head"><span class="lbl">本店</span></div>
+        <div class="row ind"><span class="lbl">繰越商品</span><span class="amt">400,000</span></div>
+        <div class="row ind"><span class="lbl">支店(借方残高)</span><span class="amt">1,140,000</span></div>
+        <div class="row ind"><span class="lbl">仕入</span><span class="amt">4,000,000</span></div>
+        <div class="row ind"><span class="lbl">営業費</span><span class="amt">700,000</span></div>
+        <div class="row ind"><span class="lbl">売上</span><span class="amt">5,000,000</span></div>
+        <div class="row ind"><span class="lbl">支店へ売上</span><span class="amt">1,200,000</span></div>
+        <div class="row head"><span class="lbl">支店</span></div>
+        <div class="row ind"><span class="lbl">繰越商品</span><span class="amt">260,000</span></div>
+        <div class="row ind"><span class="lbl">本店(貸方残高)</span><span class="amt">1,028,000</span></div>
+        <div class="row ind"><span class="lbl">本店より仕入</span><span class="amt">1,068,000</span></div>
+        <div class="row ind"><span class="lbl">仕入</span><span class="amt">600,000</span></div>
+        <div class="row ind"><span class="lbl">営業費</span><span class="amt">300,000</span></div>
+        <div class="row ind"><span class="lbl">売上</span><span class="amt">2,400,000</span></div>
+      </div>
+
+      <p><b>資料2 未達事項</b></p>
+      <ol>
+        <li>本店から支店へ発送した商品132,000円(振替価格)が、支店に未達である。</li>
+        <li>支店は本店の売掛金80,000円を現金で回収したが、その通知が本店に未達である。</li>
+        <li>本店は支店の営業費60,000円を立替払いしたが、その通知が支店に未達である。</li>
+      </ol>
+      <p><b>資料3 期末商品棚卸高</b>(未達の商品は含まれていない)</p>
+      <ul>
+        <li>本店:500,000円</li>
+        <li>支店:330,000円(うち本店から仕入れた分154,000円)</li>
+      </ul>
+      <p><b>資料4 その他</b></p>
+      <ul>
+        <li>本店は支店へ、原価に10%を加算した価格で商品を送付している。</li>
+        <li>支店の期首商品棚卸高260,000円のうち、本店から仕入れた分は110,000円である。</li>
+        <li>営業費以外の費用・収益はない。</li>
+      </ul>
+
+      <h3>解答欄</h3>
+      <div class="qline">(1) 未達事項整理後の支店勘定(=本店勘定)の残高 <span class="unit" data-pt="5"><input class="num" data-ans="1220000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(1)"> 円</span></div>
+      <div class="qline">(2) 本支店合併損益計算書の売上高 <span class="unit" data-pt="5"><input class="num" data-ans="7400000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(2)"> 円</span></div>
+      <div class="qline">(3) 同 期首商品棚卸高(内部利益控除後) <span class="unit" data-pt="5"><input class="num" data-ans="650000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(3)"> 円</span></div>
+      <div class="qline">(4) 同 期末商品棚卸高(内部利益控除後) <span class="unit" data-pt="5"><input class="num" data-ans="936000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(4)"> 円</span></div>
+      <div class="qline">(5) 同 売上原価 <span class="unit" data-pt="5"><input class="num" data-ans="4314000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(5)"> 円</span></div>
+      <div class="qline">(6) 同 当期純利益 <span class="unit" data-pt="5"><input class="num" data-ans="2026000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(6)"> 円</span></div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <h4>ステップ1 未達事項の整理</h4>
+        <pre class="entry">① 支店:(借)本店より仕入  132,000  (貸)本店      132,000
+② 本店:(借)支店           80,000  (貸)売掛金     80,000
+③ 支店:(借)営業費         60,000  (貸)本店       60,000</pre>
+        <pre class="entry">支店勘定  1,140,000 + 80,000 = 1,220,000
+本店勘定  1,028,000 + 132,000 + 60,000 = 1,220,000  → 一致</pre>
+        <ul>
+          <li>未達事項は「まだ記帳していない側」だけで仕訳します。整理後に支店勘定と本店勘定が一致すれば、整理は正しくできています。</li>
+          <li>①の整理で、本店より仕入は1,068,000 + 132,000 = 1,200,000となり、本店の支店へ売上1,200,000と一致します。</li>
+        </ul>
+
+        <h4>ステップ2 内部利益</h4>
+        <pre class="entry">期首の内部利益  110,000 × 0.1/1.1 = 10,000
+期末の本店仕入分  154,000(手許)+ 132,000(未達) = 286,000
+期末の内部利益  286,000 × 0.1/1.1 = 26,000</pre>
+        <ul>
+          <li>振替価格は原価の1.1倍なので、振替価格に0.1/1.1を掛けると内部利益になります。</li>
+          <li><span class="mark">未達の商品も期末在庫に含める</span>のを忘れないようにします。</li>
+        </ul>
+
+        <h4>ステップ3 合併損益計算書</h4>
+        <pre class="entry">売上高      5,000,000 + 2,400,000 = 7,400,000
+期首商品    400,000 + 260,000 − 10,000 = 650,000
+当期仕入    4,000,000 + 600,000 = 4,600,000
+期末商品    500,000 + 330,000 + 132,000 − 26,000 = 936,000
+売上原価    650,000 + 4,600,000 − 936,000 = 4,314,000
+営業費      700,000 + 300,000 + 60,000 = 1,060,000
+当期純利益  7,400,000 − 4,314,000 − 1,060,000 = 2,026,000</pre>
+        <ul>
+          <li>「支店へ売上」と「本店より仕入」は会社内部の取引なので、合併損益計算書では相殺して表示しません。</li>
+          <li>検算:本店の利益1,600,000 + 支店の利益442,000 = 2,042,000に、期首の内部利益10,000を足し、期末の内部利益26,000を引くと2,026,000になります。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 第4問 -->
+    <section class="chapter q" data-title="第4問 財務諸表の作成">
+      <div class="q-head">
+        <div><div class="chapter-no">第4問 ・ 40点(各4点)</div><h2>決算整理と財務諸表の作成</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>東西商事株式会社(会計期間 ×1年4月1日〜×2年3月31日)の決算整理前残高試算表と決算整理事項にもとづいて、損益計算書と貸借対照表の①〜⑩に入る金額を答えなさい。「×××」の箇所は答えなくてよい。</p>
+
+      <div class="stmt">
+        <div class="stmt-title">決算整理前残高試算表(×2年3月31日)</div>
+        <div class="row head"><span class="lbl">借方</span></div>
+        <div class="row ind"><span class="lbl">現金預金</span><span class="amt">3,570,000</span></div>
+        <div class="row ind"><span class="lbl">売掛金</span><span class="amt">2,600,000</span></div>
+        <div class="row ind"><span class="lbl">売買目的有価証券</span><span class="amt">780,000</span></div>
+        <div class="row ind"><span class="lbl">繰越商品</span><span class="amt">520,000</span></div>
+        <div class="row ind"><span class="lbl">建物</span><span class="amt">6,000,000</span></div>
+        <div class="row ind"><span class="lbl">備品</span><span class="amt">1,200,000</span></div>
+        <div class="row ind"><span class="lbl">満期保有目的債券</span><span class="amt">1,940,000</span></div>
+        <div class="row ind"><span class="lbl">仕入</span><span class="amt">7,300,000</span></div>
+        <div class="row ind"><span class="lbl">給料</span><span class="amt">1,850,000</span></div>
+        <div class="row ind"><span class="lbl">保険料</span><span class="amt">360,000</span></div>
+        <div class="row total"><span class="lbl">借方合計</span><span class="amt">26,120,000</span></div>
+        <div class="row head"><span class="lbl">貸方</span></div>
+        <div class="row ind"><span class="lbl">買掛金</span><span class="amt">1,900,000</span></div>
+        <div class="row ind"><span class="lbl">貸倒引当金</span><span class="amt">30,000</span></div>
+        <div class="row ind"><span class="lbl">建物減価償却累計額</span><span class="amt">1,800,000</span></div>
+        <div class="row ind"><span class="lbl">備品減価償却累計額</span><span class="amt">450,000</span></div>
+        <div class="row ind"><span class="lbl">退職給付引当金</span><span class="amt">1,100,000</span></div>
+        <div class="row ind"><span class="lbl">資本金</span><span class="amt">8,000,000</span></div>
+        <div class="row ind"><span class="lbl">利益準備金</span><span class="amt">600,000</span></div>
+        <div class="row ind"><span class="lbl">繰越利益剰余金</span><span class="amt">700,000</span></div>
+        <div class="row ind"><span class="lbl">売上</span><span class="amt">11,500,000</span></div>
+        <div class="row ind"><span class="lbl">有価証券利息</span><span class="amt">40,000</span></div>
+        <div class="row total"><span class="lbl">貸方合計</span><span class="amt">26,120,000</span></div>
+      </div>
+
+      <p><b>決算整理事項</b></p>
+      <ol>
+        <li>期末商品の帳簿棚卸高は1,000個(原価@600円)、実地棚卸高は980個、正味売却価額は@550円である。棚卸減耗損は販売費及び一般管理費に、商品評価損は売上原価に含めて表示する。</li>
+        <li>売掛金の期末残高に対して2%の貸倒引当金を差額補充法により設定する。</li>
+        <li>売買目的有価証券の期末時価は810,000円である。</li>
+        <li>満期保有目的債券は、×1年4月1日に額面総額2,000,000円の社債(償還日×6年3月31日、年利2%、利払日は9月末と3月末)を額面100円につき97円で取得したものである。取得価額と額面金額との差額は金利の調整と認められるので、償却原価法(定額法)を適用する。</li>
+        <li>減価償却を次のとおり行う。建物:定額法、耐用年数30年、残存価額ゼロ。備品:定率法、償却率20%。</li>
+        <li>退職給付引当金の当期繰入額は180,000円である。</li>
+        <li>保険料は、×1年12月1日に向こう1年分を支払ったものである。</li>
+        <li>給料の未払額が50,000円ある。</li>
+        <li>法人税、住民税及び事業税を、税引前当期純利益の30%で計上する(中間納付はない)。</li>
+      </ol>
+
+      <h3>解答欄</h3>
+      <div class="stmt">
+        <div class="stmt-title">損益計算書(自×1年4月1日 至×2年3月31日)</div>
+        <div class="row"><span class="lbl">Ⅰ 売上高</span><span class="amt">11,500,000</span></div>
+        <div class="row"><span class="lbl">Ⅱ 売上原価</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">①</span><input class="num" data-ans="7269000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="①"></span></span></div>
+        <div class="row sub"><span class="lbl">売上総利益</span><span class="amt">×××</span></div>
+        <div class="row"><span class="lbl">Ⅲ 販売費及び一般管理費</span></div>
+        <div class="row ind"><span class="lbl">給料</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">保険料</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">貸倒引当金繰入</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">②</span><input class="num" data-ans="22000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="②"></span></span></div>
+        <div class="row ind"><span class="lbl">減価償却費</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">③</span><input class="num" data-ans="350000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="③"></span></span></div>
+        <div class="row ind"><span class="lbl">退職給付費用</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">棚卸減耗損</span><span class="amt">×××</span></div>
+        <div class="row sub"><span class="lbl">営業利益</span><span class="amt">×××</span></div>
+        <div class="row"><span class="lbl">Ⅳ 営業外収益</span></div>
+        <div class="row ind"><span class="lbl">有価証券利息</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">④</span><input class="num" data-ans="52000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="④"></span></span></div>
+        <div class="row ind"><span class="lbl">有価証券評価益</span><span class="amt">×××</span></div>
+        <div class="row sub"><span class="lbl">経常利益</span><span class="amt">×××</span></div>
+        <div class="row sub"><span class="lbl">税引前当期純利益</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">法人税、住民税及び事業税</span><span class="amt">×××</span></div>
+        <div class="row total"><span class="lbl">当期純利益</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">⑤</span><input class="num" data-ans="1210300" data-u="円" inputmode="numeric" autocomplete="off" aria-label="⑤"></span></span></div>
+      </div>
+
+      <div class="stmt">
+        <div class="stmt-title">貸借対照表(×2年3月31日)</div>
+        <div class="row head"><span class="lbl">資産の部</span></div>
+        <div class="row"><span class="lbl">Ⅰ 流動資産</span></div>
+        <div class="row ind"><span class="lbl">現金預金</span><span class="amt">3,570,000</span></div>
+        <div class="row ind"><span class="lbl">売掛金</span><span class="amt">2,600,000</span></div>
+        <div class="row ind"><span class="lbl">貸倒引当金</span><span class="amt">△×××</span></div>
+        <div class="row ind"><span class="lbl">有価証券</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">商品</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">⑥</span><input class="num" data-ans="539000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="⑥"></span></span></div>
+        <div class="row ind"><span class="lbl">前払費用</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">⑦</span><input class="num" data-ans="240000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="⑦"></span></span></div>
+        <div class="row"><span class="lbl">Ⅱ 固定資産</span></div>
+        <div class="row ind"><span class="lbl">建物</span><span class="amt">6,000,000</span></div>
+        <div class="row ind"><span class="lbl">減価償却累計額</span><span class="amt">△×××</span></div>
+        <div class="row ind"><span class="lbl">備品</span><span class="amt">1,200,000</span></div>
+        <div class="row ind"><span class="lbl">減価償却累計額</span><span class="amt">△×××</span></div>
+        <div class="row ind"><span class="lbl">投資有価証券</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">⑧</span><input class="num" data-ans="1952000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="⑧"></span></span></div>
+        <div class="row head"><span class="lbl">負債の部</span></div>
+        <div class="row ind"><span class="lbl">買掛金</span><span class="amt">1,900,000</span></div>
+        <div class="row ind"><span class="lbl">未払費用</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">未払法人税等</span><span class="amt">×××</span></div>
+        <div class="row ind"><span class="lbl">退職給付引当金</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">⑨</span><input class="num" data-ans="1280000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="⑨"></span></span></div>
+        <div class="row head"><span class="lbl">純資産の部</span></div>
+        <div class="row ind"><span class="lbl">資本金</span><span class="amt">8,000,000</span></div>
+        <div class="row ind"><span class="lbl">利益準備金</span><span class="amt">600,000</span></div>
+        <div class="row ind"><span class="lbl">繰越利益剰余金</span><span class="amt"><span class="unit" data-pt="4"><span class="bno">⑩</span><input class="num" data-ans="1910300" data-u="円" inputmode="numeric" autocomplete="off" aria-label="⑩"></span></span></div>
+      </div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+
+        <h4>1. 期末商品(① 売上原価・⑥ 商品)</h4>
+        <pre class="entry">(借)仕入         520,000  (貸)繰越商品   520,000
+(借)繰越商品     600,000  (貸)仕入       600,000
+(借)棚卸減耗損    12,000  (貸)繰越商品    12,000
+(借)商品評価損    49,000  (貸)繰越商品    49,000</pre>
+        <pre class="entry">帳簿棚卸高  1,000個 × @600 = 600,000
+棚卸減耗損  (1,000個 − 980個) × @600 = 12,000
+商品評価損  980個 × (@600 − @550) = 49,000
+⑥ 商品      980個 × @550 = 539,000
+① 売上原価  520,000 + 7,300,000 − 600,000 + 49,000 = 7,269,000</pre>
+        <ul>
+          <li>商品評価損は売上原価に含め、棚卸減耗損は販売費及び一般管理費に表示する、という指示に従います。</li>
+        </ul>
+
+        <h4>2. 貸倒引当金(② 貸倒引当金繰入)</h4>
+        <pre class="entry">2,600,000 × 2% = 52,000
+② 繰入額  52,000 − 30,000 = 22,000</pre>
+
+        <h4>3. 売買目的有価証券</h4>
+        <pre class="entry">810,000 − 780,000 = 30,000 → 有価証券評価益(B/Sの有価証券は810,000)</pre>
+
+        <h4>4. 満期保有目的債券(④ 有価証券利息・⑧ 投資有価証券)</h4>
+        <pre class="entry">(借)満期保有目的債券  12,000  (貸)有価証券利息  12,000</pre>
+        <pre class="entry">当期の償却額  (2,000,000 − 1,940,000) ÷ 5年 = 12,000
+⑧ 投資有価証券  1,940,000 + 12,000 = 1,952,000
+④ 有価証券利息  40,000 + 12,000 = 52,000</pre>
+        <ul>
+          <li>満期保有目的債券は、満期が決算日の翌日から1年を超えるので、貸借対照表では固定資産の「投資有価証券」として表示します。</li>
+          <li>試算表の有価証券利息40,000円は、2,000,000 × 2%(9月末と3月末の2回分)です。</li>
+        </ul>
+
+        <h4>5. 減価償却(③ 減価償却費)</h4>
+        <pre class="entry">建物  6,000,000 ÷ 30年 = 200,000
+備品  (1,200,000 − 450,000) × 20% = 150,000
+③ 減価償却費  200,000 + 150,000 = 350,000</pre>
+        <ul>
+          <li>定率法は「取得原価 − 減価償却累計額」(期首の帳簿価額)に償却率を掛けます。</li>
+        </ul>
+
+        <h4>6. 退職給付引当金(⑨)</h4>
+        <pre class="entry">⑨ 1,100,000 + 180,000 = 1,280,000(退職給付費用180,000)</pre>
+
+        <h4>7. 保険料の前払い(⑦ 前払費用)</h4>
+        <pre class="entry">当期分  ×1年12月〜×2年3月の4か月 → 360,000 × 4/12 = 120,000
+⑦ 前払分  ×2年4月〜11月の8か月 → 360,000 × 8/12 = 240,000</pre>
+
+        <h4>8. 給料の未払い</h4>
+        <pre class="entry">給料  1,850,000 + 50,000 = 1,900,000(未払費用50,000)</pre>
+
+        <h4>9. 損益計算書の組み立て(⑤ 当期純利益・⑩ 繰越利益剰余金)</h4>
+        <pre class="entry">売上総利益  11,500,000 − 7,269,000 = 4,231,000
+販売費及び一般管理費
+  給料1,900,000 + 保険料120,000 + 貸倒引当金繰入22,000
+  + 減価償却費350,000 + 退職給付費用180,000 + 棚卸減耗損12,000
+  = 2,584,000
+営業利益    4,231,000 − 2,584,000 = 1,647,000
+営業外収益  有価証券利息52,000 + 有価証券評価益30,000 = 82,000
+経常利益(=税引前当期純利益)  1,647,000 + 82,000 = 1,729,000
+法人税等    1,729,000 × 30% = 518,700
+⑤ 当期純利益  1,729,000 − 518,700 = 1,210,300
+⑩ 繰越利益剰余金  700,000 + 1,210,300 = 1,910,300</pre>
+        <ul>
+          <li>検算:資産合計14,259,000 = 負債合計3,748,700 + 純資産合計10,510,300 で、貸借対照表の左右が一致します。</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="buttons-row">
+      <button class="main btn-primary grade-btn" data-s="shou">採点する</button>
+      <button class="main btn-secondary reset-btn" data-s="shou">解き直す</button>
+    </div>
+    <div class="summary" id="sum-shou" hidden></div>
+  </section>
+
+  <!-- =========================================================
+       原価計算・管理会計
+       ========================================================= -->
+  <section class="subject" id="subj-gen" hidden>
+    <div class="subject-head">
+      <div class="kicker">SUBJECT 2</div>
+      <h2>原価計算・管理会計(100点・90分)</h2>
+    </div>
+
+    <!-- 第1問 -->
+    <section class="chapter q" data-title="第1問 理論">
+      <div class="q-head">
+        <div><div class="chapter-no">第1問 ・ 10点(各2点)</div><h2>理論(語群選択)</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>次の文章は原価計算基準などの考え方を述べたものです。( )に当てはまる語句を語群から選びなさい。</p>
+      <div class="qline">ア 原価計算制度において、原価とは、経営における一定の給付にかかわらせて把握された財貨または用役の( <span class="unit" data-pt="2"><select class="word" data-ans="消費" data-list="riron2" aria-label="ア"></select></span> )を、貨幣価値的に表したものである。</div>
+      <div class="qline">イ 異常な状態を原因とする価値の減少は原価に含めず、( <span class="unit" data-pt="2"><select class="word" data-ans="非原価項目" data-list="riron2" aria-label="イ"></select></span> )として扱う。</div>
+      <div class="qline">ウ 原価要素を、一定単位の製品の生成に関して直接的に認識されるかどうかによって分類すると、( <span class="unit" data-pt="2"><select class="word" data-ans="製品直接費" data-list="riron2" aria-label="ウ"></select></span> )と製品間接費に分けられる。</div>
+      <div class="qline">エ 原価要素を操業度の増減との関係で分類したとき、操業度が増減しても発生額が変化しない原価要素を( <span class="unit" data-pt="2"><select class="word" data-ans="固定費" data-list="riron2" aria-label="エ"></select></span> )という。</div>
+      <div class="qline">オ 標準原価計算において、直接材料費差異は、価格差異と( <span class="unit" data-pt="2"><select class="word" data-ans="数量差異" data-list="riron2" aria-label="オ"></select></span> )とに分析される。</div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <ul>
+          <li><b>ア 消費</b>:原価は「財貨や用役を消費したこと」を金額で表したものです。買っただけ(購入)では原価にならず、使ったときに原価になります。</li>
+          <li><b>イ 非原価項目</b>:火災による損失や異常な仕損など、異常な原因による価値の減少は原価に含めません。</li>
+          <li><b>ウ 製品直接費</b>:製品との関連による分類。特定の製品にいくらかかったか直接わかるものが製品直接費、わからないものが製品間接費です。</li>
+          <li><b>エ 固定費</b>:操業度との関連による分類。減価償却費や固定給のように操業度に関係なく一定額かかるのが固定費で、材料費のように比例して増えるのが変動費です。</li>
+          <li><b>オ 数量差異</b>:直接材料費差異は、価格差異(単価のずれ)と数量差異(消費量のずれ)に分けます。直接労務費差異の場合は、賃率差異と時間差異です。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 第2問 -->
+    <section class="chapter q" data-title="第2問 部門別原価計算">
+      <div class="q-head">
+        <div><div class="chapter-no">第2問 ・ 20点(各5点)</div><h2>部門別原価計算(相互配賦法・簡便法)</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>当工場には、製造部門として切削部と組立部、補助部門として動力部・修繕部・工場事務部がある。次の資料にもとづいて、<b>相互配賦法(簡便法)</b>で補助部門費を製造部門へ配賦し、(1)〜(4)に答えなさい。</p>
+
+      <div class="stmt">
+        <div class="stmt-title">資料1 部門費(第1次集計後)</div>
+        <div class="row ind"><span class="lbl">切削部</span><span class="amt">1,800,000</span></div>
+        <div class="row ind"><span class="lbl">組立部</span><span class="amt">1,500,000</span></div>
+        <div class="row ind"><span class="lbl">動力部</span><span class="amt">480,000</span></div>
+        <div class="row ind"><span class="lbl">修繕部</span><span class="amt">300,000</span></div>
+        <div class="row ind"><span class="lbl">工場事務部</span><span class="amt">240,000</span></div>
+      </div>
+      <p><b>資料2 補助部門費の配賦基準</b></p>
+      <ul>
+        <li>動力部(動力消費量):切削部500kWh、組立部250kWh、修繕部50kWh</li>
+        <li>修繕部(修繕時間):切削部50時間、組立部40時間、動力部10時間</li>
+        <li>工場事務部(従業員数):切削部30人、組立部40人、動力部5人、修繕部5人</li>
+      </ul>
+      <p><b>資料3 製造部門費の予定配賦</b></p>
+      <ul>
+        <li>切削部:予定配賦率 @1,200円/機械時間、当月の実際機械時間 2,000時間</li>
+        <li>組立部:予定配賦率 @800円/直接作業時間、当月の実際直接作業時間 2,375時間</li>
+      </ul>
+
+      <h3>解答欄</h3>
+      <div class="qline">(1) 補助部門費配賦後の切削部の部門費合計 <span class="unit" data-pt="5"><input class="num" data-ans="2395000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(1)"> 円</span></div>
+      <div class="qline">(2) 補助部門費配賦後の組立部の部門費合計 <span class="unit" data-pt="5"><input class="num" data-ans="1925000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(2)"> 円</span></div>
+      <div class="qline">(3) 切削部の製造部門費配賦差異 <span class="unit" data-pt="5"><input class="num" data-ans="5000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(3)金額"> 円 <select class="dir" data-ans="有利" aria-label="(3)有利・不利"></select></span></div>
+      <div class="qline">(4) 組立部の製造部門費配賦差異 <span class="unit" data-pt="5"><input class="num" data-ans="25000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(4)金額"> 円 <select class="dir" data-ans="不利" aria-label="(4)有利・不利"></select></span></div>
+      <p class="hint">(3)(4)は金額と「有利・不利」の両方が正しいときに正解です。</p>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <h4>第1次配賦(補助部門どうしにも配賦する)</h4>
+        <pre class="entry">動力部 480,000 ÷ 800kWh = @600
+  切削部 300,000 / 組立部 150,000 / 修繕部 30,000
+修繕部 300,000 ÷ 100時間 = @3,000
+  切削部 150,000 / 組立部 120,000 / 動力部 30,000
+工場事務部 240,000 ÷ 80人 = @3,000
+  切削部 90,000 / 組立部 120,000 / 動力部 15,000 / 修繕部 15,000</pre>
+
+        <h4>第2次配賦(受け取った分を製造部門だけに配賦する)</h4>
+        <pre class="entry">動力部が受け取った額  30,000 + 15,000 = 45,000
+  切削部:組立部 = 500:250 → 切削部 30,000 / 組立部 15,000
+修繕部が受け取った額  30,000 + 15,000 = 45,000
+  切削部:組立部 = 50:40 → 切削部 25,000 / 組立部 20,000
+工場事務部が受け取った額  0</pre>
+        <ul>
+          <li>簡便法では、第2次配賦は<span class="mark">直接配賦法と同じ</span>で、製造部門の割合だけで配賦します。</li>
+        </ul>
+
+        <h4>合計と配賦差異</h4>
+        <pre class="entry">(1) 切削部  1,800,000 + 300,000 + 150,000 + 90,000 + 30,000 + 25,000 = 2,395,000
+(2) 組立部  1,500,000 + 150,000 + 120,000 + 120,000 + 15,000 + 20,000 = 1,925,000
+    (合計 4,320,000 = 第1次集計の合計と一致)
+
+(3) 切削部  予定配賦額 @1,200 × 2,000時間 = 2,400,000
+            2,400,000 − 2,395,000 = 5,000 → 予定 > 実際なので有利差異(貸方差異)
+(4) 組立部  予定配賦額 @800 × 2,375時間 = 1,900,000
+            1,900,000 − 1,925,000 = −25,000 → 予定 < 実際なので不利差異(借方差異)</pre>
+      </div>
+    </section>
+
+    <!-- 第3問 -->
+    <section class="chapter q" data-title="第3問 総合原価計算">
+      <div class="q-head">
+        <div><div class="chapter-no">第3問 ・ 30点(各6点)</div><h2>総合原価計算(平均法・正常仕損)</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>当工場は単一製品を連続生産しており、単純総合原価計算を採用している。次の資料にもとづいて、<b>平均法</b>により(1)〜(5)に答えなさい。</p>
+
+      <div class="stmt">
+        <div class="stmt-title">資料1 生産データ</div>
+        <div class="row ind"><span class="lbl">月初仕掛品(加工進捗度50%)</span><span class="amt">400個</span></div>
+        <div class="row ind"><span class="lbl">当月投入</span><span class="amt">3,600個</span></div>
+        <div class="row sub"><span class="lbl">合計</span><span class="amt">4,000個</span></div>
+        <div class="row ind"><span class="lbl">正常仕損品(工程の終点で発生)</span><span class="amt">100個</span></div>
+        <div class="row ind"><span class="lbl">月末仕掛品(加工進捗度75%)</span><span class="amt">400個</span></div>
+        <div class="row sub"><span class="lbl">完成品</span><span class="amt">3,500個</span></div>
+      </div>
+      <div class="stmt">
+        <div class="stmt-title">資料2 原価データ</div>
+        <div class="row head"><span class="lbl">月初仕掛品原価</span></div>
+        <div class="row ind"><span class="lbl">直接材料費</span><span class="amt">176,000</span></div>
+        <div class="row ind"><span class="lbl">加工費</span><span class="amt">94,000</span></div>
+        <div class="row head"><span class="lbl">当月製造費用</span></div>
+        <div class="row ind"><span class="lbl">直接材料費</span><span class="amt">1,584,000</span></div>
+        <div class="row ind"><span class="lbl">加工費</span><span class="amt">1,856,000</span></div>
+      </div>
+      <ul>
+        <li>直接材料はすべて工程の始点で投入している。</li>
+        <li>正常仕損費は完成品のみに負担させる。</li>
+        <li>仕損品には1個あたり30円の処分価額があり、正常仕損費から控除する。</li>
+      </ul>
+
+      <h3>解答欄</h3>
+      <div class="qline">(1) 月末仕掛品原価のうち直接材料費 <span class="unit" data-pt="6"><input class="num" data-ans="176000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(1)"> 円</span></div>
+      <div class="qline">(2) 月末仕掛品原価のうち加工費 <span class="unit" data-pt="6"><input class="num" data-ans="150000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(2)"> 円</span></div>
+      <div class="qline">(3) 正常仕損費(処分価額控除後) <span class="unit" data-pt="6"><input class="num" data-ans="91000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(3)"> 円</span></div>
+      <div class="qline">(4) 完成品総合原価 <span class="unit" data-pt="6"><input class="num" data-ans="3381000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(4)"> 円</span></div>
+      <div class="qline">(5) 完成品単位原価 <span class="unit" data-pt="6"><input class="num" data-ans="966" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(5)"> 円</span></div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <ul>
+          <li>仕損が<span class="mark">終点</span>で発生しているので、仕損品は加工が100%終わった状態です。月末仕掛品(75%)は終点を通っていないので仕損費を負担せず、完成品だけが負担します。</li>
+          <li>そのため、まず仕損品も1つの「完成品と同じ扱いの数量」として平均単価を出し、あとで仕損費を完成品に足します。</li>
+        </ul>
+        <h4>直接材料費(始点投入なので進捗度は関係なし)</h4>
+        <pre class="entry">単価  (176,000 + 1,584,000) ÷ (3,500 + 100 + 400) = 1,760,000 ÷ 4,000 = @440
+(1) 月末仕掛品  400個 × @440 = 176,000
+    仕損品      100個 × @440 = 44,000</pre>
+        <h4>加工費(完成品換算量で計算)</h4>
+        <pre class="entry">換算量  3,500 + 100 + 400 × 75% = 3,900個
+単価  (94,000 + 1,856,000) ÷ 3,900 = 1,950,000 ÷ 3,900 = @500
+(2) 月末仕掛品  300個 × @500 = 150,000
+    仕損品      100個 × @500 = 50,000</pre>
+        <h4>仕損費と完成品原価</h4>
+        <pre class="entry">(3) 正常仕損費  44,000 + 50,000 − 処分価額(100個 × @30 = 3,000) = 91,000
+(4) 完成品総合原価  3,500個 × (@440 + @500) + 91,000 = 3,290,000 + 91,000 = 3,381,000
+(5) 完成品単位原価  3,381,000 ÷ 3,500個 = @966
+
+検算:原価合計 3,710,000 − 月末仕掛品 326,000 − 仕損品評価額 3,000 = 3,381,000</pre>
+      </div>
+    </section>
+
+    <!-- 第4問 -->
+    <section class="chapter q" data-title="第4問 標準原価計算">
+      <div class="q-head">
+        <div><div class="chapter-no">第4問 ・ 20点(各4点)</div><h2>標準原価計算(差異分析)</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>製品Xを生産し、標準原価計算を採用している。次の資料にもとづいて、直接材料費差異と製造間接費差異を分析しなさい。製造間接費は公式法変動予算で管理しており、差異は予算差異・能率差異・操業度差異に分ける(能率差異は変動費と固定費の両方から計算する)。</p>
+
+      <div class="stmt">
+        <div class="stmt-title">資料1 標準原価カード(製品1個あたり)</div>
+        <div class="row ind"><span class="lbl">直接材料費 @200円 × 5kg</span><span class="amt">1,000円</span></div>
+        <div class="row ind"><span class="lbl">直接労務費 @1,200円 × 2時間</span><span class="amt">2,400円</span></div>
+        <div class="row ind"><span class="lbl">製造間接費 @1,500円 × 2時間</span><span class="amt">3,000円</span></div>
+        <div class="row total"><span class="lbl">合計</span><span class="amt">6,400円</span></div>
+      </div>
+      <p><b>資料2 製造間接費予算(月間)</b></p>
+      <ul>
+        <li>基準操業度:2,000直接作業時間</li>
+        <li>変動費率:@600円、固定費予算:1,800,000円</li>
+      </ul>
+      <p><b>資料3 当月の生産データ</b></p>
+      <ul>
+        <li>月初仕掛品なし、当月着手1,000個、完成品900個、月末仕掛品100個(加工進捗度50%)</li>
+        <li>直接材料は工程の始点で投入している。</li>
+      </ul>
+      <p><b>資料4 当月の実際発生額</b></p>
+      <ul>
+        <li>直接材料費:@195円 × 5,100kg = 994,500円</li>
+        <li>実際直接作業時間:1,950時間</li>
+        <li>製造間接費:2,950,000円</li>
+      </ul>
+
+      <h3>解答欄</h3>
+      <div class="qline">(1) 材料価格差異 <span class="unit" data-pt="4"><input class="num" data-ans="25500" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(1)金額"> 円 <select class="dir" data-ans="有利" aria-label="(1)有利・不利"></select></span></div>
+      <div class="qline">(2) 材料数量差異 <span class="unit" data-pt="4"><input class="num" data-ans="20000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(2)金額"> 円 <select class="dir" data-ans="不利" aria-label="(2)有利・不利"></select></span></div>
+      <div class="qline">(3) 予算差異 <span class="unit" data-pt="4"><input class="num" data-ans="20000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(3)金額"> 円 <select class="dir" data-ans="有利" aria-label="(3)有利・不利"></select></span></div>
+      <div class="qline">(4) 能率差異 <span class="unit" data-pt="4"><input class="num" data-ans="75000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(4)金額"> 円 <select class="dir" data-ans="不利" aria-label="(4)有利・不利"></select></span></div>
+      <div class="qline">(5) 操業度差異 <span class="unit" data-pt="4"><input class="num" data-ans="45000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(5)金額"> 円 <select class="dir" data-ans="不利" aria-label="(5)有利・不利"></select></span></div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <h4>当月の標準(当月投入量で計算)</h4>
+        <pre class="entry">材料の当月投入量  完成900 + 月末100 − 月初0 = 1,000個(始点投入)
+標準消費量  1,000個 × 5kg = 5,000kg
+加工の当月投入量  完成900 + 月末100 × 50% − 月初0 = 950個
+標準作業時間  950個 × 2時間 = 1,900時間</pre>
+
+        <h4>直接材料費差異</h4>
+        <pre class="entry">(1) 価格差異  (@200 − @195) × 5,100kg = 25,500 有利
+(2) 数量差異  @200 × (5,000kg − 5,100kg) = −20,000 不利
+    合計      標準 1,000,000 − 実際 994,500 = 5,500 有利(25,500 − 20,000)</pre>
+        <ul>
+          <li>価格差異は<span class="mark">実際消費量</span>、数量差異は<span class="mark">標準価格</span>を掛けます。</li>
+        </ul>
+
+        <h4>製造間接費差異(公式法変動予算・3分法)</h4>
+        <pre class="entry">固定費率  1,800,000 ÷ 2,000時間 = @900(標準配賦率 @600 + @900 = @1,500)
+実際時間での予算許容額  @600 × 1,950時間 + 1,800,000 = 2,970,000
+
+(3) 予算差異    2,970,000 − 実際 2,950,000 = 20,000 有利
+(4) 能率差異    @1,500 × (1,900時間 − 1,950時間) = −75,000 不利
+(5) 操業度差異  @900 × (1,950時間 − 2,000時間) = −45,000 不利
+    合計        標準 @1,500 × 1,900時間 = 2,850,000 − 実際 2,950,000 = −100,000 不利</pre>
+        <ul>
+          <li>能率差異は「標準時間と実際時間のずれ」、操業度差異は「実際時間と基準操業度のずれ」です。どちらの時間を比べるかを取り違えないようにします。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 第5問 -->
+    <section class="chapter q" data-title="第5問 直接原価計算・CVP分析">
+      <div class="q-head">
+        <div><div class="chapter-no">第5問 ・ 20点(各4点)</div><h2>直接原価計算とCVP分析</h2></div>
+        <div class="q-score"></div>
+      </div>
+      <p>製品Yを製造・販売している。当期の資料は次のとおりである。期首の製品・仕掛品はなく、期末仕掛品もない。(3)〜(5)は直接原価計算にもとづいて答えなさい。</p>
+      <ul>
+        <li>販売単価 2,000円</li>
+        <li>生産量 5,000個、販売量 4,000個</li>
+        <li>変動製造原価 @800円、変動販売費 @200円</li>
+        <li>固定製造原価 1,500,000円、固定販売費及び一般管理費 900,000円</li>
+      </ul>
+
+      <h3>解答欄</h3>
+      <div class="qline">(1) 直接原価計算による営業利益 <span class="unit" data-pt="4"><input class="num" data-ans="1600000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(1)"> 円</span></div>
+      <div class="qline">(2) 全部原価計算による営業利益 <span class="unit" data-pt="4"><input class="num" data-ans="1900000" data-u="円" inputmode="numeric" autocomplete="off" aria-label="(2)"> 円</span></div>
+      <div class="qline">(3) 損益分岐点の販売量 <span class="unit" data-pt="4"><input class="num short" data-ans="2400" data-u="個" inputmode="numeric" autocomplete="off" aria-label="(3)"> 個</span></div>
+      <div class="qline">(4) 営業利益2,000,000円を達成する販売量 <span class="unit" data-pt="4"><input class="num short" data-ans="4400" data-u="個" inputmode="numeric" autocomplete="off" aria-label="(4)"> 個</span></div>
+      <div class="qline">(5) 当期の販売量における安全余裕率 <span class="unit" data-pt="4"><input class="num short" data-ans="40" data-u="%" inputmode="numeric" autocomplete="off" aria-label="(5)"> %</span></div>
+
+      <div class="kaisetsu" hidden>
+        <h3>解答・解説</h3>
+        <h4>(1) 直接原価計算</h4>
+        <pre class="entry">1個あたり貢献利益  2,000 − (800 + 200) = 1,000
+貢献利益  1,000 × 4,000個 = 4,000,000
+固定費    1,500,000 + 900,000 = 2,400,000
+営業利益  4,000,000 − 2,400,000 = 1,600,000</pre>
+        <h4>(2) 全部原価計算</h4>
+        <pre class="entry">1個あたり固定製造原価  1,500,000 ÷ 5,000個 = @300
+売上原価  4,000個 × (@800 + @300) = 4,400,000
+売上総利益  8,000,000 − 4,400,000 = 3,600,000
+販売費及び一般管理費  200 × 4,000個 + 900,000 = 1,700,000
+営業利益  3,600,000 − 1,700,000 = 1,900,000</pre>
+        <ul>
+          <li>差の300,000円は、期末製品1,000個に含まれて翌期へ繰り越される固定製造原価(1,000個 × @300)です。生産量が販売量より多いと、全部原価計算の利益のほうが大きくなります。</li>
+        </ul>
+        <h4>(3)〜(5) CVP分析</h4>
+        <pre class="entry">(3) 損益分岐点販売量  2,400,000 ÷ 1,000 = 2,400個
+(4) 目標利益の販売量  (2,400,000 + 2,000,000) ÷ 1,000 = 4,400個
+(5) 安全余裕率  (4,000個 − 2,400個) ÷ 4,000個 = 40%</pre>
+        <ul>
+          <li>安全余裕率は「今の売上があと何%減ると赤字になるか」を表します。高いほど安全です。</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="buttons-row">
+      <button class="main btn-primary grade-btn" data-s="gen">採点する</button>
+      <button class="main btn-secondary reset-btn" data-s="gen">解き直す</button>
+    </div>
+    <div class="summary" id="sum-gen" hidden></div>
+  </section>
+
+  <div class="footer-note">
+    ※この模擬試験はオリジナル問題で、実際の全経簿記能力検定の過去問題ではありません。<br>
+    出題範囲や形式は変わることがあるので、最新の情報は全国経理教育協会の公式サイトで確認してください。
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var WORDS = {
+    riron1: ['真実な報告', '正確な報告', '継続して', '統一して', '健全な', '慎重な', '対応表示', '総額表示', '取得原価', '時価', '正規の簿記', '明瞭'],
+    riron2: ['消費', '投入', '非原価項目', '特別損失', '製品直接費', '製造原価', '固定費', '変動費', '準固定費', '数量差異', '能率差異', '時間差異']
+  };
+  var ACCOUNTS = [
+    '現金', '当座預金', '普通預金', '売掛金', '備品', '車両運搬具', '車両運搬具減価償却累計額',
+    '買掛金', '未払金', '未払配当金', 'リース債務', '社債',
+    '資本金', '資本準備金', '利益準備金', '別途積立金', '繰越利益剰余金',
+    '社債償還益', '固定資産売却益',
+    '仕入', '支払利息', '社債償還損', '固定資産売却損', '為替差損益'
+  ];
+  var ROWS = 3;
+  var NAMES = { shou: '商業簿記・財務会計', gen: '原価計算・管理会計' };
+
+  var $ = function (id) { return document.getElementById(id); };
+  function qa(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円個%％\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+  function opts(list, placeholder) {
+    return '<option value="">' + placeholder + '</option>' + list.map(function (w) { return '<option>' + w + '</option>'; }).join('');
+  }
+
+  // ---- 解答欄の組み立て ----
+  qa('select.word').forEach(function (s) { s.innerHTML = opts(WORDS[s.dataset.list], '選択'); });
+  qa('select.dir').forEach(function (s) { s.innerHTML = opts(['有利', '不利'], '有利・不利'); });
+
+  function jRow(side, i) {
+    var label = side === 'dr' ? '借方' : '貸方';
+    return '<div class="jrow"><select data-side="' + side + '" aria-label="' + label + '科目' + (i + 1) + '">' + opts(ACCOUNTS, i === 0 ? '科目' : '科目(任意)') + '</select>' +
+      '<input type="text" data-side="' + side + '" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + label + '金額' + (i + 1) + '"></div>';
+  }
+  qa('.unit.journal').forEach(function (u) {
+    var dr = '', cr = '';
+    for (var i = 0; i < ROWS; i++) { dr += jRow('dr', i); cr += jRow('cr', i); }
+    u.innerHTML = '<div class="jgrid"><div class="jside"><div class="jside-title">借方</div>' + dr + '</div>' +
+      '<div class="jside"><div class="jside-title">貸方</div>' + cr + '</div></div>';
+  });
+
+  // ---- 採点 ----
+  function jKey(list) { return list.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|'); }
+  function readSide(u, side) {
+    var sels = qa('select[data-side="' + side + '"]', u), ins = qa('input[data-side="' + side + '"]', u), list = [];
+    sels.forEach(function (s, i) {
+      var raw = ins[i].value.trim();
+      if (!s.value && !raw) return;
+      list.push([s.value || '?', parseNum(raw)]);
+    });
+    return list;
+  }
+  function jText(dr, cr) {
+    var n = Math.max(dr.length, cr.length), out = [], w = 0;
+    function cell(e) { return e ? e[0] + ' ' + fmt(e[1]) : ''; }
+    dr.forEach(function (e) { w = Math.max(w, cell(e).length); });
+    for (var i = 0; i < n; i++) {
+      var left = (i === 0 ? '(借)' : '    ') + cell(dr[i]);
+      var pad = new Array(Math.max(1, w + 4 - cell(dr[i]).length + 3)).join(' ');
+      out.push(left + pad + (cr[i] ? (i === 0 ? '(貸)' : '    ') + cell(cr[i]) : ''));
+    }
+    return out.join('\n');
+  }
+
+  function checkUnit(u) {
+    if (u.classList.contains('journal')) {
+      var ans = { dr: JSON.parse(u.dataset.dr), cr: JSON.parse(u.dataset.cr) };
+      return jKey(readSide(u, 'dr')) === jKey(ans.dr) && jKey(readSide(u, 'cr')) === jKey(ans.cr);
+    }
+    return qa('[data-ans]', u).every(function (f) {
+      return f.tagName === 'SELECT' ? f.value === f.dataset.ans : parseNum(f.value) === Number(f.dataset.ans);
+    });
+  }
+  function showAnswer(u) {
+    var el;
+    if (u.classList.contains('journal')) {
+      el = document.createElement('div');
+      el.className = 'ans-show ans-block';
+      el.innerHTML = '正解<pre class="entry"></pre>';
+      el.querySelector('pre').textContent = jText(JSON.parse(u.dataset.dr), JSON.parse(u.dataset.cr));
+    } else {
+      el = document.createElement('span');
+      el.className = 'ans-show';
+      el.textContent = '正解:' + qa('[data-ans]', u).map(function (f) {
+        return f.tagName === 'SELECT' ? f.dataset.ans : fmt(Number(f.dataset.ans)) + (f.dataset.u || '');
+      }).join(' ');
+    }
+    u.appendChild(el);
+  }
+
+  var results = {};
+
+  function grade(s) {
+    var sec = $('subj-' + s), total = 0, lines = [];
+    if (sec.dataset.graded) return;
+    qa('.q', sec).forEach(function (q) {
+      var got = 0, max = 0;
+      qa('.unit', q).forEach(function (u) {
+        var pt = +u.dataset.pt, ok = checkUnit(u);
+        max += pt;
+        u.classList.add(ok ? 'ok' : 'ng');
+        if (ok) got += pt; else showAnswer(u);
+      });
+      q.querySelector('.q-score').textContent = got + ' / ' + max + '点';
+      q.querySelector('.kaisetsu').hidden = false;
+      lines.push(q.dataset.title + ' ' + got + ' / ' + max + '点');
+      total += got;
+    });
+    qa('input, select', sec).forEach(function (x) { x.disabled = true; });
+    sec.dataset.graded = '1';
+    results[s] = total;
+    sec._lines = lines;
+    if (s === cur) stopTimer();
+    drawSummaries();
+    $('sum-' + s).scrollIntoView({ block: 'center' });
+  }
+
+  function drawSummaries() {
+    ['shou', 'gen'].forEach(function (s) {
+      var box = $('sum-' + s);
+      if (results[s] === undefined) { box.hidden = true; return; }
+      var pass = results[s] >= 70, other = s === 'shou' ? 'gen' : 'shou';
+      var h = '<div class="sum-title">' + results[s] + '点 / 100点 … ' + (pass ? '合格ライン到達' : 'あと' + (70 - results[s]) + '点で合格ライン') + '</div>' +
+        '<p>' + NAMES[s] + 'の合格ラインは70点です。</p><ul>' +
+        ($('subj-' + s)._lines || []).map(function (l) { return '<li>' + l + '</li>'; }).join('') + '</ul>';
+      if (results[other] !== undefined) {
+        var both = results.shou >= 70 && results.gen >= 70;
+        h += '<p><b>2科目の結果:</b>商業簿記・財務会計 ' + results.shou + '点、原価計算・管理会計 ' + results.gen + '点 → ' +
+          (both ? '<span class="mark">両科目とも70点以上で、1級合格ラインです。</span>' : '1級合格には、両科目とも70点以上が必要です。') + '</p>';
+      } else {
+        h += '<p class="hint">もう1科目(' + NAMES[other] + ')も解くと、1級の合否ラインを判定します。</p>';
+      }
+      box.innerHTML = h;
+      box.className = 'summary ' + (pass ? 'pass' : 'fail');
+      box.hidden = false;
+    });
+  }
+
+  function reset(s) {
+    var sec = $('subj-' + s);
+    qa('input', sec).forEach(function (x) { x.value = ''; x.disabled = false; });
+    qa('select', sec).forEach(function (x) { x.value = ''; x.disabled = false; });
+    qa('.unit', sec).forEach(function (u) { u.classList.remove('ok', 'ng'); });
+    qa('.ans-show', sec).forEach(function (x) { x.remove(); });
+    qa('.q-score', sec).forEach(function (x) { x.textContent = ''; });
+    qa('.kaisetsu', sec).forEach(function (x) { x.hidden = true; });
+    delete sec.dataset.graded;
+    delete results[s];
+    drawSummaries();
+    if (s === cur) resetTimer();
+    else left[s] = LIMIT;
+    sec.scrollIntoView();
+  }
+
+  // ---- タイマー(科目ごとに90分) ----
+  var LIMIT = 90 * 60, left = { shou: LIMIT, gen: LIMIT }, timerId = null, cur = 'shou';
+  function drawTimer() {
+    var t = left[cur], m = Math.floor(t / 60), sec = t % 60;
+    $('timer').textContent = m + ':' + (sec < 10 ? '0' : '') + sec;
+    $('timer').classList.toggle('over', t === 0);
+    $('timerNote').hidden = t !== 0;
+    $('timerBtn').textContent = timerId ? '一時停止' : (t === LIMIT ? 'スタート' : '再開');
+  }
+  function stopTimer() { if (timerId) { clearInterval(timerId); timerId = null; } drawTimer(); }
+  function startTimer() {
+    if (timerId || left[cur] === 0) return;
+    timerId = setInterval(function () {
+      left[cur] = Math.max(0, left[cur] - 1);
+      if (left[cur] === 0) stopTimer(); else drawTimer();
+    }, 1000);
+    drawTimer();
+  }
+  function resetTimer() { stopTimer(); left[cur] = LIMIT; drawTimer(); }
+
+  $('timerBtn').addEventListener('click', function () { if (timerId) stopTimer(); else startTimer(); });
+  $('timerReset').addEventListener('click', resetTimer);
+
+  // ---- 科目の切り替え ----
+  function switchTo(s) {
+    if (s === cur) return;
+    stopTimer();
+    cur = s;
+    qa('#tabs .chip').forEach(function (c) { c.classList.toggle('on', c.dataset.s === s); });
+    $('subj-shou').hidden = s !== 'shou';
+    $('subj-gen').hidden = s !== 'gen';
+    drawTimer();
+    window.scrollTo(0, 0);
+  }
+  qa('#tabs .chip').forEach(function (c) { c.addEventListener('click', function () { switchTo(c.dataset.s); }); });
+
+  qa('.grade-btn').forEach(function (b) { b.addEventListener('click', function () { grade(b.dataset.s); }); });
+  qa('.reset-btn').forEach(function (b) { b.addEventListener('click', function () { reset(b.dataset.s); }); });
+
+  drawTimer();
+})();
+</script>
+</body>
+</html>

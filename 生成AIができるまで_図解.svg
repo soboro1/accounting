@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F3A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowW" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#FFD166" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+  <text x="800" y="86" text-anchor="middle" font-size="50" font-weight="800" fill="#1F3A5F">生成AIができるまで</text>
+  <text x="800" y="134" text-anchor="middle" font-size="26" fill="#4A5D78">データ集めから、あなたの質問に答えるまでの全体の流れ</text>
+
+  <rect x="60" y="180" width="272" height="420" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="106" cy="236" r="28" fill="#0E9F8A"/>
+  <text x="106" y="248" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="148" y="246" font-size="26" font-weight="800" fill="#1F3A5F">データ集め</text>
+  <rect x="80" y="285" width="232" height="96" rx="14" fill="#E3F6F2" stroke="#0E9F8A" stroke-width="2"/>
+  <text x="196" y="325" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">本・Web・論文</text>
+  <text x="196" y="359" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">コード など</text>
+  <text x="196" y="425" text-anchor="middle" font-size="22" fill="#1F3A5F">AIの材料になる、</text>
+  <text x="196" y="459" text-anchor="middle" font-size="22" fill="#1F3A5F">大量の文章を</text>
+  <text x="196" y="493" text-anchor="middle" font-size="22" fill="#1F3A5F">集める</text>
+  <rect x="80" y="536" width="232" height="42" rx="21" fill="#E3F6F2" stroke="#0E9F8A" stroke-width="2"/>
+  <text x="196" y="565" text-anchor="middle" font-size="20" font-weight="800" fill="#0E9F8A">素材</text>
+  <path d="M335 390 L359 390" stroke="#1F3A5F" stroke-width="3.5" marker-end="url(#arrow)"/>
+  <rect x="362" y="180" width="272" height="420" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="408" cy="236" r="28" fill="#1F6FEB"/>
+  <text x="408" y="248" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="450" y="246" font-size="26" font-weight="800" fill="#1F3A5F">数字にする</text>
+  <rect x="382" y="285" width="232" height="96" rx="14" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="498" y="325" text-anchor="middle" font-size="19" font-weight="700" font-family="Menlo, monospace" fill="#1F3A5F">犬 → [0.8 0.3 …]</text>
+  <text x="498" y="359" text-anchor="middle" font-size="19" font-weight="700" font-family="Menlo, monospace" fill="#1F3A5F">猫 → [0.7 0.4 …]</text>
+  <text x="498" y="425" text-anchor="middle" font-size="22" fill="#1F3A5F">言葉を数字の並びに。</text>
+  <text x="498" y="459" text-anchor="middle" font-size="22" fill="#1F3A5F">意味が近い言葉は</text>
+  <text x="498" y="493" text-anchor="middle" font-size="22" fill="#1F3A5F">近い数字になる</text>
+  <rect x="382" y="536" width="232" height="42" rx="21" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="498" y="565" text-anchor="middle" font-size="20" font-weight="800" fill="#1F6FEB">Word2vec</text>
+  <path d="M637 390 L661 390" stroke="#1F3A5F" stroke-width="3.5" marker-end="url(#arrow)"/>
+  <rect x="664" y="180" width="272" height="420" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="710" cy="236" r="28" fill="#7C3AED"/>
+  <text x="710" y="248" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="752" y="246" font-size="26" font-weight="800" fill="#1F3A5F">文脈を読む</text>
+  <rect x="684" y="285" width="232" height="96" rx="14" fill="#F5F0FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="800" y="325" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">Query ↔ Key</text>
+  <text x="800" y="359" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">→ Value を混ぜる</text>
+  <text x="800" y="425" text-anchor="middle" font-size="22" fill="#1F3A5F">どの単語に注目</text>
+  <text x="800" y="459" text-anchor="middle" font-size="22" fill="#1F3A5F">するかを決める</text>
+  <text x="800" y="493" text-anchor="middle" font-size="22" fill="#1F3A5F">Attention の仕組み</text>
+  <rect x="684" y="536" width="232" height="42" rx="21" fill="#F5F0FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="800" y="565" text-anchor="middle" font-size="20" font-weight="800" fill="#7C3AED">Query・Key・Value</text>
+  <path d="M939 390 L963 390" stroke="#1F3A5F" stroke-width="3.5" marker-end="url(#arrow)"/>
+  <rect x="966" y="180" width="272" height="420" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="1012" cy="236" r="28" fill="#E8590C"/>
+  <text x="1012" y="248" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">4</text>
+  <text x="1054" y="246" font-size="26" font-weight="800" fill="#1F3A5F">事前学習</text>
+  <rect x="986" y="285" width="232" height="96" rx="14" fill="#FFF0E6" stroke="#E8590C" stroke-width="2"/>
+  <text x="1102" y="325" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">「次の言葉」を</text>
+  <text x="1102" y="359" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">当てる練習</text>
+  <text x="1102" y="425" text-anchor="middle" font-size="22" fill="#1F3A5F">知識と言葉の</text>
+  <text x="1102" y="459" text-anchor="middle" font-size="22" fill="#1F3A5F">つながりを広く</text>
+  <text x="1102" y="493" text-anchor="middle" font-size="22" fill="#1F3A5F">身につける</text>
+  <rect x="986" y="536" width="232" height="42" rx="21" fill="#FFF0E6" stroke="#E8590C" stroke-width="2"/>
+  <text x="1102" y="565" text-anchor="middle" font-size="20" font-weight="800" fill="#E8590C">事前学習</text>
+  <path d="M1241 390 L1265 390" stroke="#1F3A5F" stroke-width="3.5" marker-end="url(#arrow)"/>
+  <rect x="1268" y="180" width="272" height="420" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="1314" cy="236" r="28" fill="#16A34A"/>
+  <text x="1314" y="248" text-anchor="middle" font-size="32" font-weight="800" fill="#FFFFFF">5</text>
+  <text x="1356" y="246" font-size="26" font-weight="800" fill="#1F3A5F">事後学習</text>
+  <rect x="1288" y="285" width="232" height="96" rx="14" fill="#E3F7EA" stroke="#16A34A" stroke-width="2"/>
+  <text x="1404" y="325" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">お手本・人の評価</text>
+  <text x="1404" y="359" text-anchor="middle" font-size="22" font-weight="700" fill="#1F3A5F">安全性の調整</text>
+  <text x="1404" y="425" text-anchor="middle" font-size="22" fill="#1F3A5F">指示に従う、</text>
+  <text x="1404" y="459" text-anchor="middle" font-size="22" fill="#1F3A5F">使いやすい</text>
+  <text x="1404" y="493" text-anchor="middle" font-size="22" fill="#1F3A5F">AIに整える</text>
+  <rect x="1288" y="536" width="232" height="42" rx="21" fill="#E3F7EA" stroke="#16A34A" stroke-width="2"/>
+  <text x="1404" y="565" text-anchor="middle" font-size="20" font-weight="800" fill="#16A34A">事後学習</text>
+
+  <rect x="60" y="640" width="1480" height="210" rx="24" fill="#1F3A5F"/>
+  <text x="110" y="692" font-size="30" font-weight="800" fill="#FFD166">できあがったAIを使うとき</text>
+  <rect x="110" y="715" width="315" height="56" rx="12" fill="#FFFFFF"/>
+  <text x="267" y="751" text-anchor="middle" font-size="23" font-weight="800" fill="#1F3A5F">① 質問する（プロンプト）</text>
+  <path d="M431 743 L459 743" stroke="#FFD166" stroke-width="3" marker-end="url(#arrowW)"/>
+  <rect x="465" y="715" width="315" height="56" rx="12" fill="#FFFFFF"/>
+  <text x="622" y="751" text-anchor="middle" font-size="23" font-weight="800" fill="#1F3A5F">② 次の言葉を1つずつ予測</text>
+  <path d="M786 743 L814 743" stroke="#FFD166" stroke-width="3" marker-end="url(#arrowW)"/>
+  <rect x="820" y="715" width="315" height="56" rx="12" fill="#FFFFFF"/>
+  <text x="977" y="751" text-anchor="middle" font-size="23" font-weight="800" fill="#1F3A5F">③ 文章にして回答</text>
+  <path d="M1141 743 L1169 743" stroke="#FFD166" stroke-width="3" marker-end="url(#arrowW)"/>
+  <rect x="1175" y="715" width="315" height="56" rx="12" fill="#7C3AED"/>
+  <text x="1332" y="751" text-anchor="middle" font-size="23" font-weight="800" fill="#FFFFFF">④ 人が確認する</text>
+  <text x="110" y="822" font-size="23" fill="#FFFFFF">どの段階でも、AIは間違えることがあります。最後は必ず人が確認しましょう。</text>
+</svg>

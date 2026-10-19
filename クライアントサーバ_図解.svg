@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F6FEB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="80" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">クライアント・サーバ方式のしくみ</text>
+  <text x="800" y="125" text-anchor="middle" font-size="26" fill="#4A5D78">Macで「python3 -m http.server」を動かした体験を図にすると</text>
+
+  <!-- ===== Client card ===== -->
+  <rect x="60" y="165" width="420" height="445" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="215" font-size="36" font-weight="800" fill="#1F3A5F">クライアント</text>
+  <text x="315" y="213" font-size="22" fill="#4A5D78">（頼む側）</text>
+
+  <!-- browser window -->
+  <rect x="90" y="240" width="360" height="190" rx="12" fill="#FFFFFF" stroke="#1F3A5F" stroke-width="2"/>
+  <path d="M90 252 a12 12 0 0 1 12 -12 h336 a12 12 0 0 1 12 12 v28 h-360 z" fill="#E2E8F0"/>
+  <line x1="90" y1="280" x2="450" y2="280" stroke="#1F3A5F" stroke-width="2"/>
+  <circle cx="108" cy="260" r="5" fill="#F87171"/>
+  <circle cx="124" cy="260" r="5" fill="#FBBF24"/>
+  <circle cx="140" cy="260" r="5" fill="#34D399"/>
+  <rect x="155" y="249" width="285" height="22" rx="11" fill="#FFFFFF"/>
+  <text x="297" y="265" text-anchor="middle" font-size="14" font-family="Menlo,monospace" fill="#1F3A5F">localhost:8000/boki3-kessan.html</text>
+  <text x="270" y="325" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">決算整理アプリ</text>
+  <rect x="150" y="342" width="240" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="180" y="362" width="180" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="160" y="388" width="220" height="32" rx="16" fill="#16A34A"/>
+  <text x="270" y="410" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">④ 受け取って画面に表示</text>
+
+  <!-- other clients -->
+  <text x="90" y="466" font-size="20" font-weight="700" fill="#4A5D78">ほかのクライアントからも使える</text>
+  <rect x="90" y="482" width="170" height="100" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="175" y="527" text-anchor="middle" font-size="26" font-weight="800" font-family="Menlo,monospace" fill="#1F3A5F">curl</text>
+  <text x="175" y="559" text-anchor="middle" font-size="18" fill="#4A5D78">別のターミナル</text>
+  <rect x="280" y="482" width="170" height="100" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="365" y="527" text-anchor="middle" font-size="26" font-weight="800" fill="#1F3A5F">スマホ</text>
+  <text x="365" y="559" text-anchor="middle" font-size="18" fill="#4A5D78">同じWi-Fiから</text>
+
+  <!-- ===== Server card ===== -->
+  <rect x="1120" y="165" width="420" height="445" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1150" y="215" font-size="36" font-weight="800" fill="#1F3A5F">サーバ</text>
+  <text x="1265" y="213" font-size="22" fill="#4A5D78">（配る側・あなたのMac）</text>
+
+  <!-- terminal -->
+  <rect x="1150" y="240" width="360" height="190" rx="12" fill="#1E293B"/>
+  <g font-family="Menlo,monospace" font-size="15">
+    <text x="1168" y="272" fill="#A5F3C4">$ python3 -m http.server 8000</text>
+    <text x="1168" y="296" fill="#CBD5E1">Serving HTTP on port 8000 ...</text>
+    <text x="1168" y="330" fill="#FDE68A">"GET /boki3-kessan.html" 200</text>
+    <text x="1168" y="354" fill="#FCA5A5">"GET /nai.html" 404</text>
+  </g>
+  <rect x="1200" y="388" width="260" height="32" rx="16" fill="#1F6FEB"/>
+  <text x="1330" y="410" text-anchor="middle" font-size="18" font-weight="700" fill="#FFFFFF">① 起動して8000番で待つ</text>
+
+  <!-- folder -->
+  <path d="M1150 470 a10 10 0 0 1 10 -10 h100 l16 16 h224 a10 10 0 0 1 10 10 v99 a10 10 0 0 1 -10 10 h-340 a10 10 0 0 1 -10 -10 z" fill="#FFF8E6" stroke="#E8B04A" stroke-width="2"/>
+  <text x="1170" y="503" font-size="20" font-weight="800" fill="#1F3A5F">学習フォルダ</text>
+  <rect x="1166" y="513" width="250" height="28" rx="6" fill="#FDE68A"/>
+  <g font-family="Menlo,monospace" font-size="16" fill="#1F3A5F">
+    <text x="1176" y="533" font-weight="700">boki3-kessan.html ← これ</text>
+    <text x="1176" y="560">boki3-kiso.html</text>
+    <text x="1176" y="583">boki3-genkin.html …</text>
+  </g>
+
+  <!-- ===== Middle: request / response ===== -->
+  <!-- request -->
+  <text x="800" y="245" text-anchor="middle" font-size="30" font-weight="800" fill="#1F6FEB">② リクエスト</text>
+  <rect x="610" y="262" width="380" height="46" rx="23" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="800" y="293" text-anchor="middle" font-size="24" font-family="Menlo,monospace" font-weight="700" fill="#1F3A5F">GET /boki3-kessan.html</text>
+  <line x1="495" y1="335" x2="1100" y2="335" stroke="#1F6FEB" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowBlue)"/>
+  <text x="800" y="372" text-anchor="middle" font-size="22" fill="#4A5D78">「このファイルをください」</text>
+
+  <!-- response -->
+  <text x="800" y="430" text-anchor="middle" font-size="30" font-weight="800" fill="#16A34A">③ レスポンス</text>
+  <rect x="610" y="447" width="380" height="46" rx="23" fill="#E7F7EE" stroke="#16A34A" stroke-width="2"/>
+  <text x="800" y="478" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F"><tspan font-family="Menlo,monospace">200 OK</tspan> ＋ HTML本体</text>
+  <line x1="1105" y1="520" x2="500" y2="520" stroke="#16A34A" stroke-width="5" stroke-linecap="round" marker-end="url(#arrowGreen)"/>
+  <text x="800" y="557" text-anchor="middle" font-size="22" fill="#4A5D78">「はい、どうぞ」</text>
+
+  <!-- 404 note -->
+  <rect x="560" y="574" width="480" height="36" rx="18" fill="#FFFFFF" stroke="#F87171" stroke-width="2" stroke-dasharray="6 5"/>
+  <text x="800" y="599" text-anchor="middle" font-size="19" fill="#B91C1C">ファイルがないときは <tspan font-family="Menlo,monospace" font-weight="700">404 Not Found</tspan> が返る</text>
+
+  <!-- ===== Bottom left: URL ===== -->
+  <rect x="60" y="640" width="960" height="230" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="690" font-size="30" font-weight="800" fill="#1F3A5F">URLの読み方</text>
+
+  <g font-family="Menlo,monospace" font-size="30" font-weight="700" text-anchor="middle">
+    <rect x="90" y="712" width="150" height="64" rx="12" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+    <text x="165" y="755" fill="#1F6FEB">http://</text>
+    <rect x="250" y="712" width="190" height="64" rx="12" fill="#F1E8FF" stroke="#7C3AED" stroke-width="2"/>
+    <text x="345" y="755" fill="#7C3AED">localhost</text>
+    <rect x="450" y="712" width="120" height="64" rx="12" fill="#FFF1E6" stroke="#E8833A" stroke-width="2"/>
+    <text x="510" y="755" fill="#C2620F">:8000</text>
+    <rect x="580" y="712" width="360" height="64" rx="12" fill="#E7F7EE" stroke="#16A34A" stroke-width="2"/>
+    <text x="760" y="755" fill="#15803D">/boki3-kessan.html</text>
+  </g>
+
+  <g text-anchor="middle">
+    <text x="165" y="815" font-size="22" font-weight="800" fill="#1F3A5F">プロトコル</text>
+    <text x="165" y="845" font-size="19" fill="#4A5D78">通信のルール</text>
+    <text x="345" y="815" font-size="22" font-weight="800" fill="#1F3A5F">IPアドレス</text>
+    <text x="345" y="845" font-size="19" fill="#4A5D78">PCの住所（自分）</text>
+    <text x="510" y="815" font-size="22" font-weight="800" fill="#1F3A5F">ポート番号</text>
+    <text x="510" y="845" font-size="19" fill="#4A5D78">サーバの窓口</text>
+    <text x="760" y="815" font-size="22" font-weight="800" fill="#1F3A5F">ファイル名</text>
+    <text x="760" y="845" font-size="19" fill="#4A5D78">ほしいもの（リクエスト内容）</text>
+  </g>
+
+  <!-- ===== Bottom right: stop ===== -->
+  <rect x="1050" y="640" width="490" height="230" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1080" y="690" font-size="30" font-weight="800" fill="#1F3A5F">サーバを止めると…</text>
+
+  <rect x="1080" y="714" width="150" height="60" rx="10" fill="#F5F8FC" stroke="#1F3A5F" stroke-width="2"/>
+  <rect x="1080" y="768" width="150" height="6" rx="3" fill="#C9D6E8"/>
+  <text x="1155" y="752" text-anchor="middle" font-size="24" font-weight="800" font-family="Menlo,monospace" fill="#1F3A5F">Ctrl + C</text>
+  <line x1="1242" y1="744" x2="1288" y2="744" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <rect x="1300" y="714" width="210" height="60" rx="10" fill="#FEF2F2" stroke="#F87171" stroke-width="2"/>
+  <text x="1405" y="752" text-anchor="middle" font-size="22" font-weight="800" fill="#B91C1C">接続できません</text>
+
+  <text x="1080" y="818" font-size="22" fill="#1F3A5F">サーバが動いていないと、</text>
+  <text x="1080" y="850" font-size="22" font-weight="800" fill="#1F3A5F">クライアントは何も受け取れない</text>
+</svg>

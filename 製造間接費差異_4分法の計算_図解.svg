@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+<defs><marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F3A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<rect width="1600" height="900" fill="#F5F8FC"/>
+<text x="800" y="60" font-size="44" font-weight="800" fill="#1F3A5F" text-anchor="middle">製造間接費差異 4分法の計算のしかた</text>
+<text x="800" y="98" font-size="23" font-weight="400" fill="#4A5D78" text-anchor="middle">4つの操業度を並べて、となり同士の差に率を掛ける</text>
+<rect x="40" y="120" width="960" height="752" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="64" y="156" font-size="24" font-weight="800" fill="#1F3A5F" text-anchor="start">シュラッター図</text>
+<text x="64" y="180" font-size="14" font-weight="400" fill="#4A5D78" text-anchor="start">※ 横軸の間隔は比率どおりではありません</text>
+<polygon points="480,338.75 760,260.0 760,600.0 480,530.0" fill="#F1E9FE" opacity="0.75"/>
+<rect x="120" y="440" width="800" height="200" fill="none" stroke="#1F3A5F" stroke-width="2.5"/>
+<line x1="120" y1="215.0" x2="120" y2="440" stroke="#1F3A5F" stroke-width="2.5"/>
+<line x1="120" y1="440" x2="955" y2="440" stroke="#1F3A5F" stroke-width="2.5" marker-end="url(#arr)"/>
+<text x="962" y="446" font-size="15" font-weight="400" fill="#4A5D78" text-anchor="start">時間</text>
+<line x1="120" y1="440" x2="920" y2="215.0" stroke="#1F3A5F" stroke-width="3"/>
+<line x1="120" y1="440" x2="920" y2="640" stroke="#1F3A5F" stroke-width="3"/>
+<text x="286" y="430" font-size="16" font-weight="700" fill="#1F3A5F" text-anchor="start">変動費率 @900</text>
+<text x="136" y="588" font-size="16" font-weight="700" fill="#1F3A5F" text-anchor="start">固定費率 @600(3,600,000 ÷ 6,000h)</text>
+<text x="136" y="624" font-size="16" font-weight="400" fill="#4A5D78" text-anchor="start">固定費予算 3,600,000円(月間)</text>
+<g stroke="#9DB0C9" stroke-width="2" stroke-dasharray="6 6"><line x1="480" y1="530.0" x2="480" y2="640"/><line x1="600" y1="305.0" x2="600" y2="640"/><line x1="920" y1="215.0" x2="920" y2="440"/><line x1="480" y1="698" x2="480" y2="728"/><line x1="760" y1="698" x2="760" y2="772"/><line x1="600" y1="698" x2="600" y2="816"/><line x1="920" y1="698" x2="920" y2="816"/></g>
+<line x1="480" y1="338.75" x2="480" y2="530.0" stroke="#1F3A5F" stroke-width="6" stroke-linecap="round"/><line x1="470" y1="338.75" x2="490" y2="338.75" stroke="#1F3A5F" stroke-width="4" stroke-linecap="round"/><line x1="470" y1="530.0" x2="490" y2="530.0" stroke="#1F3A5F" stroke-width="4" stroke-linecap="round"/>
+<rect x="150" y="228" width="300" height="66" rx="12" fill="#EEF2F8"/>
+<text x="300" y="254" font-size="16" font-weight="700" fill="#1F3A5F" text-anchor="middle">標準配賦額(標準操業度のたての幅)</text>
+<text x="300" y="280" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">@1,500 × 5,100h = 7,650,000</text>
+<line x1="450" y1="286" x2="474" y2="342.75" stroke="#1F3A5F" stroke-width="2"/>
+<line x1="760" y1="260.0" x2="760" y2="640" stroke="#1F6FEB" stroke-width="6" stroke-linecap="round"/><line x1="750" y1="260.0" x2="770" y2="260.0" stroke="#1F6FEB" stroke-width="4" stroke-linecap="round"/><line x1="750" y1="640" x2="770" y2="640" stroke="#1F6FEB" stroke-width="4" stroke-linecap="round"/>
+<rect x="560" y="134" width="400" height="66" rx="12" fill="#E8F1FE"/>
+<text x="760" y="160" font-size="16" font-weight="700" fill="#1F6FEB" text-anchor="middle">予算許容額(実際操業度のたての幅)</text>
+<text x="760" y="186" font-size="17" font-weight="700" fill="#1F6FEB" text-anchor="middle">@900 × 5,350h + 3,600,000 = 8,415,000</text>
+<line x1="760" y1="200" x2="760" y2="254.0" stroke="#1F6FEB" stroke-width="2"/>
+<circle cx="480" cy="440" r="7" fill="#1F3A5F"/>
+<text x="480" y="664" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">標準操業度</text>
+<text x="480" y="688" font-size="19" font-weight="800" fill="#1F3A5F" text-anchor="middle">5,100h</text>
+<circle cx="600" cy="440" r="7" fill="#1F3A5F"/>
+<text x="600" y="664" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">予算操業度</text>
+<text x="600" y="688" font-size="19" font-weight="800" fill="#1F3A5F" text-anchor="middle">5,200h</text>
+<circle cx="760" cy="440" r="7" fill="#1F3A5F"/>
+<text x="760" y="664" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">実際操業度</text>
+<text x="760" y="688" font-size="19" font-weight="800" fill="#1F3A5F" text-anchor="middle">5,350h</text>
+<circle cx="920" cy="440" r="7" fill="#1F3A5F"/>
+<text x="920" y="664" font-size="17" font-weight="700" fill="#1F3A5F" text-anchor="middle">実際的生産能力</text>
+<text x="920" y="688" font-size="19" font-weight="800" fill="#1F3A5F" text-anchor="middle">6,000h</text>
+<g stroke="#7C3AED" stroke-width="3.5" stroke-linecap="round"><line x1="480" y1="728" x2="760" y2="728"/><line x1="480" y1="718" x2="480" y2="738"/><line x1="760" y1="718" x2="760" y2="738"/></g>
+<rect x="547.0" y="713" width="146" height="30" rx="8" fill="#FFFFFF"/>
+<text x="620.0" y="734" font-size="17" font-weight="700" fill="#7C3AED" text-anchor="middle">@1,500 × 250h</text>
+<text x="464" y="734" font-size="18" font-weight="700" fill="#7C3AED" text-anchor="end">能率差異 <tspan font-weight="800">△375,000</tspan></text>
+<g stroke="#16A34A" stroke-width="3.5" stroke-linecap="round"><line x1="600" y1="772" x2="760" y2="772"/><line x1="600" y1="762" x2="600" y2="782"/><line x1="760" y1="762" x2="760" y2="782"/></g>
+<rect x="617.0" y="757" width="126" height="30" rx="8" fill="#FFFFFF"/>
+<text x="680.0" y="778" font-size="17" font-weight="700" fill="#16A34A" text-anchor="middle">@600 × 150h</text>
+<text x="584" y="778" font-size="18" font-weight="700" fill="#16A34A" text-anchor="end">予算操業度差異 <tspan font-weight="800">+90,000</tspan></text>
+<g stroke="#C2410C" stroke-width="3.5" stroke-linecap="round"><line x1="600" y1="816" x2="920" y2="816"/><line x1="600" y1="806" x2="600" y2="826"/><line x1="920" y1="806" x2="920" y2="826"/></g>
+<rect x="697.0" y="801" width="126" height="30" rx="8" fill="#FFFFFF"/>
+<text x="760.0" y="822" font-size="17" font-weight="700" fill="#C2410C" text-anchor="middle">@600 × 800h</text>
+<text x="584" y="822" font-size="18" font-weight="700" fill="#C2410C" text-anchor="end">予想遊休能力差異 <tspan font-weight="800">△480,000</tspan></text>
+<text x="64" y="852" font-size="16" font-weight="400" fill="#4A5D78" text-anchor="start">差異 = 率(かたむき)× 横の幅。能率差異だけは変動費率と固定費率の両方(紫の帯)を使う。</text>
+<rect x="1020" y="120" width="540" height="112" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<text x="1044" y="156" font-size="22" font-weight="800" fill="#1F3A5F" text-anchor="start">差異 = 率 ×(左の操業度 − 右の操業度)</text>
+<text x="1044" y="186" font-size="17" font-weight="400" fill="#4A5D78" text-anchor="start">標準 → 実際 → 予算 → 能力 の順に並べ、となり同士を引く</text>
+<text x="1044" y="212" font-size="17" font-weight="400" fill="#4A5D78" text-anchor="start">答えがマイナスなら不利差異、プラスなら有利差異</text>
+<rect x="1020" y="242" width="540" height="118" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1036" y="260" width="7" height="82" rx="3.5" fill="#1F6FEB"/>
+<text x="1058" y="280" font-size="21" font-weight="800" fill="#1F6FEB" text-anchor="start">予算差異</text>
+<text x="1538" y="280" font-size="21" font-weight="800" fill="#1F6FEB" text-anchor="end">+25,000(有利)</text>
+<text x="1058" y="314" font-size="18" font-weight="600" fill="#1F3A5F" text-anchor="start">予算許容額 8,415,000 − 実際発生額 8,390,000</text>
+<text x="1058" y="342" font-size="16" font-weight="400" fill="#4A5D78" text-anchor="start">予算許容額 = @900 × 5,350h + 3,600,000</text>
+<rect x="1020" y="370" width="540" height="118" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1036" y="388" width="7" height="82" rx="3.5" fill="#7C3AED"/>
+<text x="1058" y="408" font-size="21" font-weight="800" fill="#7C3AED" text-anchor="start">能率差異</text>
+<text x="1538" y="408" font-size="21" font-weight="800" fill="#7C3AED" text-anchor="end">△375,000(不利)</text>
+<text x="1058" y="442" font-size="18" font-weight="600" fill="#1F3A5F" text-anchor="start">@1,500 ×(標準 5,100h − 実際 5,350h)</text>
+<text x="1058" y="470" font-size="16" font-weight="400" fill="#4A5D78" text-anchor="start">標準配賦率 @1,500 = 変動費率 @900 + 固定費率 @600</text>
+<rect x="1020" y="498" width="540" height="118" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1036" y="516" width="7" height="82" rx="3.5" fill="#16A34A"/>
+<text x="1058" y="536" font-size="21" font-weight="800" fill="#16A34A" text-anchor="start">予算操業度差異</text>
+<text x="1538" y="536" font-size="21" font-weight="800" fill="#16A34A" text-anchor="end">+90,000(有利)</text>
+<text x="1058" y="570" font-size="18" font-weight="600" fill="#1F3A5F" text-anchor="start">@600 ×(実際 5,350h − 予算 5,200h)</text>
+<text x="1058" y="598" font-size="16" font-weight="400" fill="#4A5D78" text-anchor="start">計画より150h多く稼働した → 固定費を多く回収できた</text>
+<rect x="1020" y="626" width="540" height="118" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1036" y="644" width="7" height="82" rx="3.5" fill="#C2410C"/>
+<text x="1058" y="664" font-size="21" font-weight="800" fill="#C2410C" text-anchor="start">予想遊休能力差異</text>
+<text x="1538" y="664" font-size="21" font-weight="800" fill="#C2410C" text-anchor="end">△480,000(不利)</text>
+<text x="1058" y="698" font-size="18" font-weight="600" fill="#1F3A5F" text-anchor="start">@600 ×(予算 5,200h − 能力 6,000h)</text>
+<text x="1058" y="726" font-size="16" font-weight="400" fill="#4A5D78" text-anchor="start">計画の時点で800h分の能力を使わない見込みだった</text>
+<rect x="1020" y="754" width="540" height="118" rx="20" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+<rect x="1036" y="772" width="7" height="82" rx="3.5" fill="#1F3A5F"/>
+<text x="1058" y="792" font-size="21" font-weight="800" fill="#1F3A5F" text-anchor="start">検算</text>
+<text x="1538" y="792" font-size="21" font-weight="800" fill="#1F3A5F" text-anchor="end">△740,000</text>
+<text x="1058" y="826" font-size="17" font-weight="600" fill="#1F3A5F" text-anchor="start">+25,000 − 375,000 + 90,000 − 480,000 = △740,000</text>
+<text x="1058" y="854" font-size="17" font-weight="600" fill="#1F3A5F" text-anchor="start">標準配賦額 7,650,000 − 実際 8,390,000 = △740,000</text>
+</svg>

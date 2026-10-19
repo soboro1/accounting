@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="80" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">このMacでソフトが動く流れ</text>
+  <text x="800" y="125" text-anchor="middle" font-size="26" fill="#4A5D78">Apple M1 ／ macOS 26.5.2 の場合</text>
+
+  <!-- ===== Top: launching an app ===== -->
+  <rect x="60" y="160" width="1480" height="300" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="212" font-size="32" font-weight="800" fill="#1F3A5F">アプリをクリックしたとき</text>
+  <text x="1510" y="210" text-anchor="end" font-size="20" fill="#4A5D78">※ .app の正体はフォルダ。中に機械語の実行ファイルが入っている</text>
+
+  <g>
+    <rect x="90" y="240" width="248" height="190" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="118" cy="268" r="16" fill="#7C3AED"/>
+    <text x="118" y="276" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">1</text>
+    <text x="146" y="275" font-size="20" font-weight="800" fill="#7C3AED">Dock / Finder</text>
+    <text x="214" y="334" text-anchor="middle" font-size="24" font-weight="800" fill="#1F3A5F">アプリをクリック</text>
+    <text x="214" y="372" text-anchor="middle" font-size="19" fill="#4A5D78">「これを起動して」</text>
+    <text x="214" y="400" text-anchor="middle" font-size="19" fill="#4A5D78">という指示を出す</text>
+  </g>
+  <line x1="345" y1="335" x2="374" y2="335" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="383" y="240" width="248" height="190" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="411" cy="268" r="16" fill="#1F6FEB"/>
+    <text x="411" y="276" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">2</text>
+    <text x="439" y="275" font-size="20" font-weight="800" fill="#1F6FEB">macOS</text>
+    <text x="507" y="334" text-anchor="middle" font-size="24" font-weight="800" fill="#1F3A5F">実行ファイルを探す</text>
+    <text x="507" y="372" text-anchor="middle" font-size="19" fill="#4A5D78">.app の中から見つけ</text>
+    <text x="507" y="400" text-anchor="middle" font-size="19" fill="#4A5D78">署名をチェックする</text>
+  </g>
+  <line x1="638" y1="335" x2="667" y2="335" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="676" y="240" width="248" height="190" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="704" cy="268" r="16" fill="#1F6FEB"/>
+    <text x="704" y="276" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">3</text>
+    <text x="732" y="275" font-size="20" font-weight="800" fill="#1F6FEB">カーネル（XNU）</text>
+    <text x="800" y="334" text-anchor="middle" font-size="24" font-weight="800" fill="#1F3A5F">メモリに載せる</text>
+    <text x="800" y="372" text-anchor="middle" font-size="19" fill="#4A5D78">新しいプロセスを作り</text>
+    <text x="800" y="400" text-anchor="middle" font-size="19" fill="#4A5D78">機械語を読み込む</text>
+  </g>
+  <line x1="931" y1="335" x2="960" y2="335" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="969" y="240" width="248" height="190" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <circle cx="997" cy="268" r="16" fill="#1F6FEB"/>
+    <text x="997" y="276" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">4</text>
+    <text x="1025" y="275" font-size="20" font-weight="800" fill="#1F6FEB">dyld</text>
+    <text x="1093" y="334" text-anchor="middle" font-size="24" font-weight="800" fill="#1F3A5F">部品をつなぐ</text>
+    <text x="1093" y="372" text-anchor="middle" font-size="19" fill="#4A5D78">必要なライブラリを</text>
+    <text x="1093" y="400" text-anchor="middle" font-size="19" fill="#4A5D78">読み込んで接続する</text>
+  </g>
+  <line x1="1224" y1="335" x2="1253" y2="335" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="1262" y="240" width="248" height="190" rx="14" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+    <circle cx="1290" cy="268" r="16" fill="#16A34A"/>
+    <text x="1290" y="276" text-anchor="middle" font-size="20" font-weight="800" fill="#FFFFFF">5</text>
+    <text x="1318" y="275" font-size="20" font-weight="800" fill="#16A34A">Apple M1</text>
+    <text x="1386" y="334" text-anchor="middle" font-size="24" font-weight="800" fill="#166534">機械語を実行</text>
+    <text x="1386" y="372" text-anchor="middle" font-size="19" fill="#166534">取り出す→解読→実行</text>
+    <text x="1386" y="400" text-anchor="middle" font-size="19" fill="#166534">をくり返す</text>
+  </g>
+
+  <!-- ===== Bottom left: Python ===== -->
+  <rect x="60" y="490" width="880" height="370" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="542" font-size="30" font-weight="800" fill="#1F3A5F">Pythonを実行したとき</text>
+  <rect x="640" y="512" width="270" height="42" rx="10" fill="#1F2937"/>
+  <text x="775" y="540" text-anchor="middle" font-size="21" fill="#6EE7B7" font-family="'Menlo','SF Mono',monospace">python3 hello.py</text>
+
+  <g>
+    <rect x="90" y="572" width="178" height="150" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <text x="179" y="602" text-anchor="middle" font-size="18" font-weight="800" fill="#7C3AED">zsh</text>
+    <text x="179" y="642" text-anchor="middle" font-size="21" font-weight="800" fill="#1F3A5F">場所を探す</text>
+    <text x="179" y="674" text-anchor="middle" font-size="17" fill="#4A5D78">/opt/anaconda3 の</text>
+    <text x="179" y="698" text-anchor="middle" font-size="17" fill="#4A5D78">python3 を起動</text>
+  </g>
+  <line x1="274" y1="647" x2="296" y2="647" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="304" y="572" width="178" height="150" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <text x="393" y="602" text-anchor="middle" font-size="18" font-weight="800" fill="#7C3AED">python3</text>
+    <text x="393" y="642" text-anchor="middle" font-size="21" font-weight="800" fill="#1F3A5F">コードを読む</text>
+    <text x="393" y="674" text-anchor="middle" font-size="17" fill="#4A5D78">hello.py を</text>
+    <text x="393" y="698" text-anchor="middle" font-size="17" fill="#4A5D78">テキストとして読む</text>
+  </g>
+  <line x1="488" y1="647" x2="510" y2="647" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="518" y="572" width="178" height="150" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <text x="607" y="602" text-anchor="middle" font-size="18" font-weight="800" fill="#7C3AED">python3</text>
+    <text x="607" y="642" text-anchor="middle" font-size="21" font-weight="800" fill="#1F3A5F">バイトコード化</text>
+    <text x="607" y="674" text-anchor="middle" font-size="17" fill="#4A5D78">内部用の中間コード</text>
+    <text x="607" y="698" text-anchor="middle" font-size="17" fill="#4A5D78">に変換する</text>
+  </g>
+  <line x1="702" y1="647" x2="724" y2="647" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <g>
+    <rect x="732" y="572" width="178" height="150" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+    <text x="821" y="602" text-anchor="middle" font-size="18" font-weight="800" fill="#7C3AED">python3</text>
+    <text x="821" y="642" text-anchor="middle" font-size="21" font-weight="800" fill="#1F3A5F">1つずつ実行</text>
+    <text x="821" y="674" text-anchor="middle" font-size="17" fill="#4A5D78">結果はカーネル経由</text>
+    <text x="821" y="698" text-anchor="middle" font-size="17" fill="#4A5D78">で画面に出る</text>
+  </g>
+
+  <rect x="90" y="740" width="820" height="96" rx="14" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="500" y="780" text-anchor="middle" font-size="23" font-weight="800" fill="#5B21B6">M1が直接実行しているのは hello.py ではなく、python3 というソフト</text>
+  <text x="500" y="814" text-anchor="middle" font-size="18" fill="#4A5D78">python3 自体は、あらかじめM1用の機械語にコンパイル済み（Anaconda の Python 3.12.7）</text>
+
+  <!-- ===== Bottom right: Rosetta ===== -->
+  <rect x="970" y="490" width="570" height="370" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1000" y="542" font-size="30" font-weight="800" fill="#1F3A5F">Intel用アプリのとき</text>
+  <text x="1000" y="578" font-size="20" fill="#4A5D78">機械語の種類がM1と違うので、もう一度翻訳する</text>
+
+  <rect x="1000" y="602" width="150" height="120" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1075" y="650" text-anchor="middle" font-size="19" font-weight="800" fill="#1F3A5F">Intel用機械語</text>
+  <text x="1075" y="690" text-anchor="middle" font-size="20" fill="#4A5D78" font-family="'Menlo','SF Mono',monospace">x86_64</text>
+  <line x1="1155" y1="662" x2="1172" y2="662" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <rect x="1180" y="602" width="150" height="120" rx="14" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="1255" y="650" text-anchor="middle" font-size="22" font-weight="800" fill="#1D4ED8">Rosetta 2</text>
+  <text x="1255" y="690" text-anchor="middle" font-size="19" fill="#1F3A5F">が翻訳する</text>
+  <line x1="1335" y1="662" x2="1352" y2="662" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+
+  <rect x="1360" y="602" width="150" height="120" rx="14" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1435" y="650" text-anchor="middle" font-size="19" font-weight="800" fill="#166534">M1用機械語</text>
+  <text x="1435" y="690" text-anchor="middle" font-size="20" fill="#166534" font-family="'Menlo','SF Mono',monospace">arm64</text>
+
+  <rect x="1000" y="740" width="510" height="96" rx="14" fill="#F5F8FC" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1255" y="780" text-anchor="middle" font-size="20" fill="#1F3A5F">Chrome や Safari は両方の機械語を</text>
+  <text x="1255" y="812" text-anchor="middle" font-size="20" fill="#1F3A5F">持っていて、M1用が自動で選ばれる</text>
+</svg>

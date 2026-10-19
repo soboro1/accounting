@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KUMON 2027戦略提案</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1b2433; --sub:#5b6577; --line:#d9dee7; --bg:#eef1f5; --card:#ffffff; --ac:#1f5fae; --ac2:#e07a2e; --ok:#2e8b57; --soft:#f5f7fa; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #2a3140; font-family: 'Noto Sans JP', sans-serif; color: var(--ink); }
+  #stage { position: fixed; inset: 0; overflow: hidden; }
+  #deck { width: 1280px; height: 720px; position: absolute; left: 50%; top: 50%; transform-origin: center center; }
+  .slide { position: absolute; inset: 0; background: var(--card); padding: 56px 72px 48px; display: none; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+  .slide.on { display: flex; }
+  .kick { font-size: 15px; letter-spacing: 3px; color: var(--ac); font-weight: 700; }
+  h1 { font-size: 46px; line-height: 1.3; margin: 10px 0 0; font-weight: 900; }
+  h2 { font-size: 34px; line-height: 1.35; margin: 6px 0 22px; font-weight: 900; }
+  h1, h2 { text-wrap: balance; word-break: auto-phrase; }
+  p, li { font-size: 20px; line-height: 1.7; }
+  ul { margin: 0; padding-left: 1.2em; }
+  li { margin: 4px 0; }
+  b { color: var(--ac); }
+  .em2 { color: var(--ac2); font-weight: 700; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; flex: 1; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; flex: 1; }
+  .grid4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 16px; flex: 1; }
+  .card { background: var(--soft); border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
+  .card h3 { margin: 0 0 8px; font-size: 21px; color: var(--ink); }
+  .card p, .card li { font-size: 17px; line-height: 1.65; }
+  .card.ac { border-top: 5px solid var(--ac); }
+  .card.or { border-top: 5px solid var(--ac2); }
+  .card.gr { border-top: 5px solid var(--ok); }
+  .big { font-size: 54px; font-weight: 900; color: var(--ac); line-height: 1.1; }
+  .unit { font-size: 20px; font-weight: 700; color: var(--ac); }
+  .cap { font-size: 15px; color: var(--sub); line-height: 1.5; margin-top: 6px; }
+  .tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 2px 10px; border-radius: 999px; background: #fff1e6; color: #b5561a; border: 1px solid #f2c7a6; margin-left: 6px; vertical-align: middle; }
+  .tag.fact { background: #e8f1fb; color: #1f5fae; border-color: #b9d2ef; }
+  .foot { margin-top: auto; padding-top: 10px; font-size: 13px; color: var(--sub); display: flex; justify-content: space-between; border-top: 1px solid var(--line); }
+  .num { position: absolute; top: 22px; right: 32px; font-size: 13px; color: var(--sub); }
+  .msg { background: var(--ac); color: #fff; border-radius: 14px; padding: 18px 26px; font-size: 24px; font-weight: 700; line-height: 1.6; }
+  .msg small { display: block; font-size: 16px; font-weight: 400; opacity: .9; }
+  .title-slide { justify-content: center; background: linear-gradient(135deg, #ffffff 0%, #eaf1fa 100%); }
+  .title-slide .sub { font-size: 22px; color: var(--sub); margin-top: 18px; }
+  .disclaimer { margin-top: 34px; font-size: 15px; color: var(--sub); border-left: 4px solid var(--ac2); padding: 6px 14px; background: #fff; max-width: 900px; }
+  .flow { display: flex; gap: 10px; align-items: stretch; flex: 1; }
+  .flow .card { flex: 1; }
+  .arrow { align-self: center; font-size: 28px; color: var(--sub); }
+  .map { position: relative; flex: 1; border: 1px solid var(--line); border-radius: 14px; background: var(--soft); }
+  .map .ax { position: absolute; font-size: 14px; color: var(--sub); }
+  .map .dot { position: absolute; transform: translate(-50%,-50%); font-size: 15px; font-weight: 700; background: #fff; border: 2px solid var(--line); border-radius: 10px; padding: 6px 12px; white-space: nowrap; }
+  .map .dot.us { border-color: var(--ac); color: var(--ac); background: #e8f1fb; }
+  .map .vline { position: absolute; left: 50%; top: 24px; bottom: 24px; border-left: 1px dashed #aab3c2; }
+  .map .hline { position: absolute; top: 50%; left: 24px; right: 24px; border-top: 1px dashed #aab3c2; }
+  .road { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; flex: 1; }
+  .road .card h3 { color: var(--ac); }
+  .note { display: none; }
+  #notes { position: fixed; left: 0; right: 0; bottom: 0; background: rgba(15,20,30,.95); color: #e9edf3; font-size: 15px; line-height: 1.7; padding: 12px 20px; max-height: 30vh; overflow: auto; display: none; z-index: 5; }
+  #notes.show { display: block; }
+  #hud { position: fixed; right: 14px; bottom: 12px; z-index: 6; display: flex; gap: 6px; }
+  #hud button { font: inherit; font-size: 13px; background: rgba(255,255,255,.12); color: #fff; border: 1px solid rgba(255,255,255,.25); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+  #bar { position: fixed; left: 0; top: 0; height: 4px; background: var(--ac2); z-index: 6; transition: width .2s; }
+  @media print {
+    @page { size: 1280px 720px; margin: 0; }
+    html, body { background: #fff; height: auto; }
+    #stage { position: static; display: block; }
+    #deck { transform: none !important; position: static; width: 1280px; height: auto; }
+    .slide { display: flex !important; position: relative; page-break-after: always; box-shadow: none; height: 720px; }
+    #hud, #notes, #bar { display: none !important; }
+  }
+</style>
+</head>
+<body>
+<div id="bar"></div>
+<div id="stage"><div id="deck">
+
+<!-- 1 -->
+<section class="slide title-slide">
+  <div class="kick">MARKETING STRATEGY PROPOSAL 2027–2030</div>
+  <h1>AIの時代に、<br>「人が見守る、毎日の学び」で選ばれ続ける</h1>
+  <div class="sub">KUMON 2027年以降の事業戦略（マーケティング部からの提案）</div>
+  <div class="disclaimer">本資料は、マーケティング講座の演習として作成した<b>学習用の架空の提案</b>です。株式会社公文教育研究会の公式資料・公式見解ではありません。公開情報は出典を明記し、それ以外の分析は「仮説」として示しています。</div>
+  <aside class="note">本日は、2027年以降の事業戦略について、マーケティング部としての提案をお持ちしました。結論から申し上げると、AIで学べる時代だからこそ、「人が見守る毎日の学び」という私たちの原点を、デジタルで強くするという提案です。</aside>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <div class="kick">結論</div>
+  <h2>本日お伝えしたいこと</h2>
+  <div class="msg">デジタル・AIは、指導者の代わりではない。<br>指導者が「子どもと向き合う時間」を生み出す道具にする。
+    <small>これが、競合のAI学習アプリにはまねできない、KUMONの勝ち筋です。</small></div>
+  <div class="grid3" style="margin-top:22px">
+    <div class="card ac"><h3>① 人 × デジタルの教室</h3><p>採点・記録・報告をデジタルで軽くし、浮いた時間を子どもとの対話へ。</p></div>
+    <div class="card or"><h3>② 関係を長く、深く</h3><p>幼児から大人まで。子どもの数ではなく、一人ひとりとの関係の長さで伸びる事業へ。</p></div>
+    <div class="card gr"><h3>③ 選ばれる理由を伝える</h3><p>「AI時代になぜ教室か」に、指導者の声と学習データという一次情報で答える。</p></div>
+  </div>
+  <div class="foot"><span>意思決定のお願い：2027年度のパイロット予算と、指導者代表を含む推進体制の承認</span><span>2</span></div>
+  <aside class="note">最初に結論です。3つの柱でお話しします。最後に、2027年度のパイロットについてご判断をお願いします。</aside>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <div class="kick">現在地</div>
+  <h2>私たちの強みは、60年以上積み上げた「個人別学習」と、世界に広がる教室網</h2>
+  <div class="grid3">
+    <div class="card"><div class="big">358<span class="unit">万教科</span></div><p>全世界の学習者数（受講教科数）<span class="tag fact">公開情報</span></p><p class="cap">2025年9月現在。60を超える国と地域</p></div>
+    <div class="card"><div class="big">940<span class="unit">億円</span></div><p>連結売上高<span class="tag fact">公開情報</span></p><p class="cap">2025年3月現在。連結経常利益は約167億円</p></div>
+    <div class="card"><div class="big">1958<span class="unit">年</span></div><p>大阪で創業<span class="tag fact">公開情報</span></p><p class="cap">1954年、高校の数学教師・公文公が、小学生の息子のために教材を作ったことが原点</p></div>
+  </div>
+  <div class="card" style="margin-top:18px"><p style="font-size:18px">公文のデジタル化の基本姿勢は<b>「教育は人が行うもの」</b>。教材・指導法・研修・サポート・システムを一体で提供している（文部科学省 EDU-Port シンポジウム発表資料、2026年2月）<span class="tag fact">公開情報</span></p></div>
+  <div class="foot"><span>出典：公文教育研究会「The Horizontal Development of Japanese-Style Education in Africa」（EDU-Port シンポジウム資料, 2026年2月）</span><span>3</span></div>
+  <aside class="note">数字は公開資料からの引用です。特に強調したいのは「教育は人が行うもの」という基本姿勢です。今日の提案は、この原点を変えるものではなく、強くするためのものです。</aside>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <div class="kick">外部環境（PEST）</div>
+  <h2>子どもは減り、AIの学習手段は増える。ただし「学びの習慣」と「見守り」の需要は強い</h2>
+  <div class="grid4">
+    <div class="card"><h3>Society 社会</h3><ul><li>2024年の出生数は<b>68万6,173人</b>で過去最少（9年連続減少）、合計特殊出生率1.15 <span class="tag fact">公開情報</span></li><li>共働き世帯の増加で、家で勉強を見る時間が足りない <span class="tag">仮説</span></li></ul></div>
+    <div class="card"><h3>Technology 技術</h3><ul><li>生成AIの家庭教師アプリ、タブレット学習が身近に <span class="tag">仮説</span></li><li>学校では1人1台端末が前提に</li></ul></div>
+    <div class="card"><h3>Economy 経済</h3><ul><li>物価上昇で、家計は習い事を「選別」する <span class="tag">仮説</span></li><li>低価格のアプリと比べられる場面が増える</li></ul></div>
+    <div class="card"><h3>Politics 政策</h3><ul><li>教育のデジタル化、個別最適な学びの推進</li><li>途上国の基礎学力向上で、官民連携の機会 <span class="tag fact">公開情報</span></li></ul></div>
+  </div>
+  <div class="foot"><span>出典：厚生労働省「令和6年（2024）人口動態統計（確定数）の概況」　※「仮説」は今後データで検証</span><span>4</span></div>
+  <aside class="note">子どもの数は確実に減ります。一方で、AIの学習手段は増え、価格競争も起きます。ここで大事なのは、親が求めているのは「教材」だけではなく「毎日続く習慣」と「見守り」ではないか、という仮説です。</aside>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kick">競合の再定義</div>
+  <h2>競合は「塾」だけではない。保護者のジョブで見ると、AIアプリも、親自身も競合になる</h2>
+  <div class="grid3">
+    <div class="card ac"><h3>業界で見る</h3><ul><li>同じタイプの教室型学習</li><li>個別指導塾・集団塾</li><li>通信教育・タブレット学習</li></ul></div>
+    <div class="card or"><h3>ジョブで見る</h3><p>「毎日勉強する習慣をつけたい」を片付ける手段</p><ul><li>生成AIの家庭教師アプリ</li><li>市販ドリル・学習動画</li><li>親が自分で教える</li></ul></div>
+    <div class="card gr"><h3>時間とお金で見る</h3><ul><li>スイミング・英会話・プログラミングなど他の習い事</li><li>ゲーム・動画</li></ul></div>
+  </div>
+  <div class="msg" style="margin-top:20px">問い：AIアプリが安く手に入る時代に、保護者が「教室に通わせる理由」は何か？</div>
+  <div class="foot"><span>分析：マーケティング部（ジョブ理論による整理）</span><span>5</span></div>
+  <aside class="note">今後いちばん手強いのは、同業他社よりも、安くて便利なAI学習アプリかもしれません。だからこそ「教室に通う理由」を、はっきり言葉にする必要があります。</aside>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <div class="kick">顧客インサイト</div>
+  <h2>保護者が本当に求めているのは、教材ではなく「毎日、見守ってくれる人」<span class="tag">仮説</span></h2>
+  <div class="grid2">
+    <div class="card"><h3>保護者のインサイト</h3><p>〔状況〕共働きで、平日の夜は家事に追われる。<br>〔欲求〕子どもに、毎日少しずつ学ぶ習慣をつけたい。<br>〔葛藤〕でも、毎日付き合う時間も余裕もなく、つい叱ってしまう。<br>〔本音〕だから本当は、<b>自分の代わりに毎日見守り、「できた」を一緒に喜んでくれる人</b>がほしい。</p></div>
+    <div class="card"><h3>子どものインサイト</h3><p>〔欲求〕「できた！」がうれしい。<br>〔葛藤〕でも、難しすぎると嫌になるし、簡単すぎるとつまらない。<br>〔本音〕<b>ちょうどいい問題</b>と、<b>自分の成長に気づいてくれる人</b>がいると続けられる。</p></div>
+  </div>
+  <div class="card" style="margin-top:16px"><p style="font-size:18px">検証方法：2027年度上期に、保護者・子ども・指導者への<b>N1インタビュー（各20名程度）</b>と、継続者・退会者のアンケートで確かめる</p></div>
+  <div class="foot"><span>分析：マーケティング部　※インサイトは仮説。インタビューと定量調査で検証してから施策に反映</span><span>6</span></div>
+  <aside class="note">ここは仮説です。断定せず、来年度上期にインタビューと調査で確かめます。ただ、この仮説が正しければ、私たちの価値は教材だけでなく「人の見守り」にあります。</aside>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kick">SWOT</div>
+  <h2>強み「ちょうどの教材 × 人の見守り」で、機会「見守り需要・AI・大人の学び」をつかむ</h2>
+  <div class="grid4">
+    <div class="card ac"><h3>S 強み</h3><ul><li>60年以上磨いた「ちょうど」の個人別教材</li><li>指導者が一人ひとりを見る仕組み</li><li>国内外の教室網と、学習データの蓄積</li></ul></div>
+    <div class="card or"><h3>W 弱み <span class="tag">仮説</span></h3><ul><li>「プリントの反復」という古いイメージ</li><li>採点・記録など教室運営の負担</li><li>指導者の担い手確保</li></ul></div>
+    <div class="card gr"><h3>O 機会</h3><ul><li>共働き家庭の「見守り」需要</li><li>AI・データによる個別最適化</li><li>大人・シニアの学び直し、海外の公教育連携</li></ul></div>
+    <div class="card"><h3>T 脅威</h3><ul><li>少子化による対象人口の減少</li><li>低価格のAI学習アプリ</li><li>習い事の選択肢の増加</li></ul></div>
+  </div>
+  <div class="foot"><span>※ 弱みは社内データと現場ヒアリングで要確認</span><span>7</span></div>
+  <aside class="note">弱みは、私の仮説を含みます。特に教室運営の負担と担い手の確保は、指導者の皆さまに直接お聞きして確かめたい点です。</aside>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kick">ポジショニング</div>
+  <h2>目指す場所：「個別最適」と「人の見守り」を両立する、唯一の存在</h2>
+  <div class="map">
+    <div class="vline"></div><div class="hline"></div>
+    <div class="ax" style="left:50%;top:6px;transform:translateX(-50%)">人の見守り・関与　高い</div>
+    <div class="ax" style="left:50%;bottom:6px;transform:translateX(-50%)">人の見守り・関与　低い</div>
+    <div class="ax" style="left:14px;top:50%;transform:translateY(-130%)">一斉・画一的</div>
+    <div class="ax" style="right:14px;top:50%;transform:translateY(-130%)">一人ひとりに最適</div>
+    <div class="dot" style="left:30%;top:28%">集団塾</div>
+    <div class="dot" style="left:62%;top:34%">個別指導塾（高価格）</div>
+    <div class="dot" style="left:78%;top:76%">AI学習アプリ</div>
+    <div class="dot" style="left:28%;top:74%">市販ドリル</div>
+    <div class="dot us" style="left:80%;top:18%">KUMON（2030年の姿）</div>
+  </div>
+  <div class="foot"><span>※ 各社の配置はマーケティング部の仮説（今後、顧客調査で検証）</span><span>8</span></div>
+  <aside class="note">AIアプリは個別最適が得意ですが、人の見守りはありません。個別指導塾は人の関与が高い一方、価格が高くなりがちです。私たちは、ちょうどの教材による個別最適と、指導者の見守りを、手の届く形で両立できる唯一の存在を目指します。</aside>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kick">戦略の柱 ①</div>
+  <h2>人 × デジタルの教室：デジタルで「指導者の時間」を生み出す</h2>
+  <div class="flow">
+    <div class="card"><h3>今</h3><ul><li>採点・記録・教材準備に多くの時間</li><li>保護者への報告は口頭や紙</li></ul></div>
+    <div class="arrow">→</div>
+    <div class="card ac"><h3>デジタルが担う</h3><ul><li>採点・記録・進度管理の自動化</li><li>学習データから「つまずきの兆し」を通知</li><li>保護者アプリで日々の成長を共有</li></ul><p class="cap">海外で展開しているKUMON CONNECT（指導者が解答過程を再生して確認できる、保護者が進捗を確認できる等）の知見を活用 <span class="tag fact">公開情報</span></p></div>
+    <div class="arrow">→</div>
+    <div class="card gr"><h3>指導者が増やせる時間</h3><ul><li>子ども一人ひとりとの対話と声かけ</li><li>「できた」を一緒に喜ぶ時間</li><li>保護者との相談</li></ul></div>
+  </div>
+  <div class="msg" style="margin-top:16px;font-size:20px">紙とデジタルは<b style="color:#ffe2c8">教室と家庭が選べる</b>形に。一律の切り替えはしない。</div>
+  <div class="foot"><span>出典：Kumon UK「Kumon launch new digital tablet study service, KUMON CONNECT」ほか</span><span>9</span></div>
+  <aside class="note">一番お伝えしたいのは、デジタル化の目的は「人を減らすこと」ではなく「人が子どもと向き合う時間を増やすこと」だという点です。紙とデジタルは選択制にし、現場に一律の変更は求めません。</aside>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <div class="kick">戦略の柱 ② ③</div>
+  <h2>子どもの数ではなく「関係の長さ」で伸ばし、選ばれる理由を一次情報で伝える</h2>
+  <div class="grid2">
+    <div class="card or"><h3>② 関係を長く、深く（LTV）</h3><ul><li>幼児期の入会から、小中学生の継続へ。<b>学年が上がっても続く理由</b>をつくる</li><li>保護者へ「成長の見える化」で、継続の納得感を高める</li><li>大人・シニアの学び直しを、地域の教室の新しい柱に</li><li>海外は、学校・行政・NGOとのパートナー連携を拡大 <span class="tag fact">公開情報</span></li></ul></div>
+    <div class="card gr"><h3>③ 選ばれる理由を伝える（AIO・一次情報）</h3><ul><li>保護者が検索やAIに尋ねる「公文 効果」「AIアプリと教室 違い」などの問いに、<b>正面から答えるコンテンツ</b></li><li>素材は<b>一次情報</b>：指導者の声、保護者・子どものN1インタビュー、学習データ</li><li>誇張しない。条件や例外も書く（信頼を最優先）</li><li>AIの回答での言及状況を定点観測する</li></ul></div>
+  </div>
+  <div class="foot"><span>※ 海外のパートナー連携の事例：バングラデシュ（BRAC）、アブダビの小学校など（EDU-Port シンポジウム資料）</span><span>10</span></div>
+  <aside class="note">子どもの数が減る中では、一人ひとりとの関係を長く続けることが成長の鍵です。そして、AI時代に選ばれる理由は、広告のコピーではなく、指導者や保護者の生の声という一次情報で伝えます。</aside>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kick">ステークホルダー</div>
+  <h2>それぞれにとって、何が変わるのか</h2>
+  <div class="grid4">
+    <div class="card ac"><h3>指導者・教室スタッフ</h3><ul><li>採点・記録・報告の負担が減る</li><li>子どもと向き合う時間が増える</li><li>導入は希望制。研修とサポート窓口を用意</li></ul></div>
+    <div class="card or"><h3>社員</h3><ul><li>現場の声を起点に、施策をつくる役割へ</li><li>教室の成功事例を全国に広げる</li></ul></div>
+    <div class="card gr"><h3>保護者</h3><ul><li>日々の成長が見え、安心できる</li><li>家で叱らずに、習慣が続く</li></ul></div>
+    <div class="card"><h3>子ども</h3><ul><li>ちょうどいい問題で「できた」が続く</li><li>成長に気づいてくれる人がいる</li></ul></div>
+  </div>
+  <div class="foot"><span>※ 指導者・教室スタッフの負担と効果は、パイロットで実測して公開する</span><span>11</span></div>
+  <aside class="note">この戦略は、現場の皆さまの納得がなければ成功しません。誰にとって何が良くなるのかを、具体的にお示しします。</aside>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <div class="kick">現場の不安に、先にお答えします</div>
+  <h2>よくある質問</h2>
+  <div class="grid2">
+    <div class="card"><h3>Q. AIで、指導者は不要になるのでは？</h3><p>A. なりません。デジタルの目的は、<b>指導者が子どもと向き合う時間を増やすこと</b>です。「教育は人が行うもの」という基本姿勢は変えません。</p></div>
+    <div class="card"><h3>Q. 紙の教材はなくなるのでは？</h3><p>A. なくしません。<b>紙とデジタルは、教室と家庭が選べる</b>形にします。</p></div>
+    <div class="card"><h3>Q. 新しい仕組みを覚える負担が増えるのでは？</h3><p>A. 導入は<b>希望する教室から段階的に</b>。研修、マニュアル、相談窓口を用意し、パイロットでの負担を実測して改善します。</p></div>
+    <div class="card"><h3>Q. 子どもや家庭のデータは安全？</h3><p>A. 個人情報の取り扱いルールを明確にし、利用目的を保護者に説明したうえで同意をいただきます。</p></div>
+  </div>
+  <div class="foot"><span>※ パイロットに参加する指導者の声を、全国の教室に毎月共有する</span><span>12</span></div>
+  <aside class="note">現場から出てきそうな不安に、先にお答えしておきます。特に「指導者は不要になるのか」という問いには、はっきりと「なりません」とお伝えしたいと考えています。</aside>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <div class="kick">ロードマップ</div>
+  <h2>小さく試し、現場の声で磨き、広げる</h2>
+  <div class="road">
+    <div class="card"><h3>2027年度</h3><p><b>検証</b></p><ul><li>インサイト調査（N1・定量）</li><li>希望教室でパイロット</li><li>負担と効果を実測</li></ul></div>
+    <div class="card"><h3>2028年度</h3><p><b>改善・拡大</b></p><ul><li>パイロットの声で改善</li><li>参加教室を段階的に拡大</li><li>保護者向け「成長の見える化」</li></ul></div>
+    <div class="card"><h3>2029年度</h3><p><b>標準化</b></p><ul><li>希望する全教室で利用可能に</li><li>大人・シニア向けの本格展開</li></ul></div>
+    <div class="card"><h3>2030年度</h3><p><b>定着</b></p><ul><li>「人が見守る学び」のブランド確立</li><li>海外のパートナー連携と知見の相互共有</li></ul></div>
+  </div>
+  <div class="foot"><span>※ 各段階の判断は、次ページのKPIで行う（基準を満たさなければ拡大しない）</span><span>13</span></div>
+  <aside class="note">一気に変えるのではなく、希望する教室で小さく試し、効果と負担を確かめてから広げます。KPIを満たさなければ、拡大しない判断もします。</aside>
+</section>
+
+<!-- 14 -->
+<section class="slide">
+  <div class="kick">KPI</div>
+  <h2>「入会数」だけでなく、「関係の長さ」と「向き合う時間」で測る</h2>
+  <div class="grid3">
+    <div class="card ac"><h3>事業（KGI）</h3><ul><li>学習者1人あたりの平均継続期間</li><li>学習者1人あたりの生涯価値（LTV）</li><li>国内学習者数の減少幅を、対象人口の減少幅より小さく</li></ul></div>
+    <div class="card or"><h3>現場</h3><ul><li>指導者1人が子どもと向き合う時間</li><li>採点・事務にかかる時間</li><li>指導者・スタッフの満足度</li></ul></div>
+    <div class="card gr"><h3>顧客・ブランド</h3><ul><li>保護者の満足度・推奨意向</li><li>退会理由の内訳（毎月）</li><li>検索・AIの回答での言及状況</li></ul></div>
+  </div>
+  <div class="card" style="margin-top:16px"><p style="font-size:18px">目標値は、2027年度上期の調査とパイロットで<b>現状値（ベースライン）を測ってから</b>設定します。根拠のない数字は置きません。</p></div>
+  <div class="foot"><span>8月までにベースラインを確定 → 下期の経営会議で目標値をご提案</span><span>14</span></div>
+  <aside class="note">KPIの目標値は、今日はあえて置いていません。現状を測らずに数字を置くと、根拠のない目標になってしまうからです。まず測り、そのうえで目標をご提案します。</aside>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <div class="kick">リスクと対策</div>
+  <h2>想定されるリスクと、先回りの対策</h2>
+  <div class="grid2">
+    <div class="card"><ul><li><b>現場の負担増</b> → 希望制・段階導入、負担を実測し基準を超えたら見直す</li><li><b>家庭の端末格差</b> → 紙との選択制、教室での利用環境の整備を検討</li><li><b>個人情報</b> → 利用目的の説明と同意、管理ルールの整備</li></ul></div>
+    <div class="card"><ul><li><b>ブランドの誤解</b>（「公文もアプリになった」）→ 伝える軸は一貫して「人が見守る学び」</li><li><b>AI学習アプリとの価格競争</b> → 価格で戦わず、見守りと継続の価値で選ばれる</li><li><b>調査で仮説が外れる</b> → 仮説が外れたら、柱そのものを見直す</li></ul></div>
+  </div>
+  <div class="foot"><span></span><span>15</span></div>
+  <aside class="note">リスクにも先回りします。特に、調査の結果、仮説が外れた場合は、柱そのものを見直す前提で進めます。</aside>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <div class="kick">お願い</div>
+  <h2>本日ご判断いただきたいこと</h2>
+  <div class="grid3">
+    <div class="card ac"><h3>1. パイロットの承認</h3><p>2027年度、希望教室でのパイロットと、インサイト調査の実施</p></div>
+    <div class="card or"><h3>2. 推進体制</h3><p>マーケティング・教室運営・システム部門に加え、<b>指導者の代表</b>が参加するプロジェクトチームの発足</p></div>
+    <div class="card gr"><h3>3. 評価の軸</h3><p>入会数だけでなく、継続期間・向き合う時間・保護者満足を、経営の指標に加えること</p></div>
+  </div>
+  <div class="msg" style="margin-top:20px">AIで学べる時代だからこそ、「人が見守る、毎日の学び」の価値は高まる。<br><small>私たちの原点「教育は人が行うもの」を、デジタルで、もっと強くしていきます。</small></div>
+  <div class="foot"><span>マーケティング部</span><span>16</span></div>
+  <aside class="note">本日は3点のご判断をお願いします。最後にもう一度。AIで学べる時代だからこそ、人が見守る学びの価値は高まると考えています。ありがとうございました。</aside>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <div class="kick">出典・注記</div>
+  <h2>出典と、この資料の前提</h2>
+  <ul style="font-size:17px">
+    <li>公文教育研究会「The Horizontal Development of Japanese-Style Education in Africa」文部科学省 EDU-Port シンポジウム資料（2026年2月）：学習者数358万教科（2025年9月）、60を超える国と地域、連結売上高・経常利益・拠点数・従業員数（2025年3月）、創業の経緯、「教育は人が行うもの」、Kumon in School、パートナー事業</li>
+    <li>厚生労働省「令和6年（2024）人口動態統計（確定数）の概況」（2025年9月公表）：出生数68万6,173人、合計特殊出生率1.15</li>
+    <li>Kumon UK「Kumon launch new digital tablet study service, KUMON CONNECT」、Kumon（米国）Student Resources「Greater Convenience, More Engagement With Kumon Connect」：KUMON CONNECTの機能</li>
+    <li>「仮説」と記した内容は、マーケティング部の分析であり、今後の調査で検証する</li>
+    <li>本資料は講座の演習として作成した学習用の架空の提案であり、株式会社公文教育研究会の公式資料・公式見解ではない</li>
+  </ul>
+  <div class="foot"><span>公開情報の確認日：2026年10月9日</span><span>17</span></div>
+  <aside class="note">出典の一覧です。仮説と事実を分けて示しています。</aside>
+</section>
+
+</div></div>
+<div id="notes"></div>
+<div id="hud"><button onclick="go(-1)">← 前</button><button onclick="go(1)">次 →</button><button onclick="toggleNotes()">ノート（N）</button><button onclick="window.print()">PDF保存</button></div>
+<script>
+const slides = [...document.querySelectorAll(".slide")];
+let cur = 0;
+const notesEl = document.getElementById("notes");
+function show(i) {
+  cur = Math.max(0, Math.min(slides.length - 1, i));
+  slides.forEach((s, k) => s.classList.toggle("on", k === cur));
+  const n = slides[cur].querySelector(".note");
+  notesEl.textContent = n ? "話す内容：" + n.textContent : "";
+  document.getElementById("bar").style.width = ((cur + 1) / slides.length * 100) + "%";
+  try { history.replaceState(null, "", "#" + (cur + 1)); } catch (e) {}
+}
+function go(d) { show(cur + d); }
+function toggleNotes() { notesEl.classList.toggle("show"); }
+function fit() {
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720) * 0.96;
+  document.getElementById("deck").style.transform = `translate(-50%, -50%) scale(${s})`;
+}
+document.addEventListener("keydown", e => {
+  if (["ArrowRight", "PageDown", " "].includes(e.key)) { e.preventDefault(); go(1); }
+  if (["ArrowLeft", "PageUp"].includes(e.key)) { e.preventDefault(); go(-1); }
+  if (e.key === "n" || e.key === "N") toggleNotes();
+  if (e.key === "Home") show(0);
+  if (e.key === "End") show(slides.length - 1);
+});
+let tx = null;
+document.addEventListener("touchstart", e => { tx = e.touches[0].clientX; }, { passive: true });
+document.addEventListener("touchend", e => { if (tx === null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1); tx = null; });
+window.addEventListener("resize", fit);
+fit();
+show((parseInt(location.hash.slice(1)) || 1) - 1);
+</script>
+</body>
+</html>

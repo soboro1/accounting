@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#4A5D78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="80" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">Pythonは機械語に翻訳している？</text>
+  <text x="800" y="125" text-anchor="middle" font-size="26" fill="#4A5D78">答え：していない。翻訳するのは中間メモ（バイトコード）まで</text>
+
+  <!-- ===== Left: Python ===== -->
+  <rect x="60" y="160" width="725" height="480" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="216" font-size="30" font-weight="800" fill="#1F3A5F">Python（インタプリタ方式）</text>
+  <rect x="545" y="186" width="210" height="40" rx="20" fill="#F3EEFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="650" y="213" text-anchor="middle" font-size="19" font-weight="800" fill="#5B21B6">機械語に翻訳しない</text>
+
+  <rect x="90" y="270" width="665" height="84" rx="12" fill="#1F2937"/>
+  <text x="422" y="299" text-anchor="middle" font-size="17" fill="#9CA3AF">あなたが書いたテキスト</text>
+  <text x="422" y="337" text-anchor="middle" font-size="28" font-family="'Menlo','SF Mono',monospace"><tspan fill="#C4B5FD">print</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#FDE68A">1 + 2</tspan><tspan fill="#F9FAFB">)</tspan></text>
+
+  <line x1="362" y1="360" x2="362" y2="386" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <text x="386" y="381" font-size="19" font-weight="800" fill="#7C3AED">python3 が変換（翻訳はここまで）</text>
+
+  <rect x="90" y="394" width="665" height="84" rx="12" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="422" y="428" text-anchor="middle" font-size="22" font-weight="800" fill="#5B21B6">バイトコード（python3 専用の中間メモ）</text>
+  <text x="422" y="460" text-anchor="middle" font-size="19" fill="#1F3A5F">「1と2を足す」「結果を表示する」 ※M1は直接読めない</text>
+
+  <line x1="362" y1="484" x2="362" y2="510" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <text x="386" y="505" font-size="19" font-weight="800" fill="#7C3AED">python3 が1つずつ読み、担当を選ぶ</text>
+
+  <rect x="90" y="518" width="665" height="84" rx="12" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="422" y="552" text-anchor="middle" font-size="22" font-weight="800" fill="#166534">python3 の中にある機械語を、M1が実行</text>
+  <text x="422" y="584" text-anchor="middle" font-size="19" fill="#166534">足し算担当・表示担当など（最初から入っていたもの）</text>
+
+  <!-- ===== Right: C / Rust ===== -->
+  <rect x="815" y="160" width="725" height="480" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="845" y="216" font-size="30" font-weight="800" fill="#1F3A5F">C・Rust（コンパイル方式）</text>
+  <rect x="1320" y="186" width="190" height="40" rx="20" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="1.5"/>
+  <text x="1415" y="213" text-anchor="middle" font-size="19" font-weight="800" fill="#1D4ED8">機械語に翻訳する</text>
+
+  <rect x="845" y="270" width="665" height="84" rx="12" fill="#1F2937"/>
+  <text x="1177" y="299" text-anchor="middle" font-size="17" fill="#9CA3AF">あなたが書いたテキスト</text>
+  <text x="1177" y="337" text-anchor="middle" font-size="28" font-family="'Menlo','SF Mono',monospace"><tspan fill="#93C5FD">printf</tspan><tspan fill="#F9FAFB">(</tspan><tspan fill="#A7F3D0">"%d"</tspan><tspan fill="#F9FAFB">, </tspan><tspan fill="#FDE68A">1 + 2</tspan><tspan fill="#F9FAFB">);</tspan></text>
+
+  <line x1="1117" y1="360" x2="1117" y2="386" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <text x="1141" y="381" font-size="19" font-weight="800" fill="#1F6FEB">コンパイラが翻訳（実行前に全部）</text>
+
+  <rect x="845" y="394" width="665" height="84" rx="12" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="1177" y="428" text-anchor="middle" font-size="22" font-weight="800" fill="#1D4ED8">機械語の実行ファイル</text>
+  <text x="1177" y="460" text-anchor="middle" font-size="19" fill="#1F3A5F">テキストが、本当に「0と1の命令」に変わる</text>
+
+  <line x1="1117" y1="484" x2="1117" y2="510" stroke="#4A5D78" stroke-width="4" stroke-linecap="round" marker-end="url(#arrowGray)"/>
+  <text x="1141" y="505" font-size="19" font-weight="800" fill="#1F6FEB">そのまま渡す（通訳はいらない）</text>
+
+  <rect x="845" y="518" width="665" height="84" rx="12" fill="#E9F9EF" stroke="#16A34A" stroke-width="2"/>
+  <text x="1177" y="552" text-anchor="middle" font-size="22" font-weight="800" fill="#166534">その機械語を、M1が直接実行</text>
+  <text x="1177" y="584" text-anchor="middle" font-size="19" fill="#166534">あなたのコードから作られた機械語が動く</text>
+
+  <!-- ===== Bottom: analogy ===== -->
+  <rect x="60" y="670" width="1480" height="190" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="720" font-size="28" font-weight="800" fill="#1F3A5F">料理にたとえると</text>
+  <text x="1510" y="718" text-anchor="end" font-size="20" fill="#4A5D78">※ Python が C より遅くなりがちなのは、毎回「中間メモを読む」手間があるから</text>
+
+  <rect x="90" y="742" width="695" height="94" rx="14" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="437" y="780" text-anchor="middle" font-size="22" font-weight="800" fill="#5B21B6">Python：料理人がレシピを読みながら、その場で作る</text>
+  <text x="437" y="812" text-anchor="middle" font-size="19" fill="#1F3A5F">レシピ（コード）は、最後までレシピのまま</text>
+
+  <rect x="815" y="742" width="695" height="94" rx="14" fill="#EAF2FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="1162" y="780" text-anchor="middle" font-size="22" font-weight="800" fill="#1D4ED8">C・Rust：レシピを、調理マシン用の設定に変換しておく</text>
+  <text x="1162" y="812" text-anchor="middle" font-size="19" fill="#1F3A5F">変換後は、レシピも料理人もいらない</text>
+</svg>

@@ -1,0 +1,52 @@
+# ============================================================
+# キャラクター定義
+#   このファイルの内容が「毎回同じ顔の子」の正体になります。
+#   運用フェーズは 2 段階:
+#     [Phase 1] identity_reference_url だけ埋める → PuLID で顔固定（学習不要・すぐ動く）
+#     [Phase 2] tools/train_lora.py で LoRA を作り lora_url を埋める → 一貫性・画質ともに最高
+#   lora_url が空なら自動で Phase 1、埋まっていれば Phase 2 で動きます。
+# ============================================================
+
+name: Rin
+# 投稿キャプションの一人称・語尾のトーン
+persona: |
+  22歳。東京在住のフリーランスのフォトグラファー。
+  カフェ巡りと散歩が好きで、口数は多くないけど写真の話になると饒舌。
+  絵文字は控えめに1〜2個。丁寧すぎない、友達に話しかけるような柔らかい口語。
+
+# ---- 外見（プロンプトの土台。ここは毎回必ず注入される） ----
+appearance: >-
+  a 22-year-old Japanese woman, long straight dark brown hair with soft bangs,
+  almond-shaped dark brown eyes, small nose, natural light makeup, fair skin,
+  slim build, gentle calm expression
+
+# ---- Phase 1: PuLID 用の参照顔画像（公開URL） ----
+# tools/bootstrap_identity.py が生成して、ここに URL を出力してくれます。
+identity_reference_url: ""
+
+# ---- Phase 2: 学習済み LoRA ----
+lora_url: ""
+lora_scale: 1.0
+# LoRA 学習時に指定した trigger phrase（学習していないなら空でOK）
+trigger_phrase: ""
+
+# ---- 画づくりの共通設定 ----
+style: >-
+  candid iPhone photo, natural lighting, shallow depth of field,
+  film grain, realistic skin texture, unretouched, 35mm lens
+
+# ---- 生成モデル ----
+models:
+  # LoRA あり（Phase 2）
+  lora: fal-ai/flux-lora
+  # 参照顔あり（Phase 1）
+  identity: fal-ai/flux-pulid
+  # 素体生成（bootstrap の 1 枚目）
+  base: fal-ai/flux-lora
+
+image:
+  width: 1080
+  height: 1350          # 4:5。Instagram フィードで最も縦に大きく出る比率
+  num_inference_steps: 32
+  guidance_scale: 3.5
+  output_format: jpeg   # Instagram は JPEG のみ受け付ける

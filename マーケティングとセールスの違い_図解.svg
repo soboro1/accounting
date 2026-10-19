@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+  <foreignObject x="0" y="0" width="1600" height="900">
+    <div xmlns="http://www.w3.org/1999/xhtml" style="font-family:'Hiragino Sans','Noto Sans CJK JP',sans-serif;color:#1F3A5F;width:1600px;height:900px;box-sizing:border-box;padding:30px 56px 0;">
+      <style>
+        .ttl{font-size:38px;font-weight:800;margin:0;letter-spacing:1px}
+        .sub{font-size:18px;color:#4A5D78;margin:6px 0 18px}
+        .row{display:grid;grid-template-columns:1fr 360px 1fr;gap:18px}
+        .cell{background:#fff;border:2px solid #C9D6E8;border-radius:24px;padding:18px 24px 14px;box-sizing:border-box;height:590px}
+        .name{font-size:30px;font-weight:800;display:flex;align-items:baseline;gap:12px}
+        .name small{font-size:16px;color:#7C8BA3;font-weight:700}
+        .catch{font-size:23px;font-weight:800;color:#fff;border-radius:14px;padding:8px 14px;margin:12px 0 22px}
+        .it{display:flex;gap:12px;margin:0 0 20px;font-size:20px;line-height:1.55;color:#2A3B55}
+        .it .k{flex:none;width:90px;font-weight:800;font-size:17px;border-radius:8px;text-align:center;padding:2px 0;height:28px;line-height:24px}
+        .it b{color:#1F3A5F}
+        .fn{display:flex;flex-direction:column;align-items:center;gap:6px;padding-top:8px}
+        .fh{font-size:17px;font-weight:800;color:#4A5D78;margin-bottom:2px}
+        .st{color:#fff;font-weight:800;font-size:19px;border-radius:12px;height:62px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+        .ho{font-size:15px;font-weight:800;color:#1F3A5F;background:#FEF3C7;border:2px dashed #D97706;border-radius:10px;padding:5px 10px;text-align:center;line-height:1.4}
+        .side{font-size:15px;font-weight:800}
+        .foot{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+        .fb{background:#1F3A5F;color:#fff;border-radius:18px;padding:14px 22px;font-size:18px;line-height:1.6}
+        .fb .lb{display:inline-block;background:#fff;color:#1F3A5F;font-size:14px;font-weight:800;border-radius:999px;padding:2px 12px;margin-right:8px;vertical-align:2px}
+        .fb b{color:#FCD34D}
+      </style>
+      <p class="ttl">マーケティングとセールスの違い</p>
+      <p class="sub">ひとことで言うと、マーケティングは<b style="color:#7C3AED">「売れる仕組み」</b>をつくり、セールスは<b style="color:#1F6FEB">「目の前の1人に買ってもらう」</b></p>
+
+      <div class="row">
+        <div class="cell" style="border-top:8px solid #7C3AED">
+          <div class="name" style="color:#7C3AED">マーケティング<small>1対 多数</small></div>
+          <div class="catch" style="background:#7C3AED">「買いたい」と思う人を増やす</div>
+          <div class="it"><span class="k" style="background:#EDE9FE;color:#7C3AED">相手</span><span>市場全体。<b>まだ買う気のない人</b>も含む</span></div>
+          <div class="it"><span class="k" style="background:#EDE9FE;color:#7C3AED">時間</span><span><b>中長期</b>(ブランド・評判を積み上げる)</span></div>
+          <div class="it"><span class="k" style="background:#EDE9FE;color:#7C3AED">やること</span><span>市場調査、<b>STP</b>(誰に売るか)、<b>4P</b>(商品・価格・流通・販促)、広告・SNS・YouTube、見込み客集め</span></div>
+          <div class="it"><span class="k" style="background:#EDE9FE;color:#7C3AED">見る数字</span><span>認知率、問い合わせ数(リード数)、1件あたり獲得コスト</span></div>
+          <div class="it"><span class="k" style="background:#EDE9FE;color:#7C3AED">たとえ</span><span>魚が<b>集まる場所</b>を見つけて、えさをまく</span></div>
+        </div>
+
+        <div class="fn">
+          <div class="fh">お客さんの流れ</div>
+          <div class="st" style="width:340px;background:#7C3AED">認知(知る)</div>
+          <div class="st" style="width:300px;background:#8B5CF6">興味(気になる)</div>
+          <div class="st" style="width:262px;background:#A78BFA">比較・検討</div>
+          <div class="ho">ここでバトンタッチ<br/>見込み客 → 商談</div>
+          <div class="st" style="width:224px;background:#3B82F6">商談・提案</div>
+          <div class="st" style="width:190px;background:#1F6FEB">購入・契約</div>
+          <div class="st" style="width:160px;background:#16A34A">継続・紹介</div>
+          <div class="side" style="color:#16A34A">↑ 両方で関わる</div>
+        </div>
+
+        <div class="cell" style="border-top:8px solid #1F6FEB">
+          <div class="name" style="color:#1F6FEB">セールス(営業)<small>1対1</small></div>
+          <div class="catch" style="background:#1F6FEB">目の前の1人に「買う」と決めてもらう</div>
+          <div class="it"><span class="k" style="background:#DBEAFE;color:#1F6FEB">相手</span><span><b>買う気が出てきた人</b>(見込み客)</span></div>
+          <div class="it"><span class="k" style="background:#DBEAFE;color:#1F6FEB">時間</span><span><b>短期</b>(今月・今期の売上)</span></div>
+          <div class="it"><span class="k" style="background:#DBEAFE;color:#1F6FEB">やること</span><span>ヒアリング(困りごとを聞く)、提案、見積もり、<b>クロージング</b>(契約を決める)、購入後のフォロー</span></div>
+          <div class="it"><span class="k" style="background:#DBEAFE;color:#1F6FEB">見る数字</span><span>商談数、<b>成約率</b>、売上金額</span></div>
+          <div class="it"><span class="k" style="background:#DBEAFE;color:#1F6FEB">たとえ</span><span>集まった魚を<b>確実に釣り上げる</b></span></div>
+        </div>
+      </div>
+
+      <div class="foot">
+        <div class="fb"><span class="lb">ドラッカー</span>マーケティングの理想は<b>「販売(セールス)を不要にする」</b>こと。勝手に売れる状態をつくるのが目標</div>
+        <div class="fb"><span class="lb">YouTubeだと</span>動画で知ってもらう=<b>マーケティング</b>、概要欄から問い合わせた人に提案して契約=<b>セールス</b></div>
+      </div>
+    </div>
+  </foreignObject>
+</svg>

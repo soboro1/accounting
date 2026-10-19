@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" font-family="'Hiragino Sans','Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9" fill="none" stroke="#1F3A5F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- Title -->
+  <text x="800" y="90" text-anchor="middle" font-size="52" font-weight="800" fill="#1F3A5F">生成AIの仕組み</text>
+  <text x="800" y="138" text-anchor="middle" font-size="26" fill="#4A5D78">「学ぶ」→「聞く」→「答える」の3ステップ</text>
+
+  <!-- Card 1 -->
+  <rect x="60" y="190" width="440" height="470" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="120" cy="250" r="34" fill="#1F6FEB"/>
+  <text x="120" y="263" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">1</text>
+  <text x="175" y="262" font-size="38" font-weight="800" fill="#1F3A5F">学ぶ</text>
+  <text x="290" y="262" font-size="24" fill="#4A5D78">（学習）</text>
+
+  <!-- data icons -->
+  <rect x="100" y="315" width="90" height="70" rx="10" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="145" y="358" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">本</text>
+  <rect x="205" y="315" width="90" height="70" rx="10" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="250" y="358" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">Web</text>
+  <rect x="310" y="315" width="90" height="70" rx="10" fill="#E6F0FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="355" y="358" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">論文</text>
+  <text x="430" y="358" font-size="28" fill="#4A5D78">…</text>
+
+  <path d="M280 400 L280 440" stroke="#1F3A5F" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <rect x="100" y="452" width="360" height="70" rx="14" fill="#1F6FEB"/>
+  <text x="280" y="497" text-anchor="middle" font-size="30" font-weight="800" fill="#FFFFFF">AI（モデル）</text>
+
+  <text x="280" y="570" text-anchor="middle" font-size="24" fill="#1F3A5F">大量の文章から</text>
+  <text x="280" y="608" text-anchor="middle" font-size="24" font-weight="800" fill="#1F6FEB">言葉のつながりのパターン</text>
+  <text x="280" y="646" text-anchor="middle" font-size="24" fill="#1F3A5F">を覚える</text>
+
+  <!-- Arrow 1-2 -->
+  <path d="M510 425 L550 425" stroke="#1F3A5F" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- Card 2 -->
+  <rect x="560" y="190" width="480" height="470" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="620" cy="250" r="34" fill="#0E9F8A"/>
+  <text x="620" y="263" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">2</text>
+  <text x="675" y="262" font-size="38" font-weight="800" fill="#1F3A5F">聞く</text>
+  <text x="790" y="262" font-size="24" fill="#4A5D78">（入力）</text>
+
+  <!-- speech bubble -->
+  <rect x="600" y="315" width="400" height="120" rx="20" fill="#E3F6F2" stroke="#0E9F8A" stroke-width="2"/>
+  <text x="800" y="362" text-anchor="middle" font-size="26" fill="#1F3A5F">「面接でよく聞かれる</text>
+  <text x="800" y="402" text-anchor="middle" font-size="26" fill="#1F3A5F">質問を教えて」</text>
+
+  <text x="800" y="490" text-anchor="middle" font-size="24" fill="#4A5D78">あなたが書く指示や質問を</text>
+  <text x="800" y="530" text-anchor="middle" font-size="30" font-weight="800" fill="#0E9F8A">プロンプト</text>
+  <text x="800" y="570" text-anchor="middle" font-size="24" fill="#4A5D78">と呼びます</text>
+  <text x="800" y="625" text-anchor="middle" font-size="22" fill="#1F3A5F">指示が具体的なほど、答えも良くなる</text>
+
+  <!-- Arrow 2-3 -->
+  <path d="M1050 425 L1090 425" stroke="#1F3A5F" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- Card 3 -->
+  <rect x="1100" y="190" width="440" height="470" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <circle cx="1160" cy="250" r="34" fill="#E8590C"/>
+  <text x="1160" y="263" text-anchor="middle" font-size="36" font-weight="800" fill="#FFFFFF">3</text>
+  <text x="1215" y="262" font-size="38" font-weight="800" fill="#1F3A5F">答える</text>
+  <text x="1355" y="262" font-size="24" fill="#4A5D78">（生成）</text>
+
+  <text x="1320" y="330" text-anchor="middle" font-size="24" fill="#1F3A5F">「次に来そうな言葉」を</text>
+  <text x="1320" y="368" text-anchor="middle" font-size="24" fill="#1F3A5F">1つずつ予測して</text>
+
+  <!-- word chain -->
+  <rect x="1130" y="400" width="110" height="56" rx="12" fill="#FFF0E6" stroke="#E8590C" stroke-width="2"/>
+  <text x="1185" y="437" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">自己</text>
+  <path d="M1244 428 L1262 428" stroke="#1F3A5F" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="1270" y="400" width="110" height="56" rx="12" fill="#FFF0E6" stroke="#E8590C" stroke-width="2"/>
+  <text x="1325" y="437" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">紹介</text>
+  <path d="M1384 428 L1402 428" stroke="#1F3A5F" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="1410" y="400" width="100" height="56" rx="12" fill="#FFF0E6" stroke="#E8590C" stroke-width="2"/>
+  <text x="1460" y="437" text-anchor="middle" font-size="24" font-weight="700" fill="#1F3A5F">を…</text>
+
+  <text x="1320" y="510" text-anchor="middle" font-size="24" fill="#1F3A5F">つなげて</text>
+  <text x="1320" y="556" text-anchor="middle" font-size="30" font-weight="800" fill="#E8590C">文章にして返す</text>
+  <text x="1320" y="620" text-anchor="middle" font-size="22" fill="#4A5D78">数秒で回答が完成</text>
+
+  <!-- Bottom note -->
+  <rect x="60" y="700" width="1480" height="150" rx="24" fill="#1F3A5F"/>
+  <text x="110" y="752" font-size="30" font-weight="800" fill="#FFD166">大事なポイント</text>
+  <text x="110" y="800" font-size="26" fill="#FFFFFF">AIは「意味を理解している」のではなく、「もっともらしい言葉を選んでいる」仕組みです。</text>
+  <text x="110" y="838" font-size="26" fill="#FFFFFF">そのため間違いも混ざります。最後は必ず人が確認しましょう。</text>
+</svg>
