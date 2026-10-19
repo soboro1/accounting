@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="簿記1級 会計学向け。討議資料「財務会計の概念フレームワーク」と「時価の算定に関する会計基準」の出やすい論点を、図・仕訳・ひっかけ例・○×チェック15問でまとめた学習ページ。">
+<meta name="description" content="簿記1級 会計学向け。討議資料「財務会計の概念フレームワーク」と「時価の算定に関する会計基準」の出やすい論点を、図・仕訳・原則と例外・シナリオ問題17題・ひっかけ例・○×チェック70問でまとめた学習ページ。">
 <style>
 /* 単体公開用の最小リセット(Artifactの外枠が持っていたもの) */
 :root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -76,7 +76,7 @@ a{color:inherit}
 .top a.n-pr{border-color:var(--c1);color:var(--c1t)}
 
 /* ヒーロー */
-.hero{padding-block:44px 24px;display:grid;gap:18px}
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
 .eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
 .hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
 .hero h1 .h-fw{color:var(--c2t)}
@@ -126,7 +126,7 @@ svg text{font-family:var(--f-body)}
 .part-head p{max-width:46em}
 
 /* ユニット */
-.unit{display:grid;gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
 .unit:first-of-type{border-top:0;padding-top:4px}
 .unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
@@ -161,6 +161,34 @@ svg text{font-family:var(--f-body)}
 .mark.x{background:var(--ng)}
 .mark.o{background:var(--ok)}
 .trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* シナリオ（問いかけ） */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c4) 8%,var(--surface));border:2px solid color-mix(in srgb,var(--c4) 50%,var(--line));display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c4t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"?";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c4);color:var(--on-solid);white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c4t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c4);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.logic{list-style:none;display:grid;gap:8px}
+.logic li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid)}
+.lb.k{background:var(--c2)} .lb.a{background:var(--c8)} .lb.c{background:var(--c7)}
+.how{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:14px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;gap:12px}
 
 /* 仕訳 */
 .je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
@@ -303,6 +331,10 @@ svg text{font-family:var(--f-body)}
 .score b{font-variant-numeric:tabular-nums}
 .btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fw-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-mv-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
 .qlist{list-style:none;display:grid;gap:12px}
 .qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
 .qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
@@ -356,6 +388,8 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
   <p class="eyebrow">日商簿記1級　会計学　理論対策</p>
   <h1><span class="h-fw">概念フレームワーク</span><span class="h-x">×</span><span class="h-mv">時価算定</span></h1>
   <p class="lead">討議資料「財務会計の概念フレームワーク」と「時価の算定に関する会計基準」は、どちらも<mark>定義の文言</mark>と<mark>ひっかけの言い回し</mark>がそのまま問われる分野です。2つは別々の基準ですが、下の図のように1本の線でつながっています。</p>
+  <p class="lead">各単元の最後には、実務の場面を使った<mark>「シナリオで考える」</mark>問いがあります。答えを開く前に、<b>根拠 → 当てはめ → 結論</b>の順で自分の言葉で考えてみてください。原則にはすぐ後に例外を並べてあります。</p>
+  <div class="how" aria-hidden="true"><span class="lb k">根拠</span>どの定義・ルールが使えるか<span class="lb a">当てはめ</span>場面の事実をルールに当てる<span class="lb c">結論</span>答えと理由を一言で</div>
   <figure class="fig">
     <svg viewBox="0 0 760 250" role="img" aria-label="概念フレームワークは投資の性質で測り方を決め、事業投資は取得原価、金融投資は時価で測る。その時価の測り方を定めるのが時価算定基準。">
       <defs><marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
@@ -402,6 +436,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <div class="chap"><span>第3章</span><b>財務諸表の構成要素</b><small>資産・負債・利益の定義</small></div>
       <div class="chap"><span>第4章</span><b>認識と測定</b><small>いつ載せて、いくらで測るか</small></div>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">あなたは経理部の新人です。これまでの会計基準に処理が書かれていない、新しいタイプの取引が出てきました。上司から「概念フレームワークを使って、筋道を立てて考えてみて」と言われました。</p>
+      <ol class="scn-q">
+        <li>最初に確かめるべきなのは「誰のために、何を伝える情報か」です。これは何章の論点ですか？</li>
+        <li>その取引を資産や負債として載せられるかを判断するには、何章の何を使いますか？</li>
+        <li>載せると決めたあと、「いつ」「いくらで」を決めるのは何章ですか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>4つの章は「目的 → 質的特性 → 構成要素 → 認識と測定」の順に積み上がっています。上の章が下の章の前提です。</span></li>
+          <li><span class="lb a">当てはめ</span><span>第1章で投資家の役に立つ情報かを確かめ、第2章で関連性と信頼性を満たすかを考えます。次に第3章の資産・負債の定義に当てはまるかを見て、最後に第4章で認識のきっかけと測定属性を選びます。</span></li>
+          <li><span class="lb c">結論</span><span>問1は第1章、問2は第3章の定義、問3は第4章です。上の章から順にたどれば、基準がない取引でも一貫した理屈で処理を考えられます。これが「基準開発の指針」という役割です。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -417,6 +468,22 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <ul>
         <li><span class="mark x">×</span><span>「概念フレームワークは、既存の会計基準の改廃を求めるものである」<span class="why">→ 改廃を直接提案するものではありません。</span></span></li>
       </ul>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">勉強会で後輩が言いました。「概念フレームワークと合わない会計基準が見つかったら、その基準はすぐに改正しないといけないんですよね？」</p>
+      <ol class="scn-q">
+        <li>概念フレームワークは、今ある会計基準に対してどんな立場のものでしたか？</li>
+        <li>後輩の発言は、どこが言い過ぎですか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>概念フレームワークは、基礎にある前提や概念を要約したものです。既存基準の改廃を直接提案するものではありません。</span></li>
+          <li><span class="lb a">当てはめ</span><span>合わない基準があっても、それだけで改正する義務は生じません。概念フレームワークは、将来の基準開発で参照される「指針」です。</span></li>
+          <li><span class="lb c">結論</span><span>「すぐに改正しないといけない」は誤りです。正誤問題では「改廃を求める」「拘束する」という言い回しに注意します。</span></li>
+        </ol>
+      </details>
     </div>
   </article>
 
@@ -446,6 +513,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「財務報告の目的は、企業価値を直接表示することである」<span class="why">→ 企業価値を見積もるのは投資家の役割です。</span></span></li>
         <li><span class="mark x">×</span><span>「自己創設のれんも、有用な情報なので資産に計上すべきである」<span class="why">→ 経営者の自己評価になるため計上しません。</span></span></li>
       </ul>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">決算の打ち合わせで、社長が言いました。「うちのブランドは業界トップだ。コンサルに見積もってもらったら100億円の価値がある。これを資産に載せれば、投資家にもうちの価値が伝わるだろう」</p>
+      <ol class="scn-q">
+        <li>財務報告の目的は「企業価値を示すこと」ですか？それとも別のことですか？</li>
+        <li>企業価値を見積もるのは、経営者と投資家のどちらの役割ですか？</li>
+        <li>自社でつくったブランド（自己創設のれん）を経営者が資産に載せると、投資家にとって何が問題になりますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>財務報告の目的は、投資のポジションと成果を開示することです。企業価値を見積もるのは投資家の役割です。</span></li>
+          <li><span class="lb a">当てはめ</span><span>自社ブランドを資産に載せると、経営者が自社の価値を自己評価して開示することになります。投資家が自分で企業価値を見積もるための材料ではなく、経営者の主観的な答えそのものになってしまいます。</span></li>
+          <li><span class="lb c">結論</span><span>自己創設のれんは計上しません。社長には「ブランドの強さは、将来の利益やキャッシュフローとして成果に表れれば、投資家がそれを見て評価します」と説明するのが筋です。</span></li>
+        </ol>
+      </details>
     </div>
   </article>
 
@@ -488,6 +572,24 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「信頼性は、中立性・検証可能性・比較可能性からなる」<span class="why">→ 比較可能性は一般的制約です。信頼性の3つ目は「表現の忠実性」。</span></span></li>
         <li><span class="mark x">×</span><span>「内的整合性は、意思決定との関連性の下位概念である」<span class="why">→ 内的整合性も一般的制約です。</span></span></li>
       </ul>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">ある資産の評価方法を、2つの案から選ぶことになりました。<br><b>A案</b>：市場の見通しを織り込んだ自社モデルで、将来キャッシュフローを見積もる。将来の予測には役立つが、担当者が変わると数字も変わる。<br><b>B案</b>：取得原価のままにする。誰が計算しても同じ数字になるが、今の状況はあまり反映されない。</p>
+      <ol class="scn-q">
+        <li>A案が優れているのは、どの質的特性ですか？</li>
+        <li>B案が優れているのは、信頼性のうちどの特性ですか？</li>
+        <li>2つの特性を同時には満たしにくいこの関係を、何といいますか？</li>
+        <li>会社ごとにA案とB案を自由に選べるとしたら、どの特性が損なわれますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>意思決定との関連性は「将来の予測に役立つこと」、検証可能性は「測定者の主観に左右されないこと」です。この2つはトレードオフになることがあります。比較可能性は一般的制約です。</span></li>
+          <li><span class="lb a">当てはめ</span><span>A案は予測に役立つが数字がぶれる。B案は数字がぶれないが予測には役立ちにくい。一方を上げると、もう一方が下がります。さらに会社ごとに選べると、同じ事実なのに数字の作り方が違い、企業どうしを比べられなくなります。</span></li>
+          <li><span class="lb c">結論</span><span>問1は意思決定との関連性、問2は検証可能性、問3はトレードオフ、問4は比較可能性です。</span></li>
+        </ol>
+      </details>
     </div>
   </article>
 
@@ -574,6 +676,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「新株予約権は、将来株式を渡す義務なので負債である」<span class="why">→ 返済義務がないので純資産です。</span></span></li>
       </ul>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">社長が聞いてきました。「リースで借りている機械は、うちの持ち物じゃないから資産じゃないよな？」さらに「新株予約権を発行して受け取ったお金は、いつか株を渡す約束なんだから負債だよな？」</p>
+      <ol class="scn-q">
+        <li>資産の定義のキーワードは「所有」ですか、「支配」ですか？</li>
+        <li>機械を自由に使い、そこから生まれる便益を受けられるなら、資産の定義に当てはまりますか？</li>
+        <li>新株予約権には、お金などの経済的資源を引き渡す義務がありますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>資産は「支配している経済的資源」で、支配は所有権の有無を問いません。負債は「経済的資源を放棄・引き渡す義務」です。</span></li>
+          <li><span class="lb a">当てはめ</span><span>リースの機械は、自社で使って便益を受けられるので支配しています。新株予約権は、権利が行使されても株式を渡すだけで、現金などを返す義務はありません。</span></li>
+          <li><span class="lb c">結論</span><span>リースの機械は資産になり得ます。新株予約権は負債ではなく、純資産（株主資本以外）です。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -609,6 +728,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <p class="je-n">商品・土地など（事業投資）→ 値上がりしても仕訳なし</p>
       <p class="je-none">仕訳なし（売れるまでリスクから解放されない）</p>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">期末に、3つの資産がどれも1,000から1,100に値上がりしました。<br>① 工場用地　② 売買目的有価証券　③ 取引先との関係を保つために持っている株式（その他有価証券）</p>
+      <ol class="scn-q">
+        <li>それぞれの投資の目的は何ですか？値上がりで儲けることが目的ですか？</li>
+        <li>値上がりした100は、その投資で「期待していた成果」が確定したといえますか？</li>
+        <li>では①〜③の値上がり分は、純利益・その他の包括利益・計上なしのどれになりますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>純利益は、リスクから解放された投資の成果です。事業投資は売却などで、金融投資は時価の変動でリスクから解放されます。</span></li>
+          <li><span class="lb a">当てはめ</span><span>①工場用地は事業で使うのが目的です。値上がりしても事業の成果は確定していません。②は値上がりで儲けるのが目的で、いつでも売れるので、値上がりそのものが成果です。③は時価で評価しますが、すぐ売るつもりはないので、成果はまだ確定していません。</span></li>
+          <li><span class="lb c">結論</span><span>①は計上なし（取得原価のまま）、②は純利益（有価証券評価益）、③はその他の包括利益です。③は売却したときに純利益へ振り替わります（リサイクリング）。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -620,8 +756,11 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <div class="arr" aria-hidden="true">→</div>
       <div class="node"><b>③ 双方が履行する</b><small>取引が完了</small></div>
     </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><p><b>双務未履行</b>の契約は認識しない。少なくとも一方が履行したときに認識する。</p></div>
+      <div class="r-row exc"><span class="r-b">例外</span><p><b>金融商品（デリバティブなど）</b>は、双務未履行でも契約した時点で認識する。<small>契約した時から時価の変動リスクにさらされているため。</small></p></div>
+    </div>
     <ul class="pts">
-      <li>例外：<span class="hl">金融商品（デリバティブなど）</span>は、双務未履行でも<span class="hl">契約した時点で認識</span>します。<span class="sub">契約した時から時価の変動リスクにさらされているためです。</span></li>
       <li>認識するには、<span class="hl">一定程度の発生の可能性（蓋然性）</span>も必要です。</li>
     </ul>
     <div class="je">
@@ -630,6 +769,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <p class="je-none">仕訳なし（双務未履行）</p>
       <p class="je-n">先物契約を結び、期末に評価益が50出た → 契約時から認識している</p>
       <div class="je-row"><span class="dc">（借）</span><span>先物取引差金</span><span class="amt">50</span><span class="dc">（貸）</span><span>先物損益</span><span class="amt">50</span></div>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">決算日は3月31日です。3月25日に得意先から商品の注文を受けました（出荷は4月10日の予定）。3月28日には、商品の値上がりに備えて先物契約を結びました。決算日には、先物に評価益50が出ています。</p>
+      <ol class="scn-q">
+        <li>注文を受けた時点で、どちらかが契約を履行していますか？</li>
+        <li>先物契約も、まだどちらも履行していません。それでも、会社はすでに何にさらされていますか？</li>
+        <li>決算日に財務諸表に載せるのは、注文と先物のどちらですか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>原則として、双務未履行の契約は認識しません。例外として、金融商品は契約した時点で認識します。</span></li>
+          <li><span class="lb a">当てはめ</span><span>注文は、商品も代金もまだ動いていないので双務未履行です。先物も未履行ですが、契約した瞬間から時価の変動リスクにさらされていて、すでに評価益50が出ています。</span></li>
+          <li><span class="lb c">結論</span><span>注文は仕訳なしです。先物は契約時から認識し、期末に評価益50を計上します。</span></li>
+        </ol>
+      </details>
     </div>
   </article>
 
@@ -716,6 +872,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「償却原価は、将来キャッシュフローを見積り直す割引価値である」<span class="why">→ CFも割引率も見直さないパターンです。</span></span></li>
       </ul>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">3年前に、取引先へ1,000を貸し付けました（約定利子率5％）。今期、取引先の業績が悪化し、利息の一部が払われない見込みになりました。</p>
+      <ol class="scn-q">
+        <li>将来キャッシュフローの見積りは、当初のままでよいですか？</li>
+        <li>割引率は、今の市場金利に見直しますか？それとも当初の5％のままですか？</li>
+        <li>このパターンの割引価値は、どの評価方法に当たりますか？業績が順調だったら、どうなっていましたか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>割引価値は「将来キャッシュフローを見直すか」「割引率を改訂するか」で3つに分かれます。</span></li>
+          <li><span class="lb a">当てはめ</span><span>回収できる額が減るので、キャッシュフローは見直します。割引率は当初の約定利子率のままです。業績が順調なら、キャッシュフローも割引率も当初のままでかまいません。</span></li>
+          <li><span class="lb c">結論</span><span>業績が悪化した今回は、キャッシュ・フロー見積法（回収可能性を反映した債権の評価）です。順調なら償却原価です。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 </section>
 
@@ -735,6 +908,22 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <li>日本の実務に配慮した「その他の取扱い」は、適用指針に置かれています。</li>
       <li>これまでの「公正な評価額」という用語は、<span class="hl">「時価」に統一</span>されました。</li>
     </ul>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">海外の投資家から質問が届きました。「日本企業の注記にある『時価』は、IFRSのfair valueと同じ意味ですか？」</p>
+      <ol class="scn-q">
+        <li>国ごとに「時価」の意味が違ったら、投資家は何に困りますか？それは、概念フレームワークのどの質的特性の問題ですか？</li>
+        <li>日本の基準は、その問題にどう対応しましたか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>比較可能性は、企業どうしを比べられるようにする特性です。時価算定基準は、IFRS第13号の定めを原則としてすべて取り入れました。</span></li>
+          <li><span class="lb a">当てはめ</span><span>意味が違うと、同じ「時価」という言葉でも数字を比べられません。そこで、国際的な定義にそろえる必要がありました。</span></li>
+          <li><span class="lb c">結論</span><span>問1は比較可能性の問題です。問2は、IFRS第13号を取り入れて定義をそろえ、用語も「時価」に統一しました。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -761,6 +950,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「負債の時価は、決済を想定して算定する」<span class="why">→ 移転を想定します。</span></span></li>
       </ul>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">あなたの会社は金地金のトレーディングをしています。ある地金は、業者から98で仕入れられ、市場では100で売れます。また、会社が発行した社債の時価を注記していますが、今期、会社の格付けが下がりました。</p>
+      <ol class="scn-q">
+        <li>地金の時価は、98と100のどちらですか？</li>
+        <li>格付けが下がると、投資家から見た社債の価値（市場価格）は上がりますか、下がりますか？</li>
+        <li>では、会社が注記する社債（負債）の時価は増えますか、減りますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>時価は出口価格です。負債の時価には、自社の不履行リスクを反映します。</span></li>
+          <li><span class="lb a">当てはめ</span><span>地金は、売って受け取る価格である100です。格付けが下がると、お金を返してもらえないリスクが高まるので、投資家はその社債を安くしか買いません。社債の時価は、この不履行リスクを反映して算定します。</span></li>
+          <li><span class="lb c">結論</span><span>問1は100です。社債の市場価格は下がり、負債の時価も減ります。「信用力が下がると負債の時価が減る」という直感に反する結果は、よく問われるポイントです。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -784,16 +990,37 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       </div>
     </div>
     <p class="prose">IFRS第13号にある<span class="hl">最有効使用</span>の考え方は、非金融資産に使うものなので取り入れていません。</p>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">経理部の会議で、同僚が提案しました。「工場の減損で使う正味売却価額も時価の一種だから、時価算定基準に従ってレベル1〜3に分けて注記しよう」</p>
+      <ol class="scn-q">
+        <li>時価算定基準の適用範囲に入っているのは、何と何でしたか？</li>
+        <li>工場は、事業投資と金融投資のどちらですか？</li>
+        <li>同僚の提案は正しいですか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>適用範囲は、金融商品とトレーディング目的で保有する棚卸資産だけです。</span></li>
+          <li><span class="lb a">当てはめ</span><span>工場は事業で使う事業投資で、固定資産の減損は適用範囲の外です。</span></li>
+          <li><span class="lb c">結論</span><span>提案は誤りです。適用範囲は「値動きそのものが成果になる資産」に絞られている、と考えると覚えやすくなります。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
     <div class="unit-head"><span class="tag">計算でも出る</span><h3>主要な市場と最も有利な市場</h3></div>
-    <ul class="pts">
-      <li><span class="hl">主要な市場</span>：取引の量と頻度が最も大きい市場。原則としてここで時価を算定します。</li>
-      <li><span class="hl">最も有利な市場</span>：主要な市場がないときに使います。取引コストと輸送コストを引いた手取りが最も大きい市場です。</li>
-      <li>取引コストは、<span class="hl">市場を選ぶときには考慮</span>しますが、<span class="hl">時価からは差し引きません</span>。</li>
-      <li>輸送コストは、場所が資産の特性にあたる場合、<span class="hl">時価から差し引きます</span>。</li>
-    </ul>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p><b>主要な市場</b>（取引の量と頻度が最も大きい市場）で時価を算定する。<small>ほかに有利な市場があっても、主要な市場を使う。</small></p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>主要な市場がない場合は、<b>最も有利な市場</b>（取引コストと輸送コストを引いた手取りが最も大きい市場）で算定する。</p></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>相場価格から<b>取引コストは差し引かない</b>。<small>取引コストは、市場を選ぶときには考慮するが、時価そのものには含めない。</small></p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>場所が資産の特性にあたる場合は、<b>輸送コストを差し引く</b>。</p></div>
+      </div>
+    </div>
     <figure class="fig">
       <svg viewBox="0 0 760 238" role="img" aria-label="市場Aは価格26、取引コスト3、輸送コスト2で手取り21。市場Bは価格25、取引コスト1、輸送コスト2で手取り22。Aが主要な市場なら時価24、主要な市場がなくBが最も有利なら時価23。">
         <text x="10" y="58" class="t-b">市場A</text>
@@ -836,6 +1063,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「市場Bの時価は、取引コストと輸送コストを引いた22である」<span class="why">→ 取引コストは時価から引かないので23です。</span></span></li>
       </ul>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">上の図の市場Aが、この資産の主要な市場だとします。営業担当者が言いました。「Bのほうが手取りが多いんだから、Bの価格で時価を出しましょう」</p>
+      <ol class="scn-q">
+        <li>主要な市場がある場合、最も有利な市場を探す必要はありますか？</li>
+        <li>市場Aでの時価はいくらですか？取引コストと輸送コストのどちらを引きますか？</li>
+        <li>取引コストを時価から引かないのはなぜだと思いますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>主要な市場があれば、主要な市場で時価を算定します。取引コストは時価に含めず、場所が資産の特性なら輸送コストは引きます。</span></li>
+          <li><span class="lb a">当てはめ</span><span>Aが主要な市場なので、Bのほうが有利でもAを使います。26−輸送コスト2＝24です。取引コストは資産そのものの性質ではなく、「どの市場でどう売るか」で変わる費用です。</span></li>
+          <li><span class="lb c">結論</span><span>営業担当者の提案は誤りで、時価は24です。取引コストは資産の価値ではなく取引の仕方で決まるので、時価には含めません。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -847,9 +1091,28 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
     </div>
     <ul class="pts">
       <li>状況に合っていて、十分なデータが手に入る技法を使います。複数の組み合わせも可能です。</li>
-      <li>評価技法は<span class="hl">継続して適用</span>します。</li>
-      <li>評価技法や適用方法を変えた場合は、<span class="hl">会計上の見積りの変更</span>として扱います。遡って修正はしません。</li>
     </ul>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><p>評価技法は<b>継続して適用</b>する。</p></div>
+      <div class="r-row exc"><span class="r-b">例外</span><p>状況が変わり、より適切に時価を表せる場合は<b>変更できる</b>。<small>変更は会計上の見積りの変更として扱い、遡って修正はしない。</small></p></div>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">ある仕組債は、これまで類似の債券の取引価格を使って時価を算定していました（マーケット・アプローチ）。ところが今期、類似の債券の取引がほとんどなくなったので、将来キャッシュフローを割り引く方法（インカム・アプローチ）に変えることにしました。</p>
+      <ol class="scn-q">
+        <li>評価技法は、原則としてどう使うのがルールでしたか？</li>
+        <li>今回の変更は認められそうですか？理由も考えてください。</li>
+        <li>変更した場合、過去の財務諸表を修正しますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>評価技法は継続して適用するのが原則です。状況が変わり、より適切に時価を表せる場合は変更でき、その変更は会計上の見積りの変更として扱います。</span></li>
+          <li><span class="lb a">当てはめ</span><span>類似の取引がなくなり、今までの方法では時価を適切に表せなくなりました。変更する理由があります。</span></li>
+          <li><span class="lb c">結論</span><span>変更は認められます。見積りの変更なので過去には遡らず、変更した期から反映します。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
@@ -878,6 +1141,10 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       </svg>
       <figcaption>上ほど客観的で、下ほど見積りの要素が強くなります。</figcaption>
     </figure>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><p>レベル1のインプットがあれば、<b>調整せずに</b>そのまま使う。</p></div>
+      <div class="r-row exc"><span class="r-b">例外</span><p>相場価格が算定日の時価を表していない場合（市場が閉まった後に重要な出来事が起きたときなど）は<b>調整する</b>。<small>調整すると、その時価はレベル1ではなくなる。なお、保有数量が多いことはこの例外に当たらない。</small></p></div>
+    </div>
 
     <div class="def">
       <span class="def-l">レベルの決め方</span>
@@ -905,15 +1172,61 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <li><span class="mark x">×</span><span>「レベル1の相場価格でも、大量保有なら調整できる」<span class="why">→ 保有数量を理由にした調整はできません。</span></span></li>
       </ul>
     </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">期末に、3つの金融商品の時価を算定します。<br>① 上場株式10万株（取引所の終値@500）<br>② 金利スワップ（市場で観察できるスワップレートだけで算定）<br>③ 非上場の社債（観察できる国債利回り＋自社で見積もった発行体の信用スプレッド。スプレッドの影響が大きい）</p>
+      <ol class="scn-q">
+        <li>それぞれ、時価の算定に使うインプットは観察できますか？</li>
+        <li>③のように、違うレベルのインプットが混ざったら、どのレベルに分類しますか？</li>
+        <li>①を「10万株も売ったら値崩れする」として@480で評価してよいですか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>レベル1は活発な市場の同じ資産の相場価格、レベル2はそれ以外で観察できるもの、レベル3は観察できないものです。重要なインプットのうち最も低いレベルに分類し、保有数量を理由にした調整はできません。</span></li>
+          <li><span class="lb a">当てはめ</span><span>①は同じ銘柄の取引所価格です。②は観察できるレートだけを使っています。③は重要な信用スプレッドが観察できません。</span></li>
+          <li><span class="lb c">結論</span><span>①はレベル1で、@500×10万株＝5,000万円です（@480は不可）。②はレベル2、③はレベル3です。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 
   <article class="unit">
     <div class="unit-head"><span class="tag">特別な扱い</span><h3>覚えておきたい細かいルール</h3></div>
-    <div class="two">
-      <div class="box"><h4>取引が著しく減ったとき</h4><p>取引の量や頻度が著しく下がった場合は、取引価格や相場価格がそのまま時価といえるかを検討し、必要なら調整します。秩序ある取引でない取引価格は重視しません。</p></div>
-      <div class="box"><h4>取引価格＝時価とは限らない</h4><p>関連当事者との取引、強いられた取引、取引単位が違う、主要な市場が違う、といった場合は、当初認識の取引価格と時価がずれることがあります。</p></div>
-      <div class="box"><h4>正味ポジションでの算定</h4><p>市場リスクや特定の相手先の信用リスクについて、金融資産と金融負債を相殺した正味ポジションで時価を算定できます。リスク管理方針の文書化が条件です。</p></div>
-      <div class="box"><h4>第三者から入手した価格</h4><p>ブローカーなどから入手した相場価格は、この基準に沿って算定されていると企業が確かめた場合に時価として使えます。</p></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>取引価格や相場価格を、時価の算定に使う。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>取引の量や頻度が<b>著しく下がった</b>場合は、その価格がそのまま時価といえるかを検討し、必要なら調整する。<small>秩序ある取引でない取引価格（投げ売りなど）は重視しない。</small></p></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>時価は、個々の資産・負債ごとに算定する。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>市場リスクや特定の相手先の信用リスクについて、金融資産と金融負債を相殺した<b>正味ポジション</b>で算定できる。<small>リスク管理方針の文書化と継続適用が条件。</small></p></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>当初認識のときの取引価格は、時価と一致することが多い。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>関連当事者との取引、強いられた取引、取引単位が違う、主要な市場が違う場合は、<b>取引価格と時価がずれる</b>ことがある。</p></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>時価は、企業が自らこの基準に沿って算定する。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>ブローカーなど<b>第三者から入手した相場価格</b>も使える。<small>ただし、この基準に沿って算定されていることを企業が確かめた場合に限る。</small></p></div>
+      </div>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">金融危機で、ある債券の市場取引がほとんど止まりました。ふだん100前後で取引されていた債券を、資金繰りに困った会社が60で投げ売りした取引が1件だけ記録されています。</p>
+      <ol class="scn-q">
+        <li>この60の取引は「秩序ある取引」といえますか？</li>
+        <li>時価を算定するとき、この60をそのまま使うべきですか？</li>
+        <li>取引が著しく減ったとき、会社は何をする必要がありますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>時価は、秩序ある取引を想定した価格です。取引が著しく減った場合は、取引価格が時価を表しているかを検討し、必要なら調整します。</span></li>
+          <li><span class="lb a">当てはめ</span><span>資金繰りのための投げ売りは強いられた取引で、秩序ある取引ではありません。</span></li>
+          <li><span class="lb c">結論</span><span>60は重視せず、そのまま時価にはしません。ほかの情報や評価技法も使って、市場参加者が秩序ある取引で付ける価格を見積もります。</span></li>
+        </ol>
+      </details>
     </div>
   </article>
 
@@ -931,17 +1244,43 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
         <div class="after"><span class="ba-l">改正後</span>1か月平均の容認規定は削除。<span class="hl">期末日の時価だけ</span>を使う</div>
       </div>
     </div>
-    <ul class="pts">
-      <li>市場価格のない株式等とは、市場で取引されていない株式や出資金など、株式と同じように持分の請求権を生じさせるものです。</li>
-      <li>投資信託は、一定の要件を満たせば<span class="hl">基準価額を時価とみなせる</span>扱いが適用指針にあります。</li>
-      <li>組合などへの出資は、持分相当額を<span class="hl">純額で計上</span>する扱いが認められています。</li>
-    </ul>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>売買目的有価証券やその他有価証券は、<b>時価</b>で評価する。市場価格がなくても、評価技法で時価を算定する。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p><b>市場価格のない株式等</b>は、時価を算定せず<b>取得原価</b>で評価する。<small>市場で取引されていない株式や出資金など、株式と同じように持分の請求権を生じさせるもの。債券は含まない。</small></p></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>時価は、時価算定基準の評価技法とインプットのルールに沿って算定する。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p>適用指針の「その他の取扱い」。<b>投資信託</b>は一定の要件を満たせば基準価額を時価とみなせる。<b>組合などへの出資</b>は持分相当額を純額で計上できる。</p></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><p>その他有価証券は、<b>期末日の時価</b>で評価する。</p></div>
+        <div class="r-row exc"><span class="r-b">例外</span><p><b>なし</b>。以前は例外だった「期末前1か月の市場価格の平均」は削除された。</p></div>
+      </div>
+    </div>
     <div class="je">
       <p class="je-t">仕訳で確認：その他有価証券（取得原価1,000、全部純資産直入法、税効果は省略）</p>
       <p class="je-n">期末日の時価1,200、期末前1か月の平均1,150 → 使うのは1,200だけ</p>
       <div class="je-row"><span class="dc">（借）</span><span>その他有価証券</span><span class="amt">200</span><span class="dc">（貸）</span><span>その他有価証券評価差額金</span><span class="amt">200</span></div>
       <p class="je-n">市場価格のない非上場株式（取得原価300）</p>
       <p class="je-none">期末の評価替えの仕訳なし（取得原価300のまま）</p>
+    </div>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">3月末の決算で、次の3つを保有しています。<br>① 非上場会社の株式（取得原価300）<br>② 非上場の社債<br>③ 上場株式（その他有価証券。期末前1か月の平均1,150、期末日の終値1,200）</p>
+      <ol class="scn-q">
+        <li>①は時価を算定しますか？</li>
+        <li>②も「市場価格がない」のだから、取得原価でよいですか？</li>
+        <li>③はいくらで評価しますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>市場価格のない株式等は取得原価です。それ以外の金融商品は、市場価格がなくても評価技法で時価を算定します。その他有価証券の1か月平均の容認規定は削除されました。</span></li>
+          <li><span class="lb a">当てはめ</span><span>①は株式なので「市場価格のない株式等」に当たります。②は株式ではなく債券なので当たりません。③は期末日の時価を使います。</span></li>
+          <li><span class="lb c">結論</span><span>①は取得原価300、②は評価技法で算定した時価、③は1,200です。「市場価格がない＝取得原価」が当てはまるのは株式等だけ、という点が狙われます。</span></li>
+        </ol>
+      </details>
     </div>
   </article>
 
@@ -952,6 +1291,23 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <li>貸借対照表に時価で計上しているもののうち、<span class="hl">レベル3の時価</span>は追加の注記があります。
         <span class="sub">期首から期末への調整表／重要な観察できないインプットの定量的な情報／評価プロセスの説明／インプットを変えたときの感応度の定性的な説明</span></li>
     </ul>
+    <div class="scn">
+      <p class="scn-l">シナリオで考える</p>
+      <p class="scn-story">投資先としてA社とB社を比べています。A社の金融資産はほとんどがレベル1の時価です。B社は大半がレベル3の時価です。</p>
+      <ol class="scn-q">
+        <li>B社の時価は、A社の時価と比べてどんな性質を持っていますか？</li>
+        <li>投資家として、B社のレベル3の時価について何を知りたいですか？</li>
+        <li>その知りたいことは、どの注記で手に入りますか？</li>
+      </ol>
+      <details class="scn-a">
+        <summary>考えてから開く：筋道を見る</summary>
+        <ol class="logic">
+          <li><span class="lb k">根拠</span><span>レベル3は観察できないインプットで算定するので、経営者の見積りの要素が強くなります。そのため、レベル3には追加の注記が求められます。</span></li>
+          <li><span class="lb a">当てはめ</span><span>投資家は「どんな前提で見積もったのか」「前提が変わると時価がどれだけ動くのか」「期中にどう増減したのか」を知りたくなります。</span></li>
+          <li><span class="lb c">結論</span><span>重要な観察できないインプットの定量的な情報、評価プロセス、感応度、期首から期末への調整表で手に入ります。レベル3にだけ追加の注記があるのは、見積りの不確かさを投資家が自分で評価できるようにするためです。</span></li>
+        </ol>
+      </details>
+    </div>
   </article>
 </section>
 
@@ -959,10 +1315,16 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
 <section id="quiz" class="quiz-part">
   <div class="quiz-head">
     <span class="part-no">CHECK</span>
-    <h2>ひっかけ○×チェック 15問</h2>
-    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。</p>
+    <h2>ひっかけ○×チェック <span id="qz-count">70</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
   </div>
-  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">15</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-fw-btn" data-qf="fw" aria-pressed="false">概念FWだけ</button>
+    <button type="button" class="btn f-mv-btn" data-qf="mv" aria-pressed="false">時価算定だけ</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">70</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
   <ol class="qlist" id="qz-list"></ol>
 </section>
 
@@ -1004,36 +1366,102 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
 (function(){
   var Q = [
     {p:"fw", q:"概念フレームワークは、既存の会計基準の改廃を直接提案するものである。", a:false, e:"基礎にある前提や概念を要約したもので、既存基準の改廃を直接提案するものではありません。"},
+    {p:"fw", q:"概念フレームワークは、会計基準の基礎にある前提や概念を要約したものである。", a:true, e:"位置づけそのものです。将来の基準開発の指針にもなります。"},
+    {p:"fw", q:"概念フレームワークは、正式な会計基準として公表されている。", a:false, e:"今も「討議資料」の段階で、正式な会計基準ではありません。"},
     {p:"fw", q:"財務報告の目的は、投資のポジションとその成果を測定して開示することである。", a:true, e:"ポジション（ストック）と成果（フロー）の開示が目的です。"},
+    {p:"fw", q:"財務報告の目的は、企業価値そのものを直接表示することである。", a:false, e:"企業価値を見積もるのは投資家の役割です。財務報告は、そのための情報を提供します。"},
     {p:"fw", q:"自己創設のれんは、企業価値を示す有用な情報なので資産に計上すべきとされる。", a:false, e:"経営者が自社の価値を自己評価して開示することになり、財務報告の目的に反するため計上しません。"},
-    {p:"fw", q:"比較可能性は、信頼性を構成する特性の1つである。", a:false, e:"比較可能性は内的整合性とともに「一般的制約となる特性」です。信頼性は中立性・検証可能性・表現の忠実性です。"},
+    {p:"fw", q:"会計情報の主な利用者は投資家であり、配当制限や税務などの利害調整への利用は副次的なものとされる。", a:true, e:"利害調整に使われるのは「副次的な利用」です。"},
+    {p:"fw", q:"ディスクロージャー制度には、経営者と投資家の間の情報の非対称性を緩和する役割がある。", a:true, e:"情報の非対称性の緩和は、ディスクロージャーの基本的な役割です。"},
+    {p:"fw", q:"会計情報に求められる最も基本的な特性は、信頼性である。", a:false, e:"最も基本的な特性は「意思決定有用性」です。信頼性はそれを支える特性の1つです。"},
+    {p:"fw", q:"意思決定との関連性は、情報価値の存在と情報ニーズの充足に支えられている。", a:true, e:"関連性の下にあるのは、この2つです。"},
+    {p:"fw", q:"信頼性は、中立性・検証可能性・表現の忠実性に支えられている。", a:true, e:"信頼性の下にあるのは、この3つです。"},
+    {p:"fw", q:"比較可能性は、信頼性を構成する特性の1つである。", a:false, e:"比較可能性は内的整合性とともに「一般的制約となる特性」です。"},
+    {p:"fw", q:"内的整合性と比較可能性は、一般的制約となる特性である。", a:true, e:"この2つが、質的特性全体を支える一般的制約です。"},
+    {p:"fw", q:"意思決定との関連性と信頼性は常に両立し、トレードオフの関係になることはない。", a:false, e:"両者はトレードオフになる場合があります。"},
+    {p:"fw", q:"中立性とは、一部の関係者の利害だけを偏重しないことである。", a:true, e:"中立性の意味そのものです。"},
+    {p:"fw", q:"検証可能性とは、同じ事実には同じ会計処理を適用することである。", a:false, e:"検証可能性は「測定者の主観に左右されない」ことです。同じ事実に同じ処理をするのは比較可能性の内容です。"},
     {p:"fw", q:"資産の定義では、報告主体が法的な所有権を持っていることが必要である。", a:false, e:"必要なのは「支配」です。所有権の有無にかかわらず、資源を利用して便益を受けられる状態を指します。"},
+    {p:"fw", q:"経済的資源とは、キャッシュの獲得に貢献する便益の源泉をいう。", a:true, e:"経済的資源の定義そのものです。実物財に限らず金融資産も含みます。"},
+    {p:"fw", q:"経済的資源は、市場で売却できるものに限られる。", a:false, e:"市場で処分できるかどうかは問いません。"},
+    {p:"fw", q:"負債の定義にいう「義務の同等物」には、法律上の義務に準じるものも含まれる。", a:true, e:"同等物には、法律上の義務に準じるものも含まれます。"},
+    {p:"fw", q:"純資産は、資産と負債の差額である。", a:true, e:"純資産は独自の定義を持たず、差額として決まります。"},
+    {p:"fw", q:"包括利益は、株主との直接的な取引による部分も含めた純資産の変動額である。", a:false, e:"株主・非支配株主・オプション所有者との直接的な取引「によらない」部分です。"},
     {p:"fw", q:"純利益は、期中にリスクから解放された投資の成果であって、報告主体の所有者に帰属する部分である。", a:true, e:"純利益の定義そのものです。キーワードは「リスクからの解放」。"},
-    {p:"fw", q:"双務未履行の契約は、原則として財務諸表に認識しない。", a:true, e:"少なくとも一方が履行したときに認識します。例外は金融商品（デリバティブなど）です。"},
+    {p:"fw", q:"概念フレームワークは、純利益の表示をやめて包括利益に一本化することを提案している。", a:false, e:"純利益は今も重視されています。純利益と包括利益はリサイクリングでつながります。"},
+    {p:"fw", q:"収益は、資産の増加や負債の減少に見合う額のうち、投資のリスクから解放された部分である。", a:true, e:"収益の定義そのものです。"},
+    {p:"fw", q:"新株予約権は、将来株式を引き渡す義務なので負債に該当する。", a:false, e:"返済義務がないので負債ではなく、純資産（株主資本以外）に入ります。"},
+    {p:"fw", q:"リスクからの解放とは、投資にあたって期待された成果が事実として確定することをいう。", a:true, e:"リスクからの解放の意味そのものです。"},
+    {p:"fw", q:"事業投資の成果は、保有する資産の時価が変動した時点で生じる。", a:false, e:"事業投資は、売却などで事業のリスクから解放されたときに成果になります。時価の変動が成果になるのは金融投資です。"},
+    {p:"fw", q:"双務未履行の契約は、原則として財務諸表に認識しない。", a:true, e:"少なくとも一方が履行したときに認識します。"},
+    {p:"fw", q:"デリバティブ取引は双務未履行の契約なので、決済するまで認識しない。", a:false, e:"金融商品は例外で、契約した時点で認識します。時価の変動リスクにさらされているためです。"},
+    {p:"fw", q:"入金予定額とは、将来の入金額を割り引いた現在価値である。", a:false, e:"入金予定額は、割り引かずに単純に合計した額です。"},
     {p:"fw", q:"償却原価は、将来キャッシュフローを見積り直さず、割引率も改訂しない場合の割引価値である。", a:true, e:"CFも割引率も当初のままのパターンが償却原価です。"},
+    {p:"fw", q:"利用価値は、将来キャッシュフローを継続的に見積り直し、割引率も改訂する場合の割引価値である。", a:true, e:"CFも割引率も見直すパターンです。市場価格を推定する割引価値もここに入ります。"},
+    {p:"fw", q:"購買市場と売却市場が区別される場合の市場価格には、再調達原価と正味実現可能価額がある。", a:true, e:"購買市場側が再調達原価、売却市場側が正味実現可能価額です。"},
+    {p:"fw", q:"費用の測定で「利用の事実に着目」するものの例として、減価償却がある。", a:true, e:"利用の事実に着目するのは費用の測定だけにある分類です。"},
     {p:"mv", q:"時価とは、資産を取得するために支払う価格である。", a:false, e:"時価は出口価格です。資産なら売却によって受け取る価格です。"},
+    {p:"mv", q:"時価とは、算定日において市場参加者間で秩序ある取引が行われると想定した場合の、資産の売却によって受け取る価格または負債の移転のために支払う価格である。", a:true, e:"時価の定義そのものです。"},
+    {p:"mv", q:"時価は、その企業に固有の仮定に基づいて算定する。", a:false, e:"市場参加者が使うであろう仮定に基づいて算定します。"},
+    {p:"mv", q:"秩序ある取引には、強制清算や投げ売りによる取引も含まれる。", a:false, e:"強いられた取引は秩序ある取引に含みません。"},
+    {p:"mv", q:"負債の時価は、負債を決済することを想定して算定する。", a:false, e:"決済ではなく「移転」を想定します。"},
     {p:"mv", q:"負債の時価には、自社の不履行リスク（信用リスク）を反映させない。", a:false, e:"自社の信用リスクを含む不履行リスクを反映します。移転の前後で同じと仮定します。"},
+    {p:"mv", q:"時価算定基準の適用範囲は、金融商品とトレーディング目的で保有する棚卸資産である。", a:true, e:"適用されるのはこの2つだけです。"},
+    {p:"mv", q:"時価算定基準は、固定資産の減損損失の測定にも適用される。", a:false, e:"固定資産の減損は適用範囲外です。"},
+    {p:"mv", q:"時価算定基準は、賃貸等不動産の時価の注記にも適用される。", a:false, e:"賃貸等不動産の時価の注記は適用範囲外です。"},
+    {p:"mv", q:"時価算定基準は、IFRS第13号の定めを基本的にすべて取り入れる方針で開発された。", a:true, e:"国際的な比較可能性を高めるため、IFRS第13号の定めを原則すべて取り入れています。"},
+    {p:"mv", q:"時価算定基準の公表後も、「公正な評価額」と「時価」の2つの用語が使い分けられている。", a:false, e:"「公正な評価額」という用語は「時価」に統一されました。"},
+    {p:"mv", q:"主要な市場とは、その資産・負債の取引の量と頻度が最も大きい市場をいう。", a:true, e:"主要な市場の定義そのものです。"},
+    {p:"mv", q:"主要な市場がある場合でも、より有利な価格で売れる市場があれば、その市場で時価を算定する。", a:false, e:"主要な市場があれば、原則として主要な市場で算定します。最も有利な市場を使うのは主要な市場がない場合です。"},
+    {p:"mv", q:"取引コストは、時価を算定するときに相場価格から差し引く。", a:false, e:"取引コストは時価から差し引きません。"},
+    {p:"mv", q:"最も有利な市場を判定するときは、取引コストも考慮する。", a:true, e:"市場を選ぶときには取引コストを考慮します。時価そのものからは引きません。"},
+    {p:"mv", q:"場所が資産の特性にあたる場合、輸送コストは時価から差し引く。", a:true, e:"輸送コストは、場所が資産の特性なら時価の調整に含めます。"},
+    {p:"mv", q:"主要な市場がなく、価格25・取引コスト1・輸送コスト2の市場が最も有利な市場である場合、時価は22である。", a:false, e:"取引コストは時価から引かないので、25−2＝23です。"},
+    {p:"mv", q:"評価技法には、マーケット・アプローチ、インカム・アプローチ、コスト・アプローチがある。", a:true, e:"この3つのアプローチです。"},
+    {p:"mv", q:"評価技法を変更した場合は、会計方針の変更として遡及適用する。", a:false, e:"評価技法やその適用方法の変更は、会計上の見積りの変更として扱います。"},
+    {p:"mv", q:"評価技法を使うときは、観察できるインプットを最大限利用し、観察できないインプットの利用を最小限にする。", a:true, e:"インプットの使い方の基本ルールです。"},
+    {p:"mv", q:"レベル1のインプットとは、活発な市場における同一の資産・負債の、調整されていない相場価格である。", a:true, e:"レベル1の定義そのものです。"},
+    {p:"mv", q:"活発な市場における類似の資産の相場価格は、レベル1のインプットに該当する。", a:false, e:"レベル1は「同一」の資産の相場価格です。類似の資産の価格はレベル2です。"},
+    {p:"mv", q:"レベル2のインプットとは、レベル1以外で、直接または間接に観察できるインプットである。", a:true, e:"レベル2の定義そのものです。"},
+    {p:"mv", q:"レベル3のインプットとは、観察できないインプットである。", a:true, e:"市場参加者が使うであろう仮定（リスクの仮定を含む）を反映させます。"},
     {p:"mv", q:"時価のレベルは、時価の算定に重要な影響を与えるインプットのうち、最も高いレベルに分類する。", a:false, e:"最も低いレベルに分類します。"},
-    {p:"mv", q:"最も有利な市場を判定するときは取引コストを考慮するが、時価そのものからは取引コストを差し引かない。", a:true, e:"取引コストは市場選択にだけ使います。輸送コストは場所が資産の特性なら時価から差し引きます。"},
-    {p:"mv", q:"市場価格のない株式等は、取得原価をもって貸借対照表価額とする。", a:true, e:"「時価を把握することが極めて困難」の区分が廃止され、市場価格のない株式等は取得原価になりました。"},
+    {p:"mv", q:"大量に保有している場合は、レベル1の相場価格に保有数量を理由とした調整（ディスカウント）をしてよい。", a:false, e:"保有数量を理由にした調整はできません。相場価格×数量のままです。"},
+    {p:"mv", q:"取引の量や頻度が著しく下がった場合でも、直近の取引価格をそのまま時価としなければならない。", a:false, e:"取引価格がそのまま時価といえるかを検討し、必要なら調整します。"},
+    {p:"mv", q:"一定の要件を満たせば、金融資産と金融負債を相殺した正味ポジションに基づいて時価を算定できる。", a:true, e:"リスク管理方針の文書化などが条件です。"},
+    {p:"mv", q:"第三者から入手した相場価格は、企業が何も確認しなくても、そのまま時価として用いることができる。", a:false, e:"この基準に沿って算定されていることを企業が確かめた場合に使えます。"},
+    {p:"mv", q:"当初認識時の取引価格は、常に時価と一致する。", a:false, e:"関連当事者との取引や強いられた取引などでは、ずれることがあります。"},
+    {p:"mv", q:"時価算定基準の公表後も、「時価を把握することが極めて困難と認められる有価証券」の区分は残っている。", a:false, e:"この区分は廃止されました。"},
+    {p:"mv", q:"市場価格のない株式等は、取得原価をもって貸借対照表価額とする。", a:true, e:"市場価格のない株式等は、時価算定の対象にせず取得原価です。"},
     {p:"mv", q:"その他有価証券は、期末前1か月の市場価格の平均に基づいて評価することもできる。", a:false, e:"1か月平均の容認規定は削除されました。期末日の時価だけを使います。"},
-    {p:"mv", q:"時価算定基準は、固定資産の減損損失の測定にも適用される。", a:false, e:"適用範囲は金融商品とトレーディング目的で保有する棚卸資産だけです。"}
+    {p:"mv", q:"投資信託は、一定の要件を満たせば基準価額を時価とみなすことができる。", a:true, e:"適用指針に、この取扱いが置かれています。"},
+    {p:"mv", q:"貸借対照表に時価で計上する金融商品のうちレベル3の時価については、期首残高から期末残高への調整表を注記する。", a:true, e:"レベル3の時価には、調整表などの追加の注記が求められます。"}
   ];
-  var list = document.getElementById("qz-list");
-  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done");
-  var ok = 0, done = 0;
-  document.getElementById("sc-all").textContent = Q.length;
 
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var filter = "all", order = null, ok = 0, done = 0;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
   function render(){
-    list.innerHTML = ""; ok = 0; done = 0; update();
-    Q.forEach(function(item, i){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
       var li = document.createElement("li"); li.className = "qi";
       var top = document.createElement("div"); top.className = "qi-top";
-      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (i+1) + (item.p === "fw" ? " 概念FW" : " 時価");
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + (item.p === "fw" ? " 概念FW" : " 時価");
       var tx = document.createElement("p"); tx.textContent = item.q;
       top.appendChild(no); top.appendChild(tx);
       var btns = document.createElement("div"); btns.className = "qbtns";
-      var bO = mk("○", "q" + i + "-o"), bX = mk("×", "q" + i + "-x");
+      var bO = mk("○", "q" + qi + "-o"), bX = mk("×", "q" + qi + "-x");
       btns.appendChild(bO); btns.appendChild(bX);
       var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live","polite");
       function pick(ans, btn){
@@ -1060,7 +1488,21 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
     return b;
   }
   function update(){ okEl.textContent = ok; doneEl.textContent = done; }
-  document.getElementById("qz-reset").addEventListener("click", render);
+
+  var fBtns = document.querySelectorAll("[data-qf]");
+  fBtns.forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      fBtns.forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  document.getElementById("qz-count").textContent = Q.length;
   render();
 })();
 </script>
