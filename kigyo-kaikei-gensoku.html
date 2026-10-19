@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="簿記1級 会計学向け。企業会計原則の一般原則7つと主要な注解・表示のルールを、条文の穴埋め・図・仕訳・ミニテスト33問・○×70問で確認できる学習ページ。">
+<meta name="description" content="簿記1級 会計学向け。企業会計原則の一般原則7つと主要な注解・表示のルールを、条文の穴埋め・原則と例外・シナリオで考える問い・図・仕訳・論点のつながりマップ・ミニテスト・○×70問で確認できる学習ページ。">
 <style>
 /* 単体公開用の最小リセット(Artifactの外枠が持っていたもの) */
 :root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -300,6 +300,81 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
 .bar-btns{display:flex;flex-wrap:wrap;gap:8px}
 .bar-btns .btn{font-size:14px;padding:6px 14px}
 .quiz-empty{color:var(--muted);font-size:14px}
+
+
+/* 原則と例外 */
+.pes{display:grid;gap:10px}
+.pe{display:grid;border-radius:16px;overflow:hidden;border:1.5px solid var(--line);background:var(--surface)}
+.pe-title{font-size:14px;font-weight:700;padding:10px 16px;border-bottom:1.5px solid var(--line);color:var(--ht)}
+.pe-row{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:start;padding:14px 16px}
+.pe-row + .pe-row{border-top:1.5px dashed var(--line)}
+.pe-row.gen{background:var(--tint)}
+.pe-row p{font-size:15px;min-width:0}
+.pe-lab{font-size:12px;font-weight:700;letter-spacing:.08em;border-radius:6px;padding:2px 10px;white-space:nowrap;margin-top:3px}
+.pe-row.gen .pe-lab{background:var(--solid);color:var(--on-solid)}
+.pe-row.exc .pe-lab{background:var(--ink);color:var(--bg)}
+.pe-row.lim .pe-lab{background:var(--ng);color:var(--on-solid)}
+.pe-why{display:block;font-size:13.5px;color:var(--muted);margin-top:4px}
+/* シナリオ */
+.scn{border:2px solid var(--h);border-radius:20px;padding:20px;display:grid;gap:14px;background:var(--surface)}
+.scn-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--ht)}
+.scn .scn-title{font-family:var(--f-display);font-weight:400;font-size:clamp(19px,3.6vw,23px);line-height:1.45;margin-top:-6px}
+.scn .scn-title::before{display:none}
+.scn-story{background:var(--bg);border-radius:14px;padding:14px 16px;display:grid;gap:10px;font-size:15.5px}
+.say{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.say p{min-width:0}
+.say-who{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;background:var(--tint2);color:var(--ht);white-space:nowrap;margin-top:3px}
+.scn-guide{font-size:14px;color:var(--muted)}
+.step{border-radius:14px;background:var(--tint)}
+.step summary{cursor:pointer;list-style:none;display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:start;padding:12px 14px;font-weight:700}
+.step summary::-webkit-details-marker{display:none}
+.step summary > span:nth-child(2){min-width:0}
+.step-no{font-family:var(--f-display);font-weight:400;color:var(--ht);white-space:nowrap}
+.step-open{font-size:12px;color:var(--muted);font-weight:700;white-space:nowrap;margin-top:3px}
+.step-open::after{content:"考えたら開く ▾"}
+.step[open] .step-open::after{content:"閉じる ▴"}
+.step-a{padding:0 14px 14px;display:grid;gap:10px;font-size:15px}
+.step-a .jr{background:var(--surface)}
+.step.final{background:var(--surface);border:2px solid var(--h)}
+.memo{display:grid;gap:6px}
+.memo label{font-size:13px;font-weight:700;color:var(--muted)}
+.memo textarea{width:100%;min-height:76px;font:inherit;font-size:15px;line-height:1.7;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg);color:var(--ink);resize:vertical}
+.memo textarea:focus-visible{outline:3px solid var(--h);outline-offset:1px}
+@media (max-width:560px){.scn{padding:16px}.step-open::after{content:"開く ▾"}.step[open] .step-open::after{content:"閉じる"}}
+/* 論点のつながり */
+.axis{font-family:var(--f-law);font-size:clamp(18px,3.4vw,22px);font-weight:700;line-height:1.8;background:var(--tint);border-radius:16px;padding:18px 22px}
+.lmap .nd{cursor:pointer;transition:opacity .2s}
+.lmap .nd rect{fill:var(--tint);stroke:var(--h);stroke-width:2;transition:fill .2s}
+.lmap .nd:hover rect{stroke-width:3.5}
+.lmap .nd:focus{outline:none}
+.lmap .nd:focus-visible rect{stroke:var(--ink);stroke-width:4}
+.lmap .nd.sel rect{fill:var(--solid);stroke:var(--solid)}
+.lmap .nd.sel text{fill:var(--on-solid)}
+.lmap .ed{transition:opacity .2s}
+.lmap .ed path{stroke:var(--muted);stroke-width:2;fill:none;opacity:.55}
+.lmap .ed path.dash{stroke-dasharray:6 6}
+.lmap .ed.on path{stroke:var(--ink);stroke-width:3;opacity:1}
+.lmap .el{font-size:12.5px;font-weight:700;fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:5px;stroke-linejoin:round;opacity:0;transition:opacity .2s}
+.lmap .ed.on .el{opacity:1}
+.lmap.focus .nd:not(.sel):not(.nb){opacity:.3}
+.lmap.focus .ed:not(.on){opacity:.25}
+.lpanel{background:var(--tint);border-radius:16px;padding:18px 20px;display:grid;gap:10px}
+.lp-eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--ht)}
+.lp-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.lp-list li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;font-size:15px}
+.lp-chip{font:inherit;font-size:13px;font-weight:700;border:0;border-radius:999px;padding:3px 12px;background:var(--solid);color:var(--on-solid);cursor:pointer;white-space:nowrap}
+@media (max-width:560px){.lp-list li{grid-template-columns:1fr;gap:4px}.lp-chip{justify-self:start}}
+.tree-wrap{background:var(--bg);border-radius:14px;padding:14px 16px;overflow-x:auto}
+.tree,.tree ul{list-style:none;margin:0;padding:0}
+.tree ul{padding-left:22px;margin:8px 0 0 12px;display:grid;gap:8px;border-left:2px solid var(--line)}
+.tree li{position:relative}
+.tree ul > li::before{content:"";position:absolute;left:-22px;top:16px;width:16px;border-top:2px solid var(--line)}
+.tn{display:inline-block;background:var(--surface);border:1.5px solid var(--line);border-radius:10px;padding:4px 12px;font-size:15px}
+.tn.key{background:var(--solid);color:var(--on-solid);border-color:var(--solid);font-weight:700}
+.tn b{color:var(--ht)}
+.tn small{color:var(--muted);font-size:13px}
+.tn.h1,.tn.h2,.tn.h3,.tn.h4,.tn.h5,.tn.h6,.tn.h7,.tn.h8,.tn.h9,.tn.h10{border-color:var(--h)}
+.tn.key.h1,.tn.key.h4,.tn.key.h5,.tn.key.h9{border-color:var(--solid)}
 </style>
 </head>
 <body>
@@ -338,6 +413,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <a class="chip h9" href="#n16"><i>注16</i>流動・固定</a>
     <a class="chip h10" href="#hyoji"><i>表</i>表示のルール</a>
     <a class="chip h3" href="#rel"><i>注18</i>引当金ほか</a>
+    <a class="chip h4" href="#link"><i>関係</i>論点のつながり</a>
     <a class="chip hok" href="#quiz"><i>○×</i>テスト</a>
     <a class="chip h6" href="#check"><i>✓</i>直前チェック</a>
   </div>
@@ -355,7 +431,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
         <h2>一般原則の体系図</h2>
       </div>
     </div>
-    <p class="intro">企業会計原則の「第一 一般原則」は7つです。一番上に<b>真実性の原則</b>があり、残りの6つがそれを支える形になっています。注解は、それぞれの原則を補足する説明です。</p>
+    <p class="intro">企業会計原則の「第一 一般原則」は7つです。一番上に<b>真実性の原則</b>があり、残りの6つがそれを支える形になっています。注解は、それぞれの原則を補足する説明です。原則どうしがどう支え合っているかは、各項目のあとの<a href="#link">論点のつながり</a>で詳しく扱っています。</p>
     <figure class="fig">
       <svg viewBox="0 0 760 330" role="img" aria-label="真実性の原則を頂点に、二から七の一般原則と対応する注解を並べた体系図">
         <path class="sv-conn" d="M380 88 V118 M70 118 H690 M70 118 V150 M194 118 V150 M318 118 V150 M442 118 V150 M566 118 V150 M690 118 V150"/>
@@ -438,6 +514,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">条文</span><br>
       企業会計は、企業の<span class="k">財政状態</span>及び<span class="k">経営成績</span>に関して、<span class="k">真実な報告</span>を提供するものでなければならない。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>財政状態と経営成績について、<b>真実な報告</b>をしなければならない。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">緩和</span><p>ただし、求められるのは<b>相対的真実</b>で足りる。認められた方法の選択・見積り・期間計算による数字の違いは許される。<span class="pe-why">理由:会計には選択と見積りが避けられず、ただ一つの正解を決められないから。</span></p></div>
+    </div>
+
 
     <div class="block">
       <h3>最重要:求められるのは「相対的真実」</h3>
@@ -488,6 +569,37 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <div class="pt"><p class="pt-h">注解</p><p>真実性の原則には注解がありません。「注解◯によれば」と書かれた肢は疑いましょう。</p></div>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">同じトラックなのに、利益が違うのはおかしい?</h3>
+      <div class="scn-story">
+        <p>文房具の卸売をしている「みなと文具」は、同じ年に、ライバルの「うみかぜ文具」とまったく同じ配送トラック(取得原価1,000,000円、耐用年数5年、残存価額0円)を買いました。決算書を見比べると、減価償却費が2倍も違います。みなと文具は定額法、うみかぜ文具は200%定率法(償却率0.4)を使っていました。</p>
+        <div class="say"><span class="say-who">社長</span><p>同じトラックなのに費用がこんなに違う。どちらかがウソの決算書を出しているんじゃないか?</p></div>
+      </div>
+      <p class="scn-guide">あなたは経理担当です。社長にどう説明しますか。問いを上から順に、自分で答えを考えてから開いてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>両社の1年目の減価償却費は、それぞれいくら?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>定額法は1,000,000 ÷ 5年 = <b>200,000円</b>。定率法は1,000,000 × 0.4 = <b>400,000円</b>。同じ資産でも、方法によって1年目の費用が200,000円違います。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>どちらの数字も「真実」といえる? いえるなら、その根拠は?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>どちらも真実</b>です。定額法も定率法も認められた方法で、真実性の原則が求めるのは<b>相対的真実</b>だからです。会計には方法の選択や見積りが避けられないので、ただ一つの正解は決まりません。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>では逆に、どんな場合なら「真実でない」といえる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>認められていない方法を使った場合や、事実と違う記録をした場合です。また、利益の都合で毎年方法を変えると、継続性の原則に反し、結果として真実な報告をゆがめます。「選んでよい」ことと「好きに変えてよい」ことは別です。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s1">あなたの結論と理由(メモ。このブラウザに保存されます)</label><textarea class="memo-box" id="memo-s1" placeholder="例:どちらも真実。なぜなら…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>社長への説明と仕訳を見る</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <p>「利益の差は方法の違いによるもので、どちらも認められた方法です。真実性の原則が求めるのは相対的真実なので、両社とも真実な報告です。ただし、当社は今後も定額法を継続して使う必要があります。」</p>
+          <div class="jr">
+            <p class="jr-cap"><span class="ex-badge">みなと文具(定額法)</span></p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">減価償却費</span><span class="amt">200,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">減価償却累計額</span><span class="amt">200,000</span></div></div>
+            <p class="jr-cap"><span class="ex-badge">うみかぜ文具(定率法)</span></p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">減価償却費</span><span class="amt">400,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">減価償却累計額</span><span class="amt">400,000</span></div></div>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -516,6 +628,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">条文</span><br>
       企業会計は、<span class="k">すべての取引</span>につき、<span class="k">正規の簿記の原則</span>に従って、<span class="k">正確な会計帳簿</span>を作成しなければならない。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p><b>すべての取引</b>を、網羅性・検証可能性・秩序性を満たす帳簿に記録する。帳簿に載らない資産・負債(簿外資産・簿外負債)は本来あってはならない。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">例外</span><p>重要性の乏しいものは<b>簡便な処理</b>ができ、その結果生じる<b>簿外資産・簿外負債</b>も認められる(注解1・貸借対照表原則一ただし書き)。<span class="pe-why">ポイント:これは「例外的に許される」のではなく、「正規の簿記の原則に従った処理」とされる。</span></p></div>
+    </div>
+
 
     <div class="block">
       <h3>「正確な会計帳簿」の3要件</h3>
@@ -580,6 +697,36 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <p class="jr-note">未使用の5,000円は資産に計上しない(簿外資産)。貸借対照表原則一ただし書きにより、正規の簿記の原則に従った処理として認められる</p>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">レシートのない経費と、倉庫に残った消耗品</h3>
+      <div class="scn-story">
+        <p>決算の直前、みなと文具の経理担当のあなたに、2つの相談が来ました。</p>
+        <div class="say"><span class="say-who">営業担当</span><p>先月、お得意さんとの打ち合わせで5,000円の飲食代を払ったんだけど、レシートをなくしちゃった。それに金額も小さいし、帳簿には載せなくていいよね?</p></div>
+        <div class="say"><span class="say-who">倉庫担当</span><p>買ったときに全部費用にした事務用品が、まだ5,000円分くらい棚に残っているよ。これって帳簿と合ってないけど大丈夫?</p></div>
+      </div>
+      <p class="scn-guide">どちらも「帳簿に載らないもの」の話です。でも結論は違います。違いはどこにあるのか、考えてから開いてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>レシートがないことで、正確な会計帳簿の3要件のどれが問題になる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>検証可能性</b>です。記録が証拠に基づいていないと、あとから正しさを確かめられません。出金伝票、カードの利用明細、本人の説明書など、代わりの証拠を残して記録します。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>「金額が小さいから帳簿に載せない」は認められる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>認められません。</b>正規の簿記の原則は「すべての取引」の記録を求めていて、載せなければ<b>網羅性</b>を欠きます。重要性の原則が認めているのは簡便な「処理の方法」であって、取引を記録しないことではありません。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>では、棚に残った事務用品を資産にしないのは、なぜ許される?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>購入の取引そのものは<b>記録されています</b>。そのうえで、重要性の乏しい消耗品を買入時に費用にする<b>簡便な処理</b>をした結果、残りが簿外資産になっただけです。これは注解1により「正規の簿記の原則に従った処理」として認められます。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s2">2つの相談の違いを、自分の言葉で(メモ)</label><textarea class="memo-box" id="memo-s2" placeholder="例:飲食代は…、事務用品は…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>2つの相談への答えと仕訳を見る</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <p>飲食代は、代わりの証拠を添えて<b>必ず記録</b>します。事務用品は、取引は記録済みで、残りを資産にしないのは重要性による簡便な処理なので<b>問題ありません</b>。「記録しない」と「簡便に処理する」は別物です。</p>
+          <div class="jr">
+            <p class="jr-cap"><span class="ex-badge">飲食代</span>出金伝票と説明書を証拠にして記録</p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">交際費</span><span class="amt">5,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">現金</span><span class="amt">5,000</span></div></div>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -610,6 +757,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">条文</span><br>
       <span class="k">資本取引</span>と<span class="k">損益取引</span>とを<span class="k">明瞭に区別</span>し、<span class="k">特に</span><span class="k">資本剰余金</span>と<span class="k">利益剰余金</span>とを<span class="k">混同してはならない</span>。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>資本取引と損益取引、資本剰余金と利益剰余金を<b>混同しない</b>。資本取引から生じた差額は損益計算書を通さない。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">例外</span><p>自己株式の処分差損などで<b>その他資本剰余金が期末にマイナス</b>になった場合は、<b>その他利益剰余金で補填</b>する(自己株式等会計基準)。<span class="pe-why">理由:資本剰余金の負の残高を残すと、払込資本の額を正しく示せなくなるため。</span></p></div>
+    </div>
+
 
     <figure class="fig">
       <svg viewBox="0 0 760 300" role="img" aria-label="資本取引から資本剰余金、損益取引から利益剰余金が生じ、両者の混同は禁止される図">
@@ -691,6 +843,36 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <div class="pt"><p class="pt-h">発展:評価差額金</p><p>その他有価証券評価差額金は損益計算書を通らず純資産に入りますが、株主との取引ではないので<b>資本取引でもありません</b>。包括利益につながる論点です。</p></div>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">増資の手数料を、払込金から引いてしまえば?</h3>
+      <div class="scn-story">
+        <p>みなと文具は新店舗を出すために新株を発行し、1,000,000円の払込みを受けました(半額を資本金にする)。証券会社への手数料など、株式交付費が30,000円かかっています。</p>
+        <div class="say"><span class="say-who">課長</span><p>手数料は払込金から引いて、資本準備金を470,000円にしておけばいい。費用が出ないから、今期の利益が減らずに済むぞ。</p></div>
+      </div>
+      <p class="scn-guide">課長の案は、どこに問題があるのでしょうか。取引の性質から順に考えてみましょう。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>株式の発行は資本取引? 損益取引? 手数料の支払いはどちら?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>株式の発行は株主から元手を受け入れる<b>資本取引</b>です。一方、手数料の支払いは、会社が外部にサービスの対価を払う<b>費用の発生</b>で、損益取引です。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>課長の処理をすると、何と何が混ざる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>本来は利益を減らすはずの<b>費用</b>を、<b>資本剰余金</b>で吸収しています。資本剰余金と利益剰余金が混同され、利益は30,000円過大に、資本剰余金は30,000円過小になります。注解2が「許されない」とする典型例です。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>株主や銀行の立場から見ると、なぜ困る?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>利益が過大になると、配当できる額も大きく見えます。本当は元手(維持すべき資本)の一部を配当で外に出すことになり、<b>資本の食いつぶし</b>につながります。銀行など債権者にとっては、返済の裏付けになる財産が減ることになります。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s3">課長への反論を1〜2文で(メモ)</label><textarea class="memo-box" id="memo-s3" placeholder="例:手数料は費用なので…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>正しい処理を見る</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <p>払込金は全額を資本として計上し、株式交付費は<b>費用</b>(営業外費用)か<b>繰延資産</b>として別に処理します。</p>
+          <div class="jr">
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">当座預金</span><span class="amt">1,000,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">資本金</span><span class="amt">500,000</span></div></div>
+            <div class="jr-row"><div class="side d empty"><span class="bd">借</span><span class="acc">&nbsp;</span><span class="amt">&nbsp;</span></div><div class="side c"><span class="bd">貸</span><span class="acc">資本準備金</span><span class="amt">500,000</span></div></div>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">株式交付費</span><span class="amt">30,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">現金</span><span class="amt">30,000</span></div></div>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -721,6 +903,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">条文</span><br>
       企業会計は、<span class="k">財務諸表</span>によって、<span class="k">利害関係者</span>に対し<span class="k">必要な会計事実</span>を<span class="k">明瞭に表示</span>し、企業の状況に関する<span class="k">判断を誤らせない</span>ようにしなければならない。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>必要な会計事実を<b>明瞭に表示</b>し、重要な会計方針や重要な後発事象は<b>注記</b>する。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>代替的な会計基準が認められていない</b>場合は、会計方針の注記を<b>省略できる</b>(注解1-2)。重要性の乏しい項目は<b>まとめて表示</b>できる(注解1)。<span class="pe-why">理由:選択の余地がない方法や細かすぎる情報は、かえって判断の役に立たないから。</span></p></div>
+    </div>
+
 
     <div class="block">
       <h3>明瞭に表示するための手段</h3>
@@ -776,6 +963,33 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <p>重要な会計方針の注記は、<b>損益計算書及び貸借対照表の次にまとめて</b>記載します。その他の注記事項も、重要な会計方針の注記の次に記載できます。</p>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">決算書には、どこまで書けば「明瞭」?</h3>
+      <div class="scn-story">
+        <p>みなと文具の決算書づくりが大詰めです。次の3つで迷っています。</p>
+        <ul class="list">
+          <li>新人が「明瞭に表示するなら、ボールペン1本まで在庫の明細を全部載せるべき」と言っている</li>
+          <li>決算日の翌月に、主要な取引先が倒産したという連絡が来た</li>
+          <li>商品の評価には先入先出法を使っている</li>
+        </ul>
+      </div>
+      <p class="scn-guide">「利害関係者の判断を誤らせない」という目的から逆算して考えてみましょう。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>明細を全部載せれば、決算書は「明瞭」になる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>なりません。</b>情報が多すぎると、大事な情報が埋もれて判断を誤らせます。重要性の乏しいものは<b>まとめて表示</b>してよく、これは重要性の原則の表示面での適用です。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>決算日の後に起きた倒産は、当期の決算書と関係ない?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>関係あります。貸借対照表日後に発生し、<b>次期以後</b>の財政状態・経営成績に影響する事象なので、<b>重要な後発事象</b>として注記します(注解1-3)。知らずに決算書を読んだ人は、会社の今後を見誤るからです。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>先入先出法を使っていることは、注記が必要?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>必要です。棚卸資産の評価方法は複数認められていて(<b>代替的な方法がある</b>)、どれを選んだかで利益が変わります。だから<b>重要な会計方針</b>として注記します。もし選択の余地がなければ、省略できます(注解1-2)。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s4">3つの判断に共通する考え方は?(メモ)</label><textarea class="memo-box" id="memo-s4" placeholder="例:どれも、読む人が…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>共通する考え方を見る</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>明瞭性は「たくさん書くこと」ではなく、<b>判断に必要なことを、判断しやすい形で示すこと</b>です。細かすぎる情報はまとめ、判断を左右する情報(後発事象・会計方針)は本体の外でも注記で補います。</p></div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -809,6 +1023,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">注解3の要旨</span><br>
       継続性が問題とされるのは、一つの会計事実について<span class="k">二つ以上の会計処理の原則又は手続の選択適用</span>が認められている場合である。継続して適用しないと、同じ事実から<span class="k">異なる利益額</span>が算出され、財務諸表の<span class="k">期間比較</span>を困難にする。<span class="k">正当な理由</span>によって重要な変更を加えたときは、これを<span class="k">注記</span>しなければならない。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>いったん採用した処理の原則・手続は<b>毎期継続して適用</b>する。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>正当な理由</b>がある場合は変更できる。その場合は<b>注記</b>が必要(注解3)。現行基準では、会計方針の変更は原則として<b>遡及適用</b>する。<span class="pe-why">例外の例外:減価償却方法の変更は、見積りの変更と区別しにくいため遡及せず、変更した期から<b>将来に向けて</b>適用する。</span></p></div>
+    </div>
+
 
     <figure class="fig">
       <svg viewBox="0 0 760 210" role="img" aria-label="毎期継続して適用し、正当な理由があれば変更できることを示すタイムライン">
@@ -831,7 +1050,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
         <path d="M34 106 V116 H546 V106" class="sv-dash"/>
         <text x="290" y="140" text-anchor="middle" class="sv-t sv-h sv-b">毎期継続して適用</text>
         <text x="650" y="122" text-anchor="middle" class="sv-okt sv-b sv-s">正当な理由あり</text>
-        <text x="650" y="142" text-anchor="middle" class="sv-m">注記+原則として遡及適用</text>
+        <text x="650" y="142" text-anchor="middle" class="sv-m">注記が必要</text>
         <text x="380" y="190" text-anchor="middle" class="sv-ngt sv-b">× 利益を調整するための「みだりな」変更は禁止</text>
       </svg>
       <figcaption>変更そのものが禁止なのではなく、「正当な理由のない変更」が禁止です。</figcaption>
@@ -840,7 +1059,7 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <div class="pts">
       <div class="pt"><p class="pt-h">目的 ①</p><p><b>利益操作の排除</b>。都合のよい年だけ方法を変えて利益を動かすことを防ぎます。</p></div>
       <div class="pt"><p class="pt-h">目的 ②</p><p>財務諸表の<b>期間比較性</b>の確保。注解3の文言はこちらを書いています。</p></div>
-      <div class="pt"><p class="pt-h">現行基準</p><p>会計方針を変更したときは、原則として過去の期間にさかのぼって新しい方法を適用します(<b>遡及適用</b>)。</p></div>
+      <div class="pt"><p class="pt-h">現行基準</p><p>会計方針を変更したときは、原則として過去の期間にさかのぼって新しい方法を適用します(<b>遡及適用</b>)。ただし減価償却方法の変更は、見積りの変更と区別しにくいため遡及せず、<b>将来に向けて</b>適用します。</p></div>
     </div>
 
     <div class="block">
@@ -850,6 +1069,30 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <div class="f3"><span class="from">認められた方法</span><span class="arr">→</span><span class="to">認められた方法</span><span class="res"><b>継続性の問題になる。</b>正当な理由があれば変更できる</span></div>
       <div class="f3"><span class="from">認められない方法</span><span class="arr">→</span><span class="to">認められた方法</span><span class="res"><b>継続性以前の問題。</b>むしろ変更しなければならない</span></div>
       <div class="f3"><span class="from">認められた方法</span><span class="arr">→</span><span class="to">認められない方法</span><span class="res"><b>当然に認められない。</b>継続性を論じるまでもない</span></div>
+    </div>
+
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">今期だけ、減価償却の方法を変えたい</h3>
+      <div class="scn-story">
+        <p>今期のみなと文具は好調で、利益が目標を大きく上回りそうです。</p>
+        <div class="say"><span class="say-who">社長</span><p>来期は厳しくなりそうだ。今期だけ定額法から定率法に変えて費用を増やし、利益を来期に回せないか?</p></div>
+        <p>数年後、物流センターを新しくして、トラックの使い方が「最初の数年に集中して使う」形に大きく変わりました。そこで、償却方法の見直しが議題に上がっています。</p>
+      </div>
+      <p class="scn-guide">2つの「変更」は、どちらも定額法から定率法への変更です。それでも結論が分かれる理由を考えてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>社長の提案の目的は何? それは認められる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>目的は<b>利益の調整</b>です。経営の都合で利益を動かすための変更は正当な理由にあたらず、「<b>みだりに</b>」変更することになるので認められません。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>毎年方法が変わると、決算書を読む人は何に困る?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>利益の増減が、本当の業績の変化なのか、方法を変えた影響なのか<b>区別できません</b>。財務諸表の<b>期間比較</b>ができなくなり、判断を誤らせます(注解3)。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>物流センター新設による見直しは認められる? 認められるなら何をする?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>使い方の実態が変わり、より適切な方法に改めるための変更なので、<b>正当な理由</b>になりえます。変更したら<b>注記</b>します。なお減価償却方法の変更は、見積りの変更と区別しにくいため遡及適用はせず、変更した期から<b>将来に向けて</b>適用します。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s5">2つの変更の結論が分かれる理由(メモ)</label><textarea class="memo-box" id="memo-s5" placeholder="例:変更の目的が…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>判断のものさしを見る</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>同じ方法変更でも、<b>何のための変更か</b>で結論が分かれます。実態をより適切に表すための変更は正当な理由になり、利益を動かすための変更は「みだりな変更」です。変更を認める場合も、注記で読む人に知らせることが条件になります。</p></div>
+      </details>
     </div>
 
     <div class="trap">
@@ -885,6 +1128,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">注解4</span><br>
       企業会計は、<span class="k">予測される将来の危険</span>に備えて<span class="k">慎重な判断</span>に基づく会計処理を行わなければならないが、<span class="k">過度に保守的</span>な会計処理を行うことにより、企業の財政状態及び経営成績の<span class="k">真実な報告</span>をゆがめてはならない。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>財政に不利な影響の可能性があれば、<b>適当に健全な</b>(慎重な)会計処理をする。</p></div>
+      <div class="pe-row lim"><span class="pe-lab">歯止め</span><p>ただし<b>過度に保守的</b>な処理で、真実な報告をゆがめてはならない(注解4)。<span class="pe-why">理由:利益の過小計上は秘密積立金を生み、翌期以降の利益を過大にするから。</span></p></div>
+    </div>
+
     <p class="note">別名は<b>安全性の原則</b>・<b>慎重性の原則</b>。本文が「慎重に」と求め、注解4が「やりすぎは禁止」と歯止めをかける役割分担です。</p>
 
     <figure class="fig">
@@ -936,6 +1184,39 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <div class="pt"><p class="pt-h">発展</p><p>保守主義は情報の<b>中立性</b>とぶつかるという指摘があり、概念フレームワークとのつながりで問われます。</p></div>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">念のため、貸倒引当金を多めに積んでおこう?</h3>
+      <div class="scn-story">
+        <p>みなと文具の期末の売掛金は1,000,000円です。過去の貸倒れの実績から見ると、貸倒見込みは2%(20,000円)です。</p>
+        <div class="say"><span class="say-who">営業部長</span><p>景気が悪いから、念のため20%積んでおこう。利益が小さく見えれば、来期が楽になるしな。</p></div>
+      </div>
+      <p class="scn-guide">「慎重」と「やりすぎ」の境目はどこにあるのか。数字で確かめながら考えましょう。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>そもそも貸倒引当金を設定するのは、どの原則で説明できる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>保守主義の原則</b>です。将来の損失に備えて、当期に先に費用を計上します。さらに注解18の4要件(将来の特定の損失、当期以前の事象に起因、発生の可能性が高い、合理的に見積れる)を満たす必要があります。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>20%(200,000円)を設定すると、当期と翌期の利益はどうなる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>当期の利益は、適正な場合より<b>180,000円小さく</b>なります。その分が帳簿に表れない<b>秘密積立金</b>になり、翌期以降に引当金が余ると、戻入益で利益が<b>大きく</b>出ます。利益が期間をまたいで動かされています。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>どこまでが「適当に健全」で、どこからが「過度」? 判断の手がかりは?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>手がかりは<b>合理的な見積りの根拠</b>があるかどうかです。過去の実績率や、個別の取引先の状況に基づく金額なら適当です。根拠のない上乗せは過度な保守主義で、注解4に反し、真実性の原則にも反します。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s6">営業部長への説明(メモ)</label><textarea class="memo-box" id="memo-s6" placeholder="例:慎重に備えるのは大事ですが…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>適正な処理と、過度な処理を比べる</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <div class="jr good">
+            <p class="jr-cap"><span class="jr-lab">○ 適正</span>実績率2%に基づく</p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">貸倒引当金繰入</span><span class="amt">20,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">貸倒引当金</span><span class="amt">20,000</span></div></div>
+          </div>
+          <div class="jr bad">
+            <p class="jr-cap"><span class="jr-lab">× 過度</span>根拠のない20%</p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">貸倒引当金繰入</span><span class="amt">200,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">貸倒引当金</span><span class="amt">200,000</span></div></div>
+            <p class="jr-note">慎重さは「根拠のある範囲」まで。それを超えると、当期も翌期も利益の数字がゆがむ</p>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -966,6 +1247,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">条文</span><br>
       <span class="k">株主総会提出</span>のため、<span class="k">信用目的</span>のため、<span class="k">租税目的</span>のため等種々の目的のために<span class="k">異なる形式</span>の財務諸表を作成する必要がある場合、それらの内容は、<span class="k">信頼しうる会計記録</span>に基づいて作成されたものであって、<span class="k">政策の考慮</span>のために<span class="k">事実の真実な表示</span>をゆがめてはならない。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>財務諸表の内容は、<b>1つの信頼しうる会計記録</b>に基づく(実質一元)。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">容認</span><p>株主総会・信用・租税など目的に応じて、<b>形式は変えてよい</b>(形式多元)。<span class="pe-why">理由:利用者ごとに必要な形式は違うが、事実は1つだから。</span></p></div>
+    </div>
+
 
     <figure class="fig">
       <svg viewBox="0 0 760 290" role="img" aria-label="1つの会計記録から目的別に4つの財務諸表を作る、実質一元・形式多元の図">
@@ -1007,6 +1293,30 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <div class="pt"><p class="pt-h">注解</p><p>単一性の原則には<b>注解がありません</b>。</p></div>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">銀行用と税務署用で、決算書を分けたい</h3>
+      <div class="scn-story">
+        <p>みなと文具は、銀行に追加の融資をお願いすることになりました。</p>
+        <div class="say"><span class="say-who">社長</span><p>銀行には利益を多めに見せたい。税務署には少なめにしたい。帳簿を2つ作れないか?</p></div>
+        <div class="say"><span class="say-who">新人</span><p>でも、株主総会に出す計算書類と、銀行に出す資料と、税務署に出す申告書って、そもそも形が違いますよね?</p></div>
+      </div>
+      <p class="scn-guide">新人の指摘と社長の案は、どちらも「違うものを作る」話です。何が違うのか、考えてから開いてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>目的ごとに書類の形式が違うのは、単一性の原則に反する?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>反しません。</b>単一性の原則は、目的に応じて<b>異なる形式</b>の財務諸表を作ることを前提にしています(形式多元)。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>社長の案は、何が問題?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>帳簿そのもの、つまり<b>中身</b>を2つにしようとしています。これは二重帳簿で、「<b>政策の考慮</b>のために事実の真実な表示をゆがめてはならない」という条文に正面から反します。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>税務署に出す課税所得が、会計上の利益と違う金額になるのはなぜ問題ない?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>課税所得は、<b>1つの会計記録</b>から出した利益をもとに、申告書の上で税法のルールに従って加算・減算しているだけだからです。出発点の記録は1つなので、実質一元は守られています。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s7">「形式を変える」と「中身を変える」の違い(メモ)</label><textarea class="memo-box" id="memo-s7" placeholder="例:形式は…、中身は…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>社長への答えを見る</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>「提出先ごとに書類の形を変えることはできますが、元になる帳簿は1つです。銀行と税務署で中身を変えることは、単一性の原則に反するのでできません。」</p></div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -1036,6 +1346,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">注解1</span><br>
       企業会計は、定められた会計処理の方法に従って<span class="k">正確な計算</span>を行うべきものであるが、企業会計が目的とするところは、企業の財務内容を明らかにし、企業の状況に関する<span class="k">利害関係者</span>の<span class="k">判断を誤らせない</span>ようにすることにあるから、<span class="k">重要性の乏しいもの</span>については、本来の<span class="k">厳密な会計処理</span>によらないで他の<span class="k">簡便な方法</span>によることも<span class="k">正規の簿記の原則</span>に従った処理として認められる。重要性の原則は、<span class="k">財務諸表の表示</span>に関しても適用される。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p>定められた会計処理の方法に従って、<b>厳密に</b>処理・表示する。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>重要性の乏しいもの</b>は、<b>簡便な方法</b>で処理・表示できる(適用例(1)〜(5))。<span class="pe-why">例外の例外:重要性の<b>高い</b>ものは、むしろ厳密に処理し詳しく表示しなければならない(重要性の積極的側面)。</span></p></div>
+    </div>
+
 
     <figure class="fig">
       <svg viewBox="0 0 760 210" role="img" aria-label="重要性の乏しいものの簡便な処理から簿外資産・負債が生じ、それが正規の簿記の原則に従った処理と認められる流れ">
@@ -1098,6 +1413,36 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       </div>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">真面目な新人の、2つの「やりすぎ」</h3>
+      <div class="scn-story">
+        <p>みなと文具の新人は真面目です。決算でボールペン1本まで在庫を数えて資産に計上し、月500円の新聞代の前払分まで前払費用にしました。そのせいで決算作業が3日遅れました。</p>
+        <p>ところが同じ新人が、仕入れた商品20,000,000円の引取運賃1,000,000円を「付随費用は重要性の原則で費用にできるはず」と言って、全額費用にしようとしています。</p>
+        <div class="say"><span class="say-who">課長</span><p>前半は手間をかけすぎ、後半は手を抜きすぎだな。</p></div>
+      </div>
+      <p class="scn-guide">課長がそう言う理由を、重要性の原則の「2つの側面」から考えてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>少額の在庫や前払費用を厳密に処理しなくてよいのは、なぜ?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>会計の目的は、<b>利害関係者の判断を誤らせない</b>ことです。少額の項目を厳密に処理しても判断は変わらず、手間だけがかかります。だから重要性の乏しいものは<b>簡便な処理</b>が認められます(消極的側面)。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>そうして生じる簿外資産は、正規の簿記の原則に反しない?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>反しません。注解1は、重要性の乏しいものの簡便な処理を「<b>正規の簿記の原則に従った処理</b>」としています。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>引取運賃1,000,000円の費用処理は、同じ理屈で認められる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>認められません。</b>商品原価の5%にあたる金額で、費用にすれば売上原価と利益を大きくゆがめます。重要性は「付随費用だから」ではなく、<b>金額や性質で判断</b>します。重要なものは厳密に処理しなければなりません(積極的側面)。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s-n1">重要性の判断で大事なこと(メモ)</label><textarea class="memo-box" id="memo-s-n1" placeholder="例:科目の種類ではなく…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>引取運賃の正しい処理を見る</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <div class="jr">
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">商品</span><span class="amt">21,000,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">買掛金</span><span class="amt">20,000,000</span></div></div>
+            <div class="jr-row"><div class="side d empty"><span class="bd">借</span><span class="acc">&nbsp;</span><span class="amt">&nbsp;</span></div><div class="side c"><span class="bd">貸</span><span class="acc">現金</span><span class="amt">1,000,000</span></div></div>
+            <p class="jr-note">重要な付随費用は取得原価に含める。重要性の原則は「手を抜いてよい原則」ではなく、「力をかける場所を決める原則」</p>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -1125,6 +1470,19 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
     <div class="mini" data-set="n16"></div>
 
     <p class="intro"><b>正常営業循環基準</b>を先に当てはめ、外れたものに<b>1年基準</b>を使います。順番が逆の肢は×です。1年以内かどうかは<b>貸借対照表日の翌日から</b>数えます。</p>
+    <div class="pes">
+      <div class="pe">
+        <p class="pe-title">正常営業循環基準</p>
+        <div class="pe-row gen"><span class="pe-lab">原則</span><p>主目的の営業取引から生じた債権・債務は、期間に関係なく<b>流動</b>。</p></div>
+        <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>破産債権・更生債権等</b>で1年以内に回収されないことが明らかなものは<b>投資その他の資産</b>。<span class="pe-why">理由:営業循環から外れ、通常の資金の流れに戻らないから。</span></p></div>
+      </div>
+      <div class="pe">
+        <p class="pe-title">1年基準</p>
+        <div class="pe-row gen"><span class="pe-lab">原則</span><p>営業循環に入らないものは、<b>貸借対照表日の翌日から1年以内</b>かどうかで流動・固定に分ける。</p></div>
+        <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>残存耐用年数1年以下の固定資産</b>は固定のまま、<b>恒常在庫品・長期保有の余剰品</b>は流動のまま(なお書き)。分割返済の長期債権・債務の1年以内部分は、重要性が乏しければ固定のまま(注解1(5))。</p></div>
+      </div>
+    </div>
+
 
     <figure class="fig">
       <svg viewBox="0 0 760 340" role="img" aria-label="正常営業循環基準と1年基準による流動・固定の判定フローチャート">
@@ -1199,6 +1557,44 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <p class="note">どちらも「1年基準をそのまま当てはめない」のが共通点です。理由づけを問われたら、営業循環の中にある項目は企業の通常の資金の流れに組み込まれているので、期間に関係なく扱うのが実態に合う、と書きます。</p>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">この債権は、流動? 固定?</h3>
+      <div class="scn-story">
+        <p>みなと文具の貸借対照表を作っています。次の5つをどこに表示するか、あなたが判断してください。</p>
+        <ul class="list">
+          <li>A社への売掛金:特別な約束で、回収は1年半後</li>
+          <li>B社への売掛金:B社が破産し、回収できるのは数年先になりそう</li>
+          <li>取引先に貸した資金:返済期日は2年後</li>
+          <li>当期首に払った3年分の保険料のうち、翌期分と翌々期分</li>
+          <li>店頭見本としてずっと置いておく恒常在庫</li>
+        </ul>
+      </div>
+      <p class="scn-guide">まず「主目的の営業取引から生じたか」で分け、次に「1年以内か」で分ける、という順番を守って考えましょう。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>A社とB社の売掛金は、同じ扱い?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>違います。A社の売掛金は営業取引から生じたので、回収が1年半後でも<b>流動資産</b>です(正常営業循環基準)。B社の売掛金は<b>破産更生債権等</b>で、1年以内に回収されないことが明らかなので<b>投資その他の資産</b>です。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>貸付金は、なぜ売掛金と違って1年基準で判断する?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>文房具の販売という<b>主目的の営業取引</b>から生じたものではないからです。営業循環に入らないので、1年基準で判断します。返済が2年後なので<b>投資その他の資産</b>(長期貸付金)です。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>前払保険料と恒常在庫は、どこに表示する?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>前払保険料は、経過勘定の中で唯一1年基準を使う<b>前払費用</b>です。翌期分は流動資産、翌々期分は<b>長期前払費用</b>(投資その他の資産)です。恒常在庫は、長く置いていても<b>流動資産のまま</b>です(なお書き)。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s-n16">判断の手順を自分の言葉で(メモ)</label><textarea class="memo-box" id="memo-s-n16" placeholder="例:まず…、次に…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>仕訳と表示を見る</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <div class="jr">
+            <p class="jr-cap"><span class="ex-badge">B社の売掛金</span>(金額は仮に300,000円)</p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">破産更生債権等</span><span class="amt">300,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">売掛金</span><span class="amt">300,000</span></div></div>
+            <p class="jr-cap"><span class="ex-badge">保険料</span>3年分36,000円を支払時に全額費用処理していた</p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">前払保険料</span><span class="amt">12,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">支払保険料</span><span class="amt">24,000</span></div></div>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">長期前払保険料</span><span class="amt">12,000</span></div><div class="side c empty"><span class="bd">貸</span><span class="acc">&nbsp;</span><span class="amt">&nbsp;</span></div></div>
+            <p class="jr-note">流動資産:A社の売掛金、前払費用12,000、恒常在庫。投資その他の資産:破産更生債権等、長期貸付金、長期前払費用12,000</p>
+          </div>
+        </div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -1236,6 +1632,29 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">貸借対照表原則一B</span><br>
       資産、負債及び資本は、<span class="k">総額</span>によって記載することを原則とし、資産の項目と負債又は資本の項目とを<span class="k">相殺</span>することによって、その全部又は一部を貸借対照表から除去してはならない。
     </blockquote>
+    <div class="pes">
+      <div class="pe">
+        <p class="pe-title">総額主義</p>
+        <div class="pe-row gen"><span class="pe-lab">原則</span><p>費用と収益、資産と負債・資本は<b>総額</b>で記載し、相殺して除去しない。</p></div>
+        <div class="pe-row exc"><span class="pe-lab">例外</span><p>ほかの会計基準で<b>純額表示</b>が求められる項目がある(例:為替差損益は差損と差益を相殺して表示)。<span class="pe-why">理由:同じ原因から生じる損益で、総額に情報としての意味が乏しいため。</span></p></div>
+      </div>
+      <div class="pe">
+        <p class="pe-title">特別損益(注解12)</p>
+        <div class="pe-row gen"><span class="pe-lab">原則</span><p>臨時損益(固定資産売却損益、災害損失など)は<b>特別損益</b>に表示する。</p></div>
+        <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>金額が僅少</b>なもの、<b>毎期経常的に発生</b>するものは<b>経常損益</b>に含めることができる。</p></div>
+      </div>
+      <div class="pe">
+        <p class="pe-title">引当金・累計額の表示(注解17)</p>
+        <div class="pe-row gen"><span class="pe-lab">原則</span><p>貸倒引当金・減価償却累計額は、<b>科目ごとに間接控除</b>する。</p></div>
+        <div class="pe-row exc"><span class="pe-lab">例外</span><p>2つ以上の科目について<b>一括して間接控除</b>する方法、<b>直接控除して注記</b>する方法も認められる。</p></div>
+      </div>
+      <div class="pe">
+        <p class="pe-title">配列(貸借対照表原則三)</p>
+        <div class="pe-row gen"><span class="pe-lab">原則</span><p>資産・負債は<b>流動性配列法</b>で並べる。</p></div>
+        <div class="pe-row exc"><span class="pe-lab">例外</span><p>固定資産の比重が大きい電力会社などでは<b>固定性配列法</b>が使われる。</p></div>
+      </div>
+    </div>
+
     <div class="vs">
       <div class="vs-item bad">
         <p class="vs-h">× 相殺して表示</p>
@@ -1330,6 +1749,29 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       </ul>
     </div>
 
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">社長の「すっきり見せたい」、どこまで聞ける?</h3>
+      <div class="scn-story">
+        <p>決算書の案を見た社長から、3つの要望が出ました。</p>
+        <div class="say"><span class="say-who">社長</span><p>① 受取利息50,000円と支払利息30,000円は、差し引いて受取利息20,000円だけ載せればすっきりする。<br>② 固定資産売却損3,000円が特別損失にあるのは大げさじゃないか。<br>③ 売掛金から貸倒引当金を引いたあとの金額だけ載せればいい。</p></div>
+      </div>
+      <p class="scn-guide">3つとも「表示を簡単にしたい」という要望ですが、答えは同じではありません。原則と例外の両方を思い出しながら考えてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>①の利息の相殺は認められる?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>認められません。</b>総額主義の原則により、費用と収益を相殺して除去してはいけません。相殺すると、会社が借入をしていて利息を30,000円払っている事実が見えなくなります。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>②の少額の売却損は、経常損益に入れてよい?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>条件付きで認められます。</b>固定資産売却損は原則として特別損失ですが、金額が<b>僅少</b>なものは経常損益に含めることができます(注解12)。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>③の控除後の金額だけを載せる方法は?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>条件付きで認められます。</b>原則は科目ごとの間接控除ですが、直接控除して残額だけを記載し、控除した貸倒引当金の額を<b>注記</b>する方法も認められています(注解17)。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s-hyoji">①だけが認められない理由(メモ)</label><textarea class="memo-box" id="memo-s-hyoji" placeholder="例:②と③は…が、①は…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>3つの要望への答えを見る</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>①は×、②は僅少なら○、③は注記すれば○です。②と③は、情報を失わない範囲での簡便化(重要性の表示面、注記での補足)です。①は、取引の規模という<b>判断に必要な情報そのもの</b>を消してしまうので認められません。</p></div>
+      </details>
+    </div>
+
     <div class="trap">
       <p class="trap-h">ひっかけ注意</p>
       <ul>
@@ -1359,6 +1801,11 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       <span class="law-tag">注解18 引当金の要件</span><br>
       <span class="k">将来の特定の費用又は損失</span>であって、その発生が<span class="k">当期以前の事象に起因</span>し、<span class="k">発生の可能性が高く</span>、かつ、その<span class="k">金額を合理的に見積る</span>ことができる場合には、当期の負担に属する金額を当期の費用又は損失として引当金に繰り入れる。
     </blockquote>
+    <div class="pe">
+      <div class="pe-row gen"><span class="pe-lab">原則</span><p><b>4要件</b>を満たす将来の費用・損失は、当期の負担分を<b>引当金に繰り入れる</b>。</p></div>
+      <div class="pe-row exc"><span class="pe-lab">例外</span><p><b>重要性の乏しい</b>引当金は、<b>計上しない</b>ことができる(注解1(3))。<span class="pe-why">対になる注意:発生の可能性が低い偶発損失は、そもそも要件を満たさないので計上しない(例外ではなく対象外)。</span></p></div>
+    </div>
+
     <div class="big3">
       <div class="pt"><p class="pt-h">① 将来の特定の費用・損失</p><p>何に備えるのかが特定されていること。</p></div>
       <div class="pt"><p class="pt-h">② 当期以前の事象に起因</p><p>原因が当期以前にあること。「以後」は×。</p></div>
@@ -1373,6 +1820,267 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
         <div class="vs-item"><p class="vs-h">前払金・未払金</p><p>継続的な役務提供ではない取引の代金。例:商品の手付金、備品の購入代金の未払い。経過勘定ではありません。</p></div>
       </div>
     </div>
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える</p>
+      <h3 class="scn-title">その費用、今期に引き当てられる?</h3>
+      <div class="scn-story">
+        <p>みなと文具の決算会議で、3つの「引当金にしたい」という話が出ました。</p>
+        <ul class="list">
+          <li>倉庫は5年ごとに大規模修繕をしていて、来期に3,000,000円かかる見込み。今期までの使用分を積み立てたい</li>
+          <li>取引先から訴えられているが、弁護士の見立てでは負ける可能性は低い</li>
+          <li>来期に発売する新商品の広告費を、今期のうちに引き当てておきたい</li>
+        </ul>
+      </div>
+      <p class="scn-guide">4要件を1つずつ当てはめて、どこで引っかかるかを考えてください。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>修繕の積立は、4要件を満たす?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>将来の特定の費用(修繕)で、原因は<b>当期以前の使用</b>にあり、実施の可能性は高く、金額も見積れます。<b>4要件を満たす</b>ので、修繕引当金を計上します。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>訴訟の損失は?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>負ける可能性が低いので「<b>発生の可能性が高い</b>」を満たしません。引当金は計上しません。重要であれば、注記で知らせることを検討します。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>来期の広告費は?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>広告は来期の販売活動のためのもので、原因が<b>来期</b>にあります。「<b>当期以前の事象に起因</b>」を満たさないので計上できません。今期に計上すると利益を不当に小さくすることになり、保守主義の行き過ぎにもなります。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s-rel">3つの結論と、引っかかった要件(メモ)</label><textarea class="memo-box" id="memo-s-rel" placeholder="例:修繕は○、訴訟は…"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>修繕引当金の仕訳を見る</span><span class="step-open"></span></summary>
+        <div class="step-a">
+          <div class="jr">
+            <p class="jr-cap">5年ごとの修繕3,000,000円のうち、当期の使用分(1年分)を計上</p>
+            <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">修繕引当金繰入</span><span class="amt">600,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">修繕引当金</span><span class="amt">600,000</span></div></div>
+            <p class="jr-note">引当金は「将来のお金の準備」ではなく、「原因が当期にある費用を当期に負担させる」ための処理</p>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 論点のつながり ================= -->
+<section class="sec h4" id="link">
+  <div class="sec-in">
+    <div class="sec-head">
+      <div class="num small">関係</div>
+      <div>
+        <p class="eyebrow">ここまでのまとめ</p>
+        <h2>論点のつながり</h2>
+        <span class="prio">記述問題・つながり問題の対策</span>
+      </div>
+    </div>
+    <p class="intro">ここまでの論点は、ばらばらに覚えるより「何が何を支えているか」でつなげて覚えるほうが、正誤問題でも記述問題でも強くなります。軸になるのは次の1文です。</p>
+    <p class="axis">真実性を目的として、6つの原則がそれぞれ別の面から支え、重要性の原則が処理と表示の両方に横から入る。</p>
+
+    <div class="block">
+      <h3>つながりマップ</h3>
+      <p class="note">論点をタップ(クリック)すると、つながっている論点が強調され、マップの下に関係の説明が出ます。説明の中の色ボタンを押すと、その論点に移ります。</p>
+    </div>
+    <figure class="fig">
+      <svg id="lmap" class="lmap" viewBox="0 0 800 580" role="group" aria-label="論点のつながりマップ。論点を選ぶと関係の説明が表示されます">
+        <g class="edges">
+          <g class="ed" data-a="shin" data-b="seiki"><path d="M384 88 L64 169"/><text class="el" x="160" y="145" text-anchor="middle">記録の面</text></g>
+          <g class="ed" data-a="shin" data-b="shihon"><path d="M384 88 L192 169"/><text class="el" x="250" y="145" text-anchor="middle">期間損益の面</text></g>
+          <g class="ed" data-a="shin" data-b="meiryo"><path d="M384 88 L320 169"/><text class="el" x="339" y="145" text-anchor="middle">表示の面</text></g>
+          <g class="ed" data-a="shin" data-b="keizoku"><path d="M384 88 L448 169"/><text class="el" x="429" y="145" text-anchor="middle">方法選択の面</text></g>
+          <g class="ed" data-a="shin" data-b="hoshu"><path d="M384 88 L576 169"/><text class="el" x="518" y="145" text-anchor="middle">慎重さの面</text></g>
+          <g class="ed" data-a="shin" data-b="tanitsu"><path d="M384 88 L704 169"/><text class="el" x="608" y="145" text-anchor="middle">形式の面</text></g>
+          <g class="ed" data-a="seiki" data-b="tanitsu"><path class="dash" d="M64 169 C64 112 704 112 704 169"/><text class="el" x="600" y="128" text-anchor="middle">信頼しうる会計記録</text></g>
+          <g class="ed" data-a="shihon" data-b="tanitsu"><path class="dash" d="M192 231 C192 262 704 262 704 231"/><text class="el" x="620" y="256" text-anchor="middle">中身を混ぜない</text></g>
+          <g class="ed" data-a="seiki" data-b="juyo"><path d="M64 231 C64 300 150 300 150 339"/><text class="el" x="84" y="300" text-anchor="middle">処理面</text></g>
+          <g class="ed" data-a="meiryo" data-b="juyo"><path d="M320 231 C320 290 230 290 230 339"/><text class="el" x="262" y="300" text-anchor="middle">表示面</text></g>
+          <g class="ed" data-a="meiryo" data-b="hyoji"><path d="M332 231 C332 300 416 290 416 339"/><text class="el" x="398" y="316" text-anchor="middle">具体化</text></g>
+          <g class="ed" data-a="keizoku" data-b="meiryo"><path d="M440 231 C440 270 352 270 352 231"/><text class="el" x="396" y="282" text-anchor="middle">変更の注記</text></g>
+          <g class="ed" data-a="hoshu" data-b="hikiate"><path d="M576 231 C576 300 640 290 640 339"/><text class="el" x="626" y="306" text-anchor="middle">代表例</text></g>
+          <g class="ed" data-a="juyo" data-b="hyoji"><path d="M267 370 H341"/><text class="el" x="304" y="360" text-anchor="middle">注解12・17</text></g>
+          <g class="ed" data-a="juyo" data-b="hikiate"><path d="M250 401 C300 445 590 445 620 401"/><text class="el" x="530" y="438" text-anchor="middle">計上しなくてよい</text></g>
+          <g class="ed" data-a="juyo" data-b="n16"><path d="M192 401 C192 450 260 450 260 469"/><text class="el" x="200" y="452" text-anchor="middle">注解1(5)</text></g>
+          <g class="ed" data-a="hyoji" data-b="n16"><path d="M416 401 C416 450 340 450 340 469"/><text class="el" x="392" y="458" text-anchor="middle">区分表示</text></g>
+          <g class="ed" data-a="juyo" data-b="n5"><path d="M150 401 C110 575 470 575 520 531"/><text class="el" x="300" y="556" text-anchor="middle">注解1(2)</text></g>
+          <g class="ed" data-a="n16" data-b="n5"><path d="M380 500 H440"/><text class="el" x="410" y="494" text-anchor="middle">1年基準</text></g>
+          <g class="ed" data-a="hikiate" data-b="shin"><path class="dash" d="M715 370 H784 V100 Q784 56 740 56 H484"/><text class="el" x="786" y="300" text-anchor="end">過度なら真実性に反する</text></g>
+        </g>
+        <g class="nd h1" data-id="shin" tabindex="0" role="button" aria-label="一 真実性の原則"><rect x="284" y="24" width="200" height="64" rx="16"/><text x="384" y="50" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則一 ・ 目的</text><text x="384" y="74" text-anchor="middle" class="sv-t sv-b">真実性の原則</text></g>
+        <g class="nd h2" data-id="seiki" tabindex="0" role="button" aria-label="二 正規の簿記の原則"><rect x="8" y="169" width="112" height="62" rx="12"/><text x="64" y="193" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則二</text><text x="64" y="215" text-anchor="middle" class="sv-t sv-b">正規の簿記</text></g>
+        <g class="nd h3" data-id="shihon" tabindex="0" role="button" aria-label="三 資本取引・損益取引区分の原則"><rect x="136" y="169" width="112" height="62" rx="12"/><text x="192" y="193" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則三</text><text x="192" y="215" text-anchor="middle" class="sv-t sv-b">資本・損益</text></g>
+        <g class="nd h4" data-id="meiryo" tabindex="0" role="button" aria-label="四 明瞭性の原則"><rect x="264" y="169" width="112" height="62" rx="12"/><text x="320" y="193" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則四</text><text x="320" y="215" text-anchor="middle" class="sv-t sv-b">明瞭性</text></g>
+        <g class="nd h5" data-id="keizoku" tabindex="0" role="button" aria-label="五 継続性の原則"><rect x="392" y="169" width="112" height="62" rx="12"/><text x="448" y="193" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則五</text><text x="448" y="215" text-anchor="middle" class="sv-t sv-b">継続性</text></g>
+        <g class="nd h6" data-id="hoshu" tabindex="0" role="button" aria-label="六 保守主義の原則"><rect x="520" y="169" width="112" height="62" rx="12"/><text x="576" y="193" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則六</text><text x="576" y="215" text-anchor="middle" class="sv-t sv-b">保守主義</text></g>
+        <g class="nd h7" data-id="tanitsu" tabindex="0" role="button" aria-label="七 単一性の原則"><rect x="648" y="169" width="112" height="62" rx="12"/><text x="704" y="193" text-anchor="middle" class="sv-h sv-xs sv-b">一般原則七</text><text x="704" y="215" text-anchor="middle" class="sv-t sv-b">単一性</text></g>
+        <g class="nd h8" data-id="juyo" tabindex="0" role="button" aria-label="注解1 重要性の原則"><rect x="117" y="339" width="150" height="62" rx="12"/><text x="192" y="363" text-anchor="middle" class="sv-h sv-xs sv-b">注解1</text><text x="192" y="385" text-anchor="middle" class="sv-t sv-b">重要性の原則</text></g>
+        <g class="nd h10" data-id="hyoji" tabindex="0" role="button" aria-label="表示のルール"><rect x="341" y="339" width="150" height="62" rx="12"/><text x="416" y="363" text-anchor="middle" class="sv-h sv-xs sv-b">P/L・B/S原則</text><text x="416" y="385" text-anchor="middle" class="sv-t sv-b">表示のルール</text></g>
+        <g class="nd h3" data-id="hikiate" tabindex="0" role="button" aria-label="注解18 引当金"><rect x="565" y="339" width="150" height="62" rx="12"/><text x="640" y="363" text-anchor="middle" class="sv-h sv-xs sv-b">注解18</text><text x="640" y="385" text-anchor="middle" class="sv-t sv-b">引当金</text></g>
+        <g class="nd h9" data-id="n16" tabindex="0" role="button" aria-label="注解16 流動・固定の区分"><rect x="220" y="469" width="160" height="62" rx="12"/><text x="300" y="493" text-anchor="middle" class="sv-h sv-xs sv-b">注解16</text><text x="300" y="515" text-anchor="middle" class="sv-t sv-b">流動・固定の区分</text></g>
+        <g class="nd h9" data-id="n5" tabindex="0" role="button" aria-label="注解5 経過勘定"><rect x="440" y="469" width="160" height="62" rx="12"/><text x="520" y="493" text-anchor="middle" class="sv-h sv-xs sv-b">注解5</text><text x="520" y="515" text-anchor="middle" class="sv-t sv-b">経過勘定</text></g>
+      </svg>
+      <figcaption>実線は直接のつながり、点線は「同じ考え方の仲間」や「行き過ぎたときの関係」です。</figcaption>
+    </figure>
+    <div class="lpanel h1" id="lpanel" aria-live="polite"></div>
+
+    <div class="sub-sec">
+      <h3>① 全体の骨組み:目的が1つ、手段が6つ</h3>
+      <p>真実性の原則が<b>目的</b>で、ほかの6つはそれを実現する<b>手段</b>です。真実性の原則が「最高規範」と呼ばれるのはこのためです。6つの原則は、それぞれ違う面から真実な報告を支えています。</p>
+      <div class="tree-wrap">
+        <ul class="tree">
+          <li><span class="tn key h1">一 真実性の原則(目的・相対的真実)</span>
+            <ul>
+              <li><span class="tn h2"><b>二 正規の簿記</b>:記録の面 <small>正しい帳簿がなければ真実な報告はできない</small></span></li>
+              <li><span class="tn h3"><b>三 資本・損益区分</b>:期間損益の面 <small>資本を利益に混ぜると利益がゆがむ</small></span></li>
+              <li><span class="tn h4"><b>四 明瞭性</b>:表示の面 <small>正しい数字でも分かりにくければ判断を誤らせる</small></span></li>
+              <li><span class="tn h5"><b>五 継続性</b>:方法選択の面 <small>毎年方法を変えると利益を操作できる</small></span></li>
+              <li><span class="tn h6"><b>六 保守主義</b>:慎重さの面 <small>ただし真実性の範囲内に限る</small></span></li>
+              <li><span class="tn h7"><b>七 単一性</b>:形式の面 <small>目的別に中身を変えると真実が複数になる</small></span></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sub-sec">
+      <h3>② 相対的真実と継続性:同じ出発点から生まれる</h3>
+      <p>真実性の原則が相対的真実になる理由の1つは「1つの会計事実に<b>複数の会計処理が認められている</b>こと」でした。継続性の原則が問題になるのも、注解3のとおり「<b>2つ以上の方法の選択適用が認められている場合</b>」です。選べる自由があるから真実は相対的になり、その自由を悪用させないために継続性がある、という関係です。</p>
+      <div class="tree-wrap">
+        <ul class="tree">
+          <li><span class="tn key h5">複数の方法を選べる</span>
+            <ul>
+              <li><span class="tn h1">だから真実は<b>相対的真実</b>になる <small>一般原則一</small></span></li>
+              <li><span class="tn h5">だから毎期同じ方法を<b>使い続ける</b>必要がある <small>一般原則五・注解3</small></span>
+                <ul><li><span class="tn h4">変更したら<b>注記</b>する <small>明瞭性・注解1-2の会計方針の開示</small></span></li></ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <p class="note">記述問題で「継続性の原則が必要な理由」を聞かれたら、相対的真実から書き始めると説得力が出ます。</p>
+    </div>
+
+    <div class="sub-sec">
+      <h3>③ 正規の簿記 × 重要性 × 簿外資産:3点セット</h3>
+      <p>正規の簿記の原則は「すべての取引」を記録する網羅性を求めます。それでも簿外資産が許されるのは、重要性の原則が正規の簿記の原則の<b>内側</b>に組み込まれているからです。</p>
+      <div class="jr">
+        <p class="jr-cap"><span class="ex-badge">注解1(1)</span>重要性の乏しい消耗品30,000円を買入時に費用処理した</p>
+        <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">消耗品費</span><span class="amt">30,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">現金</span><span class="amt">30,000</span></div></div>
+        <p class="jr-note">期末の未使用分5,000円は簿外資産。網羅性に反するように見えるが、重要性が乏しいので「正規の簿記の原則に従った処理」(注解1・貸借対照表原則一ただし書き)</p>
+      </div>
+    </div>
+
+    <div class="sub-sec">
+      <h3>④ 重要性は「処理」と「表示」の両方にかかる</h3>
+      <p>注解1が一般原則二と四の<b>両方</b>に付いているのは、重要性の原則に2つの顔があるからです。</p>
+      <div class="vs">
+        <div class="vs-item"><p class="vs-h">処理面 → 正規の簿記の原則</p><p>適用例(1)〜(4):消耗品の費用処理、経過勘定にしない、引当金を計上しない、付随費用を取得原価に入れない。</p></div>
+        <div class="vs-item"><p class="vs-h">表示面 → 明瞭性の原則</p><p>適用例(5):分割返済の長期債権・債務を固定のまま表示。重要性の乏しい項目をまとめて表示するのも同じ考え方です。</p></div>
+      </div>
+      <p class="note">「明瞭性の原則は、できるだけ詳細に表示することを求める」が×になるのは、表示面の重要性の原則が働くからです。</p>
+    </div>
+
+    <div class="sub-sec">
+      <h3>⑤ 流動・固定の区分:注解16・注解1(5)・注解5がつながる</h3>
+      <div class="tree-wrap">
+        <ul class="tree">
+          <li><span class="tn key h9">注解16(正常営業循環基準 → 1年基準)</span>
+            <ul>
+              <li><span class="tn h9">本来:分割返済の長期債権のうち1年以内の部分は<b>流動へ</b></span>
+                <ul><li><span class="tn h8">注解1(5):重要性が乏しければ<b>固定のまま</b>でよい</span></li></ul>
+              </li>
+              <li><span class="tn h9">経過勘定:1年基準なのは<b>前払費用だけ</b></span>
+                <ul>
+                  <li><span class="tn h9">注解5:経過勘定は<b>継続的な役務提供</b>の勘定 <small>前払金・未払金とは別物</small></span></li>
+                  <li><span class="tn h8">注解1(2):重要性が乏しければ<b>経過勘定にしなくてよい</b></span></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="jr">
+        <p class="jr-cap">当期首に3年分の保険料36,000円を支払い、全額を支払保険料で処理していた</p>
+        <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">前払保険料</span><span class="amt">12,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">支払保険料</span><span class="amt">24,000</span></div></div>
+        <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">長期前払保険料</span><span class="amt">12,000</span></div><div class="side c empty"><span class="bd">貸</span><span class="acc">&nbsp;</span><span class="amt">&nbsp;</span></div></div>
+        <p class="jr-note">前払費用になるのは継続的な役務提供だから(注解5)。翌期分は流動、翌々期分は投資その他の資産に分かれる(注解16)。少額なら、この決算整理をしなくてよい(注解1(2))</p>
+      </div>
+    </div>
+
+    <div class="sub-sec">
+      <h3>⑥ 保守主義 × 引当金 × 真実性:歯止めの関係</h3>
+      <p>引当金は保守主義の代表的な適用例です。ただし好きなだけ計上できるわけではなく、注解18の4要件が歯止めになります。引当金は、保守主義・重要性・真実性・注解18の4つが同時に問われる、つながり問題の定番です。</p>
+      <div class="flow3">
+        <div class="f3 h8"><span class="from">計上しない</span><span class="arr">←</span><span class="res"><b>重要性が乏しい</b>なら認められる(注解1(3))。簿外負債になる</span></div>
+        <div class="f3 h6"><span class="from">適当に計上</span><span class="arr">←</span><span class="res"><b>一般原則六</b>が求める範囲。注解18の4要件を満たすものを計上</span></div>
+        <div class="f3 hng"><span class="from">過大に計上</span><span class="arr">→</span><span class="res"><b>注解4に反する</b>。秘密積立金ができ、真実性の原則に反する</span></div>
+      </div>
+      <div class="jrs">
+        <div class="jr good">
+          <p class="jr-cap"><span class="jr-lab">○ 適当に計上</span>貸倒見込みが20,000円</p>
+          <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">貸倒引当金繰入</span><span class="amt">20,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">貸倒引当金</span><span class="amt">20,000</span></div></div>
+        </div>
+        <div class="jr bad">
+          <p class="jr-cap"><span class="jr-lab">× 過大に計上</span>見込みは20,000円なのに200,000円を設定</p>
+          <div class="jr-row"><div class="side d"><span class="bd">借</span><span class="acc">貸倒引当金繰入</span><span class="amt">200,000</span></div><div class="side c"><span class="bd">貸</span><span class="acc">貸倒引当金</span><span class="amt">200,000</span></div></div>
+          <p class="jr-note">180,000円分が秘密積立金になる。保守主義の行き過ぎで、真実性の原則に反する</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-sec">
+      <h3>⑦ 資本・損益区分 × 単一性 × 正規の簿記:「中身を混ぜない」系</h3>
+      <div class="pts">
+        <div class="pt h3"><p class="pt-h">三 資本・損益区分</p><p>性質の違う<b>取引</b>を混ぜない原則。資本と利益を分けます。</p></div>
+        <div class="pt h7"><p class="pt-h">七 単一性</p><p>目的の違う財務諸表の<b>中身</b>を分けない原則。会計記録は1つです。</p></div>
+        <div class="pt h2"><p class="pt-h">二 正規の簿記</p><p>単一性の「<b>信頼しうる会計記録</b>」とは、正規の簿記で作った帳簿のこと。単一性は正規の簿記を前提にしています。</p></div>
+      </div>
+      <p class="note">三は「分ける」、七は「分けない」なので方向は逆に見えますが、どちらも<b>事実をゆがめない</b>ために真実性の原則を支えています。</p>
+    </div>
+
+    <div class="sub-sec">
+      <h3>⑧ 明瞭性 × 表示のルール:一般原則とその具体化</h3>
+      <p>明瞭性の原則は抽象的なので、具体的な表示ルールで中身が決められています。</p>
+      <div class="tree-wrap">
+        <ul class="tree">
+          <li><span class="tn key h4">四 明瞭性の原則</span>
+            <ul>
+              <li><span class="tn h10"><b>総額主義</b>:相殺しない <small>P/L原則一B・B/S原則一B</small></span></li>
+              <li><span class="tn h10"><b>費用収益対応表示</b>:関連するものを並べる <small>P/L原則一C</small></span></li>
+              <li><span class="tn h10"><b>区分表示</b>:P/Lの3区分、B/Sの3つの部</span>
+                <ul>
+                  <li><span class="tn h8">注解12:特別損益 <small>僅少なら経常へ ← 重要性の表示面</small></span></li>
+                  <li><span class="tn h9">注解16:流動・固定の区分</span></li>
+                </ul>
+              </li>
+              <li><span class="tn h10"><b>配列</b>:流動性配列法 <small>B/S原則三</small></span></li>
+              <li><span class="tn h10"><b>注解17</b>:引当金・累計額の控除形式 <small>直接控除+注記も容認 ← 重要性の表示面</small></span></li>
+              <li><span class="tn h4"><b>注記</b>:注解1-2 会計方針、1-3 後発事象、1-4 記載方法</span></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="scn">
+      <p class="scn-eyebrow">シナリオで考える(総合)</p>
+      <h3 class="scn-title">決算会議の3つの提案を、1本のものさしで裁く</h3>
+      <div class="scn-story">
+        <p>みなと文具の決算会議で、次の3つの提案が出ました。</p>
+        <ul class="list">
+          <li>A:少額の文房具の在庫は数えずに、買ったときの費用のままにしたい</li>
+          <li>B:今期だけ棚卸資産の評価方法を変えて、利益を増やしたい</li>
+          <li>C:景気が悪いので、根拠なく引当金を倍にしたい</li>
+        </ul>
+      </div>
+      <p class="scn-guide">個別の原則で答えたあと、3つに共通する「判断のものさし」を探すのがこのシナリオの目標です。</p>
+      <details class="step"><summary><span class="step-no">問1</span><span>A・B・Cには、それぞれどの原則が関係する?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>Aは<b>重要性の原則</b>と<b>正規の簿記の原則</b>、Bは<b>継続性の原則</b>、Cは<b>保守主義の原則</b>(注解4)と<b>注解18</b>です。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問2</span><span>それぞれ認められる? 理由は?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>Aは<b>○</b>(重要性の乏しいものの簡便な処理で、正規の簿記に従った処理)。Bは<b>×</b>(利益を動かすための変更は正当な理由にならない)。Cは<b>×</b>(根拠のない上乗せは過度な保守主義)。</p></div>
+      </details>
+      <details class="step"><summary><span class="step-no">問3</span><span>3つの判断に共通する「ものさし」は何?</span><span class="step-open"></span></summary>
+        <div class="step-a"><p><b>真実性の原則</b>、つまり「利害関係者の判断を誤らせないか」です。Aは判断を誤らせない範囲での簡便化なので許され、BとCは利益の数字を意図的に動かして判断を誤らせるので許されません。</p></div>
+      </details>
+      <div class="memo"><label for="memo-s-link">ものさしを1文で(メモ)</label><textarea class="memo-box" id="memo-s-link" placeholder="例:その処理が…かどうか"></textarea></div>
+      <details class="step final"><summary><span class="step-no">結論</span><span>記述問題での書き方を見る</span><span class="step-open"></span></summary>
+        <div class="step-a"><p>記述問題では「どの原則に関係するか → その原則の趣旨 → 本問への当てはめ → 結論」の順で書くと、論理がつながります。迷ったときは、最上位の<b>真実性の原則</b>に戻って「判断を誤らせるか」を考えると、結論の方向が決まります。</p></div>
+      </details>
+    </div>
+
+    <div class="mini" data-set="link" data-title="つながり確認テスト" data-sub="原則どうしのつながりを使って解く6問です。迷ったら上のマップで確かめましょう。"></div>
   </div>
 </section>
 
@@ -1537,12 +2245,20 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       {t:'ch',q:'引当金の要件として正しいものはどれ?',o:['当期以後の事象に起因する','当期以前の事象に起因する','発生の可能性が低くてもよい'],a:1,e:'原因が当期以前にあることが要件です。「以後」に入れ替えるひっかけが定番です。'},
       {t:'ox',q:'金額を合理的に見積もれなくても、発生の可能性が高ければ引当金を計上する。',a:false,e:'4要件をすべて満たす必要があります。金額を合理的に見積もれないなら計上できません。'},
       {t:'ox',q:'前払金は、経過勘定項目の一つである。',a:false,e:'経過勘定は継続的な役務提供に関する勘定です。商品の手付金などの前払金は経過勘定ではありません。'}
+    ],
+    link:[
+      {t:'ox',q:'簿外資産は正規の簿記の原則に反するが、重要性の原則により例外的に認められる。',a:false,e:'重要性の原則による簡便な処理と、その結果生じる簿外資産は「正規の簿記の原則に従った処理」です。例外ではありません(つながり③)。'},
+      {t:'ch',q:'継続性の原則が必要になる理由と、同じ出発点をもつものはどれ?',o:['真実性の原則が相対的真実であること','単一性の原則が形式多元であること','資本剰余金と利益剰余金を区別すること'],a:0,e:'どちらも「1つの会計事実に複数の方法が認められている」ことから生まれます。選べるから真実は相対的になり、その自由を悪用させないために継続性があります(つながり②)。'},
+      {t:'ox',q:'保守主義の原則に基づけば、発生の可能性が低い損失にも引当金を設定すべきである。',a:false,e:'保守主義には注解18の4要件という歯止めがあります。「発生の可能性が高い」ことが要件なので、可能性が低い損失には設定しません(つながり⑥)。'},
+      {t:'ox',q:'単一性の原則のもとでは、目的ごとに別の帳簿を作ってよい。',a:false,e:'単一性の「信頼しうる会計記録」は、正規の簿記で作った1つの帳簿です。形式は変えてよくても、帳簿は1つです(つながり⑦)。'},
+      {t:'ch',q:'注解1(重要性の原則)が付いている一般原則の組み合わせはどれ?',o:['一般原則二と四','一般原則一と五','一般原則三と七'],a:0,e:'処理面で正規の簿記の原則(二)、表示面で明瞭性の原則(四)とつながるためです。ほかに貸借対照表原則一にも付いています(つながり④)。'},
+      {t:'ox',q:'金額の僅少な特別損益を経常損益に含められる(注解12)のは、重要性の原則が表示面で働いている例といえる。',a:true,e:'明瞭性を具体化した表示ルールの中で、重要性の原則が「簡便な表示」を認めている例です。注解17の直接控除+注記も同じです(つながり⑧)。'}
     ]
   };
   document.querySelectorAll('.mini[data-set]').forEach(function(box){
     var set=MINI[box.getAttribute('data-set')];if(!set)return;
     var n=0,r=0;
-    box.innerHTML='<div class="mini-head"><p class="mini-title">ミニテスト</p><p class="mini-sub">解説を読む前に'+set.length+'問。分からなくても答えてから読むと、記憶に残りやすくなります。</p><p class="mini-score" aria-live="polite"></p></div><div class="mini-qs"></div>';
+    box.innerHTML='<div class="mini-head"><p class="mini-title">'+(box.getAttribute('data-title')||'ミニテスト')+'</p><p class="mini-sub">'+(box.getAttribute('data-sub')||('解説を読む前に'+set.length+'問。分からなくても答えてから読むと、記憶に残りやすくなります。'))+'</p><p class="mini-score" aria-live="polite"></p></div><div class="mini-qs"></div>';
     var list=box.querySelector('.mini-qs'),sc=box.querySelector('.mini-score');
     set.forEach(function(it,i){
       list.appendChild(buildQ(it,'Q'+(i+1),function(ok){
@@ -1551,6 +2267,98 @@ footer{color:var(--muted);font-size:13px;padding-block:0 40px}
       }));
     });
   });
+
+  /* シナリオのメモ(このブラウザにだけ保存) */
+  document.querySelectorAll('textarea.memo-box').forEach(function(t){
+    var key='kaikei-gensoku-memo-'+t.id;
+    try{var v=localStorage.getItem(key);if(v)t.value=v}catch(e){}
+    t.addEventListener('input',function(){try{localStorage.setItem(key,t.value)}catch(e){}});
+  });
+
+  /* 論点のつながりマップ */
+  var NODES={
+    shin:{t:'一 真実性の原則',c:'h1',s:'目的にあたる原則です。ほかの6つの原則は、それぞれ違う面から真実な報告を支える手段です。求められるのは相対的真実です。',l:[
+      ['seiki','記録の面から支える。正しい帳簿がなければ真実な報告はできない'],
+      ['shihon','期間損益の面から支える。資本を利益に混ぜると利益がゆがむ'],
+      ['meiryo','表示の面から支える。正しい数字でも分かりにくければ判断を誤らせる'],
+      ['keizoku','方法選択の面から支える。相対的真実の理由「複数の方法を選べる」と同じ出発点'],
+      ['hoshu','慎重さの面。ただし真実性の範囲内でだけ認められる'],
+      ['tanitsu','形式の面から支える。目的ごとに中身を変えると真実が複数になってしまう'],
+      ['hikiate','4要件を超えて過大に計上すると秘密積立金ができ、真実性に反する(注解4)']]},
+    seiki:{t:'二 正規の簿記の原則',c:'h2',s:'すべての取引を、網羅性・検証可能性・秩序性を満たす帳簿に記録し、その帳簿から財務諸表を作ります(誘導法)。',l:[
+      ['shin','真実な報告の土台。記録の面から真実性を支える'],
+      ['juyo','重要性の乏しいものの簡便な処理も「正規の簿記の原則に従った処理」。その結果の簿外資産・簿外負債も認められる(貸借対照表原則一ただし書き)'],
+      ['tanitsu','単一性の「信頼しうる会計記録」とは、正規の簿記で作った帳簿のこと']]},
+    shihon:{t:'三 資本取引・損益取引区分の原則',c:'h3',s:'資本取引と損益取引、資本剰余金と利益剰余金を混同しない原則です(注解2)。',l:[
+      ['shin','資本を利益に混ぜないことで、期間損益と財政状態を適正に示す'],
+      ['tanitsu','どちらも「中身を混ぜない・ゆがめない」ための原則。三は取引の性質を、七は財務諸表の中身を守る']]},
+    meiryo:{t:'四 明瞭性の原則',c:'h4',s:'利害関係者に必要な会計事実を明瞭に表示し、判断を誤らせないための原則です。',l:[
+      ['shin','表示の面から真実性を支える'],
+      ['juyo','重要性の原則の表示面。重要性の乏しいものはまとめて表示してよいので、「できるだけ詳細に」は×'],
+      ['hyoji','総額主義・区分表示・費用収益対応表示・注解17などは、明瞭性を具体化したルール'],
+      ['keizoku','継続性で方法を変えたら注記する。会計方針の開示(注解1-2)も明瞭性の手段']]},
+    keizoku:{t:'五 継続性の原則',c:'h5',s:'選んだ方法を毎期継続して適用し、みだりに変更しない原則です(注解3)。',l:[
+      ['shin','複数の方法を選べるから真実は相対的になり、その自由を悪用させないために継続性がある'],
+      ['meiryo','正当な理由で変更したときは注記する。変更の影響を利用者が判断できるようにするため']]},
+    hoshu:{t:'六 保守主義の原則',c:'h6',s:'将来の不利な影響に備えて、適当に健全な処理をする原則です。過度な保守主義は注解4で禁止されています。',l:[
+      ['shin','真実性の範囲内でだけ認められる。行き過ぎると真実性に反する'],
+      ['hikiate','引当金は保守主義の代表例。注解18の4要件が「どこまで計上するか」の歯止めになる']]},
+    tanitsu:{t:'七 単一性の原則',c:'h7',s:'目的別に形式は変えてよいが、中身は1つの会計記録に基づく原則です(実質一元・形式多元)。',l:[
+      ['shin','形式の面から真実性を支える。「事実の真実な表示をゆがめてはならない」'],
+      ['seiki','「信頼しうる会計記録」は正規の簿記で作った帳簿。単一性は正規の簿記が前提'],
+      ['shihon','三と同じく「混ぜない・ゆがめない」系の原則']]},
+    juyo:{t:'注解1 重要性の原則',c:'h8',s:'一般原則ではなく注解です。一般原則二・四と貸借対照表原則一に付いていて、処理と表示の両方に横から入ります。',l:[
+      ['seiki','処理面。簡便な処理も正規の簿記の原則に従った処理(適用例(1)〜(4))'],
+      ['meiryo','表示面。重要性の乏しいものはまとめて表示できる(適用例(5)もこちら)'],
+      ['hyoji','注解12の「僅少なら経常損益へ」、注解17の「直接控除+注記」も、重要性が表示面で働く例'],
+      ['hikiate','重要性の乏しい引当金は計上しないことができる(注解1(3))'],
+      ['n16','分割返済の長期債権・債務の1年以内部分も、重要性が乏しければ固定のまま(注解1(5))'],
+      ['n5','重要性の乏しい経過勘定は、経過勘定として処理しなくてよい(注解1(2))']]},
+    hyoji:{t:'表示のルール',c:'h10',s:'総額主義、費用収益対応表示、P/Lの3区分と注解12、B/Sの区分・配列、注解17など。明瞭性の原則の中身を具体的に決めるルールです。',l:[
+      ['meiryo','明瞭性という抽象的な原則を、具体的な表示方法に落としたもの'],
+      ['n16','B/Sの区分表示で、流動と固定をどう分けるかを決めるのが注解16'],
+      ['juyo','注解12(僅少なら経常損益へ)・注解17(直接控除+注記)は、重要性が表示面で働く例']]},
+    hikiate:{t:'注解18 引当金',c:'h3',s:'将来の特定の費用・損失であること、当期以前の事象に起因すること、発生の可能性が高いこと、金額を合理的に見積れること、の4要件で計上します。',l:[
+      ['hoshu','保守主義の代表的な適用例(将来の損失を先に計上する)'],
+      ['juyo','重要性が乏しければ計上しなくてよい(注解1(3))'],
+      ['shin','4要件を超えて過大に計上すると、秘密積立金ができ真実性に反する(注解4)']]},
+    n16:{t:'注解16 流動・固定の区分',c:'h9',s:'正常営業循環基準を先に当てはめ、外れたものに1年基準を使います。',l:[
+      ['hyoji','B/Sの区分表示の中身を決める'],
+      ['juyo','本来は流動に振り替える1年以内部分も、重要性が乏しければ固定のまま(注解1(5))'],
+      ['n5','経過勘定で1年基準を使うのは前払費用だけ']]},
+    n5:{t:'注解5 経過勘定',c:'h9',s:'一定の契約に従い、継続して役務の提供を受ける(行う)場合の、時の経過に伴う勘定です。前払金・未払金とは別物です。',l:[
+      ['n16','前払費用は1年基準、未収収益は常に流動資産、未払費用・前受収益は常に流動負債'],
+      ['juyo','重要性が乏しければ、経過勘定として処理しなくてよい(注解1(2))']]}
+  };
+  var lmap=document.getElementById('lmap'),lpanel=document.getElementById('lpanel');
+  if(lmap&&lpanel){
+    var edgeG=lmap.querySelector('.edges');
+    var selectNode=function(id){
+      var d=NODES[id];if(!d)return;
+      var nb={};
+      lmap.classList.add('focus');
+      Array.prototype.slice.call(edgeG.querySelectorAll('.ed')).forEach(function(e){
+        var a=e.getAttribute('data-a'),b=e.getAttribute('data-b'),on=a===id||b===id;
+        e.classList.toggle('on',on);
+        if(on){nb[a]=1;nb[b]=1;edgeG.appendChild(e)}
+      });
+      lmap.querySelectorAll('.nd').forEach(function(n){
+        var nid=n.getAttribute('data-id');
+        n.classList.toggle('sel',nid===id);
+        n.classList.toggle('nb',nid!==id&&!!nb[nid]);
+        n.setAttribute('aria-pressed',nid===id?'true':'false');
+      });
+      lpanel.className='lpanel '+d.c;
+      lpanel.innerHTML='<p class="lp-eyebrow">選んだ論点</p><h3>'+d.t+'</h3><p>'+d.s+'</p><ul class="lp-list">'+
+        d.l.map(function(x){var p=NODES[x[0]];return '<li><button type="button" class="lp-chip '+p.c+'" data-go="'+x[0]+'">'+p.t+'</button><span>'+x[1]+'</span></li>'}).join('')+'</ul>';
+    };
+    lmap.querySelectorAll('.nd').forEach(function(n){
+      n.addEventListener('click',function(){selectNode(n.getAttribute('data-id'))});
+      n.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();selectNode(n.getAttribute('data-id'))}});
+    });
+    lpanel.addEventListener('click',function(e){var b=e.target.closest('[data-go]');if(b)selectNode(b.getAttribute('data-go'))});
+    selectNode('shin');
+  }
 
   /* 最後の○×テスト */
   var Q=[
