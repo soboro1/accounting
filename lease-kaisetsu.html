@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。リース会計（現行基準・企業会計基準第13号）の出やすい論点（ファイナンス・リースの判定、借手の計上額と利息法、減価償却、簡便な処理、貸手の3つの方法、セール・アンド・リースバック）を、図・仕訳・ひっかけ例・計算問題・○×チェック52問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>リースの出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(判定)は青、PART2(借手の処理)はティール、PART3(貸手・その他)はコーラルで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：借手 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：貸手・その他 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：判定 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：利息・ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-hj{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kr{border-color:var(--c2);color:var(--c2t)}
+.top a.n-ks{border-color:var(--c3);color:var(--c3t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.hero h1 .h-s{font-size:.5em;color:var(--muted);letter-spacing:0}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-hj{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-kr{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-ks{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-pk{fill:color-mix(in srgb,var(--c7) 22%,var(--surface));stroke:var(--c7);stroke-width:2}
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.s-hj{fill:var(--c4)}
+.f-hj{fill:var(--c4t)} .f-kr{fill:var(--c2t)} .f-ks{fill:var(--c3t)} .f-pk{fill:var(--c7t)} .f-or{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+.on{fill:var(--on-solid)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-hj .part-head{background:var(--c4)}
+.part-kr .part-head{background:var(--c2)}
+.part-ks .part-head{background:var(--c3)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-hj .tag{background:var(--c4)}
+.part-kr .tag{background:var(--c2)}
+.part-ks .tag{background:var(--c3)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-hj .pts li::before{background:var(--c4)}
+.part-kr .pts li::before{background:var(--c2)}
+.part-ks .pts li::before{background:var(--c3)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-hj .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kr .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-ks .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-hj .def-l{color:var(--c4t)} .part-kr .def-l{color:var(--c2t)} .part-ks .def-l{color:var(--c3t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.hj{border-color:var(--c4)} .formula .fx.kr{border-color:var(--c2)} .formula .fx.ks{border-color:var(--c3)} .formula .fx.pk{border-color:var(--c7)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.hj{background:var(--c4)} .formula .res.kr{background:var(--c2)} .formula .res.ks{background:var(--c3)} .formula .res.pk{background:var(--c7)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.je-none{font-family:var(--f-body);font-weight:700;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 170px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.arr{transform:rotate(90deg);align-self:center}}
+.node.hj{border-color:var(--c4)} .node.hj .nn{color:var(--c4t)}
+.node.kr{border-color:var(--c2)} .node.kr .nn{color:var(--c2t)}
+.node.ks{border-color:var(--c3)} .node.ks .nn{color:var(--c3t)}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c2)}
+.chap:nth-child(3){background:var(--c3)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 4つのケース */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);display:grid;gap:8px;align-content:start}
+.case.mv{border-color:var(--c8)} .case.nm{border-color:var(--c2)}
+.case-k{display:flex;flex-wrap:wrap;gap:6px}
+.case-k span{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;color:var(--on-solid)}
+.case.mv .case-k span:first-child{background:var(--c8)}
+.case.nm .case-k span:first-child{background:var(--c2)}
+.case-k span + span{background:color-mix(in srgb,var(--muted) 70%,var(--surface))}
+.case b{font-size:16.5px;line-height:1.55}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kr{background:var(--c2)}
+.pill.ks{background:var(--c3)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.b{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane.c{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c8t)} .lane.b .lane-h{color:var(--c2t)} .lane.c .lane-h{color:var(--c4t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+.lane-m{font-weight:700;padding:8px 12px;border-radius:10px;background:var(--surface);text-align:center}
+.lanes.stack{grid-template-columns:minmax(0,1fr)}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c3);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c3);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-hj-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kr-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-ks-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.hj{background:var(--c4)} .qno.kr{background:var(--c2)} .qno.ks{background:var(--c3)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.hj{border-color:var(--c4)} .prio-card.kr{border-color:var(--c2)} .prio-card.ks{border-color:var(--c3)}
+.prio-card h3{font-size:18px}
+.prio-card.hj h3{color:var(--c4t)} .prio-card.kr h3{color:var(--c2t)} .prio-card.ks h3{color:var(--c3t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.hj li::before{background:var(--c4)} .prio-card.kr li::before{background:var(--c2)} .prio-card.ks li::before{background:var(--c3)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+.notice{padding:14px 16px;border-radius:14px;background:var(--surface);border:2px dashed var(--muted);font-size:14.5px;line-height:1.75;max-width:52em}
+.notice b{color:var(--c3t)}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-hj" href="#hj">PART1 判定</a>
+    <a class="n-kr" href="#kr">PART2 借手の処理</a>
+    <a class="n-ks" href="#ks">PART3 貸手・その他</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-a">リース</span>の<br><span class="h-b">出る論点</span>まとめ <span class="h-s">現行基準</span></h1>
+  <p class="lead">リースは、<mark>「判定 → 計上額 → 利息法 → 減価償却」</mark>と順番に進む計算が中心の分野です。理論では、判定の数値基準と、ファイナンス・リースを売買処理する理由がよく問われます。このページでは、図と仕訳で論点を順に整理し、最後に○×問題52問で確認します。</p>
+  <p class="notice">このページは、現行の企業会計基準第13号「リース取引に関する会計基準」と、その適用指針にもとづいています。<b>2024年に公表された新リース会計基準（企業会計基準第34号）</b>では、借手の処理が大きく変わります。本試験でいつから新基準で出題されるかは、日商簿記の発表で確認してください。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#hj"><span>PART1</span><b>判定</b><small>解約不能とフルペイアウト、90%・75%、所有権移転の3つのケース</small></a>
+    <a class="chap" href="#kr"><span>PART2</span><b>借手の処理</b><small>計上額の4パターン、利息法、期首払い、減価償却、簡便な処理</small></a>
+    <a class="chap" href="#ks"><span>PART3</span><b>貸手・その他</b><small>貸手の3つの方法、セール・アンド・リースバック、表示</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック52問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="flow">
+      <a class="node hj" href="#u-judge"><span class="nn">STEP 1 判定</span><b>ファイナンスか、オペレーティングか</b><small>次に、所有権が移るかどうか</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node kr" href="#u-amount"><span class="nn">STEP 2 計上額</span><b>いくらで資産・負債に載せる？</b><small>購入価額・現在価値・見積現金購入価額のどれか</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node kr" href="#u-interest"><span class="nn">STEP 3 支払い</span><b>利息と元本に分ける</b><small>利息法。後払いか期首払いかに注意</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node kr" href="#u-dep"><span class="nn">STEP 4 決算</span><b>何年で減価償却する？</b><small>移転は経済的耐用年数、移転外はリース期間</small></a>
+    </div>
+    <figcaption>借手の計算は、この4ステップを順に進めるだけです。カードを押すと該当する解説に移動します。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 判定 ============ -->
+<section id="hj" class="part part-hj">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>リース取引の判定</h2>
+    <p>リース取引は、まず「ファイナンス・リース」か「オペレーティング・リース」かに分けます。ファイナンス・リースは、さらに「所有権移転」か「所有権移転外」かに分けます。この判定で、そのあとの処理がすべて決まります。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-judge">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>判定は2段階で進める</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 860 500" role="img" aria-label="リース取引の判定の流れ。解約不能かつフルペイアウトならファイナンス・リース、そうでなければオペレーティング・リース。ファイナンス・リースのうち、所有権移転条項・割安購入選択権・特別仕様のどれかに当たれば所有権移転、当たらなければ所有権移転外">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="330" y="16" width="200" height="48" rx="24" class="b-grey"/>
+        <text x="430" y="46" class="t-b c">リース取引</text>
+        <line x1="430" y1="64" x2="430" y2="96" class="ln" marker-end="url(#ah)"/>
+
+        <rect x="230" y="100" width="400" height="72" rx="14" class="b-sun"/>
+        <text x="430" y="130" class="t-b c">① 解約不能 かつ フルペイアウト？</text>
+        <text x="430" y="156" class="t-s c">現在価値 90%以上 または 期間 75%以上</text>
+
+        <line x1="630" y1="136" x2="662" y2="136" class="ln" marker-end="url(#ah)"/>
+        <text x="646" y="126" class="t-xs c">いいえ</text>
+        <rect x="666" y="100" width="180" height="72" rx="14" class="b-grey"/>
+        <text x="756" y="130" class="t-b c">オペレーティング</text>
+        <text x="756" y="156" class="t-s c">→ 賃貸借処理</text>
+
+        <line x1="430" y1="172" x2="430" y2="206" class="ln" marker-end="url(#ah)"/>
+        <text x="446" y="194" class="t-xs">はい</text>
+        <rect x="290" y="210" width="280" height="60" rx="14" class="s-hj"/>
+        <text x="430" y="238" class="t-b c on">ファイナンス・リース</text>
+        <text x="430" y="259" class="t-xs c on" style="fill:var(--on-solid)">売買処理に準じる</text>
+        <line x1="430" y1="270" x2="430" y2="300" class="ln" marker-end="url(#ah)"/>
+
+        <rect x="180" y="304" width="500" height="72" rx="14" class="b-sun"/>
+        <text x="430" y="334" class="t-b c">② 所有権が借手に移る？</text>
+        <text x="430" y="360" class="t-s c">移転条項 ／ 割安購入選択権 ／ 特別仕様 のどれか</text>
+
+        <line x1="300" y1="376" x2="230" y2="416" class="ln" marker-end="url(#ah)"/>
+        <text x="250" y="392" class="t-xs e">はい</text>
+        <line x1="560" y1="376" x2="630" y2="416" class="ln" marker-end="url(#ah)"/>
+        <text x="610" y="392" class="t-xs">いいえ</text>
+
+        <rect x="60" y="420" width="320" height="64" rx="14" class="b-or"/>
+        <text x="220" y="448" class="t-b c">所有権移転ファイナンス・リース</text>
+        <text x="220" y="472" class="t-xs c">経済的耐用年数で償却</text>
+        <rect x="480" y="420" width="320" height="64" rx="14" class="b-kr"/>
+        <text x="640" y="448" class="t-b c">所有権移転外ファイナンス・リース</text>
+        <text x="640" y="472" class="t-xs c">リース期間・残存価額ゼロで償却</text>
+      </svg>
+      <figcaption>①でファイナンス・リースかどうかを決め、②で所有権が移るかどうかを決めます。①の数値基準は「どちらか一方」を満たせば足ります。</figcaption>
+    </figure>
+    <div class="defs">
+      <div class="def"><span class="def-l">解約不能（ノンキャンセラブル）</span><p class="def-t">リース期間の途中で契約を解除できないリース取引。</p><p class="def-n">法的には解約できても、解約するときに多額の違約金がかかるなど、<b>事実上解約できない</b>ものも含みます。</p></div>
+      <div class="def"><span class="def-l">フルペイアウト</span><p class="def-t">借手が、リース物件から生じる経済的利益を実質的に受け、使用にともなうコストも実質的に負担すること。</p><p class="def-n">自分で買ったのとほぼ同じ状態、という意味です。</p></div>
+    </div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">現在価値基準</span><span class="fx hj">解約不能期間のリース料総額の現在価値</span><span class="op">÷</span><span class="fx">見積現金購入価額</span><span class="op">≧</span><span class="res hj">おおむね90%</span></div>
+      <div class="formula"><span class="lbl">経済的耐用年数基準</span><span class="fx hj">解約不能のリース期間</span><span class="op">÷</span><span class="fx">経済的耐用年数</span><span class="op">≧</span><span class="res hj">おおむね75%</span></div>
+    </div>
+    <ul class="pts">
+      <li>現在価値の計算に使う割引率は、貸手の計算利子率を知りうるならそれ、知りえないなら<b>借手の追加借入利子率</b>です。</li>
+      <li>経済的耐用年数基準を満たしても、現在価値基準の結果が90%を大きく下回ることが明らかな場合は除きます。</li>
+      <li>リース料総額に含まれる維持管理費用相当額（固定資産税・保険料など）は、原則として差し引いてから判定します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>現在価値基準と経済的耐用年数基準の両方を満たさないと、ファイナンス・リースにならない<span class="why">どちらか一方を満たせばフルペイアウトと判定します。</span></span></li>
+        <li><span class="mark x">×</span><span>現在価値基準は75%、経済的耐用年数基準は90%<span class="why">逆です。現在価値（お金）が90%、期間（年数）が75%です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-iten">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★</span><h3>所有権移転になる3つのケース</h3></div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>所有権移転条項</b><small>リース期間が終わるとき、または途中で、所有権が借手に移ることが契約で決まっている。</small></div>
+      <div class="why-c"><span class="no">2</span><b>割安購入選択権</b><small>借手が著しく有利な価格で買い取れる権利を持っていて、その行使が確実に予想される。</small></div>
+      <div class="why-c"><span class="no">3</span><b>特別仕様</b><small>借手の用途に合わせた特別仕様で、使用可能期間を通じて借手だけが使うことが明らかである。</small></div>
+    </div>
+    <p class="cap">どれか1つに当たれば、所有権移転ファイナンス・リースです。どれにも当たらなければ所有権移転外ファイナンス・リースです。いずれも「最終的に借手のものになる」と考えられるケースです。</p>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　4つのリースを判定する</span>
+      <p class="scn-story">どれも解約不能のリース取引です。それぞれ、オペレーティング・リース、所有権移転ファイナンス・リース、所有権移転外ファイナンス・リースのどれに当たるでしょうか。</p>
+      <ul class="given">
+        <li>A：期間3年／経済的耐用年数5年／現在価値は見積現金購入価額の<b>92%</b></li>
+        <li>B：期間4年／経済的耐用年数5年／現在価値は<b>85%</b></li>
+        <li>C：期間2年／経済的耐用年数5年／現在価値は<b>60%</b></li>
+        <li>D：期間3年／経済的耐用年数6年／現在価値は<b>70%</b>／<b>割安購入選択権</b>あり（行使が確実）</li>
+      </ul>
+      <ol class="scn-q">
+        <li>A〜Cは、それぞれどれに当たるか</li>
+        <li>Dは、どれに当たるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">A</span><span><b>所有権移転外ファイナンス・リース</b><span class="calc">期間 3÷5＝60%（75%未満）でも、現在価値 92%（90%以上）を満たす</span></span></div>
+          <div class="ans-step"><span class="lb">B</span><span><b>所有権移転外ファイナンス・リース</b><span class="calc">現在価値 85%（90%未満）でも、期間 4÷5＝80%（75%以上）を満たす</span></span></div>
+          <div class="ans-step"><span class="lb">C</span><span><b>オペレーティング・リース</b><span class="calc">期間 2÷5＝40%、現在価値 60%。どちらも満たさない</span></span></div>
+          <div class="ans-step"><span class="lb">D</span><span><b>所有権移転ファイナンス・リース</b><span class="calc">期間 3÷6＝50%、現在価値 70% でどちらも満たさないが、<br>割安購入選択権の行使が確実なので所有権が移ると考える</span></span></div>
+          <p class="je-n">Dのように、所有権が移ると判断されるリースは、数値基準を満たさなくてもファイナンス・リースとして扱います。数値基準はフルペイアウトを判定する目安で、所有権が移るなら経済的利益はすべて借手のものになるからです。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 借手の処理 ============ -->
+<section id="kr" class="part part-kr">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>借手の処理</h2>
+    <p>ファイナンス・リースは、お金を借りて資産を買ったのと同じように処理します（売買処理）。リース資産とリース債務を計上し、リース料の支払いを元本と利息に分け、リース資産を減価償却します。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-amount">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>計上額は4つのパターン</h3></div>
+    <div class="prose">
+      <p>「所有権が移るか」と「貸手の購入価額を知っているか」の組み合わせで、計上額が決まります。共通する考え方は、<b>借りたのに買うより高い金額で載せない</b>、ということです。</p>
+    </div>
+    <div class="cases">
+      <div class="case mv"><div class="case-k"><span>所有権移転</span><span>購入価額を知っている</span></div><b>貸手の購入価額</b><small>自分のものになるので、購入価額そのもの。</small></div>
+      <div class="case mv"><div class="case-k"><span>所有権移転</span><span>購入価額を知らない</span></div><b>現在価値と見積現金購入価額の低い方</b><small></small></div>
+      <div class="case nm"><div class="case-k"><span>所有権移転外</span><span>購入価額を知っている</span></div><b>購入価額と現在価値の低い方</b><small>移転外では、購入価額そのものとは限らない。</small></div>
+      <div class="case nm"><div class="case-k"><span>所有権移転外</span><span>購入価額を知らない</span></div><b>現在価値と見積現金購入価額の低い方</b><small></small></div>
+    </div>
+    <ul class="pts">
+      <li>現在価値とは、<b>リース料総額</b>を割り引いた金額です。割引率は、貸手の計算利子率を知っていればそれ、知らなければ借手の追加借入利子率です。</li>
+      <li>計上額を見積現金購入価額にした場合は、リース料総額の現在価値が計上額と等しくなる利率を<span class="hl">あらためて求めて</span>、その利率で利息を計算します。</li>
+      <li>リース料総額から利息相当額を除いた部分が計上額になります。差額の利息相当額は、リース期間にわたって配分します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>所有権移転外で貸手の購入価額を知っている場合、計上額は貸手の購入価額である<span class="why">移転外では、購入価額と現在価値の低い方です。購入価額そのものになるのは所有権移転の場合です。</span></span></li>
+        <li><span class="mark x">×</span><span>見積現金購入価額で計上しても、利息は当初の割引率で計算する<span class="why">計上額に合わせて利率を算定し直します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-interest">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>利息法で、支払いを元本と利息に分ける</h3></div>
+    <div class="prose">
+      <p>例：所有権移転外ファイナンス・リース。リース料は年10,000を<b>毎年末に後払い</b>で3年、計算利子率5%（年金現価係数2.7232）。貸手の購入価額は不明で、見積現金購入価額は28,000です。</p>
+    </div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">計上額</span><span class="fx kr">10,000 × 2.7232 ＝ 27,232</span><span class="op">と</span><span class="fx">28,000</span><span class="op">の低い方</span><span class="op">→</span><span class="res kr">27,232</span></div>
+      <div class="formula"><span class="lbl">各期の支払利息</span><span class="fx kr">リース債務の期首残高</span><span class="op">×</span><span class="fx">利率 5%</span><span class="op">＝</span><span class="res pk">支払利息</span></div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 360" role="img" aria-label="利息法の返済の内訳。毎年の支払い10,000のうち、利息は1,362、930、476と減り、元本は8,638、9,070、9,524と増える。リース債務の残高は27,232、18,594、9,524、0と減る">
+        <text x="20" y="30" class="t-b">毎年の支払い10,000の内訳</text>
+        <rect x="560" y="18" width="18" height="14" class="b-kr"/><text x="584" y="30" class="t-s">元本の返済</text>
+        <rect x="680" y="18" width="18" height="14" class="b-pk"/><text x="704" y="30" class="t-s">支払利息</text>
+        <line x1="60" y1="280" x2="800" y2="280" class="axis"/>
+        <!-- 1年目 -->
+        <rect x="110" y="80" width="130" height="27" class="b-pk"/>
+        <rect x="110" y="107" width="130" height="173" class="b-kr"/>
+        <text x="250" y="99" class="t-num f-pk">利息 1,362</text>
+        <text x="175" y="200" class="t-num c">元本 8,638</text>
+        <!-- 2年目 -->
+        <rect x="350" y="80" width="130" height="19" class="b-pk"/>
+        <rect x="350" y="99" width="130" height="181" class="b-kr"/>
+        <text x="490" y="95" class="t-num f-pk">利息 930</text>
+        <text x="415" y="200" class="t-num c">元本 9,070</text>
+        <!-- 3年目 -->
+        <rect x="590" y="80" width="130" height="10" class="b-pk"/>
+        <rect x="590" y="90" width="130" height="190" class="b-kr"/>
+        <text x="730" y="90" class="t-num f-pk">利息 476</text>
+        <text x="655" y="200" class="t-num c">元本 9,524</text>
+        <text x="175" y="306" class="t-b c">1年目</text>
+        <text x="415" y="306" class="t-b c">2年目</text>
+        <text x="655" y="306" class="t-b c">3年目</text>
+        <text x="175" y="330" class="t-xs c">27,232 × 5%</text>
+        <text x="415" y="330" class="t-xs c">18,594 × 5%</text>
+        <text x="655" y="330" class="t-xs c">9,524 × 5%</text>
+        <text x="410" y="354" class="t-xs c">リース債務の残高：27,232 → 18,594 → 9,524 → 0</text>
+      </svg>
+      <figcaption>債務の残高が減るにつれて、利息は小さく、元本の返済は大きくなります。3年目は端数を調整して、債務がちょうどゼロになるようにします。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">リース開始日</span>
+        <div class="je-row"><span class="dc">(借)</span><span>リース資産</span><span class="amt">27,232</span><span class="dc">(貸)</span><span>リース債務</span><span class="amt">27,232</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">1年目末の支払い</span>
+        <div class="je-row"><span class="dc">(借)</span><span>リース債務</span><span class="amt">8,638</span><span class="dc">(貸)</span><span>現金</span><span class="amt">10,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>支払利息</span><span class="amt">1,362</span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>1年目末のリース債務18,594は、<span class="hl">1年以内に返す9,070が流動負債、残りの9,524が固定負債</span>です。翌年の元本返済額を先に計算しておくのがコツです。</li>
+    </ul>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-prepay">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★</span><h3>後払いと期首払い（前払い）の違い</h3></div>
+    <div class="lanes">
+      <div class="lane b">
+        <p class="lane-h">後払い（毎年末に払う）<small>2-2の例</small></p>
+        <ol class="steps">
+          <li>開始日にリース資産・リース債務を計上</li>
+          <li class="star">1回目の支払いにも利息が含まれる<em>27,232 × 5% ＝ 1,362</em></li>
+          <li>決算時に未払利息は生じない</li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">期首払い（毎年初めに払う）<small>見積現金購入価額は29,000とする</small></p>
+        <ol class="steps">
+          <li>現在価値：10,000 × (1 ＋ 0.9524 ＋ 0.9070) ＝ 28,594</li>
+          <li class="star">1回目の支払いは全額が元本<em>開始日と支払日が同じなので、利息はまだ発生していない</em></li>
+          <li>決算時に、残高18,594 × 5% ≒ 930 の利息を未払計上する</li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">期首払いの仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>リース資産</span><span class="amt">28,594</span><span class="dc">(貸)</span><span>リース債務</span><span class="amt">28,594</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>リース債務</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>支払利息</span><span class="amt">930</span><span class="dc">(貸)</span><span>未払利息</span><span class="amt">930</span></div>
+      <span class="je-n">3行目は決算時の仕訳です。翌期首の支払い10,000は、未払利息930とリース債務9,070の返済になります。</span>
+    </div>
+  </div>
+
+  <!-- 2-4 -->
+  <div class="unit" id="u-dep">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★★</span><h3>減価償却は、移転か移転外かで変わる</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">所有権移転<small>最後は自分のものになる</small></p>
+        <ol class="steps">
+          <li class="star">耐用年数：<b>経済的耐用年数</b></li>
+          <li>残存価額：自己所有の資産と同じ考え方</li>
+          <li>償却方法：<b>自己所有の固定資産と同じ方法</b></li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">所有権移転外<small>リース期間が終われば返す</small></p>
+        <ol class="steps">
+          <li class="star">耐用年数：<b>リース期間</b></li>
+          <li class="star">残存価額：<b>ゼロ</b><em>残価保証があれば、その保証額</em></li>
+          <li>償却方法：定額法・級数法・生産高比例法などから、実態に応じて選ぶ<em>自己所有の資産と同じでなくてよい</em></li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">2-2の例（移転外・リース期間3年・定額法）の決算</span>
+      <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">9,077</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">9,077</span></div>
+      <span class="je-n">27,232 ÷ 3年 ≒ 9,077。経済的耐用年数が何年でも、移転外ならリース期間の3年で償却します。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>所有権移転外のリース資産は、経済的耐用年数で減価償却する<span class="why">リース期間で償却します。返してしまう資産なので、使える期間はリース期間だけです。</span></span></li>
+        <li><span class="mark x">×</span><span>所有権移転外のリース資産は、自己所有の固定資産と同じ償却方法にしなければならない<span class="why">同じ方法にしなければならないのは所有権移転の場合です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-5 -->
+  <div class="unit" id="u-simple">
+    <div class="unit-head"><span class="tag">2-5</span><span class="freq">頻出度 ★★</span><h3>簡便な処理とオペレーティング・リース</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>利息相当額は、リース期間にわたって<b>利息法</b>で配分する。</span></div>
+        <div class="r-row exc"><span class="r-b">容認</span><span>リース資産総額に<b>重要性が乏しい</b>場合（移転外）は、次のどちらかでよい。<small>① 利子込み法：リース料総額のまま計上し、利息を分けない。② 利息相当額を定額法で配分する。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">基準</span><span>重要性が乏しいとは、未経過リース料の期末残高の割合が<b>10%未満</b>の場合。<small>割合＝未経過リース料の期末残高 ÷（それ＋有形・無形固定資産の期末残高）</small></span></div>
+        <div class="r-row exc"><span class="r-b">賃貸</span><span>ファイナンス・リースでも、<b>賃貸借処理</b>でよい場合がある。<small>リース期間が1年以内のもの。所有権移転外で、1契約のリース料総額が300万円以下のものなど。</small></span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">利子込み法（2-2の例）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>リース資産</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>リース債務</span><span class="amt">30,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>リース債務</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">10,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">10,000</span></div>
+        <span class="je-n">リース料総額30,000のまま計上するので、支払利息は出てきません。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">オペレーティング・リース（賃貸借処理）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>支払リース料</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">10,000</span></div>
+        <span class="je-n">資産も負債も計上しません。解約不能のものは、未経過リース料を「1年以内」と「1年超」に分けて注記します。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　借手の処理</span>
+      <p class="scn-story">当期首に、所有権移転外ファイナンス・リース契約を結びました。次の資料から答えてください。円未満の端数は四捨五入します。</p>
+      <ul class="given">
+        <li>リース料 年 <b>12,000</b>（毎年末に後払い）</li>
+        <li>リース期間 <b>4年</b>（経済的耐用年数6年）</li>
+        <li>貸手の購入価額 <b>不明</b></li>
+        <li>見積現金購入価額 <b>45,000</b></li>
+        <li>借手の追加借入利子率 <b>4%</b>（年金現価係数 <b>3.6299</b>）</li>
+        <li>減価償却は <b>定額法</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>リース資産の計上額はいくらか</li>
+        <li>1年目の支払利息と減価償却費はいくらか</li>
+        <li>1年目末のリース債務のうち、流動負債と固定負債はそれぞれいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>43,559</b><span class="calc">現在価値：12,000 × 3.6299 ＝ 43,558.8 → 43,559<br>45,000 との低い方 → 43,559</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>支払利息 <b>1,742</b>、減価償却費 <b>10,890</b><span class="calc">支払利息：43,559 × 4% ＝ 1,742.36 → 1,742<br>減価償却費：43,559 ÷ 4年（リース期間）＝ 10,889.75 → 10,890</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span>流動負債 <b>10,668</b>、固定負債 <b>22,633</b><span class="calc">1年目の元本返済：12,000 − 1,742 ＝ 10,258 → 残高 33,301<br>2年目の利息：33,301 × 4% ＝ 1,332 → 2年目の元本返済 10,668（流動）<br>固定：33,301 − 10,668 ＝ 22,633</span></span></div>
+          <div class="je">
+            <span class="je-t">1年目の仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>リース資産</span><span class="amt">43,559</span><span class="dc">(貸)</span><span>リース債務</span><span class="amt">43,559</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>リース債務</span><span class="amt">10,258</span><span class="dc">(貸)</span><span>現金</span><span class="amt">12,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>支払利息</span><span class="amt">1,742</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">10,890</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">10,890</span></div>
+            <span class="je-n">経済的耐用年数の6年は、移転外なので使いません。ひっかけの数字です。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 貸手・その他 ============ -->
+<section id="ks" class="part part-ks">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>貸手の処理・セール・アンド・リースバック・表示</h2>
+    <p>貸手の3つの方法、資産を売って借り戻すセール・アンド・リースバック、財務諸表への表示、そして「なぜ売買処理するのか」という理論です。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-lessor">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★</span><h3>貸手の3つの方法</h3></div>
+    <div class="prose">
+      <p>貸手は、所有権移転なら<b>リース債権</b>、移転外なら<b>リース投資資産</b>を計上します。2-2の例を貸手の側から見ます（貸手の購入価額27,232、リース料総額30,000、受取は年10,000）。</p>
+    </div>
+    <div class="lanes stack">
+      <div class="lane c">
+        <p class="lane-h">第1法<small>開始日に売上高と売上原価を計上</small></p>
+        <div class="je">
+          <span class="je-t">開始日</span>
+          <div class="je-row"><span class="dc">(借)</span><span>リース投資資産</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>売上高</span><span class="amt">30,000</span></div>
+          <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">27,232</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">27,232</span></div>
+          <span class="je-t">1年目末</span>
+          <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>リース投資資産</span><span class="amt">10,000</span></div>
+          <div class="je-row"><span class="dc">(借)</span><span>繰延リース利益繰入</span><span class="amt">1,406</span><span class="dc">(貸)</span><span>繰延リース利益</span><span class="amt">1,406</span></div>
+          <span class="je-n">利息相当額2,768のうち、まだ実現していない1,406を繰り延べます。</span>
+        </div>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">第2法<small>受け取るたびに売上高と売上原価を計上</small></p>
+        <div class="je">
+          <span class="je-t">開始日</span>
+          <div class="je-row"><span class="dc">(借)</span><span>リース投資資産</span><span class="amt">27,232</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">27,232</span></div>
+          <span class="je-t">1年目末</span>
+          <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>売上高</span><span class="amt">10,000</span></div>
+          <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">8,638</span><span class="dc">(貸)</span><span>リース投資資産</span><span class="amt">8,638</span></div>
+        </div>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">第3法<small>売上高を計上せず、利息だけを配分</small></p>
+        <div class="je">
+          <span class="je-t">開始日</span>
+          <div class="je-row"><span class="dc">(借)</span><span>リース投資資産</span><span class="amt">27,232</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">27,232</span></div>
+          <span class="je-t">1年目末</span>
+          <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>リース投資資産</span><span class="amt">8,638</span></div>
+          <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>受取利息</span><span class="amt">1,362</span></div>
+        </div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>どの方法でも、1年目の利益は<span class="hl">利息相当額の1,362</span>で同じです。違うのは、売上高と売上原価を総額で見せるかどうかだけです。</li>
+      <li>貸手の計算利子率とは、リース料総額と見積残存価額の合計の現在価値が、リース物件の購入価額などと等しくなる利率です。</li>
+      <li>オペレーティング・リースの貸手は、受け取ったリース料を収益にし、リース物件を自分の固定資産として減価償却します。</li>
+    </ul>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-slb">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>セール・アンド・リースバック</h3></div>
+    <div class="prose">
+      <p>自社の資産をリース会社に売却し、同じ資産をリースで借り戻す取引です。資産は手元に残ったままなので、リースバックがファイナンス・リースに当たる場合、<b>売却損益はすぐには計上せず繰り延べます</b>。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="セール・アンド・リースバックの流れ。自社が簿価8,000の機械をリース会社に10,000で売却し、同じ機械をリースで借り戻す。売却益2,000は長期前受収益として繰り延べ、減価償却費の割合で毎年400ずつ減価償却費から控除する">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="30" y="40" width="230" height="110" rx="16" class="b-kr"/>
+        <text x="145" y="80" class="t-b c">自社</text>
+        <text x="145" y="104" class="t-xs c">売手・借手</text>
+        <text x="145" y="130" class="t-s c">機械 簿価 8,000</text>
+        <rect x="560" y="40" width="230" height="110" rx="16" class="b-ks"/>
+        <text x="675" y="80" class="t-b c">リース会社</text>
+        <text x="675" y="104" class="t-xs c">買手・貸手</text>
+        <path d="M262 70 H556" class="ln" marker-end="url(#ah2)"/>
+        <text x="410" y="60" class="t-b c">① 売却（10,000で売る）</text>
+        <path d="M556 122 H262" class="ln" marker-end="url(#ah2)"/>
+        <text x="410" y="144" class="t-b c">② リースバック（同じ機械を借りる）</text>
+        <rect x="150" y="190" width="520" height="90" rx="16" class="b-sun"/>
+        <text x="410" y="222" class="t-b c">売却益 2,000 → 長期前受収益として繰り延べ</text>
+        <text x="410" y="248" class="t-s c">リース資産の減価償却費の割合で配分し、減価償却費から控除</text>
+        <text x="410" y="270" class="t-xs c">（5年・定額法なら、毎年 2,000 × 1/5 ＝ 400）</text>
+        <path d="M145 150 V190" class="ln dash"/>
+      </svg>
+      <figcaption>機械を売って借り戻しても、使い続けている実態は変わりません。そのため、売却益を一度に計上すると利益が過大になります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">売却時（機械：取得原価12,000、減価償却累計額4,000）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却累計額</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>機械装置</span><span class="amt">12,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>現金</span><span class="amt">10,000</span><span></span><span>長期前受収益</span><span class="amt">2,000</span></div>
+        <span class="je-t">リース開始日</span>
+        <div class="je-row"><span class="dc">(借)</span><span>リース資産</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>リース債務</span><span class="amt">10,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">決算（リース資産を5年・定額法で償却）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">2,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>長期前受収益</span><span class="amt">400</span><span class="dc">(貸)</span><span>減価償却費</span><span class="amt">400</span></div>
+        <span class="je-n">繰り延べた売却益は、減価償却費を減らす形で配分します。売却損なら長期前払費用にして、減価償却費に加えます。</span>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>リースバックがファイナンス・リースなら、売却損益は<b>長期前受収益（益）・長期前払費用（損）として繰り延べ</b>、減価償却費の割合で配分する。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>売却損が、合理的に見積もった<b>市場価額の低下</b>によるものなら、繰り延べずに<b>その期の損失</b>にする。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-theory">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>なぜ売買処理するのか（理論）</h3></div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>経済的実質は「借金して買った」</b><small>解約できず、使う利益もコストもすべて借手のもの。形は賃貸借でも、中身は資産の購入と同じ（実質優先）。</small></div>
+      <div class="why-c"><span class="no">2</span><b>オフバランスを防ぐ</b><small>賃貸借処理だと、実質的な資産と借入れが貸借対照表に載らない。財政状態が正しく表されない。</small></div>
+      <div class="why-c"><span class="no">3</span><b>企業間で比べられるようにする</b><small>同じ設備を買った会社とリースした会社で、貸借対照表が大きく違ってしまうのを防ぐ。</small></div>
+    </div>
+    <ul class="pts">
+      <li>借手が中途解約した場合は、リース資産の未償却残高をリース資産除却損などにし、違約金はリース債務の残高との差額を損益にします。</li>
+      <li>リース料総額に含まれる維持管理費用相当額は、原則としてリース料総額から差し引き、発生した期の費用にします。金額に重要性が乏しければ差し引かなくてもかまいません。</li>
+    </ul>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-disp">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★</span><h3>財務諸表のどこに表示するか（まとめ）</h3></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="財務諸表の区分と、リースに関する項目">
+        <div class="pl-row" role="listitem"><div class="pl-k">流動資産</div><div class="pl-v"><span class="pill ks">リース債権・リース投資資産<small>貸手。主目的の営業取引なら流動資産</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">有形・無形固定資産</div><div class="pl-v"><span class="pill kr">リース資産<small>借手。原則は有形・無形ごとに「リース資産」として一括表示</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">流動負債</div><div class="pl-v"><span class="pill kr">リース債務（1年以内に返す分）</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">固定負債</div><div class="pl-v"><span class="pill kr">リース債務（1年超の分）</span><span class="pill kr">長期前受収益<small>セール・アンド・リースバックの繰延売却益</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">販売費及び<br>一般管理費</div><div class="pl-v"><span class="pill kr">減価償却費<small>製造用なら製造原価</small></span><span class="pill kr">支払リース料<small>オペレーティング・リース</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">営業外費用</div><div class="pl-v"><span class="pill kr">支払利息<small>ファイナンス・リースの利息相当額</small></span></div></div>
+      </div>
+      <figcaption>ティールが借手、コーラルが貸手の項目です。リース債務は1年基準で流動と固定に分けます。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>リース債務は、すべて固定負債に表示する<span class="why">1年以内に返す分は流動負債です。</span></span></li>
+        <li><span class="mark x">×</span><span>所有権移転ファイナンス・リースの貸手は、リース投資資産を計上する<span class="why">所有権移転はリース債権、移転外はリース投資資産です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">52</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-hj-btn" data-qf="hj" aria-pressed="false">判定</button>
+    <button type="button" class="btn f-kr-btn" data-qf="kr" aria-pressed="false">借手の処理</button>
+    <button type="button" class="btn f-ks-btn" data-qf="ks" aria-pressed="false">貸手・その他</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">52</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card hj">
+      <h3>判定：まずここから</h3>
+      <ol>
+        <li>解約不能とフルペイアウトの2要件</li>
+        <li>現在価値90%・期間75%（どちらか一方）</li>
+        <li>所有権移転の3つのケース</li>
+      </ol>
+    </div>
+    <div class="prio-card kr">
+      <h3>借手の処理：まずここから</h3>
+      <ol>
+        <li>計上額の4パターン（移転外は低い方）</li>
+        <li>利息法の計算と、リース債務の流動・固定の分け方</li>
+        <li>後払いと期首払いの違い</li>
+        <li>移転外はリース期間・残存ゼロで償却</li>
+        <li>利子込み法と賃貸借処理が認められる場合</li>
+      </ol>
+    </div>
+    <div class="prio-card ks">
+      <h3>貸手・その他：まずここから</h3>
+      <ol>
+        <li>貸手の3つの方法（利益はどれも同じ）</li>
+        <li>セール・アンド・リースバックの売却益の繰延べ</li>
+        <li>売買処理する理由（実質優先）</li>
+        <li>リース債権とリース投資資産の違い</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>ファイナンス・リースの処理は、すべて「お金を借りて資産を買った」と読み替えると覚えやすくなります。リース債務は借入金、支払利息は借入金の利息、リース資産の減価償却は買った資産の減価償却です。違うのは「返す資産（移転外）はリース期間で償却する」という点だけです。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第13号「リース取引に関する会計基準」、企業会計基準適用指針第16号「リース取引に関する会計基準の適用指針」。新しい「リースに関する会計基準」（企業会計基準第34号）の内容は含みません。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"hj", q:"ファイナンス・リースとは、解約不能とフルペイアウトの2つの要件を満たすリース取引である。", a:true, e:"この2つの要件を両方満たすものがファイナンス・リースです。"},
+    {p:"hj", q:"法的に解約できる契約であれば、解約時に多額の違約金がかかるものでも解約不能には当たらない。", a:false, e:"事実上解約できないものも、解約不能に含まれます。"},
+    {p:"hj", q:"フルペイアウトとは、借手がリース物件から生じる経済的利益を実質的に享受し、使用にともなうコストを実質的に負担することをいう。", a:true, e:"フルペイアウトの意味そのものです。"},
+    {p:"hj", q:"現在価値基準では、リース料総額の現在価値が見積現金購入価額のおおむね75%以上かどうかで判定する。", a:false, e:"現在価値基準は90%です。75%は経済的耐用年数基準です。"},
+    {p:"hj", q:"経済的耐用年数基準では、解約不能のリース期間が経済的耐用年数のおおむね75%以上かどうかで判定する。", a:true, e:"期間の基準は75%です。"},
+    {p:"hj", q:"現在価値基準と経済的耐用年数基準の両方を満たさなければ、ファイナンス・リースにはならない。", a:false, e:"どちらか一方を満たせば、フルペイアウトと判定します。"},
+    {p:"hj", q:"現在価値基準の割引率は、貸手の計算利子率を知りうる場合はそれを使い、知りえない場合は借手の追加借入利子率を使う。", a:true, e:"割引率の選び方そのものです。"},
+    {p:"hj", q:"所有権移転条項があるリース取引は、所有権移転ファイナンス・リースに当たる。", a:true, e:"所有権移転になる3つのケースの1つです。"},
+    {p:"hj", q:"割安購入選択権があり、その行使が確実に予想されるリース取引は、所有権移転ファイナンス・リースに当たる。", a:true, e:"所有権移転になる3つのケースの1つです。"},
+    {p:"hj", q:"借手専用の特別仕様で、使用可能期間を通じて借手だけが使うことが明らかなリース物件は、所有権移転外ファイナンス・リースとなる。", a:false, e:"特別仕様は、所有権移転になる3つのケースの1つです。"},
+    {p:"hj", q:"オペレーティング・リースとは、ファイナンス・リース以外のリース取引をいう。", a:true, e:"オペレーティング・リースの定義そのものです。"},
+    {p:"hj", q:"解約不能期間3年・経済的耐用年数5年で、現在価値が見積現金購入価額の92%なら、ファイナンス・リースである。", a:true, e:"期間は60%で75%未満ですが、現在価値基準（90%以上）を満たします。"},
+    {p:"hj", q:"解約不能期間2年・経済的耐用年数5年で、現在価値が見積現金購入価額の60%なら、ファイナンス・リースである。", a:false, e:"期間40%、現在価値60%で、どちらの基準も満たさないのでオペレーティング・リースです。"},
+    {p:"hj", q:"リース料総額に含まれる維持管理費用相当額は、原則としてリース料総額から差し引いて判定する。", a:true, e:"固定資産税や保険料などは、原則として差し引きます。重要性が乏しければ差し引かなくてもかまいません。"},
+    {p:"hj", q:"リース取引開始日とは、借手がリース物件を使用収益する権利を行使できることとなった日をいう。", a:true, e:"契約日ではなく、使えるようになった日です。"},
+    {p:"kr", q:"ファイナンス・リースは、通常の売買取引に係る方法に準じて会計処理する。", a:true, e:"売買処理です。"},
+    {p:"kr", q:"ファイナンス・リースを売買処理するのは、その経済的実質が、資産を借入れで購入したのと同じだからである。", a:true, e:"実質優先の考え方です。"},
+    {p:"kr", q:"所有権移転外ファイナンス・リースで貸手の購入価額を知りうる場合、リース資産の計上額は貸手の購入価額とする。", a:false, e:"購入価額と、リース料総額の現在価値の低い方です。"},
+    {p:"kr", q:"所有権移転ファイナンス・リースで貸手の購入価額を知りうる場合、リース資産の計上額は貸手の購入価額とする。", a:true, e:"自分のものになるので、購入価額そのものです。"},
+    {p:"kr", q:"貸手の購入価額を知りえない場合、計上額はリース料総額の現在価値と見積現金購入価額のいずれか低い方である。", a:true, e:"所有権移転・移転外のどちらでも同じです。"},
+    {p:"kr", q:"計上額を見積現金購入価額とした場合でも、利息の計算には当初の割引率をそのまま使う。", a:false, e:"リース料総額の現在価値が計上額と等しくなる利率を、あらためて求めて使います。"},
+    {p:"kr", q:"利息相当額は、原則としてリース期間にわたり利息法で配分する。", a:true, e:"原則は利息法です。"},
+    {p:"kr", q:"利息法では、各期の支払利息はリース債務の期首残高に一定の利率を掛けて計算する。", a:true, e:"残高が減るにつれて、利息も小さくなります。"},
+    {p:"kr", q:"リース料を期首に支払う場合、1回目の支払額には利息相当額が含まれない。", a:true, e:"開始日と支払日が同じなので、利息はまだ発生していません。全額が元本の返済です。"},
+    {p:"kr", q:"リース料を期首に支払う契約では、決算時に利息を計上する必要はない。", a:false, e:"期首から決算日までの利息が発生しているので、未払利息を計上します。"},
+    {p:"kr", q:"リース債務は、すべて固定負債に表示する。", a:false, e:"1年以内に返す分は流動負債、1年超の分は固定負債です。"},
+    {p:"kr", q:"所有権移転外ファイナンス・リースのリース資産は、経済的耐用年数で減価償却する。", a:false, e:"リース期間で償却します。"},
+    {p:"kr", q:"所有権移転外ファイナンス・リースのリース資産は、原則として残存価額をゼロとして減価償却する。", a:true, e:"残価保証の取決めがあれば、その保証額を残存価額にします。"},
+    {p:"kr", q:"所有権移転外ファイナンス・リースのリース資産の償却方法は、自己所有の固定資産と同じ方法にしなければならない。", a:false, e:"定額法・級数法・生産高比例法などから、実態に応じて選べます。"},
+    {p:"kr", q:"所有権移転ファイナンス・リースのリース資産は、自己所有の固定資産と同じ方法で、経済的耐用年数にわたって減価償却する。", a:true, e:"最後は自分のものになるので、買った資産と同じ扱いです。"},
+    {p:"kr", q:"残価保証の取決めがある所有権移転外ファイナンス・リースでは、残価保証額を残存価額として減価償却する。", a:true, e:"残存価額をゼロにするのは、残価保証がない場合です。"},
+    {p:"kr", q:"リース資産総額に重要性が乏しい場合は、利子込み法や、利息相当額を定額法で配分する方法を採ることができる。", a:true, e:"所有権移転外ファイナンス・リースの簡便な処理です。"},
+    {p:"kr", q:"リース資産総額に重要性が乏しいとは、未経過リース料の期末残高割合が10%未満の場合をいう。", a:true, e:"未経過リース料の期末残高を、それと有形・無形固定資産の期末残高の合計で割って判定します。"},
+    {p:"kr", q:"利子込み法では、リース料総額をリース資産・リース債務に計上し、支払利息は計上しない。", a:true, e:"利息を区分しないので、支払いは全額がリース債務の返済になります。"},
+    {p:"kr", q:"リース期間が1年以内のリース取引は、ファイナンス・リースであっても賃貸借処理できる。", a:true, e:"短期のリース取引の簡便な処理です。"},
+    {p:"kr", q:"1契約あたりのリース料総額が300万円以下のリース取引は、所有権移転ファイナンス・リースであっても、この金額基準によって賃貸借処理できる。", a:false, e:"300万円以下という金額基準は、所有権移転外ファイナンス・リースに限られます。"},
+    {p:"kr", q:"オペレーティング・リースは、通常の賃貸借取引に係る方法に準じて会計処理する。", a:true, e:"支払ったリース料を費用にします。"},
+    {p:"kr", q:"解約不能のオペレーティング・リースについては、未経過リース料を注記する。", a:true, e:"1年以内と1年超に分けて注記します。"},
+    {p:"kr", q:"借手のリース資産は、原則として有形固定資産・無形固定資産の別に、一括して「リース資産」として表示する。", a:true, e:"各科目に含めて表示することも認められています。"},
+    {p:"kr", q:"ファイナンス・リースの支払利息は、減価償却費と同じ区分に表示する。", a:false, e:"支払利息は営業外費用です。減価償却費と同じ区分になるのは、資産除去債務の利息費用です。"},
+    {p:"ks", q:"所有権移転ファイナンス・リースの貸手は、リース投資資産を計上する。", a:false, e:"所有権移転はリース債権です。"},
+    {p:"ks", q:"所有権移転外ファイナンス・リースの貸手は、リース投資資産を計上する。", a:true, e:"移転外は、見積残存価額の部分も含むのでリース投資資産です。"},
+    {p:"ks", q:"貸手の処理には、リース取引開始日に売上高と売上原価を計上する方法がある。", a:true, e:"第1法です。まだ実現していない利息相当額は繰り延べます。"},
+    {p:"ks", q:"リース料を受け取るたびに売上高と売上原価を計上する方法では、売上原価は受取額から利息相当額を差し引いた額となる。", a:true, e:"第2法です。売上原価は元本の回収分です。"},
+    {p:"ks", q:"売上高を計上せずに利息相当額を各期へ配分する方法では、受取額のうち利息相当額を受取利息などとして計上する。", a:true, e:"第3法です。"},
+    {p:"ks", q:"貸手の3つの方法のどれを採っても、各期の利益（利息相当額）は同じになる。", a:true, e:"違うのは、売上高と売上原価を総額で表示するかどうかだけです。"},
+    {p:"ks", q:"貸手のリース債権・リース投資資産は、主目的の営業取引から生じたものであれば流動資産に表示する。", a:true, e:"営業循環基準により流動資産です。"},
+    {p:"ks", q:"オペレーティング・リースの貸手は、受け取ったリース料を収益として計上し、リース物件を自己の固定資産として減価償却する。", a:true, e:"賃貸借処理なので、物件は貸手の資産のままです。"},
+    {p:"ks", q:"セール・アンド・リースバック取引で、リースバックがファイナンス・リースに当たる場合、売却益は売却時に全額計上する。", a:false, e:"長期前受収益として繰り延べます。"},
+    {p:"ks", q:"セール・アンド・リースバック取引で繰り延べた売却損益は、リース資産の減価償却費の割合に応じて配分し、減価償却費に加減する。", a:true, e:"売却益なら減価償却費から控除、売却損なら加算します。"},
+    {p:"ks", q:"セール・アンド・リースバック取引の売却損が、合理的に見積もった市場価額の低下によるものであれば、繰り延べずに売却損として計上する。", a:true, e:"実際に価値が下がった分なので、その期の損失にします。"},
+    {p:"ks", q:"ファイナンス・リースを賃貸借処理すると、実質的な資産と借入れが貸借対照表に表れず、企業間の比較が難しくなる。", a:true, e:"売買処理する理由の1つです。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {hj:" 判定", kr:" 借手", ks:" 貸手・その他"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
