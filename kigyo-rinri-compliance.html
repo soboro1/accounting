@@ -1,0 +1,1109 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業法務。企業倫理とコンプライアンスの出やすい論点（コンプライアンスの範囲、不正のトライアングル、取締役の義務と内部統制、株主代表訴訟、コーポレートガバナンス・コード、公益通報者保護法と2026年12月施行の改正、独禁法・取適法・景表法・個人情報保護法・ハラスメント）を、図・ケース問題・○×チェック60問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>企業倫理とコンプライアンス</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(基本)はティール、PART2(ガバナンス)は青、PART3(公益通報)はコーラル、PART4(分野別の法令)はオレンジで色分け。各トピックは「要点→図→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：基本 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：公益通報 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：ガバナンス */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#E06A0C; --c8t:#A24B05;   /* オレンジ：分野別の法令 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kh{border-color:var(--c2);color:var(--c2t)}
+.top a.n-gv{border-color:var(--c4);color:var(--c4t)}
+.top a.n-wb{border-color:var(--c3);color:var(--c3t)}
+.top a.n-lw{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6.2vw,56px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:13px;fill:var(--muted)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kh{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-gv{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-wb{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-lw{fill:color-mix(in srgb,var(--c8) 20%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 22%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-hy{fill:color-mix(in srgb,var(--c7) 18%,var(--surface));stroke:var(--c7);stroke-width:2}
+.f-kh{fill:var(--c2t)} .f-gv{fill:var(--c4t)} .f-wb{fill:var(--c3t)} .f-lw{fill:var(--c8t)} .f-sun{fill:var(--c1t)} .f-hy{fill:var(--c7t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kh .part-head{background:var(--c2)}
+.part-gv .part-head{background:var(--c4)}
+.part-wb .part-head{background:var(--c3)}
+.part-lw .part-head{background:var(--c8)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kh .tag{background:var(--c2)}
+.part-gv .tag{background:var(--c4)}
+.part-wb .tag{background:var(--c3)}
+.part-lw .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.new{font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;background:var(--c7);color:var(--on-solid)}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kh .pts li::before{background:var(--c2)}
+.part-gv .pts li::before{background:var(--c4)}
+.part-wb .pts li::before{background:var(--c3)}
+.part-lw .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13.5px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-kh .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-gv .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-wb .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-lw .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kh .def-l{color:var(--c2t)} .part-gv .def-l{color:var(--c4t)} .part-wb .def-l{color:var(--c3t)} .part-lw .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 170px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.arr{transform:rotate(90deg);align-self:center}}
+.node.kh{border-color:var(--c2)} .node.kh .nn{color:var(--c2t)}
+.node.gv{border-color:var(--c4)} .node.gv .nn{color:var(--c4t)}
+.node.wb{border-color:var(--c3)} .node.wb .nn{color:var(--c3t)}
+.node.lw{border-color:var(--c8)} .node.lw .nn{color:var(--c8t)}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.kh{background:var(--c2)} .chap.gv{background:var(--c4)} .chap.wb{background:var(--c3)} .chap.lw{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:8px 10px;line-height:1.6}
+.steps li::before{content:counter(st);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kh .chip{border-color:var(--c2)} .part-gv .chip{border-color:var(--c4)} .part-wb .chip{border-color:var(--c3)} .part-lw .chip{border-color:var(--c8)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+.box .pts{gap:6px;font-size:15px}
+
+/* 改正ポイント */
+.revs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:12px}
+.rev{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c3);display:grid;gap:6px;align-content:start}
+.rev .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c3);color:var(--on-solid);font-weight:700}
+.rev b{font-size:16.5px}
+.rev small{font-size:14px;color:var(--muted);line-height:1.65}
+.when{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700}
+.when span{padding:4px 12px;border-radius:999px;background:var(--surface);border:2px solid var(--line);font-size:14px}
+.when span.hot{background:var(--c3);border-color:var(--c3);color:var(--on-solid)}
+
+/* ケース問題 */
+.cases{padding-block:40px 8px}
+.cases-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c1);color:#1B1600;margin-bottom:20px}
+.cases-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.case-list{display:grid;gap:16px}
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;font-size:14px;color:var(--muted)}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kh-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-gv-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-wb-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-lw-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kh{background:var(--c2)} .qno.gv{background:var(--c4)} .qno.wb{background:var(--c3)} .qno.lw{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kh{border-color:var(--c2)} .prio-card.gv{border-color:var(--c4)} .prio-card.wb{border-color:var(--c3)} .prio-card.lw{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.kh h3{color:var(--c2t)} .prio-card.gv h3{color:var(--c4t)} .prio-card.wb h3{color:var(--c3t)} .prio-card.lw h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kh li::before{background:var(--c2)} .prio-card.gv li::before{background:var(--c4)} .prio-card.wb li::before{background:var(--c3)} .prio-card.lw li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kh" href="#kh">PART1 基本</a>
+    <a class="n-gv" href="#gv">PART2 ガバナンス</a>
+    <a class="n-wb" href="#wb">PART3 公益通報</a>
+    <a class="n-lw" href="#lw">PART4 分野別の法令</a>
+    <a class="n-cs" href="#cases">ケース問題</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務</p>
+  <h1><span class="h-a">企業倫理</span>と<br><span class="h-b">コンプライアンス</span></h1>
+  <p class="lead">コンプライアンスは「法律を守ること」だけではありません。社内のルールや、社会が企業に期待することまで含めて考えます。試験では<mark>「取締役の義務と内部統制」「公益通報者保護法の要件」「分野ごとの法令」</mark>がよく出ます。このページでは、図とケースを使って論点を順に整理し、最後に○×問題で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap kh" href="#kh"><span>PART1</span><b>基本</b><small>コンプライアンスの範囲、4つの責任、不正のトライアングル、体制づくり</small></a>
+    <a class="chap gv" href="#gv"><span>PART2</span><b>ガバナンス</b><small>取締役の義務、内部統制、役員の責任、CGコード</small></a>
+    <a class="chap wb" href="#wb"><span>PART3</span><b>公益通報者保護法</b><small>誰が・何を・どこへ通報すると守られるか、2026年12月の改正</small></a>
+    <a class="chap lw" href="#lw"><span>PART4</span><b>分野別の法令</b><small>独禁法・取適法・景表法・個人情報・インサイダー・ハラスメント</small></a>
+    <a class="chap qz" href="#quiz"><span>CHECK</span><b>○×チェック<span id="qz-count-hero">60</span>問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="flow">
+      <a class="node kh" href="#u-scope"><span class="nn">STEP 1 理解</span><b>何を守るのか</b><small>法令・社内規程・社会規範。破ると4つの責任を負う</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node gv" href="#u-ic"><span class="nn">STEP 2 仕組み</span><b>誰が体制を作るのか</b><small>取締役会が内部統制を決め、取締役が監視する</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node wb" href="#u-channel"><span class="nn">STEP 3 発見</span><b>どうやって見つけるか</b><small>内部通報と、通報した人を守るルール</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node lw" href="#u-am"><span class="nn">STEP 4 リスク</span><b>どこで違反が起きやすいか</b><small>取引・広告・情報・人。分野ごとの法令</small></a>
+    </div>
+    <figcaption>論点を「理解 → 仕組み → 発見 → 個別のリスク」の順に並べると覚えやすくなります。カードを押すと該当する解説に移動します。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 基本 ============ -->
+<section id="kh" class="part part-kh">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>企業倫理とコンプライアンスの基本</h2>
+    <p>まず、コンプライアンスが何を指すのかをおさえます。次に、違反したときに会社が負う責任と、不正が起きる仕組みを見ていきます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-scope">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>コンプライアンスは「法令」より広い</h3></div>
+    <div class="prose">
+      <p>コンプライアンスは直訳すると「法令遵守」です。ただし今は、<b>法令に加えて社内規程や社会規範・企業倫理まで守ること</b>と広く理解するのが一般的です。法律に違反していなくても、社会の期待を裏切れば信用を失います。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 760 380" role="img" aria-label="コンプライアンスの範囲の入れ子図。いちばん内側が法令、その外側が社内規程・行動規範、いちばん外側が社会規範・企業倫理。法令だけが狭い意味のコンプライアンスで、全体が広い意味のコンプライアンス">
+        <rect x="30" y="20" width="700" height="340" rx="26" class="b-sun"/>
+        <text x="60" y="56" class="t-b f-sun">社会規範・企業倫理</text>
+        <text x="60" y="80" class="t-xs">法律にはないが、社会が企業に期待すること（誠実さ・公正さ・環境や人権への配慮）</text>
+        <rect x="100" y="100" width="560" height="236" rx="22" class="b-kh"/>
+        <text x="130" y="134" class="t-b f-kh">社内規程・行動規範</text>
+        <text x="130" y="158" class="t-xs">会社が自分で決めたルール（就業規則、倫理綱領、経費の規程など）</text>
+        <rect x="200" y="180" width="360" height="132" rx="18" class="b-gv"/>
+        <text x="380" y="226" class="t-h c f-gv">法令</text>
+        <text x="380" y="256" class="t-s c">会社法・独禁法・労働法・個人情報保護法…</text>
+        <text x="380" y="284" class="t-xs c">ここだけを守るのが「狭い意味」</text>
+      </svg>
+      <figcaption>内側ほど強制力が強く、外側ほど会社の自主的な判断にまかされます。試験では「コンプライアンスは法令遵守のみを意味する」という選択肢は×になります。</figcaption>
+    </figure>
+    <div class="defs">
+      <div class="def"><span class="def-l">企業倫理</span><p class="def-t">企業が事業を行うときに守るべき道徳的な価値観。法律で決まっていない場面での判断の基準になります。</p></div>
+      <div class="def"><span class="def-l">CSR（企業の社会的責任）</span><p class="def-t">法令を守るだけでなく、ステークホルダーや社会の期待に<b>自主的に</b>応える取り組み。</p><p class="def-n">環境保全・人権・地域貢献などを含みます。</p></div>
+      <div class="def"><span class="def-l">ステークホルダー</span><p class="def-t">企業の活動に利害関係をもつ人や組織。株主だけでなく、従業員・顧客・取引先・債権者・地域社会も含みます。</p></div>
+      <div class="def"><span class="def-l">ISO26000</span><p class="def-t">組織の社会的責任についての国際規格（2010年）。<b>第三者認証を目的としない手引き</b>（ガイダンス）です。</p><p class="def-n">ISO9001（品質）やISO14001（環境）のような認証規格とは違います。</p></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>法令に違反していなければ、コンプライアンス上の問題はない<span class="why">社内規程違反や、社会の期待に反する行為でも信用を失います。</span></span></li>
+        <li><span class="mark x">×</span><span>ISO26000は、取得すると認証マークが使える規格である<span class="why">認証を目的としない手引きです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-resp">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★</span><h3>不祥事の代償は4つの責任</h3></div>
+    <div class="prose">
+      <p>コンプライアンス違反が起きると、会社や役員・従業員は次の4つの責任を同時に負うことがあります。いちばん長く響くのは、法的な責任ではなく<b>社会的責任（信用の低下）</b>だと言われます。</p>
+    </div>
+    <div class="flow">
+      <div class="node kh"><span class="nn">① 刑事責任</span><b>罰金・拘禁刑</b><small>犯罪として処罰される。両罰規定で会社にも罰金</small></div>
+      <div class="node kh"><span class="nn">② 民事責任</span><b>損害賠償</b><small>被害者や会社から賠償を求められる</small></div>
+      <div class="node kh"><span class="nn">③ 行政責任</span><b>業務停止・課徴金</b><small>許認可の取消し、措置命令、課徴金の納付</small></div>
+      <div class="node kh"><span class="nn">④ 社会的責任</span><b>信用の失墜</b><small>不買、取引停止、株価下落、採用難</small></div>
+    </div>
+    <div class="def">
+      <span class="def-l">両罰規定</span>
+      <p class="def-t">従業員が<b>業務に関して</b>違反をしたとき、<b>行為をした本人に加えて会社（法人）にも罰金刑</b>を科す規定です。会社が罰せられても、本人の責任はなくなりません。</p>
+      <p class="def-n">独禁法、不正競争防止法、個人情報保護法、公益通報者保護法など多くの法律にあります。</p>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-triangle">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>不正のトライアングル</h3></div>
+    <div class="prose">
+      <p>不正は<b>「動機・プレッシャー」「機会」「正当化」</b>の3つがそろったときに起きる、という考え方です（米国の犯罪学者クレッシーの研究がもとになっています）。会社がいちばん直接に減らせるのは<span class="hl">「機会」</span>です。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 760 420" role="img" aria-label="不正のトライアングルの図。上の頂点が動機・プレッシャー、左下が機会、右下が正当化。それぞれに例と対策が書かれ、中央に3つがそろうと不正が起きると書かれている">
+        <polygon points="380,110 170,320 590,320" class="ln" style="stroke-width:3"/>
+        <text x="380" y="248" class="t-b c">3つがそろうと</text>
+        <text x="380" y="274" class="t-b c f-hy">不正が起きる</text>
+        <!-- 頂点 -->
+        <rect x="230" y="18" width="300" height="110" rx="16" class="b-hy"/>
+        <text x="380" y="50" class="t-b c f-hy">動機・プレッシャー</text>
+        <text x="380" y="76" class="t-s c">例：過大なノルマ、借金</text>
+        <text x="380" y="104" class="t-xs c">対策：無理な目標の見直し、相談窓口</text>
+        <!-- 左下 -->
+        <rect x="20" y="290" width="320" height="112" rx="16" class="b-gv"/>
+        <text x="180" y="322" class="t-b c f-gv">機会</text>
+        <text x="180" y="348" class="t-s c">例：1人で発注も支払も担当</text>
+        <text x="180" y="376" class="t-xs c">対策：職務分掌・相互チェック・</text>
+        <text x="180" y="394" class="t-xs c">ジョブローテーション・監査</text>
+        <!-- 右下 -->
+        <rect x="420" y="290" width="320" height="112" rx="16" class="b-kh"/>
+        <text x="580" y="322" class="t-b c f-kh">正当化</text>
+        <text x="580" y="348" class="t-s c">例：「会社のため」「みんなやってる」</text>
+        <text x="580" y="376" class="t-xs c">対策：倫理研修、行動規範、</text>
+        <text x="580" y="394" class="t-xs c">トップのメッセージ</text>
+      </svg>
+      <figcaption>「どの対策がどの要素に効くか」の組み合わせがよく問われます。職務分掌（仕事を分けて担当させること）は「機会」を減らす対策です。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>職務分掌や相互チェックは「正当化」を減らす対策である<span class="why">1人で完結できる状況をなくす対策なので「機会」です。</span></span></li>
+        <li><span class="mark o">○</span><span>「一時的に借りただけで後で返すつもりだった」は「正当化」にあたる<span class="why">自分の行為を言い訳で納得させる心の動きです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-4 -->
+  <div class="unit" id="u-system">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">頻出度 ★★</span><h3>コンプライアンス体制は「回し続ける」もの</h3></div>
+    <div class="prose">
+      <p>行動規範を作って配るだけでは体制になりません。<b>作る → 伝える → 見つける → 直す</b>を繰り返すPDCAが必要です。出発点は経営トップの姿勢（<b>トーン・アット・ザ・トップ</b>）です。</p>
+    </div>
+    <div class="lanes">
+      <div class="lane b">
+        <p class="lane-h">平常時の体制<small>不正を起こさない・早く見つける</small></p>
+        <ol class="steps">
+          <li class="star"><span>経営トップが方針を示す<em>トーン・アット・ザ・トップ</em></span></li>
+          <li><span>行動規範・社内規程を作る</span></li>
+          <li><span>研修で全員に伝える</span></li>
+          <li><span>相談・内部通報の窓口を置く</span></li>
+          <li><span>内部監査などでモニタリングする</span></li>
+          <li><span>結果をもとに規程や体制を見直す</span></li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">不祥事が起きたとき<small>被害を広げない・信頼を取り戻す</small></p>
+        <ol class="steps">
+          <li><span>事実確認と証拠の保全</span></li>
+          <li><span>被害の拡大防止（出荷停止・回収など）</span></li>
+          <li><span>監督官庁・取引先・公表の判断</span></li>
+          <li class="star"><span>第三者委員会による調査<em>日弁連ガイドライン（2010年）が目安</em></span></li>
+          <li><span>原因分析と再発防止策の公表</span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="def">
+      <span class="def-l">第三者委員会</span>
+      <p class="def-t">会社から<b>独立した</b>弁護士などの外部委員で構成し、不祥事の事実関係と原因を調べる委員会です。会社の利害関係者を委員にすると独立性が疑われます。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 ガバナンス ============ -->
+<section id="gv" class="part part-gv">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>ガバナンス：取締役の義務と内部統制</h2>
+    <p>会社のコンプライアンス体制を作る責任は、取締役にあります。会社法の条文と、上場会社に求められるルールを分けて整理します。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-duty">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>善管注意義務・忠実義務と経営判断の原則</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">善管注意義務 <span class="law">会社法330条・民法644条</span></span><p class="def-t">取締役の地位にある人に通常求められる注意をもって仕事をする義務。</p><p class="def-n">他の取締役や従業員の違法行為を見逃さない<b>監視義務</b>もここに含まれます。</p></div>
+      <div class="def"><span class="def-l">忠実義務 <span class="law">会社法355条</span></span><p class="def-t">法令・定款・株主総会の決議を守り、会社のために忠実に職務を行う義務。</p><p class="def-n">判例は、善管注意義務を具体的にしたもので、別の重い義務ではないとしています。</p></div>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><p>経営判断が結果的に会社に損害を出しても、<b>判断の前提となった事実の調査に不注意がなく、判断の過程と内容が著しく不合理でなければ</b>、善管注意義務違反にはなりません（経営判断の原則）。<small>リスクをとる経営判断を萎縮させないためです。</small></p></div>
+      <div class="r-row exc"><span class="r-b">例外</span><p><b>法令に違反する行為</b>には経営判断の原則が及びません。「会社の利益になると思った」という理由では責任を免れません。</p></div>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-ic">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>内部統制システム：会社法と金融商品取引法</h3></div>
+    <div class="prose">
+      <p>内部統制は、会社の業務が法令に従って適正に行われるようにする仕組みです。<b>会社法</b>と<b>金融商品取引法</b>の2つの法律に出てきますが、対象と目的が違います。</p>
+    </div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">会社法の内部統制<small>業務の適正全般が対象</small></p>
+        <ol class="steps">
+          <li class="star"><span>大会社である取締役会設置会社は、整備を<b>取締役会で決定</b>しなければならない<em>362条4項6号・5項</em></span></li>
+          <li><span>取締役会の決定事項なので、代表取締役など個々の取締役に委任できない</span></li>
+          <li><span>監査等委員会設置会社・指名委員会等設置会社は、大会社でなくても決定が必要</span></li>
+          <li><span>決定の概要と<b>運用状況の概要</b>を事業報告に書く</span></li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">金融商品取引法の内部統制<small>財務報告の信頼性が対象（J-SOX）</small></p>
+        <ol class="steps">
+          <li class="star"><span>上場会社などは、財務報告に係る内部統制を経営者が評価する</span></li>
+          <li><span>結果を<b>内部統制報告書</b>にまとめて提出する</span></li>
+          <li><span>内部統制報告書は公認会計士・監査法人の監査を受ける</span></li>
+          <li><span>代表者などは、有価証券報告書の記載が適正である旨の確認書も出す</span></li>
+        </ol>
+      </div>
+    </div>
+    <div class="prose">
+      <p>取締役会が内部統制の整備を怠り、そのせいで不正を防げなかった場合、取締役は<b>善管注意義務違反（監視義務違反）</b>を問われます。銀行の海外支店の巨額損失をめぐり、取締役にリスク管理体制を作る義務があると判断した大和銀行事件（大阪地裁2000年）が有名です。</p>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>会社法の内部統制は、財務報告の信頼性だけを対象とする<span class="why">それは金融商品取引法の内部統制です。会社法は業務の適正全般です。</span></span></li>
+        <li><span class="mark x">×</span><span>取締役会設置会社は、内部統制の整備の決定を代表取締役に一任できる<span class="why">取締役会で決めなければならない事項です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-liab">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★</span><h3>役員の責任と株主代表訴訟</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">会社に対する責任 <span class="law">会社法423条</span></span><p class="def-t">任務を怠ったこと（任務懈怠）で会社に損害を与えたら、会社に賠償します。</p></div>
+      <div class="def"><span class="def-l">第三者に対する責任 <span class="law">会社法429条</span></span><p class="def-t">職務を行うことについて<b>悪意または重大な過失</b>があったときに、第三者に賠償します。</p><p class="def-n">軽い過失だけでは、この責任は負いません。</p></div>
+    </div>
+    <div class="prose">
+      <p>会社が役員の責任を追及しないときは、株主が会社に代わって訴えることができます。これが<b>株主代表訴訟</b>です（847条）。</p>
+    </div>
+    <div class="flow">
+      <div class="node gv"><span class="nn">STEP 1</span><b>6か月前から株を持つ株主</b><small>公開会社の場合。非公開会社は保有期間の要件なし</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node gv"><span class="nn">STEP 2</span><b>まず会社に提訴を請求</b><small>「役員を訴えてください」と会社に求める</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node gv"><span class="nn">STEP 3</span><b>60日以内に会社が提訴しない</b><small>回復できない損害が出るおそれがあれば、すぐ提訴できる</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node gv"><span class="nn">STEP 4</span><b>株主が役員を訴える</b><small>勝訴しても<b>賠償金は会社に</b>支払われる</small></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>株主代表訴訟で勝てば、賠償金は訴えた株主に支払われる<span class="why">会社の損害を回復する訴えなので、会社に支払われます。</span></span></li>
+        <li><span class="mark x">×</span><span>株主は、会社への請求をせずにいきなり代表訴訟を起こすのが原則である<span class="why">まず会社に提訴を請求します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-4 -->
+  <div class="unit" id="u-cg">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★</span><h3>コーポレートガバナンス・コード</h3></div>
+    <div class="prose">
+      <p>東京証券取引所が定める、上場会社向けの企業統治の原則です（2015年策定）。法律ではない<b>ソフトロー</b>で、守らなくても罰則はありません。そのかわり<b>「原則を実施するか、実施しないなら理由を説明するか」</b>（コンプライ・オア・エクスプレイン）が求められます。</p>
+    </div>
+    <div class="grp">
+      <p class="def-n" style="font-weight:700">5つの基本原則</p>
+      <div class="chips" style="margin-top:8px">
+        <span class="chip">① 株主の権利・平等性の確保</span>
+        <span class="chip">② 株主以外のステークホルダーとの適切な協働</span>
+        <span class="chip">③ 適切な情報開示と透明性の確保</span>
+        <span class="chip">④ 取締役会等の責務</span>
+        <span class="chip">⑤ 株主との対話</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>プライム市場の上場会社は、<b>独立社外取締役を少なくとも3分の1以上</b>選任する（必要なら過半数）。<span class="sub">スタンダード市場などは2名以上です。</span></li>
+      <li>機関投資家の行動原則は、別の<b>スチュワードシップ・コード</b>（金融庁）です。2つのコードは車の両輪にたとえられます。</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PART3 公益通報 ============ -->
+<section id="wb" class="part part-wb">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>公益通報者保護法</h2>
+    <p>不正をいちばん早く知るのは、社内の人です。通報した人が解雇などの不利益を受けないように守る法律が公益通報者保護法です。2026年12月1日に改正法が施行されます。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-who">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>誰が、何を通報すると守られるか</h3></div>
+    <div class="defs">
+      <div class="def">
+        <span class="def-l">通報する人（公益通報者）</span>
+        <ul class="pts">
+          <li>労働者（正社員・パート・派遣など）</li>
+          <li>退職後<b>1年以内</b>の退職者</li>
+          <li>役員（取締役・監査役など）</li>
+          <li><b>2026年12月1日から</b>一定のフリーランス<span class="sub">業務委託が終わってから1年以内の人も含みます。</span></li>
+        </ul>
+      </div>
+      <div class="def">
+        <span class="def-l">通報の対象（通報対象事実）</span>
+        <p class="def-t">対象となる法律（約500本）に定められた<b>犯罪行為や過料の対象となる行為</b>などです。</p>
+        <p class="def-n"><b>あらゆる法令違反が対象ではありません。</b>また、不正な利益を得る目的や他人を害する目的の通報は、公益通報にあたりません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-channel">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>通報先は3つ。外に向かうほど要件が厳しい</h3></div>
+    <div class="prose">
+      <p>どこに通報したかで、保護されるための条件が変わります。会社の内部がいちばん緩く、報道機関などがいちばん厳しくなります。会社が自分で問題を直す機会を優先するためです。</p>
+    </div>
+    <figure class="fig" style="overflow-x:auto">
+      <svg viewBox="0 0 760 400" role="img" aria-label="通報先と保護要件の階段図。事業者内部は思料すれば保護、行政機関は信ずるに足りる相当の理由か、思料に加えて氏名などを書いた書面の提出、報道機関などは信ずるに足りる相当の理由に加えて一定の事情が必要。右に行くほど要件が厳しい">
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <line x1="60" y1="36" x2="700" y2="36" class="ln" marker-end="url(#ah)"/>
+        <text x="380" y="26" class="t-b c">外に向かうほど要件が厳しい</text>
+        <!-- 1 -->
+        <rect x="30" y="250" width="220" height="130" rx="14" class="b-kh"/>
+        <text x="140" y="282" class="t-b c f-kh">① 事業者内部</text>
+        <text x="140" y="310" class="t-s c">通報対象事実が生じている</text>
+        <text x="140" y="332" class="t-s c">と「思料する」だけでよい</text>
+        <text x="140" y="362" class="t-xs c">社内窓口・委託先の窓口など</text>
+        <!-- 2 -->
+        <rect x="270" y="160" width="220" height="220" rx="14" class="b-gv"/>
+        <text x="380" y="192" class="t-b c f-gv">② 行政機関</text>
+        <text x="380" y="222" class="t-s c">「信ずるに足りる</text>
+        <text x="380" y="244" class="t-s c">相当の理由」がある</text>
+        <text x="380" y="272" class="t-b c">または</text>
+        <text x="380" y="300" class="t-s c">思料する＋氏名などを</text>
+        <text x="380" y="322" class="t-s c">書いた書面を出す</text>
+        <text x="380" y="356" class="t-xs c">権限のある監督官庁など</text>
+        <!-- 3 -->
+        <rect x="510" y="70" width="220" height="310" rx="14" class="b-wb"/>
+        <text x="620" y="102" class="t-b c f-wb">③ 報道機関など</text>
+        <text x="620" y="132" class="t-s c">「信ずるに足りる</text>
+        <text x="620" y="154" class="t-s c">相当の理由」がある</text>
+        <text x="620" y="182" class="t-b c">＋</text>
+        <text x="620" y="208" class="t-s c">次のような事情がある</text>
+        <text x="620" y="236" class="t-xs c">内部に通報すると</text>
+        <text x="620" y="254" class="t-xs c">解雇などのおそれ</text>
+        <text x="620" y="280" class="t-xs c">証拠隠滅のおそれ</text>
+        <text x="620" y="306" class="t-xs c">内部通報後20日以内に</text>
+        <text x="620" y="324" class="t-xs c">調査する旨の連絡がない</text>
+        <text x="620" y="350" class="t-xs c">生命・身体への危害 など</text>
+      </svg>
+      <figcaption>「思料する」は「そう考える」程度、「信ずるに足りる相当の理由」は「裏付けとなる証拠や関係者の証言がある」程度の意味です。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>公益通報をしたことを理由とする<b>解雇は無効</b>、降格・減給・不利益な配置転換なども禁止されます。</li>
+      <li>公益通報によって会社に損害が出ても、通報者は損害賠償の責任を負いません。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>報道機関への通報も、社内窓口への通報と同じ要件で保護される<span class="why">報道機関などがいちばん厳しく、真実相当性と一定の事情の両方が必要です。</span></span></li>
+        <li><span class="mark x">×</span><span>社内窓口に通報するには、証拠をそろえる必要がある<span class="why">内部への通報は「思料する」だけで保護されます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-duty-wb">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>会社の義務：窓口の整備と守秘義務</h3></div>
+    <div class="two">
+      <div class="box">
+        <h4>内部通報体制の整備</h4>
+        <ul class="pts">
+          <li>常時使用する労働者が<b>300人を超える</b>事業者は<b>義務</b></li>
+          <li>300人以下の事業者は<b>努力義務</b></li>
+          <li>通報を受けて調査・是正する担当者（<b>公益通報対応業務従事者</b>）を指定する</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>従事者の守秘義務</h4>
+        <ul class="pts">
+          <li>従事者が正当な理由なく、通報者を特定させる情報を漏らすと<b>30万円以下の罰金</b></li>
+          <li>会社ではなく、漏らした<b>従事者個人</b>が処罰の対象です</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-rev">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★★</span><span class="new">2026年12月施行</span><h3>改正のポイント</h3></div>
+    <div class="when"><span>2025年6月11日 公布</span><span aria-hidden="true">→</span><span class="hot">2026年12月1日 施行</span></div>
+    <div class="prose">
+      <p>これまでは「解雇は無効になる」という民事上の保護が中心でした。改正で<b>刑事罰</b>と<b>立証の負担の軽減</b>が加わり、通報者の保護が強くなります。</p>
+    </div>
+    <div class="revs">
+      <div class="rev"><span class="no">1</span><b>フリーランスも保護</b><small>一定のフリーランスが通報者に加わる。契約解除などの不利益な扱いも禁止。</small></div>
+      <div class="rev"><span class="no">2</span><b>報復に刑事罰</b><small>公益通報を理由とする解雇・懲戒に刑事罰を新設。行為者と会社の両方が対象（両罰）。</small></div>
+      <div class="rev"><span class="no">3</span><b>1年以内なら推定</b><small>通報後1年以内の解雇・懲戒は、公益通報を理由とするものと推定される。会社側が「通報が理由ではない」と証明する必要がある。</small></div>
+      <div class="rev"><span class="no">4</span><b>探索・妨害の禁止</b><small>正当な理由なく通報者を探すことや、「通報しない」と約束させるなどの妨害を禁止。そうした合意は無効。</small></div>
+      <div class="rev"><span class="no">5</span><b>体制づくりの実効性</b><small>従事者を指定しない事業者に、消費者庁が勧告・命令でき、命令違反には罰金。立入検査の権限も新設。</small></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>改正後も、通報を理由とする解雇は民事上無効になるだけで刑事罰はない<span class="why">改正で刑事罰が新設されます。</span></span></li>
+        <li><span class="mark x">×</span><span>通報後1年以内の解雇は、通報者が「通報が理由だ」と証明しなければならない<span class="why">通報を理由とするものと推定されるので、会社側が反証する必要があります。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART4 分野別の法令 ============ -->
+<section id="lw" class="part part-lw">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>分野別の法令：どこで違反が起きやすいか</h2>
+    <p>コンプライアンス違反が起きやすい分野は「取引」「広告」「情報」「人」の4つです。それぞれの代表的な法律をおさえます。</p>
+  </div>
+
+  <!-- 4-1 -->
+  <div class="unit" id="u-am">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★★</span><h3>取引：独占禁止法と取適法</h3></div>
+    <div class="two">
+      <div class="box">
+        <h4>独占禁止法</h4>
+        <ul class="pts">
+          <li><b>私的独占</b>：他の事業者を排除・支配して市場を独占する</li>
+          <li><b>不当な取引制限</b>：<span class="hl">カルテル・入札談合</span>。競争相手と価格や受注者を取り決める</li>
+          <li><b>不公正な取引方法</b>：優越的地位の濫用、不当廉売、抱き合わせ販売など</li>
+          <li><b>課徴金減免制度</b>（リーニエンシー）：公正取引委員会の調査開始前に<b>最初に</b>違反を申告した事業者は、課徴金が全額免除</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>取適法（旧 下請法）<span class="new" style="margin-left:6px">2026年1月施行</span></h4>
+        <ul class="pts">
+          <li>下請法が改正され、通称「取適法」になった</li>
+          <li>用語の変更：親事業者 → <b>委託事業者</b>、下請事業者 → <b>中小受託事業者</b></li>
+          <li>資本金に加えて<b>従業員数の基準</b>（300人、役務提供委託などは100人）を追加</li>
+          <li>対象取引での<b>手形払いを禁止</b></li>
+          <li>発荷主から運送事業者への<b>運送委託</b>を対象に追加</li>
+          <li>価格協議に応じないまま一方的に代金を決めることを禁止</li>
+        </ul>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>競争相手と値上げ幅を話し合っただけで、実際に値上げしていなければ違反にならない<span class="why">取り決め（合意）をした時点で不当な取引制限になります。</span></span></li>
+        <li><span class="mark x">×</span><span>取適法の対象かどうかは、資本金の額だけで決まる<span class="why">2026年1月から従業員数の基準も加わりました。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4-2 -->
+  <div class="unit" id="u-ad">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★</span><h3>広告：景品表示法</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">優良誤認表示</span><p class="def-t"><b>品質・規格・内容</b>が、実際より著しく優れていると見せる表示。</p><p class="def-n">例：国産と書いて実は輸入品。根拠のない「痩せる」</p></div>
+      <div class="def"><span class="def-l">有利誤認表示</span><p class="def-t"><b>価格・取引条件</b>が、実際より著しく有利だと見せる表示。</p><p class="def-n">例：いつも同じ値段なのに「今だけ半額」</p></div>
+      <div class="def"><span class="def-l">ステルスマーケティング</span><p class="def-t">広告であることを隠した広告。<b>2023年10月</b>から不当表示として規制されています。</p><p class="def-n">規制されるのは広告主で、依頼されて投稿したインフルエンサーではありません。</p></div>
+    </div>
+    <ul class="pts">
+      <li>違反すると消費者庁が<b>措置命令</b>を出し、優良誤認・有利誤認には<b>課徴金</b>（対象商品の売上額の3%）も課されます。</li>
+    </ul>
+  </div>
+
+  <!-- 4-3 -->
+  <div class="unit" id="u-info">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">頻出度 ★★</span><h3>情報：営業秘密・個人情報・インサイダー取引</h3></div>
+    <div class="defs">
+      <div class="def">
+        <span class="def-l">営業秘密（不正競争防止法）</span>
+        <p class="def-t">次の<b>3つすべて</b>を満たす情報が保護されます。</p>
+        <div class="chips"><span class="chip">秘密管理性<small>秘密として管理されている</small></span><span class="chip">有用性<small>事業に役立つ</small></span><span class="chip">非公知性<small>世間に知られていない</small></span></div>
+        <p class="def-n">同じ法律で、<b>外国公務員への贈賄</b>も処罰されます。</p>
+      </div>
+      <div class="def">
+        <span class="def-l">個人情報保護法</span>
+        <p class="def-t">要配慮個人情報の漏えいや、1,000人を超える漏えいなど一定の場合は、<b>個人情報保護委員会への報告</b>と<b>本人への通知</b>が義務です。</p>
+        <p class="def-n">要配慮個人情報（病歴・犯罪歴など）は、原則として本人の同意がないと取得できません。</p>
+      </div>
+      <div class="def">
+        <span class="def-l">インサイダー取引（金融商品取引法）</span>
+        <p class="def-t">上場会社の<b>重要事実</b>を職務上知った会社関係者が、<b>公表前</b>にその会社の株を売買すること。</p>
+        <p class="def-n">会社関係者でなくなってから<b>1年以内</b>の人も規制されます。利益が出たかどうかは関係ありません。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4-4 -->
+  <div class="unit" id="u-people">
+    <div class="unit-head"><span class="tag">4-4</span><span class="freq">頻出度 ★★</span><h3>人：ハラスメントと反社会的勢力</h3></div>
+    <div class="two">
+      <div class="box">
+        <h4>パワーハラスメント</h4>
+        <p>次の<b>3つすべて</b>を満たす言動です（労働施策総合推進法）。</p>
+        <ul class="pts">
+          <li>優越的な関係を背景とした言動</li>
+          <li>業務上必要かつ相当な範囲を超えたもの</li>
+          <li>労働者の就業環境が害されるもの</li>
+        </ul>
+        <p class="def-n">適正な範囲の業務指示や指導はパワハラにあたりません。防止措置は2022年4月から中小企業も義務です。</p>
+      </div>
+      <div class="box">
+        <h4>カスタマーハラスメント <span class="new" style="margin-left:6px">2026年10月施行</span></h4>
+        <ul class="pts">
+          <li>改正労働施策総合推進法で、<b>2026年10月1日</b>から事業主にカスハラ対策の措置が義務化</li>
+          <li>顧客などの言動で、社会通念上許される範囲を超え、労働者の就業環境が害されるもの</li>
+          <li>方針の明確化、相談体制、被害者への配慮などが求められる</li>
+        </ul>
+      </div>
+      <div class="box">
+        <h4>反社会的勢力</h4>
+        <ul class="pts">
+          <li>政府指針（2007年）は、<b>取引を含めた一切の関係遮断</b>を求める</li>
+          <li>組織として対応し、警察や弁護士など外部の専門機関と連携する</li>
+          <li>裏取引や資金提供は絶対にしない</li>
+          <li>契約書に<b>暴力団排除条項</b>を入れ、相手が反社とわかったら契約を解除できるようにする</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ケース問題 ============ -->
+<section id="cases" class="cases">
+  <div class="cases-head">
+    <span class="part-no">CASE</span>
+    <h2>ケース問題</h2>
+    <p>記述式・事例問題の練習です。答えを考えてから「解答を見る」を押してください。</p>
+  </div>
+  <div class="case-list">
+
+    <div class="scn">
+      <span class="scn-l">ケース1　不正のトライアングル</span>
+      <p class="scn-story">X社のA営業所長は、本社から前年比150%の売上目標を課されていました。目標に届かないと降格になると聞き、期末に架空の売上を計上しました。この営業所では、受注の登録から請求書の発行まで、A所長が1人で行っていました。A所長は「来期に本当の売上で取り返せば問題ない」と考えていました。</p>
+      <ol class="scn-q">
+        <li>このケースの「動機・プレッシャー」「機会」「正当化」は、それぞれ何か。</li>
+        <li>「機会」を減らすために、X社がとるべき対策を2つ挙げよ。</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><p>動機・プレッシャーは、<b>過大な売上目標と降格への不安</b>です。機会は、<b>受注から請求まで1人で完結できたこと</b>です。正当化は、<b>「来期に取り返せば問題ない」という考え</b>です。</p></div>
+          <div class="ans-step"><span class="lb">問2</span><p>たとえば、<b>受注登録と請求書発行の担当を分ける（職務分掌）</b>、<b>上長や経理部門が売上計上を承認・照合する</b>、<b>定期的な人事異動（ジョブローテーション）</b>、<b>内部監査で期末の売上を重点的に確認する</b>などです。<small>目標の見直しは「動機」、倫理研修は「正当化」への対策なので、問2の答えとしては外れます。</small></p></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="scn">
+      <span class="scn-l">ケース2　内部通報と報復</span>
+      <p class="scn-story">Y社（従業員1,200人）の製造部に勤めるBさんは、出荷前の検査データが書き換えられていることを知りました。このデータ改ざんは、ある法律の刑事罰の対象となる行為です。Bさんが社内の通報窓口に通報したところ、翌月、遠方の倉庫へ異動を命じられました。さらに上司は、同僚に「誰が通報したのか」と聞き回っていました。</p>
+      <ol class="scn-q">
+        <li>Bさんの通報は、公益通報者保護法で保護されるか。証拠をそろえていなかった場合はどうか。</li>
+        <li>Bさんへの異動命令は、どのように扱われるか。</li>
+        <li>2026年12月1日以降に同じことが起きた場合、何が変わるか。</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><p>保護されます。Bさんは労働者で、刑事罰の対象となる行為（通報対象事実）を事業者内部に通報しています。内部への通報は「思料する」だけでよいので、<b>証拠がそろっていなくても保護されます</b>。</p></div>
+          <div class="ans-step"><span class="lb">問2</span><p>公益通報を理由とする<b>不利益な取扱い（配置転換）は禁止</b>されていて、異動命令は無効と判断される可能性が高いです。Y社は300人を超えるので内部通報体制の整備が義務で、通報者を探すような上司の行動は、その体制が機能していないことを示します。<small>もし上司が公益通報対応業務従事者で、通報者を特定させる情報を漏らしたのなら、30万円以下の罰金の対象です。</small></p></div>
+          <div class="ans-step"><span class="lb">問3</span><p>改正後は、<b>正当な理由なく通報者を探す行為が明文で禁止</b>されます。また、通報後1年以内に<b>解雇や懲戒</b>を受けた場合は、通報を理由とするものと<b>推定</b>され、会社側が反証しなければなりません。通報を理由とする解雇・懲戒には<b>刑事罰</b>も科されます。<small>推定と刑事罰の対象は「解雇・懲戒」です。配置転換は引き続き「不利益な取扱いの禁止」で判断します。</small></p></div>
+        </div>
+      </details>
+    </div>
+
+    <div class="scn">
+      <span class="scn-l">ケース3　子会社の不正と取締役の責任</span>
+      <p class="scn-story">Z社（公開会社・大会社・取締役会設置会社）の子会社で、経理担当者が5年にわたって合計10億円を横領していました。Z社の取締役会は内部統制の基本方針を決議していましたが、子会社への内部監査は一度も行われておらず、過去に監査役から「子会社の管理が手薄だ」と指摘されても、取締役は対応していませんでした。Z社の株を2年前から持つ株主Cは、取締役の責任を追及したいと考えています。</p>
+      <ol class="scn-q">
+        <li>Z社の取締役は、どのような根拠で会社に対して責任を負う可能性があるか。</li>
+        <li>Z社が取締役を訴えない場合、株主Cがとれる手段と手順を述べよ。</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><p>取締役には、子会社を含む企業集団の業務の適正を確保する<b>内部統制を整備・運用する義務</b>があり、これは<b>善管注意義務（監視義務）</b>の一部です。方針を決議しただけで運用せず、監査役の指摘も放置したことは<b>任務懈怠</b>にあたる可能性があり、<b>会社法423条</b>で会社に損害を賠償する責任を負います。<small>「方針を決めたから責任はない」とはなりません。運用状況も問われます。</small></p></div>
+          <div class="ans-step"><span class="lb">問2</span><p><b>株主代表訴訟</b>（847条）です。Cは公開会社の株を6か月以上前から持っているので要件を満たします。まず<b>Z社に取締役を訴えるよう請求</b>し、<b>60日以内</b>にZ社が訴えなければ、C自身が取締役を訴えます。勝訴しても<b>賠償金はZ社に</b>支払われます。</p></div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">60</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kh-btn" data-qf="kh" aria-pressed="false">基本</button>
+    <button type="button" class="btn f-gv-btn" data-qf="gv" aria-pressed="false">ガバナンス</button>
+    <button type="button" class="btn f-wb-btn" data-qf="wb" aria-pressed="false">公益通報</button>
+    <button type="button" class="btn f-lw-btn" data-qf="lw" aria-pressed="false">分野別の法令</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">60</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kh">
+      <h3>基本：まずここから</h3>
+      <ol>
+        <li>コンプライアンスは法令＋社内規程＋社会規範</li>
+        <li>刑事・民事・行政・社会的の4つの責任</li>
+        <li>両罰規定は本人と会社の両方を処罰</li>
+        <li>不正のトライアングルと対策の組み合わせ</li>
+      </ol>
+    </div>
+    <div class="prio-card gv">
+      <h3>ガバナンス：まずここから</h3>
+      <ol>
+        <li>内部統制の決定は取締役会（大会社）</li>
+        <li>会社法は業務全般、金商法は財務報告</li>
+        <li>経営判断の原則は法令違反に及ばない</li>
+        <li>代表訴訟は6か月・提訴請求・60日・賠償金は会社へ</li>
+        <li>CGコードはコンプライ・オア・エクスプレイン</li>
+      </ol>
+    </div>
+    <div class="prio-card wb">
+      <h3>公益通報：まずここから</h3>
+      <ol>
+        <li>内部＜行政＜報道機関の順に要件が厳しい</li>
+        <li>退職後1年以内・役員も保護対象</li>
+        <li>300人超は体制整備義務、従事者に守秘義務</li>
+        <li>2026年12月の改正：刑事罰・1年以内の推定・フリーランス</li>
+      </ol>
+    </div>
+    <div class="prio-card lw">
+      <h3>分野別の法令：まずここから</h3>
+      <ol>
+        <li>カルテル・談合は不当な取引制限、減免制度</li>
+        <li>取適法の手形払い禁止と従業員基準</li>
+        <li>優良誤認は品質、有利誤認は価格</li>
+        <li>営業秘密の3要件</li>
+        <li>パワハラの3要素とカスハラの措置義務</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>不正のトライアングルの「機会」を減らすのが内部統制、「早く見つける」のが内部通報、通報した人を守るのが公益通報者保護法です。そして、内部統制を作らなかった取締役は善管注意義務違反を問われ、株主代表訴訟で責任を追及されます。PART1〜3は1本の流れでつながっています。</p>
+</section>
+
+<footer>
+  <p>参照：会社法（330条・355条・362条・423条・429条・847条）、金融商品取引法、公益通報者保護法（2025年改正を含む）、私的独占の禁止及び公正取引の確保に関する法律、製造委託等に係る中小受託事業者に対する代金の支払の遅延等の防止に関する法律（取適法）、不当景品類及び不当表示防止法、不正競争防止法、個人情報の保護に関する法律、労働施策総合推進法、東京証券取引所「コーポレートガバナンス・コード」、「企業が反社会的勢力による被害を防止するための指針」。</p>
+  <p>2026年10月時点の内容で作成した学習ノートです。条文の正確な文言や最新の改正は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"kh", q:"コンプライアンスは「法令遵守」のことであり、社内規程や社会規範は含まない。", a:false, e:"現在は、法令に加えて社内規程や社会規範・企業倫理まで含めて考えるのが一般的です。"},
+    {p:"kh", q:"法令に違反していなくても、社会の期待に反する行為によって企業の信用が失われることがある。", a:true, e:"だからこそ、コンプライアンスは法令より広く考えます。"},
+    {p:"kh", q:"不祥事を起こした企業は、刑事・民事・行政上の責任のほか、信用の失墜という社会的責任を負うことがある。", a:true, e:"4つの責任です。社会的責任の影響がいちばん長く続くと言われます。"},
+    {p:"kh", q:"両罰規定とは、従業員が業務に関して違反をしたとき、本人だけでなく法人にも罰金刑を科す規定である。", a:true, e:"両罰規定の定義そのものです。"},
+    {p:"kh", q:"両罰規定がある場合、法人が罰金刑を受ければ、行為をした従業員本人は処罰されない。", a:false, e:"本人と法人の両方が処罰されます。"},
+    {p:"kh", q:"不正のトライアングルの3要素は、動機・プレッシャー、機会、正当化である。", a:true, e:"3つがそろうと不正が起きやすくなるという考え方です。"},
+    {p:"kh", q:"職務分掌や相互チェックの整備は、不正のトライアングルのうち「正当化」を減らす対策である。", a:false, e:"1人で完結できる状況をなくす対策なので「機会」です。"},
+    {p:"kh", q:"「会社のためにやった」「みんなやっている」という考えは、不正のトライアングルの「正当化」にあたる。", a:true, e:"自分の行為を言い訳で納得させる心の動きです。"},
+    {p:"kh", q:"コンプライアンス体制は、行動規範を作成して全社員に配布すれば完成する。", a:false, e:"研修・相談窓口・モニタリング・見直しを繰り返すPDCAが必要です。"},
+    {p:"kh", q:"コンプライアンスの推進では、経営トップの姿勢（トーン・アット・ザ・トップ）が重要である。", a:true, e:"トップが本気でないと、現場は「建前」と受け取ります。"},
+    {p:"kh", q:"ステークホルダーとは、企業の株主のことだけを指す。", a:false, e:"従業員・顧客・取引先・債権者・地域社会なども含みます。"},
+    {p:"kh", q:"CSRは、法令で義務付けられた活動だけを指す。", a:false, e:"法令を超えて、社会の期待に自主的に応える取り組みも含みます。"},
+    {p:"kh", q:"ISO26000は、組織の社会的責任に関する国際規格で、第三者認証を目的としない手引きである。", a:true, e:"ISO9001やISO14001のような認証規格とは違います。"},
+    {p:"kh", q:"不祥事の調査を行う第三者委員会には、会社と利害関係のある顧問弁護士を中心に選任するのが望ましい。", a:false, e:"会社から独立した委員で構成します。日弁連のガイドライン（2010年）が目安です。"},
+    {p:"gv", q:"取締役は、会社に対して善管注意義務と忠実義務を負う。", a:true, e:"善管注意義務は会社法330条・民法644条、忠実義務は会社法355条です。"},
+    {p:"gv", q:"経営判断の原則によれば、結果として会社に損害が出ても、判断の前提の事実調査に不注意がなく、過程と内容が著しく不合理でなければ、善管注意義務違反にならない。", a:true, e:"リスクをとる経営判断を萎縮させないための考え方です。"},
+    {p:"gv", q:"経営判断の原則は、法令に違反する行為にも適用される。", a:false, e:"法令違反には及びません。"},
+    {p:"gv", q:"大会社である取締役会設置会社は、内部統制システムの整備について取締役会で決定しなければならない。", a:true, e:"会社法362条4項6号・5項です。"},
+    {p:"gv", q:"取締役会設置会社は、内部統制システムの整備の決定を代表取締役に一任することができる。", a:false, e:"取締役会で決めなければならない事項で、個々の取締役には委任できません。"},
+    {p:"gv", q:"内部統制システムについての決定の概要と運用状況の概要は、事業報告に記載する。", a:true, e:"運用状況まで記載するのがポイントです。"},
+    {p:"gv", q:"会社法の内部統制は、財務報告の信頼性だけを対象としている。", a:false, e:"会社法は業務の適正全般です。財務報告に絞るのは金融商品取引法です。"},
+    {p:"gv", q:"金融商品取引法により、上場会社などは内部統制報告書を提出し、公認会計士または監査法人の監査を受ける。", a:true, e:"財務報告に係る内部統制の評価と監査の制度（J-SOX）です。"},
+    {p:"gv", q:"取締役が任務を怠り会社に損害を与えたときは、会社に対して損害賠償責任を負う。", a:true, e:"会社法423条の任務懈怠責任です。"},
+    {p:"gv", q:"取締役は、職務を行うことについて軽過失があった場合でも、第三者に対して損害賠償責任を負う。", a:false, e:"429条の責任は、悪意または重大な過失があった場合です。"},
+    {p:"gv", q:"公開会社の株主代表訴訟は、6か月前から引き続き株式を持つ株主が、まず会社に提訴を請求し、60日以内に会社が提訴しないときに起こすことができる。", a:true, e:"会社法847条の手順です。"},
+    {p:"gv", q:"株主代表訴訟で株主が勝訴した場合、賠償金は訴えた株主に支払われる。", a:false, e:"会社の損害を回復する訴えなので、会社に支払われます。"},
+    {p:"gv", q:"コーポレートガバナンス・コードは法律であり、違反した上場会社には罰則がある。", a:false, e:"取引所が定めるソフトローで、罰則はありません。"},
+    {p:"gv", q:"コーポレートガバナンス・コードでは、原則を実施しない場合はその理由を説明することが求められる。", a:true, e:"コンプライ・オア・エクスプレインです。"},
+    {p:"gv", q:"プライム市場の上場会社には、独立社外取締役を少なくとも3分の1以上選任することが求められる。", a:true, e:"必要なら過半数の選任も検討するとされています。"},
+    {p:"gv", q:"機関投資家に向けた行動原則は、コーポレートガバナンス・コードの中に定められている。", a:false, e:"機関投資家向けは、金融庁のスチュワードシップ・コードです。"},
+    {p:"wb", q:"公益通報者保護法の通報者には、退職後1年以内の退職者も含まれる。", a:true, e:"2022年施行の改正で加わりました。"},
+    {p:"wb", q:"取締役や監査役などの役員は、公益通報者保護法の保護対象に含まれない。", a:false, e:"役員も保護対象です。"},
+    {p:"wb", q:"2026年12月1日施行の改正により、一定のフリーランスも公益通報者として保護される。", a:true, e:"業務委託が終わってから1年以内の人も含みます。"},
+    {p:"wb", q:"公益通報者保護法の通報対象事実は、あらゆる法令違反である。", a:false, e:"対象となる法律に定められた犯罪行為や過料の対象となる行為などに限られます。"},
+    {p:"wb", q:"不正な利益を得る目的で行った通報は、公益通報にあたらない。", a:true, e:"不正の目的でないことが公益通報の条件です。"},
+    {p:"wb", q:"事業者内部への通報は、通報対象事実が生じ、またはまさに生じようとしていると思料すれば保護される。", a:true, e:"3つの通報先の中でいちばん緩い要件です。"},
+    {p:"wb", q:"社内窓口への通報が保護されるには、事実を裏付ける証拠をそろえる必要がある。", a:false, e:"内部への通報は「思料する」だけで足ります。"},
+    {p:"wb", q:"行政機関への通報は、思料するだけでも、氏名などを記載した書面を提出すれば保護される場合がある。", a:true, e:"もう1つのルートは「信ずるに足りる相当の理由」がある場合です。"},
+    {p:"wb", q:"報道機関への通報は、事業者内部への通報と同じ要件で保護される。", a:false, e:"報道機関などがいちばん厳しく、真実相当性に加えて一定の事情が必要です。"},
+    {p:"wb", q:"公益通報をしたことを理由とする解雇は無効である。", a:true, e:"降格・減給・不利益な配置転換なども禁止されます。"},
+    {p:"wb", q:"常時使用する労働者が300人を超える事業者には、内部通報体制の整備が義務付けられている。", a:true, e:"300人以下の事業者は努力義務です。"},
+    {p:"wb", q:"常時使用する労働者が300人以下の事業者は、内部通報体制を整備する必要が一切ない。", a:false, e:"努力義務があります。"},
+    {p:"wb", q:"公益通報対応業務従事者が、正当な理由なく通報者を特定させる情報を漏らした場合は、刑事罰の対象となる。", a:true, e:"30万円以下の罰金です。"},
+    {p:"wb", q:"2026年12月施行の改正で、通報後1年以内の解雇や懲戒は、公益通報を理由とするものと推定される。", a:true, e:"会社側が「通報が理由ではない」と反証する必要があります。"},
+    {p:"wb", q:"改正後も、公益通報を理由とする解雇・懲戒は民事上無効になるだけで、刑事罰の対象にはならない。", a:false, e:"改正で刑事罰が新設されます。行為者と会社の両方が対象です。"},
+    {p:"wb", q:"改正により、正当な理由なく通報者を特定しようとする行為が禁止される。", a:true, e:"いわゆる「通報者探し（探索）」の禁止です。"},
+    {p:"wb", q:"改正後は、会社が労働者に「公益通報をしない」と約束させる合意も有効とされる。", a:false, e:"通報を妨げる行為は禁止され、そうした合意は無効です。"},
+    {p:"lw", q:"カルテルや入札談合は、独占禁止法の「不当な取引制限」にあたる。", a:true, e:"競争相手と価格や受注者を取り決める行為です。"},
+    {p:"lw", q:"競争相手と値上げについて合意しても、実際に値上げしなければ不当な取引制限にはあたらない。", a:false, e:"合意をした時点で成立します。"},
+    {p:"lw", q:"課徴金減免制度では、公正取引委員会の調査開始前に最初に違反を申告した事業者は、課徴金が全額免除される。", a:true, e:"申告の順番や協力の度合いによって減額率が変わります。"},
+    {p:"lw", q:"2026年1月に施行された取適法（旧下請法）では、対象取引での手形払いが禁止された。", a:true, e:"支払期日までに現金化が難しい支払手段も禁止されます。"},
+    {p:"lw", q:"取適法の適用対象かどうかは、資本金の額だけで判断する。", a:false, e:"従業員数の基準（300人、役務提供委託などは100人）が加わりました。"},
+    {p:"lw", q:"商品の品質が実際より著しく優れていると見せる表示は、景品表示法の「有利誤認表示」にあたる。", a:false, e:"品質・規格・内容は優良誤認です。有利誤認は価格・取引条件です。"},
+    {p:"lw", q:"広告であることを隠した広告（ステルスマーケティング）は、2023年10月から景品表示法の不当表示として規制されている。", a:true, e:"規制の対象は広告主です。"},
+    {p:"lw", q:"営業秘密として保護されるには、秘密管理性・有用性・非公知性の3つをすべて満たす必要がある。", a:true, e:"不正競争防止法の3要件です。"},
+    {p:"lw", q:"一定の個人データの漏えいが起きた場合、個人情報保護委員会への報告と本人への通知が義務付けられている。", a:true, e:"要配慮個人情報の漏えいや、1,000人を超える漏えいなどが対象です。"},
+    {p:"lw", q:"上場会社の重要事実を職務上知った社員は、退職すれば、その事実が公表される前でもすぐに株を売買してよい。", a:false, e:"会社関係者でなくなってから1年以内は規制されます。"},
+    {p:"lw", q:"パワーハラスメントは、優越的な関係を背景とした言動で、業務上必要かつ相当な範囲を超え、就業環境が害されるもの、の3要素すべてを満たすものをいう。", a:true, e:"適正な範囲の業務指示や指導はあたりません。"},
+    {p:"lw", q:"改正労働施策総合推進法により、2026年10月1日から事業主にカスタマーハラスメント対策の措置が義務付けられた。", a:true, e:"方針の明確化や相談体制の整備などが求められます。"},
+    {p:"lw", q:"反社会的勢力とは、相手から不当な要求があったときに限って関係を断てばよいとされている。", a:false, e:"政府指針（2007年）は、取引を含めた一切の関係遮断を求めています。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kh:" 基本", gv:" ガバナンス", wb:" 公益通報", lw:" 分野別"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+  document.getElementById("qz-count-hero").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
