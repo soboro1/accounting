@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。棚卸資産の出やすい論点（減耗・評価損、表示区分、洗替法と切放法、売価還元法、払出単価、後入先出法の廃止、トレーディング目的）を、図・仕訳・ひっかけ例・計算問題・○×チェック55問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>棚卸資産の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(期末評価)はティール、PART2(売価還元法)はコーラル、PART3(払出単価・その他)は青で色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：期末評価 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：売価還元法 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：払出単価・その他 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：評価損・ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：減耗損 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-ev{border-color:var(--c2);color:var(--c2t)}
+.top a.n-bk{border-color:var(--c3);color:var(--c3t)}
+.top a.n-th{border-color:var(--c4);color:var(--c4t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:5 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-ev{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-hy{fill:color-mix(in srgb,var(--c7) 22%,var(--surface));stroke:var(--c7);stroke-width:2}
+.b-gn{fill:color-mix(in srgb,var(--c8) 24%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-bk{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-th{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 26%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-neg{fill:color-mix(in srgb,var(--ng) 12%,var(--surface));stroke:var(--ng);stroke-width:2;stroke-dasharray:6 4}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.f-ev{fill:var(--c2t)} .f-hy{fill:var(--c7t)} .f-gn{fill:var(--c8t)} .f-bk{fill:var(--c3t)} .f-ng{fill:var(--ng)}
+.x-ng{stroke:var(--ng);stroke-width:3}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-ev .part-head{background:var(--c2)}
+.part-bk .part-head{background:var(--c3)}
+.part-th .part-head{background:var(--c4)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-ev .tag{background:var(--c2)}
+.part-bk .tag{background:var(--c3)}
+.part-th .tag{background:var(--c4)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-ev .pts li::before{background:var(--c2)}
+.part-bk .pts li::before{background:var(--c3)}
+.part-th .pts li::before{background:var(--c4)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-ev .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-bk .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-th .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-ev .def-l{color:var(--c2t)} .part-bk .def-l{color:var(--c3t)} .part-th .def-l{color:var(--c4t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.ev{border-color:var(--c2)} .formula .fx.hy{border-color:var(--c7)} .formula .fx.gn{border-color:var(--c8)} .formula .fx.bk{border-color:var(--c3)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.ev{background:var(--c2)} .formula .res.hy{background:var(--c7)} .formula .res.gn{background:var(--c8)} .formula .res.bk{background:var(--c3)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.je-none{font-family:var(--f-body);font-weight:700;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 170px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.arr{transform:rotate(90deg);align-self:center}}
+.node.th{border-color:var(--c4)} .node.th .nn{color:var(--c4t)}
+.node.bk{border-color:var(--c3)} .node.bk .nn{color:var(--c3t)}
+.node.ev{border-color:var(--c2)} .node.ev .nn{color:var(--c2t)}
+.node.pk{border-color:var(--c7)} .node.pk .nn{color:var(--c7t)}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c2)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c4)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 損益計算書の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pl-v .none{color:var(--muted);font-size:14px}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.hy{background:var(--c7)}
+.pill.gn{background:var(--c8)}
+.pill.tr{background:var(--c4)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c2) 12%,var(--surface));border:2px solid var(--c2)}
+.lane.b{background:color-mix(in srgb,var(--c8) 12%,var(--surface));border:2px solid var(--c8)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c2t)} .lane.b .lane-h{color:var(--c8t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:8px 10px;line-height:1.6}
+.steps li::before{content:counter(st);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+.lane-m{font-weight:700;padding:8px 12px;border-radius:10px;background:var(--surface);text-align:center}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.chip.th{border-color:var(--c4)}
+.chip.out{border-style:dashed;color:var(--muted);text-decoration:line-through;text-decoration-color:var(--ng);text-decoration-thickness:2px}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* 払出単価の比較 */
+.meths{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:12px}
+.meth{border-radius:16px;padding:14px 16px;background:var(--surface);border-top:6px solid var(--c4);display:grid;gap:8px;align-content:start;box-shadow:0 1px 0 var(--line)}
+.meth:nth-child(2){border-color:var(--c2)} .meth:nth-child(3){border-color:var(--c8)}
+.meth h4{font-size:17px}
+.meth .how{font-size:14px;color:var(--muted);line-height:1.65}
+.meth .calc{font-family:var(--f-data);font-size:14px;line-height:1.75;background:color-mix(in srgb,var(--muted) 8%,var(--surface));border-radius:10px;padding:8px 10px}
+.meth .calc b{color:var(--ink)}
+.bars{display:grid;gap:10px}
+.bar-row{display:grid;grid-template-columns:110px minmax(0,1fr);gap:10px;align-items:center}
+.bar-l{font-weight:700;font-size:14.5px}
+.bar-t{display:flex;height:34px;border-radius:8px;overflow:hidden;font-family:var(--f-data);font-size:13.5px;font-weight:700}
+.bar-t span{display:grid;place-items:center;white-space:nowrap;overflow:hidden}
+.bar-t .cogs{background:color-mix(in srgb,var(--c4) 22%,var(--surface));color:var(--c4t)}
+.bar-t .end{background:var(--c2);color:var(--on-solid)}
+.bar-key{display:flex;flex-wrap:wrap;gap:14px;font-size:13.5px;color:var(--muted)}
+.bar-key i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+.why-c.pro{border-style:dashed;border-color:var(--muted)}
+.why-c.pro .no{background:var(--muted)}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-ev-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-bk-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-th-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.ev{background:var(--c2)} .qno.bk{background:var(--c3)} .qno.th{background:var(--c4)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.ev{border-color:var(--c2)} .prio-card.bk{border-color:var(--c3)} .prio-card.th{border-color:var(--c4)}
+.prio-card h3{font-size:18px}
+.prio-card.ev h3{color:var(--c2t)} .prio-card.bk h3{color:var(--c3t)} .prio-card.th h3{color:var(--c4t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.ev li::before{background:var(--c2)} .prio-card.bk li::before{background:var(--c3)} .prio-card.th li::before{background:var(--c4)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-ev" href="#ev">PART1 期末評価</a>
+    <a class="n-bk" href="#bk">PART2 売価還元法</a>
+    <a class="n-th" href="#th">PART3 払出単価・その他</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-a">棚卸資産</span>の<br><span class="h-b">出る論点</span>まとめ</h1>
+  <p class="lead">棚卸資産は、計算と理論の両方で毎回のように出る分野です。中心になるのは<mark>「減耗と評価損の計算」「損益計算書のどこに表示するか」「売価還元法の原価率」</mark>の3つです。このページでは、図と仕訳を使って論点を順に整理し、最後に○×問題55問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#ev"><span>PART1</span><b>期末評価</b><small>減耗・評価損、表示区分、洗替法と切放法、正味売却価額</small></a>
+    <a class="chap" href="#bk"><span>PART2</span><b>売価還元法</b><small>原価法と低価法の原価率、減耗・評価損の計算</small></a>
+    <a class="chap" href="#th"><span>PART3</span><b>払出単価・その他</b><small>先入先出・平均法、後入先出法の廃止、トレーディング目的</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック55問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="flow">
+      <a class="node th" href="#u-cost"><span class="nn">STEP 1 取得</span><b>いくらで受け入れる？</b><small>購入代価＋付随費用。仕入割戻は控除、仕入割引は営業外収益</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node th" href="#u-flow"><span class="nn">STEP 2 払出し</span><b>どの単価で売上原価にする？</b><small>個別法・先入先出法・平均原価法・売価還元法</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node ev" href="#u-calc"><span class="nn">STEP 3 期末評価</span><b>いくらまで下げる？</b><small>数量の減少は減耗損、価値の下落は評価損</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node pk" href="#u-pl"><span class="nn">STEP 4 表示</span><b>P/Lのどこに入れる？</b><small>売上原価・販管費・営業外費用・特別損失</small></a>
+    </div>
+    <figcaption>棚卸資産の論点は「取得 → 払出し → 期末評価 → 表示」の流れに沿って並べると覚えやすくなります。カードを押すと該当する解説に移動します。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 期末評価 ============ -->
+<section id="ev" class="part part-ev">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>期末評価：減耗と評価損</h2>
+    <p>期末の商品は「数が減る」と「価値が下がる」の2つの理由で目減りします。数の減少が棚卸減耗損、価値の下落（収益性の低下）が商品評価損です。</p>
+  </div>
+
+  <!-- 1 -->
+  <div class="unit" id="u-calc">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>減耗損と評価損の計算は「箱の図」で解く</h3></div>
+    <div class="prose">
+      <p>縦軸を<b>単価</b>、横軸を<b>数量</b>にした箱を描くと、面積がそのまま金額になります。計算ミスの多くは、どの数量にどの単価を掛けるかの取り違えです。この図を描けば防げます。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 760 400" role="img" aria-label="減耗損と評価損の箱の図。横軸が数量、縦軸が単価。実地95個×正味売却価額80円が貸借対照表の商品7,600円、その上の帯が評価損1,900円、右側の縦長の部分が減耗損500円">
+        <text x="380" y="30" class="t-b c">高さ＝単価、横幅＝数量 → 面積が金額</text>
+        <!-- 箱 -->
+        <rect x="180" y="150" width="420" height="190" class="b-ev"/>
+        <rect x="180" y="80" width="420" height="70" class="b-hy"/>
+        <rect x="600" y="80" width="100" height="260" class="b-gn"/>
+        <!-- 軸 -->
+        <line x1="180" y1="60" x2="180" y2="340" class="axis"/>
+        <line x1="180" y1="340" x2="720" y2="340" class="axis"/>
+        <!-- 縦軸ラベル -->
+        <text x="168" y="86" class="t-b e">原価 @100</text>
+        <text x="168" y="156" class="t-b e f-ev">正味売却価額</text>
+        <text x="168" y="176" class="t-b e f-ev">@80</text>
+        <!-- 横軸ラベル -->
+        <text x="600" y="364" class="t-b c">実地 95個</text>
+        <text x="700" y="384" class="t-b c">帳簿 100個</text>
+        <line x1="600" y1="340" x2="600" y2="348" class="axis"/>
+        <line x1="700" y1="340" x2="700" y2="368" class="axis"/>
+        <!-- 中身 -->
+        <text x="390" y="110" class="t-b c f-hy">② 商品評価損</text>
+        <text x="390" y="134" class="t-num c">95個 ×（@100 − @80）＝ 1,900</text>
+        <text x="390" y="236" class="t-b c f-ev">貸借対照表の商品</text>
+        <text x="390" y="262" class="t-num c">95個 × @80 ＝ 7,600</text>
+        <text x="650" y="190" class="t-b c f-gn">① 減耗損</text>
+        <text x="650" y="214" class="t-num c">5個×@100</text>
+        <text x="650" y="236" class="t-num c">＝ 500</text>
+      </svg>
+      <figcaption>帳簿100個・実地95個、原価@100・正味売却価額@80の例です。なくなった5個は評価損の計算に入れません。減耗損は原価で計算し、評価損は残っている95個にだけ掛けます。</figcaption>
+    </figure>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">① 先に減耗損（数量の減少）</span><span class="fx gn">（帳簿数量 − 実地数量）</span><span class="op">×</span><span class="fx">原価</span><span class="op">＝</span><span class="res gn">棚卸減耗損</span></div>
+      <div class="formula"><span class="lbl">② 次に評価損（収益性の低下）</span><span class="fx ev">実地数量</span><span class="op">×</span><span class="fx hy">（原価 − 正味売却価額）</span><span class="op">＝</span><span class="res hy">商品評価損</span></div>
+      <div class="formula"><span class="lbl">③ 貸借対照表の金額</span><span class="fx ev">実地数量</span><span class="op">×</span><span class="fx ev">正味売却価額</span><span class="op">＝</span><span class="res ev">期末商品</span></div>
+    </div>
+    <div class="je">
+      <span class="je-t">決算整理仕訳（三分法、期首商品8,000・期末帳簿10,000の場合）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">8,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">8,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">500</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">500</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>商品評価損</span><span class="amt">1,900</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">1,900</span></div>
+      <span class="je-n">繰越商品の残高は 10,000 − 500 − 1,900 ＝ 7,600 で、箱の図の緑の部分と一致します。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>評価損を帳簿数量で計算する（100個 × @20 ＝ 2,000）<span class="why">なくなった5個はすでに減耗損で原価ごと落としています。評価損にも含めると二重に引くことになります。</span></span></li>
+        <li><span class="mark x">×</span><span>減耗損を正味売却価額で計算する（5個 × @80 ＝ 400）<span class="why">減耗損は原価で計算します。先に減耗、次に評価損の順番を守れば間違えません。</span></span></li>
+        <li><span class="mark o">○</span><span>貸借対照表の商品は「実地数量 × 正味売却価額」<span class="why">原価の方が低ければ「実地数量 × 原価」です。低い方を使います。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="unit" id="u-pl">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>損益計算書のどこに表示するか</h3></div>
+    <div class="prose">
+      <p>計算が合っていても、表示区分を間違えると売上総利益や営業利益がずれます。理論問題でもよく出る部分です。<b>評価損は「原則 売上原価」</b>、<b>減耗損は「原価性があるかどうか」</b>で場所が決まります。</p>
+    </div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="損益計算書の区分と、そこに入る損失">
+        <div class="pl-row" role="listitem"><div class="pl-k">売上高</div><div class="pl-v"><span class="pill tr">トレーディング目的の評価差額<small>純額で売上高に表示（→3-4）</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">売上原価<small>（製造業なら製造原価）</small></div><div class="pl-v"><span class="pill hy">商品評価損（原則）<small>収益性の低下による簿価切下額</small></span><span class="pill gn">棚卸減耗損（原価性あり）<small>売上原価の内訳科目として</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">販売費及び<br>一般管理費</div><div class="pl-v"><span class="pill gn">棚卸減耗損（原価性あり）<small>販売費として表示してもよい</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">営業外費用</div><div class="pl-v"><span class="pill gn">棚卸減耗損（原価性なし）</span><span class="none">※評価損はここに入りません</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">特別損失</div><div class="pl-v"><span class="pill hy">商品評価損（臨時の事象かつ多額）<small>重要な事業部門の廃止、災害損失など</small></span><span class="pill gn">棚卸減耗損（原価性なし）</span></div></div>
+      </div>
+      <figcaption>ピンクが評価損、オレンジが減耗損の置き場所です。「原価性がある」とは、毎期ふつうに発生する程度の減耗という意味です。</figcaption>
+    </figure>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>収益性の低下による評価損は<b>売上原価</b>に表示する。製造に関連して生じたものは<b>製造原価</b>として処理する。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span><b>臨時の事象に起因し、かつ多額</b>のときは<b>特別損失</b>に表示する。<small>この場合は、洗替法を採用していても戻入れをしてはいけません。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">あり</span><span>原価性のある減耗損は、<b>売上原価の内訳科目</b>または<b>販売費</b>に表示する。</span></div>
+        <div class="r-row exc"><span class="r-b">なし</span><span>原価性のない減耗損は、<b>営業外費用</b>または<b>特別損失</b>に表示する。<small>盗難や災害など、通常の営業では起きない減少が該当します。</small></span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>収益性の低下による評価損は、原則として営業外費用に表示する<span class="why">旧来の低価法の考え方です。現行の基準では、販売活動に関係する損失として原則は売上原価です。</span></span></li>
+        <li><span class="mark x">×</span><span>原価性のない減耗損も売上原価に含める<span class="why">原価性がなければ、営業外費用か特別損失です。</span></span></li>
+        <li><span class="mark x">×</span><span>特別損失に計上した評価損でも、洗替法なら翌期に戻し入れる<span class="why">臨時かつ多額で特別損失にしたものは、戻入れできません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="unit" id="u-arai">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>洗替法と切放法</h3></div>
+    <div class="prose">
+      <p>前期末に切り下げた金額を、当期にどう扱うかの違いです。<b>洗替法は期首に元の原価へ戻し、切放法は切り下げた後の金額を新しい取得原価とみなします。</b>次の例で比べます。前期末に100個（原価@100、正味売却価額@80）を2,000切り下げ、当期中にすべて販売したとします。</p>
+    </div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">洗替法<small>期首に戻して、毎期あらためて比べる</small></p>
+        <ol class="steps">
+          <li>前期末：10,000 を 8,000 に切り下げる<em>評価損 2,000</em></li>
+          <li class="star">当期首：2,000 を戻し入れて 10,000 に戻す<em>戻入益 2,000（売上原価から控除）</em></li>
+          <li>当期：10,000 で売上原価になる</li>
+        </ol>
+        <div class="je">
+          <span class="je-t">当期首の仕訳</span>
+          <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>商品評価損戻入</span><span class="amt">2,000</span></div>
+        </div>
+        <p class="lane-m">当期の影響：10,000 − 2,000 ＝ 8,000</p>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">切放法<small>切り下げた後の金額を新しい原価にする</small></p>
+        <ol class="steps">
+          <li>前期末：10,000 を 8,000 に切り下げる<em>評価損 2,000</em></li>
+          <li class="star">当期首：何もしない<em>8,000 が新しい取得原価</em></li>
+          <li>当期：8,000 で売上原価になる</li>
+        </ol>
+        <div class="je">
+          <span class="je-t">当期首の仕訳</span>
+          <span class="je-none">仕訳なし</span>
+        </div>
+        <p class="lane-m">当期の影響：8,000</p>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>前期末の在庫を当期中に<span class="hl">すべて販売すれば、当期の損益への影響はどちらも同じ</span>です。</li>
+      <li>差が出るのは、在庫が売れ残って正味売却価額が回復したときです。<span class="sub">例：当期末も同じ100個が残り、正味売却価額が@90に回復した場合。洗替法では原価10,000と比べて評価損は1,000で済み、戻入益2,000と差し引くと利益が1,000増えます。切放法では簿価8,000と比べるだけで、簿価を切り上げることはありません。</span></li>
+      <li>どちらを使うかは<span class="hl">棚卸資産の種類ごとに選べます</span>。いったん選んだら継続して使います。</li>
+    </ul>
+  </div>
+
+  <!-- 4 -->
+  <div class="unit" id="u-nrv">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">頻出度 ★★</span><h3>正味売却価額と、その例外</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">正味売却価額</span><p class="def-t">売価 − 見積追加製造原価 − 見積販売直接経費</p><p class="def-n">売価は、期末時点の売却市場の時価です。将来の販売時点の売価ではありません。</p></div>
+      <div class="def"><span class="def-l">簿価切下げの趣旨（理論の定番）</span><p class="def-t">取得原価基準の下で回収可能性を反映させ、<b>過大な帳簿価額を減額して、将来に損失を繰り延べないため</b>に行う。</p><p class="def-n">時価評価に切り替えるわけではありません。あくまで取得原価基準の中での処理です。</p></div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>期末の<b>正味売却価額</b>と比べる。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>原材料などで、<b>再調達原価</b>の方が把握しやすく、正味売却価額がそれと同じように動く場合は、<b>継続適用を条件に</b>再調達原価を使える。<small>再調達原価には最終仕入原価も含まれます。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>収益性の低下の判断と簿価切下げは、<b>個別品目ごと</b>に行う。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>複数の品目をまとめた単位の方が投資の成果を適切に示せる場合は、<b>継続適用を条件に</b>グループ単位で行える。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>売却市場の<b>市場価格</b>を売価にする。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>市場価格が観察できないときは、<b>合理的に算定された価額</b>を売価にする。<small>期末前後の販売実績や、契約で決まった売価を使う場合を含みます。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">滞留</span><span>営業循環過程から外れた滞留品や処分見込品は、次のどちらかで切り下げる。</span></div>
+        <div class="r-row exc"><span class="r-b">方法</span><span>① <b>処分見込価額</b>（ゼロや備忘価額を含む）まで切り下げる。② 一定の回転期間を超えたら<b>規則的に</b>切り下げる。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>正味売却価額の下落が一時的で、回復が見込まれるなら切り下げなくてよい<span class="why">棚卸資産は回復の可能性を問いません。下落していれば切り下げます。有価証券の減損と混同しないようにしましょう。</span></span></li>
+        <li><span class="mark x">×</span><span>再調達原価と正味売却価額は、毎期有利な方を選んでよい<span class="why">再調達原価を使うのは継続適用が条件です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　減耗・評価損と表示</span>
+      <p class="scn-story">期末商品について、次の資料があります。棚卸減耗には原価性があり、売上原価の内訳科目として表示します。</p>
+      <ul class="given">
+        <li>帳簿数量 <b>200個</b></li>
+        <li>実地数量 <b>190個</b></li>
+        <li>取得原価 <b>@500</b></li>
+        <li>期末の売価 <b>@480</b></li>
+        <li>見積販売直接経費 <b>@30</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>棚卸減耗損はいくらか</li>
+        <li>商品評価損はいくらか</li>
+        <li>貸借対照表の商品の金額はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">準備</span><span>正味売却価額は 480 − 30 ＝ <b>@450</b> です。原価@500より低いので、切下げが必要です。</span></div>
+          <div class="ans-step"><span class="lb">問1</span><span><b>5,000</b><span class="calc">（200個 − 190個）× @500 ＝ 5,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>9,500</b><span class="calc">190個 ×（@500 − @450）＝ 9,500</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>85,500</b><span class="calc">190個 × @450 ＝ 85,500</span></span></div>
+          <div class="je">
+            <span class="je-t">仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">5,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>商品評価損</span><span class="amt">9,500</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">9,500</span></div>
+            <span class="je-n">どちらも売上原価の内訳に表示します。売上原価に加算するのを忘れないようにしましょう。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 売価還元法 ============ -->
+<section id="bk" class="part part-bk">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>売価還元法</h2>
+    <p>売価で管理している在庫を、原価率を掛けて原価に戻す方法です。百貨店やスーパーのように、取り扱う品目がとても多い小売業で使われます。一番の山場は、原価法と低価法の原価率の違いです。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-rate">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>原価率の分母は「値下げを入れるかどうか」だけが違う</h3></div>
+    <div class="def"><span class="def-l">売価還元法とは</span><p class="def-t">値入率などが似ている品目のグループごとに、<b>期末の売価合計額に原価率を掛けて</b>期末棚卸資産の価額を求める方法。</p></div>
+    <figure class="fig">
+      <svg viewBox="0 0 900 330" role="img" aria-label="原価率の分母の比較。売価還元原価法は期首売価・当期仕入原価・原始値入額・純値上額から純値下額を引いて120,000。売価還元低価法は純値下額を引かずに128,000">
+        <!-- 原価法 -->
+        <text x="20" y="44" class="t-h f-bk">売価還元原価法</text>
+        <rect x="170" y="62" width="100" height="56" rx="6" class="b-sun"/>
+        <rect x="270" y="62" width="200" height="56" rx="6" class="b-th"/>
+        <rect x="470" y="62" width="120" height="56" rx="6" class="b-bk"/>
+        <rect x="590" y="62" width="100" height="56" rx="6" class="b-ev"/>
+        <rect x="700" y="62" width="110" height="56" rx="6" class="b-neg"/>
+        <text x="220" y="86" class="t-s c">期首売価</text><text x="220" y="106" class="t-num c">8,000</text>
+        <text x="370" y="86" class="t-s c">当期仕入原価</text><text x="370" y="106" class="t-num c">90,000</text>
+        <text x="530" y="86" class="t-s c">原始値入額</text><text x="530" y="106" class="t-num c">27,000</text>
+        <text x="640" y="86" class="t-s c">純値上額</text><text x="640" y="106" class="t-num c">3,000</text>
+        <text x="755" y="86" class="t-s c f-ng">純値下額</text><text x="755" y="106" class="t-num c f-ng">−8,000</text>
+        <text x="20" y="96" class="t-xs">分母に入れるもの</text>
+        <text x="170" y="150" class="t-b">原価合計 96,000 ÷ 売価合計 120,000 ＝ </text>
+        <text x="510" y="150" class="t-h f-bk">0.80</text>
+        <!-- 区切り -->
+        <line x1="20" y1="178" x2="880" y2="178" class="ln dash"/>
+        <!-- 低価法 -->
+        <text x="20" y="214" class="t-h f-bk">売価還元低価法</text>
+        <rect x="170" y="232" width="100" height="56" rx="6" class="b-sun"/>
+        <rect x="270" y="232" width="200" height="56" rx="6" class="b-th"/>
+        <rect x="470" y="232" width="120" height="56" rx="6" class="b-bk"/>
+        <rect x="590" y="232" width="100" height="56" rx="6" class="b-ev"/>
+        <rect x="700" y="232" width="110" height="56" rx="6" class="b-ghost"/>
+        <text x="220" y="256" class="t-s c">期首売価</text><text x="220" y="276" class="t-num c">8,000</text>
+        <text x="370" y="256" class="t-s c">当期仕入原価</text><text x="370" y="276" class="t-num c">90,000</text>
+        <text x="530" y="256" class="t-s c">原始値入額</text><text x="530" y="276" class="t-num c">27,000</text>
+        <text x="640" y="256" class="t-s c">純値上額</text><text x="640" y="276" class="t-num c">3,000</text>
+        <line x1="712" y1="244" x2="798" y2="276" class="x-ng"/>
+        <line x1="798" y1="244" x2="712" y2="276" class="x-ng"/>
+        <text x="755" y="306" class="t-xs c">値下げは入れない</text>
+        <text x="170" y="320" class="t-b">原価合計 96,000 ÷ 売価合計 128,000 ＝ </text>
+        <text x="510" y="320" class="t-h f-bk">0.75</text>
+      </svg>
+      <figcaption>値上額・値上取消額は、どちらの方法でも分母に入れます。低価法は値下げを分母から除くので分母が大きくなり、原価率が下がります。その結果、期末の評価額が低くなります。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>純値上額 ＝ 値上額 − 値上取消額、純値下額 ＝ 値下額 − 値下取消額です。<span class="sub">この例では、値上4,000・値上取消1,000で純値上3,000、値下10,000・値下取消2,000で純値下8,000です。</span></li>
+      <li>原価率の分子は、<b>期首商品原価 ＋ 当期仕入原価</b>です。どちらの方法でも同じです。</li>
+      <li>分母の覚え方：<span class="hl">低価法は「値下げを見なかったことにする」</span>。売価が高いままなので、そのぶん原価率が低くなります。</li>
+    </ul>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">期末帳簿売価が20,000のとき</span><span class="fx bk">20,000 × 0.80</span><span class="op">＝</span><span class="res bk">原価法 16,000</span><span class="fx bk">20,000 × 0.75</span><span class="op">＝</span><span class="res hy">低価法 15,000</span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>売価還元低価法では、値上額も値下額も分母から除く<span class="why">除くのは値下額と値下取消額だけです。値上げは入れます。</span></span></li>
+        <li><span class="mark x">×</span><span>原価率の分子に原始値入額を入れる<span class="why">原始値入額は売価の部分なので、分母にだけ入ります。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-bkloss">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>売価還元法の減耗損と評価損</h3></div>
+    <div class="prose">
+      <p>PART1と同じ箱の図で解けます。違いは<b>横軸が売価、縦軸が原価率</b>になることだけです。上の例で、期末帳簿売価20,000・実地売価19,000とします。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 760 400" role="img" aria-label="売価還元法の箱の図。横軸が売価、縦軸が原価率。実地売価19,000×低価法原価率0.75が貸借対照表14,250、その上の帯が評価損950、右側の部分が減耗損800">
+        <text x="380" y="30" class="t-b c">高さ＝原価率、横幅＝売価 → 面積が原価</text>
+        <rect x="180" y="150" width="420" height="190" class="b-ev"/>
+        <rect x="180" y="80" width="420" height="70" class="b-hy"/>
+        <rect x="600" y="80" width="100" height="260" class="b-gn"/>
+        <line x1="180" y1="60" x2="180" y2="340" class="axis"/>
+        <line x1="180" y1="340" x2="720" y2="340" class="axis"/>
+        <text x="168" y="86" class="t-b e">原価法 0.80</text>
+        <text x="168" y="156" class="t-b e f-ev">低価法 0.75</text>
+        <text x="600" y="364" class="t-b c">実地売価 19,000</text>
+        <text x="700" y="384" class="t-b c">帳簿売価 20,000</text>
+        <line x1="600" y1="340" x2="600" y2="348" class="axis"/>
+        <line x1="700" y1="340" x2="700" y2="368" class="axis"/>
+        <text x="390" y="110" class="t-b c f-hy">② 商品評価損</text>
+        <text x="390" y="134" class="t-num c">19,000 ×（0.80 − 0.75）＝ 950</text>
+        <text x="390" y="236" class="t-b c f-ev">貸借対照表の商品</text>
+        <text x="390" y="262" class="t-num c">19,000 × 0.75 ＝ 14,250</text>
+        <text x="650" y="190" class="t-b c f-gn">① 減耗損</text>
+        <text x="650" y="214" class="t-num c">1,000×0.80</text>
+        <text x="650" y="236" class="t-num c">＝ 800</text>
+      </svg>
+      <figcaption>減耗損は原価法の原価率で、評価損は実地売価にだけ掛けます。期末帳簿原価16,000（＝20,000 × 0.80）から減耗損800と評価損950を引くと、14,250になります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">評価損を計上する方法（原価法の原価率で繰越商品を計上）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">6,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">6,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">16,000</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">16,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">800</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">800</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>商品評価損</span><span class="amt">950</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">950</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">評価損を計上しない方法（最初から低価法の原価率を使う）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">6,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">6,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">15,000</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">15,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">750</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">750</span></div>
+        <span class="je-n">減耗損は 1,000 × 0.75 ＝ 750。貸借対照表は 15,000 − 750 ＝ 14,250 で、左の方法と同じです。</span>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>売価還元法でも、正味売却価額が帳簿価額より下がっていれば、<b>正味売却価額まで切り下げる</b>。</span></div>
+        <div class="r-row exc"><span class="r-b">特例</span><span>値下額などが売価合計額に適切に反映されている場合は、<b>売価還元低価法の原価率</b>で求めた帳簿価額を、収益性の低下を反映した金額とみなせる。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>評価損を帳簿売価20,000に掛ける（20,000 × 0.05 ＝ 1,000）<span class="why">PART1と同じで、評価損は実地の分（19,000）にだけ掛けます。</span></span></li>
+        <li><span class="mark o">○</span><span>評価損と減耗損をどちらも売上原価に含めれば、評価損を計上する方法としない方法で売上原価は同じになる<span class="why">仕入勘定の差1,000（16,000と15,000）を、評価損950と減耗損の差額50（800 − 750）が埋めるからです。減耗損を営業外費用にすると、売上原価は50だけずれます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　売価還元低価法</span>
+      <p class="scn-story">売価還元低価法を採用しています。評価損は計上する方法によります。次の資料から答えてください。</p>
+      <ul class="given">
+        <li>期首商品 原価 <b>12,000</b>／売価 <b>16,000</b></li>
+        <li>当期仕入原価 <b>144,000</b></li>
+        <li>原始値入額 <b>44,000</b></li>
+        <li>値上額 <b>6,000</b>／値上取消額 <b>2,000</b></li>
+        <li>値下額 <b>10,000</b>／値下取消額 <b>2,000</b></li>
+        <li>売上高 <b>170,000</b></li>
+        <li>期末実地売価 <b>29,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>原価法と低価法の原価率はそれぞれいくらか</li>
+        <li>棚卸減耗損と商品評価損はいくらか</li>
+        <li>貸借対照表の商品はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">準備</span><span>原価合計は 12,000 ＋ 144,000 ＝ 156,000。純値上は4,000、純値下は8,000です。<span class="calc">低価法の分母：16,000 ＋ 144,000 ＋ 44,000 ＋ 4,000 ＝ 208,000<br>原価法の分母：208,000 − 8,000 ＝ 200,000<br>期末帳簿売価：200,000 − 売上高170,000 ＝ 30,000</span></span></div>
+          <div class="ans-step"><span class="lb">問1</span><span>原価法 <b>0.78</b>、低価法 <b>0.75</b><span class="calc">156,000 ÷ 200,000 ＝ 0.78<br>156,000 ÷ 208,000 ＝ 0.75</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>減耗損 <b>780</b>、評価損 <b>870</b><span class="calc">（30,000 − 29,000）× 0.78 ＝ 780<br>29,000 ×（0.78 − 0.75）＝ 870</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>21,750</b><span class="calc">29,000 × 0.75 ＝ 21,750<br>検算：30,000 × 0.78 ＝ 23,400、23,400 − 780 − 870 ＝ 21,750</span></span></div>
+          <div class="je">
+            <span class="je-t">決算整理仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">12,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">12,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">23,400</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">23,400</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">780</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">780</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>商品評価損</span><span class="amt">870</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">870</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 払出単価・その他 ============ -->
+<section id="th" class="part part-th">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>払出単価と、その他の論点</h2>
+    <p>払出単価の計算方法、後入先出法が廃止された理由、トレーディング目的の棚卸資産、取得原価の範囲などです。理論問題の穴埋めや正誤問題で狙われやすい部分です。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-flow">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★</span><h3>払出単価の計算方法</h3></div>
+    <div class="prose">
+      <p>認められている方法は<b>個別法・先入先出法・平均原価法（総平均法・移動平均法）・売価還元法</b>です。次の取引で3つの方法を比べます。</p>
+    </div>
+    <ul class="given">
+      <li>期首 <b>10個 @100</b></li>
+      <li>仕入① <b>20個 @130</b></li>
+      <li>払出し <b>15個</b></li>
+      <li>仕入② <b>10個 @140</b></li>
+      <li>払出し <b>15個</b></li>
+    </ul>
+    <div class="meths">
+      <div class="meth">
+        <h4>先入先出法</h4>
+        <p class="how">先に仕入れたものから順に払い出したとみなす。</p>
+        <p class="calc">1回目：10個×@100 ＋ 5個×@130 ＝ 1,650<br>2回目：15個×@130 ＝ 1,950<br>売上原価 <b>3,600</b>／期末 <b>1,400</b></p>
+      </div>
+      <div class="meth">
+        <h4>移動平均法</h4>
+        <p class="how">仕入れのたびに平均単価を計算し直す。</p>
+        <p class="calc">仕入①後：3,600 ÷ 30個 ＝ @120<br>仕入②後：(1,800＋1,400) ÷ 25個 ＝ @128<br>売上原価 <b>3,720</b>／期末 <b>1,280</b></p>
+      </div>
+      <div class="meth">
+        <h4>総平均法</h4>
+        <p class="how">期間全体の合計で、平均単価を1回だけ計算する。</p>
+        <p class="calc">5,000 ÷ 40個 ＝ @125<br>払出30個 × @125 ＝ 3,750<br>売上原価 <b>3,750</b>／期末 <b>1,250</b></p>
+      </div>
+    </div>
+    <figure class="fig" style="overflow:visible">
+      <div class="bars" role="list" aria-label="方法ごとの売上原価と期末商品の内訳（合計5,000）">
+        <div class="bar-row" role="listitem"><span class="bar-l">先入先出法</span><div class="bar-t"><span class="cogs" style="width:72%">3,600</span><span class="end" style="width:28%">1,400</span></div></div>
+        <div class="bar-row" role="listitem"><span class="bar-l">移動平均法</span><div class="bar-t"><span class="cogs" style="width:74.4%">3,720</span><span class="end" style="width:25.6%">1,280</span></div></div>
+        <div class="bar-row" role="listitem"><span class="bar-l">総平均法</span><div class="bar-t"><span class="cogs" style="width:75%">3,750</span><span class="end" style="width:25%">1,250</span></div></div>
+        <div class="bar-key"><span><i style="background:color-mix(in srgb,var(--c4) 22%,var(--surface))"></i>売上原価</span><span><i style="background:var(--c2)"></i>期末商品</span></div>
+      </div>
+      <figcaption>仕入単価が上がっていく局面では、先入先出法は古い安い原価から払い出すので、売上原価が最も小さく、期末商品が最も大きくなります。つまり利益が最も大きくなります。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>総平均法は、仕入れのたびに平均単価を計算し直す<span class="why">それは移動平均法です。総平均法は期間の終わりに1回だけ計算します。</span></span></li>
+        <li><span class="mark x">×</span><span>払出単価の計算方法を変えたら、会計上の見積りの変更として将来に向けて処理する<span class="why">評価方法の変更は会計方針の変更です。原則として遡及適用します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-lifo">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>後入先出法が廃止された理由</h3></div>
+    <div class="prose">
+      <p>後入先出法は、新しく仕入れたものから払い出したとみなす方法です。2008年の基準改正で廃止されました。廃止の理由は記述問題の定番なので、3つセットで覚えましょう。</p>
+    </div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>貸借対照表の価額が実態から離れる</b><small>期末に古い単価の在庫が残り続けるので、最新の価格水準から大きくかけ離れることがある。</small></div>
+      <div class="why-c"><span class="no">2</span><b>保有損益が一度に出てくる</b><small>期末の在庫量が減ると、古い単価の在庫が払い出され、過去にたまった保有損益が当期の損益に一度に計上される。</small></div>
+      <div class="why-c"><span class="no">3</span><b>国際的な基準と合わない</b><small>IFRSでは後入先出法が認められていない。会計基準のコンバージェンス（国際的な統一）を進めるため。</small></div>
+      <div class="why-c pro"><span class="no">＋</span><b>かつてのメリット</b><small>最新の仕入原価が売上原価になるので、当期の収益と最新の原価が対応し、保有損益を期間損益から除くことができる、とされていた。</small></div>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-saishu">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★</span><h3>最終仕入原価法</h3></div>
+    <ul class="pts">
+      <li>期末の在庫をすべて最後に仕入れたときの単価で評価する方法です。税法で使われています。</li>
+      <li>会計上は、<span class="hl">期末在庫の大部分が最終の仕入価格で取得されているときのように、期間損益の計算上の弊害がない場合</span>や、<span class="hl">期末在庫に重要性が乏しい場合</span>にだけ認められます。</li>
+    </ul>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-trade">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★</span><h3>トレーディング目的で保有する棚卸資産</h3></div>
+    <div class="prose">
+      <p>金地金のように、<b>市場価格の変動で利益を得ることだけを目的に</b>持つ棚卸資産です。通常の棚卸資産とは扱いが正反対になります。</p>
+    </div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">通常の棚卸資産<small>事業投資：売ってはじめて成果になる</small></p>
+        <ol class="steps">
+          <li>取得原価で評価する</li>
+          <li>収益性が下がったときだけ切り下げる</li>
+          <li class="star">評価益は計上しない<em>値上がりしても簿価は上げない</em></li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">トレーディング目的<small>金融投資に近い：値動きそのものが成果</small></p>
+        <ol class="steps">
+          <li>市場価格に基づく価額（時価）で評価する</li>
+          <li>評価差額は当期の損益にする</li>
+          <li class="star">損益は売上高に純額で表示する<em>評価益も計上する</em></li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">期末に簿価1,000の金地金の時価が1,150になった場合</span>
+      <div class="je-row"><span class="dc">(借)</span><span>商品</span><span class="amt">150</span><span class="dc">(貸)</span><span>売上高（トレーディング損益）</span><span class="amt">150</span></div>
+      <span class="je-n">評価差額は純資産に直接入れず、当期の損益として売上高に純額で表示します。時価の算定には「時価の算定に関する会計基準」が適用されます。</span>
+    </div>
+  </div>
+
+  <!-- 3-5 -->
+  <div class="unit" id="u-cost">
+    <div class="unit-head"><span class="tag">3-5</span><span class="freq">頻出度 ★</span><h3>棚卸資産の範囲と取得原価</h3></div>
+    <div class="two">
+      <div class="box">
+        <h4>棚卸資産に含まれるもの</h4>
+        <div class="chips">
+          <span class="chip th">商品・製品</span>
+          <span class="chip th">半製品・仕掛品</span>
+          <span class="chip th">原材料</span>
+          <span class="chip th">事務用消耗品<small>短期間で消費されるもの</small></span>
+          <span class="chip th">販売用不動産<small>不動産会社が販売目的で持つ土地・建物</small></span>
+        </div>
+        <p class="cap">販売目的の資産のほか、売る予定がなくても販売活動や一般管理活動で短期間に消費される事務用消耗品なども含まれます。</p>
+      </div>
+      <div class="box">
+        <h4>取得原価</h4>
+        <div class="formula"><span class="fx">購入代価</span><span class="op">＋</span><span class="fx">付随費用</span><span class="op">＝</span><span class="res bk">取得原価</span></div>
+        <p class="cap">付随費用は、引取運賃・購入手数料・関税などです。</p>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">仕入割戻（一定量以上の購入によるリベート）→ 仕入から控除</span>
+        <div class="je-row"><span class="dc">(借)</span><span>買掛金</span><span class="amt">500</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">500</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">仕入割引（支払期日前の早期支払いによる割引）→ 営業外収益</span>
+        <div class="je-row"><span class="dc">(借)</span><span>買掛金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">9,800</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>仕入割引</span><span class="amt">200</span></div>
+        <span class="je-n">仕入割引は早く払ったことに対する利息の性格があるので、仕入原価から引かずに営業外収益にします。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-6 -->
+  <div class="unit" id="u-special">
+    <div class="unit-head"><span class="tag">3-6</span><span class="freq">頻出度 ★</span><h3>計算で出る特殊な論点（総記法・返品権付販売）</h3></div>
+    <div class="two">
+      <div class="box">
+        <h4>総記法</h4>
+        <p class="cap" style="margin-top:0">仕入は原価で商品勘定の借方に、売上は売価で貸方に記入します。期末に、商品勘定の残高と期末商品の原価から商品売買益を求めます。</p>
+        <div class="je">
+          <span class="je-t">商品勘定が貸方残高3,000、期末商品の原価が5,000の場合</span>
+          <div class="je-row"><span class="dc">(借)</span><span>商品</span><span class="amt">8,000</span><span class="dc">(貸)</span><span>商品売買益</span><span class="amt">8,000</span></div>
+          <span class="je-n">売買益 ＝ 期末商品5,000 ＋ 貸方残高3,000。仕訳後、商品勘定は借方残高5,000になります。</span>
+        </div>
+      </div>
+      <div class="box">
+        <h4>返品権付販売（収益認識基準）</h4>
+        <p class="cap" style="margin-top:0">返品が見込まれる分は売上にせず、返金負債にします。戻ってくる商品の原価は返品資産にします。</p>
+        <div class="je">
+          <span class="je-t">掛売上10,000、返品見込10%、原価率60%</span>
+          <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">9,000</span></div>
+          <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>返金負債</span><span class="amt">1,000</span></div>
+          <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">5,400</span><span class="dc">(貸)</span><span>商品</span><span class="amt">6,000</span></div>
+          <div class="je-row"><span class="dc"></span><span>返品資産</span><span class="amt">600</span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">55</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-ev-btn" data-qf="ev" aria-pressed="false">期末評価</button>
+    <button type="button" class="btn f-bk-btn" data-qf="bk" aria-pressed="false">売価還元法</button>
+    <button type="button" class="btn f-th-btn" data-qf="th" aria-pressed="false">払出単価・その他</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">55</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card ev">
+      <h3>期末評価：まずここから</h3>
+      <ol>
+        <li>箱の図で減耗損 → 評価損の順に計算する</li>
+        <li>評価損は原則 売上原価、臨時かつ多額なら特別損失</li>
+        <li>減耗損は原価性の有無で表示が変わる</li>
+        <li>洗替法と切放法の違い（種類ごとに選択）</li>
+        <li>簿価切下げの趣旨と、回復可能性を問わないこと</li>
+      </ol>
+    </div>
+    <div class="prio-card bk">
+      <h3>売価還元法：まずここから</h3>
+      <ol>
+        <li>低価法は値下額・値下取消額を分母から除く</li>
+        <li>減耗損は原価法の原価率、評価損は実地売価に掛ける</li>
+        <li>評価損を計上する方法としない方法の仕訳の違い</li>
+        <li>低価法の原価率で切下げを反映したとみなせる特例</li>
+      </ol>
+    </div>
+    <div class="prio-card th">
+      <h3>払出単価・その他：まずここから</h3>
+      <ol>
+        <li>後入先出法の廃止理由3つ</li>
+        <li>物価上昇時の先入先出法と平均法の違い</li>
+        <li>トレーディング目的は時価評価・売上高に純額</li>
+        <li>仕入割戻は控除、仕入割引は営業外収益</li>
+        <li>評価方法の変更は会計方針の変更</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>通常の棚卸資産は「売ってはじめて成果になる事業投資」なので取得原価で評価し、評価益は出しません。ただし将来に損失を持ち越さないよう、収益性が下がった分だけ切り下げます。値動きそのものが成果になるトレーディング目的だけは時価評価です。概念フレームワークの「事業投資は原価、金融投資は時価」と同じ考え方です。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第9号「棚卸資産の評価に関する会計基準」、企業会計原則、企業会計基準第29号「収益認識に関する会計基準」、企業会計基準第30号「時価の算定に関する会計基準」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"ev", q:"棚卸資産の期末評価は、時価評価が原則である。", a:false, e:"取得原価基準が原則です。収益性が低下したときに限り、正味売却価額まで簿価を切り下げます。"},
+    {p:"ev", q:"期末の正味売却価額が取得原価より下落している場合は、収益性が低下しているとみなして正味売却価額まで切り下げる。", a:true, e:"基準の考え方そのものです。"},
+    {p:"ev", q:"簿価切下げは、取得原価基準の下で回収可能性を反映させ、将来に損失を繰り延べないために行う。", a:true, e:"簿価切下げの趣旨です。時価評価に切り替えるものではありません。"},
+    {p:"ev", q:"正味売却価額とは、売価から見積追加製造原価と見積販売直接経費を差し引いた額である。", a:true, e:"正味売却価額の定義そのものです。"},
+    {p:"ev", q:"正味売却価額の計算に使う売価は、将来の販売時点で見込まれる売価である。", a:false, e:"期末時点の売却市場の時価を使います。"},
+    {p:"ev", q:"売却市場で市場価格が観察できないときは、期末前後の販売実績に基づく価額など、合理的に算定された価額を売価とする。", a:true, e:"契約で決まった売価を使う場合も含みます。"},
+    {p:"ev", q:"原材料などで再調達原価の方が把握しやすく、正味売却価額がそれと同じように動く場合は、継続適用を条件に再調達原価によることができる。", a:true, e:"例外として認められています。再調達原価には最終仕入原価も含まれます。"},
+    {p:"ev", q:"再調達原価と正味売却価額は、毎期の状況に応じて有利な方を選んでよい。", a:false, e:"再調達原価を使うのは継続適用が条件です。"},
+    {p:"ev", q:"営業循環過程から外れた滞留品は、処分見込価額まで切り下げるか、一定の回転期間を超えたら規則的に切り下げる。", a:true, e:"この2つの方法が示されています。"},
+    {p:"ev", q:"処分見込価額には、ゼロや備忘価額は含まれない。", a:false, e:"ゼロや備忘価額も含みます。"},
+    {p:"ev", q:"正味売却価額の下落が一時的で回復が見込まれる場合は、簿価を切り下げなくてよい。", a:false, e:"棚卸資産では回復可能性を問いません。下落していれば切り下げます。"},
+    {p:"ev", q:"収益性の低下の判断と簿価切下げは、原則として個別品目ごとに行う。", a:true, e:"原則は個別品目ごとです。"},
+    {p:"ev", q:"複数の棚卸資産をまとめた単位で簿価切下げを行うことは、一切認められない。", a:false, e:"投資の成果を適切に示せると判断される場合は、継続適用を条件に認められます。"},
+    {p:"ev", q:"棚卸減耗損は、（帳簿数量 − 実地数量）× 正味売却価額で計算する。", a:false, e:"減耗損は原価で計算します。先に減耗、次に評価損の順です。"},
+    {p:"ev", q:"商品評価損は、実地数量 ×（原価 − 正味売却価額）で計算する。", a:true, e:"なくなった分は減耗損で処理済みなので、実地数量にだけ掛けます。"},
+    {p:"ev", q:"商品評価損を帳簿数量に掛けて計算すると、減耗した分を二重に差し引くことになる。", a:true, e:"減耗分は原価ごと減耗損にしているので、評価損に含めると二重になります。"},
+    {p:"ev", q:"収益性の低下による評価損は、原則として売上原価に表示する。", a:true, e:"販売活動に関係する損失として、原則は売上原価です。"},
+    {p:"ev", q:"製造に関連して生じた収益性の低下による評価損は、製造原価として処理する。", a:true, e:"製造に関連するものは製造原価です。"},
+    {p:"ev", q:"収益性の低下による評価損は、原則として営業外費用に表示する。", a:false, e:"原則は売上原価です。営業外費用は旧来の低価法の考え方です。"},
+    {p:"ev", q:"臨時の事象に起因し、かつ多額の評価損は、特別損失に表示する。", a:true, e:"重要な事業部門の廃止や災害損失などが該当します。"},
+    {p:"ev", q:"臨時かつ多額の評価損を特別損失に計上した場合でも、洗替法を採用していれば翌期に戻し入れる。", a:false, e:"この場合は、洗替法を採用していても戻入れをしてはいけません。"},
+    {p:"ev", q:"原価性のある棚卸減耗損は、売上原価の内訳科目または販売費として表示する。", a:true, e:"毎期ふつうに発生する程度の減耗は、営業上の費用です。"},
+    {p:"ev", q:"原価性のない棚卸減耗損は、売上原価の内訳科目として表示する。", a:false, e:"原価性がなければ、営業外費用か特別損失です。"},
+    {p:"ev", q:"洗替法では、前期に計上した簿価切下額を当期に戻し入れる。", a:true, e:"戻し入れて元の原価に戻し、あらためて比べます。"},
+    {p:"ev", q:"切放法では、切り下げた後の帳簿価額を翌期の取得原価とみなす。", a:true, e:"その後に正味売却価額が回復しても、簿価は切り上げません。"},
+    {p:"ev", q:"洗替法と切放法は、会社全体で1つの方法を選ばなければならない。", a:false, e:"棚卸資産の種類ごとに選択適用できます。"},
+    {p:"ev", q:"前期末の在庫を当期中にすべて販売した場合、洗替法と切放法のどちらでも当期の損益への影響は同じになる。", a:true, e:"洗替法は原価10,000から戻入2,000を引いて8,000、切放法は最初から8,000です。"},
+    {p:"bk", q:"売価還元法は、取り扱う品目が極めて多い小売業などで用いられる方法である。", a:true, e:"百貨店やスーパーなどが代表例です。"},
+    {p:"bk", q:"売価還元法では、値入率などが似ているグループごとに、期末の売価合計額に原価率を掛けて期末棚卸資産の価額を求める。", a:true, e:"売価還元法の定義そのものです。"},
+    {p:"bk", q:"売価還元原価法の原価率の分母には、値下額と値下取消額を含める。", a:true, e:"原価法では値下げも含めます。"},
+    {p:"bk", q:"売価還元低価法の原価率の分母からは、値上額と値上取消額も除く。", a:false, e:"除くのは値下額と値下取消額だけです。値上げは含めます。"},
+    {p:"bk", q:"純値下額がある場合、売価還元低価法の原価率は売価還元原価法の原価率より低くなる。", a:true, e:"分母から値下げを除くので分母が大きくなり、原価率が下がります。"},
+    {p:"bk", q:"原価率の分子には、期首商品原価と当期仕入原価のほか、原始値入額も含める。", a:false, e:"原始値入額は売価の部分なので、分母にだけ入ります。"},
+    {p:"bk", q:"期首商品の売価は、原価率の分母に含める。", a:true, e:"分母は期首売価から始まります。"},
+    {p:"bk", q:"売価還元法を採用していれば、正味売却価額が帳簿価額を下回っていても簿価を切り下げる必要はない。", a:false, e:"売価還元法でも、正味売却価額まで切り下げます。"},
+    {p:"bk", q:"値下額などが売価合計額に適切に反映されている場合、売価還元低価法の原価率で求めた帳簿価額は、収益性の低下を反映したものとみなすことができる。", a:true, e:"売価還元法の特例です。"},
+    {p:"bk", q:"一般的な解き方では、売価還元低価法の棚卸減耗損は（帳簿売価 − 実地売価）× 低価法の原価率で計算する。", a:false, e:"減耗損は原価法の原価率で計算し、評価損は実地売価 ×（原価法の原価率 − 低価法の原価率）で計算します。"},
+    {p:"bk", q:"売価還元低価法で棚卸減耗がない場合、評価損を計上する方法と計上しない方法では、評価損を売上原価に含める限り売上原価は同じになる。", a:true, e:"期末帳簿売価×（原価法の原価率 − 低価法の原価率）がそのまま評価損になり、仕入勘定の差と一致します。"},
+    {p:"bk", q:"期末帳簿売価は、原価法の分母（売価合計）から売上高を差し引いて求める。", a:true, e:"値下げ後の売価合計から売れた分を引いた残りが、期末の帳簿売価です。"},
+    {p:"th", q:"棚卸資産には、販売目的の資産のほか、短期間に消費される事務用消耗品なども含まれる。", a:true, e:"売る予定がなくても、短期間に消費されるものは含まれます。"},
+    {p:"th", q:"不動産会社が販売目的で保有する土地は、固定資産として扱う。", a:false, e:"販売用不動産として棚卸資産になります。"},
+    {p:"th", q:"棚卸資産の取得原価には、購入代価のほか引取運賃などの付随費用を含める。", a:true, e:"購入代価＋付随費用が取得原価です。"},
+    {p:"th", q:"仕入割引は、仕入原価から控除する。", a:false, e:"仕入割引は利息の性格があるので、営業外収益です。"},
+    {p:"th", q:"仕入割戻は、仕入高から控除する。", a:true, e:"仕入割戻は仕入代金の減額なので、仕入から控除します。"},
+    {p:"th", q:"払出単価の計算方法として、個別法・先入先出法・平均原価法・売価還元法が認められている。", a:true, e:"この4つが認められています。"},
+    {p:"th", q:"後入先出法は、現在も選択適用が認められている。", a:false, e:"2008年の基準改正で廃止されました。"},
+    {p:"th", q:"後入先出法では、期末の棚卸資産の価額が最新の価格水準から大きく離れることがある。", a:true, e:"廃止理由の1つです。"},
+    {p:"th", q:"後入先出法では、期末の在庫量が減ると、過去にたまった保有損益が当期の損益に一度に計上されることがある。", a:true, e:"廃止理由の1つです。"},
+    {p:"th", q:"後入先出法が廃止された理由の1つは、IFRSでも広く認められていて差がなかったからである。", a:false, e:"IFRSでは認められていないので、国際的な統一のために廃止しました。"},
+    {p:"th", q:"物価が上がり続けている局面では、先入先出法の方が総平均法より売上原価が大きくなる。", a:false, e:"先入先出法は古い安い原価から払い出すので、売上原価は小さくなります。"},
+    {p:"th", q:"総平均法は、仕入れのたびに平均単価を計算し直す方法である。", a:false, e:"それは移動平均法です。総平均法は期間全体で1回だけ計算します。"},
+    {p:"th", q:"最終仕入原価法は、期間損益の計算上の弊害がない場合や、期末棚卸資産に重要性が乏しい場合に限って認められる。", a:true, e:"会計上は限られた場合だけの容認です。"},
+    {p:"th", q:"払出単価の計算方法を変更した場合は、会計上の見積りの変更として将来に向けて処理する。", a:false, e:"会計方針の変更です。原則として遡及適用します。"},
+    {p:"th", q:"トレーディング目的で保有する棚卸資産の評価差額は、純資産の部に直接計上する。", a:false, e:"当期の損益として処理し、売上高に純額で表示します。"},
+    {p:"th", q:"トレーディング目的で保有する棚卸資産は、市場価格に基づく価額で評価し、その損益は売上高に純額で表示する。", a:true, e:"通常の棚卸資産と違い、評価益も計上します。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {ev:" 期末評価", bk:" 売価還元", th:" 払出・その他"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
