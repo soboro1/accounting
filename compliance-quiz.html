@@ -1,0 +1,733 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業倫理とコンプライアンスの学習ページ。コンプライアンスの3つの層、不正のトライアングル（機会・動機・正当化）、ビッグモーターと尼崎市USBメモリ紛失の実例、どっちがNG？の2択クイズ16問、job tagで企業法務担当を調べるワーク。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>コンプライアンスクイズ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: STEP1(定義)は青、STEP2(トライアングル)はティール、STEP3(実例)はコーラル、クイズはピンク、jobtagはオレンジ。クイズは2つの行動からNGを選ぶ2択形式 */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：機関決定 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：利益相反・競業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：流れ・契約書 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：代表権・名義 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fl{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kt{border-color:var(--c2);color:var(--c2t)}
+.top a.n-rs{border-color:var(--c3);color:var(--c3t)}
+.top a.n-dh{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kt{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-rs{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-fl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-dh{fill:color-mix(in srgb,var(--c8) 18%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-pl{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.f-kt{fill:var(--c2t)} .f-rs{fill:var(--c3t)} .f-fl{fill:var(--c4t)} .f-dh{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fl .part-head{background:var(--c4)}
+.part-kt .part-head{background:var(--c2)}
+.part-rs .part-head{background:var(--c3)}
+.part-dh .part-head{background:var(--c8)}
+.part-cs .part-head{background:var(--c1);color:#1B1600}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fl .tag{background:var(--c4)}
+.part-kt .tag{background:var(--c2)}
+.part-rs .tag{background:var(--c3)}
+.part-dh .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fl .pts li::before{background:var(--c4)}
+.part-kt .pts li::before{background:var(--c2)}
+.part-rs .pts li::before{background:var(--c3)}
+.part-dh .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-fl .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kt .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-rs .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-dh .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fl .def-l{color:var(--c4t)} .part-kt .def-l{color:var(--c2t)} .part-rs .def-l{color:var(--c3t)} .part-dh .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 判例 */
+.case{border-radius:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);display:grid;gap:4px}
+.case-l{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.case p{line-height:1.8}
+.cases{display:grid;gap:10px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.node{flex-basis:auto}.arr{transform:rotate(90deg);align-self:center}}
+.node.fl{border-color:var(--c4)} .node.fl .nn{color:var(--c4t)}
+.node.kt{border-color:var(--c2)} .node.kt .nn{color:var(--c2t)}
+.node.rs{border-color:var(--c3)} .node.rs .nn{color:var(--c3t)}
+.node.dh{border-color:var(--c8)} .node.dh .nn{color:var(--c8t)}
+
+/* 3つの観点 */
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--line)}
+.view{border-radius:14px;padding:14px 16px;display:grid;gap:4px;align-content:start;text-decoration:none;background:color-mix(in srgb,var(--c4) 12%,var(--surface));border:2px solid var(--c4)}
+.view .nn{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--c4t)}
+.view b{font-size:17px}
+.view small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.vtag{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;border:2px solid var(--c4);color:var(--c4t);background:var(--surface)}
+
+/* 条文の修正例 */
+.clauses{display:grid;gap:12px}
+.clause{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.cl-b,.cl-a{padding:12px 14px;display:grid;gap:4px;align-content:start;line-height:1.75}
+.cl-b{background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cl-a{background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.cl-l{font-size:12.5px;font-weight:700;letter-spacing:.06em}
+.cl-b .cl-l{color:var(--ng)} .cl-a .cl-l{color:var(--ok)}
+.cl-t{font-family:var(--f-data);font-size:14.5px}
+.cl-n{font-size:13.5px;color:var(--muted)}
+
+/* 年間スケジュール */
+.tl{list-style:none;display:grid;gap:0;position:relative}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:10px 0;border-top:1px dashed var(--line);align-items:start;line-height:1.7}
+.tl li:first-child{border-top:0}
+.tl-d{font-weight:700;font-size:14px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t);text-align:center}
+.tl li.hot .tl-d{background:var(--c1);color:#1B1600}
+.tl small{display:block;color:var(--muted);font-size:14px}
+@media (max-width:560px){.tl li{grid-template-columns:1fr;gap:4px}.tl-d{justify-self:start}}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 標語 */
+.motto{border-radius:22px;padding:22px 24px;background:var(--ink);color:var(--bg);display:grid;gap:8px}
+.motto q{font-family:var(--f-display);font-size:clamp(22px,4.4vw,36px);line-height:1.4;quotes:"「" "」"}
+.motto small{font-size:14px;opacity:.85;line-height:1.7}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.fl{background:var(--c4)} .chap.kt{background:var(--c2)} .chap.rs{background:var(--c3)} .chap.dh{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* チェックリスト */
+.checks{list-style:none;display:grid;gap:8px;counter-reset:ck}
+.checks li{counter-increment:ck;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;line-height:1.7}
+.checks li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--c4) 18%,var(--surface));color:var(--c4t);font-weight:700}
+.checks li small{display:block;color:var(--muted);font-size:14px}
+.checks-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.b{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c3t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lane .pts li::before{background:var(--muted)}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kt .chip{border-color:color-mix(in srgb,var(--c2) 60%,var(--line))}
+.part-fl .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line))}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* ケース問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn + .scn{margin-top:18px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn h3{font-size:clamp(18px,3vw,22px);line-height:1.45}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:grid;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--f-data);font-size:14.5px;line-height:1.7;border:1px solid var(--line)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;color:var(--muted);font-size:14px}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fl-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kt-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-rs-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-dh-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fl{background:var(--c4)} .qno.kt{background:var(--c2)} .qno.rs{background:var(--c3)} .qno.dh{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fl{border-color:var(--c4)} .prio-card.kt{border-color:var(--c2)} .prio-card.rs{border-color:var(--c3)} .prio-card.dh{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.fl h3{color:var(--c4t)} .prio-card.kt h3{color:var(--c2t)} .prio-card.rs h3{color:var(--c3t)} .prio-card.dh h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fl li::before{background:var(--c4)} .prio-card.kt li::before{background:var(--c2)} .prio-card.rs li::before{background:var(--c3)} .prio-card.dh li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+<style>
+/* 2択クイズ */
+.cq-list{list-style:none;display:grid;gap:16px}
+.cq{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;display:grid;gap:12px}
+.cq-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.cq-lv{font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;color:var(--on-solid)}
+.cq-lv.l1{background:var(--c4)} .cq-lv.l2{background:var(--c2)} .cq-lv.l3{background:var(--c8)}
+.cq-no{font-size:13px;font-weight:700;color:var(--muted)}
+.cq-sit{line-height:1.85}
+.cq-ask{font-weight:700;color:var(--c7t)}
+.cq-opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.cq-opt{font:inherit;text-align:left;line-height:1.7;display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;align-items:start;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.cq-opt:hover:not(:disabled){border-color:var(--c7)}
+.cq-opt:disabled{cursor:default}
+.cq-opt .ab{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font-weight:700;background:color-mix(in srgb,var(--muted) 18%,var(--surface))}
+.cq-opt.is-ng{border-color:var(--ng);background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cq-opt.is-ng .ab{background:var(--ng);color:var(--on-solid)}
+.cq-opt.is-ok{border-color:var(--ok);background:color-mix(in srgb,var(--ok) 8%,var(--surface))}
+.cq-opt.is-ok .ab{background:var(--ok);color:var(--on-solid)}
+.cq-opt.picked{outline:3px solid var(--c1);outline-offset:2px}
+.cq-res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.75;display:grid;gap:4px}
+.cq-res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.cq-res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.cq-res b{font-size:15px}
+.cq-res.ok b{color:var(--ok)} .cq-res.ng b{color:var(--ng)}
+.cq-res small{color:var(--muted);font-size:13.5px}
+.btn.f-l1[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-l2[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-l3[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.lv-stack{display:grid;gap:10px}
+.lv-row{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;align-items:center;border-radius:14px;padding:12px 14px;border:2px solid}
+.lv-row b{font-size:16px}
+.lv-row small{display:block;color:var(--muted);font-size:14px;line-height:1.65}
+.lv-tag{font-weight:700;font-size:13px;text-align:center;padding:4px 0;border-radius:10px;color:var(--on-solid)}
+.lv-row.l2{border-color:var(--c2);background:color-mix(in srgb,var(--c2) 9%,var(--surface))} .lv-row.l2 .lv-tag{background:var(--c2)}
+.lv-row.l1{border-color:var(--c4);background:color-mix(in srgb,var(--c4) 9%,var(--surface))} .lv-row.l1 .lv-tag{background:var(--c4)}
+.lv-row.l0{border-color:var(--c8);background:color-mix(in srgb,var(--c8) 9%,var(--surface))} .lv-row.l0 .lv-tag{background:var(--c8)}
+@media (max-width:520px){.lv-row{grid-template-columns:1fr}.lv-tag{justify-self:start;padding:4px 12px}}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
+.stat div{background:var(--surface);border:2px solid color-mix(in srgb,var(--c8) 55%,var(--line));border-radius:14px;padding:12px 14px;display:grid;gap:2px}
+.stat small{font-size:12.5px;color:var(--muted);font-weight:700}
+.stat b{font-family:var(--f-data);font-size:20px;line-height:1.4;color:var(--c8t);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+</style>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fl" href="#fl">コンプライアンスとは</a>
+    <a class="n-kt" href="#kt">不正のトライアングル</a>
+    <a class="n-rs" href="#rs">実例</a>
+    <a class="n-qz" href="#quiz">クイズ</a>
+    <a class="n-dh" href="#dh">jobtag</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務 ／ 企業倫理とコンプライアンス</p>
+  <h1><span class="h-a">コンプライアンス</span><br><span class="h-b">クイズ</span></h1>
+  <p class="lead">コンプライアンス違反は、悪い人だけが起こすものではありません。<mark>「時間が足りない」「ムシャクシャした」</mark>といった身近な場面で、ふつうの社員がうっかり踏み越えてしまうものです。このページでは、コンプライアンスの意味と不正が起きるしくみ、実際の事例を確認してから、「どっちがNG？」の2択クイズで判断力を試します。最後に、厚生労働省のjob tagで企業法務の仕事を調べます。</p>
+  <div class="chapters">
+    <a class="chap fl" href="#fl"><span>STEP1</span><b>コンプライアンスとは</b><small>法令・社内規程・社会規範の3つの層</small></a>
+    <a class="chap kt" href="#kt"><span>STEP2</span><b>不正のトライアングル</b><small>環境・理由・言い訳がそろうと起きる</small></a>
+    <a class="chap rs" href="#rs"><span>STEP3</span><b>実例</b><small>ビッグモーター、尼崎市のUSBメモリ紛失</small></a>
+    <a class="chap qz" href="#quiz"><span>QUIZ</span><b>どっちがNG？</b><small>社内規程・社会規範・法令の2択クイズ</small></a>
+    <a class="chap dh" href="#dh"><span>WORK</span><b>jobtagで調べよう</b><small>企業法務担当の仕事内容と働き方</small></a>
+  </div>
+</header>
+
+<!-- ============ コンプライアンスとは ============ -->
+<section id="fl" class="part part-fl">
+  <div class="part-head">
+    <span class="part-no">STEP 1</span>
+    <h2>コンプライアンスとは</h2>
+    <p>コンプライアンスは「法令遵守」と訳されますが、今は法令を守るだけでは足りないと考えられています。<b>法律には書いていなくても、人として守るべきルールやモラル</b>まで含めて、社会の期待に応えることがコンプライアンスです。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">1-1</span><h3>守るべきルールの3つの層</h3></div>
+    <div class="lv-stack">
+      <div class="lv-row l2"><span class="lv-tag">Lv.2</span><span><b>社会規範・倫理</b><small>法律にも社内規程にも書いていないが、人として守るべきモラル。SNSでの発言、お客様への敬意、公私の区別など。破ると炎上や信頼の失墜につながります。</small></span></div>
+      <div class="lv-row l1"><span class="lv-tag">Lv.1</span><span><b>社内規程</b><small>就業規則、情報セキュリティ規程、経費規程など、会社が決めたルール。破ると懲戒処分の対象になります。</small></span></div>
+      <div class="lv-row l0"><span class="lv-tag">土台</span><span><b>法令</b><small>法律・政令・条例など。破ると刑事罰・損害賠償・行政処分を受けることがあります。必ず守る最低限のラインです。</small></span></div>
+    </div>
+    <p class="cap">下の層ほど「守らなければ罰がある」ルールで、上の層ほど「自分で判断して守る」ルールになります。法令に違反していなくても、社内規程や社会規範に反すれば、会社の信用は大きく傷つきます。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">1-2</span><h3>就業規則は「守るべきこと」と「破ったときどうなるか」を決めている</h3></div>
+    <ul class="pts">
+      <li>就業規則には、服務規律（守るべきこと）と、懲戒（破ったときの処分）が書かれている<span class="sub">会社が社員を懲戒するには、あらかじめ就業規則に懲戒の種類と理由を書き、社員に周知しておく必要があります。</span></li>
+      <li>情報セキュリティ規程や業務規程も、就業規則とつながっている<span class="sub">「会社の規程に違反したとき」を懲戒の理由として就業規則に定めておくことで、規程違反が懲戒の対象になります。</span></li>
+    </ul>
+    <p class="cap">就業規則や社内規程の作り方は、<a href="houseido-kitei.html#dh">法制度調査と社内規程</a>のページにまとめています。</p>
+  </div>
+</section>
+
+<!-- ============ 不正のトライアングル ============ -->
+<section id="kt" class="part part-kt">
+  <div class="part-head">
+    <span class="part-no">STEP 2</span>
+    <h2>不正やコンプライアンス違反は、どんなときに起きるか</h2>
+    <p>アメリカの犯罪学者クレッシーが唱えた「不正のトライアングル」では、3つの条件がそろったときに不正が起きやすくなると考えます。</p>
+  </div>
+
+  <figure class="fig">
+    <svg viewBox="0 0 760 360" role="img" aria-label="不正のトライアングル。上が動機（やらなきゃいけない理由）、左下が機会（やろうと思えばできる環境）、右下が正当化（自分への言い訳）。3つがそろうと不正が起きやすい">
+      <line x1="330" y1="98" x2="170" y2="262" class="ln"/>
+      <line x1="430" y1="98" x2="590" y2="262" class="ln"/>
+      <line x1="262" y1="302" x2="498" y2="302" class="ln"/>
+      <rect x="260" y="18" width="240" height="80" rx="14" class="b-kt"/>
+      <text x="380" y="50" class="t-b c f-kt">動機・プレッシャー</text>
+      <text x="380" y="78" class="t-s c">やらなきゃいけない理由</text>
+      <rect x="22" y="262" width="240" height="80" rx="14" class="b-fl"/>
+      <text x="142" y="294" class="t-b c f-fl">機会</text>
+      <text x="142" y="322" class="t-s c">やろうと思えばできる環境</text>
+      <rect x="498" y="262" width="240" height="80" rx="14" class="b-rs"/>
+      <text x="618" y="294" class="t-b c f-rs">正当化</text>
+      <text x="618" y="322" class="t-s c">自分への言い訳</text>
+      <text x="380" y="190" class="t-b c">3つがそろうと</text>
+      <text x="380" y="216" class="t-b c">不正が起きやすい</text>
+    </svg>
+    <figcaption>会社が一番コントロールしやすいのは「機会」です。チェックの仕組みを作れば、やろうと思ってもできない環境になります。</figcaption>
+  </figure>
+
+  <div class="defs">
+    <div class="def"><span class="def-l" style="color:var(--c4t)">機会：やろうと思えばできる環境</span><p class="def-t">チェックする人がいない、一人で全部できてしまう、データを自由に持ち出せる。</p><p class="def-n">対策：職務を分ける、承認を必須にする、持ち出しを技術的に制限する、ログを残す。</p></div>
+    <div class="def"><span class="def-l" style="color:var(--c2t)">動機：やらなきゃいけない理由</span><p class="def-t">厳しいノルマ、締め切りに間に合わない、上司に怒られたくない、お金に困っている。</p><p class="def-n">対策：無理な目標を見直す、相談できる窓口を作る、困ったときに助けを求められる職場にする。</p></div>
+    <div class="def"><span class="def-l" style="color:var(--c3t)">正当化：自分への言い訳</span><p class="def-t">「会社のためだ」「みんなやっている」「少しだけなら」「バレなければいい」。</p><p class="def-n">対策：研修で具体例を伝える、トップが「ルールより利益を優先しない」と示す、違反には公平に対応する。</p></div>
+  </div>
+</section>
+
+<!-- ============ 実例 ============ -->
+<section id="rs" class="part part-rs">
+  <div class="part-head">
+    <span class="part-no">STEP 3</span>
+    <h2>実例から学ぶ</h2>
+    <p>大きな不祥事も、一つひとつはルールを守らなかった行動の積み重ねです。報道などで明らかになった事実をもとに、不正のトライアングルと、どんな規定があれば防げたかを考えます。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">事例1</span><h3>ビッグモーター：保険金の不正請求・器物損壊</h3></div>
+    <ul class="pts">
+      <li>何が起きたか<span class="sub">2023年、中古車販売大手のビッグモーターで、事故車の修理の際に車両をわざと傷つけるなどして、保険金を水増しして請求していた問題が明らかになりました。店舗前の街路樹を除草剤で枯らしたとされる問題も発覚し、器物損壊の疑いで警察が捜査しました。</span></li>
+      <li>どうなったか<span class="sub">金融庁は保険業法にもとづいて立入検査を行い、2023年11月30日付で同社の損害保険代理店の登録を取り消しました。経営管理の体制や、適正な保険募集の体制が整っていなかったことが指摘されています。</span></li>
+    </ul>
+    <div class="defs">
+      <div class="def"><span class="def-l" style="color:var(--c2t)">動機</span><p class="def-t">修理部門に課された厳しい数値目標と、達成できないときの処分への恐れ。</p></div>
+      <div class="def"><span class="def-l" style="color:var(--c4t)">機会</span><p class="def-t">修理の内容が本当に必要なものかを、社内でも保険会社でも十分にチェックできていなかった。</p></div>
+      <div class="def"><span class="def-l" style="color:var(--c3t)">正当化</span><p class="def-t">「上からの指示だから」「会社のためだから」。経営陣の意向に逆らえない企業風土。</p></div>
+    </div>
+    <p class="cap">動機・機会・正当化は、報道や調査で指摘された内容を、トライアングルに当てはめて整理したものです。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">事例2</span><h3>尼崎市：全市民の個人情報が入ったUSBメモリの紛失</h3></div>
+    <ul class="pts">
+      <li>何が起きたか<span class="sub">2022年6月、尼崎市の業務を受託した会社の、さらに再委託先の社員が、全市民約46万人分の住民基本台帳の情報を入れたUSBメモリを紛失しました。許可を得ずにUSBで持ち出し、作業後もデータを消去しないまま飲酒し、路上で寝込んだ間にかばんごとなくしていました。</span></li>
+      <li>どうなったか<span class="sub">USBメモリは翌日に見つかり、第三者委員会は情報の漏えいはなかったと結論づけました。一方で、委託先が契約に反して再委託・再々委託をし、それを市に隠していたことも明らかになりました。個人情報保護委員会は委託先を行政指導しました。</span></li>
+    </ul>
+    <div class="defs">
+      <div class="def"><span class="def-l" style="color:var(--c4t)">機会</span><p class="def-t">大量の個人情報をUSBメモリで持ち出せた。再委託の実態を市がつかめていなかった。</p></div>
+      <div class="def"><span class="def-l" style="color:var(--c2t)">動機（考えてみよう）</span><p class="def-t">作業を早く終わらせたい、手間を省きたい、という気持ちがなかったか。</p></div>
+      <div class="def"><span class="def-l" style="color:var(--c3t)">正当化（考えてみよう）</span><p class="def-t">「暗号化してあるから大丈夫」「いつもやっているから」と思っていなかったか。</p></div>
+    </div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">教訓</span><h3>会社のセキュリティ規定・業務規定があれば防げた</h3></div>
+    <div class="two">
+      <div class="box"><h4>情報セキュリティ規程</h4><ul class="pts">
+        <li>個人情報や機密情報の持ち出しは原則禁止、必要なときは許可制</li>
+        <li>持ち出すときは会社が貸与した暗号化媒体を使い、使い終わったらすぐ消去</li>
+        <li>私物の端末や個人のメールアドレス・クラウドに会社の情報を送らない</li>
+      </ul></div>
+      <div class="box"><h4>業務規程・委託先管理</h4><ul class="pts">
+        <li>再委託は事前に書面で承認を得る</li>
+        <li>委託先が個人データを適切に扱っているかを定期的に確認する<span class="sub">個人情報保護法でも、個人データの取扱いを委託する会社には、委託先を監督する義務があります。</span></li>
+        <li>不正な数値目標が組まれていないか、内部監査で確認する</li>
+      </ul></div>
+    </div>
+    <p class="cap">規程は作るだけでは足りません。尼崎市の事例では、契約で持ち出しのルールが決まっていたのに守られていませんでした。守られているかを確かめる仕組みまでがコンプライアンスです。</p>
+  </div>
+</section>
+
+<!-- ============ クイズ ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">QUIZ</span>
+    <h2>コンプライアンスクイズ <span id="cq-count">0</span>問</h2>
+    <p>2つの行動のうち、問題があるのはどちらでしょう。NGだと思う方を選ぶと、すぐに解説が出ます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題レベル">
+    <button type="button" class="btn" data-lv="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-l1" data-lv="l1" aria-pressed="false">Lv.1 社内規程</button>
+    <button type="button" class="btn f-l2" data-lv="l2" aria-pressed="false">Lv.2 社会規範・倫理</button>
+    <button type="button" class="btn f-l3" data-lv="l3" aria-pressed="false">番外 法令</button>
+    <button type="button" class="btn" id="cq-reset">最初からやり直す</button>
+  </div>
+  <div class="score"><span>正解 <b id="cq-ok">0</b> ／ 回答 <b id="cq-done">0</b> ／ 全<b id="cq-all">0</b>問</span></div>
+  <ol class="cq-list" id="cq-list"></ol>
+</section>
+
+<!-- ============ jobtag ============ -->
+<section id="dh" class="part part-dh">
+  <div class="part-head">
+    <span class="part-no">WORK</span>
+    <h2>jobtagで企業法務を調べよう</h2>
+    <p>job tag（職業情報提供サイト）は、厚生労働省が運営する、仕事の内容や必要なスキル、働き方を調べられるサイトです。「企業法務担当」のページから、わかることを整理します。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">仕事内容</span><h3>このシリーズで学んだ①〜⑤がそのまま載っている</h3></div>
+    <ul class="pts">
+      <li>契約書の作成・審査と締結交渉<span class="sub"><a href="legal-check-kaishaho.html">① リーガルチェック</a></span></li>
+      <li>株主総会・取締役会の実施のサポート、株式の事務<span class="sub"><a href="kikan-homu.html">② 機関法務</a></span></li>
+      <li>各部門からの法律相談、訴訟・係争への対応、顧問弁護士との相談<span class="sub"><a href="funso-sosho.html">③ 紛争・訴訟対応</a></span></li>
+      <li>法律や判例の動向の調査と、社内へのフィードバック<span class="sub"><a href="houseido-kitei.html">④ 法制度調査</a></span></li>
+      <li>内部統制・コンプライアンスプログラムの策定、社内教育<span class="sub"><a href="houseido-kitei.html#rs">⑤ コンプライアンス・社内規程</a></span></li>
+      <li>そのほか、知的財産の管理や、担保・不動産の管理なども担当する</li>
+    </ul>
+    <p class="cap">job tagでも、仕事を「臨床法務」「予防法務」「戦略法務」に分ける見方が紹介され、予防法務と戦略法務の重要性が増していると説明されています。タスクの実施率では、「法律相談・訴訟への対応」が94.6%、「契約書の作成・審査」が87.5%と高くなっています。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">就業するには</span><h3>資格は必須ではないが、一人前までは長い</h3></div>
+    <ul class="pts">
+      <li>特別な学歴や資格は必要とされないが、実際は大学・大学院卒がほとんど<span class="sub">専攻は法律が最も多いものの、他の文系や理系の人もいます。</span></li>
+      <li>配属は、新卒での配属と社内の他部門からの異動が中心<span class="sub">OJTや社外研修で育成され、独り立ちまで8年前後が一般的とされています。</span></li>
+      <li>求められる力：問題を見つける力、分析力、<b>バランス感覚</b>、コミュニケーション能力、ビジネスセンス、英語力<span class="sub"><a href="kigyo-homu-guide.html#rs">向いている人</a>で見た「バランス感覚」は、job tagでもはっきり挙げられています。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">働き方</span><h3>数字で見る</h3></div>
+    <div class="stat">
+      <div><small>残業</small><b>月20〜30時間</b><span>株主総会前などを除けば多くない</span></div>
+      <div><small>法務担当の人数</small><b>約9人</b><span>1社あたり</span></div>
+      <div><small>賃金（年収）</small><b>528.7万円</b><span>令和7年賃金構造基本統計調査</span></div>
+      <div><small>平均年齢</small><b>44歳</b><span>同上</span></div>
+      <div><small>有効求人倍率</small><b>0.46</b><span>ハローワーク、令和7年度</span></div>
+    </div>
+    <p class="cap">年収・年齢・求人倍率は、企業法務担当だけでなく、広報や知的財産の事務なども含む職業分類の統計です。企業法務担当だけの数字ではない点に注意してください。数値は2026年10月に確認したものです。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><span class="tag">ワーク</span><h3>自分で調べてみよう</h3></div>
+    <ol class="checks">
+      <li><span><b>job tagで「企業法務担当」を検索する</b><small><a href="https://shigoto.mhlw.go.jp/User/Occupation/Detail/446" target="_blank" rel="noopener">企業法務担当のページ</a>を開きます</small></span></li>
+      <li><span><b>「どんな仕事？」を読み、①〜⑤のどれに当たるか分けてみる</b><small>このシリーズの学習ページと対応させると、仕事の全体像がつかめます</small></span></li>
+      <li><span><b>「しごと能力プロフィール」を見る</b><small>読解力・傾聴力・文章力・説明力などが高く求められています。自分の得意なことと比べてみましょう</small></span></li>
+      <li><span><b>「類似する職業」も見る</b><small>コンプライアンス推進担当、企画・調査担当などが挙がっています</small></span></li>
+      <li><span><b>都道府県を選んで、自分が働きたい地域の数字を見る</b><small>年収や求人の数字は地域によって変わります</small></span></li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <p>参照：厚生労働省 職業情報提供サイト（job tag）「企業法務担当」、金融庁の公表資料と報道（ビッグモーター）、尼崎市第三者委員会の調査報告に関する報道（尼崎市USBメモリ紛失事案）、労働基準法、個人情報保護法、金融商品取引法、景品表示法、取適法。</p>
+  <p>2026年10月時点の情報です。事例は報道などで公表された事実をもとにまとめ、不正のトライアングルへの当てはめは学習用に整理したものです。</p>
+  <p><a href="kigyo-homu-guide.html">企業法務という仕事（入口ページ）</a>に戻る</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {lv:"l1", sit:"明日の会議までに資料を完成させたいのですが、時間が足りません。「家で続きをやりたい」と思い、次の行動をとりました。", ask:"社内規程違反（懲戒対象）になる可能性が高いのはどっち？",
+     a:"会社の許可を得ていないが、自分の個人用Gmailに資料データを送り、家のパソコンで作業した。", b:"上司に電話して残業申請をし、会社のパソコンで1時間だけ残って作業した。", ng:"a",
+     why:"会社の情報を許可なく個人のメールや端末に移すのは、情報セキュリティ規程違反です。個人のアカウントや家のパソコンは会社が管理できないので、誤送信・乗っ取り・紛失から情報が漏れるおそれがあります。悪気がなく「仕事のため」でも違反になります。", base:"情報セキュリティ規程・就業規則（服務規律）"},
+    {lv:"l1", sit:"取引先との打合せで、顧客リストのデータを持っていく必要があります。", ask:"規程違反になる可能性が高いのはどっち？",
+     a:"上司の承認を得て、会社が貸与した暗号化USBメモリにデータを入れて持ち出し、用が済んだらすぐ消去した。", b:"移動中に作業できるよう、私物のUSBメモリに顧客リストをコピーし、カフェで作業した。", ng:"b",
+     why:"私物の媒体への個人情報のコピーと、人目のある場所での作業は、紛失やのぞき見のリスクが高い行動です。尼崎市の事例も、許可のない持ち出しと、作業後に消去しなかったことが原因でした。", base:"情報セキュリティ規程・個人情報取扱規程"},
+    {lv:"l1", sit:"休みの同僚から「急ぎの処理があるので、代わりにやっておいて」と頼まれました。", ask:"規程違反になる可能性が高いのはどっち？",
+     a:"同僚から聞いたIDとパスワードで同僚としてシステムにログインし、代わりに処理した。", b:"自分のIDでログインし、自分に権限のない処理は上司に相談して対応してもらった。", ng:"a",
+     why:"IDとパスワードの貸し借りは、誰が何をしたかの記録をあいまいにし、不正の「機会」を作ります。善意の手助けでも、アクセス権限のルールに反します。", base:"情報セキュリティ規程（アカウント管理）"},
+    {lv:"l1", sit:"月末に経費精算をしています。", ask:"懲戒対象になる可能性が高いのはどっち？",
+     a:"取引先との会食代を、実際の参加人数どおり2名分で精算した。", b:"一人で飲みに行った代金を、「取引先との打合せ」として精算した。", ng:"b",
+     why:"私的な支出を業務の経費として請求するのは、経費規程違反であるだけでなく、会社のお金をだまし取る行為として刑事責任を問われることもあります。少額でも懲戒解雇の理由になり得ます。", base:"経費規程・就業規則（懲戒）"},
+    {lv:"l1", sit:"会社の就業規則では、副業は事前に届け出れば認められています。", ask:"規程違反になる可能性が高いのはどっち？",
+     a:"届け出ずに、休日に競合他社の商品企画を手伝って報酬を受け取った。", b:"会社に届け出て、休日に本業と関係のない飲食店でアルバイトをした。", ng:"a",
+     why:"届出の手続きを守っていないうえ、競合他社を手伝うことは会社の利益とぶつかり、秘密が漏れるおそれもあります。副業を認める会社でも、競業や秘密漏えいにつながる副業は制限されるのが一般的です。", base:"就業規則（副業・兼業、秘密保持）"},
+    {lv:"l1", sit:"セミナーの案内を、複数の顧客にメールで送ります。", ask:"問題になる可能性が高いのはどっち？",
+     a:"送る前に宛先と添付ファイルを確認し、顧客のアドレスはBCCに入れて送った。", b:"急いでいたので、全員のアドレスを宛先（TO）に並べて一斉に送った。", ng:"b",
+     why:"宛先やCCに並べると、受け取った全員に他の顧客のメールアドレスが見えてしまいます。メールアドレスは個人情報に当たることがあり、情報漏えい事故として報告や謝罪が必要になることもあります。", base:"情報セキュリティ規程・個人情報保護法"},
+
+    {lv:"l2", sit:"今日、お客様から理不尽なクレームを受けました。ムシャクシャしたので、休憩中に次の投稿をしました。", ask:"企業倫理として「炎上リスク」が高いのはどっち？",
+     a:"公開アカウントで「今日はお客様に怒られて落ち込んだ…もっと勉強しよう」と投稿した。", b:"インスタの「親しい友達（鍵付き）」限定で「今日の客、マジでありえないw 話通じなさすぎ」と愚痴を投稿した。", ng:"b",
+     why:"鍵付きや限定公開でも、スクリーンショットで簡単に外に広がります。お客様を見下す投稿は、勤務先が特定されると会社の信用を大きく傷つけます。法律違反でなくても、社会規範・倫理に反する行動です。前向きな投稿でも、お客様が特定できる内容は書かないようにしましょう。", base:"社会規範・倫理（SNSリテラシー）、ソーシャルメディアポリシー"},
+    {lv:"l2", sit:"職場での一コマをSNSに投稿しようとしています。", ask:"問題になる可能性が高いのはどっち？",
+     a:"会議室で撮った自撮りを投稿したが、背景のホワイトボードに発表前の新製品の情報が写っていた。", b:"職場の飲み会の写真を、写っている同僚全員の許可を取ってから投稿した。", ng:"a",
+     why:"写真の背景に写り込んだ情報から、機密が漏れることがあります。投稿前に、写っているもの・位置情報・写っている人の許可を確認しましょう。", base:"社会規範・倫理、情報セキュリティ規程（秘密保持）"},
+    {lv:"l2", sit:"後輩が、取引先に送る資料で同じミスを繰り返しました。", ask:"問題になる可能性が高いのはどっち？",
+     a:"別室で、何がいけなかったかと次にどうすればよいかを具体的に伝えた。", b:"みんなの前で「こんなこともできないのか、給料泥棒」と大声で叱った。", ng:"b",
+     why:"人前での人格を否定する言動は、業務上必要な範囲を超えた叱責として、パワーハラスメントに当たるおそれがあります。指導は、事実と改善策に絞って伝えます。", base:"社会規範・倫理、ハラスメント防止規程（労働施策総合推進法）"},
+    {lv:"l2", sit:"あなたは、新しい発注先を選ぶ担当者です。", ask:"問題になる可能性が高いのはどっち？",
+     a:"候補の業者から高級ゴルフ旅行に招待され、会社に言わずに参加した。", b:"取引先から社内規程の範囲内の手土産を受け取り、上司に報告した。", ng:"a",
+     why:"選定の担当者が候補から高額のもてなしを受けると、公正な選定が疑われます（利益相反）。相手が公務員なら贈収賄の問題にもなります。受け取る場合も、規程の範囲内で、報告するのが基本です。", base:"社会規範・倫理、贈答・接待に関する規程"},
+    {lv:"l2", sit:"仕事帰りの電車の中で、同僚と話しています。", ask:"問題になる可能性が高いのはどっち？",
+     a:"取引先の社名を出して、商談の値引き額について詳しく話した。", b:"社外では社名や金額を出さず、仕事の詳しい話は翌日社内でした。", ng:"a",
+     why:"電車や飲食店での会話は、誰が聞いているかわかりません。取引先の名前や条件が漏れると、取引先の信頼を失います。", base:"社会規範・倫理、秘密保持（就業規則）"},
+    {lv:"l2", sit:"週末に引っ越しをします。", ask:"問題になる可能性が高いのはどっち？",
+     a:"便利なので、会社の社用車を無断で使って荷物を運んだ。", b:"レンタカーを借りて荷物を運んだ。", ng:"a",
+     why:"会社の物を私的に使うのは、公私混同です。事故を起こせば会社が責任を問われることもあります。「少しだけなら」は、不正のトライアングルの「正当化」そのものです。", base:"社会規範・倫理、車両管理規程"},
+
+    {lv:"l3", sit:"あなたは上場会社の社員です。", ask:"法令違反になる可能性が高いのはどっち？",
+     a:"来週発表される大型の業務提携を社内で知り、発表前に自社の株を買った。", b:"提携が公表された後に、社内の株式売買ルールに従って申請してから自社の株を買った。", ng:"a",
+     why:"会社の重要な事実を、公表前に知って株を売買するのはインサイダー取引で、金融商品取引法違反です。刑事罰の対象になります。", base:"金融商品取引法"},
+    {lv:"l3", sit:"新しい健康食品の広告を作っています。", ask:"法令違反になる可能性が高いのはどっち？",
+     a:"根拠となるデータがないまま、「誰でも必ず痩せる」と広告した。", b:"調査会社の調査結果をもとに、調査の出典と期間を添えて「売上No.1」と広告した。", ng:"a",
+     why:"実際より著しく優れていると見せる表示は、景品表示法の優良誤認表示に当たります。合理的な根拠を示せないと、措置命令や課徴金の対象になります。", base:"景品表示法"},
+    {lv:"l3", sit:"中小企業に部品の製造を委託しています。自社の業績が悪化しました。", ask:"法令違反になる可能性が高いのはどっち？",
+     a:"発注した後に、相手の同意も理由もなく、自社の都合で代金を一方的に減らした。", b:"契約どおりの代金を、決めた支払期日までに支払った。", ng:"a",
+     why:"委託した後に、受託した側に責任がないのに代金を減らすことは、取適法（2026年1月に下請法から改正）で禁止されています。", base:"取適法（旧下請法）"},
+    {lv:"l3", sit:"顧客名簿の使い道を考えています。", ask:"法令違反になる可能性が高いのはどっち？",
+     a:"本人の同意を得ずに、顧客名簿を名簿業者に売った。", b:"お知らせした利用目的の範囲内で、顧客にサービスの案内を送った。", ng:"a",
+     why:"個人データを本人の同意なく第三者に提供することは、原則として個人情報保護法違反です（例外的にオプトアウトの手続きなどがあります）。", base:"個人情報保護法"}
+  ];
+
+  var list = document.getElementById("cq-list");
+  var okEl = document.getElementById("cq-ok"), doneEl = document.getElementById("cq-done"), allEl = document.getElementById("cq-all");
+  var LV = {l1:"Lv.1 社内規程", l2:"Lv.2 社会規範・倫理", l3:"番外 法令"};
+  var lv = "all", ok = 0, done = 0;
+  document.getElementById("cq-count").textContent = Q.length;
+
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function opt(key, text){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "cq-opt";
+    var ab = document.createElement("span"); ab.className = "ab"; ab.textContent = key.toUpperCase();
+    var t = document.createElement("span"); t.textContent = text;
+    b.appendChild(ab); b.appendChild(t);
+    b.setAttribute("aria-label", key.toUpperCase() + "がNGだと思う：" + text);
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var items = Q.filter(function(x){ return lv === "all" || x.lv === lv; });
+    allEl.textContent = items.length; update();
+    items.forEach(function(item, n){
+      var li = document.createElement("li"); li.className = "cq";
+      var top = document.createElement("div"); top.className = "cq-top";
+      var tag = document.createElement("span"); tag.className = "cq-lv " + item.lv; tag.textContent = LV[item.lv];
+      var no = document.createElement("span"); no.className = "cq-no"; no.textContent = "Q" + (n+1);
+      top.appendChild(no); top.appendChild(tag);
+      var sit = document.createElement("p"); sit.className = "cq-sit"; sit.textContent = item.sit;
+      var ask = document.createElement("p"); ask.className = "cq-ask"; ask.textContent = item.ask;
+      var opts = document.createElement("div"); opts.className = "cq-opts";
+      var bA = opt("a", item.a), bB = opt("b", item.b);
+      opts.appendChild(bA); opts.appendChild(bB);
+      var res = document.createElement("div"); res.className = "cq-res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bA.disabled) return;
+        var right = (pick === item.ng);
+        bA.disabled = true; bB.disabled = true;
+        (item.ng === "a" ? bA : bB).classList.add("is-ng");
+        (item.ng === "a" ? bB : bA).classList.add("is-ok");
+        (pick === "a" ? bA : bB).classList.add("picked");
+        res.className = "cq-res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　NGなのは " + item.ng.toUpperCase();
+        var p = document.createElement("span"); p.textContent = item.why;
+        var s = document.createElement("small"); s.textContent = "根拠：" + item.base;
+        res.appendChild(h); res.appendChild(p); res.appendChild(s); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bA.addEventListener("click", function(){ answer("a"); });
+      bB.addEventListener("click", function(){ answer("b"); });
+      li.appendChild(top); li.appendChild(sit); li.appendChild(ask); li.appendChild(opts); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+  document.querySelectorAll("[data-lv]").forEach(function(b){
+    b.addEventListener("click", function(){
+      lv = b.getAttribute("data-lv");
+      document.querySelectorAll("[data-lv]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("cq-reset").addEventListener("click", render);
+  render();
+})();
+</script>
+
+</body>
+</html>
