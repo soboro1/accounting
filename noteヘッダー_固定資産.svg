@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="670" viewBox="0 0 1280 670" font-family="'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif">
+  <!-- 書き出し:Chromeヘッドレスでこのファイルを開き、1280×670・倍率2で撮る(フォントはGoogle Fontsから読み込む) -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&amp;family=Zen+Kaku+Gothic+New:wght@500;700;900&amp;display=block');
+    .dg{font-family:'Dela Gothic One','Hiragino Sans',sans-serif}
+  </style>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1A1F3A"/>
+      <stop offset="1" stop-color="#252B52"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1280" height="670" fill="url(#bg)"/>
+  <circle cx="60" cy="30" r="160" fill="#2F7DE1" opacity="0.16"/>
+  <circle cx="1250" cy="660" r="210" fill="#E8543F" opacity="0.14"/>
+  <circle cx="680" cy="700" r="110" fill="#0FA18D" opacity="0.12"/>
+  <g fill="#fff" opacity="0.18">
+    <circle cx="640" cy="90" r="4"/><circle cx="664" cy="90" r="4"/><circle cx="688" cy="90" r="4"/>
+    <circle cx="640" cy="114" r="4"/><circle cx="664" cy="114" r="4"/><circle cx="688" cy="114" r="4"/>
+  </g>
+
+  <!-- 左:テキスト -->
+  <rect x="80" y="86" width="280" height="48" rx="24" fill="#fff" fill-opacity="0.14"/>
+  <text x="220" y="119" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">簿記1級 | 会計学</text>
+
+  <text x="80" y="246" class="dg" font-size="100" fill="#5BA2FF">固定資産</text>
+  <text x="80" y="350" class="dg" font-size="64" fill="#FFC94A">の</text>
+  <text x="150" y="350" class="dg" font-size="72" fill="#FF7A66">出る論点</text>
+
+  <text x="80" y="418" font-size="28" font-weight="700" fill="#fff" opacity="0.95">減損・資産除去債務・減価償却を図と仕訳で</text>
+
+  <g font-size="22" font-weight="900" text-anchor="middle">
+    <rect x="80" y="452" width="176" height="50" rx="25" fill="#fff"/>
+    <text x="168" y="485" fill="#B23726">割引前で判定</text>
+    <rect x="270" y="452" width="164" height="50" rx="25" fill="#fff"/>
+    <text x="352" y="485" fill="#8A6000">計算問題3問</text>
+    <rect x="448" y="452" width="150" height="50" rx="25" fill="#fff"/>
+    <text x="523" y="485" fill="#A8205C">○×57問</text>
+  </g>
+
+  <text x="80" y="572" font-size="20" font-weight="500" fill="#fff" opacity="0.8">図解つき・登録不要の無料Webページ</text>
+
+  <!-- 右:減損損失を測る4本の棒 -->
+  <text x="1000" y="112" text-anchor="middle" class="dg" font-size="26" fill="#fff">減損は「高い方」まで下げる</text>
+
+  <g filter="url(#shadow)">
+    <rect x="790" y="180" width="86" height="112" fill="#D9367D"/>
+    <rect x="790" y="292" width="86" height="208" fill="#E8543F"/>
+    <rect x="896" y="244" width="86" height="256" fill="#6B7194"/>
+    <rect x="1002" y="292" width="86" height="208" fill="#2F7DE1"/>
+    <rect x="1108" y="308" width="86" height="192" fill="#F07C1E"/>
+  </g>
+  <path d="M770 500 H1214" stroke="#fff" stroke-width="3"/>
+  <path d="M782 292 H1214" stroke="#FFC94A" stroke-width="3" stroke-dasharray="9 6"/>
+  <text x="1214" y="281" text-anchor="end" font-size="17" font-weight="900" fill="#FFC94A">回収可能価額</text>
+
+  <text x="833" y="230" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">減損</text>
+  <text x="833" y="254" text-anchor="middle" font-size="18" font-weight="900" fill="#fff">損失</text>
+  <text x="939" y="380" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">割引前</text>
+  <text x="939" y="404" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">で判定</text>
+  <text x="1045" y="404" text-anchor="middle" font-size="20" font-weight="900" fill="#fff">高い方</text>
+
+  <g font-size="16" font-weight="700" fill="#fff" text-anchor="middle" opacity="0.9">
+    <text x="833" y="528">帳簿価額</text>
+    <text x="939" y="528">割引前CF</text>
+    <text x="1045" y="528">使用価値</text>
+    <text x="1151" y="528">正味売却</text>
+    <text x="1151" y="548">価額</text>
+  </g>
+
+  <text x="1000" y="604" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" opacity="0.85" letter-spacing="2">資産除去債務・200%定率法・圧縮記帳</text>
+</svg>
