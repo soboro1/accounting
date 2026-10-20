@@ -1,0 +1,955 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。繰延資産の出やすい論点（定義と計上の理由、前払費用との違い、5項目の償却期間と方法、月割計算、社債の繰上償還、株式交付費と創立費・開発費と研究開発費の線引き、表示区分）を、図・仕訳・計算問題・○×チェック44問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>繰延資産の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(繰延資産とは)は青、PART2(5項目の償却)はコーラル、PART3(線引きと表示)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：線引き・表示 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：償却 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：定義・総論 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 繰延資産とは</a>
+    <a class="n-sh" href="#sh">PART2 5項目の償却</a>
+    <a class="n-js" href="#js">PART3 線引きと表示</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">繰延資産</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">繰延資産は、<mark>5項目しかなく、原則は支出時の費用</mark>という小さな論点です。そのぶん「何年以内に、どの方法で償却するか」「損益計算書のどこに表示するか」「どの項目に当たるか」が細かく問われます。このページでは、図と仕訳で論点を順に整理し、最後に○×問題44問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>繰延資産とは</b><small>定義、資産に計上できる理由、前払費用との違い、会社法</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>5項目の償却</b><small>3年・償還期間・5年、月割計算、社債発行費と繰上償還</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>線引きと表示</b><small>株式交付費と創立費、開発費と研究開発費、表示区分</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック44問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <p class="t-b" style="font-weight:700;margin-bottom:10px">繰延資産は5項目だけ。どれも「原則は支出時の費用、資産に計上してもよい」</p>
+    <div class="cases">
+      <a class="case sh" href="#u-years"><span>資金調達の費用</span><b>株式交付費・社債発行費等</b><small>新株の発行、社債の発行、新株予約権の発行</small><p class="to">3年以内／社債の償還期間</p></a>
+      <a class="case kk" href="#u-years"><span>会社を作る・始める費用</span><b>創立費・開業費</b><small>設立にかかった費用、営業開始までの準備費用</small><p class="to">5年以内・定額法</p></a>
+      <a class="case js" href="#u-kaihatsu"><span>新しく開く費用</span><b>開発費</b><small>新技術の採用、市場の開拓などの特別な支出</small><p class="to">5年以内・定額法など</p></a>
+    </div>
+    <figcaption>カードを押すと、該当する解説に移動します。研究開発費は名前が似ていますが、繰延資産にはなりません（3-3）。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 繰延資産とは ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>繰延資産とは</h2>
+    <p>繰延資産は、売ってお金に換えられる資産ではありません。「効果が将来まで続く費用」を、その期間に配分するために、いったん資産として残しておくものです。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-def">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>定義と、資産に計上できる理由</h3></div>
+    <div class="def"><span class="def-l">繰延資産（企業会計原則注解15の要旨）</span><p class="def-t">すでに代価の支払いが完了し、または支払義務が確定し、これに対応する<b>役務の提供を受けた</b>にもかかわらず、その<b>効果が将来にわたって発現する</b>ものと期待される費用。</p></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 270" role="img" aria-label="繰延資産の考え方。支出して役務の提供も受けた費用5,000の効果が5年間続くので、毎年1,000ずつ費用に配分し、まだ配分していない分を繰延資産として貸借対照表に残す">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="20" y="70" width="150" height="110" rx="14" class="b-sun"/>
+        <text x="95" y="104" class="t-b c">支出 5,000</text>
+        <text x="95" y="130" class="t-s c">代価は支払済み</text>
+        <text x="95" y="154" class="t-s c">役務の提供も済み</text>
+        <path d="M172 125 H214" class="ln" marker-end="url(#ah)"/>
+        <text x="500" y="40" class="t-b c">効果が及ぶ5年間に配分する</text>
+        <g>
+          <rect x="220" y="70" width="110" height="110" rx="10" class="b-kk"/>
+          <rect x="336" y="70" width="110" height="110" rx="10" class="b-grey"/>
+          <rect x="452" y="70" width="110" height="110" rx="10" class="b-grey"/>
+          <rect x="568" y="70" width="110" height="110" rx="10" class="b-grey"/>
+          <rect x="684" y="70" width="110" height="110" rx="10" class="b-grey"/>
+        </g>
+        <text x="275" y="112" class="t-b c f-kk">当期</text>
+        <text x="275" y="138" class="t-num c">費用 1,000</text>
+        <text x="391" y="112" class="t-b c">2年目</text><text x="391" y="138" class="t-num c">1,000</text>
+        <text x="507" y="112" class="t-b c">3年目</text><text x="507" y="138" class="t-num c">1,000</text>
+        <text x="623" y="112" class="t-b c">4年目</text><text x="623" y="138" class="t-num c">1,000</text>
+        <text x="739" y="112" class="t-b c">5年目</text><text x="739" y="138" class="t-num c">1,000</text>
+        <path d="M336 200 H794" class="ln" stroke-width="2.5"/>
+        <path d="M336 194 V206 M794 194 V206" class="ln"/>
+        <text x="565" y="232" class="t-b c f-sh">まだ配分していない 4,000 ＝ 当期末の繰延資産</text>
+        <text x="565" y="256" class="t-xs c">換金価値はない。費用を将来に配分するために、経過的に資産として残す</text>
+      </svg>
+      <figcaption>支出の効果が将来まで続くのに、全額を支出した期の費用にすると、その期だけ利益が小さくなり、収益との対応が崩れます。そこで、効果が及ぶ期間に配分します（適正な期間損益計算）。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>資産に計上できる理由は、<span class="hl">費用収益対応の原則にもとづく適正な期間損益計算</span>のためです。</li>
+      <li>繰延資産には<b>換金価値がありません</b>。そのため、計上はあくまで「できる」という扱いで、原則は支出時の費用です。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>繰延資産は、換金価値があるので資産に計上される<span class="why">換金価値はありません。費用を将来の期間に配分するために計上します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-maebarai">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★</span><h3>前払費用との違い</h3></div>
+    <div class="lanes">
+      <div class="lane b">
+        <p class="lane-h">前払費用<small>例：翌期分の保険料を前払いした</small></p>
+        <ol class="steps">
+          <li>代価は支払済み</li>
+          <li class="star">役務の提供は<b>まだ受けていない</b><em>サービスを受ける権利が残っている</em></li>
+          <li>翌期以降に役務を受けたときに費用になる</li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">繰延資産<small>例：会社設立の費用を支払った</small></p>
+        <ol class="steps">
+          <li>代価は支払済み（または支払義務が確定）</li>
+          <li class="star">役務の提供は<b>すでに受け終わっている</b><em>受け取る権利は何も残っていない</em></li>
+          <li>効果が将来まで続くので、費用を配分する</li>
+        </ol>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>前払費用は、役務の提供を受けた後、その効果が将来に及ぶ費用を繰り延べたものである<span class="why">それは繰延資産の説明です。前払費用は、役務の提供をまだ受けていないものです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-gensoku">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>原則は支出時の費用、会社法の制限</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>5項目とも、<b>支出時に費用</b>として処理する。</span></div>
+        <div class="r-row exc"><span class="r-b">容認</span><span><b>繰延資産に計上する</b>こともできる。計上したら、決められた期間内に償却する。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">B/S</span><span>資産の部の<b>独立した区分「繰延資産」</b>に表示する。<small>固定資産の中には入れません。償却累計額は使わず、直接減らした残高を表示します。</small></span></div>
+        <div class="r-row exc"><span class="r-b">会社法</span><span>換金価値がないので、債権者保護のため<b>分配可能額の計算で制限</b>を受ける。<small>のれん等調整額（のれんの2分の1＋繰延資産）が資本金と準備金の合計を超える分は、分配可能額から差し引きます。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">喪失</span><span>支出の効果が期待できなくなった場合は、未償却残高を<b>一時に償却</b>する。</span></div>
+        <div class="r-row exc"><span class="r-b">別枠</span><span>天災などによる<b>臨時巨額の損失</b>は、その期の利益で負担できないほど巨額で、<b>特に法令で認められた</b>場合に限り、繰延経理できる（注解15）。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>繰延資産に当たる支出は、原則として繰延資産に計上し、支出時の費用処理は容認である<span class="why">逆です。原則は支出時の費用、繰延資産への計上が容認です。</span></span></li>
+        <li><span class="mark x">×</span><span>繰延資産は、固定資産の「投資その他の資産」に表示する<span class="why">固定資産とは別の、独立した「繰延資産」の区分に表示します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 5項目の償却 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>5項目の償却</h2>
+    <p>計算問題では、償却期間と償却方法を正しく選び、月割で計算できるかが問われます。数字は「3年」「社債の償還期間」「5年」の3つだけです。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-years">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>償却期間は「3年・償還期間・5年」</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 860 380" role="img" aria-label="繰延資産5項目の償却期間。株式交付費と新株予約権発行費は3年以内の定額法、社債発行費は社債の償還までの期間で利息法が原則、創立費と開業費は5年以内の定額法、開発費は5年以内の定額法その他合理的な方法">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <!-- 目盛り -->
+        <line x1="220" y1="44" x2="790" y2="44" class="axis"/>
+        <g class="t-xs c">
+          <text x="220" y="32" class="t-xs c">0</text>
+          <text x="330" y="32" class="t-xs c">1年</text>
+          <text x="440" y="32" class="t-xs c">2年</text>
+          <text x="550" y="32" class="t-xs c">3年</text>
+          <text x="660" y="32" class="t-xs c">4年</text>
+          <text x="770" y="32" class="t-xs c">5年</text>
+        </g>
+        <path d="M220 40 V48 M330 40 V48 M440 40 V48 M550 40 V48 M660 40 V48 M770 40 V48" class="axis"/>
+        <path d="M550 50 V350" class="ln dash"/>
+        <path d="M770 50 V350" class="ln dash"/>
+        <!-- 行 -->
+        <text x="205" y="83" class="t-b e">株式交付費</text>
+        <rect x="220" y="62" width="330" height="32" rx="8" class="b-sh"/>
+        <text x="385" y="84" class="t-s c" style="font-weight:700">3年以内・定額法</text>
+
+        <text x="205" y="133" class="t-b e">新株予約権発行費</text>
+        <rect x="220" y="112" width="330" height="32" rx="8" class="b-sh"/>
+        <text x="385" y="134" class="t-s c" style="font-weight:700">3年以内・定額法</text>
+
+        <text x="205" y="183" class="t-b e">社債発行費</text>
+        <rect x="220" y="162" width="570" height="32" rx="8" class="b-js" style="stroke-dasharray:6 4"/>
+        <text x="505" y="184" class="t-s c" style="font-weight:700">社債の償還までの期間・利息法が原則（定額法も可）</text>
+
+        <text x="205" y="243" class="t-b e">創立費</text>
+        <rect x="220" y="222" width="550" height="32" rx="8" class="b-kk"/>
+        <text x="495" y="244" class="t-s c" style="font-weight:700">会社の成立から5年以内・定額法</text>
+
+        <text x="205" y="293" class="t-b e">開業費</text>
+        <rect x="220" y="272" width="550" height="32" rx="8" class="b-kk"/>
+        <text x="495" y="294" class="t-s c" style="font-weight:700">開業から5年以内・定額法</text>
+
+        <text x="205" y="343" class="t-b e">開発費</text>
+        <rect x="220" y="322" width="550" height="32" rx="8" class="b-or"/>
+        <text x="495" y="344" class="t-s c" style="font-weight:700">支出から5年以内・定額法その他の合理的な方法</text>
+      </svg>
+      <figcaption>資金調達の費用は3年（社債発行費だけは社債の期間）、会社を作る・始める・新しく開く費用は5年です。社債発行費の帯は、社債の期間によって長さが変わります。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>期中に支出した場合は、どれも<span class="hl">月割</span>で償却します。<span class="sub">3年なら36か月、5年なら60か月で割ってから、当期の月数を掛けます。</span></li>
+      <li>償却期間を数え始めるのは、株式交付費は<b>株式の交付</b>、創立費は<b>会社の成立</b>、開業費は<b>開業</b>、開発費は<b>支出</b>のときです。</li>
+      <li>新株予約権発行費は、資金調達など財務活動に関係するものに限り、社債発行費と同じく繰延資産にできます（社債発行費等）。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">期首から6か月後に新株を発行し、株式交付費1,800を支払った</span>
+        <div class="je-row"><span class="dc">(借)</span><span>株式交付費</span><span class="amt">1,800</span><span class="dc">(貸)</span><span>現金</span><span class="amt">1,800</span></div>
+        <span class="je-t">決算（3年で償却）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>株式交付費償却</span><span class="amt">300</span><span class="dc">(貸)</span><span>株式交付費</span><span class="amt">300</span></div>
+        <span class="je-n">1,800 ÷ 36か月 × 6か月 ＝ 300。償却累計額は使わず、株式交付費を直接減らします。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">支出時に費用処理する場合（原則）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>株式交付費</span><span class="amt">1,800</span><span class="dc">(貸)</span><span>現金</span><span class="amt">1,800</span></div>
+        <span class="je-n">勘定科目は同じ「株式交付費」ですが、こちらは費用（営業外費用）です。決算で償却する仕訳はありません。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>創立費は、株式交付費と同じく3年以内に償却する<span class="why">創立費は5年以内です。3年以内は株式交付費と新株予約権発行費です。</span></span></li>
+        <li><span class="mark x">×</span><span>開業費の償却期間は、会社の成立のときから数える<span class="why">開業のときから数えます。会社の成立から数えるのは創立費です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-shasai">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★</span><h3>社債発行費と、社債の繰上償還</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>社債の償還までの期間にわたって、<b>利息法</b>で償却する。<small>社債の利息の計算と同じく、実効利子率を使います。償却額は毎期同じにはなりません。</small></span></div>
+        <div class="r-row exc"><span class="r-b">容認</span><span><b>継続適用</b>を条件に、<b>定額法</b>で償却することもできる。<small>計算問題では、定額法と指示されることが多いです。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">償還</span><span>社債を<b>繰上償還</b>したときは、償還した社債に対応する社債発行費の未償却残高を、その期に償却する。</span></div>
+        <div class="r-row exc"><span class="r-b">残り</span><span>償還しなかった分は、そのまま残りの期間で償却を続ける。</span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">期首から3か月後に社債を発行し、社債発行費2,400を支払った（償還期間4年・定額法）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>社債発行費</span><span class="amt">2,400</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">2,400</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>社債発行費償却</span><span class="amt">450</span><span class="dc">(貸)</span><span>社債発行費</span><span class="amt">450</span></div>
+        <span class="je-n">2,400 ÷ 48か月 × 9か月 ＝ 450</span>
+      </div>
+      <div class="je">
+        <span class="je-t">翌期首に、この社債の40%を繰上償還した</span>
+        <div class="je-row"><span class="dc">(借)</span><span>社債発行費償却</span><span class="amt">780</span><span class="dc">(貸)</span><span>社債発行費</span><span class="amt">780</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>社債発行費償却</span><span class="amt">360</span><span class="dc">(貸)</span><span>社債発行費</span><span class="amt">360</span></div>
+        <span class="je-n">1行目：未償却残高1,950 × 40% ＝ 780（繰上償還した分）。2行目は翌期の決算：残り1,170 ÷ 39か月 × 12か月 ＝ 360。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　4つの繰延資産の償却</span>
+      <p class="scn-story">当期は4月1日から3月31日までです。どれも繰延資産に計上し、定額法で月割償却しています。開業費の償却額は営業外費用に表示します。</p>
+      <ul class="given">
+        <li>株式交付費：当期<b>7月1日</b>に新株を発行し <b>3,600</b> 支出（3年）</li>
+        <li>社債発行費：当期<b>10月1日</b>に社債を発行し <b>2,400</b> 支出（償還期間4年）</li>
+        <li>創立費：<b>前期4月1日</b>に会社を設立し <b>6,000</b> 支出（5年）</li>
+        <li>開業費：<b>前期10月1日</b>に開業し <b>3,000</b> 支出（5年）</li>
+      </ul>
+      <ol class="scn-q">
+        <li>当期の償却額は、それぞれいくらか</li>
+        <li>当期末の貸借対照表の繰延資産の合計はいくらか</li>
+        <li>営業外費用に表示する償却額の合計はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>株式交付費 <b>900</b>、社債発行費 <b>300</b>、創立費 <b>1,200</b>、開業費 <b>600</b><span class="calc">株式交付費：3,600 ÷ 36か月 × 9か月 ＝ 900<br>社債発行費：2,400 ÷ 48か月 × 6か月 ＝ 300<br>創立費：6,000 ÷ 60か月 × 12か月 ＝ 1,200<br>開業費：3,000 ÷ 60か月 × 12か月 ＝ 600</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>10,500</b><span class="calc">株式交付費：3,600 − 900 ＝ 2,700<br>社債発行費：2,400 − 300 ＝ 2,100<br>創立費：6,000 − 前期1,200 − 当期1,200 ＝ 3,600<br>開業費：3,000 − 前期300（6か月）− 当期600 ＝ 2,100</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>3,000</b><span class="calc">900 ＋ 300 ＋ 1,200 ＋ 600 ＝ 3,000</span></span></div>
+          <p class="je-n">開業費は前期10月1日の開業なので、前期の償却は6か月分（300）です。前期の償却を忘れると、期末残高を間違えます。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 線引きと表示 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>線引きと表示</h2>
+    <p>正誤問題でいちばん狙われるのは、「その支出はどの項目に当たるのか」と「損益計算書のどこに表示するのか」です。名前が似た項目を並べて整理します。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-kabushiki">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>株式を発行する費用は、いつ・何のためかで変わる</h3></div>
+    <div class="cases">
+      <div class="case kk"><span>会社を設立するとき</span><b>設立時の株式発行費用</b><small>定款に書いた株式の募集の費用など</small><p class="to">→ 創立費</p></div>
+      <div class="case sh"><span>会社が成立した後</span><b>新株の発行・自己株式の処分の費用</b><small>資金調達のための費用</small><p class="to">→ 株式交付費</p></div>
+      <div class="case ju"><span>資金調達ではない</span><b>株式分割・株式無償割当ての費用</b><small>お金は入ってこない</small><p class="to">→ 販売費及び一般管理費（繰延資産にできない）</p></div>
+    </div>
+    <div class="def"><span class="def-l">株式交付費を資本から差し引かない理由（理論）</span><p class="def-t">株式交付費は株主との資本取引にともなって生じますが、その対価は株主に支払われるものではありません。また、社債発行費と同じく<b>資金調達のための支出</b>で、<b>財務費用</b>の性格が強いと考えられます。そのため、資本から直接差し引かず、費用（または繰延資産）として処理します。</p><p class="def-n">国際的な基準では、資本から直接差し引くのが一般的です。違いとして問われることがあります。</p></div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>会社設立時に株式を発行するための費用は、株式交付費として処理する<span class="why">設立時の費用なので、創立費です。</span></span></li>
+        <li><span class="mark x">×</span><span>株式分割の費用は、株式交付費として繰延資産に計上できる<span class="why">資金調達ではないので繰延資産にはできず、支出時の販売費及び一般管理費です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-souritsu">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>創立費と開業費に含まれるもの</h3></div>
+    <div class="two">
+      <div class="box in">
+        <h4>創立費（会社が成立するまで）</h4>
+        <div class="chips">
+          <span class="chip">定款・諸規則の作成費</span>
+          <span class="chip">株式募集の広告費</span>
+          <span class="chip">発起人の報酬</span>
+          <span class="chip">設立登記の登録免許税</span>
+          <span class="chip">創立事務所の賃借料</span>
+          <span class="chip">創立総会の費用</span>
+        </div>
+        <p class="cap">会社が負担すべき、設立のための費用です。</p>
+      </div>
+      <div class="box in">
+        <h4>開業費（会社の成立から営業開始まで）</h4>
+        <div class="chips">
+          <span class="chip">土地・建物の賃借料</span>
+          <span class="chip">開業準備の広告宣伝費</span>
+          <span class="chip">使用人の給料</span>
+          <span class="chip">通信交通費</span>
+          <span class="chip">保険料・電気ガス水道料</span>
+        </div>
+        <p class="cap">開業の準備のために直接支出した費用です。</p>
+      </div>
+    </div>
+    <figure class="fig" style="overflow:visible">
+      <div class="flow" style="display:flex;flex-wrap:wrap;gap:10px;align-items:stretch">
+        <div class="case kk" style="flex:1 1 200px"><span>会社の設立準備</span><b>創立費</b><p class="to">会社の成立から5年以内</p></div>
+        <div style="align-self:center;font-weight:700;color:var(--muted);font-size:20px">→</div>
+        <div class="case sun" style="flex:0 1 160px;border-color:var(--c1)"><span>区切り</span><b>会社の成立</b><small>設立登記</small></div>
+        <div style="align-self:center;font-weight:700;color:var(--muted);font-size:20px">→</div>
+        <div class="case kk" style="flex:1 1 200px"><span>営業開始の準備</span><b>開業費</b><p class="to">開業から5年以内</p></div>
+        <div style="align-self:center;font-weight:700;color:var(--muted);font-size:20px">→</div>
+        <div class="case sun" style="flex:0 1 160px;border-color:var(--c1)"><span>区切り</span><b>開業</b><small>営業の開始</small></div>
+      </div>
+      <figcaption>「会社の成立」の前か後かで、創立費と開業費が分かれます。償却期間を数え始めるときも、それぞれの区切りの時点です。</figcaption>
+    </figure>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-kaihatsu">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★★</span><h3>開発費と研究開発費は別もの</h3></div>
+    <div class="lanes">
+      <div class="lane j">
+        <p class="lane-h">開発費<small>繰延資産にできる</small></p>
+        <ol class="steps">
+          <li>新技術・新しい経営組織の採用、資源の開発、市場の開拓などのために<b>特別に</b>支出した費用</li>
+          <li>生産能率の向上や生産計画の変更で、設備を<b>大規模に配置替え</b>した費用も含む</li>
+          <li class="star">経常費の性格をもつものは含まない<em>毎期ふつうに発生する費用はだめ</em></li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">研究開発費<small>繰延資産にできない</small></p>
+        <ol class="steps">
+          <li>新しい知識の発見を目的とした研究や、研究成果を具体化する開発の費用</li>
+          <li class="star">「研究開発費等に係る会計基準」が適用され、<b>すべて発生時の費用</b><em>資産に計上する例外はない</em></li>
+          <li>一般管理費または当期製造費用として処理</li>
+        </ol>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>研究開発費は、開発費として繰延資産に計上できる<span class="why">研究開発費はすべて発生時の費用です。繰延資産にできる開発費とは別のものです。</span></span></li>
+        <li><span class="mark x">×</span><span>市場の開拓に関係していれば、毎期経常的に発生する広告費も開発費に含まれる<span class="why">経常費の性格をもつものは開発費に含みません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-disp">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★★</span><h3>損益計算書のどこに表示するか</h3></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="損益計算書の区分と、繰延資産の償却額・支出時の費用">
+        <div class="pl-row" role="listitem"><div class="pl-k">売上原価</div><div class="pl-v"><span class="pill js">開発費・開発費償却</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">販売費及び<br>一般管理費</div><div class="pl-v"><span class="pill js">開発費・開発費償却</span><span class="pill kk">開業費・開業費償却<small>営業外費用にしてもよい</small></span><span class="pill sh">株式分割などの費用<small>繰延資産にできない</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">営業外費用</div><div class="pl-v"><span class="pill sh">株式交付費・同償却</span><span class="pill sh">社債発行費・同償却</span><span class="pill sh">新株予約権発行費・同償却</span><span class="pill kk">創立費・創立費償却</span><span class="pill kk">開業費・開業費償却</span></div></div>
+      </div>
+      <figcaption>支出時に費用にした場合も、繰延資産を償却した場合も、表示する区分は同じです。開発費だけは営業外費用になりません。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>開発費の償却額は、営業外費用に表示する<span class="why">売上原価または販売費及び一般管理費です。営業活動に直接関係する支出だからです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　どの項目に当たるか</span>
+      <p class="scn-story">次の支出は、それぞれどの項目に当たり、繰延資産に計上できるでしょうか。</p>
+      <ol class="scn-q">
+        <li>会社設立のときに株式を発行した費用</li>
+        <li>会社成立後に増資したときの株式の発行費用</li>
+        <li>株式分割にかかった費用</li>
+        <li>新しい市場を開拓するために特別に支出した広告費</li>
+        <li>新製品の研究のための費用</li>
+        <li>会社成立後、営業を始めるまでに支出した広告宣伝費</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>創立費</b>（繰延資産に計上できる）<span class="calc">設立時の費用なので、株式交付費ではありません</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>株式交付費</b>（繰延資産に計上できる）</span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>販売費及び一般管理費</b>（繰延資産に計上できない）<span class="calc">資金調達ではないので、株式交付費に当たりません</span></span></div>
+          <div class="ans-step"><span class="lb">問4</span><span><b>開発費</b>（繰延資産に計上できる）<span class="calc">特別に支出したもの。経常的な広告費なら開発費になりません</span></span></div>
+          <div class="ans-step"><span class="lb">問5</span><span><b>研究開発費</b>（繰延資産に計上できない）<span class="calc">すべて発生時の費用</span></span></div>
+          <div class="ans-step"><span class="lb">問6</span><span><b>開業費</b>（繰延資産に計上できる）</span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">44</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">定義・総論</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">償却</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">線引き・表示</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">44</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>定義・総論：まずここから</h3>
+      <ol>
+        <li>原則は支出時の費用、繰延資産は容認</li>
+        <li>計上できる理由（適正な期間損益計算）</li>
+        <li>前払費用との違い（役務の提供を受けたか）</li>
+        <li>独立した区分「繰延資産」、会社法の分配制限</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>償却：まずここから</h3>
+      <ol>
+        <li>株式交付費・新株予約権発行費は3年以内</li>
+        <li>社債発行費は償還期間、利息法が原則</li>
+        <li>創立費・開業費・開発費は5年以内</li>
+        <li>月割計算と、起算点（成立・開業・支出）</li>
+        <li>繰上償還した分の一時償却</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>線引き・表示：まずここから</h3>
+      <ol>
+        <li>設立時の株式発行費用は創立費</li>
+        <li>株式分割の費用は販管費</li>
+        <li>開発費と研究開発費は別もの</li>
+        <li>開発費だけは売上原価・販管費</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>償却期間は「お金を集める費用は短く（3年）、会社の土台を作る費用は長く（5年）」と覚えます。社債発行費だけは、集めたお金を返す日（償還日）まで効果が続くので、社債の期間で償却します。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計原則注解15、実務対応報告第19号「繰延資産の会計処理に関する当面の取扱い」、会社計算規則、「研究開発費等に係る会計基準」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"kk", q:"繰延資産とは、すでに代価の支払が完了しまたは支払義務が確定し、これに対応する役務の提供を受けたにもかかわらず、その効果が将来にわたって発現するものと期待される費用をいう。", a:true, e:"企業会計原則注解15の定義そのものです。"},
+    {p:"kk", q:"繰延資産は、換金価値があるため資産として計上される。", a:false, e:"換金価値はありません。費用を効果の及ぶ期間に配分するために、経過的に資産に計上します。"},
+    {p:"kk", q:"繰延資産を資産に計上するのは、効果が及ぶ期間に費用を配分して、収益と対応させるためである。", a:true, e:"適正な期間損益計算のためです。"},
+    {p:"kk", q:"前払費用は、役務の提供をすでに受け、その効果が将来に及ぶ費用を繰り延べたものである。", a:false, e:"それは繰延資産です。前払費用は、役務の提供をまだ受けていないものです。"},
+    {p:"kk", q:"繰延資産は、役務の提供をすでに受け終わっている点で、前払費用と異なる。", a:true, e:"前払費用はサービスを受ける権利が残っていますが、繰延資産には何も残っていません。"},
+    {p:"kk", q:"繰延資産に当たる項目は、原則として支出時に費用として処理する。", a:true, e:"原則は支出時の費用、繰延資産への計上が容認です。"},
+    {p:"kk", q:"繰延資産に当たる項目は、原則として繰延資産に計上し、支出時の費用処理は容認である。", a:false, e:"逆です。原則は支出時の費用です。"},
+    {p:"kk", q:"繰延資産として計上できるのは、株式交付費・社債発行費等・創立費・開業費・開発費である。", a:true, e:"この5項目だけです。"},
+    {p:"kk", q:"研究開発費は、繰延資産として計上できる。", a:false, e:"研究開発費はすべて発生時の費用です。"},
+    {p:"kk", q:"会社法上、繰延資産は分配可能額の計算において制限を受けることがある。", a:true, e:"のれん等調整額が資本金と準備金の合計を超える分は、分配可能額から差し引かれます。"},
+    {p:"kk", q:"支出の効果が期待できなくなった繰延資産は、未償却残高を一時に償却しなければならない。", a:true, e:"効果がないのに資産に残しておくことはできません。"},
+    {p:"kk", q:"天災などによる臨時巨額の損失は、特に法令で認められた場合に限り、繰延経理することができる。", a:true, e:"企業会計原則注解15に定められています。5項目とは別枠です。"},
+    {p:"kk", q:"繰延資産は、貸借対照表の固定資産の部の「投資その他の資産」に表示する。", a:false, e:"資産の部の独立した区分「繰延資産」に表示します。"},
+    {p:"sh", q:"株式交付費は、株式交付のときから3年以内のその効果の及ぶ期間にわたって、定額法により償却する。", a:true, e:"株式交付費の償却ルールです。"},
+    {p:"sh", q:"株式交付費は、株式交付のときから5年以内に定額法で償却する。", a:false, e:"3年以内です。"},
+    {p:"sh", q:"社債発行費は、社債の償還までの期間にわたり、原則として利息法で償却する。", a:true, e:"原則は利息法です。"},
+    {p:"sh", q:"社債発行費は、継続適用を条件に、定額法で償却することもできる。", a:true, e:"定額法は容認です。"},
+    {p:"sh", q:"社債発行費は、原則として定額法により3年以内に償却する。", a:false, e:"社債の償還までの期間にわたり、原則は利息法です。"},
+    {p:"sh", q:"新株予約権発行費は、資金調達など財務活動に関係するものについて、社債発行費と同様に繰延資産に計上できる。", a:true, e:"社債発行費とあわせて「社債発行費等」と呼びます。"},
+    {p:"sh", q:"新株予約権発行費は、新株予約権の発行のときから3年以内に定額法で償却する。", a:true, e:"株式交付費と同じく3年以内です。"},
+    {p:"sh", q:"創立費は、会社の成立のときから5年以内に定額法で償却する。", a:true, e:"創立費の償却ルールです。"},
+    {p:"sh", q:"開業費は、開業のときから5年以内に定額法で償却する。", a:true, e:"開業費の償却ルールです。"},
+    {p:"sh", q:"開業費の償却期間は、会社の成立のときから数える。", a:false, e:"開業のときから数えます。会社の成立から数えるのは創立費です。"},
+    {p:"sh", q:"開発費は、支出のときから5年以内に、定額法その他の合理的な方法で償却する。", a:true, e:"開発費は、定額法以外の合理的な方法も認められます。"},
+    {p:"sh", q:"期中に支出した繰延資産は、月割で償却する。", a:true, e:"支出した月から決算月までの月数で計算します。"},
+    {p:"sh", q:"期首から6か月後に株式交付費1,800を支出し、3年で償却する場合、当期の償却額は600である。", a:false, e:"1,800 ÷ 36か月 × 6か月 ＝ 300です。"},
+    {p:"sh", q:"社債を繰上償還した場合、償還した社債に対応する社債発行費の未償却残高は、その期に償却する。", a:true, e:"償還した社債の分は、もう効果がないためです。"},
+    {p:"sh", q:"社債発行費を利息法で償却する場合、毎期の償却額は同じになる。", a:false, e:"利息法では毎期の金額が変わります。毎期同じになるのは定額法です。"},
+    {p:"sh", q:"繰延資産の償却は、償却累計額を使わず、繰延資産の金額を直接減らして行う。", a:true, e:"貸借対照表には、償却した後の残高を表示します。"},
+    {p:"js", q:"会社設立時に株式を発行するための費用は、株式交付費として処理する。", a:false, e:"設立時の費用なので創立費です。"},
+    {p:"js", q:"会社成立後に新株を発行するための費用は、株式交付費として処理する。", a:true, e:"資金調達のための費用です。"},
+    {p:"js", q:"自己株式の処分にかかる費用は、株式交付費として処理する。", a:true, e:"株式交付費には、新株の発行だけでなく自己株式の処分の費用も含まれます。"},
+    {p:"js", q:"株式分割や株式無償割当てにかかる費用は、株式交付費として繰延資産に計上できる。", a:false, e:"資金調達ではないので、支出時の販売費及び一般管理費です。"},
+    {p:"js", q:"株式交付費を資本から直接差し引かないのは、資金調達のための支出で、財務費用の性格が強いと考えられるからである。", a:true, e:"対価が株主に支払われるものではないことも理由の1つです。"},
+    {p:"js", q:"発起人の報酬や設立登記の登録免許税は、創立費に含まれる。", a:true, e:"会社が負担すべき設立のための費用です。"},
+    {p:"js", q:"会社成立後、営業を始めるまでに支出した開業準備のための広告宣伝費や使用人の給料は、開業費に含まれる。", a:true, e:"開業準備のために直接支出した費用です。"},
+    {p:"js", q:"開発費とは、新技術・新経営組織の採用、資源の開発、市場の開拓などのために特別に支出した費用をいう。", a:true, e:"開発費の定義です。"},
+    {p:"js", q:"経常費の性格をもつ費用でも、市場の開拓に関係するものであれば開発費に含まれる。", a:false, e:"経常費の性格をもつものは開発費に含みません。"},
+    {p:"js", q:"生産能率の向上のために設備を大規模に配置替えした費用は、開発費に含めることができる。", a:true, e:"生産計画の変更などによる大規模な配置替えの費用も開発費です。"},
+    {p:"js", q:"株式交付費・社債発行費・創立費の償却額は、営業外費用に表示する。", a:true, e:"営業活動に直接関係しない費用だからです。"},
+    {p:"js", q:"開業費の償却額は、営業外費用のほか、販売費及び一般管理費に表示することもできる。", a:true, e:"開業費だけは2通りの表示が認められています。"},
+    {p:"js", q:"開発費の償却額は、営業外費用に表示する。", a:false, e:"売上原価または販売費及び一般管理費です。"},
+    {p:"js", q:"開発費を繰延資産に計上しない場合は、支出時に売上原価または販売費及び一般管理費として処理する。", a:true, e:"支出時に費用にする場合も、表示する区分は償却額と同じです。"},
+    {p:"js", q:"株式交付費を支出時に費用処理した場合は、営業外費用に表示する。", a:true, e:"償却額と同じく営業外費用です。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:" 定義・総論", sh:" 償却", js:" 線引き・表示"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
