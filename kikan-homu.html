@@ -1,0 +1,934 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業法務・会社法向け。機関法務・組織法務の基本として、3月決算会社の年間スケジュール、株主総会の運営（招集、株主提案、議事運営、決議の取消し・無効・不存在）、取締役会の運営（招集、決議、報告、議事録）、登記・任期・組織再編を、ケース問題と○×チェックでまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>株主総会と取締役会の運営</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(機関法務とは)は青、PART2(株主総会)はティール、PART3(取締役会)はコーラル、PART4(組織法務)はオレンジで色分け。株主総会と取締役会は比べて覚えられるよう二車線で並べる */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：機関決定 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：利益相反・競業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：流れ・契約書 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：代表権・名義 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fl{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kt{border-color:var(--c2);color:var(--c2t)}
+.top a.n-rs{border-color:var(--c3);color:var(--c3t)}
+.top a.n-dh{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kt{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-rs{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-fl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-dh{fill:color-mix(in srgb,var(--c8) 18%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-pl{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.f-kt{fill:var(--c2t)} .f-rs{fill:var(--c3t)} .f-fl{fill:var(--c4t)} .f-dh{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fl .part-head{background:var(--c4)}
+.part-kt .part-head{background:var(--c2)}
+.part-rs .part-head{background:var(--c3)}
+.part-dh .part-head{background:var(--c8)}
+.part-cs .part-head{background:var(--c1);color:#1B1600}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fl .tag{background:var(--c4)}
+.part-kt .tag{background:var(--c2)}
+.part-rs .tag{background:var(--c3)}
+.part-dh .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fl .pts li::before{background:var(--c4)}
+.part-kt .pts li::before{background:var(--c2)}
+.part-rs .pts li::before{background:var(--c3)}
+.part-dh .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-fl .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kt .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-rs .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-dh .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fl .def-l{color:var(--c4t)} .part-kt .def-l{color:var(--c2t)} .part-rs .def-l{color:var(--c3t)} .part-dh .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 判例 */
+.case{border-radius:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);display:grid;gap:4px}
+.case-l{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.case p{line-height:1.8}
+.cases{display:grid;gap:10px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.node{flex-basis:auto}.arr{transform:rotate(90deg);align-self:center}}
+.node.fl{border-color:var(--c4)} .node.fl .nn{color:var(--c4t)}
+.node.kt{border-color:var(--c2)} .node.kt .nn{color:var(--c2t)}
+.node.rs{border-color:var(--c3)} .node.rs .nn{color:var(--c3t)}
+.node.dh{border-color:var(--c8)} .node.dh .nn{color:var(--c8t)}
+
+/* 3つの観点 */
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--line)}
+.view{border-radius:14px;padding:14px 16px;display:grid;gap:4px;align-content:start;text-decoration:none;background:color-mix(in srgb,var(--c4) 12%,var(--surface));border:2px solid var(--c4)}
+.view .nn{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--c4t)}
+.view b{font-size:17px}
+.view small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.vtag{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;border:2px solid var(--c4);color:var(--c4t);background:var(--surface)}
+
+/* 条文の修正例 */
+.clauses{display:grid;gap:12px}
+.clause{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.cl-b,.cl-a{padding:12px 14px;display:grid;gap:4px;align-content:start;line-height:1.75}
+.cl-b{background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cl-a{background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.cl-l{font-size:12.5px;font-weight:700;letter-spacing:.06em}
+.cl-b .cl-l{color:var(--ng)} .cl-a .cl-l{color:var(--ok)}
+.cl-t{font-family:var(--f-data);font-size:14.5px}
+.cl-n{font-size:13.5px;color:var(--muted)}
+
+/* 年間スケジュール */
+.tl{list-style:none;display:grid;gap:0;position:relative}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:10px 0;border-top:1px dashed var(--line);align-items:start;line-height:1.7}
+.tl li:first-child{border-top:0}
+.tl-d{font-weight:700;font-size:14px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t);text-align:center}
+.tl li.hot .tl-d{background:var(--c1);color:#1B1600}
+.tl small{display:block;color:var(--muted);font-size:14px}
+@media (max-width:560px){.tl li{grid-template-columns:1fr;gap:4px}.tl-d{justify-self:start}}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 標語 */
+.motto{border-radius:22px;padding:22px 24px;background:var(--ink);color:var(--bg);display:grid;gap:8px}
+.motto q{font-family:var(--f-display);font-size:clamp(22px,4.4vw,36px);line-height:1.4;quotes:"「" "」"}
+.motto small{font-size:14px;opacity:.85;line-height:1.7}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.fl{background:var(--c4)} .chap.kt{background:var(--c2)} .chap.rs{background:var(--c3)} .chap.dh{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* チェックリスト */
+.checks{list-style:none;display:grid;gap:8px;counter-reset:ck}
+.checks li{counter-increment:ck;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;line-height:1.7}
+.checks li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--c4) 18%,var(--surface));color:var(--c4t);font-weight:700}
+.checks li small{display:block;color:var(--muted);font-size:14px}
+.checks-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.b{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c3t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lane .pts li::before{background:var(--muted)}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kt .chip{border-color:color-mix(in srgb,var(--c2) 60%,var(--line))}
+.part-fl .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line))}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* ケース問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn + .scn{margin-top:18px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn h3{font-size:clamp(18px,3vw,22px);line-height:1.45}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:grid;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--f-data);font-size:14.5px;line-height:1.7;border:1px solid var(--line)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;color:var(--muted);font-size:14px}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fl-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kt-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-rs-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-dh-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fl{background:var(--c4)} .qno.kt{background:var(--c2)} .qno.rs{background:var(--c3)} .qno.dh{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fl{border-color:var(--c4)} .prio-card.kt{border-color:var(--c2)} .prio-card.rs{border-color:var(--c3)} .prio-card.dh{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.fl h3{color:var(--c4t)} .prio-card.kt h3{color:var(--c2t)} .prio-card.rs h3{color:var(--c3t)} .prio-card.dh h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fl li::before{background:var(--c4)} .prio-card.kt li::before{background:var(--c2)} .prio-card.rs li::before{background:var(--c3)} .prio-card.dh li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fl" href="#fl">PART1 機関法務とは</a>
+    <a class="n-kt" href="#kt">PART2 株主総会</a>
+    <a class="n-rs" href="#rs">PART3 取締役会</a>
+    <a class="n-dh" href="#dh">PART4 組織法務</a>
+    <a class="n-cs" href="#cs">ケース問題</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務 ／ ② 機関法務・組織法務 〜 会社法の理解</p>
+  <h1><span class="h-a">株主総会</span>と<br><span class="h-b">取締役会</span>の運営</h1>
+  <p class="lead">機関法務は、株主総会や取締役会といった会社の意思決定の場を、<mark>会社法と定款のルールどおりに動かす仕事</mark>です。招集の期限を1日間違えただけでも、決議が取り消されて会社の決定そのものが覆るおそれがあります。このページでは、3月決算の上場会社を例に年間の流れを押さえたうえで、株主総会と取締役会の運営、組織法務の基本を整理し、ケース問題と○×問題で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap fl" href="#fl"><span>PART1</span><b>機関法務とは</b><small>仕事の範囲と、3月決算会社の年間スケジュール</small></a>
+    <a class="chap kt" href="#kt"><span>PART2</span><b>株主総会の運営</b><small>招集、株主提案、議事運営、決議の取消し</small></a>
+    <a class="chap rs" href="#rs"><span>PART3</span><b>取締役会の運営</b><small>招集、決議、報告、議事録</small></a>
+    <a class="chap dh" href="#dh"><span>PART4</span><b>組織法務</b><small>登記、役員の任期、組織再編</small></a>
+    <a class="chap qz" href="#quiz"><span>CHECK</span><b>○×チェック</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <div class="lanes">
+    <div class="lane b">
+      <p class="lane-h">株主総会<small>会社の所有者である株主が集まる場</small></p>
+      <ul class="pts">
+        <li>取締役・監査役の選任と解任、定款変更、合併など、会社の基本的な事項を決める</li>
+        <li>取締役会設置会社では、会社法と定款で決めた事項だけを決議できる（295条2項）</li>
+        <li>年1回の定時総会のほか、必要に応じて臨時総会を開く</li>
+      </ul>
+    </div>
+    <div class="lane a">
+      <p class="lane-h">取締役会<small>業務執行の決定と、取締役の監督をする場</small></p>
+      <ul class="pts">
+        <li>重要な業務執行を決め、代表取締役を選定・解職する（362条2項）</li>
+        <li>代表取締役などの職務執行を監督する</li>
+        <li>少なくとも3か月に1回は開く（363条2項の報告のため）</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PART1 機関法務とは ============ -->
+<section id="fl" class="part part-fl">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>機関法務とは</h2>
+    <p>機関法務（組織法務とも呼ばれます）は、会社の「機関」が正しく動くように支える仕事です。契約書を審査するリーガルチェック（契約法務）が取引先との関係を扱うのに対し、機関法務は会社の内側の意思決定を扱います。</p>
+  </div>
+
+  <div class="unit" id="u-scope">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★</span><h3>機関法務の仕事の範囲</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">株主総会の運営</span><p class="def-t">日程の決定、招集通知の作成、想定問答とリハーサル、当日の運営、議事録の作成、決議通知まで。</p></div>
+      <div class="def"><span class="def-l">取締役会の運営</span><p class="def-t">年間の開催日程、付議する議案の整理、資料の事前配布、議事録の作成と保管。</p></div>
+      <div class="def"><span class="def-l">組織法務</span><p class="def-t">定款・社内規程の管理、商業登記、株式事務、子会社の管理、合併などの組織再編。</p></div>
+    </div>
+    <div class="prose">
+      <p>どの仕事も、<b>「誰が」「いつまでに」「どの手続きで」決めるかを会社法と定款で確認し、その記録を残す</b>ことが中心です。手続きを誤ると、決議の取消しや無効、過料などにつながります。</p>
+    </div>
+  </div>
+
+  <div class="unit" id="u-calendar">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>3月決算の上場会社の年間スケジュール</h3></div>
+    <div class="prose">
+      <p>定時株主総会は、事業年度の終わりから逆算して日程が決まります。<b>基準日（3月31日）に名簿に載っている株主が議決権を行使でき、その権利は基準日から3か月以内に行使するものでなければならない</b>（124条2項）ため、3月決算の会社の多くは6月下旬に総会を開きます。</p>
+    </div>
+    <ol class="tl">
+      <li><span class="tl-d">3月31日</span><span><b>決算日・基準日</b><small>この日の株主名簿に載っている株主が、定時総会で議決権を行使できます。</small></span></li>
+      <li><span class="tl-d">4月〜5月</span><span><b>計算書類・事業報告の作成と監査</b><small>監査役（会）と会計監査人の監査を受けます。</small></span></li>
+      <li><span class="tl-d">5月中旬</span><span><b>決算取締役会</b><small>計算書類と事業報告を承認します（436条3項）。あわせて決算発表を行います。</small></span></li>
+      <li><span class="tl-d">5月下旬〜6月上旬</span><span><b>招集を決める取締役会</b><small>総会の日時・場所・議題・議案などを決めます（298条1項・4項）。</small></span></li>
+      <li class="hot"><span class="tl-d">総会の3週間前まで</span><span><b>電子提供措置の開始</b><small>上場会社は、総会資料をウェブサイトに掲載します（325条の3）。上場規則では、さらに早く始めるよう努めることが求められています。</small></span></li>
+      <li class="hot"><span class="tl-d">総会の2週間前まで</span><span><b>招集通知の発送</b><small>公開会社の期限です（299条1項）。</small></span></li>
+      <li><span class="tl-d">6月下旬</span><span><b>定時株主総会 → 直後の取締役会</b><small>総会で取締役を選任したら、取締役会で代表取締役を選定します。</small></span></li>
+      <li><span class="tl-d">総会後2週間以内</span><span><b>変更登記</b><small>役員の変更などは2週間以内に登記します（915条1項）。</small></span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ PART2 株主総会 ============ -->
+<section id="kt" class="part part-kt">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>株主総会の運営</h2>
+    <p>株主総会の手続きは、株主が十分に準備して議決権を行使できるようにするためのものです。招集から議事録まで、どの手続きも「株主の権利を守る」という目的から考えると覚えやすくなります。</p>
+  </div>
+
+  <div class="unit" id="u-shosyu">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>招集の手続き</h3></div>
+    <ul class="pts">
+      <li>招集は<b>取締役会が決め</b>（298条4項）、代表取締役が実行する<span class="sub">日時・場所・議題・書面投票や電子投票を採るかなどを決めます。</span></li>
+      <li>招集通知の期限は会社の種類で変わる<span class="law">299条1項</span><span class="sub">公開会社は総会の2週間前まで。公開会社でない会社は1週間前まで（取締役会がない会社は定款でさらに短くできます）。書面投票・電子投票を採る場合は、どの会社も2週間前までです。</span></li>
+      <li>株主が1,000人以上の会社は、<b>書面投票の採用が義務</b><span class="law">298条2項</span></li>
+      <li>上場会社は<b>電子提供制度</b>で総会資料をウェブに掲載する<span class="law">325条の2〜</span><span class="sub">2023年3月以降の総会から適用されています。株主は、紙の資料を求める「書面交付請求」ができます。</span></li>
+      <li>取締役会設置会社の総会は、<b>招集通知に書いた議題以外は決議できない</b><span class="law">309条5項</span></li>
+    </ul>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span><b>招集の手続きを省くことはできない</b><small>株主に出席と準備の機会を保障するためです。</small></span></div>
+      <div class="r-row exc"><span class="r-b">例外</span><span><b>株主全員が同意すれば、招集手続きを省略できる</b><small>300条。ただし書面投票・電子投票を採る場合は省略できません。また判例は、招集手続きがなくても株主全員が出席して開催に同意した「全員出席総会」の決議は有効としています。</small></span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>公開会社の招集通知は、総会の1週間前までに発送すればよい<span class="why">公開会社は2週間前までです。1週間前は、公開会社でない会社の期限です。</span></span></li>
+        <li><span class="mark x">×</span><span>電子提供措置の開始期限も、招集通知と同じ総会の2週間前である<span class="why">電子提供措置は「総会の3週間前の日」か「招集通知を発送した日」のいずれか早い日から始めます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-teian">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★</span><h3>株主提案と、株主からの請求</h3></div>
+    <div class="prose">
+      <p>株主は、会社が用意した議案に賛否を示すだけでなく、自分から議題や議案を出すこともできます。公開会社で取締役会設置会社の場合のルールを押さえます。</p>
+    </div>
+    <div class="defs">
+      <div class="def"><span class="def-l">議題の提案・議案の要領の通知請求 <span class="law">303条・305条</span></span><p class="def-t">総株主の議決権の<b>1%以上または300個以上</b>を<b>6か月前から</b>持つ株主が、総会の<b>8週間前まで</b>に請求できます。</p><p class="def-n">2019年の改正で、通知を求められる議案の数は<b>10個まで</b>に制限されました（2021年3月施行）。</p></div>
+      <div class="def"><span class="def-l">総会の場での議案提出（修正動議） <span class="law">304条</span></span><p class="def-t">株主は総会の場で、議題の範囲内で議案を出せます。<b>保有株式数の要件はありません。</b></p><p class="def-n">法令・定款に違反する場合や、同じ議案が過去3年以内に10%未満の賛成しか得られなかった場合は出せません。</p></div>
+      <div class="def"><span class="def-l">株主総会の招集請求 <span class="law">297条</span></span><p class="def-t">総株主の議決権の<b>3%以上</b>を<b>6か月前から</b>持つ株主は、取締役に総会の招集を請求できます。</p><p class="def-n">請求後、遅滞なく招集手続きが行われないなどの場合は、裁判所の許可を得て自分で招集できます。</p></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-giji">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>当日の議事運営：議長の権限と説明義務</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">議長の権限 <span class="law">315条</span></span><p class="def-t">議長は、総会の<b>秩序を維持し、議事を整理</b>します。命令に従わない人や秩序を乱す人を<b>退場させる</b>こともできます。</p><p class="def-n">定款で「社長が議長になる」と定めるのが一般的です。</p></div>
+      <div class="def"><span class="def-l">取締役などの説明義務 <span class="law">314条</span></span><p class="def-t">取締役・監査役などは、株主から特定の事項について説明を求められたら、<b>必要な説明</b>をしなければなりません。</p><p class="def-n">議題に関係しない質問、説明すると株主共同の利益を著しく害する質問、調査が必要な質問（事前に通知があった場合を除く）などは、説明を断れます。</p></div>
+    </div>
+    <ul class="pts">
+      <li>事前準備の中心は<b>想定問答とリハーサル</b><span class="sub">説明義務を果たせずに決議方法の違法を問われないよう、答える人と答え方を決めておきます。</span></li>
+      <li>質問が出尽くし、議題を判断するのに十分な説明がされたら、議長は質疑を打ち切って採決に進める<span class="sub">十分な説明がないまま打ち切ると、決議方法が著しく不公正とされるおそれがあります。</span></li>
+      <li><b>株主への利益供与は禁止</b><span class="law">120条</span><span class="sub">株主の権利の行使に関して、会社が財産上の利益を与えることは禁止されています。いわゆる総会屋対策の規定で、違反には刑事罰もあります。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-kashi">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★★</span><h3>議事録と、決議の取消し・無効・不存在</h3></div>
+    <ul class="pts">
+      <li>総会の議事録は、<b>本店に10年間</b>備え置く（支店には写しを5年間）<span class="law">318条</span></li>
+      <li>株主全員が書面などで提案に同意したときは、決議があったものとみなされる（書面決議）<span class="law">319条</span><span class="sub">非上場の子会社などでよく使われます。</span></li>
+    </ul>
+    <div class="defs">
+      <div class="def"><span class="def-l">決議取消しの訴え <span class="law">831条</span></span><p class="def-t">原因：<b>招集手続き・決議方法</b>の法令・定款違反や著しい不公正、<b>決議内容の定款違反</b>、特別利害関係人の議決権行使による著しく不当な決議。</p><p class="def-n">決議の日から<b>3か月以内</b>に、株主・取締役・監査役などが訴えで主張します。</p></div>
+      <div class="def"><span class="def-l">決議無効確認の訴え <span class="law">830条2項</span></span><p class="def-t">原因：<b>決議内容の法令違反</b>（違法な剰余金の配当、株主平等原則違反など）。</p><p class="def-n">期間の制限はなく、誰でも、訴え以外の方法でも主張できます。</p></div>
+      <div class="def"><span class="def-l">決議不存在確認の訴え <span class="law">830条1項</span></span><p class="def-t">原因：決議が<b>実際には行われていない</b>、または手続きの瑕疵が著しく決議があったとは言えない場合。</p><p class="def-n">例：総会を開いていないのに議事録だけ作った場合。</p></div>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span><b>取消事由があれば、裁判所は決議を取り消す</b><small>取消しの判決が確定すると、決議は最初からなかったことになります。</small></span></div>
+      <div class="r-row exc"><span class="r-b">例外</span><span><b>裁量棄却：違反が重大でなく、決議に影響を及ぼさないときは、請求を棄却できる</b><small>831条2項。「招集手続き・決議方法」の違反に限られ、「重大でない」と「影響がない」の両方が必要です。</small></span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>決議内容が法令に違反する場合は、決議取消しの訴えの対象になる<span class="why">内容の「法令」違反は無効確認です。取消しの対象になるのは、内容の「定款」違反です。</span></span></li>
+        <li><span class="mark x">×</span><span>決議に影響がなかったことさえ証明できれば、裁量棄却される<span class="why">違反が重大でないことと、決議に影響がないことの両方が必要です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-virtual">
+    <div class="unit-head"><span class="tag">2-5</span><span class="freq">頻出度 ★</span><h3>オンラインを使った株主総会</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">ハイブリッド参加型</span><p class="def-t">会場で開き、オンラインでは<b>視聴だけ</b>できる形。オンラインの株主は会社法上の「出席」にはなりません。</p></div>
+      <div class="def"><span class="def-l">ハイブリッド出席型</span><p class="def-t">会場で開き、オンラインでも<b>出席して議決権を行使</b>できる形。</p></div>
+      <div class="def"><span class="def-l">バーチャルオンリー型</span><p class="def-t">会場を設けずオンラインだけで開く形。上場会社が<b>産業競争力強化法の特例</b>により、定款で定めたうえで、経済産業大臣・法務大臣の確認を受けて行います。</p><p class="def-n">2026年に公表された会社法改正の中間試案では、この仕組みを会社法に取り込む案が示されています（改正法は未成立）。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 取締役会 ============ -->
+<section id="rs" class="part part-rs">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>取締役会の運営</h2>
+    <p>取締役会は、取締役一人ひとりの能力と信頼に期待して、話し合って決める場です。株主総会と比べながら覚えると、違いがはっきりします。</p>
+  </div>
+
+  <div class="unit" id="u-tshosyu">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>取締役会の招集：株主総会との違い</h3></div>
+    <div class="lanes">
+      <div class="lane b">
+        <p class="lane-h">株主総会</p>
+        <ul class="pts">
+          <li>招集を決めるのは取締役会</li>
+          <li>公開会社は2週間前までに通知</li>
+          <li>取締役会設置会社では、通知に議題を書き、議題以外は決議できない</li>
+          <li>株主全員の同意で招集手続きを省略できる</li>
+        </ul>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">取締役会</p>
+        <ul class="pts">
+          <li><b>各取締役</b>が招集できる（定款などで招集する取締役を決めることも可）<span class="law">366条</span></li>
+          <li><b>1週間前まで</b>に通知（定款で短くできる）<span class="law">368条1項</span></li>
+          <li>通知に<b>議題を書く必要はない</b></li>
+          <li><b>取締役と監査役の全員</b>の同意で招集手続きを省略できる<span class="law">368条2項</span></li>
+        </ul>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>招集通知は監査役にも出す<span class="sub">監査役には取締役会に出席し、必要なときは意見を述べる義務があります（383条1項）。</span></li>
+      <li>招集する取締役が決まっていても、他の取締役は招集を請求できる<span class="sub">請求から5日以内に、2週間以内の日を会日とする招集通知が出ない場合は、請求した取締役が自分で招集できます（366条2項・3項）。</span></li>
+    </ul>
+    <div class="case">
+      <span class="case-l">判例　最高裁昭和44年12月2日判決</span>
+      <p>一部の取締役に招集通知を出さずに開いた取締役会の決議は、<b>原則として無効</b>です。ただし、その取締役が出席しても<b>決議の結果に影響がないと認められる特段の事情</b>があるときは、有効になります。</p>
+    </div>
+  </div>
+
+  <div class="unit" id="u-tketsugi">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>決議の方法</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">決議要件 <span class="law">369条1項</span></span><p class="def-t">議決に加わることができる取締役の<b>過半数が出席</b>し、出席した取締役の<b>過半数</b>で決めます。</p><p class="def-n">定款で要件を<b>重くすることはできますが、軽くすることはできません。</b></p></div>
+      <div class="def"><span class="def-l">代理出席はできない</span><p class="def-t">取締役は個人の能力を信頼されて選ばれているので、<b>代理人による出席や議決権の行使は認められません。</b></p><p class="def-n">株主総会では代理人による議決権行使ができる（310条）のと対照的です。テレビ会議や電話会議での出席は、互いに意見を交わせれば認められます。</p></div>
+      <div class="def"><span class="def-l">特別利害関係取締役 <span class="law">369条2項</span></span><p class="def-t">決議に特別の利害関係がある取締役は<b>議決に加われません</b>。定足数の計算からも除きます。</p><p class="def-n">例：利益相反取引の承認決議でのその取締役、代表取締役の解職決議での解職される代表取締役。</p></div>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span><b>取締役会は、実際に開いて話し合って決める</b><small>持ち回りで賛否を集めるだけでは決議になりません。</small></span></div>
+      <div class="r-row exc"><span class="r-b">例外</span><span><b>みなし決議（書面決議）</b><small>370条。定款に定めがあり、取締役全員が書面または電磁的記録で同意し、監査役が異議を述べないときは、決議があったものとみなされます。</small></span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>定款で定めれば、取締役会の決議要件を「3分の1以上の出席」に軽くできる<span class="why">取締役会の決議要件は、重くすることはできても軽くすることはできません。</span></span></li>
+        <li><span class="mark x">×</span><span>みなし決議は、取締役の過半数が同意すれば成立する<span class="why">取締役全員の同意が必要で、監査役が異議を述べないことも条件です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-houkoku">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>報告と開催の頻度</h3></div>
+    <ul class="pts">
+      <li>代表取締役と業務執行取締役は、<b>3か月に1回以上</b>、自分の職務の執行状況を取締役会に報告する<span class="law">363条2項</span><span class="sub">そのため、取締役会は少なくとも3か月に1回は開く必要があります。</span></li>
+      <li>取締役全員に報告事項を通知すれば、取締役会への報告を省略できる<span class="law">372条1項</span><span class="sub">ただし、3か月に1回の職務執行状況の報告は省略できません（372条2項）。</span></li>
+      <li>利益相反取引・競業取引をした取締役は、取引後遅滞なく重要な事実を報告する<span class="law">365条2項</span></li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>みなし決議と報告の省略を使えば、取締役会を1年に1回も開かなくてよい<span class="why">3か月に1回の職務執行状況の報告は省略できないので、実際に取締役会を開く必要があります。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-gijiroku">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★★</span><h3>議事録：反対したなら必ず残す</h3></div>
+    <ul class="pts">
+      <li>議事録には議事の経過の要領と結果などを書き、<b>出席した取締役と監査役が署名または記名押印</b>する<span class="law">369条3項</span><span class="sub">電磁的記録で作った場合は電子署名を使います。</span></li>
+      <li>議事録は<b>本店に10年間</b>備え置く<span class="law">371条1項</span></li>
+      <li>株主は議事録の閲覧を請求できる。監査役設置会社などでは<b>裁判所の許可</b>が必要<span class="law">371条2項・3項</span><span class="sub">取締役会の議論には営業秘密も含まれるためです。債権者も、役員の責任を追及するために裁判所の許可を得て閲覧できます。</span></li>
+    </ul>
+    <div class="defs">
+      <div class="def"><span class="def-l">異議をとどめない取締役は賛成と推定 <span class="law">369条5項</span></span><p class="def-t">決議に参加した取締役で、<b>議事録に異議をとどめなかった人は、その決議に賛成したものと推定</b>されます。</p><p class="def-n">決議の結果、会社に損害が出たときは、賛成した取締役も任務懈怠の責任を問われるおそれがあります。反対したなら、その旨を議事録に必ず残します。</p></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-jikkousei">
+    <div class="unit-head"><span class="tag">3-5</span><span class="freq">頻出度 ★</span><h3>議論を深めるための運営の工夫</h3></div>
+    <ul class="pts">
+      <li>付議基準を取締役会規程で決めておく<span class="sub">「〇億円以上の投資は取締役会に付議する」のように金額などで基準を決めると、決議の漏れを防げます。</span></li>
+      <li>資料を事前に配り、社外取締役には事前に説明する<span class="sub">当日に初めて資料を見るのでは、十分な議論ができません。</span></li>
+      <li>取締役会の実効性を評価する<span class="sub">コーポレートガバナンス・コード（補充原則4-11③）は、上場会社に取締役会全体の実効性を分析・評価し、結果の概要を開示することを求めています。</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ PART4 組織法務 ============ -->
+<section id="dh" class="part part-dh">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>組織法務：登記・任期・組織再編</h2>
+    <p>会社の「器」を正しい状態に保つ仕事です。期限を過ぎると過料の対象になるものが多いので、管理表で期限を管理するのが実務です。</p>
+  </div>
+
+  <div class="unit" id="u-touki">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★</span><h3>登記と役員の任期</h3></div>
+    <ul class="pts">
+      <li>登記した事項が変わったら、<b>2週間以内</b>に本店所在地で変更の登記をする<span class="law">915条1項</span><span class="sub">登記を怠ると、代表者が100万円以下の過料を受けることがあります（976条）。</span></li>
+      <li>取締役の任期は原則<b>2年</b>、監査役は原則<b>4年</b><span class="law">332条・336条</span><span class="sub">公開会社でない会社は、定款で最長10年まで伸ばせます。任期を伸ばした会社ほど、再任（重任）の登記を忘れやすいので注意します。</span></li>
+      <li>最後の登記から12年たった株式会社は「休眠会社」として、解散したものとみなされることがある<span class="law">472条</span></li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>同じ取締役が再任されたなら、役員に変化はないので登記はいらない<span class="why">任期満了と再任があったので、重任の登記が必要です。</span></span></li>
+        <li><span class="mark x">×</span><span>定款変更は、定款の書面を書き換えた時に効力が生じる<span class="why">株主総会の特別決議が成立した時に効力が生じます。書面の書換えは効力の条件ではありません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-saihen">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★</span><h3>組織再編の手続き</h3></div>
+    <div class="prose">
+      <p>合併・会社分割・株式交換・株式移転は、会社の形を大きく変えるので、<b>株主</b>と<b>債権者</b>の両方を守る手続きが用意されています。</p>
+    </div>
+    <div class="defs">
+      <div class="def"><span class="def-l">株主を守る手続き</span><p class="def-t">原則として<b>株主総会の特別決議</b>で承認します。反対した株主は、会社に<b>公正な価格での株式の買取りを請求</b>できます。</p></div>
+      <div class="def"><span class="def-l">債権者を守る手続き</span><p class="def-t">合併や会社分割では、債権者に<b>異議を述べる機会</b>を与えます（官報公告と個別の催告など）。異議を述べた債権者には、弁済や担保の提供をします。</p></div>
+      <div class="def"><span class="def-l">総会を省ける場合</span><p class="def-t"><b>簡易組織再編</b>：会社への影響が小さい場合（例：吸収合併で存続会社が交付する対価が純資産額の5分の1以下）。<br><b>略式組織再編</b>：相手方が議決権の<b>90%以上</b>を持つ特別支配会社である場合（被支配会社側の総会が不要）。</p></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-group">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">頻出度 ★</span><h3>子会社の管理と株式事務</h3></div>
+    <ul class="pts">
+      <li>親会社の取締役会は、子会社を含む<b>企業集団の業務の適正</b>を確保する体制（内部統制システム）を決める<span class="law">362条4項6号</span><span class="sub">子会社の重要な決定は親会社に事前承認を求める、定期的に報告させる、といったルールを関係会社管理規程で定めます。</span></li>
+      <li>株主名簿を作り、本店に備え置く<span class="law">121条・125条</span><span class="sub">上場会社では、信託銀行などの株主名簿管理人に事務を任せるのが一般的です。</span></li>
+      <li>基準日を定めたときは、その2週間前までに公告する（定款に定めがある場合を除く）<span class="law">124条3項</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ ケース問題 ============ -->
+<section id="cs" class="part part-cs">
+  <div class="part-head">
+    <span class="part-no">CASE</span>
+    <h2>ケース問題で確認</h2>
+    <p>機関法務の担当者になったつもりで、どの論点に当たるかを考えてから解答を開いてください。</p>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 1　株主総会の招集</span>
+    <h3>招集通知の発送が10日前になってしまった</h3>
+    <p class="scn-story">上場会社の甲社（公開会社）は、印刷会社とのやり取りに手間取り、定時株主総会の招集通知を総会の10日前に発送しました。総会では取締役選任議案が賛成多数で可決されました。株主Aは、このやり方に納得していません。</p>
+    <ol class="scn-q">
+      <li>甲社の招集手続きには、どんな問題がありますか。</li>
+      <li>株主Aは、どのような手段で、いつまでに争えますか。</li>
+      <li>甲社は「賛成多数で影響はなかった」として、請求を退けてもらえますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>招集期間が足りません。</b>公開会社は総会の2週間前までに招集通知を発送する必要があります（299条1項）。10日前の発送は、招集手続きの法令違反です。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>株主総会決議取消しの訴え</b>を、決議の日から<b>3か月以内</b>に起こせます（831条1項1号）。</span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>難しいと考えられます。</b>裁量棄却には「違反が重大でない」と「決議に影響がない」の両方が必要です。招集期間の不足は、株主が議案を検討して出欠や議決権行使を決める機会を奪うもので、重大な違反とされやすいからです。<small>賛成多数だったことは「影響がない」の根拠にはなっても、「重大でない」ことの根拠にはなりません。</small></span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 2　取締役会の招集</span>
+    <h3>反対しそうな取締役に通知を出さなかった</h3>
+    <p class="scn-story">乙社（取締役5名）の代表取締役は、新工場への大型投資に反対しそうな取締役Bに招集通知を出さずに取締役会を開き、残りの4名全員の賛成で投資を決議しました。</p>
+    <ol class="scn-q">
+      <li>この取締役会決議の効力はどうなりますか。</li>
+      <li>決議が有効とされるのは、どんな場合ですか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>原則として無効です。</b>一部の取締役に招集通知を出さずに開いた取締役会の決議は、原則として無効とされています（最高裁昭和44年12月2日判決）。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>Bが出席しても決議の結果に影響がないと認められる「特段の事情」があるとき</b>です。ただし、取締役会は話し合いで他の取締役の意見が変わることもある場なので、「数の上では4対1で可決されたはず」というだけで特段の事情が認められるとは限りません。本件のように、反対を避ける目的で通知しなかった場合はなおさらです。</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 3　議事録</span>
+    <h3>反対したのに議事録に残っていなかった</h3>
+    <p class="scn-story">丙社の取締役会で、子会社への多額の貸付けが賛成多数で可決されました。取締役Cは会議中に口頭で反対しましたが、議事録には「全員異議なく承認可決した」と書かれ、Cもそのまま記名押印しました。その後、子会社が倒産し、貸付金は回収できなくなりました。</p>
+    <ol class="scn-q">
+      <li>Cの責任はどう扱われますか。</li>
+      <li>Cは、どうしておくべきでしたか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>決議に賛成したものと推定されます。</b>決議に参加して議事録に異議をとどめなかった取締役は、賛成したと推定されます（369条5項）。そのため、貸付けを決めた取締役の一人として、任務懈怠による損害賠償責任（423条）を問われるおそれがあります。<small>推定なので、口頭で反対したことを別の証拠で証明できれば覆せますが、簡単ではありません。</small></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>議事録に反対した旨を記載させてから、記名押印するべきでした。</b>議事録の案を確認し、自分の発言が正しく記録されているかを確かめるのが取締役の自衛策です。</span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">0</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-fl-btn" data-qf="fl" aria-pressed="false">機関法務・日程</button>
+    <button type="button" class="btn f-kt-btn" data-qf="kt" aria-pressed="false">株主総会</button>
+    <button type="button" class="btn f-rs-btn" data-qf="rs" aria-pressed="false">取締役会</button>
+    <button type="button" class="btn f-dh-btn" data-qf="dh" aria-pressed="false">組織法務</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">0</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card fl">
+      <h3>機関法務・日程</h3>
+      <ol>
+        <li>基準日から3か月以内 → 6月総会</li>
+        <li>電子提供は3週間前、招集通知は2週間前</li>
+        <li>決算取締役会で計算書類を承認</li>
+        <li>変更登記は2週間以内</li>
+      </ol>
+    </div>
+    <div class="prio-card kt">
+      <h3>株主総会</h3>
+      <ol>
+        <li>招集通知の期限（公開2週間・非公開1週間）</li>
+        <li>株主提案：1%か300個・6か月・8週間前・10個まで</li>
+        <li>説明義務と、断れる場合</li>
+        <li>取消し（3か月）・無効・不存在の区別</li>
+        <li>裁量棄却は「重大でない」かつ「影響なし」</li>
+      </ol>
+    </div>
+    <div class="prio-card rs">
+      <h3>取締役会</h3>
+      <ol>
+        <li>1週間前・議題不要・全員同意で省略</li>
+        <li>過半数出席・過半数、代理出席は不可</li>
+        <li>みなし決議は定款・全員同意・監査役の異議なし</li>
+        <li>3か月に1回の報告は省略不可</li>
+        <li>異議をとどめないと賛成と推定</li>
+      </ol>
+    </div>
+    <div class="prio-card dh">
+      <h3>組織法務</h3>
+      <ol>
+        <li>取締役2年・監査役4年、非公開は10年まで</li>
+        <li>重任の登記を忘れない</li>
+        <li>組織再編は特別決議＋買取請求＋債権者保護</li>
+        <li>簡易（5分の1）と略式（90%）</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>株主総会は<b>「株主が準備して参加できること」</b>を守るため、招集期限が長く、議題の通知も必要です。取締役会は<b>「専門家どうしの機動的な話し合い」</b>の場なので、期限は短く、議題の通知もいりませんが、代わりに代理出席はできず、全員が実際に話し合うことが重視されます。迷ったら、それぞれの機関が何のためにあるかに戻って考えてください。<a href="legal-check-kaishaho.html">① リーガルチェック（会社法）</a>のページで扱った「取締役会決議を欠く取引の効力」ともつながっています。</p>
+</section>
+
+<footer>
+  <p>参照：会社法（120条、121条、124条、295条、297条〜300条、303条〜305条、309条、310条、314条、315条、318条、319条、325条の2〜、332条、336条、362条、363条、365条、366条、368条〜372条、383条、436条、472条、830条、831条、915条、976条）、産業競争力強化法、コーポレートガバナンス・コード、最高裁昭和44年12月2日判決。</p>
+  <p>2026年10月時点の法令に基づいています。会社法は2026年に法制審議会で改正の中間試案が公表されていますが、改正法はまだ成立していません。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"fl", q:"3月決算の会社の多くが6月に定時株主総会を開くのは、基準日の株主が行使できる権利が、基準日から3か月以内に行使するものに限られるからである。", a:true, e:"124条2項です。3月31日を基準日にすると、6月末までに総会を開く必要があります。"},
+    {p:"fl", q:"計算書類と事業報告は、株主総会に出す前に取締役会で承認する。", a:true, e:"取締役会設置会社では、監査を受けた計算書類などを取締役会で承認します（436条3項）。"},
+    {p:"fl", q:"取締役会設置会社では、株主総会の日時・場所・議題などは代表取締役が単独で決める。", a:false, e:"招集事項は取締役会の決議で決めます（298条4項）。"},
+    {p:"fl", q:"総会で取締役を選任したら、新しい取締役会で代表取締役を選定する。", a:true, e:"代表取締役の選定は取締役会の権限です（362条2項3号）。"},
+    {p:"fl", q:"機関法務の仕事には、株主総会・取締役会の運営のほか、登記や定款・規程の管理も含まれる。", a:true, e:"会社の意思決定と「器」を正しい状態に保つ仕事全体を指します。"},
+
+    {p:"kt", q:"公開会社の株主総会の招集通知は、総会の日の2週間前までに発送しなければならない。", a:true, e:"299条1項です。"},
+    {p:"kt", q:"公開会社でない会社は、書面投票を採用する場合でも、招集通知を総会の1週間前までに発送すればよい。", a:false, e:"書面投票・電子投票を採用する場合は、公開会社でなくても2週間前までです。"},
+    {p:"kt", q:"株主が1,000人以上いる会社は、原則として書面投票を採用しなければならない。", a:true, e:"298条2項です。"},
+    {p:"kt", q:"電子提供措置は、株主総会の日の3週間前の日か、招集通知を発送した日のいずれか早い日から始めなければならない。", a:true, e:"325条の3第1項です。2023年3月以降の総会から上場会社に適用されています。"},
+    {p:"kt", q:"電子提供制度を採用した会社の株主は、紙の資料の交付を求めることができない。", a:false, e:"書面交付請求をすれば、紙の資料を受け取れます。"},
+    {p:"kt", q:"取締役会設置会社の株主総会は、招集通知に書かれていない議題についても決議できる。", a:false, e:"309条5項により、招集通知に書いた議題以外は原則として決議できません。"},
+    {p:"kt", q:"株主全員の同意があれば、書面投票を採用する場合でも招集手続きを省略できる。", a:false, e:"書面投票・電子投票を採用する場合は、招集手続きを省略できません（300条ただし書）。"},
+    {p:"kt", q:"判例は、招集手続きがなくても、株主全員が出席して開催に同意した総会の決議は有効としている。", a:true, e:"全員出席総会と呼ばれます。"},
+    {p:"kt", q:"公開会社で取締役会設置会社の株主が議題を提案するには、総株主の議決権の1%以上または300個以上を6か月前から持っていることが必要である。", a:true, e:"303条2項です。請求は総会の8週間前までに行います。"},
+    {p:"kt", q:"株主が招集通知への記載を求められる議案の数に上限はない。", a:false, e:"2019年の改正で10個までに制限されました（305条4項）。"},
+    {p:"kt", q:"総会の場で議題の範囲内の議案（修正動議）を出すのに、保有株式数の要件はない。", a:true, e:"304条です。単元株を持つ株主なら出せます。"},
+    {p:"kt", q:"総株主の議決権の3%以上を6か月前から持つ公開会社の株主は、取締役に株主総会の招集を請求できる。", a:true, e:"297条1項です。"},
+    {p:"kt", q:"株主総会の議長は、命令に従わない株主を退場させることができる。", a:true, e:"315条2項です。"},
+    {p:"kt", q:"取締役は、株主から質問されたら、議題に関係しない事項でも説明しなければならない。", a:false, e:"議題に関係しない質問、株主共同の利益を著しく害する質問などは、説明を断れます（314条）。"},
+    {p:"kt", q:"株主の権利の行使に関して、会社が株主に財産上の利益を与えることは禁止されている。", a:true, e:"120条の利益供与の禁止です。違反には刑事罰もあります。"},
+    {p:"kt", q:"株主総会の議事録は、本店に10年間備え置かなければならない。", a:true, e:"318条2項です。支店には写しを5年間備え置きます。"},
+    {p:"kt", q:"株主総会の決議内容が法令に違反する場合は、決議取消しの訴えで争う。", a:false, e:"内容の法令違反は無効確認です。取消しの対象は、手続き・方法の違反や、内容の「定款」違反です。"},
+    {p:"kt", q:"株主総会決議取消しの訴えは、決議の日から3か月以内に起こさなければならない。", a:true, e:"831条1項です。"},
+    {p:"kt", q:"招集手続きに法令違反があっても、違反が重大でなく決議に影響を及ぼさないときは、裁判所は取消しの請求を棄却できる。", a:true, e:"裁量棄却（831条2項）です。2つの条件の両方が必要です。"},
+    {p:"kt", q:"総会を開いていないのに議事録だけ作られた場合は、決議不存在確認の訴えで争える。", a:true, e:"決議が実際には存在しないので、不存在確認の対象になります。"},
+    {p:"kt", q:"株主全員が書面で提案に同意したときは、株主総会の決議があったものとみなされる。", a:true, e:"319条1項の書面決議です。"},
+    {p:"kt", q:"ハイブリッド参加型の総会でオンライン視聴した株主は、会社法上の出席株主として扱われる。", a:false, e:"参加型は視聴だけで、会社法上の出席にはなりません。出席として扱うのはハイブリッド出席型です。"},
+    {p:"kt", q:"上場会社は、産業競争力強化法の特例により、定款で定めて一定の確認を受ければ、場所を定めないバーチャルオンリー総会を開ける。", a:true, e:"経済産業大臣と法務大臣の確認が必要です。"},
+
+    {p:"rs", q:"取締役会は、定款などで招集する取締役を決めていなければ、各取締役が招集できる。", a:true, e:"366条1項です。"},
+    {p:"rs", q:"取締役会の招集通知は、会日の2週間前までに発しなければならない。", a:false, e:"1週間前までです（368条1項）。定款で短くできます。"},
+    {p:"rs", q:"取締役会の招集通知には、会議の目的である議題を必ず書かなければならない。", a:false, e:"取締役会の招集通知には議題の記載は不要です。株主総会との違いです。"},
+    {p:"rs", q:"取締役と監査役の全員の同意があれば、取締役会の招集手続きを省略できる。", a:true, e:"368条2項です。監査役設置会社では監査役の同意も必要です。"},
+    {p:"rs", q:"一部の取締役に招集通知を出さずに開いた取締役会の決議は、その取締役が出席しても結果に影響がないと認められる特段の事情がない限り無効である。", a:true, e:"最高裁昭和44年12月2日判決です。"},
+    {p:"rs", q:"取締役会の決議は、議決に加わることができる取締役の過半数が出席し、出席取締役の過半数で行う。", a:true, e:"369条1項です。"},
+    {p:"rs", q:"取締役会の決議要件は、定款で軽くすることができる。", a:false, e:"重くすることはできますが、軽くすることはできません。"},
+    {p:"rs", q:"取締役は、他の取締役を代理人として取締役会の議決権を行使できる。", a:false, e:"取締役は個人として信頼されて選ばれているので、代理出席は認められません。"},
+    {p:"rs", q:"互いに意見を交わせるテレビ会議の方法で取締役会に出席することは認められる。", a:true, e:"その場で議論に参加できれば出席として扱えます。"},
+    {p:"rs", q:"決議に特別の利害関係がある取締役は、その決議の議決に加わることができない。", a:true, e:"369条2項です。定足数の計算からも除きます。"},
+    {p:"rs", q:"定款に定めがあれば、取締役の過半数が書面で同意することで取締役会の決議があったものとみなせる。", a:false, e:"みなし決議は取締役全員の同意が必要で、監査役が異議を述べないことも条件です（370条）。"},
+    {p:"rs", q:"代表取締役は、3か月に1回以上、自分の職務の執行状況を取締役会に報告しなければならない。", a:true, e:"363条2項です。"},
+    {p:"rs", q:"取締役全員に通知すれば、3か月に1回の職務執行状況の報告も省略できる。", a:false, e:"報告の省略（372条1項）は、363条2項の報告には使えません（372条2項）。"},
+    {p:"rs", q:"監査役は取締役会に出席し、必要があると認めるときは意見を述べなければならない。", a:true, e:"383条1項です。"},
+    {p:"rs", q:"取締役会の議事録には、出席した取締役と監査役が署名または記名押印する。", a:true, e:"369条3項です。"},
+    {p:"rs", q:"決議に参加した取締役で、議事録に異議をとどめなかった者は、その決議に賛成したものと推定される。", a:true, e:"369条5項です。反対したなら議事録に残すことが大切です。"},
+    {p:"rs", q:"監査役設置会社の株主は、いつでも自由に取締役会の議事録を閲覧できる。", a:false, e:"監査役設置会社などでは、裁判所の許可が必要です（371条3項）。"},
+    {p:"rs", q:"取締役会の議事録は、本店に5年間備え置けばよい。", a:false, e:"10年間です（371条1項）。"},
+
+    {p:"dh", q:"登記事項に変更が生じたときは、2週間以内に変更の登記をしなければならない。", a:true, e:"915条1項です。怠ると過料の対象になります。"},
+    {p:"dh", q:"取締役の任期は原則2年で、公開会社でない会社は定款で最長10年まで伸ばせる。", a:true, e:"332条1項・2項です。"},
+    {p:"dh", q:"監査役の任期は原則2年である。", a:false, e:"監査役の任期は原則4年です（336条1項）。"},
+    {p:"dh", q:"任期満了後に同じ取締役が再任された場合は、役員に変化がないので登記は不要である。", a:false, e:"重任の登記が必要です。"},
+    {p:"dh", q:"定款変更の効力は、株主総会の特別決議が成立した時に生じる。", a:true, e:"定款の書面を書き換えることは効力の条件ではありません。"},
+    {p:"dh", q:"合併には、原則として株主総会の特別決議が必要で、反対株主は株式の買取りを請求できる。", a:true, e:"株主を守るための手続きです。"},
+    {p:"dh", q:"合併や会社分割では、債権者に異議を述べる機会を与える債権者保護手続きが必要になる。", a:true, e:"異議を述べた債権者には、弁済や担保の提供などをします。"},
+    {p:"dh", q:"相手方が議決権の90%以上を持つ特別支配会社である場合、被支配会社側の株主総会決議を省略できる。", a:true, e:"略式組織再編です。"},
+    {p:"dh", q:"親会社の取締役会が決める内部統制システムには、子会社を含む企業集団の業務の適正を確保する体制も含まれる。", a:true, e:"362条4項6号です。"},
+    {p:"dh", q:"最後の登記から12年たった株式会社は、休眠会社として解散したものとみなされることがある。", a:true, e:"472条です。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {fl:" 機関法務・日程", kt:" 株主総会", rs:" 取締役会", dh:" 組織法務"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

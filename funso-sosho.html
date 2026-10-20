@@ -1,0 +1,973 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業法務向け。紛争・訴訟対応の4ステップ（事実関係の確認、弁護士との連携、交渉・和解とADR、訴訟と強制執行）と予防法務を、消滅時効・PL法・和解条項・支払督促・訴訟損失引当金の仕訳まで、ケース問題と○×チェックでまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>紛争・訴訟対応の進め方</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: STEP1(事実確認)は青、STEP2(弁護士と連携)はティール、STEP3(交渉・和解)はコーラル、STEP4(訴訟)はオレンジで色分け。最初と最後に「裁判をさせない」の標語を置き、予防法務に戻る流れにする */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：機関決定 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：利益相反・競業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：流れ・契約書 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：代表権・名義 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fl{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kt{border-color:var(--c2);color:var(--c2t)}
+.top a.n-rs{border-color:var(--c3);color:var(--c3t)}
+.top a.n-dh{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kt{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-rs{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-fl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-dh{fill:color-mix(in srgb,var(--c8) 18%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-pl{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.f-kt{fill:var(--c2t)} .f-rs{fill:var(--c3t)} .f-fl{fill:var(--c4t)} .f-dh{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fl .part-head{background:var(--c4)}
+.part-kt .part-head{background:var(--c2)}
+.part-rs .part-head{background:var(--c3)}
+.part-dh .part-head{background:var(--c8)}
+.part-cs .part-head{background:var(--c1);color:#1B1600}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fl .tag{background:var(--c4)}
+.part-kt .tag{background:var(--c2)}
+.part-rs .tag{background:var(--c3)}
+.part-dh .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fl .pts li::before{background:var(--c4)}
+.part-kt .pts li::before{background:var(--c2)}
+.part-rs .pts li::before{background:var(--c3)}
+.part-dh .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-fl .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kt .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-rs .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-dh .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fl .def-l{color:var(--c4t)} .part-kt .def-l{color:var(--c2t)} .part-rs .def-l{color:var(--c3t)} .part-dh .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 判例 */
+.case{border-radius:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);display:grid;gap:4px}
+.case-l{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.case p{line-height:1.8}
+.cases{display:grid;gap:10px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.node{flex-basis:auto}.arr{transform:rotate(90deg);align-self:center}}
+.node.fl{border-color:var(--c4)} .node.fl .nn{color:var(--c4t)}
+.node.kt{border-color:var(--c2)} .node.kt .nn{color:var(--c2t)}
+.node.rs{border-color:var(--c3)} .node.rs .nn{color:var(--c3t)}
+.node.dh{border-color:var(--c8)} .node.dh .nn{color:var(--c8t)}
+
+/* 3つの観点 */
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--line)}
+.view{border-radius:14px;padding:14px 16px;display:grid;gap:4px;align-content:start;text-decoration:none;background:color-mix(in srgb,var(--c4) 12%,var(--surface));border:2px solid var(--c4)}
+.view .nn{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--c4t)}
+.view b{font-size:17px}
+.view small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.vtag{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;border:2px solid var(--c4);color:var(--c4t);background:var(--surface)}
+
+/* 条文の修正例 */
+.clauses{display:grid;gap:12px}
+.clause{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.cl-b,.cl-a{padding:12px 14px;display:grid;gap:4px;align-content:start;line-height:1.75}
+.cl-b{background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cl-a{background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.cl-l{font-size:12.5px;font-weight:700;letter-spacing:.06em}
+.cl-b .cl-l{color:var(--ng)} .cl-a .cl-l{color:var(--ok)}
+.cl-t{font-family:var(--f-data);font-size:14.5px}
+.cl-n{font-size:13.5px;color:var(--muted)}
+
+/* 年間スケジュール */
+.tl{list-style:none;display:grid;gap:0;position:relative}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:10px 0;border-top:1px dashed var(--line);align-items:start;line-height:1.7}
+.tl li:first-child{border-top:0}
+.tl-d{font-weight:700;font-size:14px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t);text-align:center}
+.tl li.hot .tl-d{background:var(--c1);color:#1B1600}
+.tl small{display:block;color:var(--muted);font-size:14px}
+@media (max-width:560px){.tl li{grid-template-columns:1fr;gap:4px}.tl-d{justify-self:start}}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 標語 */
+.motto{border-radius:22px;padding:22px 24px;background:var(--ink);color:var(--bg);display:grid;gap:8px}
+.motto q{font-family:var(--f-display);font-size:clamp(22px,4.4vw,36px);line-height:1.4;quotes:"「" "」"}
+.motto small{font-size:14px;opacity:.85;line-height:1.7}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.fl{background:var(--c4)} .chap.kt{background:var(--c2)} .chap.rs{background:var(--c3)} .chap.dh{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* チェックリスト */
+.checks{list-style:none;display:grid;gap:8px;counter-reset:ck}
+.checks li{counter-increment:ck;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;line-height:1.7}
+.checks li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--c4) 18%,var(--surface));color:var(--c4t);font-weight:700}
+.checks li small{display:block;color:var(--muted);font-size:14px}
+.checks-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.b{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c3t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lane .pts li::before{background:var(--muted)}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kt .chip{border-color:color-mix(in srgb,var(--c2) 60%,var(--line))}
+.part-fl .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line))}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* ケース問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn + .scn{margin-top:18px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn h3{font-size:clamp(18px,3vw,22px);line-height:1.45}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:grid;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--f-data);font-size:14.5px;line-height:1.7;border:1px solid var(--line)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;color:var(--muted);font-size:14px}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fl-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kt-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-rs-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-dh-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fl{background:var(--c4)} .qno.kt{background:var(--c2)} .qno.rs{background:var(--c3)} .qno.dh{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fl{border-color:var(--c4)} .prio-card.kt{border-color:var(--c2)} .prio-card.rs{border-color:var(--c3)} .prio-card.dh{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.fl h3{color:var(--c4t)} .prio-card.kt h3{color:var(--c2t)} .prio-card.rs h3{color:var(--c3t)} .prio-card.dh h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fl li::before{background:var(--c4)} .prio-card.kt li::before{background:var(--c2)} .prio-card.rs li::before{background:var(--c3)} .prio-card.dh li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fl" href="#fl">STEP1 事実確認</a>
+    <a class="n-kt" href="#kt">STEP2 弁護士と連携</a>
+    <a class="n-rs" href="#rs">STEP3 交渉・和解</a>
+    <a class="n-dh" href="#dh">STEP4 訴訟</a>
+    <a class="n-cs" href="#yobo">予防法務</a>
+    <a class="n-cs" href="#cs">ケース問題</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務 ／ ③ 紛争・訴訟対応</p>
+  <h1><span class="h-a">紛争・訴訟</span>への<br><span class="h-b">対応</span>の進め方</h1>
+  <div class="motto">
+    <q>最高の法務は『裁判をさせないこと』</q>
+    <small>紛争への対応は、勝つことよりも、会社の損失をできるだけ小さくして早く終わらせることが目的です。そして、起きた紛争から学んで次の紛争を防ぐ「予防法務」につなげることで、はじめて仕事が完結します。</small>
+  </div>
+  <p class="lead">取引先からのクレームや代金の未払いなど、紛争は突然やってきます。対応の基本は<mark>「事実関係の確認 → 弁護士と連携 → 交渉・和解を試みる → 訴訟・紛争解決」</mark>の4ステップです。いきなり裁判に進むのではなく、できるだけ手前の段階で解決することを目指します。このページでは、各ステップで法務がすることと、押さえておく民法・民事訴訟法のルールを整理し、ケース問題と○×問題で確認します。</p>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="flow">
+      <a class="node fl" href="#fl"><span class="nn">STEP 1</span><b>事実関係の確認</b><small>時系列と証拠を集め、時効などの期限を確かめる</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node kt" href="#kt"><span class="nn">STEP 2</span><b>弁護士と連携</b><small>早めに相談し、見通しとゴールをすり合わせる</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node rs" href="#rs"><span class="nn">STEP 3</span><b>交渉・和解を試みる</b><small>話し合い、調停・仲裁などで裁判の前に解決する</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node dh" href="#dh"><span class="nn">STEP 4</span><b>訴訟・紛争解決</b><small>訴訟や支払督促、判決後の強制執行</small></a>
+    </div>
+    <figcaption>右に進むほど、時間・費用・社内の負担が大きくなり、結果も読みにくくなります。カードを押すと該当する解説に移動します。最後は<a href="#yobo">予防法務</a>に戻って、同じ紛争が起きない仕組みを作ります。</figcaption>
+  </figure>
+
+  <div class="defs">
+    <div class="def"><span class="def-l" style="color:var(--c4t)">予防法務</span><p class="def-t">紛争が起きないように、契約書の審査や社内ルールの整備をする。</p></div>
+    <div class="def"><span class="def-l" style="color:var(--c3t)">臨床法務（紛争対応）</span><p class="def-t">起きてしまった紛争に対応し、損失を最小限にして解決する。このページの中心です。</p></div>
+    <div class="def"><span class="def-l" style="color:var(--c2t)">戦略法務</span><p class="def-t">新規事業やM&amp;Aなど、経営の判断に法律の面から関わる。</p></div>
+  </div>
+</header>
+
+<!-- ============ STEP1 事実確認 ============ -->
+<section id="fl" class="part part-fl">
+  <div class="part-head">
+    <span class="part-no">STEP 1</span>
+    <h2>事実関係の確認</h2>
+    <p>紛争の対応は、正確な事実の把握から始まります。弁護士も、交渉の相手方も、裁判所も、最後は「証拠で裏付けられた事実」で判断します。記憶が薄れ、資料がなくなる前の初動が勝負です。</p>
+  </div>
+
+  <div class="unit" id="u-shodou">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>初動で確認すること</h3></div>
+    <ol class="checks">
+      <li><span><b>何を求められているか</b><small>相手方の請求の内容（金額、謝罪、取引の停止など）と、その根拠として相手方が言っていること</small></span></li>
+      <li><span><b>何があったか（5W1H と時系列表）</b><small>いつ、誰が、何をしたかを日付順に並べた表を作ります。弁護士への相談でもそのまま使えます</small></span></li>
+      <li><span><b>関係者のヒアリング</b><small>記憶が薄れる前に、一人ずつ話を聞きます。口裏合わせを疑われないよう、別々に聞くのが基本です</small></span></li>
+      <li><span><b>契約書の確認</b><small>責任の範囲、損害賠償の上限、紛争解決の方法（合意管轄・仲裁）が決まっていないか</small></span></li>
+      <li><span><b>期限の確認</b><small>消滅時効、契約不適合の通知期間、相手方から示された回答期限</small></span></li>
+    </ol>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>まずは誠意を見せるため、現場の担当者がその場で「全額お支払いします」と約束する<span class="why">事実を確認する前に責任を認めると、交渉で不利になり、後で撤回するのも難しくなります。謝罪の気持ちを示すことと、法的な責任を認めることは分けて考えます。窓口を一本化し、回答は法務と相談してから行います。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-shoko">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>証拠の確保</h3></div>
+    <ul class="pts">
+      <li>集める証拠の例<span class="sub">契約書、発注書・請求書、メール・チャット、議事録、納品書・検収書、写真・動画、録音、業務日報、アクセスログ。</span></li>
+      <li>文書の廃棄を止める（リーガルホールド）<span class="sub">紛争が見込まれたら、関係する文書やデータを通常の保存期間ルールで消さないよう、関係部署に指示します。</span></li>
+      <li><b>証拠を書き換えたり、後から作ったりしてはいけない</b><span class="sub">改ざんが発覚すると、それだけで裁判所や相手方の信用を失い、他の証拠まで疑われます。</span></li>
+      <li>相手方が持つ証拠が失われそうなときは、裁判所の<b>証拠保全</b>の手続きを使える<span class="law">民事訴訟法234条</span><span class="sub">あらかじめ証拠調べをしておかないと、その証拠を使うのが難しくなる事情があるときに認められます。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-jikou">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>期限の確認：消滅時効</h3></div>
+    <div class="prose">
+      <p>どれだけ正しい請求でも、時効が完成して相手方が援用すれば、請求できなくなります。2020年4月施行の民法改正で、時効の期間と止め方のルールが整理されました。</p>
+    </div>
+    <div class="defs">
+      <div class="def"><span class="def-l">債権の消滅時効 <span class="law">民法166条</span></span><p class="def-t">権利を行使できることを<b>知った時から5年</b>、または権利を行使できる時から<b>10年</b>のいずれか早い方。</p><p class="def-n">人の生命・身体の侵害による損害賠償請求権は、10年が20年になります（167条）。</p></div>
+      <div class="def"><span class="def-l">不法行為の損害賠償請求権 <span class="law">民法724条</span></span><p class="def-t">損害と加害者を<b>知った時から3年</b>、または不法行為の時から<b>20年</b>。</p><p class="def-n">人の生命・身体を害する不法行為では、3年が5年になります（724条の2）。</p></div>
+    </div>
+    <div class="defs">
+      <div class="def"><span class="def-l">完成猶予：時効の完成を一時的に止める</span><p class="def-t"><b>催告</b>（内容証明郵便などでの請求）をすると、その時から<b>6か月</b>は時効が完成しません（150条）。</p><p class="def-n">猶予期間中に再び催告しても、期間は延びません。その間に訴えを起こすなどの手を打ちます。<b>協議を行う旨の書面による合意</b>をすれば、原則1年間は完成しません（151条、繰り返して最長5年）。</p></div>
+      <div class="def"><span class="def-l">更新：時効をゼロからやり直す</span><p class="def-t">裁判上の請求をして<b>判決などで権利が確定</b>すると、時効は新たに進行を始めます（147条）。</p><p class="def-n">相手方が<b>債務を承認</b>したときも更新されます（152条）。一部の支払いや、支払猶予のお願いも承認にあたります。</p></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>内容証明郵便で催告を繰り返せば、時効の完成をいつまでも止められる<span class="why">催告による猶予は1回だけです。猶予中の再度の催告には効果がありません。</span></span></li>
+        <li><span class="mark o">○</span><span>請求された側が「とりあえず一部だけ払います」と支払うと、債務を承認したことになり、時効が更新される<span class="why">請求された側の初動で、うかつに一部を支払ったり、払うと約束したりしてはいけない理由の一つです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-shanai">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">頻出度 ★</span><h3>社内への報告</h3></div>
+    <ul class="pts">
+      <li>金額や影響が大きい紛争は、早めに経営層・取締役会に報告する<span class="sub">取締役会への報告や決議が必要な規模の和解もあります。社内規程の基準を確認します。</span></li>
+      <li>上場会社は、訴訟の提起や判決が適時開示の対象になることがある<span class="sub">投資判断に影響する重要な事実は、取引所のルールに従って開示します。</span></li>
+      <li>賠償責任保険に入っている場合は、保険会社へ早めに通知する<span class="sub">通知が遅れると、保険金が出ないことがあります。</span></li>
+    </ul>
+  </div>
+  <div class="unit" id="u-pl">
+    <div class="unit-head"><span class="tag">1-5</span><span class="freq">頻出度 ★★★</span><h3>製品事故のとき：PL法と二次被害の防止</h3></div>
+    <div class="prose">
+      <p>自社製品でけが人が出た場合は、目の前の被害者への対応と同時に、<b>同じ製品を持っている他の購入者に被害を広げない</b>ことが最優先になります。基本の順番は<b>「報告 → 確認 → 行動」</b>です。担当者が一人で判断して動かず、まず上司に一報を入れ、指示を受けて動きます。</p>
+    </div>
+    <ol class="checks">
+      <li><span><b>事実確認と現物の保全</b><small>いつ・どこで・どのように使っていてけがをしたか、けがの程度（診断書）、製品のロット番号、同じような事故がほかにないか。事故品の現物は回収して保全します</small></span></li>
+      <li><span><b>上司への一報と初動チーム</b><small>重大な事故はチャットだけで済ませず、電話や口頭で確実に伝えます。法務・品質保証・製造・広報・お客様相談などで初動対応チームを作ります</small></span></li>
+      <li><span><b>被害者・販売店への誠実な対応</b><small>お見舞いの気持ちと、調査を進めていることを伝えます。原因がわからないうちに「当社製品の欠陥です」と責任を認める言い方は避けます</small></span></li>
+      <li><span><b>二次被害の防止</b><small>欠陥の可能性が高いと判断したら、原因の確定を待たずに販売停止、購入者への注意喚起、回収（リコール）を検討します。事故を知りながら販売を続けると、重過失を問われ賠償額も大きくなります</small></span></li>
+      <li><span><b>法的責任の検討</b><small>製造物責任法（PL法）にもとづく責任を、弁護士と検討します。PL保険に入っていれば保険会社に連絡します</small></span></li>
+    </ol>
+    <div class="defs">
+      <div class="def"><span class="def-l">製造物責任法（PL法） <span class="law">3条</span></span><p class="def-t">製造物の<b>欠陥</b>によって人の生命・身体・財産に損害が出たとき、製造業者などは<b>過失がなくても</b>損害賠償責任を負います（無過失責任）。「注意して作っていた」は言い訳になりません。</p><p class="def-n">欠陥とは、通常あるべき安全性を欠いていることで、製造上の欠陥・設計上の欠陥・指示や警告の欠陥の3つに分けて考えます。損害がその製品自体だけにとどまる場合は対象外です。輸入業者や、製造業者として名前を表示した会社も責任を負います。</p></div>
+      <div class="def"><span class="def-l">重大製品事故の報告 <span class="law">消費生活用製品安全法35条</span></span><p class="def-t">家庭で使う製品で、死亡、<b>治療に30日以上かかるけが</b>、後遺障害、一酸化炭素中毒、火災などの重大製品事故が起きたことを知ったら、製造・輸入事業者は<b>知った日から10日以内</b>に消費者庁に報告します。</p><p class="def-n">けがの程度（診断書）の確認は、この報告義務に当たるかどうかの判断にも直結します。</p></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>PL法では、メーカーに過失がなかったことを証明すれば責任を免れる<span class="why">PL法の責任は無過失責任です。被害者は過失ではなく「欠陥」を証明します。メーカーが免れるのは、引き渡した当時の科学・技術の知見では欠陥を認識できなかった場合（開発危険の抗弁）などに限られます。</span></span></li>
+        <li><span class="mark x">×</span><span>原因が確定するまでは、販売を続けて様子を見る<span class="why">欠陥の可能性が高ければ、原因の確定前でも販売停止や注意喚起を検討します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP2 弁護士と連携 ============ -->
+<section id="kt" class="part part-kt">
+  <div class="part-head">
+    <span class="part-no">STEP 2</span>
+    <h2>弁護士と連携</h2>
+    <p>法務部は、社内の事情に最も詳しい立場です。弁護士は、法的な見通しと手続きの専門家です。両方の強みを合わせることで、会社にとって最もよい解決を目指します。</p>
+  </div>
+
+  <div class="unit" id="u-soudan">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★</span><h3>いつ、誰に相談するか</h3></div>
+    <ul class="pts">
+      <li><b>早いほどよい</b><span class="sub">内容証明郵便が届いたとき、こちらから送る前、訴状が届いたとき、社内で判断がつかないとき。手遅れになってからでは打てる手が減ります。</span></li>
+      <li>顧問弁護士・案件ごとの弁護士・企業内弁護士を使い分ける<span class="sub">専門性の高い分野（知的財産、労働、国際取引など）は、その分野に強い弁護士に依頼します。</span></li>
+      <li>依頼の前に、弁護士に<b>利益相反</b>がないかを確認する<span class="sub">弁護士は、相手方から同じ事件の相談を受けていた場合などは、その事件を引き受けられません（弁護士法25条）。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-tsutaeru">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★</span><h3>弁護士に伝えること</h3></div>
+    <ol class="checks">
+      <li><span><b>時系列表と証拠一式</b><small>STEP1で作ったものを渡します</small></span></li>
+      <li><span><b>会社として目指すゴール</b><small>お金を回収したいのか、取引関係を続けたいのか、早く終わらせたいのか、公にしたくないのか。ゴールによって最善の手段が変わります</small></span></li>
+      <li><span><b>会社に不利な事実も隠さず伝える</b><small>弁護士には守秘義務があります（弁護士法23条）。不利な事実を後から知ると、見通しも作戦も崩れます</small></span></li>
+      <li><span><b>予算と、社内の決裁の手順</b><small>和解案に回答するまでに社内でどれくらい時間がかかるかも伝えます</small></span></li>
+    </ol>
+  </div>
+
+  <div class="unit" id="u-yakuwari">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★</span><h3>役割分担と費用</h3></div>
+    <div class="lanes">
+      <div class="lane b">
+        <p class="lane-h">法務部の役割</p>
+        <ul class="pts">
+          <li>社内の事実関係と証拠を集める</li>
+          <li>事業部門・経営層との調整と、社内の意思決定の支援</li>
+          <li>弁護士の見通しを社内にわかりやすく伝える</li>
+        </ul>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">弁護士の役割</p>
+        <ul class="pts">
+          <li>法的な評価と、勝ち目・費用・期間の見通し</li>
+          <li>内容証明郵便や訴状などの書面の作成</li>
+          <li>交渉や訴訟での代理</li>
+        </ul>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>弁護士費用は、着手金と報酬金の組み合わせか、時間制（タイムチャージ）が一般的<span class="sub">日本の民事訴訟では、弁護士費用は原則として各自が負担します。勝訴しても相手方に全額を請求できるとは限りません（不法行為では、相当な範囲で損害として認められることがあります）。</span></li>
+      <li>訴訟の代理人は原則として弁護士に限られる<span class="law">民事訴訟法54条</span><span class="sub">簡易裁判所では、裁判所の許可を得れば社員なども代理人になれます。会社の代表者が自分で訴訟をすること（本人訴訟）もできます。</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ STEP3 交渉・和解 ============ -->
+<section id="rs" class="part part-rs">
+  <div class="part-head">
+    <span class="part-no">STEP 3</span>
+    <h2>交渉・和解を試みる</h2>
+    <p>訴訟には年単位の時間と費用がかかり、判決の結果も読み切れません。そこで、まずは話し合いや、裁判所以外の手続き（ADR）での解決を目指します。</p>
+  </div>
+
+  <div class="unit" id="u-kosho">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★</span><h3>交渉の進め方</h3></div>
+    <ul class="pts">
+      <li>交渉が決裂したときの最善の代替案（BATNA）を考えておく<span class="sub">「訴訟になったら、勝てる見込み・回収できる額・かかる費用と期間はどれくらいか」を見積もると、どこまで譲歩してよいか（落としどころ）が決まります。</span></li>
+      <li>窓口を一本化し、やり取りは記録に残す<span class="sub">担当者ごとに違うことを言うと、相手方につけ込まれます。電話の内容もメモやメールで残します。</span></li>
+      <li>請求や通知は<b>内容証明郵便</b>で送ることが多い<span class="sub">郵便局が「いつ、どんな内容の文書を、誰から誰に送ったか」を証明します。配達証明を付ければ、届いた日も証明できます。内容証明郵便そのものに相手方を強制する力はありませんが、催告として時効の完成猶予の証拠になり、本気で請求している姿勢も示せます。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-wakai">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>和解契約と、その執行力</h3></div>
+    <div class="prose">
+      <p>和解は、当事者が<b>互いに譲歩して争いをやめる</b>契約です（民法695条）。和解すると、後で「本当は違う事実だった」とわかっても、原則として和解の内容が優先します（和解の確定効、696条）。</p>
+    </div>
+    <ol class="checks">
+      <li><span><b>支払条項</b><small>金額、支払期日、支払方法（振込先、振込手数料の負担）</small></span></li>
+      <li><span><b>期限の利益喪失条項</b><small>分割払いが2回分以上滞ったら、残額を一括で支払う、など</small></span></li>
+      <li><span><b>清算条項</b><small>「本件に関し、本和解に定めるほか、何らの債権債務がないことを相互に確認する」。蒸し返しを防ぎます</small></span></li>
+      <li><span><b>口外禁止（守秘）条項</b><small>和解の内容を第三者に話さない約束。評判への影響を抑えます</small></span></li>
+    </ol>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span><b>当事者だけで作った和解書には執行力がない</b><small>相手方が約束どおり払わなくても、和解書だけでは強制執行できず、あらためて訴訟を起こす必要があります。</small></span></div>
+      <div class="r-row exc"><span class="r-b">対策</span><span><b>公正証書（執行証書）か、即決和解にしておく</b><small>強制執行に服する旨の文言（執行受諾文言）を入れた公正証書にすれば、金銭の支払いについては訴訟なしで強制執行できます。簡易裁判所での訴え提起前の和解（即決和解、民事訴訟法275条）でも、和解調書で強制執行できます。</small></span></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-adr">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>裁判以外の解決手続き（ADR）</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">民事調停</span><p class="def-t">簡易裁判所で、裁判官と調停委員が間に入って<b>話し合いで解決</b>を目指します。合意できなければ不成立で終わります。</p><p class="def-n">調停が成立して調書に記載されると、<b>裁判上の和解と同じ効力</b>があり、強制執行もできます。</p></div>
+      <div class="def"><span class="def-l">仲裁</span><p class="def-t">当事者が選んだ仲裁人に判断を任せる手続きです。<b>事前の仲裁合意</b>（契約書の仲裁条項など）が必要です。</p><p class="def-n">仲裁判断は<b>確定判決と同じ効力</b>を持ち、原則として不服を申し立てられません。非公開で、外国でも執行しやすいため、国際取引でよく使われます。</p></div>
+      <div class="def"><span class="def-l">認証ADR</span><p class="def-t">法務大臣の認証を受けた民間の紛争解決機関によるあっせんなどです（ADR法）。</p><p class="def-n">手続きが不成立で終わっても、一定期間内に訴えを起こせば、時効の完成猶予の効果が認められます。</p></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>仲裁判断に不満があれば、裁判所に控訴して争い直せる<span class="why">仲裁は一回で終わる手続きで、控訴の仕組みはありません。取消しが認められるのは、手続きに重大な問題があった場合などに限られます。</span></span></li>
+        <li><span class="mark x">×</span><span>民事調停では、調停委員が出した結論に当事者は必ず従わなければならない<span class="why">調停は話し合いの手続きです。当事者が合意しなければ成立しません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STEP4 訴訟 ============ -->
+<section id="dh" class="part part-dh">
+  <div class="part-head">
+    <span class="part-no">STEP 4</span>
+    <h2>訴訟・紛争解決</h2>
+    <p>交渉で解決できなければ、裁判所の手続きに進みます。訴訟だけでなく、目的や相手方の態度に合わせて、より早く簡単な手続きも選べます。</p>
+  </div>
+
+  <div class="unit" id="u-sosho">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★★</span><h3>民事訴訟の流れ</h3></div>
+    <div class="flow">
+      <div class="node dh"><span class="nn">1</span><b>訴えの提起</b><small>訴状を裁判所に出す。訴額140万円以下は簡易裁判所、超えると地方裁判所</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">2</span><b>口頭弁論</b><small>被告は答弁書を出す。争点を整理する</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">3</span><b>証拠調べ</b><small>書証のほか、証人尋問・当事者尋問</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">4</span><b>判決または和解</b><small>途中で訴訟上の和解をすることも多い</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">5</span><b>控訴・上告</b><small>控訴は判決書の送達を受けてから2週間以内</small></div>
+    </div>
+    <ul class="pts">
+      <li><b>訴状が届いたら放置しない</b><span class="sub">被告が答弁書も出さずに第1回の口頭弁論を欠席すると、原告の主張を認めたものとみなされ（擬制自白）、そのまま原告勝訴の判決が出ることがあります。</span></li>
+      <li>訴訟上の和解は、和解調書に記載されると<b>確定判決と同じ効力</b>を持つ<span class="law">民事訴訟法267条</span><span class="sub">裁判官から和解を勧められる場面も多く、判決まで行かずに和解で終わる事件も少なくありません。</span></li>
+      <li>民事裁判のIT化<span class="sub">改正民事訴訟法が2026年5月21日に全面施行され、訴えの提起や書面の提出がオンラインでできるようになりました。弁護士などの代理人には、オンラインでの提出が義務付けられています。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-kani">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★★</span><h3>早くて簡単な手続きと、財産の確保</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">支払督促</span><p class="def-t">簡易裁判所の<b>書記官</b>が、書類の審査だけで支払いを命じる手続きです。<b>金額の上限はありません。</b>相手方の言い分は聞かずに出されます。</p><p class="def-n">相手方が<b>異議を出すと、通常の訴訟に移ります。</b>異議がなければ仮執行宣言を付けてもらい、強制執行できます。相手方が支払い自体は争っていない場合に向いています。</p></div>
+      <div class="def"><span class="def-l">少額訴訟</span><p class="def-t"><b>60万円以下</b>の金銭の支払いを求める簡易裁判所の訴訟です。原則として<b>1回の期日で審理を終え</b>、その日に判決が出ます。</p><p class="def-n">判決に<b>控訴はできず</b>、同じ簡易裁判所への異議申立てだけができます。同じ簡易裁判所で利用できるのは年10回までです。</p></div>
+      <div class="def"><span class="def-l">民事保全（仮差押え・仮処分）</span><p class="def-t">判決が出るまでの間に相手方が財産を処分しないよう、<b>あらかじめ財産を押さえておく</b>手続きです。</p><p class="def-n">金銭債権のためには<b>仮差押え</b>、物の引渡しや地位などのためには<b>仮処分</b>を使います。相手方に知らせずに素早く行え、通常は担保（保証金）を積む必要があります。</p></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-shikko">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">頻出度 ★★</span><h3>判決の後：強制執行</h3></div>
+    <ul class="pts">
+      <li>強制執行をするには<b>債務名義</b>が必要<span class="sub">確定判決、仮執行宣言付きの判決、和解調書、調停調書、仮執行宣言付きの支払督促、執行証書（執行受諾文言付きの公正証書）など。当事者だけで作った和解書は債務名義になりません。</span></li>
+      <li>相手方の財産がわからないときは、<b>財産開示手続</b>や<b>第三者からの情報取得手続</b>を使える<span class="sub">2020年4月施行の改正民事執行法で強化され、銀行から預金口座の情報を取得することなどができるようになりました。</span></li>
+      <li>勝訴しても、相手方に財産がなければ回収できない<span class="sub">だからこそ、相手方の資力の確認と、必要に応じた仮差押えが大切です。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-kaikei">
+    <div class="unit-head"><span class="tag">4-4</span><span class="freq">簿記とのつながり</span><h3>訴訟の会計処理：訴訟損失引当金</h3></div>
+    <div class="prose">
+      <p>訴えられて敗訴する可能性が高く、賠償額を合理的に見積もれる場合は、決算で<b>訴訟損失引当金</b>を計上します。将来の損失でも、原因が当期以前にあり、発生の可能性が高く、金額を合理的に見積もれるなら引当金を計上する、という企業会計原則注解18の考え方です。</p>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">① 決算：損害賠償請求訴訟で敗訴の可能性が高く、賠償額を300万円と見積もった</span>
+        <div class="je-row"><span class="dc">(借)</span><span>訴訟損失引当金繰入額</span><span class="amt">3,000,000</span><span class="dc">(貸)</span><span>訴訟損失引当金</span><span class="amt">3,000,000</span></div>
+        <span class="je-n">繰入額は、臨時の損失として特別損失に表示するのが一般的です。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">② 翌期：280万円で和解し、普通預金から支払った</span>
+        <div class="je-row"><span class="dc">(借)</span><span>訴訟損失引当金</span><span class="amt">3,000,000</span><span class="dc">(貸)</span><span>普通預金</span><span class="amt">2,800,000</span></div>
+        <div class="je-row"><span class="dc"></span><span></span><span class="amt"></span><span class="dc">(貸)</span><span>訴訟損失引当金戻入額</span><span class="amt">200,000</span></div>
+        <span class="je-n">見積りより少なく済んだ20万円は戻し入れます。引当金を計上していなかった場合は、支払った280万円を「和解金」などの損失として処理します。</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 予防法務 ============ -->
+<section id="yobo" class="part">
+  <div class="motto">
+    <q>最高の法務は『裁判をさせないこと』</q>
+    <small>裁判に勝っても、時間・費用・取引関係・社員の労力は戻りません。紛争の対応を終えたら、その原因をふり返って、次の紛争を防ぐ仕組みに変えます。</small>
+  </div>
+  <div class="unit">
+    <div class="unit-head"><h3>紛争を防ぐ3つの習慣</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l" style="color:var(--c4t)">1. 契約書で決めておく</span><p class="def-t">責任の範囲、支払条件、解除、紛争解決の方法（合意管轄・仲裁）を、あいまいにせず契約書に書いておく。</p><p class="def-n"><a href="legal-check-kaishaho.html">① リーガルチェック</a>の「紛争の種はないか」の観点です。</p></div>
+      <div class="def"><span class="def-l" style="color:var(--c4t)">2. 証拠を残す</span><p class="def-t">口頭で決めたことはメールや議事録で確認し、検収や納品の記録を残す。紛争になってから証拠を探すのでは遅すぎます。</p></div>
+      <div class="def"><span class="def-l" style="color:var(--c4t)">3. 小さいうちに相談する</span><p class="def-t">クレームの段階で法務に相談できる社内の雰囲気と仕組みを作る。小さな火種のうちなら、選べる手段が多くあります。</p></div>
+    </div>
+    <ul class="pts">
+      <li>紛争の原因を、契約書のひな形・社内規程・研修に反映する<span class="sub">「なぜ起きたか」「どの条項があれば防げたか」をまとめ、同じ紛争を繰り返さないようにします。これで、臨床法務から予防法務への一周が完成します。</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============ ケース問題 ============ -->
+<section id="cs" class="part part-cs">
+  <div class="part-head">
+    <span class="part-no">CASE</span>
+    <h2>ケース問題で確認</h2>
+    <p>法務の担当者になったつもりで、どのステップのどの論点に当たるかを考えてから解答を開いてください。</p>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 1　製品事故</span>
+    <h3>玩具メーカーX社のトラブル</h3>
+    <p class="scn-story">玩具メーカーX社の商品で遊んでいた子どもが手に大けがをした、という連絡が販売店から入りました。X社の企業法務担当者として、どのような対応をするべきか考えてください。</p>
+    <ol class="scn-q">
+      <li>まず何を確認しますか（事実確認・証拠保全）。</li>
+      <li>社内での連絡・報告はどうしますか。</li>
+      <li>被害者・販売店にはどう対応しますか。</li>
+      <li>他の購入者にはどう対応しますか（二次被害の防止）。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>いつ・どこで・どのように使っていてけがをしたかと、けがの程度（診断書）を確認し、事故品の現物を回収して保全します。</b>製品のロット番号や、同じような事故の報告がほかにないかも調べます。<small>治療に30日以上かかるけがなら重大製品事故に当たり、知った日から10日以内に消費者庁へ報告する義務があります。</small></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>自分で判断せず、まず上司に一報して指示を受けます。</b>重大な事故なので、チャットを送るだけでなく電話や口頭で確実に伝えます。法務・品質保証・製造・広報などで初動対応チームを作ります。「報告 → 確認 → 行動」の順番を守ります。</span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>お見舞いの気持ちと、事実確認と対応を進めていることを伝えます。</b>ただし、原因がわからないうちに「当社製品の欠陥です」と責任を認める謝罪をすると、後で法的に不利になることがあります。誠実さと、責任を認めることは分けて考えます。</span></div>
+        <div class="ans-step"><span class="lb">問4</span><span><b>欠陥の可能性が高いと判断したら、原因の確定を待たずに全販売店へ販売停止を連絡し、購入者への注意喚起と回収（リコール）を検討します。</b>事故を知りながら販売を続けると、重過失を問われ賠償額が大きくなるおそれがあります。<small>あわせて、PL法の責任（無過失責任）を弁護士と検討し、PL保険の内容も確認します。</small></span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 2　初動対応</span>
+    <h3>クレームの電話で「全額払います」と言ってしまった</h3>
+    <p class="scn-story">取引先の甲社から「御社が納品した部品に欠陥があり、生産ラインが止まった。損害1,000万円を支払ってほしい」とメールが届きました。慌てた営業担当者は、甲社に電話して「申し訳ありません。全額お支払いします」と伝えてしまいました。まだ欠陥の原因はわかっていません。</p>
+    <ol class="scn-q">
+      <li>法務として、最初に何をしますか。</li>
+      <li>営業担当者の発言には、どんな問題がありますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>窓口を一本化し、事実確認と証拠の確保を始めます。</b>甲社には「事実関係を確認のうえ、あらためて回答します」と伝え、時系列表の作成、関係者のヒアリング、検査記録・納品書・契約書（損害賠償の範囲や上限、契約不適合責任の定め）の確認を進めます。金額が大きいので、早めに弁護士に相談し、賠償責任保険があれば保険会社にも通知します。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>原因もわからないうちに、責任と金額を認めてしまっています。</b>甲社から「支払いを約束した」と主張されて交渉が不利になり、撤回も難しくなります。また、債務を認める言動は、時効の更新（債務の承認）にも関わります。<small>お詫びの気持ちを伝えることと、法的な責任を認めることは分けて対応するよう、社内で周知しておくのが予防策です。</small></span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 3　債権の回収</span>
+    <h3>時効が迫った売掛金を回収したい</h3>
+    <p class="scn-story">自社は乙社に500万円の売掛金を持っていますが、支払期日から4年10か月が過ぎても支払われていません。最近、乙社が主な資産である倉庫を売りに出しているという情報も入りました。乙社は「払う気はあるが今はお金がない」と言っています。</p>
+    <ol class="scn-q">
+      <li>時効の完成を防ぐには、どうしますか。</li>
+      <li>乙社の倉庫が売られてしまうのを防ぐには、どうしますか。</li>
+      <li>最終的に回収するための手続きは何ですか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>まず内容証明郵便で催告し、6か月の完成猶予の間に訴えを起こします。</b>支払期日（権利を行使できることを知った時）から5年で時効が完成するので、残りは約2か月です。乙社に支払う意思があるなら、債務を認める書面（債務承認書）をもらえば時効が更新されます。協議を行う旨の書面合意で1年間猶予する方法もあります。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>倉庫の仮差押え</b>を申し立てます。判決を待っている間に財産を処分されると、勝訴しても回収できなくなるためです。通常は担保（保証金）を積む必要があります。</span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>訴訟（訴額500万円なので地方裁判所）を起こして判決などの債務名義を得て、強制執行します。</b>乙社が支払義務自体を争っていないなら、支払督促も選べます。ただし異議が出れば通常の訴訟に移ります。途中で分割払いの和解をするなら、和解調書や公正証書の形にしておきます。</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 4　和解書</span>
+    <h3>分割払いの和解をまとめる</h3>
+    <p class="scn-story">丙社との交渉の結果、丙社が自社に300万円を月30万円ずつ10回の分割で支払うことで合意できました。担当者は、A4用紙1枚に「丙社は300万円を10回で支払う」とだけ書いた合意書を作ろうとしています。</p>
+    <ol class="scn-q">
+      <li>合意書に入れておくべき条項は何ですか。</li>
+      <li>丙社が途中で支払わなくなったときに、すぐ強制執行できるようにするには、どうしますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>支払条項</b>（各回の金額・期日・振込先）、<b>期限の利益喪失条項</b>（2回分以上滞ったら残額を一括払い、遅延損害金も付ける）、<b>清算条項</b>（この合意のほかに債権債務がないことの確認）、必要なら<b>口外禁止条項</b>を入れます。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>執行受諾文言付きの公正証書（執行証書）にするか、簡易裁判所で即決和解をします。</b>当事者だけで作った合意書には執行力がないので、不払いになると、あらためて訴訟を起こして判決を得なければなりません。</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 5　手続きの選択</span>
+    <h3>40万円の未払い、相手は争っていない</h3>
+    <p class="scn-story">個人事業主の丁から、40万円の業務委託料が支払われていません。丁は支払義務自体は認めていますが、催促しても払ってくれません。弁護士費用はかけたくありません。</p>
+    <ol class="scn-q">
+      <li>どの手続きが考えられますか。それぞれの特徴は何ですか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">答え</span><span><b>支払督促</b>：書類審査だけで、出頭せずに支払いを命じてもらえます。丁が争っていないので向いています。ただし丁が異議を出せば通常の訴訟に移ります。<br><b>少額訴訟</b>：60万円以下なので使えます。原則1回の期日で判決まで進みます。判決に控訴はできません。<small>どちらも簡易裁判所の手続きで、会社の代表者などが自分で手続きできます。</small></span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">0</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-fl-btn" data-qf="fl" aria-pressed="false">事実確認・時効</button>
+    <button type="button" class="btn f-kt-btn" data-qf="kt" aria-pressed="false">弁護士と連携</button>
+    <button type="button" class="btn f-rs-btn" data-qf="rs" aria-pressed="false">交渉・和解・ADR</button>
+    <button type="button" class="btn f-dh-btn" data-qf="dh" aria-pressed="false">訴訟・執行</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">0</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card fl">
+      <h3>事実確認</h3>
+      <ol>
+        <li>時系列表と証拠の確保、廃棄の停止</li>
+        <li>事実確認の前に責任を認めない</li>
+        <li>時効は知った時から5年・10年</li>
+        <li>催告は6か月・1回だけ、承認で更新</li>
+        <li>製品事故は報告→確認→行動、PL法は無過失責任</li>
+      </ol>
+    </div>
+    <div class="prio-card kt">
+      <h3>弁護士と連携</h3>
+      <ol>
+        <li>早めに相談する</li>
+        <li>ゴールと不利な事実も伝える</li>
+        <li>利益相反の確認</li>
+        <li>弁護士費用は原則各自負担</li>
+      </ol>
+    </div>
+    <div class="prio-card rs">
+      <h3>交渉・和解</h3>
+      <ol>
+        <li>BATNAで落としどころを決める</li>
+        <li>期限の利益喪失・清算条項</li>
+        <li>私的な和解書に執行力はない</li>
+        <li>調停は話し合い、仲裁は判断に従う</li>
+      </ol>
+    </div>
+    <div class="prio-card dh">
+      <h3>訴訟・執行</h3>
+      <ol>
+        <li>訴状を放置すると擬制自白</li>
+        <li>控訴は2週間以内</li>
+        <li>支払督促は異議で訴訟へ、少額訴訟は60万円以下</li>
+        <li>仮差押えで財産を確保、執行には債務名義</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>手続きの多くは<b>「強制執行できるか（債務名義になるか）」</b>で整理できます。確定判決・和解調書・調停調書・執行証書・仮執行宣言付きの支払督促は債務名義になり、当事者だけで作った和解書はなりません。仲裁判断も、裁判所の執行決定を得れば強制執行できます。「どの書面にしておけば、相手が約束を破ったときにすぐ動けるか」を考えるのが、紛争対応と予防法務をつなぐ視点です。</p>
+</section>
+
+<footer>
+  <p>参照：民法（147条〜152条、166条、167条、695条、696条、724条、724条の2）、製造物責任法、消費生活用製品安全法、民事訴訟法（54条、159条、234条、267条、275条、285条、368条〜、382条〜）、民事執行法、民事保全法、民事調停法、仲裁法、裁判外紛争解決手続の利用の促進に関する法律（ADR法）、弁護士法（23条、25条）、企業会計原則注解18。</p>
+  <p>2026年10月時点の法令に基づいています。民事裁判のIT化は2026年5月21日に全面施行されました。民事執行手続のデジタル化は、遅くとも2028年6月までに行われる予定です。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"fl", q:"紛争の連絡を受けたら、事実を確認する前に、現場の担当者がその場で責任を認めて謝罪するのがよい。", a:false, e:"事実確認の前に責任を認めると、交渉で不利になり撤回も難しくなります。お見舞いや誠意を示すことと、法的な責任を認めることは分けて考えます。"},
+    {p:"fl", q:"事実確認では、いつ・誰が・何をしたかを日付順に並べた時系列表を作るとよい。", a:true, e:"社内の整理にも、弁護士への相談にもそのまま使えます。"},
+    {p:"fl", q:"関係者のヒアリングは、時間を節約するため全員をまとめて行うのが基本である。", a:false, e:"口裏合わせを疑われないよう、一人ずつ別々に聞くのが基本です。"},
+    {p:"fl", q:"紛争が見込まれるときは、関係する文書やデータの廃棄を止めるよう社内に指示する。", a:true, e:"リーガルホールドと呼ばれる対応です。"},
+    {p:"fl", q:"相手方が持つ証拠が失われるおそれがあるときは、訴えの前でも裁判所に証拠保全を申し立てられる。", a:true, e:"民事訴訟法234条の証拠保全です。"},
+    {p:"fl", q:"債権の消滅時効は、権利を行使できることを知った時から5年、または権利を行使できる時から10年のいずれか早い方で完成する。", a:true, e:"2020年4月施行の改正民法166条です。"},
+    {p:"fl", q:"不法行為の損害賠償請求権は、損害と加害者を知った時から3年、不法行為の時から20年で時効にかかる。", a:true, e:"民法724条です。人の生命・身体を害する場合、3年は5年になります。"},
+    {p:"fl", q:"内容証明郵便で催告すれば、その時から6か月間は時効が完成しない。", a:true, e:"催告による完成猶予です（民法150条）。"},
+    {p:"fl", q:"催告による完成猶予の期間中に再び催告すれば、さらに6か月延長される。", a:false, e:"猶予期間中の再度の催告には効果がありません。その間に訴えを起こすなどします。"},
+    {p:"fl", q:"権利について協議を行う旨の合意を書面ですれば、原則として1年間は時効が完成しない。", a:true, e:"民法151条です。繰り返して最長5年まで延ばせます。"},
+    {p:"fl", q:"債務者が債務の一部を支払うと、債務の承認として時効が更新される。", a:true, e:"民法152条です。時効はゼロから進み直します。"},
+    {p:"fl", q:"訴えを起こして判決で権利が確定すると、時効は新たに進行を始める。", a:true, e:"裁判上の請求による時効の更新です（民法147条2項）。"},
+    {p:"fl", q:"賠償責任保険に入っている場合は、紛争が起きたら早めに保険会社に通知する。", a:true, e:"通知が遅れると保険金が支払われないことがあります。"},
+    {p:"fl", q:"製品事故の対応は、担当者が自分で判断してすぐに行動するのが基本である。", a:false, e:"「報告 → 確認 → 行動」の順番です。まず上司に一報し、指示を受けて動きます。"},
+    {p:"fl", q:"製造物責任法（PL法）では、製造業者に過失がなくても、製造物の欠陥で損害が出れば賠償責任を負う。", a:true, e:"PL法の責任は無過失責任です。"},
+    {p:"fl", q:"PL法の欠陥には、製造上の欠陥・設計上の欠陥・指示や警告の欠陥がある。", a:true, e:"取扱説明書の警告が不十分な場合も欠陥になり得ます。"},
+    {p:"fl", q:"PL法の責任を負うのは、製品を実際に製造した会社だけで、輸入業者は負わない。", a:false, e:"輸入業者や、製造業者として名前を表示した会社も責任を負います。"},
+    {p:"fl", q:"家庭用の製品で治療に30日以上かかるけがなどの重大製品事故を知った製造事業者は、知った日から10日以内に消費者庁に報告しなければならない。", a:true, e:"消費生活用製品安全法35条です。"},
+    {p:"fl", q:"製品事故の原因が確定するまでは、販売を停止すべきではない。", a:false, e:"欠陥の可能性が高ければ、原因の確定前でも販売停止・注意喚起・回収を検討します。事故を知りながら販売を続けると重過失を問われるおそれがあります。"},
+
+    {p:"kt", q:"弁護士への相談は、訴状が届いてからで十分である。", a:false, e:"早いほど打てる手が多くなります。内容証明を送る前、受け取った時点などで相談します。"},
+    {p:"kt", q:"弁護士には守秘義務があるので、会社に不利な事実も隠さず伝えるべきである。", a:true, e:"弁護士法23条の守秘義務があります。不利な事実を後から知ると、見通しも作戦も崩れます。"},
+    {p:"kt", q:"弁護士に依頼する前に、その弁護士が相手方から同じ事件の相談を受けていないかを確認する。", a:true, e:"弁護士は利益相反のある事件を引き受けられません（弁護士法25条）。"},
+    {p:"kt", q:"弁護士に伝えるべきなのは法的な事実だけで、会社がどんな解決を望んでいるかは伝える必要がない。", a:false, e:"回収、取引の継続、早期解決など、会社のゴールによって最善の手段が変わります。"},
+    {p:"kt", q:"日本の民事訴訟では、勝訴すれば弁護士費用の全額を必ず相手方に負担させられる。", a:false, e:"弁護士費用は原則として各自負担です。不法行為では相当な範囲で損害として認められることがあります。"},
+    {p:"kt", q:"地方裁判所の訴訟で代理人になれるのは、原則として弁護士に限られる。", a:true, e:"民事訴訟法54条の弁護士代理の原則です。簡易裁判所では裁判所の許可で社員なども代理人になれます。"},
+    {p:"kt", q:"会社の代表者は、弁護士に依頼せず自分で会社の訴訟をすることができる。", a:true, e:"本人訴訟です。"},
+
+    {p:"rs", q:"交渉では、決裂したときの最善の代替案（BATNA）を見積もっておくと、どこまで譲歩できるかがわかる。", a:true, e:"訴訟になった場合の勝ち目、回収額、費用、期間を考えます。"},
+    {p:"rs", q:"内容証明郵便には、相手方に支払いを強制する法的な力がある。", a:false, e:"内容証明郵便は送った内容と日付を証明するもので、強制力はありません。催告の証拠になります。"},
+    {p:"rs", q:"和解は、当事者が互いに譲歩して争いをやめる契約である。", a:true, e:"民法695条です。"},
+    {p:"rs", q:"和解した後に事実が違っていたとわかった場合は、原則として和解の内容を覆せる。", a:false, e:"和解には確定効があり、原則として和解の内容が優先します（民法696条）。"},
+    {p:"rs", q:"清算条項は、和解で定めたほかに当事者間に債権債務がないことを確認し、紛争の蒸し返しを防ぐ条項である。", a:true, e:"和解書の基本の条項です。"},
+    {p:"rs", q:"分割払いの和解では、支払いが滞ったら残額を一括で支払う期限の利益喪失条項を入れておくとよい。", a:true, e:"入れておかないと、滞った分しか請求できなくなります。"},
+    {p:"rs", q:"当事者だけで作った和解書があれば、相手方が支払わないときにすぐ強制執行できる。", a:false, e:"私的な和解書には執行力がありません。執行証書（公正証書）や即決和解にしておきます。"},
+    {p:"rs", q:"強制執行に服する旨の文言を入れた公正証書にすれば、金銭の支払いについては訴訟なしで強制執行できる。", a:true, e:"執行証書と呼ばれ、債務名義になります。"},
+    {p:"rs", q:"民事調停では、当事者が合意しなくても調停委員の結論に従わなければならない。", a:false, e:"調停は話し合いの手続きです。合意できなければ不成立で終わります。"},
+    {p:"rs", q:"成立した調停の内容が調書に記載されると、裁判上の和解と同じ効力を持つ。", a:true, e:"強制執行もできます。"},
+    {p:"rs", q:"仲裁を使うには、当事者の間に仲裁合意が必要である。", a:true, e:"契約書の仲裁条項などで合意しておきます。"},
+    {p:"rs", q:"仲裁判断に不服があれば、地方裁判所に控訴できる。", a:false, e:"仲裁判断は確定判決と同じ効力を持ち、控訴の仕組みはありません。"},
+
+    {p:"dh", q:"訴額が140万円を超える民事訴訟の第一審は、原則として地方裁判所である。", a:true, e:"140万円以下は簡易裁判所です。"},
+    {p:"dh", q:"被告が答弁書も出さずに第1回口頭弁論を欠席すると、原告の主張を認めたものとみなされることがある。", a:true, e:"擬制自白です。訴状が届いたら放置してはいけません。"},
+    {p:"dh", q:"判決に対する控訴は、判決書の送達を受けた日から1か月以内にする。", a:false, e:"2週間以内です（民事訴訟法285条）。"},
+    {p:"dh", q:"訴訟上の和解が調書に記載されると、確定判決と同じ効力を持つ。", a:true, e:"民事訴訟法267条です。"},
+    {p:"dh", q:"改正民事訴訟法の全面施行により、弁護士などの代理人には訴訟書類のオンライン提出が義務付けられた。", a:true, e:"2026年5月21日に全面施行されました。代理人のいない本人訴訟では紙でも提出できます。"},
+    {p:"dh", q:"支払督促は、簡易裁判所の書記官が書類の審査だけで支払いを命じる手続きで、請求額の上限はない。", a:true, e:"相手方の言い分を聞かずに出されます。"},
+    {p:"dh", q:"支払督促に相手方が異議を出すと、手続きはそのまま終了する。", a:false, e:"異議が出ると通常の訴訟に移ります。"},
+    {p:"dh", q:"少額訴訟は、60万円以下の金銭の支払いを求める場合に使え、原則として1回の期日で審理を終える。", a:true, e:"同じ簡易裁判所で利用できるのは年10回までです。"},
+    {p:"dh", q:"少額訴訟の判決に不服があれば、地方裁判所に控訴できる。", a:false, e:"控訴はできず、同じ簡易裁判所への異議申立てだけができます。"},
+    {p:"dh", q:"判決前に相手方が財産を処分するのを防ぐには、仮差押えを申し立てる。", a:true, e:"民事保全の手続きです。通常は担保（保証金）を積みます。"},
+    {p:"dh", q:"強制執行をするには、確定判決や和解調書などの債務名義が必要である。", a:true, e:"仮執行宣言付きの支払督促や執行証書も債務名義です。"},
+    {p:"dh", q:"相手方の預金口座がわからないときは、第三者からの情報取得手続で銀行から情報を得られることがある。", a:true, e:"2020年4月施行の改正民事執行法で設けられました。"},
+    {p:"dh", q:"敗訴の可能性が高く賠償額を合理的に見積もれる場合は、決算で訴訟損失引当金を計上する。", a:true, e:"企業会計原則注解18の引当金の要件を満たすためです。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {fl:" 事実確認・時効", kt:" 弁護士と連携", rs:" 交渉・和解・ADR", dh:" 訴訟・執行"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
