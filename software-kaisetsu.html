@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。研究開発費とソフトウェアの出やすい論点（研究開発費の全額費用処理と理由、研究専用の機械装置、市場販売目的のソフトウェアの線引きと償却計算、自社利用のソフトウェア、表示）を、図・仕訳・ひっかけ例・計算問題・○×チェック48問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>ソフトウェア・研究開発費</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(研究開発費)は青、PART2(市場販売目的)はコーラル、PART3(自社利用・表示)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：自社利用 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：市場販売目的 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：研究開発費 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 研究開発費</a>
+    <a class="n-sh" href="#sh">PART2 市場販売目的</a>
+    <a class="n-js" href="#js">PART3 自社利用・表示</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-a">ソフトウェア</span>と<br><span class="h-c">研究開発費</span>の<span class="h-b">出る論点</span></h1>
+  <p class="lead">基になるのは「研究開発費等に係る会計基準」です。押さえるべきなのは<mark>「研究開発費はすべて発生時の費用」「ソフトウェアは制作目的で4つに分ける」「市場販売目的は見込販売数量と均等配分額の大きい方で償却」</mark>の3つです。このページでは、図と仕訳で論点を順に整理し、最後に○×問題48問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>研究開発費</b><small>定義、全額費用処理の理由、研究専用の機械装置、範囲</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>市場販売目的のソフトウェア</b><small>製品マスター完成前後の線引き、償却計算、見込みの変更</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>自社利用・表示</b><small>資産計上の要件、定額法・5年、取得原価、表示</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック48問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <p class="t-b" style="font-weight:700;margin-bottom:10px">ソフトウェアは「何のために作るか」で処理が分かれる</p>
+    <div class="cases">
+      <a class="case kk" href="#u-def"><span>研究開発目的</span><b>研究に使うソフト</b><small>新しい技術の研究のために作る</small><p class="to">→ 研究開発費（発生時の費用）</p></a>
+      <div class="case ju"><span>受注制作</span><b>顧客から頼まれて作る</b><small>受託開発のソフト</small><p class="to">→ 請負工事に準じて処理</p></div>
+      <a class="case sh" href="#u-line"><span>市場販売目的</span><b>製品として売る</b><small>パッケージソフトなど</small><p class="to">→ 製品マスター完成までは研究開発費、完成後は資産</p></a>
+      <a class="case js" href="#u-own"><span>自社利用</span><b>社内で使う</b><small>会計システム、サービス提供用など</small><p class="to">→ 収益獲得・費用削減が確実なら資産</p></a>
+    </div>
+    <figcaption>計算問題では、まず「どの目的のソフトウェアか」を判断します。ここを間違えると、その後の処理がすべてずれます。カードを押すと該当する解説に移動します。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 研究開発費 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>研究開発費</h2>
+    <p>研究開発費は、資産に計上せず、すべて発生したときの費用にします。例外がないのが特徴です。理論では「なぜ費用にするのか」、計算では「どこまでが研究開発費か」が問われます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-def">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>研究と開発の定義、すべて発生時の費用</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">研究</span><p class="def-t"><b>新しい知識の発見</b>を目的とした、計画的な調査および探究。</p></div>
+      <div class="def"><span class="def-l">開発</span><p class="def-t">新しい製品・サービス・生産方法についての計画もしくは設計、または既存の製品等を<b>著しく改良</b>するための計画もしくは設計として、研究の成果その他の知識を<b>具体化</b>すること。</p></div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">処理</span><span>研究開発費は、<b>すべて発生時に費用</b>として処理する。<small>将来の収益が見込まれても、資産には計上できません。</small></span></div>
+        <div class="r-row exc"><span class="r-b">範囲</span><span>人件費・原材料費・固定資産の減価償却費・間接費の配賦額など、<b>研究開発のためのすべての原価</b>を含む。</span></div>
+      </div>
+    </div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>将来の収益が不確実</b><small>研究開発をした時点では、将来に収益を得られるかどうかがわからない。</small></div>
+      <div class="why-c"><span class="no">2</span><b>客観的に判断できない</b><small>資産に計上する要件を決めても、実務上それを客観的に判断するのは難しい。</small></div>
+      <div class="why-c"><span class="no">3</span><b>企業間で比べられなくなる</b><small>一定の要件で資産計上を認めると、企業ごとに処理がばらつき、比較可能性が損なわれる。</small></div>
+    </div>
+    <div class="je">
+      <span class="je-t">研究所の研究員の給料8,000を支払った</span>
+      <div class="je-row"><span class="dc">(借)</span><span>研究開発費</span><span class="amt">8,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">8,000</span></div>
+      <span class="je-n">研究開発に関係する給料は、給料勘定ではなく研究開発費にします。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>研究開発費は、将来の収益獲得が確実な場合に限り、無形固定資産に計上できる<span class="why">例外はなく、すべて発生時の費用です。</span></span></li>
+        <li><span class="mark x">×</span><span>要件を定めて資産計上を認めると、企業間の比較可能性が高まる<span class="why">逆です。資産計上を認めると処理がばらつくので、比較可能性が損なわれます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-machine">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>研究開発に使う機械装置・特許権</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">研究開発にしか使えない<small>特定の研究開発目的だけに使い、他に転用できない</small></p>
+        <ol class="steps">
+          <li class="star">取得原価をそのまま<b>取得時の研究開発費</b>にする<em>固定資産には計上しない</em></li>
+          <li>特許権など無形のものでも同じ</li>
+        </ol>
+        <div class="je">
+          <span class="je-t">研究専用の測定装置を6,000で取得</span>
+          <div class="je-row"><span class="dc">(借)</span><span>研究開発費</span><span class="amt">6,000</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">6,000</span></div>
+        </div>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">他の目的にも使える<small>研究開発にも製造にも使える汎用の機械</small></p>
+        <ol class="steps">
+          <li>いったん<b>固定資産に計上</b>する</li>
+          <li class="star">研究開発に使った分の<b>減価償却費</b>を研究開発費にする<em>製造に使った分は製造原価</em></li>
+        </ol>
+        <div class="je">
+          <span class="je-t">機械50,000（5年・定額法）の当期の減価償却費10,000のうち、40%を研究開発に使用</span>
+          <div class="je-row"><span class="dc">(借)</span><span>研究開発費</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">10,000</span></div>
+          <div class="je-row"><span class="dc"></span><span>製造間接費</span><span class="amt">6,000</span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>研究専用で他に転用できない機械装置は、固定資産に計上して研究期間にわたって減価償却する<span class="why">取得したときに、取得原価の全額を研究開発費にします。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-scope">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>研究開発に当たるもの・当たらないもの</h3></div>
+    <div class="prose">
+      <p>「新しいものを生み出す活動」かどうかがポイントです。量産・品質管理・既存製品の手直しなど、<b>ふだんの製造活動の延長</b>は研究開発に当たりません。</p>
+    </div>
+    <div class="two">
+      <div class="box in">
+        <h4>当たる（研究開発費）</h4>
+        <div class="chips">
+          <span class="chip">従来にない製品・サービスの発想を導くための調査・探究</span>
+          <span class="chip">新製品の試作品の設計・製作・実験</span>
+          <span class="chip">従来と著しく違う製造方法の具体化</span>
+          <span class="chip">商業生産化のためのパイロットプラントの設計・建設等の計画</span>
+          <span class="chip">取得した特許をもとに製品を製造するための技術的活動</span>
+        </div>
+      </div>
+      <div class="box out">
+        <h4>当たらない</h4>
+        <div class="chips">
+          <span class="chip">量産化のための試作</span>
+          <span class="chip">品質管理・完成品の製品検査</span>
+          <span class="chip">仕損品の手直し・再加工</span>
+          <span class="chip">製品の品質改良、製造工程の改善活動</span>
+          <span class="chip">既存製品の不具合の修正、客先の要望による設計変更</span>
+          <span class="chip">特許権・実用新案権の出願費用</span>
+        </div>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">表示</span><span>研究開発費は、<b>一般管理費</b>または<b>当期製造費用</b>として処理する。</span></div>
+        <div class="r-row exc"><span class="r-b">注記</span><span>一般管理費と当期製造費用に含まれる研究開発費の<b>総額</b>を注記する。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>自社で行う研究開発の支出は、すべて発生時の費用。</span></div>
+        <div class="r-row exc"><span class="r-b">別扱い</span><span><b>企業結合</b>で被取得企業から受け入れた仕掛中の研究開発は、取得企業で<b>資産として計上</b>する。<small>取得の対価の一部として、時価で受け入れたものだからです。</small></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　研究開発費の金額</span>
+      <p class="scn-story">当期に次の支出がありました。当期の研究開発費の総額はいくらでしょうか。</p>
+      <ul class="given">
+        <li>研究所の研究員の給料 <b>8,000</b></li>
+        <li>研究専用で他に転用できない測定装置の購入 <b>6,000</b></li>
+        <li>研究と製造の両方に使う機械の減価償却費 <b>3,000</b>（研究に使った割合 <b>40%</b>）</li>
+        <li>新製品の試作品の設計・製作 <b>2,500</b></li>
+        <li>量産化のための試作 <b>1,800</b></li>
+        <li>完成品の製品検査 <b>900</b></li>
+        <li>特許権の出願費用 <b>400</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>研究開発費の総額はいくらか</li>
+        <li>研究開発費に含めなかったものはどれか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>17,700</b><span class="calc">8,000 ＋ 6,000 ＋ 3,000×40% ＋ 2,500 ＝ 17,700</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>量産化のための試作、製品検査、特許権の出願費用の3つです。どれも、新しいものを生み出す活動ではありません。</span></div>
+          <div class="je">
+            <span class="je-t">まとめた仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>研究開発費</span><span class="amt">16,500</span><span class="dc">(貸)</span><span>現金など</span><span class="amt">16,500</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>研究開発費</span><span class="amt">1,200</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">3,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>製造間接費</span><span class="amt">1,800</span><span></span><span></span><span></span></div>
+            <span class="je-n">16,500 ＝ 給料8,000 ＋ 測定装置6,000 ＋ 試作品2,500。研究専用の測定装置は、固定資産にせず取得時の研究開発費です。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 市場販売目的 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>市場販売目的のソフトウェア</h2>
+    <p>製品として売るためのソフトウェアです。最初の製品マスターができるまでは研究開発、できた後は「製品を作るための資産」と考えます。計算の中心は、毎期の償却額です。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-line">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>製品マスターの完成で線を引く</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 880 320" role="img" aria-label="市場販売目的のソフトウェアの線引き。最初に製品化された製品マスターの完成までは研究開発費。完成後は、機能の改良・強化が無形固定資産、著しい改良が研究開発費、バグ取りなどの機能維持が発生時の費用">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <line x1="30" y1="100" x2="860" y2="100" class="ln" marker-end="url(#ah)"/>
+        <text x="856" y="128" class="t-xs e">時間</text>
+        <rect x="30" y="70" width="380" height="60" rx="12" class="b-kk"/>
+        <text x="220" y="96" class="t-b c">企画・設計・コーディング・テスト</text>
+        <text x="220" y="119" class="t-s c f-kk" style="font-weight:700">→ 研究開発費</text>
+        <line x1="430" y1="44" x2="430" y2="150" stroke="var(--c1)" stroke-width="4"/>
+        <circle cx="430" cy="100" r="11" class="s-sun"/>
+        <text x="430" y="32" class="t-b c f-sh">最初に製品化された製品マスターの完成</text>
+        <text x="645" y="88" class="t-b c">完成後の制作費</text>
+        <path d="M645 110 L415 176" class="ln" marker-end="url(#ah)"/>
+        <path d="M645 110 L630 176" class="ln" marker-end="url(#ah)"/>
+        <path d="M645 110 L790 176" class="ln" marker-end="url(#ah)"/>
+        <rect x="320" y="180" width="190" height="80" rx="14" class="b-sh"/>
+        <text x="415" y="212" class="t-b c">機能の改良・強化</text>
+        <text x="415" y="240" class="t-s c f-sh" style="font-weight:700">→ 無形固定資産</text>
+        <rect x="535" y="180" width="190" height="80" rx="14" class="b-kk"/>
+        <text x="630" y="212" class="t-b c">著しい改良</text>
+        <text x="630" y="240" class="t-s c f-kk" style="font-weight:700">→ 研究開発費</text>
+        <rect x="750" y="180" width="120" height="80" rx="14" class="b-grey"/>
+        <text x="810" y="206" class="t-b c">バグ取り</text>
+        <text x="810" y="226" class="t-xs c">機能の維持</text>
+        <text x="810" y="248" class="t-s c" style="font-weight:700">→ 費用</text>
+        <text x="30" y="300" class="t-s">製品マスターの制作費のうち資産にした分は、無形固定資産「ソフトウェア」として計上し、見込販売数量などで償却します。</text>
+      </svg>
+      <figcaption>線を引くのは「最初に製品化された製品マスター」が完成した時点です。完成後でも「著しい改良」は新しい製品を作るのと同じなので、研究開発費に戻ります。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>製品マスター完成後の著しい改良の費用は、無形固定資産に計上する<span class="why">著しい改良は研究開発費です。資産になるのは、著しい改良に当たらない機能の改良・強化です。</span></span></li>
+        <li><span class="mark x">×</span><span>製品マスター完成後のバグ取りの費用は、ソフトウェアの取得原価に含める<span class="why">機能を維持するための費用なので、発生時の費用です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-amort">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>償却は「見込販売数量」と「均等配分額」の大きい方</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">① 見込販売数量にもとづく償却額</span><span class="fx sh">未償却残高</span><span class="op">×</span><span class="fx">当期の販売数量 ÷（当期＋翌期以降の見込販売数量）</span></div>
+      <div class="formula"><span class="lbl">② 均等配分額（下限）</span><span class="fx sh">未償却残高</span><span class="op">÷</span><span class="fx">残りの有効期間</span></div>
+      <div class="formula"><span class="lbl">当期の償却額</span><span class="fx">①</span><span class="op">と</span><span class="fx">②</span><span class="op">の大きい方</span><span class="op">→</span><span class="res sh">ソフトウェア償却</span></div>
+    </div>
+    <div class="prose">
+      <p>例：資産に計上した制作費30,000、見込有効期間3年、見込販売数量は1年目300個・2年目500個・3年目400個（合計1,200個）。見込みどおりに売れたとします。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 330" role="img" aria-label="3年間の償却額の比較。1年目は見込販売数量にもとづく額7,500より均等配分額10,000が大きいので10,000。2年目は見込販売数量にもとづく額11,111が均等配分額10,000より大きいので11,111。3年目は残りの8,889">
+        <rect x="430" y="16" width="18" height="14" class="s-sh"/><text x="454" y="28" class="t-s">採用する額（大きい方）</text>
+        <rect x="640" y="16" width="18" height="14" class="b-ghost"/><text x="664" y="28" class="t-s">採用しない額</text>
+        <line x1="60" y1="260" x2="800" y2="260" class="axis"/>
+        <!-- 1年目 -->
+        <rect x="110" y="148" width="70" height="112" class="b-ghost"/>
+        <rect x="190" y="110" width="70" height="150" class="s-sh"/>
+        <text x="145" y="140" class="t-num c">7,500</text>
+        <text x="225" y="102" class="t-num c">10,000</text>
+        <text x="145" y="282" class="t-xs c">数量基準</text>
+        <text x="225" y="282" class="t-xs c">均等配分</text>
+        <text x="185" y="310" class="t-b c">1年目 → 10,000</text>
+        <!-- 2年目 -->
+        <rect x="350" y="93" width="70" height="167" class="s-sh"/>
+        <rect x="430" y="110" width="70" height="150" class="b-ghost"/>
+        <text x="385" y="85" class="t-num c">11,111</text>
+        <text x="465" y="102" class="t-num c">10,000</text>
+        <text x="385" y="282" class="t-xs c">数量基準</text>
+        <text x="465" y="282" class="t-xs c">均等配分</text>
+        <text x="425" y="310" class="t-b c">2年目 → 11,111</text>
+        <!-- 3年目 -->
+        <rect x="620" y="127" width="110" height="133" class="s-sh"/>
+        <text x="675" y="119" class="t-num c">8,889</text>
+        <text x="675" y="282" class="t-xs c">残りすべて</text>
+        <text x="675" y="310" class="t-b c">3年目 → 8,889</text>
+      </svg>
+      <figcaption>1年目：30,000 × 300 ÷ 1,200 ＝ 7,500 と 30,000 ÷ 3年 ＝ 10,000 の大きい方。2年目：未償却残高20,000 × 500 ÷ 900 ≒ 11,111 と 20,000 ÷ 2年 ＝ 10,000 の大きい方。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">1年目の決算</span>
+      <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア償却</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>ソフトウェア</span><span class="amt">10,000</span></div>
+      <span class="je-n">市場販売目的のソフトウェア（製品マスター）の償却額は、売上原価に含めます。</span>
+    </div>
+    <ul class="pts">
+      <li>見込有効期間は、原則として<span class="hl">3年以内</span>です。</li>
+      <li>見込販売数量のかわりに、<b>見込販売収益</b>（売上金額）を使う方法もあります。式の形は同じです。</li>
+      <li>見込販売数量で償却するのは、<b>販売による収益と償却額を対応させる</b>ためです。均等配分額を下限にするのは、ソフトウェアは技術の進歩で<b>価値が早く下がる</b>ので、毎期一定以上は償却すべきだからです。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>2年目の償却額を、取得原価30,000 × 500 ÷ 1,200 ＝ 12,500 で計算する<span class="why">2年目以降は、未償却残高 × 当期の販売数量 ÷（当期＋翌期以降の見込販売数量）で計算します。</span></span></li>
+        <li><span class="mark x">×</span><span>見込販売数量にもとづく額と均等配分額のいずれか小さい方を償却額とする<span class="why">大きい方です。均等配分額は「これより少なくしてはいけない」下限です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-change">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★</span><h3>見込みの変更と、収益を超える未償却残高</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">変更</span><span>見込販売数量を見直した場合は、見直した後の数量を使って、<b>当期以降の償却額</b>を計算する。<small>過去の償却額は修正しません。</small></span></div>
+        <div class="r-row exc"><span class="r-b">例</span><span>2-2の例で、2年目に実際は450個売れ、3年目の見込みを300個に見直した場合：20,000 × 450 ÷ 750 ＝ <b>12,000</b>（均等配分額10,000より大きいので12,000）</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">超過</span><span>期末の未償却残高が、<b>翌期以降の見込販売収益</b>を上回る場合は、超えた分を<b>一時の費用または損失</b>にする。</span></div>
+        <div class="r-row exc"><span class="r-b">例</span><span>未償却残高8,000、翌期以降の見込販売収益6,000なら、2,000を一時に償却する。<small>売っても回収できない分を、資産に残さないためです。</small></span></div>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">未償却残高が翌期以降の見込販売収益を2,000上回った</span>
+      <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア償却</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>ソフトウェア</span><span class="amt">2,000</span></div>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　市場販売目的のソフトウェア</span>
+      <p class="scn-story">販売用のソフトウェアを自社で制作しました。次の資料から答えてください。見込販売収益は見込みどおりに実現したものとします。</p>
+      <ul class="given">
+        <li>製品マスター完成までの制作費 <b>12,000</b></li>
+        <li>完成後の機能の強化（著しい改良に当たらない） <b>18,000</b></li>
+        <li>完成後の著しい改良 <b>4,000</b></li>
+        <li>完成後のバグ取り <b>1,000</b></li>
+        <li>見込有効期間 <b>3年</b></li>
+        <li>見込販売収益 1年目 <b>24,000</b>／2年目 <b>18,000</b>／3年目 <b>6,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>研究開発費とソフトウェア（資産）の金額はいくらか</li>
+        <li>1年目の償却額はいくらか</li>
+        <li>2年目の償却額はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>研究開発費 <b>16,000</b>、ソフトウェア <b>18,000</b><span class="calc">研究開発費：完成前12,000 ＋ 著しい改良4,000 ＝ 16,000<br>ソフトウェア：機能の強化18,000（バグ取り1,000は発生時の費用）</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>9,000</b><span class="calc">見込販売収益基準：18,000 × 24,000 ÷ 48,000 ＝ 9,000<br>均等配分額：18,000 ÷ 3年 ＝ 6,000 → 大きい方の9,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>6,750</b><span class="calc">見込販売収益基準：9,000 × 18,000 ÷ 24,000 ＝ 6,750<br>均等配分額：9,000 ÷ 2年 ＝ 4,500 → 大きい方の6,750</span></span></div>
+          <div class="je">
+            <span class="je-t">1年目の決算</span>
+            <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア償却</span><span class="amt">9,000</span><span class="dc">(貸)</span><span>ソフトウェア</span><span class="amt">9,000</span></div>
+            <span class="je-n">2年目の分母は、2年目と3年目の見込販売収益の合計（18,000 ＋ 6,000 ＝ 24,000）です。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 自社利用・表示 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>自社利用のソフトウェアと表示</h2>
+    <p>社内で使うソフトウェアは、使うことで収益を得たり費用を減らしたりできることが確実なら、資産に計上します。償却は定額法で、市場販売目的とは期間も方法も違います。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-own">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>資産に計上するかどうか</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">資産</span><span>将来の<b>収益獲得</b>または<b>費用削減</b>が<b>確実</b>であると認められる場合は、無形固定資産に計上する。</span></div>
+        <div class="r-row exc"><span class="r-b">費用</span><span>確実であると認められない場合や、確実かどうかわからない場合は、<b>発生時の費用</b>にする。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">確実</span><span>外部に業務処理などの<b>サービスを提供する契約</b>があるソフトウェアは、通常、収益獲得が確実と認められる。</span></div>
+        <div class="r-row exc"><span class="r-b">購入</span><span><b>完成品を購入</b>した場合も、通常、収益獲得または費用削減が確実と認められる。</span></div>
+      </div>
+    </div>
+    <div class="two">
+      <div class="box in">
+        <h4>取得原価に含める</h4>
+        <div class="chips">
+          <span class="chip">購入代価・制作費</span>
+          <span class="chip">導入時の設定作業の費用</span>
+          <span class="chip">自社の仕様に合わせる修正作業の費用</span>
+        </div>
+      </div>
+      <div class="box out">
+        <h4>取得原価に含めない（発生時の費用）</h4>
+        <div class="chips">
+          <span class="chip">データのコンバート（移し替え）費用</span>
+          <span class="chip">社員のトレーニング費用</span>
+        </div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>自社利用のソフトウェアは、費用削減の可能性が少しでもあれば資産に計上する<span class="why">「確実」と認められる場合に限ります。</span></span></li>
+        <li><span class="mark x">×</span><span>ソフトウェア導入時のデータの移し替えや社員研修の費用は、取得原価に含める<span class="why">ソフトウェアそのものの価値を高める支出ではないので、発生時の費用です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-ownamort">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>償却：市場販売目的との違い</h3></div>
+    <div class="lanes">
+      <div class="lane s">
+        <p class="lane-h">市場販売目的<small>製品として売る</small></p>
+        <ol class="steps">
+          <li class="star">見込販売数量（または見込販売収益）にもとづいて償却<em>均等配分額が下限</em></li>
+          <li>見込有効期間は原則 <b>3年以内</b></li>
+          <li>償却額は売上原価</li>
+        </ol>
+      </div>
+      <div class="lane j">
+        <p class="lane-h">自社利用<small>社内で使う</small></p>
+        <ol class="steps">
+          <li class="star">原則として <b>定額法</b> で償却<em>販売数量とは関係がないため</em></li>
+          <li>耐用年数は原則 <b>5年以内</b></li>
+          <li>期中に取得したら月割で償却</li>
+        </ol>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">制作途中（前期に30,000支払済み、当期に30,000支払い）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア仮勘定</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">30,000</span></div>
+        <span class="je-t">完成して使い始めた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア</span><span class="amt">60,000</span><span class="dc">(貸)</span><span>ソフトウェア仮勘定</span><span class="amt">60,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">期首から3か月後に使い始めた（5年・定額法）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア償却</span><span class="amt">9,000</span><span class="dc">(貸)</span><span>ソフトウェア</span><span class="amt">9,000</span></div>
+        <span class="je-n">60,000 ÷ 5年 × 9か月 ÷ 12か月 ＝ 9,000。ソフトウェアは無形固定資産なので、償却累計額を使わず直接減らします。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 計算3 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 3　自社利用のソフトウェア</span>
+      <p class="scn-story">社内で使う販売管理システムを外部から購入し、当期の7月1日から使い始めました（決算日は3月31日）。費用削減が確実と認められます。</p>
+      <ul class="given">
+        <li>購入代価 <b>60,000</b></li>
+        <li>自社の仕様に合わせる修正作業 <b>6,000</b></li>
+        <li>旧システムからのデータ移し替え <b>2,000</b></li>
+        <li>社員のトレーニング <b>1,500</b></li>
+        <li>耐用年数 <b>5年</b>（定額法）</li>
+      </ul>
+      <ol class="scn-q">
+        <li>ソフトウェアの取得原価はいくらか</li>
+        <li>当期のソフトウェア償却はいくらか</li>
+        <li>発生時の費用にする金額はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>66,000</b><span class="calc">購入代価60,000 ＋ 修正作業6,000 ＝ 66,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>9,900</b><span class="calc">66,000 ÷ 5年 × 9か月 ÷ 12か月 ＝ 9,900</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>3,500</b><span class="calc">データ移し替え2,000 ＋ トレーニング1,500 ＝ 3,500</span></span></div>
+          <div class="je">
+            <span class="je-t">仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア</span><span class="amt">66,000</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">69,500</span></div>
+            <div class="je-row"><span class="dc"></span><span>支払手数料など</span><span class="amt">3,500</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア償却</span><span class="amt">9,900</span><span class="dc">(貸)</span><span>ソフトウェア</span><span class="amt">9,900</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-disp">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>財務諸表のどこに表示するか（まとめ）</h3></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="財務諸表の区分と、ソフトウェア・研究開発費に関する項目">
+        <div class="pl-row" role="listitem"><div class="pl-k">無形固定資産</div><div class="pl-v"><span class="pill sh">ソフトウェア<small>市場販売目的の製品マスター</small></span><span class="pill js">ソフトウェア<small>自社利用</small></span><span class="pill js">ソフトウェア仮勘定<small>制作途中</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">売上原価</div><div class="pl-v"><span class="pill sh">ソフトウェア償却<small>市場販売目的（製品マスター）</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">販売費及び<br>一般管理費</div><div class="pl-v"><span class="pill kk">研究開発費<small>一般管理費として</small></span><span class="pill js">ソフトウェア償却<small>自社利用（製造用なら製造原価）</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">当期製造費用</div><div class="pl-v"><span class="pill kk">研究開発費<small>製造に関係するもの</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">注記</div><div class="pl-v"><span class="pill kk">研究開発費の総額<small>一般管理費と当期製造費用に含まれる分の合計</small></span></div></div>
+      </div>
+      <figcaption>青が研究開発費、コーラルが市場販売目的、ティールが自社利用です。研究開発費は特別損失や営業外費用にはなりません。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">48</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">研究開発費</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">市場販売目的</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">自社利用・その他</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">48</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>研究開発費：まずここから</h3>
+      <ol>
+        <li>すべて発生時の費用（例外なし）</li>
+        <li>費用処理する3つの理由</li>
+        <li>研究と開発の定義</li>
+        <li>研究専用の機械装置は取得時の研究開発費</li>
+        <li>研究開発に当たらない活動（量産化の試作、品質管理など）</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>市場販売目的：まずここから</h3>
+      <ol>
+        <li>製品マスター完成前は研究開発費、完成後は資産</li>
+        <li>完成後の著しい改良は研究開発費</li>
+        <li>見込販売数量と均等配分額の大きい方</li>
+        <li>2年目以降は未償却残高を使う</li>
+        <li>有効期間は原則3年以内</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>自社利用：まずここから</h3>
+      <ol>
+        <li>収益獲得・費用削減が「確実」なら資産</li>
+        <li>定額法・原則5年以内</li>
+        <li>データ移し替えやトレーニングは費用</li>
+        <li>制作途中はソフトウェア仮勘定</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>市場販売目的のソフトウェアは「最初の製品マスター＝新製品の開発」と考えると、完成までが研究開発費になる理由がわかります。完成後に資産になるのは、製品を作るための「型」だからです。その型は売れるほど役目を果たすので、見込販売数量で償却します。自社利用のソフトウェアは売るものではないので、ふつうの固定資産と同じく定額法です。</p>
+</section>
+
+<footer>
+  <p>参照：「研究開発費等に係る会計基準」、「研究開発費及びソフトウェアの会計処理に関する実務指針」、企業会計基準第21号「企業結合に関する会計基準」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"kk", q:"研究とは、新しい知識の発見を目的とした計画的な調査および探究をいう。", a:true, e:"研究の定義そのものです。"},
+    {p:"kk", q:"開発とは、新しい製品等の計画・設計、または既存の製品等を著しく改良するための計画・設計として、研究の成果その他の知識を具体化することをいう。", a:true, e:"開発の定義そのものです。"},
+    {p:"kk", q:"研究開発費は、将来の収益獲得が確実と認められる場合に限り、無形固定資産に計上できる。", a:false, e:"研究開発費は、すべて発生時の費用です。例外はありません。"},
+    {p:"kk", q:"研究開発費は、すべて発生時に費用として処理しなければならない。", a:true, e:"研究開発費等に係る会計基準の基本ルールです。"},
+    {p:"kk", q:"研究開発費を費用処理する理由の1つは、発生時点では将来の収益獲得が不確実であることである。", a:true, e:"3つの理由の1つです。"},
+    {p:"kk", q:"一定の要件を満たすものを資産に計上すると企業間の比較可能性が高まるので、要件付きの資産計上が認められている。", a:false, e:"資産計上を認めると処理がばらつき、比較可能性が損なわれます。そのため全額費用処理です。"},
+    {p:"kk", q:"研究開発費には、人件費・原材料費・固定資産の減価償却費・間接費の配賦額など、研究開発のためのすべての原価が含まれる。", a:true, e:"研究開発のための原価はすべて含まれます。"},
+    {p:"kk", q:"特定の研究開発目的にのみ使用され、他の目的に使用できない機械装置の取得原価は、取得時の研究開発費とする。", a:true, e:"固定資産に計上せず、取得時に費用にします。"},
+    {p:"kk", q:"特定の研究開発目的にのみ使用され、他の目的に使用できない特許権は、無形固定資産に計上して償却する。", a:false, e:"機械装置と同じく、取得時の研究開発費です。"},
+    {p:"kk", q:"研究開発にも製造にも使える機械装置は、固定資産に計上し、研究開発に使った分の減価償却費を研究開発費とする。", a:true, e:"他の目的にも使えるものは、固定資産として計上します。"},
+    {p:"kk", q:"研究開発費は、一般管理費または当期製造費用として処理する。", a:true, e:"このどちらかです。"},
+    {p:"kk", q:"研究開発費は、臨時的な支出なので特別損失に表示する。", a:false, e:"一般管理費または当期製造費用です。"},
+    {p:"kk", q:"一般管理費および当期製造費用に含まれる研究開発費の総額は、注記しなければならない。", a:true, e:"研究開発費の総額の注記が必要です。"},
+    {p:"kk", q:"新製品の試作品の設計・製作および実験は、研究開発に含まれる。", a:true, e:"新しいものを生み出す活動です。"},
+    {p:"kk", q:"製品を量産化するための試作は、研究開発に含まれる。", a:false, e:"量産化のための試作は、ふだんの製造活動の延長なので研究開発に当たりません。"},
+    {p:"kk", q:"品質管理活動や完成品の製品検査に関する活動は、研究開発に含まれない。", a:true, e:"研究開発に当たらない活動の例です。"},
+    {p:"kk", q:"特許権の出願にかかる費用は、研究開発費に含まれる。", a:false, e:"特許権や実用新案権の出願費用は、研究開発に当たりません。"},
+    {p:"kk", q:"企業結合で被取得企業から受け入れた仕掛中の研究開発は、取得企業において資産として計上する。", a:true, e:"取得の対価の一部として受け入れたものなので、資産として計上します。"},
+    {p:"sh", q:"市場販売目的のソフトウェアで、最初に製品化された製品マスターの完成までの費用は、研究開発費となる。", a:true, e:"製品マスターの完成が線引きの時点です。"},
+    {p:"sh", q:"製品マスターの完成後に行う機能の改良・強化の費用は、著しい改良に当たるものを除き、無形固定資産に計上する。", a:true, e:"完成後の機能の改良・強化は資産です。"},
+    {p:"sh", q:"製品マスター完成後の著しい改良にかかる費用は、無形固定資産に計上する。", a:false, e:"著しい改良は研究開発費です。"},
+    {p:"sh", q:"製品マスター完成後のバグ取りなど、機能を維持するための費用は、発生時の費用とする。", a:true, e:"機能を維持するだけの支出は資産になりません。"},
+    {p:"sh", q:"市場販売目的のソフトウェアは、見込販売数量または見込販売収益にもとづいて償却する。", a:true, e:"販売による収益と償却額を対応させるためです。"},
+    {p:"sh", q:"市場販売目的のソフトウェアの毎期の償却額は、残りの有効期間にもとづく均等配分額を下回ってはならない。", a:true, e:"均等配分額が償却額の下限です。"},
+    {p:"sh", q:"市場販売目的のソフトウェアの償却額は、見込販売数量にもとづく額と均等配分額のいずれか小さい方とする。", a:false, e:"大きい方です。"},
+    {p:"sh", q:"市場販売目的のソフトウェアの見込有効期間は、原則として5年以内とする。", a:false, e:"原則3年以内です。5年以内は自社利用のソフトウェアです。"},
+    {p:"sh", q:"2年目以降の見込販売数量にもとづく償却額は、取得原価に、当期の販売数量を当初の見込販売数量の総数で割った割合を掛けて計算する。", a:false, e:"未償却残高 × 当期の販売数量 ÷（当期＋翌期以降の見込販売数量）で計算します。"},
+    {p:"sh", q:"見込販売数量を見直した場合は、過去の償却額にさかのぼって修正する。", a:false, e:"見直した後の数量で、当期以降の償却額を計算します。過去の分は修正しません。"},
+    {p:"sh", q:"期末の未償却残高が翌期以降の見込販売収益を上回る場合、その超過額は一時の費用または損失とする。", a:true, e:"売っても回収できない分を、資産に残さないためです。"},
+    {p:"sh", q:"見込販売数量にもとづいて償却するのは、償却額を販売による収益と対応させるためである。", a:true, e:"製品マスターは、売れるほど役目を果たすと考えます。"},
+    {p:"sh", q:"均等配分額を償却額の下限とするのは、ソフトウェアは技術の進歩などで価値が早く下がるためである。", a:true, e:"販売が後の期に偏る見込みでも、毎期一定以上は償却します。"},
+    {p:"sh", q:"制作費30,000、見込有効期間3年、見込販売数量が1年目300個・2年目500個・3年目400個の場合、1年目の償却額は7,500である。", a:false, e:"数量基準7,500より均等配分額10,000の方が大きいので、10,000です。"},
+    {p:"sh", q:"市場販売目的のソフトウェア（製品マスター）の償却額は、売上原価として処理する。", a:true, e:"製品を作るための資産なので、売上原価に含めます。"},
+    {p:"sh", q:"見込販売数量のかわりに、見込販売収益にもとづいて償却する方法も認められる。", a:true, e:"式の形は同じで、数量のかわりに売上金額を使います。"},
+    {p:"js", q:"受注制作のソフトウェアは、請負工事の会計処理に準じて処理する。", a:true, e:"顧客から頼まれて作るものなので、工事契約と同じように扱います。"},
+    {p:"js", q:"研究開発目的のソフトウェアの制作費は、研究開発費として処理する。", a:true, e:"研究開発のためのソフトウェアは研究開発費です。"},
+    {p:"js", q:"自社利用のソフトウェアは、将来の収益獲得または費用削減が確実であると認められる場合に、無形固定資産に計上する。", a:true, e:"資産計上の要件です。"},
+    {p:"js", q:"自社利用のソフトウェアは、将来の費用削減の可能性が少しでもあれば、無形固定資産に計上しなければならない。", a:false, e:"「確実」と認められる場合に限ります。"},
+    {p:"js", q:"外部に業務処理などのサービスを提供する契約にもとづいて使うソフトウェアは、通常、将来の収益獲得が確実と認められる。", a:true, e:"契約があるので、収益が見込めます。"},
+    {p:"js", q:"完成品のソフトウェアを購入した場合は、通常、将来の収益獲得または費用削減が確実と認められる。", a:true, e:"購入した完成品は、資産に計上するのが通常です。"},
+    {p:"js", q:"自社利用のソフトウェアは、原則として定額法で償却する。", a:true, e:"販売数量とは関係がないので、定額法です。"},
+    {p:"js", q:"自社利用のソフトウェアの耐用年数は、原則として3年以内とする。", a:false, e:"原則5年以内です。3年以内は市場販売目的です。"},
+    {p:"js", q:"自社利用のソフトウェアは、見込販売数量にもとづいて償却する。", a:false, e:"見込販売数量で償却するのは市場販売目的です。"},
+    {p:"js", q:"制作途中の自社利用ソフトウェアは、ソフトウェア仮勘定として無形固定資産に計上する。", a:true, e:"完成したらソフトウェアに振り替えます。"},
+    {p:"js", q:"ソフトウェアの導入にあたり、自社の仕様に合わせるための修正作業の費用は、ソフトウェアの取得原価に含める。", a:true, e:"導入時の設定作業や修正作業の費用は取得原価です。"},
+    {p:"js", q:"ソフトウェアの導入時のデータのコンバート費用やトレーニング費用は、ソフトウェアの取得原価に含める。", a:false, e:"発生時の費用です。"},
+    {p:"js", q:"ソフトウェアは、有形固定資産に表示する。", a:false, e:"無形固定資産です。"},
+    {p:"js", q:"期首から3か月後に自社利用のソフトウェアを60,000で取得し、5年の定額法で償却する場合、当期の償却額は9,000である。", a:true, e:"60,000 ÷ 5年 × 9 ÷ 12 ＝ 9,000です。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:" 研究開発費", sh:" 市場販売目的", js:" 自社利用・その他"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
