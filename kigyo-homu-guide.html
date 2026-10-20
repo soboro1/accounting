@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業法務の5つの仕事（契約法務、機関法務、紛争・訴訟対応、法制度調査、コンプライアンス・社内規程）の学習ページへの入口。やりがい・魅力、向いている人、最初の一歩としてのビジネス実務法務検定をまとめたページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>企業法務という仕事</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: 5つの仕事を色分けしたカードで各学習ページへつなぐ入口ページ。やりがいは標語、向いている人は4枚のカード、ビジ法検定は概要と学習ページとの対応で見せる */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：機関決定 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：利益相反・競業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：流れ・契約書 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：代表権・名義 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fl{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kt{border-color:var(--c2);color:var(--c2t)}
+.top a.n-rs{border-color:var(--c3);color:var(--c3t)}
+.top a.n-dh{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kt{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-rs{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-fl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-dh{fill:color-mix(in srgb,var(--c8) 18%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-pl{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.f-kt{fill:var(--c2t)} .f-rs{fill:var(--c3t)} .f-fl{fill:var(--c4t)} .f-dh{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fl .part-head{background:var(--c4)}
+.part-kt .part-head{background:var(--c2)}
+.part-rs .part-head{background:var(--c3)}
+.part-dh .part-head{background:var(--c8)}
+.part-cs .part-head{background:var(--c1);color:#1B1600}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fl .tag{background:var(--c4)}
+.part-kt .tag{background:var(--c2)}
+.part-rs .tag{background:var(--c3)}
+.part-dh .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fl .pts li::before{background:var(--c4)}
+.part-kt .pts li::before{background:var(--c2)}
+.part-rs .pts li::before{background:var(--c3)}
+.part-dh .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-fl .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kt .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-rs .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-dh .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fl .def-l{color:var(--c4t)} .part-kt .def-l{color:var(--c2t)} .part-rs .def-l{color:var(--c3t)} .part-dh .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 判例 */
+.case{border-radius:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);display:grid;gap:4px}
+.case-l{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.case p{line-height:1.8}
+.cases{display:grid;gap:10px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.node{flex-basis:auto}.arr{transform:rotate(90deg);align-self:center}}
+.node.fl{border-color:var(--c4)} .node.fl .nn{color:var(--c4t)}
+.node.kt{border-color:var(--c2)} .node.kt .nn{color:var(--c2t)}
+.node.rs{border-color:var(--c3)} .node.rs .nn{color:var(--c3t)}
+.node.dh{border-color:var(--c8)} .node.dh .nn{color:var(--c8t)}
+
+/* 3つの観点 */
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--line)}
+.view{border-radius:14px;padding:14px 16px;display:grid;gap:4px;align-content:start;text-decoration:none;background:color-mix(in srgb,var(--c4) 12%,var(--surface));border:2px solid var(--c4)}
+.view .nn{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--c4t)}
+.view b{font-size:17px}
+.view small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.vtag{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;border:2px solid var(--c4);color:var(--c4t);background:var(--surface)}
+
+/* 条文の修正例 */
+.clauses{display:grid;gap:12px}
+.clause{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.cl-b,.cl-a{padding:12px 14px;display:grid;gap:4px;align-content:start;line-height:1.75}
+.cl-b{background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cl-a{background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.cl-l{font-size:12.5px;font-weight:700;letter-spacing:.06em}
+.cl-b .cl-l{color:var(--ng)} .cl-a .cl-l{color:var(--ok)}
+.cl-t{font-family:var(--f-data);font-size:14.5px}
+.cl-n{font-size:13.5px;color:var(--muted)}
+
+/* 年間スケジュール */
+.tl{list-style:none;display:grid;gap:0;position:relative}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:10px 0;border-top:1px dashed var(--line);align-items:start;line-height:1.7}
+.tl li:first-child{border-top:0}
+.tl-d{font-weight:700;font-size:14px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t);text-align:center}
+.tl li.hot .tl-d{background:var(--c1);color:#1B1600}
+.tl small{display:block;color:var(--muted);font-size:14px}
+@media (max-width:560px){.tl li{grid-template-columns:1fr;gap:4px}.tl-d{justify-self:start}}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 標語 */
+.motto{border-radius:22px;padding:22px 24px;background:var(--ink);color:var(--bg);display:grid;gap:8px}
+.motto q{font-family:var(--f-display);font-size:clamp(22px,4.4vw,36px);line-height:1.4;quotes:"「" "」"}
+.motto small{font-size:14px;opacity:.85;line-height:1.7}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.fl{background:var(--c4)} .chap.kt{background:var(--c2)} .chap.rs{background:var(--c3)} .chap.dh{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* チェックリスト */
+.checks{list-style:none;display:grid;gap:8px;counter-reset:ck}
+.checks li{counter-increment:ck;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;line-height:1.7}
+.checks li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--c4) 18%,var(--surface));color:var(--c4t);font-weight:700}
+.checks li small{display:block;color:var(--muted);font-size:14px}
+.checks-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.b{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c3t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lane .pts li::before{background:var(--muted)}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kt .chip{border-color:color-mix(in srgb,var(--c2) 60%,var(--line))}
+.part-fl .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line))}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* ケース問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn + .scn{margin-top:18px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn h3{font-size:clamp(18px,3vw,22px);line-height:1.45}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:grid;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--f-data);font-size:14.5px;line-height:1.7;border:1px solid var(--line)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;color:var(--muted);font-size:14px}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fl-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kt-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-rs-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-dh-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fl{background:var(--c4)} .qno.kt{background:var(--c2)} .qno.rs{background:var(--c3)} .qno.dh{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fl{border-color:var(--c4)} .prio-card.kt{border-color:var(--c2)} .prio-card.rs{border-color:var(--c3)} .prio-card.dh{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.fl h3{color:var(--c4t)} .prio-card.kt h3{color:var(--c2t)} .prio-card.rs h3{color:var(--c3t)} .prio-card.dh h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fl li::before{background:var(--c4)} .prio-card.kt li::before{background:var(--c2)} .prio-card.rs li::before{background:var(--c3)} .prio-card.dh li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fl" href="#fl">5つの仕事</a>
+    <a class="n-kt" href="#kt">やりがい・魅力</a>
+    <a class="n-rs" href="#rs">向いている人</a>
+    <a class="n-dh" href="#dh">ビジ法検定</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務 ／ 就職先研究</p>
+  <h1><span class="h-a">企業法務</span>という<br><span class="h-b">仕事</span></h1>
+  <p class="lead">企業法務は、会社の中で<mark>法律を武器に、会社を守り、事業を前に進める</mark>仕事です。契約書の審査から株主総会の運営、紛争への対応、法改正の調査、社内ルールづくりまで、会社のあらゆる活動に関わります。このページは、5つの仕事それぞれの学習ページへの入口です。あわせて、仕事のやりがい、向いている人、最初の一歩としてのビジネス実務法務検定をまとめます。</p>
+
+  <div class="defs">
+    <div class="def"><span class="def-l" style="color:var(--c4t)">予防法務</span><p class="def-t">トラブルが起きないように備える。</p><p class="def-n">① 契約法務、⑤ コンプライアンス・社内規程が中心です。</p></div>
+    <div class="def"><span class="def-l" style="color:var(--c3t)">臨床法務</span><p class="def-t">起きたトラブルに対応し、損失を小さくする。</p><p class="def-n">③ 紛争・訴訟対応が中心です。</p></div>
+    <div class="def"><span class="def-l" style="color:var(--c2t)">戦略法務</span><p class="def-t">新規事業や組織再編など、経営の判断に法律の面から関わる。</p><p class="def-n">② 機関法務・組織法務、④ 法制度調査が関わります。</p></div>
+  </div>
+</header>
+
+<!-- ============ 5つの仕事 ============ -->
+<section id="fl" class="part part-fl">
+  <div class="part-head">
+    <span class="part-no">WORK</span>
+    <h2>企業法務の5つの仕事</h2>
+    <p>カードを押すと、それぞれの学習ページに移動します。どのページにも、図解・ケース問題・○×チェックがあります。</p>
+  </div>
+
+  <div class="chapters">
+    <a class="chap fl" href="legal-check-kaishaho.html"><span>① 契約法務</span><b>リーガルチェック</b><small>法令違反・不利な文言・紛争の種の3つの観点と、会社法で確認すること</small></a>
+    <a class="chap kt" href="kikan-homu.html"><span>② 機関法務・組織法務</span><b>株主総会と取締役会の運営</b><small>年間スケジュール、招集・決議・議事録、登記と組織再編</small></a>
+    <a class="chap rs" href="funso-sosho.html"><span>③ 紛争・訴訟対応</span><b>紛争・訴訟対応の進め方</b><small>事実確認 → 弁護士と連携 → 交渉・和解 → 訴訟。製品事故とPL法</small></a>
+    <a class="chap dh" href="houseido-kitei.html#fl"><span>④ 法制度調査</span><b>法令の調べ方と法改正対応</b><small>法令用語の読み方、2025〜2026年の改正、グレーゾーンの確認</small></a>
+    <a class="chap qz" href="houseido-kitei.html#rs"><span>⑤ コンプライアンス・社内規程</span><b>社内規程と就業規則</b><small>規程の体系と管理、就業規則のルール、コンプライアンス体制</small></a>
+  </div>
+  <p class="cap">コンプライアンスの考え方（不正のトライアングル、公益通報者保護法、ガバナンス）は、<a href="kigyo-rinri-compliance.html">企業倫理とコンプライアンス</a>のページで詳しく扱っています。</p>
+
+  <div class="unit">
+    <div class="unit-head"><h3>5つの仕事はつながっている</h3></div>
+    <div class="flow">
+      <div class="node fl"><span class="nn">④ 法制度調査</span><b>法律の変化をつかむ</b><small>改正や新しい規制を調べる</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node rs"><span class="nn">⑤ 社内規程・① 契約</span><b>会社のルールにする</b><small>規程と契約書のひな形に反映する</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node kt"><span class="nn">② 機関法務</span><b>正しい手続きで決める</b><small>取締役会・株主総会で決める</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">③ 紛争対応</span><b>起きたら対応し、学ぶ</b><small>原因を次の予防に戻す</small></div>
+    </div>
+    <p class="cap">紛争から学んだことが、また契約書や規程の改善につながります。一つの仕事だけを覚えるより、この流れで理解すると面接でも説明しやすくなります。</p>
+  </div>
+</section>
+
+<!-- ============ やりがい ============ -->
+<section id="kt" class="part part-kt">
+  <div class="part-head">
+    <span class="part-no">ATTRACTION</span>
+    <h2>企業法務のやりがい・魅力</h2>
+    <p>法務は「ダメです」と止めるだけの部署と思われがちですが、実際は事業を前に進めるための部署です。</p>
+  </div>
+
+  <div class="motto">
+    <q>適法と違法の境界をつく</q>
+    <small>新しいサービスや取引には、法律がはっきり想定していないグレーゾーンがつきものです。法務の腕の見せどころは、「どこまでなら適法にできるか」の境界を正確に見極め、事業部門に「この形ならできます」と道を示すことです。リスクを恐れて何でも止めるのでも、目をつぶって進めるのでもなく、境界ぎりぎりまで会社の可能性を広げる。それが企業法務ならではのやりがいです。</small>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><h3>そのほかの魅力</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">経営に近い場所で働ける</span><p class="def-t">取締役会や株主総会の運営、M&amp;A、新規事業など、会社の大きな意思決定の現場に立ち会えます。</p></div>
+      <div class="def"><span class="def-l">会社と社会を守れる</span><p class="def-t">製品事故での二次被害の防止や、不正の早期発見など、会社だけでなくお客様や社会を守る仕事でもあります。</p></div>
+      <div class="def"><span class="def-l">専門性が積み上がる</span><p class="def-t">法律は毎年変わるので、学び続けるほど価値が上がります。経験はどの業界・会社でも通用します。</p></div>
+      <div class="def"><span class="def-l">社内のあらゆる部署と関わる</span><p class="def-t">営業、開発、人事、経理など、全社の仕事を知ることができ、会社全体を見渡す力が身につきます。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 向いている人 ============ -->
+<section id="rs" class="part part-rs">
+  <div class="part-head">
+    <span class="part-no">APTITUDE</span>
+    <h2>法務に向いている人・適性</h2>
+    <p>4つの適性が、仕事のどんな場面で活きるかを具体的に見てみます。</p>
+  </div>
+
+  <div class="defs">
+    <div class="def"><span class="def-l">1. バランス感覚がある人</span><p class="def-t">法的なリスクと、ビジネスの利益をはかりにかけて判断できる人。</p><p class="def-n">活きる場面：リーガルチェックで「必ず直す点」と「譲ってよい点」を分ける、交渉で落としどころを探る、グレーゾーンで「この形ならできる」を見つける。</p></div>
+    <div class="def"><span class="def-l">2. 法務に関心がある人</span><p class="def-t">法律や社会のルールが変わることに興味を持ち、学び続けられる人。</p><p class="def-n">活きる場面：法改正の情報を追う、新しい判例やガイドラインを読む、資格の勉強を続ける。</p></div>
+    <div class="def"><span class="def-l">3. 正義感が強い人</span><p class="def-t">不正を見過ごさず、相手が上司や経営者でも言うべきことを言える人。</p><p class="def-n">活きる場面：内部通報への対応、不祥事の調査、違法な指示へのストップ。ただし正義感だけでは事業が止まってしまうので、1のバランス感覚とセットで発揮します。</p></div>
+    <div class="def"><span class="def-l">4. コツコツ真面目に取り組める人</span><p class="def-t">細かい確認を、地道に、正確に続けられる人。</p><p class="def-n">活きる場面：契約書の一文字の違いを見つける、総会の招集期限や登記の期限を管理する、議事録を正確に残す。招集通知が1日遅れただけで決議が取り消されることもある仕事です。</p></div>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><h3>最初に求められるのは「報告 → 確認 → 行動」</h3></div>
+    <div class="prose">
+      <p>厚生労働省の職業能力評価基準（企業法務）では、入社して最初の段階（レベル1・スタッフ）は、上司の指示や助言を受けながら担当業務を進める段階とされています。<a href="funso-sosho.html#u-pl">製品事故のケース</a>で学んだように、<b>自分だけで判断せず、まず報告し、事実を確認してから行動する</b>ことが基本です。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ビジ法検定 ============ -->
+<section id="dh" class="part part-dh">
+  <div class="part-head">
+    <span class="part-no">FIRST STEP</span>
+    <h2>入口として最適：ビジネス実務法務検定</h2>
+    <p>東京商工会議所が実施する、ビジネスで必要な法律知識を問う検定です。企業法務の仕事で使う法律を、実務に沿って広く学べるので、法務を目指す最初の一歩に向いています。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><h3>入口として最適な理由</h3></div>
+    <ol class="checks">
+      <li><span><b>企業法務で使う法律を一通り学べる</b><small>民法・会社法だけでなく、取引の規制、労働法、紛争の解決方法まで、仕事に直結する範囲が出題されます</small></span></li>
+      <li><span><b>3級・2級は誰でも受験できる</b><small>受験資格はなく、3級から始めて2級へ進めます。1級は2級の合格者が受験できます</small></span></li>
+      <li><span><b>自宅でも受験できる</b><small>3級・2級は、自宅などのパソコンで受けるIBT方式と、テストセンターで受けるCBT方式から選べます</small></span></li>
+      <li><span><b>就職活動でアピールしやすい</b><small>法学部以外の人でも、法務への関心と基礎知識を客観的に示せます</small></span></li>
+    </ol>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><h3>試験の概要（2026年度）</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">3級</span><p class="def-t">ビジネスパーソンとして最低限知っておきたい法律の基礎。</p><p class="def-n">受験料5,500円（CBT方式は別途利用料2,200円）。</p></div>
+      <div class="def"><span class="def-l">2級</span><p class="def-t">法的な問題に気づき、上司や専門家に相談しながら対応できる実務レベル。</p><p class="def-n">受験料7,700円（CBT方式は別途利用料2,200円）。</p></div>
+      <div class="def"><span class="def-l">1級</span><p class="def-t">2級合格者が受験できる、論述式の上級レベル。</p><p class="def-n">年1回、12月に実施されます。</p></div>
+    </div>
+    <ul class="pts">
+      <li>3級・2級は年2回<span class="sub">2026年度は第1シーズンが6月18日〜7月6日、第2シーズンが10月22日〜11月9日です（第2シーズンの申込は締め切られています）。</span></li>
+      <li>合格基準は、3級・2級とも100点満点で70点以上</li>
+    </ul>
+    <p class="cap">受験料や日程は年度ごとに変わります。申込の前に、東京商工会議所の公式サイトで最新の情報を確認してください。</p>
+  </div>
+
+  <div class="unit">
+    <div class="unit-head"><h3>学習ページとのつながり</h3></div>
+    <div class="prose">
+      <p>このシリーズの学習ページは、ビジ法検定で学ぶ範囲と重なっています。検定の勉強とあわせて使うと、知識が仕事の場面と結びつきます。</p>
+    </div>
+    <ul class="pts">
+      <li>取引と契約、債権の管理・回収<span class="sub"><a href="legal-check-kaishaho.html">① リーガルチェック</a>（契約不適合責任など）、<a href="funso-sosho.html">③ 紛争・訴訟対応</a>（消滅時効、強制執行、支払督促）</span></li>
+      <li>株式会社のしくみ<span class="sub"><a href="kikan-homu.html">② 株主総会と取締役会の運営</a>、<a href="legal-check-kaishaho.html">① リーガルチェック</a>（機関決定・利益相反・代表権）</span></li>
+      <li>企業活動に関する法規制<span class="sub"><a href="houseido-kitei.html">④ 法制度調査</a>、<a href="kigyo-rinri-compliance.html">企業倫理とコンプライアンス</a>（独占禁止法、景品表示法、個人情報保護法など）</span></li>
+      <li>企業と従業員の関係<span class="sub"><a href="houseido-kitei.html#dh">⑤ 就業規則</a>、<a href="kigyo-rinri-compliance.html">企業倫理とコンプライアンス</a>（ハラスメント、公益通報）</span></li>
+      <li>紛争の解決方法<span class="sub"><a href="funso-sosho.html">③ 紛争・訴訟対応</a>（調停、仲裁、民事訴訟）</span></li>
+    </ul>
+    <p class="link-note"><b>次のステップ：</b>ビジ法検定のあとは、興味のある分野に合わせて資格を広げられます。たとえば、個人情報の分野なら個人情報保護士、知的財産なら知的財産管理技能検定、登記や書類作成なら行政書士・司法書士などです。法務の仕事は、学んだことがそのまま仕事の力になります。</p>
+  </div>
+</section>
+
+<footer>
+  <p>参照：東京商工会議所「ビジネス実務法務検定試験」、厚生労働省「職業能力評価基準（企業法務）」。</p>
+  <p>2026年10月時点の情報です。試験の日程・受験料は、申込の前に公式サイトで確認してください。</p>
+</footer>
+
+</div>
+
+</body>
+</html>

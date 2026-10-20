@@ -1,0 +1,847 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業法務向け。④法制度調査（法令の種類と調べ方、法令用語の読み方、法改正対応の流れ、2025〜2026年の主な改正、グレーゾーン解消制度など）と⑤コンプライアンス・社内規程（規程の体系と管理、就業規則のルール、懲戒、コンプライアンス体制）を、ケース問題と○×チェックでまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>法制度調査と社内規程</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(法令の調べ方)は青、PART2(法改正・新規事業)はティール、PART3(社内規程)はコーラル、PART4(就業規則・体制)はオレンジで色分け。法令の上下関係と社内規程の上下関係は同じ形のフローで見せる */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：機関決定 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：利益相反・競業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：流れ・契約書 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：代表権・名義 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fl{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kt{border-color:var(--c2);color:var(--c2t)}
+.top a.n-rs{border-color:var(--c3);color:var(--c3t)}
+.top a.n-dh{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kt{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-rs{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-fl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-dh{fill:color-mix(in srgb,var(--c8) 18%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-pl{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.f-kt{fill:var(--c2t)} .f-rs{fill:var(--c3t)} .f-fl{fill:var(--c4t)} .f-dh{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fl .part-head{background:var(--c4)}
+.part-kt .part-head{background:var(--c2)}
+.part-rs .part-head{background:var(--c3)}
+.part-dh .part-head{background:var(--c8)}
+.part-cs .part-head{background:var(--c1);color:#1B1600}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fl .tag{background:var(--c4)}
+.part-kt .tag{background:var(--c2)}
+.part-rs .tag{background:var(--c3)}
+.part-dh .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fl .pts li::before{background:var(--c4)}
+.part-kt .pts li::before{background:var(--c2)}
+.part-rs .pts li::before{background:var(--c3)}
+.part-dh .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-fl .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kt .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-rs .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-dh .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fl .def-l{color:var(--c4t)} .part-kt .def-l{color:var(--c2t)} .part-rs .def-l{color:var(--c3t)} .part-dh .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 判例 */
+.case{border-radius:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);display:grid;gap:4px}
+.case-l{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.case p{line-height:1.8}
+.cases{display:grid;gap:10px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.node{flex-basis:auto}.arr{transform:rotate(90deg);align-self:center}}
+.node.fl{border-color:var(--c4)} .node.fl .nn{color:var(--c4t)}
+.node.kt{border-color:var(--c2)} .node.kt .nn{color:var(--c2t)}
+.node.rs{border-color:var(--c3)} .node.rs .nn{color:var(--c3t)}
+.node.dh{border-color:var(--c8)} .node.dh .nn{color:var(--c8t)}
+
+/* 3つの観点 */
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--line)}
+.view{border-radius:14px;padding:14px 16px;display:grid;gap:4px;align-content:start;text-decoration:none;background:color-mix(in srgb,var(--c4) 12%,var(--surface));border:2px solid var(--c4)}
+.view .nn{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--c4t)}
+.view b{font-size:17px}
+.view small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.vtag{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;border:2px solid var(--c4);color:var(--c4t);background:var(--surface)}
+
+/* 条文の修正例 */
+.clauses{display:grid;gap:12px}
+.clause{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.cl-b,.cl-a{padding:12px 14px;display:grid;gap:4px;align-content:start;line-height:1.75}
+.cl-b{background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cl-a{background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.cl-l{font-size:12.5px;font-weight:700;letter-spacing:.06em}
+.cl-b .cl-l{color:var(--ng)} .cl-a .cl-l{color:var(--ok)}
+.cl-t{font-family:var(--f-data);font-size:14.5px}
+.cl-n{font-size:13.5px;color:var(--muted)}
+
+/* 年間スケジュール */
+.tl{list-style:none;display:grid;gap:0;position:relative}
+.tl li{display:grid;grid-template-columns:150px minmax(0,1fr);gap:14px;padding:10px 0;border-top:1px dashed var(--line);align-items:start;line-height:1.7}
+.tl li:first-child{border-top:0}
+.tl-d{font-weight:700;font-size:14px;padding:4px 10px;border-radius:10px;background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t);text-align:center}
+.tl li.hot .tl-d{background:var(--c1);color:#1B1600}
+.tl small{display:block;color:var(--muted);font-size:14px}
+@media (max-width:560px){.tl li{grid-template-columns:1fr;gap:4px}.tl-d{justify-self:start}}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 標語 */
+.motto{border-radius:22px;padding:22px 24px;background:var(--ink);color:var(--bg);display:grid;gap:8px}
+.motto q{font-family:var(--f-display);font-size:clamp(22px,4.4vw,36px);line-height:1.4;quotes:"「" "」"}
+.motto small{font-size:14px;opacity:.85;line-height:1.7}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.fl{background:var(--c4)} .chap.kt{background:var(--c2)} .chap.rs{background:var(--c3)} .chap.dh{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* チェックリスト */
+.checks{list-style:none;display:grid;gap:8px;counter-reset:ck}
+.checks li{counter-increment:ck;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;line-height:1.7}
+.checks li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--c4) 18%,var(--surface));color:var(--c4t);font-weight:700}
+.checks li small{display:block;color:var(--muted);font-size:14px}
+.checks-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.b{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c3t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lane .pts li::before{background:var(--muted)}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kt .chip{border-color:color-mix(in srgb,var(--c2) 60%,var(--line))}
+.part-fl .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line))}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* ケース問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn + .scn{margin-top:18px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn h3{font-size:clamp(18px,3vw,22px);line-height:1.45}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:grid;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--f-data);font-size:14.5px;line-height:1.7;border:1px solid var(--line)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;color:var(--muted);font-size:14px}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fl-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kt-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-rs-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-dh-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fl{background:var(--c4)} .qno.kt{background:var(--c2)} .qno.rs{background:var(--c3)} .qno.dh{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fl{border-color:var(--c4)} .prio-card.kt{border-color:var(--c2)} .prio-card.rs{border-color:var(--c3)} .prio-card.dh{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.fl h3{color:var(--c4t)} .prio-card.kt h3{color:var(--c2t)} .prio-card.rs h3{color:var(--c3t)} .prio-card.dh h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fl li::before{background:var(--c4)} .prio-card.kt li::before{background:var(--c2)} .prio-card.rs li::before{background:var(--c3)} .prio-card.dh li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fl" href="#fl">PART1 法令の調べ方</a>
+    <a class="n-kt" href="#kt">PART2 法改正・新規事業</a>
+    <a class="n-rs" href="#rs">PART3 社内規程</a>
+    <a class="n-dh" href="#dh">PART4 就業規則・体制</a>
+    <a class="n-cs" href="#cs">ケース問題</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務 ／ ④ 法制度調査 ・ ⑤ コンプライアンス・社内規程</p>
+  <h1><span class="h-a">法制度調査</span>と<br><span class="h-b">社内規程</span>の整備</h1>
+  <p class="lead">法律は毎年のように変わります。法務部は<mark>「法律がどう変わるかを調べ、会社のルールに落とし込み、社員が守れる形にする」</mark>役割を担います。④法制度調査で外の変化をつかみ、⑤社内規程とコンプライアンス体制で会社の中に根づかせる、という一続きの仕事です。このページでは、法令の調べ方と読み方、法改正への対応、社内規程の作り方と管理を整理し、ケース問題と○×問題で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap fl" href="#fl"><span>PART1</span><b>法令の調べ方</b><small>法令の種類と、調べる場所、法令用語の読み方</small></a>
+    <a class="chap kt" href="#kt"><span>PART2</span><b>法改正・新規事業</b><small>改正対応の流れ、2026年の改正、グレーゾーンの確認</small></a>
+    <a class="chap rs" href="#rs"><span>PART3</span><b>社内規程</b><small>規程の体系、制定・改廃の手続き、管理</small></a>
+    <a class="chap dh" href="#dh"><span>PART4</span><b>就業規則・体制</b><small>就業規則のルール、懲戒、コンプライアンス体制</small></a>
+    <a class="chap qz" href="#quiz"><span>CHECK</span><b>○×チェック</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="flow">
+      <div class="node fl"><span class="nn">④ 法制度調査</span><b>外の変化をつかむ</b><small>法令・ガイドライン・判例を調べ、改正の情報を集める</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node kt"><span class="nn">④ 影響分析</span><b>会社への影響を考える</b><small>どの部署・業務・契約・規程に関係するかを洗い出す</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node rs"><span class="nn">⑤ 社内規程</span><b>会社のルールにする</b><small>規程・契約書ひな形・業務フローを作り直す</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">⑤ コンプライアンス</span><b>守られる仕組みにする</b><small>周知・研修・相談窓口・モニタリング</small></div>
+    </div>
+    <figcaption>④と⑤は、外の法律を会社の中のルールに翻訳する一続きの流れです。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 法令の調べ方 ============ -->
+<section id="fl" class="part part-fl">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>法令の調べ方と読み方</h2>
+    <p>法制度調査の基本は、一次情報（法令の条文や官庁の公表資料）にあたることです。解説記事は入口として便利ですが、最後は必ず原文で確かめます。</p>
+  </div>
+
+  <div class="unit" id="u-shurui">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>法令の種類と、強さの順番</h3></div>
+    <div class="flow">
+      <div class="node fl"><span class="nn">最上位</span><b>憲法</b><small>国の最高法規</small></div>
+      <span class="arr" aria-hidden="true">＞</span>
+      <div class="node fl"><span class="nn">国会が制定</span><b>法律</b><small>会社法、民法など</small></div>
+      <span class="arr" aria-hidden="true">＞</span>
+      <div class="node fl"><span class="nn">内閣が制定</span><b>政令</b><small>〇〇法施行令</small></div>
+      <span class="arr" aria-hidden="true">＞</span>
+      <div class="node fl"><span class="nn">各大臣が制定</span><b>府省令</b><small>〇〇法施行規則</small></div>
+    </div>
+    <ul class="pts">
+      <li>下位の法令は上位の法令に反することはできない<span class="sub">法律が大枠を決め、細かい数字や手続きは政令・府省令に任せる（委任する）ことがよくあります。法律だけ読んで終わりにせず、施行令・施行規則まで確認します。</span></li>
+      <li>地方公共団体が定める<b>条例</b>もある<span class="sub">暴力団排除条例や迷惑防止条例など、事業に関係するものもあります。</span></li>
+      <li><b>ガイドライン・Q&amp;A・通達</b>は、法令そのものではない<span class="sub">ガイドラインやQ&amp;Aには法的な拘束力はありませんが、所管官庁が法令をどう解釈しているかがわかるので、実務ではとても重要です。通達は行政内部の指示で、国民を直接しばるものではありません。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-shirabe">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★</span><h3>どこで調べるか</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">法令の条文</span><p class="def-t"><b>e-Gov法令検索</b>（デジタル庁）で、現行の法令を無料で読めます。改正の履歴や、施行前の改正内容も確認できます。</p></div>
+      <div class="def"><span class="def-l">改正の情報</span><p class="def-t">法律の公布は<b>官報</b>に載ります。改正案は<b>e-Govパブリック・コメント</b>、検討中の段階は<b>法制審議会</b>や各省庁の審議会の資料で追えます。</p></div>
+      <div class="def"><span class="def-l">官庁の解釈</span><p class="def-t">所管官庁のウェブサイトにある<b>ガイドライン、Q&amp;A、パンフレット</b>。個人情報なら個人情報保護委員会、取引なら公正取引委員会など。</p></div>
+      <div class="def"><span class="def-l">判例</span><p class="def-t"><b>裁判所ウェブサイトの裁判例検索</b>や、有料の判例データベース。最高裁の判断は、その後の裁判の先例として特に重く扱われます。</p></div>
+    </div>
+    <ul class="pts">
+      <li>調べた結果は、<b>根拠（条文番号・資料名・確認した日付）</b>と一緒に記録する<span class="sub">後から「いつ時点の、どの資料にもとづく判断か」をたどれるようにするためです。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-yougo">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>法令用語の読み方</h3></div>
+    <div class="prose">
+      <p>法令や契約書では、ふだんの言葉と違う厳密なルールで言葉が使い分けられています。ここを読み違えると、調査の結論が逆になることもあります。</p>
+    </div>
+    <div class="defs">
+      <div class="def"><span class="def-l">「みなす」と「推定する」</span><p class="def-t"><b>みなす</b>：事実と違っても、法律上そう扱う。反対の証拠を出しても<b>覆せない</b>。<br><b>推定する</b>：一応そう扱うが、反対の証拠を出せば<b>覆せる</b>。</p></div>
+      <div class="def"><span class="def-l">「以上・以下」と「超える・未満」</span><p class="def-t"><b>以上・以下</b>は基準の数を<b>含む</b>。<b>超える・未満</b>は<b>含まない</b>。</p><p class="def-n">例：「300人を超える」は301人から。300人ちょうどは含みません。</p></div>
+      <div class="def"><span class="def-l">「直ちに」「速やかに」「遅滞なく」</span><p class="def-t">急ぐ度合いは<b>直ちに ＞ 速やかに ＞ 遅滞なく</b>の順です。</p><p class="def-n">直ちには一切の遅れを許さない、遅滞なくは正当・合理的な理由による遅れは許される、という意味合いです。</p></div>
+      <div class="def"><span class="def-l">「及び・並びに」と「又は・若しくは」</span><p class="def-t"><b>及び・並びに</b>は「AとB」のように並べる言葉。<b>又は・若しくは</b>は「AかB」のように選ぶ言葉です。</p><p class="def-n">段階があるとき、小さいまとまりに「及び」「若しくは」、大きいまとまりに「並びに」「又は」を使います。</p></div>
+      <div class="def"><span class="def-l">「適用」と「準用」</span><p class="def-t"><b>適用</b>はその規定をそのまま当てはめること。<b>準用</b>は、似た別の場面に、必要な読み替えをして当てはめることです。</p></div>
+      <div class="def"><span class="def-l">「科料」と「過料」</span><p class="def-t"><b>科料（とがりょう）</b>は刑罰で、前科になります。<b>過料（あやまちりょう）</b>は行政上の制裁で、刑罰ではありません。</p><p class="def-n">登記を怠ったときの制裁は過料です。</p></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>「推定する」と書かれていれば、反対の証拠を出しても覆せない<span class="why">覆せないのは「みなす」です。「推定する」は反証で覆せます。</span></span></li>
+        <li><span class="mark x">×</span><span>「常時使用する労働者が300人を超える事業者」には、ちょうど300人の事業者も含まれる<span class="why">「超える」は基準の数を含みません。301人からです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 法改正・新規事業 ============ -->
+<section id="kt" class="part part-kt">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>法改正への対応と、新規事業の調査</h2>
+    <p>法制度調査の目的は、調べることそのものではなく、会社が「知らなかった」で違反しないようにし、新しいことに安心して挑戦できるようにすることです。</p>
+  </div>
+
+  <div class="unit" id="u-kaisei">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>法改正対応の流れ</h3></div>
+    <ol class="checks">
+      <li><span><b>情報を集める</b><small>改正の内容と、公布日・施行日を確認します。施行日が段階的に分かれていることも多いので注意します</small></span></li>
+      <li><span><b>影響を分析する</b><small>どの部署の、どの業務・契約・規程・システムに関係するかを洗い出します。現場へのヒアリングが欠かせません</small></span></li>
+      <li><span><b>対応計画を立てる</b><small>施行日から逆算して、誰が・いつまでに・何をするかを決めます。システム改修や規程の承認には時間がかかります</small></span></li>
+      <li><span><b>ルールを作り直す</b><small>社内規程、契約書のひな形、業務マニュアル、帳票を改定します</small></span></li>
+      <li><span><b>周知・研修</b><small>何が変わり、社員が何をしなければならないかを、具体的に伝えます</small></span></li>
+      <li><span><b>施行後に確認する</b><small>新しいルールが現場で守られているかをモニタリングします</small></span></li>
+    </ol>
+  </div>
+
+  <div class="unit" id="u-2026">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">最新情報</span><h3>2025〜2026年の主な法改正（企業法務に関係するもの）</h3></div>
+    <ol class="tl">
+      <li><span class="tl-d">2025年6月1日</span><span><b>改正刑法の施行（拘禁刑の導入）</b><small>懲役と禁錮が「拘禁刑」に一本化されました。法令の罰則規定の読み方も変わります。</small></span></li>
+      <li><span class="tl-d">2026年1月1日</span><span><b>取適法（改正下請法）の施行</b><small>手形払いの禁止、従業員数による適用基準の追加、運送委託の追加など。「親事業者」「下請事業者」は「委託事業者」「中小受託事業者」に呼び方が変わり、取引規程や契約書の用語も見直しが必要です。</small></span></li>
+      <li><span class="tl-d">2026年5月21日</span><span><b>改正民事訴訟法の全面施行（民事裁判のIT化）</b><small>訴えの提起や書面の提出がオンラインでできるようになりました。</small></span></li>
+      <li class="hot"><span class="tl-d">2026年10月1日</span><span><b>改正労働施策総合推進法の施行（カスタマーハラスメント対策の義務化）</b><small>事業主に、顧客などからの著しい迷惑行為から労働者を守るための措置が義務付けられました。</small></span></li>
+      <li class="hot"><span class="tl-d">2026年12月1日</span><span><b>改正公益通報者保護法の施行</b><small>フリーランスの保護、通報を理由とする解雇・懲戒への刑事罰、通報者を探す行為の禁止など。内部通報規程の改定が必要です。</small></span></li>
+      <li><span class="tl-d">2027年以降</span><span><b>会社法の改正（検討中）</b><small>2026年に中間試案が公表され、従業員への株式報酬やバーチャル株主総会などが検討されています。</small></span></li>
+    </ol>
+    <p class="cap">2026年10月時点の情報です。施行日や内容は、所管官庁の公表資料で確認してください。</p>
+  </div>
+
+  <div class="unit" id="u-gray">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★</span><h3>新規事業の調査とグレーゾーンの確認</h3></div>
+    <div class="prose">
+      <p>新しいサービスを始めるときは、<b>許認可が必要か、規制に当たるか</b>を最初に調べます。法令が新しい技術やビジネスを想定していないと、適法か違法かがはっきりしない「グレーゾーン」が生まれます。そのときに使える国の制度があります。</p>
+    </div>
+    <ul class="pts">
+      <li>まず確認すること<span class="sub">許可・届出が必要な業か（古物営業、建設業、旅行業、人材紹介など）。消費者向けなら特定商取引法・景品表示法。個人データを扱うなら個人情報保護法。</span></li>
+    </ul>
+    <div class="defs">
+      <div class="def"><span class="def-l">グレーゾーン解消制度</span><p class="def-t">具体的な事業計画にもとづいて、<b>規制が適用されるかどうかを事前に国に確認</b>できる制度です（産業競争力強化法）。</p></div>
+      <div class="def"><span class="def-l">新事業特例制度</span><p class="def-t">規制の<b>特例措置</b>を、事業者ごとに認めてもらうよう提案できる制度です（産業競争力強化法）。</p></div>
+      <div class="def"><span class="def-l">規制のサンドボックス制度</span><p class="def-t">期間や参加者を限って、<b>今の規制にとらわれずに新技術や新しいビジネスを実証</b>できる制度です。実証の結果を規制の見直しにつなげます。</p></div>
+      <div class="def"><span class="def-l">ノーアクションレター制度</span><p class="def-t">これから行う具体的な行為が、特定の法令の適用対象になるかを<b>所管官庁に事前に照会</b>し、回答を受ける制度です（法令適用事前確認手続）。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 社内規程 ============ -->
+<section id="rs" class="part part-rs">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>社内規程の体系と管理</h2>
+    <p>社内規程は、会社の中の「法律」です。法令と同じように上下関係があり、作る手続きも決まっています。作っただけで誰も知らない規程は、ないのと同じです。</p>
+  </div>
+
+  <div class="unit" id="u-taikei">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>規程の体系</h3></div>
+    <div class="flow">
+      <div class="node rs"><span class="nn">会社の根本規則</span><b>定款</b><small>変更は株主総会の特別決議</small></div>
+      <span class="arr" aria-hidden="true">＞</span>
+      <div class="node rs"><span class="nn">基本規程</span><b>組織と権限のルール</b><small>取締役会規程、組織規程、職務分掌規程、職務権限規程、稟議規程、規程管理規程</small></div>
+      <span class="arr" aria-hidden="true">＞</span>
+      <div class="node rs"><span class="nn">業務規程</span><b>業務ごとのルール</b><small>経理規程、購買規程、情報セキュリティ規程、個人情報取扱規程、内部通報規程、文書管理規程</small></div>
+      <span class="arr" aria-hidden="true">＞</span>
+      <div class="node rs"><span class="nn">細則・マニュアル</span><b>具体的な手順</b><small>申請の手順、書式、チェックリスト</small></div>
+    </div>
+    <ul class="pts">
+      <li>下位の規程は上位の規程に反してはならず、すべての規程は法令に反してはならない<span class="sub">法令の強行規定に反する規程は、その部分が無効になります。</span></li>
+      <li>就業規則・賃金規程・育児介護休業規程など、社員の労働条件を決める規程は、労働基準法などのルールにも従う（PART4）</li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-seitei">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>規程の作り方・変え方</h3></div>
+    <div class="flow">
+      <div class="node rs"><span class="nn">1</span><b>起案</b><small>担当部署が案を作る</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node rs"><span class="nn">2</span><b>法務の審査</b><small>法令・上位規程・他の規程との整合を確認</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node rs"><span class="nn">3</span><b>承認</b><small>重要度に応じて取締役会・社長などが決裁</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node rs"><span class="nn">4</span><b>周知・施行</b><small>社内ポータルへの掲載、説明会、研修</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node rs"><span class="nn">5</span><b>管理・見直し</b><small>規程管理台帳で版と改定履歴を管理</small></div>
+    </div>
+    <ul class="pts">
+      <li>規程管理規程で「どの規程を、誰が承認して変えるか」を決めておく<span class="sub">取締役会の決議が必要な事項（内部統制システムの基本方針など）を決める規程は、取締役会で承認します。</span></li>
+      <li>定期的な見直しと、法改正のたびの見直しを行う<span class="sub">古い法令の名前や用語のまま残っている規程は、現場が正しく動けない原因になります。</span></li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>規程は、承認を受けてファイルサーバーに保存すれば、社員が守るべきルールとして機能する<span class="why">内容を知らなければ守れません。周知と研修までが規程づくりです。</span></span></li>
+        <li><span class="mark x">×</span><span>他社の規程のひな形をそのまま使えば、自社に合った規程になる<span class="why">ひな形は出発点にすぎません。自社の組織・業務の実態と合わない規程は守られず、かえってリスクになります。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART4 就業規則・体制 ============ -->
+<section id="dh" class="part part-dh">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>就業規則とコンプライアンス体制</h2>
+    <p>社内規程の中でも就業規則は、法律で作り方が決まっている特別な規程です。そして、規程を守らせる仕組み全体がコンプライアンス体制です。</p>
+  </div>
+
+  <div class="unit" id="u-shugyo">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★★</span><h3>就業規則のルール</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">作成と届出 <span class="law">労働基準法89条</span></span><p class="def-t">常時<b>10人以上</b>の労働者を使う使用者は、就業規則を作り、労働基準監督署に届け出ます。</p><p class="def-n">始業・終業の時刻、休憩、休日、休暇、賃金、退職（解雇の事由を含む）は、必ず書かなければならない事項です。</p></div>
+      <div class="def"><span class="def-l">意見の聴取 <span class="law">労働基準法90条</span></span><p class="def-t">作成・変更のときは、労働者の過半数で組織する労働組合（ないときは過半数代表者）の<b>意見を聴きます</b>。</p><p class="def-n">必要なのは「意見を聴くこと」で、<b>同意までは不要</b>です。意見書を届出に添付します。</p></div>
+      <div class="def"><span class="def-l">周知 <span class="law">労働基準法106条</span></span><p class="def-t">見やすい場所への掲示、書面の交付、社内システムでの閲覧などで、労働者に<b>周知</b>します。</p></div>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span><b>就業規則を労働者に不利益に変えることはできない</b><small>労働者と合意せずに、就業規則の変更で労働条件を不利益に変えることはできません（労働契約法9条）。</small></span></div>
+      <div class="r-row exc"><span class="r-b">例外</span><span><b>変更後の就業規則を周知し、変更が合理的であれば認められる</b><small>労働契約法10条。不利益の程度、変更の必要性、内容の相当性、労働組合などとの交渉の状況などから判断します。</small></span></div>
+    </div>
+    <ul class="pts">
+      <li>就業規則の基準に達しない労働契約は、その部分が無効になり、就業規則の基準になる<span class="law">労働契約法12条</span></li>
+    </ul>
+    <div class="case">
+      <span class="case-l">判例　最高裁平成15年10月10日判決（フジ興産事件）</span>
+      <p>使用者が労働者を懲戒するには、あらかじめ就業規則に<b>懲戒の種類と事由を定めておく</b>必要があり、その就業規則が労働者に<b>周知</b>されていなければならない、としました。</p>
+    </div>
+  </div>
+
+  <div class="unit" id="u-taisei">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★</span><h3>コンプライアンス体制：規程を守られる仕組みにする</h3></div>
+    <ol class="checks">
+      <li><span><b>行動規範</b><small>社員が判断に迷ったときの拠り所になる、会社の基本的な考え方を示します</small></span></li>
+      <li><span><b>研修</b><small>「やってはいけないこと」を、自社の業務に即した具体例で伝えます。法改正のたびに更新します</small></span></li>
+      <li><span><b>相談・通報窓口</b><small>常時使用する労働者が300人を超える事業者には、内部通報の体制整備が義務付けられています（公益通報者保護法）</small></span></li>
+      <li><span><b>モニタリング</b><small>内部監査やアンケートで、規程が実際に守られているかを確認します</small></span></li>
+      <li><span><b>違反への対応と再発防止</b><small>就業規則にもとづいて公平に処分し、原因を規程や業務フローの見直しにつなげます</small></span></li>
+    </ol>
+    <p class="cap">コンプライアンスの考え方、不正のトライアングル、公益通報者保護法の詳しい内容は、<a href="kigyo-rinri-compliance.html">企業倫理とコンプライアンス</a>のページにまとめています。</p>
+  </div>
+</section>
+
+<!-- ============ ケース問題 ============ -->
+<section id="cs" class="part part-cs">
+  <div class="part-head">
+    <span class="part-no">CASE</span>
+    <h2>ケース問題で確認</h2>
+    <p>法務の担当者になったつもりで、どの論点に当たるかを考えてから解答を開いてください。</p>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 1　法制度調査</span>
+    <h3>中古品のネット買取サービスを始めたい</h3>
+    <p class="scn-story">事業部から「個人から中古のブランド品をネットで買い取って、再販売するサービスを始めたい。法的に問題ないか調べてほしい」と相談されました。</p>
+    <ol class="scn-q">
+      <li>まず何を調べますか。</li>
+      <li>調べても、ある部分の規制が適用されるかどうかがはっきりしない場合、どうしますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>許認可が必要かどうか</b>を最初に調べます。中古品の売買を業として行うには、古物営業法にもとづく都道府県公安委員会の許可が必要で、取引相手の本人確認などの義務もあります。ほかに、消費者向けの表示（景品表示法）、個人情報の取扱い（個人情報保護法）なども確認します。<small>法律だけでなく施行規則と所管官庁の解釈資料まで確認し、根拠と確認日を記録しておきます。</small></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>グレーゾーン解消制度やノーアクションレター制度で、所管官庁に事前に確認する</b>ことを検討します。外部の弁護士の意見を聞くことも有効です。「わからないから止める」でも「わからないから進める」でもなく、確認したうえで進め方を決めます。</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 2　法改正対応</span>
+    <h3>カスタマーハラスメント対策の義務化への対応</h3>
+    <p class="scn-story">2026年10月1日に改正労働施策総合推進法が施行され、カスタマーハラスメント対策が事業主の義務になりました。コールセンターを持つ甲社の法務部は、社内の対応を取りまとめることになりました。</p>
+    <ol class="scn-q">
+      <li>法務部は、どんな順番で何をしますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">1</span><span><b>情報を集める</b>：改正法、厚生労働省の指針とQ&amp;Aで、事業主が講じるべき措置の内容を確認します。</span></div>
+        <div class="ans-step"><span class="lb">2</span><span><b>影響を分析する</b>：コールセンター、店舗、営業など、顧客と接する部署と、今の対応手順を洗い出します。</span></div>
+        <div class="ans-step"><span class="lb">3</span><span><b>ルールを作り直す</b>：カスハラに対する会社の方針を決めて社内外に示し、ハラスメント防止規程や就業規則、対応マニュアル（どの段階で対応を打ち切り、上司に代わるか など）を改定します。相談窓口も整えます。</span></div>
+        <div class="ans-step"><span class="lb">4</span><span><b>周知・研修と確認</b>：現場の社員に具体的な対応方法を研修し、施行後は相談件数や対応状況をモニタリングします。<small>本来は施行日から逆算して準備しておくのが理想です。</small></span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 3　就業規則</span>
+    <h3>懲戒の規定がない会社で、無断欠勤の社員を処分したい</h3>
+    <p class="scn-story">社員15人の乙社では、就業規則を作って届け出ていますが、懲戒についての定めはありません。無断欠勤を繰り返す社員Aを出勤停止にしたいと、社長から相談されました。また社長は、ついでに全社員の住宅手当を廃止したいとも考えています。</p>
+    <ol class="scn-q">
+      <li>今の就業規則のままで、Aを出勤停止にできますか。</li>
+      <li>住宅手当の廃止は、どうすれば認められますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>できません。</b>懲戒をするには、あらかじめ就業規則に懲戒の種類と事由を定め、労働者に周知しておく必要があります（フジ興産事件）。まず就業規則に懲戒の規定を設け、過半数代表者の意見を聴いて届け出て、周知する必要があります。<small>規定を設けても、それより前の行為にさかのぼって処分することはできません。</small></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>原則として社員の合意が必要です。</b>合意なしに就業規則の変更で行うには、変更後の就業規則を周知し、その変更が合理的であること（不利益の程度、必要性、代わりの措置、話し合いの状況など）が必要です（労働契約法9条・10条）。経過措置を設けるなど、不利益を和らげる工夫を検討します。</span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">0</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-fl-btn" data-qf="fl" aria-pressed="false">法令の調べ方</button>
+    <button type="button" class="btn f-kt-btn" data-qf="kt" aria-pressed="false">法改正・新規事業</button>
+    <button type="button" class="btn f-rs-btn" data-qf="rs" aria-pressed="false">社内規程</button>
+    <button type="button" class="btn f-dh-btn" data-qf="dh" aria-pressed="false">就業規則・体制</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">0</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card fl">
+      <h3>法令の調べ方</h3>
+      <ol>
+        <li>法律 ＞ 政令 ＞ 府省令、施行規則まで読む</li>
+        <li>ガイドラインは拘束力なしでも実務で重要</li>
+        <li>みなす（覆せない）と推定する（覆せる）</li>
+        <li>以上は含む、超えるは含まない</li>
+      </ol>
+    </div>
+    <div class="prio-card kt">
+      <h3>法改正・新規事業</h3>
+      <ol>
+        <li>情報収集 → 影響分析 → 計画 → 改定 → 周知 → 確認</li>
+        <li>施行日から逆算する</li>
+        <li>新規事業は許認可から調べる</li>
+        <li>グレーゾーン解消制度などで事前確認</li>
+      </ol>
+    </div>
+    <div class="prio-card rs">
+      <h3>社内規程</h3>
+      <ol>
+        <li>定款 ＞ 基本規程 ＞ 業務規程 ＞ 細則</li>
+        <li>法令に反する規程は無効</li>
+        <li>起案 → 法務審査 → 承認 → 周知 → 管理</li>
+        <li>周知されない規程は機能しない</li>
+      </ol>
+    </div>
+    <div class="prio-card dh">
+      <h3>就業規則・体制</h3>
+      <ol>
+        <li>10人以上で作成・届出、意見聴取は同意不要</li>
+        <li>不利益変更は周知＋合理性</li>
+        <li>懲戒は就業規則の定めと周知が前提</li>
+        <li>300人超は内部通報体制が義務</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>法令と社内規程は同じ形をしています。法律の下に政令・省令があるように、定款の下に基本規程・業務規程・細則があります。どちらも<b>「上位のルールに反してはならない」「作る手続きが決まっている」「知られていなければ効力を持ちにくい」</b>という共通点があります。法令の公布・施行と、規程の承認・周知を重ねて覚えると整理しやすくなります。</p>
+</section>
+
+<footer>
+  <p>参照：労働基準法（89条、90条、106条）、労働契約法（9条、10条、12条）、産業競争力強化法、公益通報者保護法、労働施策総合推進法、製造委託等に係る中小受託事業者に対する代金の支払の遅延等の防止に関する法律（取適法）、古物営業法、最高裁平成15年10月10日判決（フジ興産事件）。</p>
+  <p>2026年10月時点の法令に基づいています。施行日や内容は、所管官庁の公表資料で確認してください。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"fl", q:"政令は内閣が、府省令は各大臣が定める法令で、いずれも法律に反することはできない。", a:true, e:"法律 ＞ 政令 ＞ 府省令の順です。"},
+    {p:"fl", q:"法律の条文を読めば、細かい数字や手続きまですべてわかるので、施行令や施行規則を確認する必要はない。", a:false, e:"法律は細かい事項を政令・府省令に委任することが多いので、施行令・施行規則まで確認します。"},
+    {p:"fl", q:"所管官庁のガイドラインやQ&Aには法的な拘束力がないので、実務で確認する必要はない。", a:false, e:"拘束力はなくても、官庁の解釈がわかるので実務ではとても重要です。"},
+    {p:"fl", q:"通達は行政内部の指示であり、国民を直接しばるものではない。", a:true, e:"通達は上級の行政機関から下級の行政機関への指示です。"},
+    {p:"fl", q:"法律の公布は官報に掲載される。", a:true, e:"改正の情報を追うときの一次情報です。"},
+    {p:"fl", q:"e-Gov法令検索では、現行の法令の条文を無料で確認できる。", a:true, e:"デジタル庁が運営しています。"},
+    {p:"fl", q:"調査結果は、根拠の条文や資料名と、確認した日付をあわせて記録しておくとよい。", a:true, e:"いつ時点の、どの資料にもとづく判断かを後からたどれるようにします。"},
+    {p:"fl", q:"「みなす」と書かれている場合、反対の証拠を出せば覆すことができる。", a:false, e:"覆せないのが「みなす」、反証で覆せるのが「推定する」です。"},
+    {p:"fl", q:"「推定する」と書かれている場合、反対の証拠を出せば覆すことができる。", a:true, e:"一応そう扱うだけなので、反証で覆せます。"},
+    {p:"fl", q:"「300人以上」には300人が含まれ、「300人を超える」には300人は含まれない。", a:true, e:"以上・以下は基準を含み、超える・未満は含みません。"},
+    {p:"fl", q:"急ぐ度合いが最も強いのは「遅滞なく」である。", a:false, e:"直ちに ＞ 速やかに ＞ 遅滞なく の順です。遅滞なくは正当・合理的な理由による遅れを許します。"},
+    {p:"fl", q:"段階がある並列では、小さいまとまりに「及び」、大きいまとまりに「並びに」を使う。", a:true, e:"選択の場合は、小さいまとまりに「若しくは」、大きいまとまりに「又は」です。"},
+    {p:"fl", q:"「準用する」とは、その規定を読み替えずにそのまま当てはめることである。", a:false, e:"それは「適用」です。準用は、似た場面に必要な読み替えをして当てはめることです。"},
+    {p:"fl", q:"過料は刑罰の一種で、科されると前科になる。", a:false, e:"刑罰なのは科料です。過料は行政上の制裁で、刑罰ではありません。"},
+
+    {p:"kt", q:"法改正対応では、改正の内容とあわせて、公布日と施行日を確認する。", a:true, e:"施行日が段階的に分かれていることも多いので注意します。"},
+    {p:"kt", q:"法改正の影響分析は法務部だけで行い、現場へのヒアリングは不要である。", a:false, e:"どの業務・契約・システムに関係するかは、現場に聞かないとわかりません。"},
+    {p:"kt", q:"法改正対応の計画は、施行日から逆算して立てる。", a:true, e:"システム改修や規程の承認には時間がかかるためです。"},
+    {p:"kt", q:"2026年1月1日施行の取適法では、「下請事業者」という呼び方が「中小受託事業者」に変わった。", a:true, e:"「親事業者」は「委託事業者」になりました。取引規程や契約書の用語も見直しが必要です。"},
+    {p:"kt", q:"2026年10月1日施行の改正労働施策総合推進法により、カスタマーハラスメント対策が事業主の努力義務とされた。", a:false, e:"努力義務ではなく、措置義務です。"},
+    {p:"kt", q:"改正公益通報者保護法は2026年12月1日に施行され、内部通報規程の見直しが必要になる。", a:true, e:"フリーランスの保護、通報者探索の禁止、刑事罰の新設などが含まれます。"},
+    {p:"kt", q:"2025年6月の改正刑法の施行で、懲役と禁錮は拘禁刑に一本化された。", a:true, e:"罰則規定を読むときも、この変更を踏まえます。"},
+    {p:"kt", q:"新規事業の調査では、まず許認可や届出が必要な事業かどうかを確認する。", a:true, e:"許可なしに営業すると、それだけで違法になる業種があります。"},
+    {p:"kt", q:"グレーゾーン解消制度は、具体的な事業計画にもとづいて、規制が適用されるかどうかを事前に国に確認できる制度である。", a:true, e:"産業競争力強化法にもとづく制度です。"},
+    {p:"kt", q:"規制のサンドボックス制度は、期間や参加者を限らずに、規制を受けずに新事業を始められる制度である。", a:false, e:"期間や参加者を限って実証する制度です。結果を規制の見直しにつなげます。"},
+    {p:"kt", q:"ノーアクションレター制度では、これから行う行為が特定の法令の適用対象になるかを、所管官庁に事前に照会できる。", a:true, e:"法令適用事前確認手続とも呼ばれます。"},
+
+    {p:"rs", q:"社内規程の中で最も上位にあるのは定款である。", a:true, e:"定款は会社の根本規則で、変更には株主総会の特別決議が必要です。"},
+    {p:"rs", q:"下位の規程が上位の規程と矛盾する場合は、新しく作られた下位の規程が優先する。", a:false, e:"下位の規程は上位の規程に反してはなりません。"},
+    {p:"rs", q:"法令の強行規定に反する社内規程の定めは、その部分が無効になる。", a:true, e:"社内規程は法令の範囲内でしか効力を持ちません。"},
+    {p:"rs", q:"職務権限規程は、誰がどの範囲の事項を決裁できるかを定める基本規程である。", a:true, e:"組織と権限のルールを定める基本規程の一つです。"},
+    {p:"rs", q:"規程の改定案は、承認の前に法務が法令や他の規程との整合を確認する。", a:true, e:"矛盾した規程が並ぶと、現場が正しく動けません。"},
+    {p:"rs", q:"承認された規程は、社員に周知しなくても社内のルールとして十分に機能する。", a:false, e:"内容を知らなければ守れません。周知と研修までが規程づくりです。"},
+    {p:"rs", q:"規程管理台帳で、規程の版や改定の履歴を管理するとよい。", a:true, e:"いつ、どの版が有効だったかをたどれるようにします。"},
+    {p:"rs", q:"他社の規程のひな形を、自社の実態に合わせずにそのまま使うのが最も安全である。", a:false, e:"実態に合わない規程は守られず、かえってリスクになります。"},
+
+    {p:"dh", q:"常時10人以上の労働者を使う使用者は、就業規則を作って労働基準監督署に届け出なければならない。", a:true, e:"労働基準法89条です。"},
+    {p:"dh", q:"就業規則を作るときは、労働者の過半数代表者などの同意を得なければならない。", a:false, e:"必要なのは意見を聴くことで、同意までは不要です（労働基準法90条）。"},
+    {p:"dh", q:"始業・終業の時刻、休日、賃金、退職に関する事項は、就業規則に必ず書かなければならない。", a:true, e:"絶対的必要記載事項と呼ばれます。"},
+    {p:"dh", q:"就業規則は、労働者に周知しなければならない。", a:true, e:"労働基準法106条です。"},
+    {p:"dh", q:"使用者は、就業規則を変更すれば、どんな場合でも労働条件を不利益に変えられる。", a:false, e:"原則は不可です。変更後の就業規則の周知と、変更の合理性が必要です（労働契約法9条・10条）。"},
+    {p:"dh", q:"就業規則の基準に達しない労働条件を定めた労働契約は、その部分が無効になり、就業規則の基準による。", a:true, e:"労働契約法12条です。"},
+    {p:"dh", q:"判例は、懲戒をするには就業規則に懲戒の種類と事由を定め、労働者に周知しておく必要があるとしている。", a:true, e:"フジ興産事件（最高裁平成15年10月10日判決）です。"},
+    {p:"dh", q:"就業規則に懲戒の規定を新しく設ければ、規定を設ける前の行為にさかのぼって処分できる。", a:false, e:"規定がなかった時点の行為を、後から作った規定で処分することはできません。"},
+    {p:"dh", q:"常時使用する労働者が300人を超える事業者には、内部通報の体制を整備する義務がある。", a:true, e:"公益通報者保護法の義務です。300人以下は努力義務です。"},
+    {p:"dh", q:"コンプライアンス研修は、法令の条文を読み上げるのが最も効果的である。", a:false, e:"自社の業務に即した具体例で、何をしてはいけないかを伝える方が効果的です。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {fl:" 法令の調べ方", kt:" 法改正・新規事業", rs:" 社内規程", dh:" 就業規則・体制"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
