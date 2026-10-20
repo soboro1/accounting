@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="企業法務・会社法向け。リーガルチェックの3つの観点（法令違反・自社に不利な文言・紛争の種）と、会社法で確認する論点（誰が決めるか＝機関決定、取締役会決議を欠く取引の効力、利益相反取引・競業取引、代表権と表見代表取締役、契約書の基本条項）を、図・判例・ケース問題・○×チェックでまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>会社法のリーガルチェック</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(3つの観点)は青、PART2(機関決定)はティール、PART3(利益相反・競業)はコーラル、PART4(代表権・名義)はオレンジで色分け。各トピックは「要点→図→判例・原則と例外→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：機関決定 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：利益相反・競業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：流れ・契約書 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ・クイズ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：代表権・名義 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-fl{border-color:var(--c4);color:var(--c4t)}
+.top a.n-kt{border-color:var(--c2);color:var(--c2t)}
+.top a.n-rs{border-color:var(--c3);color:var(--c3t)}
+.top a.n-dh{border-color:var(--c8);color:var(--c8t)}
+.top a.n-cs{border-color:var(--c1);color:var(--c1t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.mk{fill:var(--muted)}
+.b-kt{fill:color-mix(in srgb,var(--c2) 18%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-rs{fill:color-mix(in srgb,var(--c3) 16%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-fl{fill:color-mix(in srgb,var(--c4) 14%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-dh{fill:color-mix(in srgb,var(--c8) 18%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-pl{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.f-kt{fill:var(--c2t)} .f-rs{fill:var(--c3t)} .f-fl{fill:var(--c4t)} .f-dh{fill:var(--c8t)} .f-sun{fill:var(--c1t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-fl .part-head{background:var(--c4)}
+.part-kt .part-head{background:var(--c2)}
+.part-rs .part-head{background:var(--c3)}
+.part-dh .part-head{background:var(--c8)}
+.part-cs .part-head{background:var(--c1);color:#1B1600}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-fl .tag{background:var(--c4)}
+.part-kt .tag{background:var(--c2)}
+.part-rs .tag{background:var(--c3)}
+.part-dh .tag{background:var(--c8)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-fl .pts li::before{background:var(--c4)}
+.part-kt .pts li::before{background:var(--c2)}
+.part-rs .pts li::before{background:var(--c3)}
+.part-dh .pts li::before{background:var(--c8)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+.law{font-family:var(--f-data);font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.part-fl .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-kt .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-rs .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-dh .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-fl .def-l{color:var(--c4t)} .part-kt .def-l{color:var(--c2t)} .part-rs .def-l{color:var(--c3t)} .part-dh .def-l{color:var(--c8t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 判例 */
+.case{border-radius:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);display:grid;gap:4px}
+.case-l{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.case p{line-height:1.8}
+.cases{display:grid;gap:10px}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 150px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.node{flex-basis:auto}.arr{transform:rotate(90deg);align-self:center}}
+.node.fl{border-color:var(--c4)} .node.fl .nn{color:var(--c4t)}
+.node.kt{border-color:var(--c2)} .node.kt .nn{color:var(--c2t)}
+.node.rs{border-color:var(--c3)} .node.rs .nn{color:var(--c3t)}
+.node.dh{border-color:var(--c8)} .node.dh .nn{color:var(--c8t)}
+
+/* 3つの観点 */
+.views{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:10px;margin-bottom:14px;padding-bottom:14px;border-bottom:2px dashed var(--line)}
+.view{border-radius:14px;padding:14px 16px;display:grid;gap:4px;align-content:start;text-decoration:none;background:color-mix(in srgb,var(--c4) 12%,var(--surface));border:2px solid var(--c4)}
+.view .nn{font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--c4t)}
+.view b{font-size:17px}
+.view small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.vtag{display:inline-block;font-size:12.5px;font-weight:700;padding:2px 10px;border-radius:999px;border:2px solid var(--c4);color:var(--c4t);background:var(--surface)}
+
+/* 条文の修正例 */
+.clauses{display:grid;gap:12px}
+.clause{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
+.cl-b,.cl-a{padding:12px 14px;display:grid;gap:4px;align-content:start;line-height:1.75}
+.cl-b{background:color-mix(in srgb,var(--ng) 8%,var(--surface))}
+.cl-a{background:color-mix(in srgb,var(--ok) 9%,var(--surface))}
+.cl-l{font-size:12.5px;font-weight:700;letter-spacing:.06em}
+.cl-b .cl-l{color:var(--ng)} .cl-a .cl-l{color:var(--ok)}
+.cl-t{font-family:var(--f-data);font-size:14.5px}
+.cl-n{font-size:13.5px;color:var(--muted)}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap.fl{background:var(--c4)} .chap.kt{background:var(--c2)} .chap.rs{background:var(--c3)} .chap.dh{background:var(--c8)} .chap.qz{background:var(--c7)}
+
+/* チェックリスト */
+.checks{list-style:none;display:grid;gap:8px;counter-reset:ck}
+.checks li{counter-increment:ck;display:grid;grid-template-columns:30px minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;line-height:1.7}
+.checks li::before{content:"✓";display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:color-mix(in srgb,var(--c4) 18%,var(--surface));color:var(--c4t);font-weight:700}
+.checks li small{display:block;color:var(--muted);font-size:14px}
+.checks-2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:8px}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:10px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.b{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c3t)} .lane.b .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.lane .pts li::before{background:var(--muted)}
+
+/* チップ */
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;flex-direction:column;padding:8px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:15px;max-width:100%}
+.chip small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.part-kt .chip{border-color:color-mix(in srgb,var(--c2) 60%,var(--line))}
+.part-fl .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line))}
+.grp{display:grid;gap:8px}
+.grp-l{font-size:14px;font-weight:700;color:var(--muted)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box h4{font-size:16.5px}
+
+/* ケース問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn + .scn{margin-top:18px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn h3{font-size:clamp(18px,3vw,22px);line-height:1.45}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:grid;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:8px 12px;font-family:var(--f-data);font-size:14.5px;line-height:1.7;border:1px solid var(--line)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step small{display:block;color:var(--muted);font-size:14px}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-fl-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-kt-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-rs-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-dh-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.fl{background:var(--c4)} .qno.kt{background:var(--c2)} .qno.rs{background:var(--c3)} .qno.dh{background:var(--c8)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.fl{border-color:var(--c4)} .prio-card.kt{border-color:var(--c2)} .prio-card.rs{border-color:var(--c3)} .prio-card.dh{border-color:var(--c8)}
+.prio-card h3{font-size:18px}
+.prio-card.fl h3{color:var(--c4t)} .prio-card.kt h3{color:var(--c2t)} .prio-card.rs h3{color:var(--c3t)} .prio-card.dh h3{color:var(--c8t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.fl li::before{background:var(--c4)} .prio-card.kt li::before{background:var(--c2)} .prio-card.rs li::before{background:var(--c3)} .prio-card.dh li::before{background:var(--c8)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-fl" href="#fl">PART1 3つの観点</a>
+    <a class="n-kt" href="#kt">PART2 誰が決めるか</a>
+    <a class="n-rs" href="#rs">PART3 利益相反・競業</a>
+    <a class="n-dh" href="#dh">PART4 代表権と名義</a>
+    <a class="n-cs" href="#cs">ケース問題</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">企業法務 ／ 会社法</p>
+  <h1><span class="h-a">会社法</span>で見る<br><span class="h-b">リーガルチェック</span></h1>
+  <p class="lead">リーガルチェックでは、契約書を<mark>「法令に違反していないか」「自社に不利な文言はないか」「紛争の種はないか」</mark>の3つの観点で確認します。このうち会社法が関わるのは主に1つ目で、<b>「どの機関が決めるべき取引か」「取締役と会社の利害がぶつかっていないか」「署名する人に権限があるか」</b>を確かめます。このページでは、3つの観点を整理したあと会社法の論点を詳しく見て、ケース問題と○×問題で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap fl" href="#fl"><span>PART1</span><b>3つの観点</b><small>法令違反・不利な文言・紛争の種と、チェックの流れ</small></a>
+    <a class="chap kt" href="#kt"><span>PART2</span><b>誰が決めるか</b><small>取締役会・株主総会の決議事項、決議を欠く取引の効力</small></a>
+    <a class="chap rs" href="#rs"><span>PART3</span><b>利益相反・競業</b><small>直接取引と間接取引、承認と報告、責任</small></a>
+    <a class="chap dh" href="#dh"><span>PART4</span><b>代表権と名義</b><small>代表権の制限、表見代表取締役、支配人・部長</small></a>
+    <a class="chap qz" href="#quiz"><span>CHECK</span><b>○×チェック</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="views">
+      <a class="view v1" href="#u-hourei"><span class="nn">観点 1</span><b>法令に違反していないか</b><small>強行規定・公序良俗に反する条項は無効。会社法の手続きもここで確認</small></a>
+      <a class="view v2" href="#u-furi"><span class="nn">観点 2</span><b>自社に不利な文言はないか</b><small>損害賠償・解除・支払条件などが一方的になっていないか</small></a>
+      <a class="view v3" href="#u-funso"><span class="nn">観点 3</span><b>紛争の種はないか（予防）</b><small>あいまいな表現、抜けている取決め、実態とのずれ</small></a>
+    </div>
+    <div class="flow">
+      <a class="node kt" href="#u-ladder"><span class="nn">会社法 1</span><b>誰が決めるか</b><small>代表取締役で足りるか、取締役会・株主総会が必要か</small></a>
+      <span class="arr" aria-hidden="true">＋</span>
+      <a class="node rs" href="#u-rieki"><span class="nn">会社法 2</span><b>利害がぶつかるか</b><small>取締役が取引の相手方や得をする立場にいないか</small></a>
+      <span class="arr" aria-hidden="true">＋</span>
+      <a class="node dh" href="#u-daihyo"><span class="nn">会社法 3</span><b>権限はあるか</b><small>署名する人に代表権・代理権があるか</small></a>
+    </div>
+    <figcaption>上の3つがリーガルチェックの観点、下の3つは観点1のうち会社法で確認することです（PART2〜4）。会社法の手続きを欠くと契約の効力そのものが争いになるので、観点3の「紛争の予防」にもつながります。カードを押すと該当する解説に移動します。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 3つの観点 ============ -->
+<section id="fl" class="part part-fl">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>リーガルチェックの3つの観点</h2>
+    <p>リーガルチェック（契約審査）とは、契約を結ぶ前に、法務の目で契約書と取引の内容を確認する仕事です。確認する観点は「法令に違反していないか」「自社に不利な文言はないか」「紛争の種はないか」の3つです。事業部門から依頼を受けて法務部門が行うのが一般的です。</p>
+  </div>
+
+  <div class="unit" id="u-flow">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★</span><h3>依頼から締結・保管までの流れ</h3></div>
+    <div class="prose">
+      <p>契約書だけを渡されて条文を読み始めると、取引の実態とずれた指摘をしてしまいます。<b>まず「何のための取引か」を聞き、その後で3つの観点から条文を読む</b>のが基本の順番です。</p>
+    </div>
+    <div class="flow">
+      <div class="node fl"><span class="nn">STEP 1</span><b>依頼の受付</b><small>取引の目的、背景、金額、スケジュール、自社の立場（売主か買主か など）を聞き取る</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node fl"><span class="nn">STEP 2</span><b>相手方の確認</b><small>登記事項証明書で商号・本店・代表者を確認し、反社会的勢力でないかを調べる</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node fl"><span class="nn">STEP 3</span><b>3つの観点で審査</b><small>法令違反・不利な文言・紛争の種を洗い出し、修正案とコメントを返す</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node kt"><span class="nn">STEP 4</span><b>社内の機関決定</b><small>取締役会や株主総会の決議が必要かを確認し、手続きを取る</small></div>
+      <span class="arr" aria-hidden="true">→</span>
+      <div class="node dh"><span class="nn">STEP 5</span><b>締結と保管</b><small>署名者の権限を確認して締結し、更新期限などを管理する</small></div>
+    </div>
+    <ul class="pts">
+      <li>修正案を出すときは、自社の希望だけでなく<b>相手方が受け入れられるか</b>も考える<span class="sub">「必ず直してもらう点」と「できれば直したい点」に分けて事業部門に伝えると、交渉が進めやすくなります。</span></li>
+      <li>締結して終わりではない<span class="sub">自動更新の期限、解除の通知期限、報告義務の期日などを管理しないと、不要な契約が自動で続いてしまいます。</span></li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>契約書の文言をすべて確認すれば、リーガルチェックは完了する<span class="why">会社法上、取締役会の決議が必要な取引なのに決議を取っていなければ、契約の効力が問題になります。社内手続きの確認もリーガルチェックの一部です。</span></span></li>
+        <li><span class="mark x">×</span><span>印紙を貼り忘れた契約書は無効になる<span class="why">印紙税は税金の問題で、契約の効力には影響しません。貼らなかった場合は過怠税が課されます。電子契約には印紙は不要です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-hourei">
+    <div class="unit-head"><span class="tag">1-2</span><span class="vtag">観点 1</span><span class="freq">頻出度 ★★★</span><h3>法令に違反していないか</h3></div>
+    <div class="prose">
+      <p>契約の内容は当事者が自由に決められるのが原則です（契約自由の原則）。ただし、<b>強行規定に反する条項や、公序良俗に反する条項は無効</b>になります。せっかく交渉して決めた条項が無効になったり、行政処分や罰則を受けたりしないように確認します。</p>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span><b>契約自由：法律と違う取決めもできる</b><small>民法の多くの規定は「任意規定」で、当事者が契約で別のルールを決めればそちらが優先します。契約不適合責任の期間や範囲も、契約で変えられます。</small></span></div>
+      <div class="r-row exc"><span class="r-b">例外</span><span><b>強行規定・公序良俗に反する部分は無効</b><small>当事者の合意でも変えられない規定（強行規定）に反する部分や、公の秩序・善良の風俗に反する契約（民法90条）は無効です。</small></span></div>
+    </div>
+    <div class="grp">
+      <p class="grp-l">よく確認する法令</p>
+      <div class="chips">
+        <span class="chip">会社法<small>機関決定・利益相反・代表権（PART2〜4）</small></span>
+        <span class="chip">取適法（旧下請法）<small>取引条件の明示、支払期日、手形払いの禁止（2026年1月施行）</small></span>
+        <span class="chip">フリーランス法<small>個人への業務委託の取引条件の明示など（2024年11月施行）</small></span>
+        <span class="chip">独占禁止法<small>優越的地位の濫用、再販売価格の拘束</small></span>
+        <span class="chip">消費者契約法<small>消費者との契約で、事業者の責任を全部免除する条項は無効</small></span>
+        <span class="chip">労働者派遣法<small>請負の形で実際は指揮命令する「偽装請負」</small></span>
+        <span class="chip">個人情報保護法<small>個人データの委託・第三者提供</small></span>
+        <span class="chip">業法の許認可<small>建設業・宅建業など、許可がないとできない取引</small></span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>当事者が合意して署名した条項は、どんな内容でも有効になる<span class="why">強行規定や公序良俗に反する部分は、合意があっても無効です。</span></span></li>
+        <li><span class="mark x">×</span><span>民法の規定はすべて強行規定なので、契約で変えることはできない<span class="why">民法の契約に関する規定の多くは任意規定です。だからこそ、契約書でどう変えたかを確認する必要があります。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-furi">
+    <div class="unit-head"><span class="tag">1-3</span><span class="vtag">観点 2</span><span class="freq">頻出度 ★★★</span><h3>自社に不利な文言はないか</h3></div>
+    <div class="prose">
+      <p>契約書のひな形は、作った側に有利に書かれているのが普通です。相手方が用意したドラフトでは、<b>責任・負担が自社にだけ偏っていないか</b>を一文ずつ確認します。また、同じ条項でも<b>自社が売主か買主か、委託者か受託者かで有利・不利が逆</b>になるので、最初に自社の立場を確認しておきます。</p>
+    </div>
+    <div class="clauses">
+      <div class="clause">
+        <div class="cl-b"><span class="cl-l">不利な文言（自社＝受託者の乙）</span><span class="cl-t">乙は、本契約に関して甲に生じた一切の損害を賠償する。</span></div>
+        <div class="cl-a"><span class="cl-l">修正案</span><span class="cl-t">乙は、乙の責めに帰すべき事由により甲に生じた直接かつ通常の損害を、受領済みの委託料の額を上限として賠償する。</span><span class="cl-n">原因（帰責事由）・範囲・上限の3点で責任を絞ります。</span></div>
+      </div>
+      <div class="clause">
+        <div class="cl-b"><span class="cl-l">不利な文言</span><span class="cl-t">甲は、いつでも本契約を解除することができる。</span></div>
+        <div class="cl-a"><span class="cl-l">修正案</span><span class="cl-t">甲および乙は、相手方に3か月前までに書面で通知することにより、本契約を解約することができる。</span><span class="cl-n">解除権を双方に持たせ、予告期間を置きます。</span></div>
+      </div>
+      <div class="clause">
+        <div class="cl-b"><span class="cl-l">不利な文言</span><span class="cl-t">本業務の成果物に関する一切の権利は、甲に帰属する。</span></div>
+        <div class="cl-a"><span class="cl-l">修正案</span><span class="cl-t">成果物の著作権は、委託料の支払完了時に甲に移転する。ただし、乙が従前から保有していた著作物や汎用的なノウハウの権利は乙に留保する。</span><span class="cl-n">自社の既存の資産まで渡してしまわないようにします。</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>ほかに偏りやすい条項<span class="sub">支払期日が長すぎる、契約不適合責任の期間が民法より長い、競業禁止の範囲が広すぎる、自動更新の通知期限が早すぎる、自社だけに秘密保持義務がある、など。</span></li>
+    </ul>
+    <div class="defs">
+      <div class="def"><span class="def-l">契約不適合責任 <span class="law">民法562条〜</span></span><p class="def-t">2020年4月施行の民法改正で、旧来の「瑕疵担保責任」が整理されたものです。買主は、追完（修補・代替物の引渡し）、代金減額、損害賠償、解除を求められます。</p><p class="def-n">種類・品質の不適合は、買主が知った時から1年以内に売主へ通知しないと、原則として責任を追及できなくなります（売主が知っていたか重過失で知らなかった場合を除く）。任意規定なので、契約で期間を延ばしたり縮めたりしていないかを確認します。</p></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-funso">
+    <div class="unit-head"><span class="tag">1-4</span><span class="vtag">観点 3</span><span class="freq">頻出度 ★★★</span><h3>紛争の種はないか（予防）</h3></div>
+    <div class="prose">
+      <p>契約書が本当に読まれるのは、<b>トラブルになったとき</b>です。そのときに読むのは、交渉した担当者ではなく、後任者や裁判所かもしれません。<b>誰が読んでも同じ意味に取れるか、想定外のことが起きたときの取決めがあるか</b>を確認し、争いになる前に芽を摘みます。</p>
+    </div>
+    <div class="clauses">
+      <div class="clause">
+        <div class="cl-b"><span class="cl-l">あいまいな表現</span><span class="cl-t">甲は、納品後速やかに検収を行う。代金の支払方法は別途協議する。</span></div>
+        <div class="cl-a"><span class="cl-l">修正案</span><span class="cl-t">甲は、納品日から10営業日以内に検収を行い、結果を書面で通知する。期間内に通知がないときは検収に合格したものとみなす。代金は検収合格日の属する月の末日締め、翌月末日に銀行振込で支払う。</span><span class="cl-n">「速やかに」「別途協議」は、日数・方法で特定します。</span></div>
+      </div>
+      <div class="clause">
+        <div class="cl-b"><span class="cl-l">範囲があいまい</span><span class="cl-t">乙は、甲のシステム保守業務一式を行う。</span></div>
+        <div class="cl-a"><span class="cl-l">修正案</span><span class="cl-t">乙が行う業務は、別紙仕様書に定める業務に限る。仕様書にない業務は、別途見積りのうえ書面で合意したときに行う。</span><span class="cl-n">「一式」は、どこまでが契約の範囲かで必ずもめます。</span></div>
+      </div>
+    </div>
+    <p class="grp-l">抜けていると紛争の種になる取決め</p>
+    <div class="checks-2">
+      <ol class="checks">
+        <li><span><b>当事者・目的の特定</b><small>当事者が正しく特定されているか。何をする契約かがはっきりしているか</small></span></li>
+        <li><span><b>期間と更新</b><small>いつからいつまでか、自動更新か、更新しないときの通知期限</small></span></li>
+        <li><span><b>解除事由</b><small>どんなときに解除できるか（支払遅延、倒産、反社会的勢力と判明したとき など）</small></span></li>
+        <li><span><b>不可抗力</b><small>災害や感染症などで履行できないときに責任を負うか</small></span></li>
+      </ol>
+      <ol class="checks">
+        <li><span><b>契約終了時の処理</b><small>貸与物・秘密情報・データの返還や削除</small></span></li>
+        <li><span><b>秘密保持</b><small>秘密情報の範囲、目的外使用の禁止、終了後も続く期間</small></span></li>
+        <li><span><b>反社会的勢力の排除</b><small>相手方が反社会的勢力と判明したら催告なしで解除できるか</small></span></li>
+        <li><span><b>準拠法・合意管轄</b><small>紛争になったとき、どの国の法律で、どこの裁判所で争うか</small></span></li>
+      </ol>
+    </div>
+    <ul class="pts">
+      <li>契約書と実態がずれていないか<span class="sub">口頭やメールで合意した内容が契約書に入っていない、契約書と違う運用をしている、という状態は紛争の種です。合意した内容は契約書か覚書に残します。</span></li>
+      <li>会社法の手続きも紛争の予防になる<span class="sub">取締役会決議の欠如や署名者の権限不足があると、後から「契約は無効だ」と争われるおそれがあります（PART2〜4）。</span></li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>当事者の担当者どうしが理解できていれば、契約書の表現はあいまいでもよい<span class="why">担当者が異動したり、紛争になって裁判所が読んだりしたときに、同じ意味に取れることが大切です。</span></span></li>
+        <li><span class="mark o">○</span><span>「別途協議する」は、決めるべきことを先送りしているだけで、紛争の原因になりやすい<span class="why">協議がまとまらなかったときにどうするかが決まっていないためです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 機関決定 ============ -->
+<section id="kt" class="part part-kt">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>誰が決めるか：機関決定のチェック</h2>
+    <p>ここからは観点1「法令に違反していないか」のうち、会社法で確認することです。会社法は、会社への影響が大きい取引ほど、より多くの人が関わる機関で決めるように定めています。リーガルチェックでは「この取引は代表取締役だけで決めてよいか」を必ず確認します。</p>
+  </div>
+
+  <div class="unit" id="u-ladder">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>決める機関は「会社への影響の大きさ」で上がっていく</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 760 380" role="img" aria-label="決定機関の階段。左から、代表取締役は日常の業務執行、取締役会は重要な財産の処分や多額の借財など、株主総会の普通決議は取締役の選任や報酬、株主総会の特別決議は定款変更や事業の重要な一部の譲渡や合併。右に行くほど会社への影響が大きい">
+        <text x="40" y="34" class="t-b">右に行くほど、会社への影響が大きい取引</text>
+        <text x="40" y="56" class="t-xs">取締役会設置会社の場合。上の機関の決議事項は、下の機関に任せられません。</text>
+        <rect x="40" y="260" width="160" height="100" rx="12" class="b-fl"/>
+        <text x="120" y="288" class="t-b c f-fl">代表取締役</text>
+        <text x="120" y="314" class="t-s c">日常の業務執行</text>
+        <text x="120" y="336" class="t-s c">通常の売買・発注</text>
+
+        <rect x="220" y="170" width="160" height="190" rx="12" class="b-kt"/>
+        <text x="300" y="198" class="t-b c f-kt">取締役会</text>
+        <text x="300" y="226" class="t-s c">重要な財産の処分</text>
+        <text x="300" y="250" class="t-s c">多額の借財</text>
+        <text x="300" y="274" class="t-s c">支配人の選任</text>
+        <text x="300" y="298" class="t-s c">支店の設置</text>
+        <text x="300" y="322" class="t-s c">利益相反・競業の承認</text>
+        <text x="300" y="346" class="t-xs c">362条4項など</text>
+
+        <rect x="400" y="120" width="160" height="240" rx="12" class="b-sun"/>
+        <text x="480" y="148" class="t-b c f-sun">株主総会</text>
+        <text x="480" y="170" class="t-s c f-sun">普通決議</text>
+        <text x="480" y="202" class="t-s c">取締役の選任・解任</text>
+        <text x="480" y="226" class="t-s c">取締役の報酬</text>
+        <text x="480" y="250" class="t-s c">計算書類の承認</text>
+        <text x="480" y="274" class="t-s c">剰余金の配当</text>
+
+        <rect x="580" y="76" width="160" height="284" rx="12" class="b-rs"/>
+        <text x="660" y="104" class="t-b c f-rs">株主総会</text>
+        <text x="660" y="126" class="t-s c f-rs">特別決議</text>
+        <text x="660" y="158" class="t-s c">定款の変更</text>
+        <text x="660" y="182" class="t-s c">事業の重要な一部の</text>
+        <text x="660" y="202" class="t-s c">譲渡</text>
+        <text x="660" y="226" class="t-s c">合併・会社分割</text>
+        <text x="660" y="250" class="t-s c">募集株式の有利発行</text>
+        <text x="660" y="274" class="t-s c">監査役の解任</text>
+      </svg>
+      <figcaption>普通決議は「議決権の過半数を持つ株主が出席し、出席した議決権の過半数で可決」。特別決議は「議決権の過半数を持つ株主が出席し、出席した議決権の3分の2以上で可決」です（定足数は定款で3分の1まで下げられます）。</figcaption>
+    </figure>
+    <div class="defs">
+      <div class="def"><span class="def-l">取締役会の専決事項 <span class="law">362条4項</span></span><p class="def-t">取締役会設置会社では、<b>重要な業務執行の決定は取締役会が行い、代表取締役などの取締役に任せることはできません。</b></p><p class="def-n">重要な財産の処分・譲受け、多額の借財、支配人などの重要な使用人の選任・解任、支店などの設置・変更・廃止、社債の募集、内部統制システムの整備などが条文に挙がっています。</p></div>
+      <div class="def"><span class="def-l">事業譲渡 <span class="law">467条・309条2項</span></span><p class="def-t">事業の全部、または重要な一部を譲渡するときは、原則として<b>株主総会の特別決議</b>が必要です。反対した株主は株式の買取りを請求できます。</p><p class="def-n">譲渡する資産の帳簿価額が会社の総資産額の5分の1（定款で引下げ可）以下なら「重要な一部」に当たらず、総会決議は不要です。</p></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>多額の借財は、取締役会で「代表取締役に一任する」と決めればよい<span class="why">362条4項の事項は取締役会が自分で決めなければならず、取締役に委任できません。社内規程で金額の基準を決めておき、基準を超えるものを取締役会に上げる運用が一般的です。</span></span></li>
+        <li><span class="mark x">×</span><span>定款変更は株主総会の普通決議で足りる<span class="why">定款変更は特別決議です。</span></span></li>
+        <li><span class="mark o">○</span><span>公開会社が募集株式を発行するときは、有利発行でなければ取締役会決議で決められる<span class="why">特に有利な価格での発行（有利発行）だけは、株主総会の特別決議が必要です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-juyo">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>「重要な財産」「多額の借財」はどう判断するか</h3></div>
+    <div class="prose">
+      <p>条文には金額の基準がありません。そのため、ある取引が取締役会の決議事項に当たるかは、<b>いくつかの要素を合わせて判断</b>します。リーガルチェックでは、社内規程（取締役会規程・職務権限規程）の金額基準と照らし合わせて確認するのが実務です。</p>
+    </div>
+    <div class="case">
+      <span class="case-l">判例　最高裁平成6年1月20日判決</span>
+      <p>「重要な財産」に当たるかは、<b>その財産の価額、会社の総資産に占める割合、保有の目的、処分の行為の態様、会社での従来の取扱い</b>などを総合的に考えて判断する、としました。帳簿価額だけで一律に決まるわけではありません。</p>
+    </div>
+    <ul class="pts">
+      <li>帳簿価額が小さくても重要な財産に当たることがある<span class="sub">判例の事案は、帳簿価額は小さいものの時価が高く、総資産に対しても大きな割合を占める株式の譲渡でした。</span></li>
+      <li>「多額の借財」には、借入れだけでなく保証も含まれると考えられている<span class="sub">子会社や取引先の債務を保証する契約も、金額によっては取締役会の決議が必要になります。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-kouryoku">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>取締役会の決議を欠いた取引は有効か</h3></div>
+    <div class="prose">
+      <p>代表取締役が、取締役会の決議が必要な取引を決議なしで行ってしまった場合、その取引の効力が問題になります。判例は、<b>取引の安全（相手方の保護）と会社の保護のバランス</b>をとっています。</p>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span><b>取引は有効</b><small>取締役会決議は会社内部の意思決定の手続きにすぎず、代表取締役には対外的な代表権があるためです。</small></span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span><b>相手方が決議のないことを知っていた、または知ることができたときは無効</b><small>最高裁昭和40年9月22日判決。心裡留保（民法93条）の考え方を当てはめたものです。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span><b>無効を主張できるのは会社だけ</b><small>取締役会決議を求める趣旨は会社の利益を守ることにあるためです（最高裁平成21年4月17日判決）。</small></span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span><b>会社の取締役会が無効を主張する意思を示しているなど特段の事情があれば、相手方なども主張できる</b><small>相手方が自分の都合で取引をなかったことにする、といった使い方はできません。</small></span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>取締役会決議を欠いた重要な財産の処分は、常に無効である<span class="why">原則は有効です。相手方が決議がないことを知っていたか、知ることができた場合に限って無効になります。</span></span></li>
+        <li><span class="mark o">○</span><span>相手方の立場でリーガルチェックをするときは、取締役会議事録の写しや決議があった旨の確認書をもらうことがある<span class="why">「知ることができた」と言われないように、決議の有無を確認しておく実務です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-other">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★</span><h3>その他に確認する会社法の手続き</h3></div>
+    <div class="two">
+      <div class="box"><h4>役員の報酬・補償契約・D&amp;O保険</h4><ul class="pts">
+        <li>取締役の報酬は、定款に定めがなければ株主総会の決議で決める<span class="law">361条</span></li>
+        <li>会社が役員と補償契約を結ぶとき、会社役員賠償責任保険（D&amp;O保険）の内容を決めるときは、取締役会設置会社では取締役会の決議が必要<span class="law">430条の2・430条の3</span><span class="sub">2021年3月施行の改正で設けられたルールです。</span></li>
+      </ul></div>
+      <div class="box"><h4>定款の目的と決議の取消し</h4><ul class="pts">
+        <li>会社は定款の目的の範囲内で権利を持つが、判例は目的の範囲を広く解している<span class="sub">目的の遂行に直接・間接に必要な行為はすべて含まれます（八幡製鉄政治献金事件、最高裁昭和45年6月24日大法廷判決）。</span></li>
+        <li>株主総会の招集手続きなどに違法があると、決議取消しの訴えの対象になる。提起できるのは決議の日から3か月以内<span class="law">831条</span></li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 利益相反・競業 ============ -->
+<section id="rs" class="part part-rs">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>利益相反取引と競業取引</h2>
+    <p>取締役は会社のために働く立場です。取締役自身が取引の相手方になったり、取締役が得をする取引をしたりすると、会社の利益が損なわれるおそれがあります。会社法はこうした取引に事前の承認を求めています。</p>
+  </div>
+
+  <div class="unit" id="u-rieki">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>利益相反取引には「直接取引」と「間接取引」がある</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 760 330" role="img" aria-label="左は直接取引。会社と取締役Aが直接に売買などをする。右は間接取引。会社が銀行に対して取締役Aの借入れを保証する。会社と銀行の取引だが、得をするのは取締役A">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker>
+        </defs>
+        <rect x="16" y="12" width="356" height="306" rx="16" class="b-pl"/>
+        <rect x="388" y="12" width="356" height="306" rx="16" class="b-pl"/>
+        <text x="194" y="44" class="t-b c f-rs">① 直接取引 <tspan class="t-xs">356条1項2号</tspan></text>
+        <text x="566" y="44" class="t-b c f-rs">② 間接取引 <tspan class="t-xs">356条1項3号</tspan></text>
+
+        <rect x="36" y="120" width="130" height="64" rx="12" class="b-kt"/>
+        <text x="101" y="158" class="t-b c">会社</text>
+        <rect x="222" y="120" width="130" height="64" rx="12" class="b-rs"/>
+        <text x="287" y="158" class="t-b c">取締役A</text>
+        <line x1="170" y1="152" x2="218" y2="152" class="ln" marker-start="url(#ah)" marker-end="url(#ah)"/>
+        <text x="194" y="108" class="t-s c">売買・貸付など</text>
+        <text x="194" y="236" class="t-s c">会社と取締役が直接取引する</text>
+        <text x="194" y="262" class="t-xs c">例：会社の土地を取締役に売る</text>
+        <text x="194" y="284" class="t-xs c">例：取締役が会社からお金を借りる</text>
+
+        <rect x="408" y="70" width="130" height="60" rx="12" class="b-kt"/>
+        <text x="473" y="106" class="t-b c">会社</text>
+        <rect x="596" y="70" width="130" height="60" rx="12" class="b-pl"/>
+        <text x="661" y="106" class="t-b c">銀行</text>
+        <rect x="596" y="180" width="130" height="60" rx="12" class="b-rs"/>
+        <text x="661" y="216" class="t-b c">取締役A</text>
+        <line x1="542" y1="100" x2="592" y2="100" class="ln" marker-end="url(#ah)"/>
+        <text x="567" y="90" class="t-xs c">保証</text>
+        <line x1="661" y1="134" x2="661" y2="176" class="ln" marker-end="url(#ah)"/>
+        <text x="672" y="160" class="t-xs">融資</text>
+        <text x="566" y="272" class="t-s c">取引の相手は第三者だが、取締役が得をする</text>
+        <text x="566" y="296" class="t-xs c">例：取締役個人の借金を会社が保証する</text>
+      </svg>
+      <figcaption>間接取引は、会社と銀行という第三者の取引です。取締役は当事者ではありませんが、保証によって得をするのは取締役なので、利益相反取引として扱われます。</figcaption>
+    </figure>
+    <div class="defs">
+      <div class="def"><span class="def-l">必要な手続き <span class="law">356条・365条</span></span><p class="def-t">取締役会設置会社では<b>取締役会の承認</b>、取締役会がない会社では<b>株主総会の承認</b>を、取引の前に受けます。重要な事実を開示したうえで承認を受ける必要があります。</p><p class="def-n">取締役会設置会社では、取引をした取締役は取引後遅滞なく、重要な事実を取締役会に報告します。承認決議では、その取締役は特別利害関係人として議決に加われません（369条2項）。</p></div>
+      <div class="def"><span class="def-l">承認がない取引の効力</span><p class="def-t">承認を受けない利益相反取引は<b>無効</b>です。ただし、会社は<b>承認がないことを知らなかった第三者</b>に対しては無効を主張できません（相対的無効）。</p><p class="def-n">間接取引では、会社が無効を主張するには、相手方（銀行など）が承認のないことを知っていたことを会社が証明する必要があるとされています。</p></div>
+    </div>
+  </div>
+
+  <div class="unit" id="u-sekinin">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>承認を受けても責任は残る</h3></div>
+    <div class="prose">
+      <p>承認は「取引をしてよい」という許可にすぎません。<b>承認を受けて行った取引でも、会社に損害が出れば取締役の責任が問題になります。</b></p>
+    </div>
+    <ul class="pts">
+      <li>利益相反取引で会社に損害が生じたときは、次の取締役に任務懈怠があったものと推定される<span class="law">423条3項</span><span class="sub">取引をした取締役、取引を決めた取締役、承認決議に賛成した取締役です。</span></li>
+      <li>自己のために会社と直接取引をした取締役は、過失がなくても責任を免れない<span class="law">428条</span><span class="sub">無過失責任です。責任の一部免除の規定も適用されません。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-kyogyo">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>競業取引と利益相反取引の違い</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">利益相反取引<small>356条1項2号・3号</small></p>
+        <ul class="pts">
+          <li>取締役と会社の利害がぶつかる取引</li>
+          <li>取締役会設置会社では取締役会の承認</li>
+          <li>承認がなければ<b>取引は無効</b>（善意の第三者には主張できない）</li>
+          <li>損害が出れば任務懈怠を推定</li>
+        </ul>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">競業取引<small>356条1項1号</small></p>
+        <ul class="pts">
+          <li>取締役が自分や第三者のために、会社の事業と同じ種類の取引をすること</li>
+          <li>取締役会設置会社では取締役会の承認</li>
+          <li>承認がなくても<b>取引そのものは有効</b>（会社は当事者ではないため）</li>
+          <li>取締役や第三者が得た利益の額が、会社の損害額と推定される（423条2項）</li>
+        </ul>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>承認を受けずに行った競業取引は無効になる<span class="why">競業取引は取締役と第三者の取引です。会社は当事者ではないので、取引自体は有効で、損害賠償の問題になります。</span></span></li>
+        <li><span class="mark x">×</span><span>取締役会設置会社の利益相反取引は、株主総会で承認を受ける<span class="why">取締役会の承認です。株主総会の承認は、取締役会がない会社の場合です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART4 代表権と名義 ============ -->
+<section id="dh" class="part part-dh">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>代表権と契約の名義</h2>
+    <p>どれだけ内容の良い契約書でも、署名した人に会社を代表・代理する権限がなければ、会社に効果が及ばないおそれがあります。締結の直前に「誰の名前で、誰が署名するか」を確認します。</p>
+  </div>
+
+  <div class="unit" id="u-daihyo">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★★</span><h3>代表取締役の権限と、その制限</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">包括的な代表権 <span class="law">349条4項</span></span><p class="def-t">代表取締役は、会社の業務に関する<b>一切の裁判上・裁判外の行為</b>をする権限を持ちます。</p></div>
+      <div class="def"><span class="def-l">代表権の制限 <span class="law">349条5項</span></span><p class="def-t">社内規程で「1億円を超える契約は副社長と連名で」などと代表権を制限しても、<b>その制限を知らない第三者には対抗できません。</b></p></div>
+    </div>
+    <ul class="pts">
+      <li>契約書の署名欄は「会社名＋代表者の肩書と氏名」がそろっているか<span class="sub">「株式会社〇〇　代表取締役　〇〇〇〇」の形です。会社名だけ、個人名だけでは、誰が当事者かが争いになります。</span></li>
+      <li>代表者が誰かは、登記事項証明書で確認できる<span class="sub">代表取締役の氏名・住所は登記事項です。押印する場合は、印鑑証明書と照らし合わせることもあります。</span></li>
+    </ul>
+  </div>
+
+  <div class="unit" id="u-hyoken">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★★</span><h3>表見代表取締役：肩書を信じた相手方を守る</h3></div>
+    <div class="prose">
+      <p>代表権がない取締役に、会社が<b>「社長」「副社長」など会社を代表する権限があるように見える名称</b>を付けた場合、会社はその取締役がした行為について、<b>善意の第三者</b>に責任を負います<span class="law">354条</span>。</p>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">要件</span><span><b>① 代表権があるような外観</b><small>社長・副社長など、代表権があると思わせる名称が使われていること</small></span></div>
+      <div class="r-row gen"><span class="r-b">要件</span><span><b>② 会社がその名称を与えた（帰責性）</b><small>勝手に名乗っていることを会社が知りながら放置していた場合も含まれます</small></span></div>
+      <div class="r-row gen"><span class="r-b">要件</span><span><b>③ 相手方が代表権がないことを知らなかった</b><small>判例は、知らないことに重大な過失がある相手方は保護しないとしています</small></span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>表見代表取締役の規定は、相手方に重大な過失があっても適用される<span class="why">判例は、重大な過失がある相手方は悪意と同じように扱い、保護しません。</span></span></li>
+        <li><span class="mark x">×</span><span>代表権の有無は登記を見ればわかるので、登記を見なかった相手方は保護されない<span class="why">表見代表取締役の規定は、登記の効力とは別に相手方を守る規定です。登記を見なかったことだけで保護が否定されるわけではありません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="unit" id="u-shiyonin">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">頻出度 ★★</span><h3>支配人・部長などの使用人が契約するとき</h3></div>
+    <div class="prose">
+      <p>実務では、代表取締役ではなく本部長や部長の名前で契約することも多くあります。その場合は、<b>その人がどの範囲の権限を与えられているか</b>を確認します。</p>
+    </div>
+    <div class="two">
+      <div class="box"><h4>支配人 <span class="law">11条・12条</span></h4><ul class="pts">
+        <li>会社に代わって、その事業に関する<b>一切の裁判上・裁判外の行為</b>をする権限を持つ</li>
+        <li>代理権に加えた制限は、善意の第三者に対抗できない</li>
+        <li>選任には取締役会の決議が必要で（362条4項3号）、登記事項でもある</li>
+        <li>支配人でなくても、本店や支店の事業の主任者であることを示す名称（支店長など）を付けた使用人は、裁判外の行為について支配人と同じ権限があるものとみなされる（表見支配人、13条）</li>
+      </ul></div>
+      <div class="box"><h4>部長・課長など <span class="law">14条</span></h4><ul class="pts">
+        <li>事業に関する<b>ある種類または特定の事項の委任</b>を受けた使用人</li>
+        <li>その事項に関する一切の<b>裁判外の行為</b>をする権限を持つ</li>
+        <li>代理権に加えた制限は、善意の第三者に対抗できない</li>
+        <li>委任された事項の範囲外の契約は、会社に効果が及ばないおそれがある。職務権限規程や委任状で範囲を確認する</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ケース問題 ============ -->
+<section id="cs" class="part part-cs">
+  <div class="part-head">
+    <span class="part-no">CASE</span>
+    <h2>ケース問題で確認</h2>
+    <p>リーガルチェックの担当者になったつもりで、どの論点に当たるかを考えてから解答を開いてください。</p>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 1　3つの観点</span>
+    <h3>業務委託契約書のドラフトを審査する</h3>
+    <p class="scn-story">自社（乙）は、大手メーカーの甲社からシステム開発の業務委託を受けることになり、甲社が用意した契約書のドラフトが届きました。次の4つの条項について考えてください。</p>
+    <ul class="given">
+      <li>A：乙は、本業務に関連して甲に生じた一切の損害を賠償する。</li>
+      <li>B：委託料の支払時期は、甲乙別途協議して定める。</li>
+      <li>C：甲の担当者は、乙の従業員に対し、作業の進め方や勤務時間について直接指示することができる。</li>
+      <li>D：甲は、いつでも本契約を解除することができる。</li>
+    </ul>
+    <ol class="scn-q">
+      <li>A〜Dは、それぞれ3つの観点のどれに当たる問題ですか。</li>
+      <li>AとBについて、どのような修正案を出しますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">A</span><span><b>観点2（自社に不利な文言）</b>です。乙に落ち度がなくても、どこまでも広い損害を、上限なく賠償することになりかねません。</span></div>
+        <div class="ans-step"><span class="lb">B</span><span><b>観点3（紛争の種）</b>です。支払時期が決まっておらず、協議がまとまらないと委託料をいつ受け取れるかで争いになります。<small>甲社と乙の規模によっては取適法（旧下請法）の対象になり、支払期日を明示しないこと自体が<b>観点1（法令違反）</b>にも当たります。</small></span></div>
+        <div class="ans-step"><span class="lb">C</span><span><b>観点1（法令違反）</b>です。請負・業務委託の形なのに、発注者が受託者の従業員に直接指揮命令すると、偽装請負として労働者派遣法上の問題になります。指示は乙の責任者を通じて行う形に改めます。</span></div>
+        <div class="ans-step"><span class="lb">D</span><span><b>観点2（自社に不利な文言）</b>です。甲だけが予告なしに解除できるので、乙は準備した人員や費用が無駄になるおそれがあります。双方に解約権を認め、予告期間と、解約時の出来高の支払を定めます。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>A：</b>「乙は、乙の責めに帰すべき事由により甲に生じた直接かつ通常の損害を、受領済みの委託料の額を上限として賠償する。」<br><b>B：</b>「甲は、検収合格日の属する月の末日締めで、翌月末日までに委託料を乙の指定する口座に振り込んで支払う。」<small>Aは原因・範囲・上限の3点で絞り、Bは日付と方法で特定します。</small></span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 2　機関決定</span>
+    <h3>取締役会にかけずに本社ビルを売った</h3>
+    <p class="scn-story">甲社（取締役会設置会社、総資産50億円）の代表取締役Aは、取締役会に諮らずに、帳簿価額20億円の本社ビルを乙社に売却する契約を結びました。乙社の担当者は交渉の中で、甲社の取締役会でこの売却がまだ決議されていないと聞いていました。</p>
+    <ol class="scn-q">
+      <li>この売却には取締役会の決議が必要ですか。</li>
+      <li>売買契約の効力はどうなりますか。</li>
+      <li>後になって不動産価格が下がった場合、乙社の側から「取締役会決議がないので無効だ」と主張できますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>必要です。</b>総資産の4割にあたる本社ビルの売却は「重要な財産の処分」（362条4項1号）に当たると考えられます。代表取締役に任せることはできません。<small>重要かどうかは、価額・総資産に占める割合・保有目的・処分の態様・従来の取扱いを総合して判断します。</small></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>無効になると考えられます。</b>取締役会決議を欠く取引は原則有効ですが、相手方が決議のないことを知っていた、または知ることができたときは無効です。乙社は決議がないことを聞いていたので、無効になります。</span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>原則として主張できません。</b>決議を欠くことによる無効は、会社を守るためのものなので、原則として甲社だけが主張できます。甲社の取締役会が無効を主張する意思を示しているなど特段の事情がない限り、乙社は主張できません。</span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 3　利益相反取引</span>
+    <h3>取締役の借金を会社が保証する</h3>
+    <p class="scn-story">丙社（取締役会設置会社）の取締役Bは、個人で住宅ローンを組むにあたり、銀行から「会社の保証があれば金利を下げる」と言われました。Bは経理部に、丙社名義の保証契約書を用意するよう依頼しました。</p>
+    <ol class="scn-q">
+      <li>この保証契約は、会社法上どの取引に当たりますか。</li>
+      <li>契約前に、丙社でどのような手続きが必要ですか。</li>
+      <li>Bがローンを返せなくなり、丙社が銀行に支払った場合、取締役の責任はどうなりますか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>利益相反取引のうちの間接取引</b>（356条1項3号）です。保証契約の当事者は丙社と銀行ですが、得をするのは取締役Bです。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>取締役会で重要な事実を開示し、承認を受けます。</b>Bは特別利害関係人なので承認決議に加われません。取引の後は、遅滞なく重要な事実を取締役会に報告します。金額によっては「多額の借財」にも当たるので、その点からも取締役会決議が必要です。</span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>取締役の任務懈怠が推定されます。</b>Bのほか、保証を決めた取締役や承認決議に賛成した取締役も、任務を怠ったものと推定され、会社に対する損害賠償責任（423条）が問題になります。<small>承認を受けていても責任が消えるわけではない点がポイントです。</small></span></div>
+      </div>
+    </details>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">CASE 4　代表権と名義</span>
+    <h3>「副社長」の名刺を持つ相手と契約した</h3>
+    <p class="scn-story">丁社は、取引先の戊社から「副社長　C」の名刺を受け取り、Cが署名した大型の発注契約を結びました。後でわかったことですが、Cは代表権のない取締役で、戊社の登記上の代表取締役は社長のDだけでした。戊社はCに副社長の名称を付けていました。</p>
+    <ol class="scn-q">
+      <li>丁社は戊社に契約の履行を求められますか。</li>
+      <li>丁社が保護されないのはどんな場合ですか。</li>
+      <li>同じトラブルを防ぐには、締結前に何を確認すればよいですか。</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>求められる可能性が高いです。</b>戊社は代表権のないCに「副社長」という代表権がありそうな名称を付けているので、表見代表取締役（354条）として、Cの行為について善意の第三者である丁社に責任を負います。</span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>丁社が<b>Cに代表権がないことを知っていた場合、または知らないことに重大な過失があった場合</b>です。たとえば、戊社から「契約は社長名義でないと結べない」と事前に聞いていたような場合です。</span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>登記事項証明書で代表者を確認し、署名者が代表者でなければ委任状や権限の根拠を求めます。</b>大型の契約なら、代表取締役名義での締結を求めるのが確実です。</span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">0</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-fl-btn" data-qf="fl" aria-pressed="false">3つの観点</button>
+    <button type="button" class="btn f-kt-btn" data-qf="kt" aria-pressed="false">機関決定</button>
+    <button type="button" class="btn f-rs-btn" data-qf="rs" aria-pressed="false">利益相反・競業</button>
+    <button type="button" class="btn f-dh-btn" data-qf="dh" aria-pressed="false">代表権・名義</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">0</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card fl">
+      <h3>3つの観点</h3>
+      <ol>
+        <li>法令違反：強行規定・公序良俗に反する部分は無効</li>
+        <li>不利な文言：原因・範囲・上限で責任を絞る</li>
+        <li>紛争の種：「速やかに」「別途協議」「一式」を特定する</li>
+        <li>条文の前に取引の目的と自社の立場を確認</li>
+        <li>印紙がなくても契約は有効</li>
+      </ol>
+    </div>
+    <div class="prio-card kt">
+      <h3>誰が決めるか</h3>
+      <ol>
+        <li>362条4項の事項は取締役に委任できない</li>
+        <li>「重要な財産」は総合判断（平成6年判例）</li>
+        <li>決議を欠く取引は原則有効、相手方が知り得たら無効</li>
+        <li>無効を主張できるのは原則会社だけ</li>
+        <li>事業の重要な一部の譲渡は特別決議、5分の1基準</li>
+      </ol>
+    </div>
+    <div class="prio-card rs">
+      <h3>利益相反・競業</h3>
+      <ol>
+        <li>直接取引と間接取引（保証）の区別</li>
+        <li>取締役会設置会社は取締役会の承認と事後報告</li>
+        <li>承認がない利益相反取引は相対的無効</li>
+        <li>任務懈怠の推定と、直接取引の無過失責任</li>
+        <li>競業取引は承認がなくても有効</li>
+      </ol>
+    </div>
+    <div class="prio-card dh">
+      <h3>代表権と名義</h3>
+      <ol>
+        <li>代表権の制限は善意の第三者に対抗できない</li>
+        <li>表見代表取締役は善意・無重過失の相手方を保護</li>
+        <li>支配人は事業に関する一切の行為</li>
+        <li>部長などは委任された事項の裁判外の行為だけ</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>会社法のリーガルチェックの論点は、ほとんどが<b>「会社を守るか、取引の相手方を守るか」</b>のバランスで説明できます。取締役会決議を欠く取引が原則有効なのも、代表権の制限が善意の第三者に対抗できないのも、表見代表取締役も、すべて「事情を知らない相手方」を守るためのルールです。反対に、相手方が事情を知っていたり、知ることができたりしたときは、会社の側が守られます。</p>
+</section>
+
+<footer>
+  <p>参照：会社法（11条〜14条、309条、349条、354条、356条、361条、362条、365条、369条、423条、428条、430条の2・430条の3、467条、831条）、民法（93条、562条〜566条）、最高裁昭和40年9月22日判決、最高裁昭和45年6月24日大法廷判決、最高裁平成6年1月20日判決、最高裁平成21年4月17日判決。</p>
+  <p>2026年10月時点の法令に基づいています。会社法は2026年に法制審議会で改正の中間試案が公表されていますが、改正法はまだ成立していません。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"fl", q:"リーガルチェックでは、契約書の条文を読む前に、取引の目的や背景、取引の仕組みを確認する。", a:true, e:"取引の実態がわからないまま条文を読むと、実態とずれた指摘をしてしまいます。"},
+    {p:"fl", q:"相手方会社の商号・本店・代表者は、登記事項証明書で確認できる。", a:true, e:"いずれも登記事項です。締結前の相手方確認で使います。"},
+    {p:"fl", q:"契約書の条文をすべて確認すれば、社内でどの機関の決議が必要かは確認しなくてよい。", a:false, e:"取締役会決議が必要な取引で決議を欠くと、契約の効力が問題になります。社内手続きの確認もリーガルチェックの一部です。"},
+    {p:"fl", q:"相手方が反社会的勢力かどうかの確認は、契約締結後に問題が起きてから行えば足りる。", a:false, e:"締結前に確認し、契約書には反社会的勢力の排除条項を入れておきます。"},
+    {p:"fl", q:"2020年4月施行の民法改正で、売買の「瑕疵担保責任」は「契約不適合責任」に整理された。", a:true, e:"買主は追完、代金減額、損害賠償、解除を求められます。"},
+    {p:"fl", q:"種類・品質の契約不適合は、買主が不適合を知った時から1年以内に売主に通知しないと、原則として責任を追及できなくなる。", a:true, e:"売主が引渡しの時に不適合を知っていたか、重過失で知らなかった場合は、この期間制限はかかりません。"},
+    {p:"fl", q:"収入印紙を貼っていない契約書は無効である。", a:false, e:"印紙税は税金の問題で、契約の効力には影響しません。過怠税が課されます。"},
+    {p:"fl", q:"リーガルチェックの観点は、法令に違反していないか、自社に不利な文言はないか、紛争の種はないかの3つである。", a:true, e:"この3つを意識して、条文を一文ずつ確認します。"},
+    {p:"fl", q:"当事者が合意して署名した条項であれば、内容にかかわらず有効になる。", a:false, e:"強行規定や公序良俗（民法90条）に反する部分は、合意があっても無効です。"},
+    {p:"fl", q:"民法の規定はすべて強行規定なので、契約で異なる定めをすることはできない。", a:false, e:"契約に関する民法の規定の多くは任意規定で、契約で変えられます。だからこそ、どう変えたかを確認します。"},
+    {p:"fl", q:"消費者との契約で、事業者の債務不履行による損害賠償責任を全部免除する条項は無効である。", a:true, e:"消費者契約法8条です。"},
+    {p:"fl", q:"請負契約の形をとっていても、発注者が受託者の労働者に直接指揮命令していると、偽装請負として問題になる。", a:true, e:"実態が労働者派遣なのに派遣法の手続きを取っていないことになります。"},
+    {p:"fl", q:"相手方が用意した契約書のひな形は中立に作られているので、自社に不利な条項を探す必要はない。", a:false, e:"ひな形は作った側に有利に書かれているのが普通です。"},
+    {p:"fl", q:"同じ損害賠償条項でも、自社が売主か買主かによって有利・不利が逆になることがある。", a:true, e:"最初に自社の立場を確認してから条文を読みます。"},
+    {p:"fl", q:"損害賠償の条項では、原因（帰責事由）・損害の範囲・上限額を定めることで責任を絞ることができる。", a:true, e:"「一切の損害を賠償する」のような条項は、この3点で修正を検討します。"},
+    {p:"fl", q:"「速やかに」「別途協議する」といった表現は、具体的な日数や方法を決めないため紛争の原因になりやすい。", a:true, e:"検収期間や支払条件は、日数・方法で特定します。"},
+    {p:"fl", q:"業務の範囲は「〇〇業務一式」と書いておけば、範囲をめぐる争いは起きない。", a:false, e:"「一式」はどこまでが範囲かで争いになりやすいので、仕様書などで特定します。"},
+    {p:"fl", q:"契約書は、交渉した担当者どうしが理解できていれば十分で、第三者が読んでわかる必要はない。", a:false, e:"紛争になれば後任者や裁判所が読みます。誰が読んでも同じ意味に取れることが大切です。"},
+    {p:"fl", q:"口頭やメールで合意した内容が契約書に反映されていないことは、紛争の種になる。", a:true, e:"合意した内容は契約書や覚書に残します。"},
+    {p:"fl", q:"契約の審査では、自社に不利な条項だけでなく、本来あるべきなのに抜けている条項も確認する。", a:true, e:"抜けている条項は読んでも気づきにくいので、チェックリストを使うのが効果的です。"},
+    {p:"fl", q:"自動更新条項がある契約では、更新しないときの通知期限を管理する必要がある。", a:true, e:"期限を過ぎると、不要な契約が自動で続いてしまいます。"},
+
+    {p:"kt", q:"取締役会設置会社では、重要な財産の処分や多額の借財は取締役会で決議しなければならない。", a:true, e:"362条4項に挙がっている事項です。"},
+    {p:"kt", q:"362条4項の事項は、取締役会の決議によって代表取締役に一任することができる。", a:false, e:"取締役会が自分で決めなければならず、取締役に委任できません。"},
+    {p:"kt", q:"「重要な財産」に当たるかどうかは、帳簿価額が一定額を超えるかどうかだけで判断する。", a:false, e:"判例は、価額、総資産に占める割合、保有目的、処分の態様、従来の取扱いなどを総合して判断するとしています。"},
+    {p:"kt", q:"支配人の選任や支店の設置も、取締役会の決議事項である。", a:true, e:"362条4項3号・4号です。"},
+    {p:"kt", q:"代表取締役が取締役会決議を経ずに重要な財産を処分した場合、その取引は常に無効である。", a:false, e:"原則は有効です。相手方が決議のないことを知っていたか、知ることができたときに限って無効になります。"},
+    {p:"kt", q:"取締役会決議を欠く取引が無効になる場合でも、その無効は原則として会社だけが主張できる。", a:true, e:"決議を求める趣旨は会社を守ることにあるためです（最高裁平成21年4月17日判決）。"},
+    {p:"kt", q:"事業の重要な一部を譲渡するには、原則として株主総会の特別決議が必要である。", a:true, e:"467条1項2号、309条2項11号です。反対株主には株式買取請求権があります。"},
+    {p:"kt", q:"譲渡する資産の帳簿価額が総資産額の5分の1以下であれば、事業の重要な一部の譲渡に当たらず、株主総会の決議は不要である。", a:true, e:"5分の1の基準は定款で引き下げることもできます。"},
+    {p:"kt", q:"特別決議は、議決権の過半数を有する株主が出席し、出席した株主の議決権の3分の2以上の賛成で成立する。", a:true, e:"定足数は定款で3分の1まで下げられます。"},
+    {p:"kt", q:"定款の変更は、株主総会の普通決議で行うことができる。", a:false, e:"定款変更は特別決議です。"},
+    {p:"kt", q:"公開会社が募集株式を発行する場合、有利発行でなければ原則として取締役会の決議で決められる。", a:true, e:"特に有利な払込金額での発行（有利発行）は株主総会の特別決議が必要です。"},
+    {p:"kt", q:"取締役の報酬は、定款に定めがなければ株主総会の決議で定める。", a:true, e:"361条です。取締役が自分の報酬を自分で決める「お手盛り」を防ぐためです。"},
+    {p:"kt", q:"取締役会設置会社が役員と補償契約を結ぶときは、取締役会の決議が必要である。", a:true, e:"2021年3月施行の改正で設けられた430条の2です。D&O保険の内容の決定も同じです。"},
+    {p:"kt", q:"判例は、会社の権利能力の範囲を定款に書かれた目的そのものに厳しく限定している。", a:false, e:"目的の遂行に直接・間接に必要な行為はすべて目的の範囲内に含まれるとし、広く解しています。"},
+    {p:"kt", q:"株主総会決議取消しの訴えは、決議の日から3か月以内に提起しなければならない。", a:true, e:"831条1項です。"},
+
+    {p:"rs", q:"取締役が自己のために会社と直接取引をすることは、利益相反取引に当たる。", a:true, e:"直接取引（356条1項2号）です。"},
+    {p:"rs", q:"会社が取締役個人の借入れについて銀行に保証をすることは、利益相反取引に当たる。", a:true, e:"会社と銀行の取引ですが、得をするのは取締役なので、間接取引（356条1項3号）に当たります。"},
+    {p:"rs", q:"取締役会設置会社では、利益相反取引の承認は株主総会で受ける。", a:false, e:"取締役会の承認です。株主総会の承認は、取締役会がない会社の場合です。"},
+    {p:"rs", q:"取締役会設置会社で利益相反取引をした取締役は、取引後遅滞なく、重要な事実を取締役会に報告しなければならない。", a:true, e:"365条2項です。"},
+    {p:"rs", q:"利益相反取引の承認決議では、その取引をする取締役は特別利害関係人として議決に加わることができない。", a:true, e:"369条2項です。"},
+    {p:"rs", q:"承認を受けない利益相反取引は無効だが、会社は、承認がないことを知らない第三者に対しては無効を主張できない。", a:true, e:"相対的無効と呼ばれる考え方です。"},
+    {p:"rs", q:"取締役会の承認を受けた利益相反取引であれば、会社に損害が出ても取締役が責任を負うことはない。", a:false, e:"承認を受けていても、損害が出れば関係した取締役の任務懈怠が推定されます（423条3項）。"},
+    {p:"rs", q:"自己のために会社と直接取引をした取締役は、過失がなくても会社に対する責任を免れない。", a:true, e:"428条の無過失責任です。"},
+    {p:"rs", q:"取締役が自分や第三者のために会社の事業と同じ種類の取引をするときは、取締役会設置会社では取締役会の承認が必要である。", a:true, e:"競業取引（356条1項1号、365条1項）です。"},
+    {p:"rs", q:"承認を受けずに行った競業取引は無効である。", a:false, e:"競業取引は取締役と第三者の取引なので、取引自体は有効です。損害賠償の問題になります。"},
+    {p:"rs", q:"承認を受けずに競業取引をした場合、取締役や第三者が得た利益の額が、会社の損害額と推定される。", a:true, e:"423条2項です。会社が損害額を証明しにくいことに配慮した規定です。"},
+
+    {p:"dh", q:"代表取締役は、会社の業務に関する一切の裁判上・裁判外の行為をする権限を持つ。", a:true, e:"349条4項の包括的な代表権です。"},
+    {p:"dh", q:"代表取締役の権限に社内規程で制限を加えていれば、その制限を知らない相手方にも対抗できる。", a:false, e:"代表権に加えた制限は、善意の第三者に対抗できません（349条5項）。"},
+    {p:"dh", q:"代表権のない取締役に「副社長」の名称を付けた場合、会社はその取締役の行為について善意の第三者に責任を負うことがある。", a:true, e:"表見代表取締役（354条）です。"},
+    {p:"dh", q:"表見代表取締役の規定では、代表権がないことを知らないことに重大な過失がある相手方も保護される。", a:false, e:"判例は、重大な過失がある相手方は保護しないとしています。"},
+    {p:"dh", q:"取締役が勝手に「社長」と名乗っていることを会社が知りながら放置していた場合も、表見代表取締役の規定が適用されることがある。", a:true, e:"会社が名称の使用を黙認していた場合も、名称を与えたのと同じように扱われます。"},
+    {p:"dh", q:"支配人は、会社に代わってその事業に関する一切の裁判上・裁判外の行為をする権限を持つ。", a:true, e:"11条1項です。"},
+    {p:"dh", q:"支配人の代理権に加えた制限は、善意の第三者に対抗できない。", a:true, e:"11条3項です。代表取締役の代表権の制限と同じ考え方です。"},
+    {p:"dh", q:"部長や課長など、ある種類または特定の事項の委任を受けた使用人は、その事項に関する一切の裁判上・裁判外の行為をする権限を持つ。", a:false, e:"14条で認められるのは、その事項に関する一切の「裁判外」の行為です。裁判上の行為は含まれません。"},
+    {p:"dh", q:"支店長など、事業の主任者であることを示す名称を付けた使用人は、支配人でなくても裁判外の行為について支配人と同じ権限があるものとみなされる。", a:true, e:"表見支配人（13条）です。相手方が悪意の場合は適用されません。"},
+    {p:"dh", q:"会社の代表取締役の氏名は登記事項ではないので、登記事項証明書では確認できない。", a:false, e:"代表取締役の氏名・住所は登記事項です。締結前の確認に使えます。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {fl:" 3つの観点", kt:" 機関決定", rs:" 利益相反・競業", dh:" 代表権・名義"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
