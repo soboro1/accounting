@@ -1,0 +1,1164 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。固定資産の出やすい論点（減損会計、資産除去債務、減価償却と見積りの変更、取得原価、圧縮記帳）を、図・仕訳・ひっかけ例・計算問題・○×チェック57問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>固定資産の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(減損会計)はコーラル、PART2(資産除去債務)はティール、PART3(減価償却・取得原価・圧縮記帳)は青で色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調 */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：資産除去債務 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：減損会計 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：減価償却・その他 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：損失・ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-gn{border-color:var(--c3);color:var(--c3t)}
+.top a.n-ar{border-color:var(--c2);color:var(--c2t)}
+.top a.n-th{border-color:var(--c4);color:var(--c4t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(32px,6.4vw,58px);line-height:1.2;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c3t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.on{fill:var(--on-solid)}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.ln.red{stroke:var(--c7);stroke-width:2.5}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-gn{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-ar{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-th{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-pk{fill:color-mix(in srgb,var(--c7) 22%,var(--surface));stroke:var(--c7);stroke-width:2}
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-sun{fill:color-mix(in srgb,var(--c1) 26%,var(--surface));stroke:var(--c1);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-big{fill:none;stroke:var(--c3);stroke-width:2.5;stroke-dasharray:8 6}
+.s-ar{fill:var(--c2)} .s-th{fill:var(--c4)} .s-pk{fill:var(--c7)} .s-or{fill:var(--c8)}
+.f-gn{fill:var(--c3t)} .f-ar{fill:var(--c2t)} .f-th{fill:var(--c4t)} .f-pk{fill:var(--c7t)} .f-or{fill:var(--c8t)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-gn .part-head{background:var(--c3)}
+.part-ar .part-head{background:var(--c2)}
+.part-th .part-head{background:var(--c4)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-gn .tag{background:var(--c3)}
+.part-ar .tag{background:var(--c2)}
+.part-th .tag{background:var(--c4)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-gn .pts li::before{background:var(--c3)}
+.part-ar .pts li::before{background:var(--c2)}
+.part-th .pts li::before{background:var(--c4)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-gn .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-ar .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.part-th .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-gn .def-l{color:var(--c3t)} .part-ar .def-l{color:var(--c2t)} .part-th .def-l{color:var(--c4t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.gn{border-color:var(--c3)} .formula .fx.ar{border-color:var(--c2)} .formula .fx.th{border-color:var(--c4)} .formula .fx.pk{border-color:var(--c7)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.gn{background:var(--c3)} .formula .res.ar{background:var(--c2)} .formula .res.th{background:var(--c4)} .formula .res.pk{background:var(--c7)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.je-none{font-family:var(--f-body);font-weight:700;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* フロー */
+.flow{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch}
+.node{flex:1 1 170px;min-width:0;background:var(--surface);border:2px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:4px;align-content:start;text-decoration:none}
+.node b{font-size:16px}
+.node small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.node .nn{font-size:12px;font-weight:700;letter-spacing:.1em}
+.node .yes{font-size:13px;font-weight:700;color:var(--c3t)}
+.node .no{font-size:13px;font-weight:700;color:var(--muted)}
+.arr{align-self:center;font-weight:700;color:var(--muted);font-size:20px;flex:none}
+@media (max-width:640px){.flow{flex-direction:column}.arr{transform:rotate(90deg);align-self:center}}
+.node.th{border-color:var(--c4)} .node.th .nn{color:var(--c4t)}
+.node.gn{border-color:var(--c3)} .node.gn .nn{color:var(--c3t)}
+.node.ar{border-color:var(--c2)} .node.ar .nn{color:var(--c2t)}
+.node.solid{background:var(--c3);border-color:var(--c3);color:var(--on-solid)}
+.node.solid small,.node.solid .nn{color:var(--on-solid);opacity:.9}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c3)}
+.chap:nth-child(2){background:var(--c2)}
+.chap:nth-child(3){background:var(--c4)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 損益計算書の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pl-v .none{color:var(--muted);font-size:14px}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.gn{background:var(--c3)}
+.pill.ar{background:var(--c2)}
+.pill.th{background:var(--c4)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 12%,var(--surface));border:2px solid var(--c8)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:8px 10px;line-height:1.6}
+.steps li::before{content:counter(st);display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+.lane-m{font-weight:700;padding:8px 12px;border-radius:10px;background:var(--surface);text-align:center}
+
+/* 取得原価カード */
+.acq{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:12px}
+.acq-c{border-radius:16px;padding:14px 16px;background:var(--surface);border-top:6px solid var(--c4);display:grid;gap:6px;align-content:start;box-shadow:0 1px 0 var(--line)}
+.acq-c:nth-child(3n+2){border-color:var(--c2)} .acq-c:nth-child(3n){border-color:var(--c8)}
+.acq-c span{font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:.06em}
+.acq-c b{font-size:16.5px;line-height:1.5}
+.acq-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* BS図 */
+.bs{display:grid;grid-template-columns:1fr 1fr;border:2px solid var(--ink);border-radius:12px;overflow:hidden;max-width:560px;background:var(--surface)}
+.bs > div{padding:12px;display:grid;gap:6px;align-content:start}
+.bs .as{background:color-mix(in srgb,var(--c4) 12%,var(--surface));border-right:2px solid var(--ink)}
+.bs .li{background:color-mix(in srgb,var(--c2) 14%,var(--surface))}
+.bs b{font-size:16px}
+.bs .in{border-radius:8px;padding:6px 8px;background:var(--surface);font-size:14px;line-height:1.55;display:flex;justify-content:space-between;gap:8px}
+.bs .in.hl2{outline:2px solid var(--c2)}
+.bs .in span:last-child{font-family:var(--f-data);font-weight:700}
+.bs-wrap{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px;align-items:start}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-gn-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-ar-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-th-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.gn{background:var(--c3)} .qno.ar{background:var(--c2)} .qno.th{background:var(--c4)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.gn{border-color:var(--c3)} .prio-card.ar{border-color:var(--c2)} .prio-card.th{border-color:var(--c4)}
+.prio-card h3{font-size:18px}
+.prio-card.gn h3{color:var(--c3t)} .prio-card.ar h3{color:var(--c2t)} .prio-card.th h3{color:var(--c4t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.gn li::before{background:var(--c3)} .prio-card.ar li::before{background:var(--c2)} .prio-card.th li::before{background:var(--c4)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-gn" href="#gn">PART1 減損会計</a>
+    <a class="n-ar" href="#ar">PART2 資産除去債務</a>
+    <a class="n-th" href="#th">PART3 減価償却・取得原価</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-a">固定資産</span>の<br><span class="h-b">出る論点</span>まとめ</h1>
+  <p class="lead">固定資産は、計算でも理論でも出題の中心になる分野です。とくに大事なのは<mark>「減損会計の3ステップ」「資産除去債務の両建処理」「見積りの変更の扱い」</mark>の3つです。このページでは、図と仕訳を使って論点を順に整理し、最後に○×問題57問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#gn"><span>PART1</span><b>減損会計</b><small>兆候・認識・測定、回収可能価額、共用資産とのれん</small></a>
+    <a class="chap" href="#ar"><span>PART2</span><b>資産除去債務</b><small>両建処理、利息費用、見積りの変更、表示</small></a>
+    <a class="chap" href="#th"><span>PART3</span><b>減価償却・取得原価</b><small>200%定率法、耐用年数の変更、交換・贈与、圧縮記帳</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック57問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+
+  <figure class="fig" style="overflow:visible">
+    <div class="flow">
+      <a class="node th" href="#u-acq"><span class="nn">STEP 1 取得</span><b>いくらで受け入れる？</b><small>購入・交換・贈与・現物出資・自家建設。圧縮記帳もここ</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node th" href="#u-dep"><span class="nn">STEP 2 使用</span><b>どう費用にしていく？</b><small>定額法・200%定率法。耐用年数を変えたら将来に向けて</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node gn" href="#u-3step"><span class="nn">STEP 3 減損</span><b>回収できなくなったら？</b><small>兆候 → 認識 → 測定の3ステップで帳簿価額を下げる</small></a>
+      <span class="arr" aria-hidden="true">→</span>
+      <a class="node ar" href="#u-aro"><span class="nn">STEP 4 除去</span><b>取り壊す費用はいつ計上？</b><small>取得したときに資産除去債務として両建てする</small></a>
+    </div>
+    <figcaption>固定資産の論点は「取得 → 使用 → 減損 → 除去」の一生に沿って並べると覚えやすくなります。カードを押すと該当する解説に移動します。</figcaption>
+  </figure>
+</header>
+
+<!-- ============ PART1 減損会計 ============ -->
+<section id="gn" class="part part-gn">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>減損会計</h2>
+    <p>固定資産の収益性が下がり、投資した額を回収できる見込みがなくなったときに、帳簿価額を回収できる額まで下げる処理です。固定資産の論点の中で、計算と理論の両方で最もよく出ます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-3step">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>兆候 → 認識 → 測定の3ステップ</h3></div>
+    <div class="def"><span class="def-l">減損処理とは</span><p class="def-t">資産の収益性が低下して投資額の回収が見込めなくなった場合に、<b>回収可能性を反映させるように帳簿価額を減額する</b>会計処理。</p><p class="def-n">時価に評価替えするものではありません。取得原価基準の下で行う、帳簿価額の臨時的な減額です。</p></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="flow">
+        <div class="node gn"><span class="nn">STEP 1 兆候</span><b>減損が起きていそうか</b><small>営業損益やCFが継続してマイナス／使い方の大きな変更／経営環境の著しい悪化／市場価格の著しい下落</small><span class="no">なし → ここで終わり</span></div>
+        <span class="arr" aria-hidden="true">→</span>
+        <div class="node gn"><span class="nn">STEP 2 認識</span><b>割引前CF ＜ 帳簿価額 ？</b><small>見積期間は、経済的残存使用年数と20年の短い方</small><span class="no">下回らない → 減損なし</span></div>
+        <span class="arr" aria-hidden="true">→</span>
+        <div class="node solid"><span class="nn">STEP 3 測定</span><b>帳簿価額 − 回収可能価額</b><small>回収可能価額は、正味売却価額と使用価値の高い方</small></div>
+      </div>
+      <figcaption>認識の判定では割り引かない将来キャッシュ・フロー、測定（使用価値）では割り引いた将来キャッシュ・フローを使います。ここが最大のひっかけです。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>認識の判定に<span class="hl">割引前</span>の将来キャッシュ・フローを使うのは、<b>減損の存在が相当程度に確実な場合に限って</b>減損損失を認識するためです。<span class="sub">割り引かない金額は大きくなるので、帳簿価額を下回るのは「かなり確実に回収できない」ときだけになります。</span></li>
+      <li>経済的残存使用年数が20年を超える場合は、20年目までの割引前CFに、20年経過時点の回収可能価額を加えて判定します。</li>
+      <li>兆候の「継続してマイナス」は、おおむね過去2期がマイナスで、当期も明らかにマイナスになる見込みの場合をいいます。</li>
+    </ul>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-recov">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>回収可能価額は「高い方」</h3></div>
+    <div class="prose">
+      <p>帳簿価額10,000の機械について、割引前CF 8,000、使用価値6,500、正味売却価額6,000とします。4本の棒を並べると、何と何を比べるのかがひと目でわかります。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 400" role="img" aria-label="減損損失の測定。帳簿価額10,000、割引前CF8,000、使用価値6,500、正味売却価額6,000。高い方の6,500が回収可能価額で、帳簿価額との差3,500が減損損失">
+        <text x="250" y="34" class="t-b c f-gn">① 認識：割引前CFと比べる</text>
+        <text x="610" y="34" class="t-b c f-gn">② 測定：高い方が回収可能価額</text>
+        <line x1="430" y1="20" x2="430" y2="330" class="ln dash"/>
+        <!-- 帳簿価額 -->
+        <rect x="80" y="70" width="120" height="87" class="b-pk"/>
+        <rect x="80" y="157" width="120" height="163" class="b-gn"/>
+        <text x="140" y="110" class="t-b c f-pk">減損損失</text>
+        <text x="140" y="132" class="t-num c">3,500</text>
+        <text x="140" y="240" class="t-s c">減損後の</text>
+        <text x="140" y="260" class="t-s c">帳簿価額</text>
+        <text x="140" y="282" class="t-num c">6,500</text>
+        <text x="140" y="62" class="t-num c">10,000</text>
+        <!-- 割引前CF -->
+        <rect x="270" y="120" width="120" height="200" class="b-grey"/>
+        <text x="330" y="112" class="t-num c">8,000</text>
+        <text x="330" y="220" class="t-s c">10,000より</text>
+        <text x="330" y="240" class="t-s c">小さい</text>
+        <text x="330" y="262" class="t-b c f-gn">→ 減損あり</text>
+        <!-- 使用価値 -->
+        <rect x="480" y="157" width="110" height="163" class="b-th"/>
+        <text x="535" y="149" class="t-num c">6,500</text>
+        <text x="535" y="250" class="t-b c f-th">高い方</text>
+        <!-- 正味売却価額 -->
+        <rect x="640" y="170" width="110" height="150" class="b-or"/>
+        <text x="695" y="194" class="t-num c">6,000</text>
+        <!-- 回収可能価額ライン -->
+        <line x1="80" y1="157" x2="780" y2="157" class="ln red" stroke-dasharray="7 5"/>
+        <text x="780" y="148" class="t-b e f-pk">回収可能価額 6,500</text>
+        <!-- 軸 -->
+        <line x1="60" y1="320" x2="790" y2="320" class="axis"/>
+        <text x="140" y="346" class="t-b c">帳簿価額</text>
+        <text x="330" y="346" class="t-b c">割引前CF</text>
+        <text x="535" y="346" class="t-b c">使用価値</text>
+        <text x="535" y="366" class="t-xs c">（割引後）</text>
+        <text x="695" y="346" class="t-b c">正味売却価額</text>
+        <text x="695" y="366" class="t-xs c">（時価−処分費用）</text>
+      </svg>
+      <figcaption>割引前CF 8,000が帳簿価額10,000を下回るので減損を認識します。使用価値6,500と正味売却価額6,000の高い方の6,500まで下げ、差額3,500が減損損失です。</figcaption>
+    </figure>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">回収可能価額</span><span class="fx th">使用価値</span><span class="op">と</span><span class="fx">正味売却価額</span><span class="op">の高い方</span></div>
+      <div class="formula"><span class="lbl">減損損失</span><span class="fx gn">帳簿価額</span><span class="op">−</span><span class="fx th">回収可能価額</span><span class="op">＝</span><span class="res pk">減損損失</span></div>
+    </div>
+    <div class="je">
+      <span class="je-t">仕訳（直接控除形式）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>減損損失</span><span class="amt">3,500</span><span class="dc">(貸)</span><span>機械装置</span><span class="amt">3,500</span></div>
+      <span class="je-n">減損損失は原則として特別損失に表示します。減損後は6,500を基礎にして減価償却を続けます。</span>
+    </div>
+    <ul class="pts">
+      <li>「高い方」にする理由：企業は、<span class="hl">売却するか使い続けるかのうち、回収額が大きい方を選ぶはず</span>だからです。</li>
+      <li>使用価値は、使い続けたうえで最後に処分するまでに生じる将来CFの<b>現在価値</b>です。割引率は、貨幣の時間価値を反映した<b>税引前</b>の利率を使います。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>回収可能価額は、正味売却価額と使用価値のいずれか低い方である<span class="why">高い方です。棚卸資産の「低い方」と混同しないようにしましょう。</span></span></li>
+        <li><span class="mark x">×</span><span>減損損失の認識の判定には、割引後の将来キャッシュ・フローを用いる<span class="why">認識は割引前、測定（使用価値）は割引後です。</span></span></li>
+        <li><span class="mark x">×</span><span>減損損失は、帳簿価額と割引前将来CFの差額として測定する<span class="why">割引前CFは認識の判定に使うだけです。測定は回収可能価額との差額です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-kyoyo">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>資産のグルーピングと共用資産・のれん</h3></div>
+    <div class="prose">
+      <p>減損は、<b>他の資産のキャッシュ・フローからおおむね独立したキャッシュ・フローを生み出す最小の単位</b>（資産グループ）ごとに判定します。本社建物のように複数のグループで使う共用資産や、のれんは単独ではキャッシュ・フローを生まないので、原則として「より大きな単位」で判定します。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 320" role="img" aria-label="共用資産を含むより大きな単位での減損判定。資産グループA簿価4,000、B簿価6,000、共用資産2,000の合計12,000。回収可能価額9,500との差2,500が減損損失で、Aだけの減損1,000との差1,500を共用資産に配分">
+        <rect x="20" y="40" width="500" height="250" rx="18" class="b-big"/>
+        <text x="40" y="70" class="t-b f-gn">より大きな単位（A＋B＋共用資産）</text>
+        <text x="40" y="94" class="t-xs">簿価12,000／割引前CF 10,000／回収可能価額 9,500</text>
+        <rect x="40" y="120" width="140" height="140" rx="12" class="b-th"/>
+        <text x="110" y="156" class="t-b c">グループA</text>
+        <text x="110" y="182" class="t-num c">簿価 4,000</text>
+        <text x="110" y="214" class="t-s c f-pk">単独で減損</text>
+        <text x="110" y="236" class="t-num c">1,000</text>
+        <rect x="200" y="120" width="140" height="140" rx="12" class="b-th"/>
+        <text x="270" y="156" class="t-b c">グループB</text>
+        <text x="270" y="182" class="t-num c">簿価 6,000</text>
+        <text x="270" y="220" class="t-s c">減損なし</text>
+        <rect x="360" y="120" width="140" height="140" rx="12" class="b-sun"/>
+        <text x="430" y="156" class="t-b c">共用資産</text>
+        <text x="430" y="182" class="t-num c">簿価 2,000</text>
+        <text x="430" y="214" class="t-s c f-pk">配分される</text>
+        <text x="430" y="236" class="t-num c">1,500</text>
+        <!-- 右の手順 -->
+        <rect x="550" y="40" width="250" height="70" rx="12" class="b-grey"/>
+        <text x="566" y="68" class="t-b">① まずA・Bごとに判定</text>
+        <text x="566" y="94" class="t-s">Aの減損損失 1,000</text>
+        <rect x="550" y="125" width="250" height="70" rx="12" class="b-grey"/>
+        <text x="566" y="153" class="t-b">② より大きな単位で判定</text>
+        <text x="566" y="179" class="t-s">12,000 − 9,500 ＝ 2,500</text>
+        <rect x="550" y="210" width="250" height="80" rx="12" class="b-pk"/>
+        <text x="566" y="238" class="t-b">③ 増えた分は共用資産へ</text>
+        <text x="566" y="264" class="t-s">2,500 − 1,000 ＝ 1,500</text>
+      </svg>
+      <figcaption>共用資産を加えたことで増えた減損損失（1,500）は、原則として共用資産に配分します。ただし、共用資産の帳簿価額をその正味売却価額より下げることになる場合は、超えた分を合理的な基準で各資産グループに配分します（この例では共用資産の正味売却価額を300とし、超える分はないものとします）。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>減損損失</span><span class="amt">2,500</span><span class="dc">(貸)</span><span>機械装置（A）</span><span class="amt">1,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>建物（共用資産）</span><span class="amt">1,500</span></div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>共用資産は、共用資産を含む<b>より大きな単位</b>で減損を判定する。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>共用資産の帳簿価額を合理的な基準で各資産グループに<b>配分</b>して判定する方法も認められる。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>のれんは、のれんが帰属する事業に関連する複数の資産グループにのれんを加えた、<b>より大きな単位</b>で判定する。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>のれんの帳簿価額を合理的な基準で各資産グループに<b>配分</b>して判定する方法も認められる。<small>のれんに配分された増加額は、のれんに優先的に配分します。</small></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-4 -->
+  <div class="unit" id="u-gnth">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">頻出度 ★★</span><h3>減損後の処理と表示</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">戻入</span><span>減損損失は<b>戻し入れない</b>。<small>回収可能価額が回復しても、帳簿価額は上げません。減損は相当程度確実な場合に限って認識していることと、事務の負担を考えたためです。</small></span></div>
+        <div class="r-row exc"><span class="r-b">償却</span><span>減損した資産は、<b>減損損失を控除した帳簿価額</b>を基礎に減価償却を続ける。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>貸借対照表では、取得原価から減損損失を<b>直接控除</b>し、控除後の金額をその後の取得原価とする。</span></div>
+        <div class="r-row exc"><span class="r-b">容認</span><span>減損損失累計額として<b>間接控除</b>してもよい。その場合、減価償却累計額に<b>合算</b>して表示することもできる。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>回収可能価額が回復した場合は、減損損失を戻し入れる<span class="why">固定資産の減損損失は戻し入れません。棚卸資産の洗替法とは違います。</span></span></li>
+        <li><span class="mark x">×</span><span>減損損失累計額を減価償却累計額に合算して表示することは認められない<span class="why">間接控除する場合は、合算して表示することもできます。</span></span></li>
+        <li><span class="mark x">×</span><span>減損会計は、固定資産を時価に評価替えする処理である<span class="why">取得原価基準の下で、回収可能性を反映させるために帳簿価額を減らす処理です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　使用価値を割り引いて求める</span>
+      <p class="scn-story">当期末、機械に減損の兆候があります。次の資料から答えてください。計算の途中で生じた円未満の端数は、使用価値を出したところで四捨五入します。</p>
+      <ul class="given">
+        <li>取得原価 <b>20,000</b></li>
+        <li>減価償却累計額 <b>8,000</b></li>
+        <li>残存耐用年数 <b>3年</b></li>
+        <li>将来CF 毎年末 <b>3,000</b></li>
+        <li>3年後の処分による収入 <b>1,000</b></li>
+        <li>正味売却価額 <b>8,500</b></li>
+        <li>割引率5%の現価係数　1年 <b>0.9524</b>／2年 <b>0.9070</b>／3年 <b>0.8638</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>減損損失を認識するか</li>
+        <li>減損損失はいくらか</li>
+        <li>翌期の減価償却費はいくらか（定額法、残存価額ゼロ）</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">準備</span><span>帳簿価額は 20,000 − 8,000 ＝ <b>12,000</b> です。</span></div>
+          <div class="ans-step"><span class="lb">問1</span><span><b>認識する</b><span class="calc">割引前CF：3,000 × 3年 ＋ 1,000 ＝ 10,000 ＜ 12,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>2,967</b><span class="calc">使用価値：3,000×0.9524 ＋ 3,000×0.9070 ＋ 4,000×0.8638<br>　　　　＝ 2,857.2 ＋ 2,721 ＋ 3,455.2 ＝ 9,033.4 → 9,033<br>回収可能価額：9,033 と 8,500 の高い方 → 9,033<br>減損損失：12,000 − 9,033 ＝ 2,967</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>3,011</b><span class="calc">9,033 ÷ 3年 ＝ 3,011</span></span></div>
+          <div class="je">
+            <span class="je-t">仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>減損損失</span><span class="amt">2,967</span><span class="dc">(貸)</span><span>機械装置</span><span class="amt">2,967</span></div>
+            <span class="je-n">3年目のCFには、処分による収入1,000を足して4,000にするのを忘れないようにしましょう。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 資産除去債務 ============ -->
+<section id="ar" class="part part-ar">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>資産除去債務</h2>
+    <p>原子力発電所の解体や、借りた建物の原状回復のように、固定資産を取り壊すときに法律や契約で費用がかかる場合、その費用を取得した時点で負債に計上します。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-aro">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>資産と負債を同時に計上する「両建処理」</h3></div>
+    <div class="def"><span class="def-l">資産除去債務とは</span><p class="def-t">有形固定資産の取得・建設・開発または通常の使用によって生じ、その除去に関して<b>法令や契約で要求される法律上の義務、およびそれに準ずるもの</b>。</p></div>
+    <div class="prose">
+      <p>例：機械を10,000で取得しました。3年後に取り壊す義務があり、除去費用の見込みは1,000、割引率は5%です。</p>
+    </div>
+    <div class="bs-wrap">
+      <div class="bs" aria-label="取得時の貸借対照表">
+        <div class="as"><b>資産</b><div class="in"><span>機械（購入代価）</span><span>10,000</span></div><div class="in hl2"><span>機械（除去費用）</span><span>864</span></div></div>
+        <div class="li"><b>負債</b><div class="in hl2"><span>資産除去債務</span><span>864</span></div><p class="cap" style="margin-top:4px">1,000 ÷ 1.05³ ≒ 864</p></div>
+      </div>
+      <ul class="pts">
+        <li>負債は、除去費用を<span class="hl">割り引いた金額</span>（現在価値）で計上します。</li>
+        <li>同じ金額を<span class="hl">固定資産の帳簿価額に加えます</span>。除去費用は、取得するために避けられない付随費用のようなものと考えます。</li>
+        <li>資産に加えた除去費用は、減価償却を通じて耐用年数にわたって費用にします。</li>
+      </ul>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 340" role="img" aria-label="資産除去債務の残高の推移。取得時864、1年後907、2年後952、3年後1,000。毎年の増加分43、45、48が利息費用">
+        <text x="410" y="30" class="t-b c">資産除去債務は、時が経つと利息費用の分だけ増えていく</text>
+        <line x1="60" y1="290" x2="790" y2="290" class="axis"/>
+        <path d="M52 280 L68 274 M52 288 L68 282" stroke="var(--ink)" stroke-width="2"/>
+        <!-- 棒（縦軸は途中を省略） -->
+        <rect x="100" y="140" width="110" height="150" class="b-ar"/>
+        <rect x="280" y="140" width="110" height="150" class="b-ar"/>
+        <rect x="280" y="106" width="110" height="34" class="b-or"/>
+        <rect x="460" y="140" width="110" height="150" class="b-ar"/>
+        <rect x="460" y="106" width="110" height="34" class="b-ar" style="fill:color-mix(in srgb,var(--c8) 12%,var(--surface))"/>
+        <rect x="460" y="70" width="110" height="36" class="b-or"/>
+        <rect x="640" y="140" width="110" height="150" class="b-ar"/>
+        <rect x="640" y="106" width="110" height="34" class="b-ar" style="fill:color-mix(in srgb,var(--c8) 12%,var(--surface))"/>
+        <rect x="640" y="70" width="110" height="36" class="b-ar" style="fill:color-mix(in srgb,var(--c8) 12%,var(--surface))"/>
+        <rect x="640" y="50" width="110" height="20" class="b-or"/>
+        <text x="155" y="226" class="t-num c">864</text>
+        <text x="335" y="128" class="t-num c f-or">＋43</text>
+        <text x="515" y="93" class="t-num c f-or">＋45</text>
+        <text x="695" y="65" class="t-num c f-or">＋48</text>
+        <text x="335" y="226" class="t-num c">907</text>
+        <text x="515" y="226" class="t-num c">952</text>
+        <text x="695" y="226" class="t-num c">1,000</text>
+        <text x="155" y="316" class="t-b c">取得時</text>
+        <text x="335" y="316" class="t-b c">1年後</text>
+        <text x="515" y="316" class="t-b c">2年後</text>
+        <text x="695" y="316" class="t-b c">3年後（除去）</text>
+        <rect x="100" y="48" width="18" height="14" class="b-or"/>
+        <text x="126" y="60" class="t-s">その年の利息費用（前年末残高 × 5%）</text>
+      </svg>
+      <figcaption>縦軸は途中を省略しています。3年後にはちょうど除去費用の見込額1,000になります（端数は最後の年で調整）。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">取得時</span>
+        <div class="je-row"><span class="dc">(借)</span><span>機械装置</span><span class="amt">10,864</span><span class="dc">(貸)</span><span>現金</span><span class="amt">10,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>資産除去債務</span><span class="amt">864</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">1年目の期末</span>
+        <div class="je-row"><span class="dc">(借)</span><span>利息費用</span><span class="amt">43</span><span class="dc">(貸)</span><span>資産除去債務</span><span class="amt">43</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">3,621</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">3,621</span></div>
+        <span class="je-n">利息費用：864 × 5% ≒ 43。減価償却費：10,864 ÷ 3年 ≒ 3,621。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">3年後の除去時（実際の支出が1,050だった場合）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却累計額</span><span class="amt">10,864</span><span class="dc">(貸)</span><span>機械装置</span><span class="amt">10,864</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>資産除去債務</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">1,050</span></div>
+        <div class="je-row"><span class="dc"></span><span>履行差額</span><span class="amt">50</span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">両建処理（採用）<small>取得時に負債の全額を計上する</small></p>
+        <ol class="steps">
+          <li class="star">将来の除去に必要な支出の全額が、最初から負債に載る<em>投資家に将来の負担がわかる</em></li>
+          <li>除去費用は資産に加えて、減価償却で配分する</li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">引当金方式（採用されなかった）<small>毎期少しずつ引当金を積み立てる</small></p>
+        <ol class="steps">
+          <li class="star">積み立て終わるまで、負債が義務の全額に届かない<em>これが両建処理を採った理由</em></li>
+          <li>費用配分の結果は両建処理とほぼ同じになる</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-arochg">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★</span><h3>見積りの変更と、表示のルール</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">増加</span><span>割引前CFが<b>増えた</b>ときの調整額は、<b>その時点の割引率</b>で割り引く。<small>新しく負債が生じたのと同じと考えます。</small></span></div>
+        <div class="r-row exc"><span class="r-b">減少</span><span>割引前CFが<b>減った</b>ときの調整額は、<b>負債を計上したときの割引率</b>で割り引く。<small>過去に何回か増やしていて、どの時点のものか特定できないときは加重平均の割引率を使えます。</small></span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">処理</span><span>見積りの変更による調整額は、<b>資産除去債務</b>と<b>関連する固定資産の帳簿価額</b>の両方に加減する。</span></div>
+        <div class="r-row exc"><span class="r-b">不能</span><span>金額を合理的に見積れない場合は、<b>計上せず</b>、その旨と理由などを注記する。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">P/L</span><span>利息費用は、関連する固定資産の<b>減価償却費と同じ区分</b>に表示する。<small>履行差額も原則として同じ区分です。営業外費用ではありません。</small></span></div>
+        <div class="r-row exc"><span class="r-b">B/S</span><span>原則は<b>固定負債</b>。1年以内に履行が見込まれるものは<b>流動負債</b>。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">率</span><span>割引率は、貨幣の時間価値を反映した<b>無リスクの税引前</b>の利率を使う。</span></div>
+        <div class="r-row exc"><span class="r-b">敷金</span><span>賃借建物の原状回復義務で敷金を差し入れている場合は、敷金のうち<b>回収が見込めない額</b>を見積り、その期の費用にする方法も認められる。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>資産除去債務の利息費用は、営業外費用に表示する<span class="why">支払利息とは違い、減価償却費と同じ区分です。</span></span></li>
+        <li><span class="mark x">×</span><span>資産除去債務は、除去に要する割引前の将来CFで計上する<span class="why">割引後の現在価値で計上します。</span></span></li>
+        <li><span class="mark x">×</span><span>見積額が増えたときは、負債計上時の割引率で調整する<span class="why">増えたときはその時点の割引率、減ったときは負債計上時の割引率です。逆にしないよう注意しましょう。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　資産除去債務</span>
+      <p class="scn-story">当期首に設備を取得し、使用後に除去する義務を負いました。次の資料から答えてください。円未満の端数は四捨五入します。</p>
+      <ul class="given">
+        <li>取得原価（購入代価） <b>60,000</b></li>
+        <li>耐用年数 <b>3年</b>（定額法、残存価額ゼロ）</li>
+        <li>除去費用の見込額 <b>5,000</b></li>
+        <li>割引率5%・3年の現価係数 <b>0.8638</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>取得時に計上する資産除去債務はいくらか</li>
+        <li>1年目の利息費用と減価償却費はいくらか</li>
+        <li>3年後、実際の除去費用が5,200だった。除去時の仕訳はどうなるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>4,319</b><span class="calc">5,000 × 0.8638 ＝ 4,319</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>利息費用 <b>216</b>、減価償却費 <b>21,440</b><span class="calc">利息費用：4,319 × 5% ＝ 215.95 → 216<br>減価償却費：（60,000 ＋ 4,319）÷ 3年 ＝ 21,439.6… → 21,440</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span>資産除去債務は3年後に5,000になっているので、差額200が履行差額です。<span class="calc">残高の推移：4,319 → 4,535 → 4,762 → 5,000</span></span></div>
+          <div class="je">
+            <span class="je-t">除去時の仕訳（除去費用の支払い）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>資産除去債務</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">5,200</span></div>
+            <div class="je-row"><span class="dc"></span><span>履行差額</span><span class="amt">200</span><span></span><span></span><span></span></div>
+            <span class="je-n">利息費用・減価償却費・履行差額は、どれも同じ区分（たとえば販売費及び一般管理費）に表示します。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 減価償却・取得原価 ============ -->
+<section id="th" class="part part-th">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>減価償却・取得原価・圧縮記帳</h2>
+    <p>減価償却の計算と、見積りを変えたときの扱い、取得の仕方ごとの取得原価、国庫補助金の圧縮記帳です。理論の穴埋めや正誤問題でよく狙われます。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-dep">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★</span><h3>定額法と200%定率法</h3></div>
+    <div class="prose">
+      <p>取得原価100,000、耐用年数5年、残存価額ゼロの機械で比べます。200%定率法の償却率は定額法（0.2）の2倍の<b>0.4</b>、改定償却率は<b>0.5</b>、保証率は<b>0.108</b>です。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 360" role="img" aria-label="5年間の減価償却費の比較。定額法は毎年20,000。200%定率法は40,000、24,000、14,400、10,800、10,800で、4年目から改定償却率に切り替える">
+        <line x1="60" y1="290" x2="800" y2="290" class="axis"/>
+        <!-- 年1 -->
+        <rect x="90" y="190" width="46" height="100" class="b-th"/>
+        <rect x="142" y="90" width="46" height="200" class="b-or"/>
+        <text x="113" y="182" class="t-num c">20,000</text>
+        <text x="165" y="82" class="t-num c">40,000</text>
+        <!-- 年2 -->
+        <rect x="235" y="190" width="46" height="100" class="b-th"/>
+        <rect x="287" y="170" width="46" height="120" class="b-or"/>
+        <text x="258" y="182" class="t-num c"></text>
+        <text x="310" y="162" class="t-num c">24,000</text>
+        <!-- 年3 -->
+        <rect x="380" y="190" width="46" height="100" class="b-th"/>
+        <rect x="432" y="218" width="46" height="72" class="b-or"/>
+        <text x="455" y="210" class="t-num c">14,400</text>
+        <!-- 年4 -->
+        <rect x="525" y="190" width="46" height="100" class="b-th"/>
+        <rect x="577" y="236" width="46" height="54" class="b-pk"/>
+        <text x="600" y="228" class="t-num c">10,800</text>
+        <!-- 年5 -->
+        <rect x="670" y="190" width="46" height="100" class="b-th"/>
+        <rect x="722" y="236" width="46" height="54" class="b-pk"/>
+        <text x="745" y="228" class="t-num c">10,800</text>
+        <text x="140" y="314" class="t-b c">1年目</text>
+        <text x="285" y="314" class="t-b c">2年目</text>
+        <text x="430" y="314" class="t-b c">3年目</text>
+        <text x="575" y="314" class="t-b c">4年目</text>
+        <text x="720" y="314" class="t-b c">5年目</text>
+        <path d="M560 150 Q600 150 600 200" class="ln" />
+        <text x="560" y="128" class="t-b e f-pk">4年目：21,600×0.4＝8,640 が</text>
+        <text x="560" y="148" class="t-b e f-pk">保証額10,800を下回る → 切替</text>
+        <!-- 凡例 -->
+        <rect x="90" y="30" width="18" height="14" class="b-th"/><text x="114" y="42" class="t-s">定額法（毎年20,000）</text>
+        <rect x="290" y="30" width="18" height="14" class="b-or"/><text x="314" y="42" class="t-s">200%定率法</text>
+        <rect x="430" y="30" width="18" height="14" class="b-pk"/><text x="454" y="42" class="t-s">改定償却率で均等償却</text>
+        <text x="760" y="350" class="t-xs e">保証額 ＝ 100,000 × 0.108 ＝ 10,800</text>
+      </svg>
+      <figcaption>200%定率法は、期首帳簿価額 × 0.4 が償却保証額を下回った年から、その年の期首帳簿価額（改定取得価額21,600）× 改定償却率0.5 で毎年同じ額を償却します。税法どおりなら最後に備忘価額1円を残します。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>生産高比例法は、鉱業用設備や航空機のように、<b>総利用可能量が物理的に確定でき</b>、減価が主に利用に比例する資産に使えます。</li>
+      <li>減価償却の目的は<span class="hl">適正な費用配分によって、毎期の損益計算を正しく行うこと</span>です。資産を評価することが目的ではありません。</li>
+      <li>減価償却で回収された資金は、企業の内部に留まります（<b>自己金融効果</b>）。固定資産に投下した資金が流動資産に戻ることを<b>固定資産の流動化</b>といいます。</li>
+    </ul>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-change">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>耐用年数の変更と、償却方法の変更</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">耐用年数・残存価額の変更<small>会計上の見積りの変更</small></p>
+        <ol class="steps">
+          <li>変更した期から<b>将来に向けて</b>処理する</li>
+          <li class="star">過去の分をまとめて修正しない<em>臨時償却は廃止された</em></li>
+          <li>変更した期の期首の帳簿価額を、残りの耐用年数で配分する</li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">減価償却方法の変更<small>会計方針の変更（ただし特別な扱い）</small></p>
+        <ol class="steps">
+          <li>本来は会計方針の変更にあたる</li>
+          <li class="star">見積りの変更と区別しにくいので、<b>見積りの変更と同じように扱う</b><em>遡及適用しない</em></li>
+          <li>正当な理由が必要で、注記も必要</li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">例：取得原価10,000、残存価額ゼロ、耐用年数10年の定額法で4年償却した後、残りの耐用年数を3年に変えた</span>
+      <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">2,000</span></div>
+      <span class="je-n">期首の帳簿価額 10,000 − 4,000 ＝ 6,000 を残り3年で割って2,000。過去4年分を修正する仕訳はしません。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>耐用年数を短くした場合は、過去の償却不足額を臨時償却として計上する<span class="why">現行の基準では臨時償却は廃止され、将来に向けて処理します。</span></span></li>
+        <li><span class="mark x">×</span><span>減価償却方法の変更は会計方針の変更なので、遡及適用する<span class="why">見積りの変更と区別しにくいので、見積りの変更と同じく遡及適用しません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-acq">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>取得の仕方ごとの取得原価</h3></div>
+    <div class="acq">
+      <div class="acq-c"><span>購入</span><b>購入代価 ＋ 付随費用</b><small>引取運賃・据付費・試運転費など。値引や割戻は差し引く。</small></div>
+      <div class="acq-c"><span>一括購入</span><b>時価などの比率で按分</b><small>土地と建物をまとめて買った場合など。</small></div>
+      <div class="acq-c"><span>同種資産との交換</span><b>譲渡した資産の帳簿価額</b><small>交換で損益は出さない。取得した資産の時価ではない。</small></div>
+      <div class="acq-c"><span>有価証券との交換</span><b>有価証券の時価または適正な簿価</b><small>手持ちの株式などと交換した場合。</small></div>
+      <div class="acq-c"><span>贈与</span><b>時価などを基準にした公正な評価額</b><small>無償で受け取っても資産に計上する。</small></div>
+      <div class="acq-c"><span>現物出資</span><b>交付した株式の発行価額</b><small>出資者から固定資産を受け入れた場合。</small></div>
+      <div class="acq-c"><span>自家建設</span><b>適正な原価計算基準による製造原価</b><small>建設に必要な借入金の利子は、一定の要件を満たせば算入できる。</small></div>
+      <div class="acq-c"><span>割賦購入</span><b>現金購入価額</b><small>割賦価格との差（利息にあたる部分）は取得原価に含めない。</small></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">同種の機械との交換（旧機械：取得原価50,000、減価償却累計額30,000）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却累計額</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>機械装置（旧）</span><span class="amt">50,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>機械装置（新）</span><span class="amt">20,000</span><span></span><span></span><span></span></div>
+        <span class="je-n">新しい機械は、旧機械の帳簿価額20,000で受け入れます。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">資本的支出と収益的支出（改良3,000・修繕1,000）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>建物</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">4,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>修繕費</span><span class="amt">1,000</span><span></span><span></span><span></span></div>
+        <span class="je-n">価値を高めたり耐用年数を延ばしたりする支出は資本的支出（資産に加える）、元の状態を保つための支出は収益的支出（費用）です。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-asshuku">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★</span><h3>圧縮記帳（国庫補助金）</h3></div>
+    <div class="prose">
+      <p>国庫補助金3,000を受け取り、機械10,000（耐用年数5年、定額法、残存価額ゼロ）を取得した例です。補助金を受け取ったときは、どちらの方法でも<b>国庫補助金受贈益</b>（特別利益）を計上します。</p>
+    </div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">直接減額方式<small>取得原価そのものを減らす</small></p>
+        <div class="je">
+          <span class="je-t">取得時</span>
+          <div class="je-row"><span class="dc">(借)</span><span>固定資産圧縮損</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>機械装置</span><span class="amt">3,000</span></div>
+        </div>
+        <ol class="steps">
+          <li>帳簿価額は7,000になる</li>
+          <li>減価償却費は 7,000 ÷ 5年 ＝ 1,400/年</li>
+        </ol>
+        <p class="lane-m">取得原価が実態（10,000）を表さない</p>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">積立金方式<small>利益剰余金の中で積み立てる</small></p>
+        <div class="je">
+          <span class="je-t">決算時（税率30%、税効果あり）</span>
+          <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">900</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">900</span></div>
+          <div class="je-row"><span class="dc">(借)</span><span>繰越利益剰余金</span><span class="amt">2,100</span><span class="dc">(貸)</span><span>圧縮積立金</span><span class="amt">2,100</span></div>
+        </div>
+        <ol class="steps">
+          <li>帳簿価額は10,000のまま</li>
+          <li>減価償却費は 10,000 ÷ 5年 ＝ 2,000/年。圧縮積立金は毎年取り崩す</li>
+        </ol>
+        <p class="lane-m">会計上はこちらの方が望ましいとされる</p>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>積立金方式で圧縮記帳すると、固定資産の取得原価は補助金の額だけ減る<span class="why">取得原価が減るのは直接減額方式です。積立金方式は純資産の中の処理なので、取得原価は変わりません。</span></span></li>
+        <li><span class="mark o">○</span><span>直接減額方式では、その後の減価償却費が圧縮しない場合より小さくなる<span class="why">取得原価が減っているので、毎年の償却額も小さくなります。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算3 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 3　耐用年数の変更</span>
+      <p class="scn-story">備品（取得原価120,000、残存価額ゼロ、耐用年数10年、定額法）を4年間償却しました。5年目の期首に、残りの耐用年数を4年に見直しました。</p>
+      <ol class="scn-q">
+        <li>5年目の減価償却費はいくらか</li>
+        <li>見直さなかった場合と比べて、5年目の減価償却費はいくら増えるか</li>
+        <li>過去4年分の償却不足額を修正する仕訳は必要か</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>18,000</b><span class="calc">期首帳簿価額：120,000 − 12,000 × 4年 ＝ 72,000<br>72,000 ÷ 4年 ＝ 18,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>6,000</b><span class="calc">見直さない場合：120,000 ÷ 10年 ＝ 12,000<br>18,000 − 12,000 ＝ 6,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>不要</b>です。耐用年数の変更は会計上の見積りの変更なので、将来に向けて処理します。</span></div>
+          <div class="je">
+            <span class="je-t">5年目の決算整理仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">18,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">18,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- 3-5 -->
+  <div class="unit" id="u-pl">
+    <div class="unit-head"><span class="tag">3-5</span><span class="freq">頻出度 ★★</span><h3>損益計算書のどこに表示するか（まとめ）</h3></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="損益計算書の区分と、固定資産に関する項目">
+        <div class="pl-row" role="listitem"><div class="pl-k">売上原価<small>（製造業なら製造原価）</small></div><div class="pl-v"><span class="pill th">減価償却費<small>製造用の設備なら製造原価</small></span><span class="pill ar">利息費用・履行差額<small>関連する減価償却費と同じ区分</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">販売費及び<br>一般管理費</div><div class="pl-v"><span class="pill th">減価償却費</span><span class="pill ar">利息費用・履行差額<small>関連する減価償却費と同じ区分</small></span><span class="pill th">修繕費</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">営業外費用</div><div class="pl-v"><span class="none">※資産除去債務の利息費用はここに入りません</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">特別利益</div><div class="pl-v"><span class="pill th">国庫補助金受贈益</span><span class="pill th">固定資産売却益</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">特別損失</div><div class="pl-v"><span class="pill gn">減損損失<small>原則として特別損失</small></span><span class="pill th">固定資産圧縮損</span><span class="pill th">固定資産売却損・除却損</span><span class="pill th">災害損失<small>臨時損失</small></span></div></div>
+      </div>
+      <figcaption>コーラルが減損会計、ティールが資産除去債務、青がその他の項目です。資産除去債務の利息費用を営業外費用にしてしまうミスがとても多いので注意しましょう。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">57</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-gn-btn" data-qf="gn" aria-pressed="false">減損会計</button>
+    <button type="button" class="btn f-ar-btn" data-qf="ar" aria-pressed="false">資産除去債務</button>
+    <button type="button" class="btn f-th-btn" data-qf="th" aria-pressed="false">減価償却・取得原価</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">57</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card gn">
+      <h3>減損会計：まずここから</h3>
+      <ol>
+        <li>兆候 → 認識 → 測定の順番</li>
+        <li>認識は割引前、測定（使用価値）は割引後</li>
+        <li>回収可能価額は正味売却価額と使用価値の高い方</li>
+        <li>戻入れしない、原則として特別損失</li>
+        <li>共用資産・のれんは、原則より大きな単位で判定</li>
+      </ol>
+    </div>
+    <div class="prio-card ar">
+      <h3>資産除去債務：まずここから</h3>
+      <ol>
+        <li>割引後の金額で負債に計上し、同じ額を資産に加える</li>
+        <li>利息費用は減価償却費と同じ区分</li>
+        <li>見積りが増えたらその時点、減ったら当初の割引率</li>
+        <li>引当金方式ではなく両建処理を採った理由</li>
+      </ol>
+    </div>
+    <div class="prio-card th">
+      <h3>減価償却・取得原価：まずここから</h3>
+      <ol>
+        <li>耐用年数の変更は将来に向けて（臨時償却なし）</li>
+        <li>償却方法の変更は見積りの変更と同じ扱い</li>
+        <li>同種資産の交換は譲渡資産の帳簿価額</li>
+        <li>贈与は公正な評価額</li>
+        <li>圧縮記帳の2つの方式と、その後の減価償却費</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>減損と資産除去債務は、どちらも「将来のキャッシュ・フローを見積って割り引く」計算です。違いは向きだけで、減損は<b>入ってくるお金</b>（回収できる額）を、資産除去債務は<b>出ていくお金</b>（除去にかかる額）を現在価値にします。「割引前で判定、割引後で測定」という減損のルールとセットで整理しておくと、計算問題で迷いにくくなります。</p>
+</section>
+
+<footer>
+  <p>参照：「固定資産の減損に係る会計基準」、企業会計基準第18号「資産除去債務に関する会計基準」、企業会計基準第24号「会計方針の開示、会計上の変更及び誤謬の訂正に関する会計基準」、企業会計原則、連続意見書第三。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"gn", q:"減損会計は、固定資産を時価に評価替えするための会計処理である。", a:false, e:"取得原価基準の下で、回収可能性を反映させるために帳簿価額を減らす処理です。時価評価ではありません。"},
+    {p:"gn", q:"減損の兆候がある場合に、減損損失を認識するかどうかの判定を行う。", a:true, e:"兆候 → 認識 → 測定の順です。兆候がなければ判定に進みません。"},
+    {p:"gn", q:"営業活動から生じる損益またはキャッシュ・フローが継続してマイナスとなっている場合は、減損の兆候にあたる。", a:true, e:"おおむね過去2期がマイナスで、当期も明らかにマイナスになる見込みの場合です。"},
+    {p:"gn", q:"市場価格が著しく下落しても、使い続けるつもりであれば減損の兆候にはあたらない。", a:false, e:"市場価格の著しい下落は、それだけで減損の兆候にあたります。"},
+    {p:"gn", q:"減損損失の認識の判定には、割引後の将来キャッシュ・フローを用いる。", a:false, e:"認識の判定は割引前です。割引後を使うのは測定（使用価値）です。"},
+    {p:"gn", q:"割引前将来キャッシュ・フローの総額が帳簿価額を下回る場合に、減損損失を認識する。", a:true, e:"認識の判定そのものです。"},
+    {p:"gn", q:"認識の判定に割引前将来キャッシュ・フローを用いるのは、減損の存在が相当程度に確実な場合に限って減損損失を認識するためである。", a:true, e:"割り引かない金額は大きいので、それでも帳簿価額を下回るのは回収できないことがかなり確実なときに限られます。"},
+    {p:"gn", q:"割引前将来キャッシュ・フローを見積る期間は、経済的残存使用年数と20年のいずれか長い方である。", a:false, e:"短い方です。20年を超える場合は、20年経過時点の回収可能価額を加えます。"},
+    {p:"gn", q:"減損損失は、帳簿価額と割引前将来キャッシュ・フローとの差額として測定する。", a:false, e:"帳簿価額と回収可能価額との差額です。割引前CFは認識の判定にだけ使います。"},
+    {p:"gn", q:"回収可能価額とは、正味売却価額と使用価値のいずれか低い方の金額である。", a:false, e:"高い方です。"},
+    {p:"gn", q:"回収可能価額を高い方とするのは、企業は売却と使用継続のうち有利な方を選ぶと考えられるためである。", a:true, e:"回収額が大きくなる方を選ぶはず、という考え方です。"},
+    {p:"gn", q:"正味売却価額とは、資産の時価から処分費用見込額を控除した金額である。", a:true, e:"正味売却価額の定義そのものです。"},
+    {p:"gn", q:"使用価値とは、資産の継続的使用と使用後の処分によって生じると見込まれる将来キャッシュ・フローの現在価値である。", a:true, e:"使用価値の定義そのものです。"},
+    {p:"gn", q:"使用価値の算定に用いる割引率は、税引後の利率とする。", a:false, e:"貨幣の時間価値を反映した税引前の利率です。"},
+    {p:"gn", q:"減損損失を計上した後に回収可能価額が回復した場合は、減損損失を戻し入れる。", a:false, e:"固定資産の減損損失は戻し入れません。"},
+    {p:"gn", q:"減損損失は、原則として特別損失に表示する。", a:true, e:"臨時的な損失なので、原則は特別損失です。"},
+    {p:"gn", q:"減損処理を行った資産は、減損損失を控除した帳簿価額にもとづいて減価償却を行う。", a:true, e:"減損後の帳簿価額を、残りの耐用年数で配分します。"},
+    {p:"gn", q:"減損処理を行った資産の貸借対照表の表示は、原則として取得原価から減損損失を直接控除する形式で行う。", a:true, e:"直接控除が原則で、控除後の金額がその後の取得原価になります。"},
+    {p:"gn", q:"減損損失累計額を減価償却累計額に合算して表示することは認められない。", a:false, e:"間接控除する場合は、減価償却累計額に合算して表示することもできます。"},
+    {p:"gn", q:"資産のグルーピングは、他の資産のキャッシュ・フローからおおむね独立したキャッシュ・フローを生み出す最小の単位で行う。", a:true, e:"資産グループの定義そのものです。"},
+    {p:"gn", q:"共用資産に減損の兆候がある場合は、原則として共用資産を含むより大きな単位で減損損失を認識するかを判定する。", a:true, e:"共用資産の帳簿価額を各グループに配分する方法も認められています。"},
+    {p:"gn", q:"共用資産を加えることによって増加した減損損失は、原則として各資産グループに均等に配分する。", a:false, e:"原則として共用資産に配分します。共用資産の正味売却価額を下回る分だけ、合理的な基準で各資産グループに配分します。"},
+    {p:"gn", q:"のれんの減損は、のれんが帰属する事業に関連する複数の資産グループにのれんを加えた、より大きな単位で行うのが原則である。", a:true, e:"のれんの帳簿価額を各資産グループに配分する方法も認められています。"},
+    {p:"ar", q:"資産除去債務とは、有形固定資産の取得・建設・開発または通常の使用によって生じ、その除去に関して法令や契約で要求される法律上の義務およびそれに準ずるものをいう。", a:true, e:"資産除去債務の定義そのものです。"},
+    {p:"ar", q:"資産除去債務は、除去に要する割引前の将来キャッシュ・フローで負債に計上する。", a:false, e:"割引後の現在価値で計上します。"},
+    {p:"ar", q:"資産除去債務の割引率には、貨幣の時間価値を反映した無リスクの税引前の利率を用いる。", a:true, e:"自社の信用リスクは反映させません。"},
+    {p:"ar", q:"資産除去債務に対応する除去費用は、関連する有形固定資産の帳簿価額に加える。", a:true, e:"資産と負債を同時に計上する両建処理です。"},
+    {p:"ar", q:"資産除去債務は、除去費用を毎期少しずつ引当金として積み立てる引当金方式で処理する。", a:false, e:"両建処理です。引当金方式は採用されていません。"},
+    {p:"ar", q:"両建処理が採用された理由の1つは、引当金方式では将来の除去に要する支出の全額が負債に計上されないためである。", a:true, e:"両建処理なら、取得した時点で義務の全額（現在価値）が負債に載ります。"},
+    {p:"ar", q:"資産計上した除去費用は、減価償却を通じて残りの耐用年数にわたって費用に配分する。", a:true, e:"取得原価に含まれた付随費用と同じように配分します。"},
+    {p:"ar", q:"時の経過による資産除去債務の増加額（利息費用）は、営業外費用に表示する。", a:false, e:"関連する有形固定資産の減価償却費と同じ区分に表示します。"},
+    {p:"ar", q:"除去時の実際の支出額と資産除去債務の残高との差額（履行差額）は、原則として減価償却費と同じ区分に表示する。", a:true, e:"利息費用と同じく、減価償却費と同じ区分です。"},
+    {p:"ar", q:"資産除去債務の金額を合理的に見積ることができない場合は、計上せずに、その旨と理由などを注記する。", a:true, e:"見積れるようになった時点で計上します。"},
+    {p:"ar", q:"割引前将来キャッシュ・フローが増加した場合の調整額には、負債を計上したときの割引率を用いる。", a:false, e:"増加した場合は、その時点の割引率を使います。"},
+    {p:"ar", q:"割引前将来キャッシュ・フローが減少した場合の調整額には、負債を計上したときの割引率を用いる。", a:true, e:"減少した場合は、負債計上時の割引率です。"},
+    {p:"ar", q:"見積りの変更による調整額は、資産除去債務と関連する有形固定資産の帳簿価額の両方に加減する。", a:true, e:"両建てで計上したので、調整も両方に行います。"},
+    {p:"ar", q:"資産除去債務は、すべて固定負債に表示する。", a:false, e:"1年以内に履行が見込まれるものは流動負債です。"},
+    {p:"ar", q:"賃借建物の原状回復義務について敷金を差し入れている場合は、敷金のうち回収が見込めない額を見積り、その期の費用にする方法も認められる。", a:true, e:"資産除去債務を負債に計上する代わりに、この簡便な方法を使えます。"},
+    {p:"ar", q:"資産除去債務の利息費用は、前期末の資産除去債務の残高に割引率を掛けて計算する。", a:true, e:"期首の残高 × 割引率が、その期の利息費用です。"},
+    {p:"th", q:"減価償却の目的は、適正な費用配分を行うことによって、毎期の損益計算を正確に行うことにある。", a:true, e:"資産の評価ではなく、費用配分が目的です。"},
+    {p:"th", q:"正規の減価償却とは、所定の減価償却方法に従い、計画的・規則的に実施される減価償却をいう。", a:true, e:"計画的・規則的に行うことで、利益操作を防ぎます。"},
+    {p:"th", q:"減価償却には、減価償却費の分だけ資金が企業内部に留保される自己金融効果がある。", a:true, e:"減価償却費は支出をともなわない費用だからです。"},
+    {p:"th", q:"固定資産の流動化とは、減価償却によって固定資産に投下された資金が回収され、流動資産に転化することをいう。", a:true, e:"固定資産の流動化の意味そのものです。"},
+    {p:"th", q:"生産高比例法は、鉱業用設備や航空機など、総利用可能量が物理的に確定でき、減価が主に利用に比例する資産に適用される。", a:true, e:"生産高比例法を使える資産の条件です。"},
+    {p:"th", q:"200%定率法では、償却額が償却保証額を下回った年から、改定取得価額に改定償却率を掛けて償却する。", a:true, e:"その年からは毎年同じ額を償却します。"},
+    {p:"th", q:"耐用年数の変更は、会計上の見積りの変更にあたる。", a:true, e:"変更した期から将来に向けて処理します。"},
+    {p:"th", q:"耐用年数を短くした場合は、過去の償却不足額を臨時償却としてその期に計上する。", a:false, e:"臨時償却は廃止されました。期首の帳簿価額を残りの耐用年数で配分します。"},
+    {p:"th", q:"減価償却方法の変更は会計方針の変更なので、原則として遡及適用する。", a:false, e:"会計方針の変更ですが、見積りの変更と区別しにくいので、見積りの変更と同じく遡及適用しません。"},
+    {p:"th", q:"災害などにより固定資産の実体が滅失した場合は、その分の帳簿価額を臨時損失として処理する。", a:true, e:"減損とは別の、臨時損失の処理です。"},
+    {p:"th", q:"有形固定資産を一括購入した場合は、時価などを基準に各資産の取得原価を按分する。", a:true, e:"土地と建物をまとめて買った場合などです。"},
+    {p:"th", q:"自社の固定資産と同種の固定資産を交換した場合、取得した資産の時価を取得原価とする。", a:false, e:"譲渡した資産の帳簿価額を取得原価にします。"},
+    {p:"th", q:"贈与を受けた固定資産は、支出がないので資産に計上しない。", a:false, e:"時価などを基準にした公正な評価額で計上します。"},
+    {p:"th", q:"現物出資で受け入れた固定資産は、出資者に交付した株式の発行価額を取得原価とする。", a:true, e:"現物出資の取得原価です。"},
+    {p:"th", q:"自家建設した固定資産には、一定の要件を満たせば、建設に要する借入資本の利子を取得原価に算入できる。", a:true, e:"稼働前の期間に属するものに限るなどの要件があります。"},
+    {p:"th", q:"固定資産の価値を高めたり、耐用年数を延ばしたりする支出は、修繕費として処理する。", a:false, e:"資本的支出として、固定資産の取得原価に加えます。"},
+    {p:"th", q:"国庫補助金で取得した固定資産を直接減額方式で圧縮記帳すると、その後の減価償却費は圧縮しない場合より小さくなる。", a:true, e:"取得原価が補助金の額だけ減るためです。"},
+    {p:"th", q:"積立金方式で圧縮記帳すると、固定資産の取得原価は補助金の額だけ減額される。", a:false, e:"取得原価が減るのは直接減額方式です。積立金方式は純資産の中の処理です。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {gn:" 減損", ar:" 資産除去債務", th:" 減価償却・取得原価"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
