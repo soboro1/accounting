@@ -1,0 +1,944 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。収益認識の出やすい論点（5つのステップ、支配の移転、一時点か一定の期間か、契約資産・債権・契約負債、変動対価と返品、重要な金融要素、独立販売価格による配分とポイント、工事契約の進捗度と原価回収基準、本人と代理人、保証・委託販売など）を、図・仕訳・計算問題・○×チェック50問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>収益認識の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(5ステップと基本)は青、PART2(取引価格と配分)はコーラル、PART3(進捗度と個別取引)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：進捗度と個別取引 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：取引価格と配分 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：5ステップと基本 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 5ステップと基本</a>
+    <a class="n-sh" href="#sh">PART2 取引価格と配分</a>
+    <a class="n-js" href="#js">PART3 進捗度と個別取引</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">収益認識</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">収益認識のすべての論点は、<mark>5つのステップ</mark>の上に乗っています。計算では<mark>「一定の期間にわたる収益（工事契約）」「変動対価」「ポイント・本人と代理人」</mark>がよく出ます。このページでは、図と仕訳で論点を順に整理し、最後に○×問題50問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>5ステップと基本</b><small>支配の移転、一時点か期間か、契約資産・契約負債</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>取引価格と配分</b><small>変動対価、返品、金融要素、独立販売価格、ポイント</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>進捗度と個別取引</b><small>工事契約、原価回収基準、本人と代理人、保証など</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック50問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 5ステップと基本 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>5つのステップと基本の考え方</h2>
+    <p>収益は、約束した財やサービスの「支配」が顧客に移ったときに、受け取ると見込まれる金額で認識します。その手順を5つのステップに分けたのが、収益認識基準です。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-5step">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>5つのステップ</h3></div>
+    <div class="prose">
+      <p>例：パソコン本体と1年間の保守サービスを、セットで120,000で販売しました。単独で売るときの価格（独立販売価格）は、本体100,000、保守25,000です。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 900 270" role="img" aria-label="収益認識の5つのステップ。契約の識別、履行義務の識別、取引価格の算定、取引価格の配分、履行義務の充足による収益の認識。パソコン本体と保守のセット販売120,000を、本体96,000と保守24,000に配分し、本体は引渡時、保守は1年にわたって収益にする">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <g>
+          <rect x="20" y="50" width="156" height="170" rx="14" class="b-kk"/>
+          <rect x="196" y="50" width="156" height="170" rx="14" class="b-kk"/>
+          <rect x="372" y="50" width="156" height="170" rx="14" class="b-sh"/>
+          <rect x="548" y="50" width="156" height="170" rx="14" class="b-sh"/>
+          <rect x="724" y="50" width="156" height="170" rx="14" class="b-js"/>
+        </g>
+        <g class="t-h c">
+          <text x="98" y="40" class="t-h c f-kk">1</text>
+          <text x="274" y="40" class="t-h c f-kk">2</text>
+          <text x="450" y="40" class="t-h c f-sh">3</text>
+          <text x="626" y="40" class="t-h c f-sh">4</text>
+          <text x="802" y="40" class="t-h c f-js">5</text>
+        </g>
+        <text x="98" y="80" class="t-b c">契約の識別</text>
+        <text x="98" y="120" class="t-xs c">パソコン＋1年保守を</text>
+        <text x="98" y="140" class="t-xs c">120,000で売る契約</text>
+        <text x="274" y="80" class="t-b c">履行義務の識別</text>
+        <text x="274" y="120" class="t-xs c">① 本体の引渡し</text>
+        <text x="274" y="140" class="t-xs c">② 1年間の保守</text>
+        <text x="450" y="80" class="t-b c">取引価格の算定</text>
+        <text x="450" y="124" class="t-num c">120,000</text>
+        <text x="450" y="148" class="t-xs c">（受け取る見込額）</text>
+        <text x="626" y="80" class="t-b c">取引価格の配分</text>
+        <text x="626" y="120" class="t-xs c">独立販売価格の比</text>
+        <text x="626" y="140" class="t-xs c">100,000：25,000</text>
+        <text x="626" y="170" class="t-num c">本体 96,000</text>
+        <text x="626" y="192" class="t-num c">保守 24,000</text>
+        <text x="802" y="80" class="t-b c">充足で収益認識</text>
+        <text x="802" y="120" class="t-xs c">本体：引渡時に</text>
+        <text x="802" y="140" class="t-xs c">96,000（一時点）</text>
+        <text x="802" y="170" class="t-xs c">保守：1年にわたり</text>
+        <text x="802" y="190" class="t-xs c">24,000（期間）</text>
+        <path d="M176 135 H192" class="ln" marker-end="url(#ah)"/>
+        <path d="M352 135 H368" class="ln" marker-end="url(#ah)"/>
+        <path d="M528 135 H544" class="ln" marker-end="url(#ah)"/>
+        <path d="M704 135 H720" class="ln" marker-end="url(#ah)"/>
+        <text x="450" y="254" class="t-xs c">ステップ1・2は「何を約束したか」、3・4は「いくらか」、5は「いつか」を決める</text>
+      </svg>
+      <figcaption>本体の引渡しと保守サービスは、別々の履行義務です。セット価格120,000を独立販売価格の比で分け、それぞれの充足のタイミングで収益にします。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">販売・引渡時（代金は現金で受け取った）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">120,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">96,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>契約負債</span><span class="amt">24,000</span></div>
+      <span class="je-n">保守の24,000は、まだサービスを提供していないので契約負債です。1年にわたって毎月2,000ずつ収益にします。</span>
+    </div>
+    <ul class="pts">
+      <li>収益は、財やサービスの<span class="hl">支配が顧客に移転</span>したときに認識します。「リスクと経済価値の移転」ではありません。</li>
+      <li>消費税など、<b>第三者のために回収する額</b>は取引価格に含めません（税抜方式）。</li>
+      <li>金融商品やリース取引など、ほかの基準が扱う取引には適用しません。</li>
+    </ul>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-jiten">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>一時点か、一定の期間にわたってか</h3></div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>受けながら消費する</b><small>顧客が、企業の履行につれて便益を受け取り、同時に消費する。例：清掃、警備、保守サービス。</small></div>
+      <div class="why-c"><span class="no">2</span><b>顧客が支配する資産ができる</b><small>企業の履行で資産が生じたり増えたりし、それを顧客が支配する。例：顧客の土地に建てる建物。</small></div>
+      <div class="why-c"><span class="no">3</span><b>転用できず、対価の権利がある</b><small>別の用途に転用できない資産が生じ、完了した部分の対価を受け取る強制力のある権利がある。例：特注品。</small></div>
+    </div>
+    <p class="cap">3つのうち<b>どれか1つ</b>に当たれば、一定の期間にわたって収益を認識します（PART3の進捗度）。どれにも当たらなければ、一時点で収益を認識します。</p>
+    <ul class="pts">
+      <li>一時点の場合、支配が移ったかどうかは、<b>対価を受け取る権利</b>、<b>法的所有権</b>、<b>物理的占有</b>、<b>重大なリスクと経済価値</b>、<b>検収</b>などの指標で判断します。</li>
+    </ul>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-keiyaku">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>契約資産・債権・契約負債</h3></div>
+    <div class="cases">
+      <div class="case kk"><span>権利が無条件ではない</span><b>契約資産</b><small>財やサービスを渡したが、対価を受け取るには、まだほかの条件がある（工事の未請求分など）</small></div>
+      <div class="case ju"><span>権利が無条件</span><b>顧客との契約から生じた債権</b><small>時が経てば受け取れる（売掛金・受取手形など）</small></div>
+      <div class="case sh"><span>先に受け取った</span><b>契約負債</b><small>対価を受け取ったのに、まだ財やサービスを渡していない（前受金・商品券・ポイントなど）</small></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>契約資産とは、時の経過だけで対価を受け取れる権利をいう<span class="why">それは「顧客との契約から生じた債権」です。契約資産は、まだ無条件ではない権利です。</span></span></li>
+        <li><span class="mark x">×</span><span>収益は、リスクと経済価値の大部分が移転したときに認識する<span class="why">基準の考え方は「支配の移転」です。リスクと経済価値は、支配の移転を判断する指標の1つにすぎません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 取引価格と配分 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>取引価格の算定と配分</h2>
+    <p>ステップ3と4です。取引価格は「受け取ると見込まれる額」なので、値引きや返品などで変わりうる部分は見積ります。そのうえで、独立販売価格の比率で各履行義務に配分します。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-hendo">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>変動対価：売上割戻と返品</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">見積</span><span>値引き・リベート・返品などで変わりうる対価は、<b>最頻値法</b>か<b>期待値法</b>のうち、より適切な方法で見積る。</span></div>
+        <div class="r-row exc"><span class="r-b">制限</span><span>見積額のうち、あとで<b>収益の著しい減額が生じない可能性が高い部分</b>だけを、取引価格に含める。</span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">売上割戻（売上100,000、割戻の見込み3%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">100,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">97,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>返金負債</span><span class="amt">3,000</span></div>
+        <span class="je-n">返す見込みの分は売上にせず、返金負債にします。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">返品権付販売（掛売上10,000、返品見込10%、原価率60%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">9,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>返金負債</span><span class="amt">1,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">5,400</span><span class="dc">(貸)</span><span>商品</span><span class="amt">6,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>返品資産</span><span class="amt">600</span><span></span><span></span><span></span></div>
+        <span class="je-n">戻ってくる見込みの商品の原価は、返品資産にします。旧来の返品調整引当金は使いません。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>変動対価は、見積った額をすべて取引価格に含める<span class="why">収益の著しい減額が生じない可能性が高い部分だけです。</span></span></li>
+        <li><span class="mark x">×</span><span>返品が見込まれる分も売上に含め、返品調整引当金を計上する<span class="why">返品見込分は売上にせず、返金負債と返品資産で処理します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-kinyu">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★</span><h3>重要な金融要素・顧客に支払われる対価</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">金融</span><span>代金の支払時期が大きくずれて、契約に<b>重要な金融要素</b>が含まれる場合は、金利の影響を除いて取引価格を算定する。<small>金利の部分は、受取利息として期間にわたって計上します。割賦販売も同じです。</small></span></div>
+        <div class="r-row exc"><span class="r-b">簡便</span><span>財の移転から支払いまでが<b>1年以内</b>と見込まれる場合は、金利の調整をしなくてよい。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">支払</span><span>顧客に支払う販促金などの<b>顧客に支払われる対価</b>は、原則として取引価格から<b>減額</b>する。</span></div>
+        <div class="r-row exc"><span class="r-b">割賦</span><span>割賦販売で、代金を回収したときに収益にする<b>回収基準</b>は認められない。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-point">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>独立販売価格による配分とポイント</h3></div>
+    <div class="prose">
+      <p>例：商品50,000を現金で販売し、12,500ポイント（1ポイント1円、すべて使われる見込み）を付与しました。ポイントが顧客に「重要な権利」を与えるので、別の履行義務として扱います。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 270" role="img" aria-label="ポイントへの取引価格の配分。商品の独立販売価格50,000とポイントの独立販売価格12,500の比率4対1で、受け取った50,000を、商品40,000とポイント10,000に配分する">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <text x="30" y="34" class="t-b">独立販売価格（合計 62,500）</text>
+        <rect x="30" y="48" width="560" height="50" class="b-kk"/>
+        <rect x="590" y="48" width="140" height="50" class="b-sun"/>
+        <text x="310" y="79" class="t-s c" style="font-weight:700">商品 50,000</text>
+        <text x="660" y="79" class="t-s c" style="font-weight:700">ポイント 12,500</text>
+        <text x="760" y="79" class="t-b f-sh">4 ： 1</text>
+        <path d="M410 104 V140" class="ln" marker-end="url(#ah2)"/>
+        <text x="420" y="128" class="t-xs">この比で、受け取った50,000を分ける</text>
+        <text x="30" y="166" class="t-b">取引価格（受け取った 50,000）</text>
+        <rect x="30" y="180" width="560" height="50" class="s-sh"/>
+        <rect x="590" y="180" width="140" height="50" class="b-sh"/>
+        <text x="310" y="211" class="t-s c" style="font-weight:700;fill:var(--on-solid)">売上 40,000</text>
+        <text x="660" y="211" class="t-s c" style="font-weight:700">契約負債 10,000</text>
+        <text x="30" y="258" class="t-xs">商品：50,000 × 50,000 ÷ 62,500 ＝ 40,000　／　ポイント：50,000 × 12,500 ÷ 62,500 ＝ 10,000</text>
+      </svg>
+      <figcaption>原価の比率ではなく、独立販売価格（単独で売るときの価格）の比率で配分します。独立販売価格が直接わからないときは見積ります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">販売時</span>
+        <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">50,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">40,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>契約負債</span><span class="amt">10,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">5,000ポイントが使われた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>契約負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">4,000</span></div>
+        <span class="je-n">10,000 × 5,000 ÷ 12,500 ＝ 4,000。使われた割合に応じて収益にします。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>取引価格は、各履行義務の原価の比率で配分する<span class="why">独立販売価格の比率です。</span></span></li>
+        <li><span class="mark x">×</span><span>付与したポイントは、販売時にポイント引当金として計上する<span class="why">重要な権利なら、取引価格を配分して契約負債にします。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　売上割戻（変動対価）</span>
+      <p class="scn-story">商品を1個1,000で販売しています。顧客が1年間に1,000個を超えて購入した場合、その年の全購入量について5%を割り戻す契約です。当期は800個を掛けで販売しました。年間の購入量は1,200個になる見込みで、割戻が発生する可能性は高いと判断しました。</p>
+      <ol class="scn-q">
+        <li>当期の売上（収益）はいくらか</li>
+        <li>返金負債はいくらか</li>
+        <li>仕訳はどうなるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>760,000</b><span class="calc">800個 × 1,000 × (1 − 5%) ＝ 760,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>40,000</b><span class="calc">800個 × 1,000 × 5% ＝ 40,000</span></span></div>
+          <div class="je">
+            <span class="je-t">仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">800,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">760,000</span></div>
+            <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>返金負債</span><span class="amt">40,000</span></div>
+            <span class="je-n">割戻が発生する可能性が高いので、割戻後の金額だけを収益にします。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 進捗度と個別取引 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>進捗度と個別の取引</h2>
+    <p>一定の期間にわたる収益は、進捗度に応じて計上します。工事契約が代表例です。あわせて、本人と代理人、保証、委託販売など、個別の取引の扱いを整理します。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-koji">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>進捗度と工事契約</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">原価比例法（インプット法の1つ）</span><span class="fx js">累計の発生原価 ÷ 見積総原価</span><span class="op">＝</span><span class="fx">進捗度</span></div>
+      <div class="formula"><span class="lbl">当期の工事収益</span><span class="fx js">請負金額 × 進捗度</span><span class="op">−</span><span class="fx">前期までの工事収益</span></div>
+    </div>
+    <div class="prose">
+      <p>例：請負金額3,000,000の工事。1年目は見積総原価2,400,000、発生原価600,000。2年目に見積総原価を2,500,000に見直し、累計の発生原価は1,500,000。3年目に完成しました。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 320" role="img" aria-label="工事収益の累計。1年目は進捗度25%で750,000、2年目は累計進捗度60%で累計1,800,000となり当期分は1,050,000、3年目は完成で累計3,000,000となり当期分は1,200,000">
+        <line x1="60" y1="260" x2="790" y2="260" class="axis"/>
+        <rect x="120" y="204" width="140" height="56" rx="4" class="b-js"/>
+        <rect x="360" y="204" width="140" height="56" class="b-grey"/>
+        <rect x="360" y="125" width="140" height="79" rx="4" class="b-js"/>
+        <rect x="600" y="125" width="140" height="135" class="b-grey"/>
+        <rect x="600" y="35" width="140" height="90" rx="4" class="b-js"/>
+        <text x="190" y="196" class="t-num c f-js">750,000</text>
+        <text x="190" y="237" class="t-xs c">25%</text>
+        <text x="430" y="117" class="t-num c f-js">＋1,050,000</text>
+        <text x="430" y="170" class="t-xs c">累計60%</text>
+        <text x="430" y="237" class="t-xs c">前期まで</text>
+        <text x="670" y="27" class="t-num c f-js">＋1,200,000</text>
+        <text x="670" y="84" class="t-xs c">累計100%</text>
+        <text x="670" y="190" class="t-xs c">前期まで 1,800,000</text>
+        <text x="190" y="284" class="t-b c">1年目</text>
+        <text x="430" y="284" class="t-b c">2年目</text>
+        <text x="670" y="284" class="t-b c">3年目（完成）</text>
+        <text x="190" y="304" class="t-xs c">600,000 ÷ 2,400,000</text>
+        <text x="430" y="304" class="t-xs c">1,500,000 ÷ 2,500,000</text>
+        <text x="670" y="304" class="t-xs c">3,000,000 − 1,800,000</text>
+      </svg>
+      <figcaption>棒の高さは累計の工事収益です（ティールが当期分）。2年目は、見直した見積総原価で累計の進捗度（60%）を出し、累計の収益1,800,000から前期までの750,000を引きます。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">1年目の決算</span>
+      <div class="je-row"><span class="dc">(借)</span><span>契約資産</span><span class="amt">750,000</span><span class="dc">(貸)</span><span>工事収益</span><span class="amt">750,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>工事原価</span><span class="amt">600,000</span><span class="dc">(貸)</span><span>未成工事支出金</span><span class="amt">600,000</span></div>
+      <span class="je-n">まだ請求していない分は、無条件の権利ではないので契約資産です。請求したら売掛金（債権）に振り替えます。</span>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>進捗度を合理的に見積れるときは、進捗度に応じて収益を計上する。</span></div>
+        <div class="r-row exc"><span class="r-b">回収</span><span>見積れないが、発生する費用は回収できると見込まれるときは、<b>原価回収基準</b>（発生した費用と同じ額を収益にする）による。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">損失</span><span>工事原価総額が工事収益総額を超える可能性が高く、損失額を合理的に見積れるときは、<b>工事損失引当金</b>を計上する。</span></div>
+        <div class="r-row exc"><span class="r-b">短期</span><span>工期がごく短い工事は、完全に履行義務を充足したときに収益を認識できる（代替的な取扱い）。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>原価比例法は、アウトプット法の1つである<span class="why">投入した原価で測るので、インプット法です。</span></span></li>
+        <li><span class="mark x">×</span><span>進捗度を合理的に見積れない場合は、完成するまで収益を認識しない<span class="why">費用の回収が見込まれるなら、原価回収基準で収益を認識します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-honnin">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>本人と代理人</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">本人<small>自分が財やサービスを支配してから顧客に渡す</small></p>
+        <ol class="steps">
+          <li class="star">収益は<b>総額</b>（売価）</li>
+          <li>在庫リスクを負う、価格を自分で決められる、などが判断の目安</li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">代理人<small>他社が提供するよう手配するだけ</small></p>
+        <ol class="steps">
+          <li class="star">収益は<b>純額</b>（手数料）</li>
+          <li>例：売価10,000、仕入先に8,000支払う → 収益は2,000</li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">代理人として販売（売価10,000、仕入先への支払8,000）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">8,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>手数料収入</span><span class="amt">2,000</span></div>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-kobetsu">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>そのほかの個別の取引</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">保証</span><span>合意した仕様どおりであることを保証するだけ（<b>アシュアランス型</b>）：<b>製品保証引当金</b>で処理する。</span></div>
+        <div class="r-row exc"><span class="r-b">追加</span><span>それを超えるサービスを提供する保証（<b>サービス型</b>）：<b>別の履行義務</b>にし、期間にわたって収益にする。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">委託</span><span><b>委託販売</b>は、受託者が顧客に販売したときに収益を認識する。積送しただけでは認識しない。</span></div>
+        <div class="r-row exc"><span class="r-b">出荷</span><span>国内販売で、出荷から支配の移転までが<b>通常の期間</b>なら、出荷時に収益を認識できる（代替的な取扱い）。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">商品券</span><span>発行したら<b>契約負債</b>。使われない見込みの部分は、使われた割合に応じて<b>比例的に</b>収益にする。</span></div>
+        <div class="r-row exc"><span class="r-b">買戻</span><span>企業が買い戻す義務や権利を持つ契約では、顧客は支配していない。<b>リース取引か金融取引</b>として処理する。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">使用</span><span>ライセンスのうち、提供時点のまま<b>使用する権利</b>：<b>一時点</b>で収益を認識する。</span></div>
+        <div class="r-row exc"><span class="r-b">接続</span><span>期間中に変わっていく知的財産に<b>アクセスする権利</b>：<b>期間にわたって</b>収益を認識する。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>代理人は、商品の売価の総額を収益にする<span class="why">代理人は純額（手数料）です。</span></span></li>
+        <li><span class="mark x">×</span><span>合意した仕様どおりであることの保証も、別の履行義務として扱う<span class="why">アシュアランス型は、製品保証引当金で処理します。</span></span></li>
+        <li><span class="mark x">×</span><span>委託販売では、商品を受託者に積送した時点で収益を認識する<span class="why">受託者が顧客に販売した時点です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　見積りが変わる工事契約</span>
+      <p class="scn-story">請負金額5,000,000の工事を、原価比例法で進捗度を見積って収益にしています。</p>
+      <ul class="given">
+        <li>1年目：見積総原価 <b>4,000,000</b>、発生原価 <b>1,200,000</b></li>
+        <li>2年目：見積総原価を <b>4,200,000</b> に見直し、累計の発生原価 <b>2,940,000</b></li>
+        <li>3年目：完成</li>
+      </ul>
+      <ol class="scn-q">
+        <li>1年目の工事収益はいくらか</li>
+        <li>2年目の工事収益はいくらか</li>
+        <li>3年目の工事収益はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>1,500,000</b><span class="calc">進捗度：1,200,000 ÷ 4,000,000 ＝ 30%<br>5,000,000 × 30% ＝ 1,500,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>2,000,000</b><span class="calc">累計の進捗度：2,940,000 ÷ 4,200,000 ＝ 70%<br>累計の収益：5,000,000 × 70% ＝ 3,500,000<br>3,500,000 − 1,500,000 ＝ 2,000,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>1,500,000</b><span class="calc">5,000,000 − 3,500,000 ＝ 1,500,000</span></span></div>
+          <p class="je-n">見積総原価を見直しても、過去の収益は修正しません。見直した後の数字で累計の進捗度を出し、前期までの分を引きます。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">50</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">5ステップと基本</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">取引価格と配分</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">進捗度と個別取引</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">50</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>5ステップと基本：まずここから</h3>
+      <ol>
+        <li>5つのステップの順番と中身</li>
+        <li>支配の移転で収益を認識する</li>
+        <li>一定の期間にわたる収益の3要件</li>
+        <li>契約資産・債権・契約負債の違い</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>取引価格と配分：まずここから</h3>
+      <ol>
+        <li>変動対価は著しい減額が生じない部分だけ</li>
+        <li>売上割戻・返品は返金負債と返品資産</li>
+        <li>独立販売価格の比率で配分</li>
+        <li>ポイントは契約負債、使われた割合で収益に</li>
+        <li>消費税は取引価格に含めない</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>進捗度と個別取引：まずここから</h3>
+      <ol>
+        <li>原価比例法の計算（見積りの見直し）</li>
+        <li>見積れなければ原価回収基準</li>
+        <li>本人は総額、代理人は純額</li>
+        <li>保証・委託販売・出荷基準・商品券</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>迷ったら「いまどのステップの話か」を考えます。ポイントや保守サービスは「履行義務の識別（ステップ2）」、割戻や返品は「取引価格の算定（ステップ3）」、セット販売の按分は「配分（ステップ4）」、工事の進捗度は「充足（ステップ5）」の話です。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第29号「収益認識に関する会計基準」、企業会計基準適用指針第30号「収益認識に関する会計基準の適用指針」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"kk", q:"収益認識基準では、5つのステップにより収益を認識する。", a:true, e:"契約の識別、履行義務の識別、取引価格の算定、配分、充足による認識の5つです。"},
+    {p:"kk", q:"収益は、約束した財またはサービスに対する支配が顧客に移転したときに認識する。", a:true, e:"基準の基本の考え方です。"},
+    {p:"kk", q:"収益は、財のリスクと経済価値の大部分が顧客に移転したときに認識する。", a:false, e:"基準は「支配の移転」で判断します。リスクと経済価値は判断の指標の1つです。"},
+    {p:"kk", q:"履行義務とは、顧客との契約において、別個の財またはサービスを顧客に移転する約束をいう。", a:true, e:"履行義務の定義です。"},
+    {p:"kk", q:"1つの契約に含まれる約束は、常に1つの履行義務として扱う。", a:false, e:"別個の財やサービスごとに、別々の履行義務として識別します。"},
+    {p:"kk", q:"同じ顧客と同時またはほぼ同時に結んだ複数の契約は、一定の要件を満たせば1つの契約とみなす。", a:true, e:"契約の結合です。"},
+    {p:"kk", q:"一定の期間にわたり充足される履行義務の要件をどれも満たさない場合は、一時点で充足される履行義務として処理する。", a:true, e:"3要件のどれにも当たらなければ一時点です。"},
+    {p:"kk", q:"顧客が、企業の履行につれて便益を受け取り、同時に消費する場合は、一定の期間にわたり収益を認識する。", a:true, e:"清掃や保守などのサービスです。"},
+    {p:"kk", q:"別の用途に転用できない資産が生じ、完了部分の対価を受け取る強制力のある権利がある場合は、一定の期間にわたり収益を認識する。", a:true, e:"3要件の1つです。"},
+    {p:"kk", q:"一時点で充足される履行義務は、資産に対する支配が顧客に移転したときに収益を認識する。", a:true, e:"支配の移転を指標で判断します。"},
+    {p:"kk", q:"支配の移転を判断する指標には、法的所有権の移転、物理的占有の移転、顧客による検収などがある。", a:true, e:"対価を受け取る権利、重大なリスクと経済価値の移転も指標です。"},
+    {p:"kk", q:"契約資産とは、顧客との契約から生じた債権のうち、時の経過だけで対価を受け取れるものをいう。", a:false, e:"それは「顧客との契約から生じた債権」です。"},
+    {p:"kk", q:"契約資産は、顧客に移転した財やサービスと交換に対価を受け取る権利のうち、無条件ではないものをいう。", a:true, e:"工事の未請求分などです。"},
+    {p:"kk", q:"契約負債とは、財やサービスを顧客に移転する前に、顧客から対価を受け取ったものなどをいう。", a:true, e:"前受金・商品券・ポイントなどです。"},
+    {p:"kk", q:"商品券を発行して受け取った対価は、契約負債として計上する。", a:true, e:"まだ商品を渡していないので契約負債です。"},
+    {p:"kk", q:"収益認識基準は、金融商品やリース取引にも適用される。", a:false, e:"ほかの基準が扱う取引は適用範囲から除かれています。"},
+    {p:"sh", q:"取引価格とは、財やサービスの顧客への移転と交換に、企業が権利を得ると見込む対価の額をいう。", a:true, e:"取引価格の定義です。"},
+    {p:"sh", q:"取引価格には、第三者のために回収する額（消費税など）を含める。", a:false, e:"第三者のために回収する額は含めません。"},
+    {p:"sh", q:"変動対価は、最頻値法または期待値法のうち、より適切に予測できる方法で見積る。", a:true, e:"どちらかを選びます。"},
+    {p:"sh", q:"変動対価は、見積った額の全額を取引価格に含める。", a:false, e:"収益の著しい減額が生じない可能性が高い部分だけです。"},
+    {p:"sh", q:"変動対価は、収益の著しい減額が発生しない可能性が高い部分に限り、取引価格に含める。", a:true, e:"変動対価の見積りの制限です。"},
+    {p:"sh", q:"売上割戻が見込まれる場合は、その見込額を返金負債として計上する。", a:true, e:"割戻見込額は売上にしません。"},
+    {p:"sh", q:"返品が見込まれる商品の対価は売上に含め、返品調整引当金を計上する。", a:false, e:"返品見込分は返金負債にし、返品調整引当金は使いません。"},
+    {p:"sh", q:"返品権付販売では、返品が見込まれる商品の原価を、返品資産として計上する。", a:true, e:"戻ってくる商品を受け取る権利です。"},
+    {p:"sh", q:"契約に重要な金融要素が含まれる場合は、金利の影響を調整して取引価格を算定する。", a:true, e:"金利部分は受取利息として計上します。"},
+    {p:"sh", q:"財の移転から支払いまでの期間が1年以内と見込まれる場合は、重要な金融要素の調整をしないことができる。", a:true, e:"簡便な取扱いです。"},
+    {p:"sh", q:"顧客に支払われる対価は、原則として取引価格から減額する。", a:true, e:"販促金などは収益の減額です。"},
+    {p:"sh", q:"取引価格は、各履行義務の原価の比率で配分する。", a:false, e:"独立販売価格の比率です。"},
+    {p:"sh", q:"取引価格は、各履行義務の独立販売価格の比率で配分する。", a:true, e:"配分の原則です。"},
+    {p:"sh", q:"独立販売価格を直接観察できない場合は、見積る。", a:true, e:"調整した市場評価による方法などで見積ります。"},
+    {p:"sh", q:"自社ポイントが顧客に重要な権利を提供する場合は、別個の履行義務として、取引価格の一部を配分する。", a:true, e:"ポイントに配分した分は契約負債です。"},
+    {p:"sh", q:"付与したポイントは、販売時にポイント引当金として計上する。", a:false, e:"重要な権利なら、取引価格を配分して契約負債にします。"},
+    {p:"sh", q:"ポイントに配分した取引価格は、ポイントが使われたときに、使用割合に応じて収益に振り替える。", a:true, e:"使われた分だけ履行義務を充足します。"},
+    {p:"js", q:"一定の期間にわたり充足される履行義務は、進捗度を見積り、それにもとづいて収益を認識する。", a:true, e:"工事契約などです。"},
+    {p:"js", q:"進捗度の見積方法には、インプット法とアウトプット法がある。", a:true, e:"どちらかを選びます。"},
+    {p:"js", q:"原価比例法は、アウトプット法の1つである。", a:false, e:"投入した原価で測るので、インプット法です。"},
+    {p:"js", q:"進捗度を合理的に見積れないが、発生する費用を回収することが見込まれる場合は、原価回収基準による。", a:true, e:"発生した費用と同じ額を収益にします。"},
+    {p:"js", q:"原価回収基準では、進捗度を見積り、その割合で収益を計上する。", a:false, e:"回収が見込まれる費用の額で収益を計上します。"},
+    {p:"js", q:"進捗度を合理的に見積れない場合は、工事が完成するまで収益を認識しない。", a:false, e:"費用の回収が見込まれるなら、原価回収基準で認識します。"},
+    {p:"js", q:"請負金額3,000,000、見積総原価2,400,000、当期の発生原価600,000の工事の当期の収益は、750,000である。", a:true, e:"進捗度25%なので、3,000,000 × 25% ＝ 750,000です。"},
+    {p:"js", q:"工事原価総額が工事収益総額を超える可能性が高く、損失額を合理的に見積れる場合は、工事損失引当金を計上する。", a:true, e:"将来の損失を先に計上します。"},
+    {p:"js", q:"見積総原価を見直した場合は、過去の期の工事収益にさかのぼって修正する。", a:false, e:"見直した後の数字で累計の進捗度を出し、当期の収益で調整します。"},
+    {p:"js", q:"企業が本人に該当する場合は、収益を総額で認識する。", a:true, e:"自分が財を支配してから渡すので総額です。"},
+    {p:"js", q:"企業が代理人に該当する場合は、収益を総額で認識する。", a:false, e:"代理人は純額（手数料）です。"},
+    {p:"js", q:"代理人の履行義務は、他の当事者が財やサービスを提供するよう手配することである。", a:true, e:"だから手数料だけが収益になります。"},
+    {p:"js", q:"合意された仕様に従っているという保証（アシュアランス型）は、別個の履行義務として扱う。", a:false, e:"製品保証引当金で処理します。"},
+    {p:"js", q:"合意された仕様に従っているという保証に加えて、顧客にサービスを提供する保証は、別個の履行義務として扱う。", a:true, e:"サービス型の保証です。"},
+    {p:"js", q:"委託販売では、商品を受託者に積送した時点で収益を認識する。", a:false, e:"受託者が顧客に販売した時点です。"},
+    {p:"js", q:"国内の販売で、出荷から支配の移転までの期間が通常の期間である場合は、出荷時に収益を認識することができる。", a:true, e:"出荷基準の代替的な取扱いです。"},
+    {p:"js", q:"割賦販売では、代金を回収した時点で収益を認識する回収基準が認められる。", a:false, e:"回収基準は認められません。金利部分は重要な金融要素として処理します。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:" 5ステップと基本", sh:" 取引価格と配分", js:" 進捗度と個別取引"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
