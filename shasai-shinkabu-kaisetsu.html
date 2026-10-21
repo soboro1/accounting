@@ -1,0 +1,964 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。社債と新株予約権の出やすい論点（社債の償却原価法、買入償還と抽選償還、新株予約権が純資産に入る理由、発行・行使・失効の仕訳、新株予約権付社債の一括法と区分法、ストック・オプション）を、図・仕訳・計算問題・○×チェック49問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>社債・新株予約権の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(社債)は青、PART2(新株予約権)はコーラル、PART3(新株予約権付社債・ストック・オプション)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：付社債・ストック・オプション */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：新株予約権 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：社債 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 社債</a>
+    <a class="n-sh" href="#sh">PART2 新株予約権</a>
+    <a class="n-js" href="#js">PART3 付社債・SO</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">社債</span>と<span class="h-a">新株予約権</span>の<br><span class="h-b">出る論点</span></h1>
+  <p class="lead">社債は<mark>「償却原価法」と「償還の3パターン」</mark>の計算が、新株予約権は<mark>「純資産に入る理由」と「発行・行使・失効の仕訳」</mark>が中心です。そこに新株予約権付社債とストック・オプションが加わります。このページでは、図と仕訳で論点を順に整理し、最後に○×問題49問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>社債</b><small>償却原価法、買入償還、抽選償還、表示</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>新株予約権</b><small>純資産に入る理由、発行・行使・失効、取得者の処理</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>付社債・ストック・オプション</b><small>一括法と区分法、代用払込、株式報酬費用</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック49問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 社債 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>社債</h2>
+    <p>社債は、受け取った金額（払込金額）で負債に計上し、償還日までに少しずつ額面に近づけます。計算問題では、償還の仕方ごとの処理が問われます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-amort">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>発行と償却原価法</h3></div>
+    <div class="prose">
+      <p>例：額面100,000、クーポン利率4%、償還まで3年の社債を、97,273で発行しました。実効利子率は5%です。額面との差2,727は、償還日までの3年間で社債に加えていきます。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 330" role="img" aria-label="利息法による社債の帳簿価額の推移。97,273から、毎年の償却額864、907、956を加えて、98,137、99,044、100,000と額面に近づく">
+        <line x1="70" y1="270" x2="790" y2="270" class="axis"/>
+        <line x1="70" y1="60" x2="790" y2="60" class="ln dash"/>
+        <text x="786" y="52" class="t-xs e">額面 100,000（償還額）</text>
+        <polyline points="140,250 340,186 540,120 740,60" fill="none" stroke="var(--c4)" stroke-width="3"/>
+        <circle cx="140" cy="250" r="7" fill="var(--c4)"/>
+        <circle cx="340" cy="186" r="7" fill="var(--c4)"/>
+        <circle cx="540" cy="120" r="7" fill="var(--c4)"/>
+        <circle cx="740" cy="60" r="7" fill="var(--c4)"/>
+        <text x="140" y="236" class="t-num c">97,273</text>
+        <text x="340" y="172" class="t-num c">98,137</text>
+        <text x="540" y="106" class="t-num c">99,044</text>
+        <text x="740" y="90" class="t-num c">100,000</text>
+        <text x="240" y="236" class="t-b c f-sh">＋864</text>
+        <text x="440" y="172" class="t-b c f-sh">＋907</text>
+        <text x="640" y="106" class="t-b c f-sh">＋956</text>
+        <text x="140" y="294" class="t-b c">発行時</text>
+        <text x="340" y="294" class="t-b c">1年後</text>
+        <text x="540" y="294" class="t-b c">2年後</text>
+        <text x="740" y="294" class="t-b c">3年後（償還）</text>
+        <text x="410" y="322" class="t-xs c">社債の帳簿価額。償却額は年々大きくなる（定額法なら毎年 2,727 ÷ 3 ＝ 909）</text>
+      </svg>
+      <figcaption>縦軸は途中を省略しています。償却額は「社債利息」として費用にします。満期の時点で、帳簿価額はちょうど額面になります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">発行時</span>
+        <div class="je-row"><span class="dc">(借)</span><span>当座預金</span><span class="amt">97,273</span><span class="dc">(貸)</span><span>社債</span><span class="amt">97,273</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">1年目の利払日（利息法）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>社債利息</span><span class="amt">4,864</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">4,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>社債</span><span class="amt">864</span></div>
+        <span class="je-n">97,273 × 5% ≒ 4,864 から、クーポン 100,000 × 4% ＝ 4,000 を引いた864が償却額です。</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>社債は<span class="hl">払込金額</span>で計上します。額面で計上して差額を資産にする「社債発行差金」は、現在は使いません。</li>
+      <li>償却原価法は、原則が<b>利息法</b>、継続適用を条件に<b>定額法</b>も認められます。期中に発行したら月割で償却します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>社債は額面金額で負債に計上し、払込金額との差額は社債発行差金として資産に計上する<span class="why">払込金額で計上し、償却原価法で額面に近づけます。</span></span></li>
+        <li><span class="mark x">×</span><span>利息法による償却額は、毎期同じ額になる<span class="why">帳簿価額が増えるので、償却額も年々大きくなります。毎期同じになるのは定額法です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-kaire">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>買入償還：損益は「帳簿価額」と「支払額」の差</h3></div>
+    <div class="prose">
+      <p>例：額面100,000を払込97,000で発行しました（5年、定額法で年600償却）。3年経過後の期首に、全額を額面100円につき98.50円で買い戻して償還します。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 360" role="img" aria-label="買入償還の損益。発行時97,000に3年分の償却1,800を加えた償還時の帳簿価額98,800と、支払額98,500の差300が社債償還益">
+        <line x1="60" y1="310" x2="790" y2="310" class="axis"/>
+        <path d="M52 300 L68 294 M52 308 L68 302" stroke="var(--ink)" stroke-width="2"/>
+        <rect x="100" y="210" width="150" height="100" rx="6" class="b-grey"/>
+        <text x="175" y="200" class="t-num c">97,000</text>
+        <text x="175" y="334" class="t-b c">発行時</text>
+        <rect x="330" y="30" width="150" height="180" rx="6" class="b-sh"/>
+        <rect x="330" y="210" width="150" height="100" class="b-kk"/>
+        <text x="405" y="124" class="t-s c" style="font-weight:700">3年分の償却</text>
+        <text x="405" y="146" class="t-num c">＋1,800</text>
+        <text x="405" y="22" class="t-num c">98,800</text>
+        <text x="405" y="334" class="t-b c">償還時の帳簿価額</text>
+        <rect x="560" y="60" width="150" height="250" rx="6" class="b-js"/>
+        <text x="635" y="52" class="t-num c">98,500</text>
+        <text x="635" y="334" class="t-b c">支払額</text>
+        <text x="635" y="352" class="t-xs c">100,000 × 98.50/100</text>
+        <path d="M480 30 H740 M710 60 H740" class="ln dash"/>
+        <path d="M748 30 V60" class="ln" stroke-width="2.5"/>
+        <text x="756" y="40" class="t-b f-sh">償還益</text>
+        <text x="756" y="60" class="t-num">300</text>
+      </svg>
+      <figcaption>縦軸は途中を省略しています。帳簿価額98,800の負債を、98,500支払って消したので、300の利益（社債償還益）です。額面100,000と比べないのがポイントです。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">買入償還</span>
+      <div class="je-row"><span class="dc">(借)</span><span>社債</span><span class="amt">98,800</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">98,500</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>社債償還益</span><span class="amt">300</span></div>
+    </div>
+    <ul class="pts">
+      <li>期中に償還するときは、まず<b>償還日までの償却額</b>を月割で計上して、帳簿価額を最新にします。</li>
+      <li>前の利払日から償還日までの<b>端数利息</b>は、社債償還損益に含めず、<b>社債利息</b>として別に処理します。</li>
+      <li>一部だけ償還する場合は、帳簿価額を償還する割合で按分します。対応する社債発行費の未償却残高は、その期に償却します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>買入償還による社債償還損益は、額面金額と支払額との差額である<span class="why">償還時の帳簿価額（償却原価）と支払額の差額です。</span></span></li>
+        <li><span class="mark x">×</span><span>買入償還の支払額に含まれる端数利息は、社債償還損益に含める<span class="why">端数利息は社債利息として処理します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-chusen">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>抽選償還：社債の残高の割合で按分</h3></div>
+    <div class="prose">
+      <p>例：額面300,000を払込294,000で発行し、毎期末に100,000ずつ、3回に分けて抽選で償還します。額面との差6,000を、各期にどう配分するでしょうか。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 320" role="img" aria-label="抽選償還の償却額の按分。期首の社債残高が300,000、200,000、100,000と減るので、差額6,000を3対2対1に按分し、償却額は3,000、2,000、1,000">
+        <line x1="60" y1="260" x2="790" y2="260" class="axis"/>
+        <rect x="110" y="40" width="140" height="220" rx="6" class="b-kk"/>
+        <rect x="350" y="113" width="140" height="147" rx="6" class="b-kk"/>
+        <rect x="590" y="187" width="140" height="73" rx="6" class="b-kk"/>
+        <text x="180" y="140" class="t-num c">300,000</text>
+        <text x="420" y="190" class="t-num c">200,000</text>
+        <text x="660" y="228" class="t-num c">100,000</text>
+        <text x="180" y="30" class="t-b c f-sh">償却 3,000</text>
+        <text x="420" y="103" class="t-b c f-sh">償却 2,000</text>
+        <text x="660" y="177" class="t-b c f-sh">償却 1,000</text>
+        <text x="180" y="284" class="t-b c">1年目（期首残高）</text>
+        <text x="420" y="284" class="t-b c">2年目</text>
+        <text x="660" y="284" class="t-b c">3年目</text>
+        <text x="420" y="312" class="t-xs c">残高の比 3：2：1 で、差額6,000を按分する</text>
+      </svg>
+      <figcaption>償還が進むと、会社が使っている資金（社債の残高）が減ります。そのため、定額法でも毎期の償却額は同じにならず、残高の割合で按分します。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">1年目末</span>
+      <div class="je-row"><span class="dc">(借)</span><span>社債利息</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>社債</span><span class="amt">3,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>社債</span><span class="amt">100,000</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">100,000</span></div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">表示</span><span>1年以内に償還する予定の社債は、「1年以内償還予定の社債」として<b>流動負債</b>に表示する。</span></div>
+        <div class="r-row exc"><span class="r-b">損益</span><span>社債償還損益は、原則として<b>営業外損益</b>。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　期中の買入償還</span>
+      <p class="scn-story">決算日・利払日は毎年3月31日です。X1年4月1日に社債を発行し、定額法で償却しています。X3年9月30日に、その半分を買入償還しました。</p>
+      <ul class="given">
+        <li>額面 <b>200,000</b>、払込 <b>194,000</b>、償還期間 <b>5年</b></li>
+        <li>クーポン利率 年 <b>2%</b></li>
+        <li>X3年9月30日、額面 <b>100,000</b> 分を額面100円につき <b>98.80円</b>（裸相場）で買入償還。端数利息は別に支払った</li>
+      </ul>
+      <ol class="scn-q">
+        <li>償還する分の、償還日の帳簿価額はいくらか</li>
+        <li>社債償還損益はいくらか</li>
+        <li>端数利息はいくらで、どう処理するか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>98,500</b><span class="calc">毎年の償却：(200,000 − 194,000) ÷ 5年 ＝ 1,200<br>X3年3月末の帳簿価額：194,000 ＋ 1,200 × 2年 ＝ 196,400<br>償還分（50%）：196,400 × 50% ＝ 98,200<br>償還日までの6か月の償却：1,200 × 50% × 6/12 ＝ 300<br>98,200 ＋ 300 ＝ 98,500</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>償還損 300</b><span class="calc">支払額：100,000 × 98.80/100 ＝ 98,800<br>98,500 − 98,800 ＝ −300</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>1,000</b>、社債利息<span class="calc">100,000 × 2% × 6/12 ＝ 1,000</span></span></div>
+          <div class="je">
+            <span class="je-t">X3年9月30日の仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>社債利息</span><span class="amt">300</span><span class="dc">(貸)</span><span>社債</span><span class="amt">300</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>社債</span><span class="amt">98,500</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">98,800</span></div>
+            <div class="je-row"><span class="dc"></span><span>社債償還損</span><span class="amt">300</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>社債利息</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>当座預金</span><span class="amt">1,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 新株予約権 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>新株予約権</h2>
+    <p>新株予約権は、あらかじめ決めた価格で株式を受け取れる権利です。発行した会社では、行使されれば資本金などに、行使されずに終われば利益に変わります。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-junshisan">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>新株予約権は純資産の「株主資本以外」</h3></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="貸借対照表の負債と純資産の区分。新株予約権は純資産の部の株主資本以外の項目">
+        <div class="pl-row" role="listitem"><div class="pl-k">負債</div><div class="pl-v"><span class="pill kk">社債<small>返済義務がある</small></span><span style="color:var(--muted);font-size:14px">※新株予約権は返済義務がないので、ここには入らない</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">純資産<small>株主資本</small></div><div class="pl-v"><span class="pill kk" style="background:var(--muted)">資本金・資本剰余金・利益剰余金<small>株主からの払込みと、その成果</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">純資産<small>評価・換算差額等</small></div><div class="pl-v"><span class="pill js">その他有価証券評価差額金など</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">純資産<small>新株予約権</small></div><div class="pl-v"><span class="pill sh">新株予約権<small>まだ株主ではない人の払込み</small></span></div></div>
+      </div>
+      <figcaption>新株予約権は、返済義務がないので負債ではありません。また、まだ株主ではない人が払い込んだものなので、株主資本でもありません。そのため、純資産の部の独立した項目になります。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>新株予約権は、将来株式を交付する義務なので負債に計上する<span class="why">お金を返す義務はないので、負債ではありません。</span></span></li>
+        <li><span class="mark x">×</span><span>新株予約権は、純資産の部の株主資本に含めて表示する<span class="why">株主資本以外の項目です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-koshi">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>発行 → 行使 → 失効</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 260" role="img" aria-label="新株予約権の行方。10個を1個1,000で発行し10,000を計上。6個が行使されると、払込300,000と合わせた306,000が資本金と資本準備金になる。4個が失効すると、4,000が新株予約権戻入益になる">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="30" y="80" width="220" height="100" rx="14" class="b-sh"/>
+        <text x="140" y="116" class="t-b c">発行 10個（@1,000）</text>
+        <text x="140" y="144" class="t-num c">新株予約権 10,000</text>
+        <text x="140" y="166" class="t-xs c">純資産</text>
+        <path d="M250 110 L420 62" class="ln" marker-end="url(#ah)"/>
+        <path d="M250 150 L420 198" class="ln" marker-end="url(#ah)"/>
+        <text x="330" y="70" class="t-b c f-kk">6個 行使</text>
+        <text x="330" y="208" class="t-b c f-sh">4個 失効</text>
+        <rect x="430" y="16" width="370" height="96" rx="14" class="b-kk"/>
+        <text x="615" y="44" class="t-s c">新株予約権 6,000 ＋ 払込 300,000</text>
+        <text x="615" y="72" class="t-b c">→ 資本金・資本準備金 306,000</text>
+        <text x="615" y="96" class="t-xs c">（自己株式を渡すなら、差額はその他資本剰余金）</text>
+        <rect x="430" y="150" width="370" height="96" rx="14" class="b-sun"/>
+        <text x="615" y="182" class="t-s c">新株予約権 4,000</text>
+        <text x="615" y="210" class="t-b c">→ 新株予約権戻入益 4,000</text>
+        <text x="615" y="232" class="t-xs c">（原則として特別利益）</text>
+      </svg>
+      <figcaption>行使されれば、新株予約権は株主からの払込み（資本金など）に変わります。行使されなければ、返す必要もないので、利益になります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">発行時</span>
+        <div class="je-row"><span class="dc">(借)</span><span>当座預金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>新株予約権</span><span class="amt">10,000</span></div>
+        <span class="je-t">6個が行使された（新株を発行、資本金は最低限度額）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>当座預金</span><span class="amt">300,000</span><span class="dc">(貸)</span><span>資本金</span><span class="amt">153,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>新株予約権</span><span class="amt">6,000</span><span></span><span>資本準備金</span><span class="amt">153,000</span></div>
+        <span class="je-n">会社法の最低限度額は2分の1なので、306,000を半分ずつに分けます。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">残り4個が失効した</span>
+        <div class="je-row"><span class="dc">(借)</span><span>新株予約権</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>新株予約権戻入益</span><span class="amt">4,000</span></div>
+        <span class="je-t">取得者の側（新株予約権を有価証券として持っていた）</span>
+        <p class="je-n">行使したら、新株予約権の帳簿価額と払込額の合計を株式の取得原価にします。行使しないまま失効したら、帳簿価額を損失にします。</p>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>行使されずに失効した新株予約権は、その他資本剰余金に振り替える<span class="why">株主からの払込みではないので、新株予約権戻入益（特別利益）です。</span></span></li>
+        <li><span class="mark x">×</span><span>新株予約権を行使して取得した株式の取得原価は、払込額だけである<span class="why">新株予約権の帳簿価額も加えます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　自己株式を交付する行使</span>
+      <p class="scn-story">新株予約権5個を、1個2,000で発行しました。その後、次の取引がありました。</p>
+      <ul class="given">
+        <li>3個が行使され、1個あたり <b>30,000</b> の払込みを受けた</li>
+        <li>新株は発行せず、<b>自己株式</b>（帳簿価額 <b>80,000</b>）を交付した</li>
+        <li>残り2個は、行使されないまま権利行使期間が終わった</li>
+      </ul>
+      <ol class="scn-q">
+        <li>行使時の仕訳はどうなるか</li>
+        <li>失効時の仕訳はどうなるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>自己株式の処分差益 <b>16,000</b> をその他資本剰余金にする<span class="calc">払込 30,000 × 3個 ＝ 90,000<br>新株予約権 2,000 × 3個 ＝ 6,000<br>(90,000 ＋ 6,000) − 自己株式 80,000 ＝ 16,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>新株予約権戻入益 <b>4,000</b><span class="calc">2,000 × 2個 ＝ 4,000</span></span></div>
+          <div class="je">
+            <span class="je-t">仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>当座預金</span><span class="amt">90,000</span><span class="dc">(貸)</span><span>自己株式</span><span class="amt">80,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>新株予約権</span><span class="amt">6,000</span><span></span><span>その他資本剰余金</span><span class="amt">16,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>新株予約権</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>新株予約権戻入益</span><span class="amt">4,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 付社債・SO ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>新株予約権付社債とストック・オプション</h2>
+    <p>社債に新株予約権がついたもの（新株予約権付社債）と、従業員に報酬として与える新株予約権（ストック・オプション）です。どちらも、PART1とPART2の組み合わせで処理できます。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-tsukishasai">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>新株予約権付社債：一括法と区分法</h3></div>
+    <div class="lanes">
+      <div class="lane j">
+        <p class="lane-h">転換社債型新株予約権付社債<small>社債と新株予約権を別々に使えない</small></p>
+        <ol class="steps">
+          <li class="star">発行者：<b>一括法</b>か<b>区分法</b>を選べる</li>
+          <li>取得者：<b>一括法</b></li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">それ以外の新株予約権付社債<small>新株予約権だけを行使できる</small></p>
+        <ol class="steps">
+          <li class="star">発行者：<b>区分法</b></li>
+          <li>取得者：<b>区分法</b></li>
+        </ol>
+      </div>
+    </div>
+    <div class="prose">
+      <p>例：転換社債型を額面100,000で発行。区分法では、社債の対価90,000と新株予約権の対価10,000に分けます。社債は5年・定額法で償却します（年2,000）。2年後の期首に50%が行使され、社債で払い込まれました（代用払込）。資本金は全額とします。</p>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">区分法：発行時</span>
+        <div class="je-row"><span class="dc">(借)</span><span>当座預金</span><span class="amt">100,000</span><span class="dc">(貸)</span><span>社債</span><span class="amt">90,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>新株予約権</span><span class="amt">10,000</span></div>
+        <span class="je-t">区分法：2年後の期首に50%が行使</span>
+        <div class="je-row"><span class="dc">(借)</span><span>社債</span><span class="amt">47,000</span><span class="dc">(貸)</span><span>資本金</span><span class="amt">52,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>新株予約権</span><span class="amt">5,000</span><span></span><span></span><span></span></div>
+        <span class="je-n">社債の帳簿価額：(90,000 ＋ 2,000 × 2年) × 50% ＝ 47,000</span>
+      </div>
+      <div class="je">
+        <span class="je-t">一括法：発行時</span>
+        <div class="je-row"><span class="dc">(借)</span><span>当座預金</span><span class="amt">100,000</span><span class="dc">(貸)</span><span>社債</span><span class="amt">100,000</span></div>
+        <span class="je-t">一括法：2年後の期首に50%が行使</span>
+        <div class="je-row"><span class="dc">(借)</span><span>社債</span><span class="amt">50,000</span><span class="dc">(貸)</span><span>資本金</span><span class="amt">50,000</span></div>
+        <span class="je-n">一括法は普通の社債と同じ扱いです。額面で発行していれば償却はありません。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>転換社債型新株予約権付社債の取得者は、区分法で処理しなければならない<span class="why">取得者は一括法です。選べるのは発行者だけです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-so">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>ストック・オプション</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">各期の費用（累計額から前期までの累計額を引く）</span><span class="fx js">公正な評価単価（付与日）</span><span class="op">×</span><span class="fx">権利確定が見込まれる数</span><span class="op">×</span><span class="fx">経過期間 ÷ 対象勤務期間</span><span class="op">→</span><span class="res js">株式報酬費用</span></div>
+    </div>
+    <div class="prose">
+      <p>例：従業員10人に1人100個（合計1,000個）を付与。公正な評価単価500、対象勤務期間3年。失効見込みは、1年目は1人、2年目に2人へ見直し、3年目に実際の確定は850個でした。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 330" role="img" aria-label="ストック・オプションの費用計上。付与日から権利確定日までの3年間で、1年目150,000、2年目116,667、3年目158,333を株式報酬費用にする。累計は150,000、266,667、425,000">
+        <line x1="60" y1="250" x2="790" y2="250" class="axis"/>
+        <rect x="130" y="130" width="130" height="120" rx="6" class="b-js"/>
+        <rect x="350" y="157" width="130" height="93" rx="6" class="b-js"/>
+        <rect x="570" y="123" width="130" height="127" rx="6" class="b-js"/>
+        <text x="195" y="120" class="t-num c">150,000</text>
+        <text x="415" y="147" class="t-num c">116,667</text>
+        <text x="635" y="113" class="t-num c">158,333</text>
+        <text x="195" y="196" class="t-xs c">900個×500×1/3</text>
+        <text x="415" y="200" class="t-xs c">800個×500×2/3</text>
+        <text x="415" y="218" class="t-xs c">− 150,000</text>
+        <text x="635" y="190" class="t-xs c">850個×500</text>
+        <text x="635" y="208" class="t-xs c">− 266,667</text>
+        <text x="195" y="274" class="t-b c">1年目</text>
+        <text x="415" y="274" class="t-b c">2年目（見込みを見直し）</text>
+        <text x="635" y="274" class="t-b c">3年目（権利確定）</text>
+        <path d="M100 40 H740" class="ln" stroke-width="2.5"/>
+        <path d="M100 32 V48 M740 32 V48" class="ln" stroke-width="2.5"/>
+        <text x="100" y="24" class="t-b c f-js">付与日</text>
+        <text x="420" y="30" class="t-s c" style="font-weight:700">対象勤務期間 3年</text>
+        <text x="740" y="24" class="t-b c f-js">権利確定日</text>
+        <text x="420" y="314" class="t-xs c">累計：150,000 → 266,667 → 425,000（＝確定850個 × 500）</text>
+      </svg>
+      <figcaption>単価500は付与日のまま変えません。見直すのは「何個確定しそうか」だけで、見直した影響は、その期の費用で調整します。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">1年目の決算</span>
+      <div class="je-row"><span class="dc">(借)</span><span>株式報酬費用</span><span class="amt">150,000</span><span class="dc">(貸)</span><span>新株予約権</span><span class="amt">150,000</span></div>
+      <span class="je-n">株式報酬費用は人件費なので、原則として販売費及び一般管理費（製造に関わる人の分は製造原価）です。</span>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">単価</span><span>公正な評価単価は<b>付与日</b>の時点で決め、その後は見直さない（条件変更の場合を除く）。</span></div>
+        <div class="r-row exc"><span class="r-b">数</span><span>権利確定日までに、失効見込みの数を<b>見直す</b>。影響額は見直した期の費用で調整する（過去の期は直さない）。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">失効</span><span>権利確定日より<b>後</b>に失効した分は、<b>新株予約権戻入益</b>にする。</span></div>
+        <div class="r-row exc"><span class="r-b">未公開</span><span>未公開企業は、公正な評価単価のかわりに<b>本源的価値</b>（株価 − 行使価格）を使える。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>ストック・オプションの公正な評価単価は、毎期末の株価にもとづいて見直す<span class="why">付与日の単価のまま変えません。見直すのは失効見込みの数です。</span></span></li>
+        <li><span class="mark x">×</span><span>ストック・オプションの費用は、権利が行使された時点で一括して計上する<span class="why">付与日から権利確定日までの対象勤務期間にわたって計上します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">49</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">社債</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">新株予約権</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">付社債・SO</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">49</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>社債：まずここから</h3>
+      <ol>
+        <li>払込金額で計上、償却原価法（利息法が原則）</li>
+        <li>買入償還は「帳簿価額 − 支払額」</li>
+        <li>期中償還は月割の償却と端数利息</li>
+        <li>抽選償還は残高の割合で按分</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>新株予約権：まずここから</h3>
+      <ol>
+        <li>純資産の「株主資本以外」に入る理由</li>
+        <li>行使：新株予約権＋払込額 → 資本金等</li>
+        <li>自己株式を渡すなら差額はその他資本剰余金</li>
+        <li>失効：新株予約権戻入益（特別利益）</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>付社債・SO：まずここから</h3>
+      <ol>
+        <li>転換社債型は発行者が選べる、取得者は一括法</li>
+        <li>区分法の代用払込の仕訳</li>
+        <li>SOは付与日の単価 × 確定見込み数 ÷ 対象勤務期間</li>
+        <li>見直すのは数だけ、影響はその期で調整</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>新株予約権付社債の区分法は「PART1の社債」と「PART2の新株予約権」を同時に発行したのと同じです。ストック・オプションは「お金のかわりに働いてもらって払い込んでもらう新株予約権」と考えると、相手勘定が新株予約権になる理由がわかります。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第10号「金融商品に関する会計基準」、企業会計基準適用指針第17号「払込資本を増加させる可能性のある部分を含む複合金融商品に関する会計処理」、企業会計基準第8号「ストック・オプション等に関する会計基準」、会社法。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"kk", q:"社債は、払込金額で負債に計上する。", a:true, e:"受け取った金額で計上し、償却原価法で額面に近づけます。"},
+    {p:"kk", q:"社債は額面金額で負債に計上し、払込金額との差額は社債発行差金として資産に計上する。", a:false, e:"現在は社債発行差金を使いません。払込金額で計上します。"},
+    {p:"kk", q:"社債を額面と異なる価額で発行した場合は、償却原価法により帳簿価額を額面に近づける。", a:true, e:"償還日までに額面になるように調整します。"},
+    {p:"kk", q:"社債の償却原価法は、原則として定額法による。", a:false, e:"原則は利息法です。定額法は継続適用を条件に認められます。"},
+    {p:"kk", q:"利息法では、帳簿価額に実効利子率を掛けた額を社債利息とし、クーポン利息との差額を社債の帳簿価額に加える。", a:true, e:"利息法の計算そのものです。"},
+    {p:"kk", q:"利息法による償却額は、毎期同じ額になる。", a:false, e:"帳簿価額が増えるので、償却額は年々大きくなります。"},
+    {p:"kk", q:"償却原価法による償却額は、社債利息に含めて計上する。", a:true, e:"利息の調整なので社債利息です。"},
+    {p:"kk", q:"期中に発行した社債を定額法で償却する場合は、月割で計算する。", a:true, e:"発行した月から決算月までの月数で計算します。"},
+    {p:"kk", q:"買入償還による社債償還損益は、社債の額面金額と支払額との差額である。", a:false, e:"償還時の帳簿価額（償却原価）と支払額の差額です。"},
+    {p:"kk", q:"買入償還では、償還日までの償却額を計上してから、償還する社債の帳簿価額と支払額の差額を社債償還損益とする。", a:true, e:"帳簿価額を最新にしてから比べます。"},
+    {p:"kk", q:"買入償還の支払額に含まれる端数利息は、社債償還損益に含める。", a:false, e:"端数利息は社債利息として処理します。"},
+    {p:"kk", q:"社債の帳簿価額より低い金額で買入償還した場合は、社債償還益が生じる。", a:true, e:"安く負債を消せたので利益です。"},
+    {p:"kk", q:"抽選償還で定額法を使う場合、償却額は各期の社債の残高の割合で按分する。", a:true, e:"使っている資金の量に応じて配分します。"},
+    {p:"kk", q:"抽選償還でも、定額法なら毎期の償却額は同じになる。", a:false, e:"残高が減るので、償却額も減っていきます。"},
+    {p:"kk", q:"1年以内に償還する予定の社債は、流動負債に表示する。", a:true, e:"「1年以内償還予定の社債」として表示します。"},
+    {p:"kk", q:"社債を繰上償還した場合、償還分に対応する社債発行費の未償却残高は、その期に償却する。", a:true, e:"償還した分は、もう効果がないためです。"},
+    {p:"kk", q:"償却原価法を適用していれば、満期償還の時点で社債の帳簿価額は額面金額と一致している。", a:true, e:"償還日までに額面に近づけ終わっています。"},
+    {p:"sh", q:"新株予約権とは、株式会社に対して行使することにより、その会社の株式の交付を受けることができる権利をいう。", a:true, e:"新株予約権の定義です。"},
+    {p:"sh", q:"新株予約権は、将来株式を交付する義務なので負債に計上する。", a:false, e:"返済義務がないので、負債ではありません。"},
+    {p:"sh", q:"新株予約権は、純資産の部の株主資本に含めて表示する。", a:false, e:"株主資本以外の項目です。"},
+    {p:"sh", q:"新株予約権は、返済義務がなく、まだ株主の払込みでもないので、純資産の部の株主資本以外の項目として表示する。", a:true, e:"純資産の部の独立した項目です。"},
+    {p:"sh", q:"発行者は、新株予約権の発行時に受け取った対価を、新株予約権として計上する。", a:true, e:"純資産の部に計上します。"},
+    {p:"sh", q:"新株予約権が行使されて新株を発行した場合、新株予約権の帳簿価額と払込額の合計を資本金等に計上する。", a:true, e:"合計が株式の払込金額です。"},
+    {p:"sh", q:"新株予約権の行使で新株を発行する場合、払込金額の2分の1を超えない額は資本金としないことができる。", a:true, e:"資本金にしない分は資本準備金にします。"},
+    {p:"sh", q:"新株予約権の行使で自己株式を交付した場合、新株予約権と払込額の合計と、自己株式の帳簿価額との差額は、その他資本剰余金とする。", a:true, e:"自己株式の処分差額です。"},
+    {p:"sh", q:"新株予約権が行使されずに権利行使期間が満了した場合は、その他資本剰余金に振り替える。", a:false, e:"新株予約権戻入益として利益にします。"},
+    {p:"sh", q:"失効した新株予約権は、新株予約権戻入益として原則として特別利益に計上する。", a:true, e:"臨時的な利益なので特別利益です。"},
+    {p:"sh", q:"新株予約権を取得した側は、有価証券として処理する。", a:true, e:"売買目的有価証券またはその他有価証券です。"},
+    {p:"sh", q:"新株予約権を行使して株式を取得した場合、株式の取得原価は払込額だけとする。", a:false, e:"新株予約権の帳簿価額と払込額の合計です。"},
+    {p:"sh", q:"新株予約権10個（1個1,000）のうち6個が行使され、1個あたり50,000を払い込んだ場合、株式の払込金額は306,000である。", a:true, e:"300,000 ＋ 6,000 ＝ 306,000です。"},
+    {p:"sh", q:"新株予約権の取得者は、権利を行使しないまま失効した場合、帳簿価額を損失として処理する。", a:true, e:"権利がなくなったので損失です。"},
+    {p:"sh", q:"新株予約権は、連結貸借対照表でも純資産の部に表示する。", a:true, e:"個別と同じく純資産の部です。"},
+    {p:"js", q:"転換社債型新株予約権付社債の発行者は、一括法または区分法のいずれかで処理できる。", a:true, e:"発行者は選べます。"},
+    {p:"js", q:"転換社債型新株予約権付社債の取得者は、区分法で処理しなければならない。", a:false, e:"取得者は一括法です。"},
+    {p:"js", q:"転換社債型以外の新株予約権付社債は、発行者・取得者とも区分法で処理する。", a:true, e:"新株予約権だけを行使できるので分けます。"},
+    {p:"js", q:"一括法では、新株予約権付社債の払込金額を、社債と新株予約権に分けずに社債として計上する。", a:true, e:"普通の社債と同じ扱いです。"},
+    {p:"js", q:"区分法では、払込金額を社債の対価と新株予約権の対価に分けて計上する。", a:true, e:"社債は負債、新株予約権は純資産です。"},
+    {p:"js", q:"区分法で計上した社債の対価が額面より小さい場合は、その差額を償却原価法で処理する。", a:true, e:"普通の社債と同じく額面に近づけます。"},
+    {p:"js", q:"区分法で新株予約権が行使され、社債で払い込まれた場合は、行使された分の社債の帳簿価額と新株予約権の帳簿価額を資本金等に振り替える。", a:true, e:"代用払込の処理です。"},
+    {p:"js", q:"ストック・オプションは、付与日の公正な評価単価に権利確定が見込まれる数を掛けた金額を、対象勤務期間にわたって費用計上する。", a:true, e:"ストック・オプションの基本の処理です。"},
+    {p:"js", q:"ストック・オプションの費用計上の相手勘定は、純資産の部の新株予約権である。", a:true, e:"働いてもらうことで払い込んでもらった新株予約権と考えます。"},
+    {p:"js", q:"ストック・オプションの公正な評価単価は、毎期末の株価にもとづいて見直す。", a:false, e:"付与日の単価のまま変えません（条件変更の場合を除く）。"},
+    {p:"js", q:"権利確定日までに失効見込みの数に重要な変動があった場合は、ストック・オプション数を見直す。", a:true, e:"見直すのは数です。"},
+    {p:"js", q:"ストック・オプション数を見直した影響額は、過去の期にさかのぼって修正する。", a:false, e:"見直した期の費用で調整します。"},
+    {p:"js", q:"権利確定日の後に失効したストック・オプションは、新株予約権戻入益として利益に計上する。", a:true, e:"権利確定後の失効は利益です。"},
+    {p:"js", q:"未公開企業は、公正な評価単価のかわりに単位当たりの本源的価値を使うことができる。", a:true, e:"株価から行使価格を引いた額です。"},
+    {p:"js", q:"ストック・オプションの費用は、権利が行使された時点で一括して計上する。", a:false, e:"対象勤務期間にわたって計上します。"},
+    {p:"js", q:"株式報酬費用は、原則として販売費及び一般管理費（製造に関わる人の分は製造原価）に計上する。", a:true, e:"人件費の性格をもつ費用です。"},
+    {p:"js", q:"付与日にすでに権利が確定しているストック・オプションは、付与日に全額を費用計上する。", a:true, e:"対象勤務期間がないので、付与日に一度に費用にします。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:" 社債", sh:" 新株予約権", js:" 付社債・SO"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
