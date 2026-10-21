@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="670" viewBox="0 0 1280 670" font-family="'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif">
+  <!-- 書き出し:Chromeヘッドレスでこのファイルを開き、1280×670・倍率2で撮る(フォントはGoogle Fontsから読み込む) -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&amp;family=Zen+Kaku+Gothic+New:wght@500;700;900&amp;display=block');
+    .dg{font-family:'Dela Gothic One','Hiragino Sans',sans-serif}
+  </style>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1A1F3A"/>
+      <stop offset="1" stop-color="#252B52"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1280" height="670" fill="url(#bg)"/>
+  <circle cx="60" cy="30" r="160" fill="#2F7DE1" opacity="0.16"/>
+  <circle cx="1250" cy="660" r="210" fill="#E8543F" opacity="0.14"/>
+  <circle cx="680" cy="700" r="110" fill="#0FA18D" opacity="0.12"/>
+  <g fill="#fff" opacity="0.18">
+    <circle cx="640" cy="90" r="4"/><circle cx="664" cy="90" r="4"/><circle cx="688" cy="90" r="4"/>
+    <circle cx="640" cy="114" r="4"/><circle cx="664" cy="114" r="4"/><circle cx="688" cy="114" r="4"/>
+  </g>
+
+  <!-- 左:テキスト -->
+  <rect x="80" y="86" width="280" height="48" rx="24" fill="#fff" fill-opacity="0.14"/>
+  <text x="220" y="119" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">簿記1級 | 会計学</text>
+
+  <text x="80" y="246" class="dg" font-size="100" fill="#5BA2FF">純資産</text>
+  <text x="80" y="350" class="dg" font-size="64" fill="#FFC94A">の</text>
+  <text x="150" y="350" class="dg" font-size="72" fill="#FF7A66">出る論点</text>
+
+  <text x="80" y="418" font-size="28" font-weight="700" fill="#fff" opacity="0.95">配当・自己株式・表示区分を図と仕訳で</text>
+
+  <g font-size="22" font-weight="900" text-anchor="middle">
+    <rect x="80" y="452" width="176" height="50" rx="25" fill="#fff"/>
+    <text x="168" y="485" fill="#1D5DB3">1/10と1/4</text>
+    <rect x="270" y="452" width="164" height="50" rx="25" fill="#fff"/>
+    <text x="352" y="485" fill="#8A6000">計算問題2問</text>
+    <rect x="448" y="452" width="150" height="50" rx="25" fill="#fff"/>
+    <text x="523" y="485" fill="#A8205C">○×49問</text>
+  </g>
+
+  <text x="80" y="572" font-size="20" font-weight="500" fill="#fff" opacity="0.8">図解つき・登録不要の無料Webページ</text>
+
+  <!-- 右:純資産の部の区分 -->
+  <text x="1000" y="112" text-anchor="middle" class="dg" font-size="26" fill="#fff">純資産の部の区分</text>
+
+  <rect x="790" y="140" width="420" height="196" rx="16" fill="#2F7DE1" fill-opacity="0.18" stroke="#5BA2FF" stroke-width="3"/>
+  <text x="808" y="166" font-size="18" font-weight="900" fill="#5BA2FF">株主資本</text>
+  <g filter="url(#shadow)">
+    <rect x="808" y="176" width="384" height="34" rx="8" fill="#2F7DE1"/>
+    <rect x="808" y="216" width="384" height="34" rx="8" fill="#2F7DE1"/>
+    <rect x="808" y="256" width="384" height="34" rx="8" fill="#2F7DE1"/>
+  </g>
+  <rect x="808" y="296" width="384" height="32" rx="8" fill="none" stroke="#FF6B74" stroke-width="2.5" stroke-dasharray="7 5"/>
+  <g text-anchor="middle" font-size="17" font-weight="900" fill="#fff">
+    <text x="1000" y="199">資本金</text>
+    <text x="1000" y="239">資本剰余金</text>
+    <text x="1000" y="279">利益剰余金</text>
+    <text x="1000" y="318" fill="#FF8D95">自己株式（△ 控除）</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="790" y="350" width="420" height="38" rx="10" fill="#0FA18D"/>
+    <rect x="790" y="396" width="420" height="34" rx="10" fill="#6B7194"/>
+    <rect x="790" y="438" width="420" height="38" rx="10" fill="#E8543F"/>
+  </g>
+  <g text-anchor="middle" font-size="17" font-weight="900" fill="#fff">
+    <text x="1000" y="375">評価・換算差額等</text>
+    <text x="1000" y="419">株式引受権</text>
+    <text x="1000" y="463">新株予約権</text>
+  </g>
+
+  <rect x="790" y="498" width="420" height="50" rx="25" fill="#fff" fill-opacity="0.10" stroke="#FFC94A" stroke-width="2"/>
+  <text x="1000" y="530" text-anchor="middle" font-size="19" font-weight="900" fill="#fff">準備金は 1/10 と 1/4 までの残りの小さい方</text>
+
+  <text x="1000" y="604" text-anchor="middle" font-size="21" font-weight="700" fill="#fff" opacity="0.85" letter-spacing="2">自己株式の差額はその他資本剰余金</text>
+</svg>
