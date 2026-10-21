@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。金融商品会計の出やすい論点（有価証券の4分類と評価、全部・部分純資産直入法、償却原価法の利息法、有価証券の減損、債権の3区分と貸倒見積り、キャッシュ・フロー見積法、金融資産の消滅、デリバティブとヘッジ会計、新株予約権付社債）を、図・仕訳・計算問題・○×チェック54問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>金融商品の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(有価証券)は青、PART2(債権の貸倒見積り)はコーラル、PART3(消滅・デリバティブ・複合)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：消滅・デリバティブ・複合 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：債権 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：有価証券 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 有価証券</a>
+    <a class="n-sh" href="#sh">PART2 債権の貸倒見積り</a>
+    <a class="n-js" href="#js">PART3 消滅・デリバティブ</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">金融商品</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">金融商品は範囲がとても広い分野です。まずは<mark>「有価証券の4分類と評価」「債権の3区分と貸倒見積り」「デリバティブとヘッジ会計」</mark>の3本柱を押さえるのが近道です。このページでは、図と仕訳で論点を順に整理し、最後に○×問題54問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>有価証券</b><small>4分類と評価、その他有価証券、償却原価法、減損</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>債権の貸倒見積り</b><small>3区分、キャッシュ・フロー見積法、財務内容評価法</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>消滅・デリバティブ・複合</b><small>支配の移転の3要件、ヘッジ会計、新株予約権付社債</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック54問</b><small>答えるとすぐに解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 有価証券 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>有価証券</h2>
+    <p>有価証券は、持っている目的で4つに分け、それぞれ評価の仕方が決まっています。「何のために持っているか」で「何を成果と見るか」が変わる、と考えると覚えやすくなります。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-class">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>保有目的による4分類と評価</h3></div>
+    <div class="cases">
+      <div class="case sh"><span>値上がりで儲ける</span><b>売買目的有価証券</b><small>時価の変動で利益を得るために持つ</small><p class="to">時価 ／ 差額は当期の損益</p></div>
+      <div class="case kk"><span>満期まで持つ</span><b>満期保有目的の債券</b><small>満期まで持つ意図と能力がある</small><p class="to">償却原価法（原則は利息法）</p></div>
+      <div class="case ju"><span>支配・影響のため</span><b>子会社株式・関連会社株式</b><small>事業投資と同じ</small><p class="to">取得原価</p></div>
+      <div class="case js"><span>上のどれでもない</span><b>その他有価証券</b><small>持ち合い株式など</small><p class="to">時価 ／ 差額は純資産（洗替方式）</p></div>
+    </div>
+    <ul class="pts">
+      <li>売買目的有価証券は、売ればすぐ時価の分だけ利益になるので、<span class="hl">時価の変動そのものが成果</span>です。だから評価差額を当期の損益にします。</li>
+      <li>子会社株式・関連会社株式は、事業の一部として持つので、時価が動いても成果にはなりません。だから<b>取得原価</b>です。</li>
+      <li>その他有価証券は、時価で評価しますが、すぐに売るとは限らないので、差額は損益にせず<b>純資産</b>に計上します。</li>
+      <li><b>市場価格のない株式等</b>は、分類にかかわらず取得原価で評価します。</li>
+    </ul>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">満期</span><span>満期保有目的の債券に分類するには、満期まで持つ<b>意図</b>と<b>能力</b>の両方が必要。</span></div>
+        <div class="r-row exc"><span class="r-b">売却</span><span>満期保有目的の債券の一部を売却すると、<b>残りもすべて</b>満期保有目的から外れる。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>保有目的は、原則として<b>変更できない</b>。</span></div>
+        <div class="r-row exc"><span class="r-b">例外</span><span>資金運用方針の変更や、株式の追加取得で子会社になった場合など、正当な理由がある場合に限り変更できる。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-sonota">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>その他有価証券：全部純資産直入法と部分純資産直入法</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">全部純資産直入法（原則）<small>評価差額の合計を純資産に</small></p>
+        <ol class="steps">
+          <li>値上がり分も値下がり分も、すべて<b>その他有価証券評価差額金</b>（純資産）にする</li>
+          <li>税効果会計を適用する</li>
+          <li class="star">翌期首に元に戻す（洗替方式）</li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">部分純資産直入法（容認）<small>値下がり分だけ損益に</small></p>
+        <ol class="steps">
+          <li>時価が取得原価を<b>上回る</b>銘柄：純資産にする</li>
+          <li class="star">時価が取得原価を<b>下回る</b>銘柄：<b>当期の損失</b>にする<em>保守的な処理</em></li>
+          <li>どちらも翌期首に元に戻す（洗替方式）</li>
+        </ol>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">全部純資産直入法（取得原価10,000、時価12,000、税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>その他有価証券</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">600</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>その他有価証券評価差額金</span><span class="amt">1,400</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">部分純資産直入法で値下がりした銘柄（取得原価4,000、時価3,500、税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>投資有価証券評価損</span><span class="amt">500</span><span class="dc">(貸)</span><span>その他有価証券</span><span class="amt">500</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">150</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">150</span></div>
+        <span class="je-n">損益に計上した分の税効果は、法人税等調整額で調整します。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>部分純資産直入法では、時価が取得原価を上回る銘柄の評価差額を当期の利益にする<span class="why">上回る銘柄は純資産、下回る銘柄が当期の損失です。利益は計上しません。</span></span></li>
+        <li><span class="mark x">×</span><span>その他有価証券の評価差額は、原則として当期の損益に計上する<span class="why">原則は全部純資産直入法です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-amortized">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>償却原価法：原則は利息法</h3></div>
+    <div class="prose">
+      <p>例：額面100,000、クーポン利率4%、償還まで3年の債券を97,273で取得しました。実効利子率は5%です。額面との差2,727は「金利の調整」なので、3年かけて帳簿価額を額面に近づけます。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 330" role="img" aria-label="利息法による帳簿価額の推移。97,273から、毎年の償却額864、907、956を加えて、98,137、99,044、100,000と額面に近づく">
+        <line x1="70" y1="270" x2="790" y2="270" class="axis"/>
+        <line x1="70" y1="60" x2="790" y2="60" class="ln dash"/>
+        <text x="786" y="52" class="t-xs e">額面 100,000</text>
+        <polyline points="140,250 340,186 540,120 740,60" fill="none" stroke="var(--c4)" stroke-width="3"/>
+        <circle cx="140" cy="250" r="7" fill="var(--c4)"/>
+        <circle cx="340" cy="186" r="7" fill="var(--c4)"/>
+        <circle cx="540" cy="120" r="7" fill="var(--c4)"/>
+        <circle cx="740" cy="60" r="7" fill="var(--c4)"/>
+        <text x="140" y="236" class="t-num c">97,273</text>
+        <text x="340" y="172" class="t-num c">98,137</text>
+        <text x="540" y="106" class="t-num c">99,044</text>
+        <text x="740" y="90" class="t-num c">100,000</text>
+        <text x="240" y="236" class="t-b c f-sh">＋864</text>
+        <text x="440" y="172" class="t-b c f-sh">＋907</text>
+        <text x="640" y="106" class="t-b c f-sh">＋956</text>
+        <text x="140" y="294" class="t-b c">取得時</text>
+        <text x="340" y="294" class="t-b c">1年後</text>
+        <text x="540" y="294" class="t-b c">2年後</text>
+        <text x="740" y="294" class="t-b c">3年後（償還）</text>
+        <text x="410" y="322" class="t-xs c">償却額は年々大きくなる（定額法なら毎年 2,727 ÷ 3 ＝ 909）</text>
+      </svg>
+      <figcaption>縦軸は途中を省略しています。利息法は、帳簿価額に実効利子率を掛けた利息と、実際に受け取るクーポン利息との差を、帳簿価額に加えていく方法です。</figcaption>
+    </figure>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">利息法の1年目</span><span class="fx kk">97,273 × 5% ≒ 4,864（有価証券利息）</span><span class="op">−</span><span class="fx">100,000 × 4% ＝ 4,000（クーポン）</span><span class="op">＝</span><span class="res kk">償却額 864</span></div>
+    </div>
+    <div class="je">
+      <span class="je-t">1年目末（クーポン受取りと償却）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>有価証券利息</span><span class="amt">4,864</span></div>
+      <div class="je-row"><span class="dc"></span><span>投資有価証券</span><span class="amt">864</span><span></span><span></span><span></span></div>
+      <span class="je-n">償却額は「有価証券利息」として受け取る利息に加えます。定額法なら、償却額は毎年909です。</span>
+    </div>
+    <ul class="pts">
+      <li>償却原価法を使うのは、額面と取得価額の差が<b>金利の調整と認められる場合</b>に限ります。</li>
+      <li>原則は<span class="hl">利息法</span>、継続適用を条件に<b>定額法</b>も認められます。</li>
+      <li>債権を額面と違う価額で取得した場合や、社債を額面と違う価額で発行した場合も、同じく償却原価法です。</li>
+    </ul>
+  </div>
+
+  <!-- 1-4 -->
+  <div class="unit" id="u-impair">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">頻出度 ★★★</span><h3>有価証券の減損（50%と30%）</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 220" role="img" aria-label="時価の下落率と減損の判断。30%未満は減損しない、30%から50%は回復の可能性を判断、50%以上は原則として減損">
+        <text x="20" y="34" class="t-b">取得原価からの時価の下落率</text>
+        <rect x="40" y="60" width="216" height="56" rx="10" class="b-js"/>
+        <rect x="256" y="60" width="144" height="56" class="b-sun"/>
+        <rect x="400" y="60" width="380" height="56" rx="10" class="b-sh"/>
+        <text x="148" y="94" class="t-b c">減損しない</text>
+        <text x="328" y="86" class="t-s c" style="font-weight:700">回復の可能性</text>
+        <text x="328" y="106" class="t-s c" style="font-weight:700">を判断</text>
+        <text x="590" y="94" class="t-b c f-sh">原則として減損する</text>
+        <text x="40" y="140" class="t-num c">0%</text>
+        <text x="256" y="140" class="t-num c">30%</text>
+        <text x="400" y="140" class="t-num c">50%</text>
+        <text x="780" y="140" class="t-num c">100%</text>
+        <text x="410" y="180" class="t-s c">「著しい下落」で、回復する見込みがあると認められなければ、時価まで減額する</text>
+        <text x="410" y="204" class="t-xs c">市場価格のない株式等は、実質価額がおおむね50%以上低下したら減損する（実価法）</text>
+      </svg>
+      <figcaption>50%以上の下落は、回復の見込みを合理的に示せない限り減損します。30%未満は、通常は著しい下落に当たりません。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">その他有価証券（取得原価10,000、期末時価4,000）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>投資有価証券評価損</span><span class="amt">6,000</span><span class="dc">(貸)</span><span>その他有価証券</span><span class="amt">6,000</span></div>
+      <span class="je-n">60%の下落なので減損します。原則として特別損失です。減損後の4,000が翌期の取得原価になり、翌期首に洗い替えません（切放し）。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>減損処理したその他有価証券は、翌期首に評価差額を洗い替える<span class="why">減損は切放しです。減損後の金額が翌期の取得原価になります。</span></span></li>
+        <li><span class="mark x">×</span><span>時価がおおむね30%下落したら、回復の可能性にかかわらず減損する<span class="why">30%〜50%は、回復の可能性を判断して決めます。原則として減損するのは50%以上です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　その他有価証券（部分純資産直入法）</span>
+      <p class="scn-story">その他有価証券を、部分純資産直入法で処理しています。税率は30%で、評価差額に税効果会計を適用します（減損の分は税効果を考えません）。</p>
+      <ul class="given">
+        <li>A株式：取得原価 <b>5,000</b>／時価 <b>6,000</b></li>
+        <li>B株式：取得原価 <b>4,000</b>／時価 <b>3,500</b></li>
+        <li>C株式：取得原価 <b>3,000</b>／時価 <b>1,200</b>（回復の見込みなし）</li>
+      </ul>
+      <ol class="scn-q">
+        <li>その他有価証券評価差額金はいくらか</li>
+        <li>投資有価証券評価損（洗替え）はいくらか</li>
+        <li>減損による評価損はいくらか。翌期首に洗い替えるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>700</b><span class="calc">A：(6,000 − 5,000) × (1 − 30%) ＝ 700</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>500</b><span class="calc">B：4,000 − 3,500 ＝ 500（当期の損失、税効果で繰延税金資産150）</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>1,800</b>、洗い替えない<span class="calc">C：下落率 (3,000 − 1,200) ÷ 3,000 ＝ 60% → 減損<br>3,000 − 1,200 ＝ 1,800（特別損失・切放し）</span></span></div>
+          <div class="je">
+            <span class="je-t">決算の仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>その他有価証券</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">300</span></div>
+            <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>その他有価証券評価差額金</span><span class="amt">700</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>投資有価証券評価損</span><span class="amt">500</span><span class="dc">(貸)</span><span>その他有価証券</span><span class="amt">500</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">150</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">150</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>投資有価証券評価損</span><span class="amt">1,800</span><span class="dc">(貸)</span><span>その他有価証券</span><span class="amt">1,800</span></div>
+            <span class="je-n">同じ「投資有価証券評価損」でも、Bは翌期首に洗い替え、Cは減損なので洗い替えません。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 債権 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>債権の貸倒見積り</h2>
+    <p>債権は、相手の経営状態で3つに区分し、区分ごとに貸倒見積高の計算方法が決まっています。計算問題では、キャッシュ・フロー見積法の割引計算が山場です。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-3kubun">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>債権の3区分と見積り方</h3></div>
+    <div class="cases">
+      <div class="case js"><span>経営状態に重大な問題なし</span><b>一般債権</b><small>ふつうの取引先への債権</small><p class="to">貸倒実績率法</p></div>
+      <div class="case sun" style="border-color:var(--c1)"><span>破綻はしていないが重大な問題あり</span><b>貸倒懸念債権</b><small>返済の条件を緩和した相手など</small><p class="to">財務内容評価法 または キャッシュ・フロー見積法</p></div>
+      <div class="case sh"><span>経営破綻している</span><b>破産更生債権等</b><small>破産・更生手続きに入った相手など</small><p class="to">財務内容評価法（担保などを引いた残り全額）</p></div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">財務</span><span><b>財務内容評価法</b>：債権額から担保の処分見込額と保証による回収見込額を引き、残りに債務者の支払能力を考えて見積る。<small>破産更生債権等は、残りの全額が貸倒見積高です。</small></span></div>
+        <div class="r-row exc"><span class="r-b">CF</span><span><b>キャッシュ・フロー見積法</b>：将来の元利の入金予定額を<b>当初の約定利子率</b>で割り引き、帳簿価額との差額を貸倒見積高とする。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">直接</span><span>破産更生債権等は、貸倒引当金を設けず、<b>債権から直接減額</b>してもよい。</span></div>
+        <div class="r-row exc"><span class="r-b">表示</span><span>貸倒引当金繰入額は、営業債権なら<b>販売費及び一般管理費</b>、営業外債権（貸付金など）なら<b>営業外費用</b>。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-cf">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>キャッシュ・フロー見積法は「当初の約定利子率」で割り引く</h3></div>
+    <div class="prose">
+      <p>例：貸付金10,000。当初の約定利子率は5%ですが、相手の経営悪化で利率を1%に下げました（条件緩和）。残りの期間は2年です。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 280" role="img" aria-label="キャッシュ・フロー見積法。1年後の利息100と2年後の元利10,100を当初の約定利子率5%で割り引くと、95と9,161で合計9,256。帳簿価額10,000との差744が貸倒見積高">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <line x1="60" y1="70" x2="780" y2="70" class="axis"/>
+        <circle cx="140" cy="70" r="7" fill="var(--ink)"/>
+        <circle cx="440" cy="70" r="7" fill="var(--ink)"/>
+        <circle cx="740" cy="70" r="7" fill="var(--ink)"/>
+        <text x="140" y="44" class="t-b c">現在</text>
+        <text x="440" y="44" class="t-b c">1年後</text>
+        <text x="740" y="44" class="t-b c">2年後</text>
+        <rect x="380" y="90" width="120" height="44" rx="10" class="b-js"/>
+        <text x="440" y="118" class="t-num c">利息 100</text>
+        <rect x="660" y="90" width="160" height="44" rx="10" class="b-js"/>
+        <text x="740" y="118" class="t-num c">元利 10,100</text>
+        <path d="M380 112 C 300 130, 260 150, 230 168" class="ln" marker-end="url(#ah)"/>
+        <text x="320" y="160" class="t-xs c">÷ 1.05</text>
+        <path d="M660 128 C 520 200, 320 205, 232 208" class="ln" marker-end="url(#ah)"/>
+        <text x="500" y="206" class="t-xs c">÷ 1.05²</text>
+        <rect x="40" y="150" width="190" height="80" rx="12" class="b-kk"/>
+        <text x="135" y="176" class="t-num c">95 ＋ 9,161</text>
+        <text x="135" y="202" class="t-b c">＝ 9,256</text>
+        <text x="135" y="222" class="t-xs c">現在価値</text>
+        <text x="520" y="258" class="t-b c f-sh">貸倒見積高 ＝ 帳簿価額 10,000 − 9,256 ＝ 744</text>
+      </svg>
+      <figcaption>入ってくる予定のお金は、条件緩和後の1%で計算します（利息100）。割り引くときは、条件緩和前の<b>当初の約定利子率5%</b>を使います。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">決算</span>
+      <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金繰入</span><span class="amt">744</span><span class="dc">(貸)</span><span>貸倒引当金</span><span class="amt">744</span></div>
+      <span class="je-n">貸付金は営業外債権なので、貸倒引当金繰入は営業外費用に表示します。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>キャッシュ・フロー見積法では、条件緩和後の利子率で割り引く<span class="why">割り引くのは当初の約定利子率です。緩和後の利率で割り引くと、利率を下げた損が見えなくなります。</span></span></li>
+        <li><span class="mark x">×</span><span>破産更生債権等は、キャッシュ・フロー見積法で見積る<span class="why">破産更生債権等は財務内容評価法です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　3区分の貸倒見積高</span>
+      <p class="scn-story">期末の債権は次のとおりです。貸倒引当金の期末残高は3,500で、差額補充法によります。</p>
+      <ul class="given">
+        <li>一般債権 <b>200,000</b>（貸倒実績率 <b>2%</b>）</li>
+        <li>貸倒懸念債権 <b>20,000</b>（担保の処分見込額 <b>8,000</b>、残りの <b>50%</b> を見積る）</li>
+        <li>破産更生債権等 <b>5,000</b>（担保の処分見込額 <b>2,000</b>）</li>
+      </ul>
+      <ol class="scn-q">
+        <li>区分ごとの貸倒見積高はいくらか</li>
+        <li>当期の貸倒引当金繰入額はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>一般債権 <b>4,000</b>、貸倒懸念債権 <b>6,000</b>、破産更生債権等 <b>3,000</b><span class="calc">一般債権：200,000 × 2% ＝ 4,000<br>貸倒懸念債権：(20,000 − 8,000) × 50% ＝ 6,000（財務内容評価法）<br>破産更生債権等：5,000 − 2,000 ＝ 3,000（残りの全額）</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>9,500</b><span class="calc">合計 4,000 ＋ 6,000 ＋ 3,000 ＝ 13,000<br>13,000 − 期末残高3,500 ＝ 9,500</span></span></div>
+          <div class="je">
+            <span class="je-t">決算</span>
+            <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金繰入</span><span class="amt">9,500</span><span class="dc">(貸)</span><span>貸倒引当金</span><span class="amt">9,500</span></div>
+            <span class="je-n">破産更生債権等の分（3,000）は、貸倒引当金のかわりに債権から直接減額してもかまいません。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 消滅・デリバティブ・複合 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>消滅・デリバティブ・複合金融商品</h2>
+    <p>金融資産をいつ帳簿から外すか、デリバティブとヘッジ会計、新株予約権付社債の処理です。理論の正誤問題でよく狙われます。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-shometsu">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★</span><h3>発生と消滅の認識</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">発生</span><span>金融資産・金融負債は、<b>契約を結んだとき</b>に認識する。<small>有価証券の売買は、原則として約定日基準。修正受渡日基準も認められます。</small></span></div>
+        <div class="r-row exc"><span class="r-b">消滅</span><span>契約上の権利を<b>行使</b>したとき、権利を<b>喪失</b>したとき、または権利に対する<b>支配が移転</b>したときに消滅を認識する。</span></div>
+      </div>
+    </div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>法的に保全されている</b><small>譲渡した資産が、譲渡人やその債権者から法的に守られている（倒産隔離）。</small></div>
+      <div class="why-c"><span class="no">2</span><b>譲受人が利益を享受できる</b><small>譲受人が、譲り受けた資産の契約上の権利を、直接または間接に通常の方法で享受できる。</small></div>
+      <div class="why-c"><span class="no">3</span><b>買い戻す権利・義務がない</b><small>譲渡人が、満期前に買い戻す権利と義務を実質的に持っていない。</small></div>
+    </div>
+    <p class="cap">支配が移転したと言えるのは、この3要件をすべて満たすときです。考え方は<b>財務構成要素アプローチ</b>で、金融資産を構成要素に分け、支配が移った部分だけ消滅を認識します。</p>
+    <div class="je">
+      <span class="je-t">債権（帳簿価額1,000）を980で譲渡。買戻権（時価20）が残り、遡求義務（時価30）を負った</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">980</span><span class="dc">(貸)</span><span>売掛金</span><span class="amt">1,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>買戻権</span><span class="amt">20</span><span></span><span>遡求義務</span><span class="amt">30</span></div>
+      <div class="je-row"><span class="dc"></span><span>債権売却損</span><span class="amt">30</span><span></span><span></span><span></span></div>
+      <span class="je-n">新たに生じた資産・負債は時価で計上します。売却損益 ＝（980 ＋ 20 − 30）− 1,000 ＝ −30。</span>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-hedge">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>デリバティブとヘッジ会計</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>デリバティブ取引から生じる正味の債権・債務は<b>時価で評価</b>し、評価差額は<b>当期の損益</b>にする。<small>契約した時点で認識します。決済まで待ちません。</small></span></div>
+        <div class="r-row exc"><span class="r-b">ヘッジ</span><span>ヘッジ会計の要件を満たせば、ヘッジ手段とヘッジ対象の損益を<b>同じ期に計上</b>できるよう調整する。</span></div>
+      </div>
+    </div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">繰延ヘッジ（原則）<small>ヘッジ手段の損益を後ろにずらす</small></p>
+        <ol class="steps">
+          <li>ヘッジ手段（デリバティブ）を時価で評価する</li>
+          <li class="star">評価差額は<b>繰延ヘッジ損益</b>（純資産）にする<em>税効果会計を適用</em></li>
+          <li>ヘッジ対象の損益を計上する期に、損益に振り替える</li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">時価ヘッジ<small>ヘッジ対象の損益を前にずらす</small></p>
+        <ol class="steps">
+          <li>ヘッジ手段の評価差額は当期の損益</li>
+          <li>ヘッジ対象の時価の変動も、当期の損益にする</li>
+          <li class="star">ヘッジ対象が<b>その他有価証券</b>の場合に限って使える</li>
+        </ol>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">事前</span><span>ヘッジ取引が、企業の<b>リスク管理方針</b>に沿ったものであることが、取引時に文書で確認できる。</span></div>
+        <div class="r-row exc"><span class="r-b">事後</span><span>ヘッジ対象とヘッジ手段の変動額の比率が、おおむね<b>80%〜125%</b>なら有効と判定する。</span></div>
+      </div>
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">特例</span><span><b>金利スワップ</b>が一定の要件を満たすときは、時価評価せず、受払いの純額を利息に加減してよい（特例処理）。</span></div>
+        <div class="r-row exc"><span class="r-b">例</span><span>借入金の変動金利を固定金利に変えるスワップなど。</span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">ヘッジ会計を適用しない先物（評価益300）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>先物取引差金</span><span class="amt">300</span><span class="dc">(貸)</span><span>先物利益</span><span class="amt">300</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">繰延ヘッジ（評価益300、税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>先物取引差金</span><span class="amt">300</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">90</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>繰延ヘッジ損益</span><span class="amt">210</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>時価ヘッジは、ヘッジ対象の種類を問わず適用できる<span class="why">その他有価証券に限られます。原則は繰延ヘッジです。</span></span></li>
+        <li><span class="mark x">×</span><span>デリバティブ取引は、決済されるまで認識しない<span class="why">契約した時点で認識し、時価で評価します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-fukugo">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>複合金融商品（新株予約権付社債）</h3></div>
+    <div class="lanes">
+      <div class="lane j">
+        <p class="lane-h">転換社債型新株予約権付社債<small>社債と新株予約権が一体で、別々に使えない</small></p>
+        <ol class="steps">
+          <li class="star">発行者：<b>一括法</b>と<b>区分法</b>のどちらかを選べる</li>
+          <li>取得者：<b>一括法</b></li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">それ以外の新株予約権付社債<small>新株予約権を別に行使できる</small></p>
+        <ol class="steps">
+          <li class="star">発行者：<b>区分法</b></li>
+          <li>取得者：<b>区分法</b></li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">区分法による発行（払込額10,000のうち、社債9,000、新株予約権1,000）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>社債</span><span class="amt">9,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>新株予約権</span><span class="amt">1,000</span></div>
+      <span class="je-n">新株予約権は純資産の部に計上します。区分した社債9,000と額面との差は、償却原価法で処理します。</span>
+    </div>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-disp">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★</span><h3>財務諸表のどこに表示するか（まとめ）</h3></div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="財務諸表の区分と、金融商品に関する項目">
+        <div class="pl-row" role="listitem"><div class="pl-k">販売費及び<br>一般管理費</div><div class="pl-v"><span class="pill sh">貸倒引当金繰入<small>営業債権（売掛金・受取手形）</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">営業外収益・費用</div><div class="pl-v"><span class="pill kk">有価証券評価損益<small>売買目的有価証券</small></span><span class="pill kk">有価証券利息<small>償却原価法の償却額を含む</small></span><span class="pill sh">貸倒引当金繰入<small>営業外債権（貸付金）</small></span><span class="pill js">デリバティブの評価損益</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">特別損失</div><div class="pl-v"><span class="pill kk">投資有価証券評価損<small>減損（原則）</small></span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">純資産<small>評価・換算差額等</small></div><div class="pl-v"><span class="pill kk">その他有価証券評価差額金</span><span class="pill js">繰延ヘッジ損益</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">純資産<small>新株予約権</small></div><div class="pl-v"><span class="pill js">新株予約権<small>区分法で発行した場合</small></span></div></div>
+      </div>
+      <figcaption>青が有価証券、コーラルが債権、ティールがデリバティブ・複合金融商品の項目です。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">54</span>問</h2>
+    <p>このページの内容から、正誤問題でよく出る言い回しを集めました。○か×を選ぶと、すぐに解説が出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">有価証券</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">債権</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">消滅・デリバティブ・複合</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">54</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>有価証券：まずここから</h3>
+      <ol>
+        <li>4分類と評価（時価・償却原価・取得原価）</li>
+        <li>全部純資産直入法と部分純資産直入法、税効果</li>
+        <li>償却原価法は利息法が原則</li>
+        <li>減損の目安（50%・30%）と切放し</li>
+        <li>満期保有目的は意図と能力、一部売却で全部外れる</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>債権：まずここから</h3>
+      <ol>
+        <li>3区分と見積り方</li>
+        <li>キャッシュ・フロー見積法は当初の約定利子率</li>
+        <li>破産更生債権等は残り全額、直接減額も可</li>
+        <li>繰入額の表示（営業債権と営業外債権）</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>消滅・デリバティブ・複合：まずここから</h3>
+      <ol>
+        <li>デリバティブは時価評価・当期の損益</li>
+        <li>繰延ヘッジが原則、時価ヘッジはその他有価証券だけ</li>
+        <li>ヘッジの要件（事前・事後、80%〜125%）</li>
+        <li>支配の移転の3要件と財務構成要素アプローチ</li>
+        <li>新株予約権付社債の一括法と区分法</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>有価証券の4分類は、概念フレームワークの「金融投資は時価、事業投資は原価」で説明できます。売買目的有価証券は値動きがそのまま成果なので時価・損益、子会社株式は事業投資なので取得原価です。その他有価証券は時価で測るけれど、まだ成果にはならないので純資産に置いておきます。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第10号「金融商品に関する会計基準」、移管指針第9号「金融商品会計に関する実務指針」、企業会計基準第30号「時価の算定に関する会計基準」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var Q = [
+    {p:"kk", q:"売買目的有価証券は時価で評価し、評価差額は当期の損益とする。", a:true, e:"値動きそのものが成果なので、損益に計上します。"},
+    {p:"kk", q:"売買目的有価証券の評価差額は、純資産の部に計上する。", a:false, e:"当期の損益です。純資産に計上するのはその他有価証券です。"},
+    {p:"kk", q:"満期保有目的の債券は、期末の時価で評価する。", a:false, e:"取得原価、または償却原価法による償却原価で評価します。"},
+    {p:"kk", q:"満期保有目的の債券を債券金額より低い価額で取得し、その差額が金利の調整と認められるときは、償却原価法による。", a:true, e:"償却原価法を使うのは、差額が金利の調整と認められる場合です。"},
+    {p:"kk", q:"償却原価法は、原則として定額法による。", a:false, e:"原則は利息法です。定額法は継続適用を条件に認められます。"},
+    {p:"kk", q:"利息法とは、帳簿価額に実効利子率を掛けた利息と、クーポン利息との差額を帳簿価額に加減する方法である。", a:true, e:"償却額は年々大きくなります。"},
+    {p:"kk", q:"満期保有目的の債券に分類するには、満期まで保有する意図があれば足りる。", a:false, e:"意図と能力の両方が必要です。"},
+    {p:"kk", q:"満期保有目的の債券の一部を売却した場合でも、残りの債券は満期保有目的として扱い続ける。", a:false, e:"一部を売却すると、残りもすべて満期保有目的から外れます。"},
+    {p:"kk", q:"子会社株式と関連会社株式は、取得原価で評価する。", a:true, e:"事業投資と同じなので、時価の変動は成果になりません。"},
+    {p:"kk", q:"子会社株式は期末の時価で評価し、評価差額を純資産の部に計上する。", a:false, e:"取得原価です。"},
+    {p:"kk", q:"その他有価証券は時価で評価し、評価差額は洗替方式にもとづいて処理する。", a:true, e:"翌期首に元に戻します。"},
+    {p:"kk", q:"その他有価証券の評価差額は、原則として全部純資産直入法で処理する。", a:true, e:"部分純資産直入法も選べます。"},
+    {p:"kk", q:"部分純資産直入法では、時価が取得原価を上回る銘柄の評価差額を当期の利益とする。", a:false, e:"上回る銘柄は純資産、下回る銘柄が当期の損失です。"},
+    {p:"kk", q:"部分純資産直入法では、時価が取得原価を下回る銘柄の評価差額を当期の損失とする。", a:true, e:"値下がり分だけ損失にする、保守的な処理です。"},
+    {p:"kk", q:"その他有価証券の評価差額には、税効果会計を適用する。", a:true, e:"純資産に計上する分は、繰延税金資産・負債を相手に調整します。"},
+    {p:"kk", q:"市場価格のない株式等は、取得原価で評価する。", a:true, e:"時価を算定しません。"},
+    {p:"kk", q:"時価のある有価証券の時価が著しく下落し、回復する見込みがあると認められない場合は、時価まで減額する。", a:true, e:"有価証券の減損です。"},
+    {p:"kk", q:"時価が取得原価からおおむね30%下落した場合は、回復の可能性にかかわらず減損処理する。", a:false, e:"原則として減損するのは50%以上です。30%〜50%は回復の可能性を判断します。"},
+    {p:"kk", q:"市場価格のない株式等は、発行会社の財政状態の悪化で実質価額が著しく低下したときに減損する。", a:true, e:"実価法による減損です。"},
+    {p:"kk", q:"減損処理したその他有価証券は、翌期首に評価差額を洗い替える。", a:false, e:"減損は切放しです。減損後の金額が翌期の取得原価になります。"},
+    {p:"kk", q:"売買目的有価証券は、貸借対照表の流動資産に表示する。", a:true, e:"短期間で売買する目的なので、流動資産の「有価証券」です。"},
+    {p:"kk", q:"有価証券の保有目的は、原則として自由に変更できる。", a:false, e:"原則として変更できません。正当な理由がある場合に限られます。"},
+    {p:"kk", q:"有価証券の売買契約は、原則として約定日に認識する。", a:true, e:"約定日基準が原則です。修正受渡日基準も認められます。"},
+    {p:"sh", q:"一般債権の貸倒見積高は、原則として貸倒実績率法により算定する。", a:true, e:"過去の貸倒実績率を使います。"},
+    {p:"sh", q:"貸倒懸念債権とは、経営破綻の状態には至っていないが、債務の弁済に重大な問題が生じているか、生じる可能性の高い債務者に対する債権をいう。", a:true, e:"貸倒懸念債権の定義です。"},
+    {p:"sh", q:"破産更生債権等とは、経営破綻または実質的に経営破綻に陥っている債務者に対する債権をいう。", a:true, e:"破産更生債権等の定義です。"},
+    {p:"sh", q:"貸倒懸念債権の貸倒見積高は、財務内容評価法またはキャッシュ・フロー見積法により算定する。", a:true, e:"どちらかを選びます。"},
+    {p:"sh", q:"キャッシュ・フロー見積法では、将来のキャッシュ・フローを条件緩和後の利子率で割り引く。", a:false, e:"当初の約定利子率で割り引きます。"},
+    {p:"sh", q:"キャッシュ・フロー見積法では、将来のキャッシュ・フローを当初の約定利子率で割り引いた現在価値と、債権の帳簿価額との差額を貸倒見積高とする。", a:true, e:"キャッシュ・フロー見積法の計算そのものです。"},
+    {p:"sh", q:"破産更生債権等の貸倒見積高は、債権額から担保の処分見込額と保証による回収見込額を引いた残額とする。", a:true, e:"残りの全額が貸倒見積高です。"},
+    {p:"sh", q:"破産更生債権等の貸倒見積高は、キャッシュ・フロー見積法で算定しなければならない。", a:false, e:"財務内容評価法です。"},
+    {p:"sh", q:"破産更生債権等は、貸倒引当金を設けず、債権額から直接減額することもできる。", a:true, e:"直接減額も認められています。"},
+    {p:"sh", q:"営業債権に対する貸倒引当金繰入額は販売費及び一般管理費に、営業外債権に対するものは営業外費用に表示する。", a:true, e:"債権の性格で表示区分が変わります。"},
+    {p:"sh", q:"貸付金10,000（当初の約定利子率5%）の利率を条件緩和で1%に下げ、残りの期間が2年の場合、キャッシュ・フロー見積法による貸倒見積高は約744である。", a:true, e:"100 ÷ 1.05 ＋ 10,100 ÷ 1.05² ≒ 9,256。10,000 − 9,256 ＝ 744です。"},
+    {p:"sh", q:"債権を債権金額より低い価額で取得し、その差額が金利の調整と認められる場合は、償却原価法を適用する。", a:true, e:"債権にも償却原価法が適用されます。"},
+    {p:"js", q:"金融資産は、契約上の権利を行使したとき、権利を喪失したとき、または権利に対する支配が他に移転したときに消滅を認識する。", a:true, e:"消滅の認識の要件です。"},
+    {p:"js", q:"金融資産の支配の移転には、譲渡した金融資産が譲渡人とその債権者から法的に保全されていることが必要である。", a:true, e:"3要件の1つ（倒産隔離）です。"},
+    {p:"js", q:"譲渡人が、譲渡した金融資産を満期前に買い戻す権利と義務を実質的に持っている場合でも、支配は移転したものとみなす。", a:false, e:"買い戻す権利と義務を実質的に持っていないことが、支配の移転の要件です。"},
+    {p:"js", q:"日本の金融商品会計基準では、金融資産の消滅の認識はリスク・経済価値アプローチによる。", a:false, e:"財務構成要素アプローチです。"},
+    {p:"js", q:"金融資産の譲渡にともなって新たに生じた資産や負債は、時価で計上する。", a:true, e:"買戻権や遡求義務などは時価で計上し、差額が売却損益になります。"},
+    {p:"js", q:"デリバティブ取引から生じる正味の債権・債務は時価で評価し、評価差額は原則として当期の損益とする。", a:true, e:"デリバティブの原則的な処理です。"},
+    {p:"js", q:"デリバティブ取引は、決済されるまで認識しない。", a:false, e:"契約した時点で認識します。"},
+    {p:"js", q:"ヘッジ会計は、原則として繰延ヘッジによる。", a:true, e:"繰延ヘッジが原則です。"},
+    {p:"js", q:"繰延ヘッジでは、ヘッジ手段の損益または評価差額を、ヘッジ対象の損益が認識されるまで純資産の部に繰り延べる。", a:true, e:"繰延ヘッジ損益として純資産に計上します。"},
+    {p:"js", q:"時価ヘッジは、ヘッジ対象の種類を問わず適用できる。", a:false, e:"ヘッジ対象がその他有価証券の場合に限られます。"},
+    {p:"js", q:"ヘッジ会計を適用するには、ヘッジ取引がリスク管理方針に沿ったものであることが、取引時に文書で確認できなければならない。", a:true, e:"事前テストの要件です。"},
+    {p:"js", q:"ヘッジの有効性は、ヘッジ対象とヘッジ手段の変動額の比率がおおむね80%から125%の範囲内であれば有効と判定する。", a:true, e:"事後テストの目安です。"},
+    {p:"js", q:"金利スワップが一定の要件を満たす場合は、時価評価せず、受払いの純額を利息に加減する特例処理ができる。", a:true, e:"金利スワップの特例処理です。"},
+    {p:"js", q:"繰延ヘッジ損益には、税効果会計を適用する。", a:true, e:"純資産に計上するので、繰延税金資産・負債を相手に調整します。"},
+    {p:"js", q:"転換社債型新株予約権付社債の発行者は、一括法または区分法のいずれかで処理できる。", a:true, e:"発行者は選べます。"},
+    {p:"js", q:"転換社債型新株予約権付社債の取得者は、区分法で処理しなければならない。", a:false, e:"取得者は一括法です。"},
+    {p:"js", q:"転換社債型以外の新株予約権付社債の発行者は、区分法で処理する。", a:true, e:"新株予約権を別に行使できるので、分けて処理します。"},
+    {p:"js", q:"区分法では、新株予約権の対価を純資産の部に計上する。", a:true, e:"新株予約権は純資産の部の独立した項目です。"},
+    {p:"js", q:"借入金や社債などの金融負債は、原則として時価で評価する。", a:false, e:"債務額で評価します。社債を額面と違う価額で発行した場合は、償却原価法です。"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:" 有価証券", sh:" 債権", js:" 消滅・デリバティブ・複合"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){
+      idx.sort(function(a, b){ return order[a] - order[b]; });
+    }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox"; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno " + item.p; no.textContent = "Q" + (n+1) + LABEL[item.p];
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○"), bX = mk("×");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        var btn = pick ? bO : bX;
+        btn.classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = "";
+        var h = document.createElement("b"); h.textContent = (right ? "正解！" : "不正解") + "　答えは " + (item.a ? "○" : "×");
+        var p = document.createElement("span"); p.textContent = item.e;
+        res.appendChild(h); res.appendChild(p); res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
