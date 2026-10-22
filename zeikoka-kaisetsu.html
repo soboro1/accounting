@@ -1,0 +1,936 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。税効果会計の出やすい論点（目的、一時差異と永久差異、将来減算・将来加算、基本の仕訳と表示、資産負債法と税率変更、純資産に直接計上する項目、回収可能性と評価性引当額、連結の未実現利益・時価評価、注記と負担率）を、図・仕訳・計算問題・詳しい解説つき○×チェック50問でまとめた学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>税効果会計の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(一時差異と基本)は青、PART2(税率・純資産・回収可能性)はコーラル、PART3(連結と注記)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：連結と注記 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：税率・純資産・回収可能性 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：一時差異と基本 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.ej-row{grid-template-columns:1fr;gap:0}.qbtns .ox{width:96px;height:52px}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 一時差異と基本</a>
+    <a class="n-sh" href="#sh">PART2 税率・純資産・回収可能性</a>
+    <a class="n-js" href="#js">PART3 連結と注記</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">税効果会計</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">税効果会計は、会計上の利益と税金の計算のずれを調整する仕組みです。中心は<mark>「一時差異か永久差異か」「将来減算か将来加算か」「繰延税金資産の回収可能性」</mark>の3つです。このページでは、図と仕訳で論点を順に整理し、最後に○×問題50問で確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>一時差異と基本</b><small>目的、一時差異と永久差異、基本の仕訳と表示</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>税率・純資産・回収可能性</b><small>資産負債法、税率変更、純資産に直接計上する項目、評価性引当額</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>連結と注記</b><small>未実現利益、子会社の時価評価、投資の一時差異、税負担率</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック50問</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 一時差異と基本 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>一時差異と基本の仕訳</h2>
+    <p>会計と税務では、費用や収益を計上する時期がずれることがあります。そのずれのせいで、損益計算書の税金が利益に見合わなくなるのを調整するのが税効果会計です。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-mokuteki">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>なぜ税効果会計が必要か</h3></div>
+    <div class="prose">
+      <p>例：税引前当期純利益10,000。貸倒引当金の繰入限度超過額が1,000あり、税務上は損金になりません。課税所得は11,000、税率は30%です。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="税効果会計の効果。税引前当期純利益10,000に対し、税効果なしでは法人税等3,300で負担率33%。税効果ありでは法人税等調整額300を差し引いて3,000となり、負担率30%で利益と対応する">
+        <text x="20" y="62" class="t-b">税引前当期純利益</text>
+        <rect x="220" y="40" width="500" height="36" rx="6" class="b-kk"/>
+        <text x="470" y="64" class="t-num c">10,000</text>
+        <text x="20" y="142" class="t-b">法人税等</text>
+        <text x="20" y="162" class="t-xs">税効果なし</text>
+        <rect x="220" y="124" width="165" height="36" rx="6" class="s-sh"/>
+        <text x="400" y="148" class="t-num">3,300（負担率 33%）</text>
+        <text x="20" y="222" class="t-b">法人税等</text>
+        <text x="20" y="242" class="t-xs">税効果あり</text>
+        <rect x="220" y="204" width="150" height="36" rx="6" class="b-js"/>
+        <rect x="370" y="204" width="15" height="36" class="b-ghost" style="stroke:var(--c3)"/>
+        <text x="400" y="228" class="t-num">3,300 − 300 ＝ 3,000（負担率 30%）</text>
+        <text x="410" y="286" class="t-xs c">法人税等調整額 △300 で、税金を利益（10,000 × 30%）に見合う額にそろえる</text>
+      </svg>
+      <figcaption>税効果がないと、限度超過額の分だけ税金が多く見え、負担率が33%になります。将来その分の税金が減るので、300を「税金の前払い」（繰延税金資産）として繰り延べます。</figcaption>
+    </figure>
+    <div class="def"><span class="def-l">目的</span><p class="def-t">法人税等の額を適切に<b>期間配分</b>し、税引前当期純利益と法人税等を<b>合理的に対応</b>させること。</p><p class="def-n">税金の計算（課税所得）そのものは変えません。会計上の税金費用を調整するだけです。</p></div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-sai">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>一時差異と永久差異</h3></div>
+    <div class="cases">
+      <div class="case kk"><span>解消時に課税所得を減らす</span><b>将来減算一時差異</b><small>貸倒引当金・減価償却の限度超過額、退職給付引当金、棚卸資産の評価損の否認、未払事業税、減損損失</small><p class="to">→ 繰延税金資産</p></div>
+      <div class="case sh"><span>解消時に課税所得を増やす</span><b>将来加算一時差異</b><small>積立金方式の圧縮記帳、その他有価証券の評価差益</small><p class="to">→ 繰延税金負債</p></div>
+      <div class="case ju"><span>将来も解消しない</span><b>永久差異</b><small>交際費の損金不算入、受取配当金の益金不算入、寄附金の損金不算入</small><p class="to">→ 税効果の対象外</p></div>
+    </div>
+    <ul class="pts">
+      <li>一時差異とは、<span class="hl">貸借対照表の資産・負債の金額と、課税所得計算上の資産・負債の金額との差額</span>です（資産負債法の考え方）。</li>
+      <li>税務上の<b>繰越欠損金</b>は一時差異ではありませんが、将来の税金を減らす効果があるので、一時差異と同じく繰延税金資産の対象になります。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>交際費の損金不算入額は、将来減算一時差異として繰延税金資産を計上する<span class="why">将来も損金にならないので永久差異です。税効果の対象外です。</span></span></li>
+        <li><span class="mark x">×</span><span>減価償却の限度超過額は、将来加算一時差異である<span class="why">売却や除却のときなどに損金になって課税所得を減らすので、将来減算一時差異です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-hyoji">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>基本の仕訳と表示</h3></div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">当期：貸倒引当金の繰入限度超過額1,000（税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">300</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">300</span></div>
+        <span class="je-t">翌期：差異が解消した</span>
+        <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">300</span><span class="dc">(貸)</span><span>繰延税金資産</span><span class="amt">300</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">減価償却費が会計上2,000、税務上の限度額1,500（税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">150</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">150</span></div>
+        <span class="je-n">超過額500は、資産を売却・除却したときなどに解消します。</span>
+      </div>
+    </div>
+    <figure class="fig" style="overflow:visible">
+      <div class="pl" role="list" aria-label="損益計算書の末尾の表示">
+        <div class="pl-row" role="listitem"><div class="pl-k">税引前当期純利益</div><div class="pl-v"><b style="font-family:var(--f-data)">10,000</b></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">法人税、住民税<br>及び事業税</div><div class="pl-v"><b style="font-family:var(--f-data)">3,300</b></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">法人税等調整額</div><div class="pl-v"><b style="font-family:var(--f-data)">△300</b><span style="color:var(--muted);font-size:14px">　法人税等の次に加減する</span></div></div>
+        <div class="pl-row" role="listitem"><div class="pl-k">当期純利益</div><div class="pl-v"><b style="font-family:var(--f-data)">7,000</b></div></div>
+      </div>
+      <figcaption>損益計算書の末尾の表示です。法人税等調整額は、税金の項目の次に表示します。</figcaption>
+    </figure>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">B/S</span><span>繰延税金資産は<b>投資その他の資産</b>、繰延税金負債は<b>固定負債</b>。<small>現行の基準では、流動・固定に分けず、すべて固定区分です。</small></span></div>
+        <div class="r-row exc"><span class="r-b">相殺</span><span><b>同一納税主体</b>の繰延税金資産と負債は、相殺して表示する。<small>異なる納税主体（連結の別会社）の分は、原則として相殺しません。</small></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 税率・純資産・回収可能性 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>税率・純資産直入・回収可能性</h2>
+    <p>繰延税金資産・負債は「将来いくら税金が減る（増える）か」を表します。だから、将来の税率を使い、本当に税金を減らせる分だけを計上します。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-zeiritsu">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★</span><h3>資産負債法と、税率の変更</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">法定実効税率</span><span class="fx sh">（法人税率 ×（1 ＋ 住民税率）＋ 事業税率）</span><span class="op">÷</span><span class="fx">（1 ＋ 事業税率）</span></div>
+      <div class="formula"><span class="lbl">例：法人税率25%、住民税率20%、事業税率5%</span><span class="fx">（25% × 1.2 ＋ 5%）÷ 1.05</span><span class="op">≒</span><span class="res sh">33.33%</span></div>
+    </div>
+    <ul class="pts">
+      <li>繰延税金資産・負債は、差異が<span class="hl">解消すると見込まれる期の税率</span>で計算します（資産負債法）。発生した期の税率で固定するのは繰延法です。</li>
+      <li>事業税は払った期の損金になり、ほかの税金を減らすので、二重に数えないよう分母で調整します。</li>
+    </ul>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">変更</span><span>決算日までに税率の変更を含む税法が成立したら、期首の繰延税金資産・負債を<b>新しい税率で計算し直す</b>。</span></div>
+        <div class="r-row exc"><span class="r-b">処理</span><span>差額は原則として<b>法人税等調整額</b>。純資産に直接計上した項目に関する分は、<b>その純資産の項目</b>で調整する。</span></div>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">将来減算一時差異10,000。税率が30%から28%に下がった</span>
+      <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">200</span><span class="dc">(貸)</span><span>繰延税金資産</span><span class="amt">200</span></div>
+      <span class="je-n">10,000 ×（30% − 28%）＝ 200。税率が下がると、将来減らせる税金も小さくなります。</span>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-junshisan">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>純資産に直接計上する項目の税効果</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">損益を通る差異<small>貸倒引当金・減価償却の超過額など</small></p>
+        <ol class="steps">
+          <li class="star">税効果は<b>法人税等調整額</b>で処理する<em>税金費用を調整する</em></li>
+        </ol>
+      </div>
+      <div class="lane j">
+        <p class="lane-h">純資産に直接計上する差異<small>その他有価証券の評価差額、繰延ヘッジ損益</small></p>
+        <ol class="steps">
+          <li class="star">税効果は<b>評価差額から直接差し引く</b><em>法人税等調整額は使わない</em></li>
+        </ol>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">その他有価証券（取得原価10,000、時価12,000、税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>その他有価証券</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">600</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>その他有価証券評価差額金</span><span class="amt">1,400</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">積立金方式の圧縮記帳（国庫補助金3,000、税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">900</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">900</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>繰越利益剰余金</span><span class="amt">2,100</span><span class="dc">(貸)</span><span>圧縮積立金</span><span class="amt">2,100</span></div>
+        <span class="je-n">補助金の受贈益は損益に計上しているので、税効果は法人税等調整額。圧縮積立金は税効果を差し引いた額です。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>その他有価証券の評価差額に係る税効果は、法人税等調整額で処理する<span class="why">評価差額は損益を通らないので、税効果も評価差額から直接差し引きます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-kaishu">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>繰延税金資産の回収可能性</h3></div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>収益力</b><small>将来、十分な課税所得が見込まれるか。</small></div>
+      <div class="why-c"><span class="no">2</span><b>タックスプランニング</b><small>含み益のある資産の売却予定など、課税所得を生む計画があるか。</small></div>
+      <div class="why-c"><span class="no">3</span><b>将来加算一時差異</b><small>同じ時期に解消する将来加算一時差異があるか。</small></div>
+    </div>
+    <ul class="pts">
+      <li>繰延税金資産は、将来の税金を<span class="hl">本当に減らせる分だけ</span>計上します。回収できないと判断した分は<b>評価性引当額</b>として差し引きます。</li>
+      <li>適用指針では、企業を過去の業績などで<b>5つに分類</b>し、分類ごとに計上できる範囲の目安を示しています。</li>
+      <li>回収可能性は<b>毎期見直します</b>。減らした分は法人税等調整額で処理します。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">回収可能性がなくなった繰延税金資産100を取り崩す</span>
+      <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">100</span><span class="dc">(貸)</span><span>繰延税金資産</span><span class="amt">100</span></div>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　期首と期末の差異から計算する</span>
+      <p class="scn-story">税率は30%で、回収可能性に問題はありません。期首と期末の差異は次のとおりです。</p>
+      <ul class="given">
+        <li>貸倒引当金の限度超過額：期首 <b>800</b>／期末 <b>1,000</b></li>
+        <li>減価償却の限度超過額：期首 <b>1,500</b>／期末 <b>2,000</b></li>
+        <li>未払事業税：期首 <b>600</b>／期末 <b>400</b></li>
+        <li>交際費の損金不算入額（当期）<b>300</b></li>
+        <li>その他有価証券の評価差益（期末）<b>2,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>当期の法人税等調整額はいくらか（借方・貸方も）</li>
+        <li>期末の繰延税金資産と繰延税金負債はいくらか</li>
+        <li>貸借対照表にはどう表示するか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>150の貸方</b>（税金費用を減らす）<span class="calc">期首の将来減算一時差異：800 ＋ 1,500 ＋ 600 ＝ 2,900 → ×30% ＝ 870<br>期末：1,000 ＋ 2,000 ＋ 400 ＝ 3,400 → ×30% ＝ 1,020<br>1,020 − 870 ＝ 150 増加（交際費は永久差異なので入れない）</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>繰延税金資産 <b>1,020</b>、繰延税金負債 <b>600</b><span class="calc">繰延税金負債：2,000 × 30% ＝ 600（その他有価証券の分）</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span>相殺して、投資その他の資産に繰延税金資産 <b>420</b><span class="calc">同じ会社の分なので相殺：1,020 − 600 ＝ 420</span></span></div>
+          <div class="je">
+            <span class="je-t">決算の仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">150</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">150</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>その他有価証券</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">600</span></div>
+            <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>その他有価証券評価差額金</span><span class="amt">1,400</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 連結と注記 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>連結財務諸表の税効果と注記</h2>
+    <p>連結では、連結修正で生じた差異にも税効果を適用します。個別で計上した繰延税金資産・負債は、そのまま引き継ぎます。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-mijitsugen">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>未実現利益の消去：売却元の税率</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 270" role="img" aria-label="未実現利益の税効果。親会社が子会社に商品を売って利益1,000を計上し、その税金300をすでに払っている。連結では子会社に残った在庫の利益1,000を消去するので、払った税金300を繰延税金資産として繰り延べる">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="30" y="30" width="250" height="100" rx="14" class="b-kk"/>
+        <text x="155" y="62" class="t-b c">親会社（売却元）</text>
+        <text x="155" y="88" class="t-s c">利益1,000を計上</text>
+        <text x="155" y="110" class="t-s c" style="font-weight:700">税金300をすでに払った</text>
+        <path d="M282 80 H530" class="ln" marker-end="url(#ah)"/>
+        <text x="406" y="70" class="t-s c">商品を売る</text>
+        <rect x="540" y="30" width="250" height="100" rx="14" class="b-grey"/>
+        <text x="665" y="62" class="t-b c">子会社（購入側）</text>
+        <text x="665" y="88" class="t-s c">期末の在庫に</text>
+        <text x="665" y="110" class="t-s c">未実現利益1,000</text>
+        <rect x="150" y="170" width="520" height="84" rx="14" class="b-js"/>
+        <text x="410" y="202" class="t-b c">連結：利益1,000を消去 → 払った税金300を繰り延べる</text>
+        <text x="410" y="230" class="t-s c">繰延税金資産 300（売却元の親会社の税率30%で計算）</text>
+        <path d="M410 130 V166" class="ln dash"/>
+      </svg>
+      <figcaption>未実現利益の消去は、売却元がすでに払った税金を繰り延べる考え方（繰延法）です。だから売却元の税率を使います。ダウンストリームなら親会社、アップストリームなら子会社の税率です。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">ダウンストリーム（未実現利益1,000、親会社の税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>商品</span><span class="amt">1,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">300</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">300</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">子会社の土地の時価評価（評価益1,000、税率30%）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>土地</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">300</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>評価差額</span><span class="amt">700</span></div>
+        <span class="je-n">評価益は売却時に課税されるので、将来の税金が増える＝繰延税金負債です。</span>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">投資</span><span>子会社の留保利益など<b>投資に係る一時差異</b>は、親会社が解消の時期をコントロールでき、予測可能な将来に配当や売却がない場合は計上しない。</span></div>
+        <div class="r-row exc"><span class="r-b">個別</span><span>個別財務諸表で計上した繰延税金資産・負債は、連結でも<b>そのまま引き継ぐ</b>。</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-chuki">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>注記と、法人税等の負担率</h3></div>
+    <ul class="pts">
+      <li>繰延税金資産・負債の<b>発生原因別の主な内訳</b>を注記します（評価性引当額も示す）。</li>
+      <li>法定実効税率と、税効果会計を適用した後の<b>法人税等の負担率</b>との差異が重要な場合は、その<b>原因</b>を注記します。</li>
+      <li>差異の主な原因は、交際費などの<span class="hl">永久差異</span>と、<span class="hl">評価性引当額の増減</span>です。税効果会計を適用しても、これらがあると負担率は実効税率と一致しません。</li>
+    </ul>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">例：税引前当期純利益10,000、交際費の損金不算入300、税率30%</span><span class="fx">法人税等 ＝（10,000 ＋ 300）× 30% ＝ 3,090</span><span class="op">→</span><span class="res js">負担率 30.9%</span></div>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　アップストリームの未実現利益</span>
+      <p class="scn-story">子会社（税率25%）が親会社に商品を販売し、親会社の期末の在庫に未実現利益2,000が含まれています。非支配株主の持分割合は30%です。</p>
+      <ol class="scn-q">
+        <li>繰延税金資産はいくらか（どちらの税率で計算するか）</li>
+        <li>非支配株主に負担させる額はいくらか</li>
+        <li>連結修正仕訳はどうなるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>500</b>（売却元の子会社の税率）<span class="calc">2,000 × 25% ＝ 500</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>450</b><span class="calc">税効果を考慮した後の利益の減少：2,000 − 500 ＝ 1,500<br>1,500 × 30% ＝ 450</span></span></div>
+          <div class="je">
+            <span class="je-t">連結修正仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>商品</span><span class="amt">2,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">500</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">500</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>非支配株主持分</span><span class="amt">450</span><span class="dc">(貸)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">450</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">50</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例（または正しい文）」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">一時差異と基本</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">税率・純資産・回収可能性</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">連結と注記</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">50</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>一時差異と基本：まずここから</h3>
+      <ol>
+        <li>一時差異と永久差異の具体例</li>
+        <li>将来減算 → 資産、将来加算 → 負債</li>
+        <li>法人税等調整額の表示位置</li>
+        <li>すべて固定区分、同一納税主体は相殺</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>税率・純資産・回収可能性：まずここから</h3>
+      <ol>
+        <li>解消時の税率（資産負債法）と税率変更</li>
+        <li>純資産直入項目は評価差額から直接控除</li>
+        <li>積立金方式の圧縮記帳の仕訳</li>
+        <li>回収可能性の3つの源泉と評価性引当額</li>
+        <li>期首・期末の差異から法人税等調整額を出す</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>連結と注記：まずここから</h3>
+      <ol>
+        <li>未実現利益は売却元の税率</li>
+        <li>アップストリームは税引後で非支配株主に負担</li>
+        <li>子会社の評価益は繰延税金負債</li>
+        <li>負担率と実効税率の差異の原因</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>繰延税金資産は「税金の前払い」、繰延税金負債は「税金の未払い」です。いま会計より多く税金を払っている（将来減らせる）なら資産、少なく払っている（将来増える）なら負債と考えると、どちらに当たるか迷わなくなります。</p>
+</section>
+
+<footer>
+  <p>参照：「税効果会計に係る会計基準」、企業会計基準第28号「『税効果会計に係る会計基準』の一部改正」、企業会計基準適用指針第26号「繰延税金資産の回収可能性に関する適用指針」、企業会計基準適用指針第28号「税効果会計に係る会計基準の適用指針」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var KIJUN = "税効果会計に係る会計基準", K28 = "企業会計基準第28号「『税効果会計に係る会計基準』の一部改正」",
+      G26 = "企業会計基準適用指針第26号（回収可能性）", G28 = "企業会計基準適用指針第28号（税効果会計の適用指針）";
+  var JE_KASHI = ["貸倒引当金の繰入限度超過額1,000（税率30%）", [["繰延税金資産",300,"法人税等調整額",300]]];
+  var JE_SONOTA = ["その他有価証券 取得原価10,000・時価12,000（税率30%）", [["その他有価証券",2000,"繰延税金負債",600],["","","その他有価証券評価差額金",1400]]];
+  var JE_ASSHUKU = ["積立金方式の圧縮記帳 国庫補助金3,000（税率30%）", [["法人税等調整額",900,"繰延税金負債",900],null,["繰越利益剰余金",2100,"圧縮積立金",2100]]];
+  var JE_ZEIRITSU = ["将来減算一時差異10,000、税率が30%→28%", [["法人税等調整額",200,"繰延税金資産",200]]];
+  var JE_KAISHU = ["回収可能性がなくなった繰延税金資産100を取り崩す", [["法人税等調整額",100,"繰延税金資産",100]]];
+  var JE_DOWN = ["ダウンストリームの未実現利益1,000（親会社の税率30%）", [["売上原価",1000,"商品",1000],null,["繰延税金資産",300,"法人税等調整額",300]]];
+  var JE_UP = ["アップストリームの未実現利益2,000（子会社の税率25%、非支配株主30%）", [["売上原価",2000,"商品",2000],null,["繰延税金資産",500,"法人税等調整額",500],null,["非支配株主持分",450,"非支配株主に帰属する当期純利益",450]]];
+  var JE_HYOKA = ["子会社の土地の評価益1,000（税率30%）", [["土地",1000,"繰延税金負債",300],["","","評価差額",700]]];
+
+  var Q = [
+    {p:"kk", q:"税効果会計の目的は、法人税等の額を適切に期間配分し、税引前当期純利益と法人税等を合理的に対応させることにある。", a:true, k:"税引前当期純利益と法人税等を合理的に対応させる", t:"課税所得を正しく計算する", y:"税効果会計は会計上の処理なので、税金の計算（課税所得）そのものは変えません。損益計算書の税金費用を、税引前利益に見合う額に調整するのが目的です。", m:"目的は「期間配分」と「対応」。", j:JE_KASHI, s:KIJUN},
+    {p:"kk", q:"税効果会計は、会計上の利益と課税所得の差異のすべてを対象とする。", a:false, k:"差異のすべて", t:"差異のうち一時差異など", y:"交際費の損金不算入などの永久差異は、将来も解消しないので、税金を期間配分する問題が生じません。", m:"対象は一時差異（と繰越欠損金等）。永久差異は対象外。", s:KIJUN},
+    {p:"kk", q:"一時差異とは、貸借対照表に計上されている資産・負債の金額と、課税所得計算上の資産・負債の金額との差額をいう。", a:true, k:"資産・負債の金額と、課税所得計算上の資産・負債の金額との差額", t:"収益・費用の金額と、益金・損金の金額との差額", y:"現行の基準は資産負債法なので、貸借対照表の資産・負債の差に着目します。損益の差に着目するのは繰延法の考え方です。", m:"一時差異は「貸借対照表の差」。", s:KIJUN},
+    {p:"kk", q:"交際費の損金不算入額は、将来減算一時差異に当たる。", a:false, k:"将来減算一時差異に当たる", t:"永久差異であり、税効果会計の対象にならない", y:"交際費は将来も損金にならないので、差異は解消しません。", m:"交際費の損金不算入・受取配当金の益金不算入は永久差異。", s:KIJUN},
+    {p:"kk", q:"受取配当金の益金不算入額は永久差異であり、税効果会計の対象にならない。", a:true, k:"永久差異であり、税効果会計の対象にならない", t:"将来加算一時差異として、繰延税金負債を計上する", y:"益金にならない状態がずっと続くので、将来の税金を増やしも減らしもしません。", m:"永久差異は税効果の対象外。", s:KIJUN},
+    {p:"kk", q:"貸倒引当金の繰入限度超過額は、将来減算一時差異に当たる。", a:true, k:"将来減算一時差異", t:"将来加算一時差異", y:"超過分は、実際に貸し倒れたときなどに損金になり、そのときの課税所得を減らします。", m:"解消時に所得を減らす → 将来減算 → 繰延税金資産。", j:JE_KASHI, s:KIJUN},
+    {p:"kk", q:"減価償却の限度超過額は、将来加算一時差異に当たる。", a:false, k:"将来加算一時差異", t:"将来減算一時差異", y:"限度を超えた分は、売却や除却のときなどに損金になり、将来の課税所得を減らします。", m:"償却超過額は将来減算一時差異。", j:["償却超過額500（税率30%）", [["繰延税金資産",150,"法人税等調整額",150]]], s:KIJUN},
+    {p:"kk", q:"将来減算一時差異に係る税効果は、繰延税金資産として計上する。", a:true, k:"繰延税金資産", t:"繰延税金負債", y:"将来の税金を減らす効果があるので、税金の前払いのような資産になります。", m:"将来減算 → 資産、将来加算 → 負債。", j:JE_KASHI, s:KIJUN},
+    {p:"kk", q:"将来加算一時差異に係る税効果は、繰延税金資産として計上する。", a:false, k:"繰延税金資産", t:"繰延税金負債", y:"解消するときに課税所得を増やし、将来の税金が増えるので負債になります。", m:"将来減算 → 資産、将来加算 → 負債。", j:JE_SONOTA, s:KIJUN},
+    {p:"kk", q:"税務上の繰越欠損金は、一時差異ではないが、一時差異と同様に繰延税金資産の対象となる。", a:true, k:"一時差異と同様に繰延税金資産の対象となる", t:"将来の税金に影響しないので、税効果会計の対象とならない", y:"将来の課税所得と相殺でき、将来の税金を減らす効果があるためです。", m:"繰越欠損金も繰延税金資産の対象（回収可能性に注意）。", s:KIJUN},
+    {p:"kk", q:"未払事業税は、将来減算一時差異に当たる。", a:true, k:"将来減算一時差異", t:"永久差異", y:"事業税は支払ったとき（翌期）に損金になります。当期に費用にしても当期の損金にはならないので、翌期の課税所得を減らします。", m:"未払事業税は将来減算一時差異。", s:KIJUN},
+    {p:"kk", q:"積立金方式による圧縮記帳は、将来加算一時差異を生じさせる。", a:true, k:"将来加算一時差異", t:"将来減算一時差異", y:"税務上は圧縮額を損金にし、資産の税務上の簿価が小さくなります。将来の減価償却や売却で課税所得が増えるので、将来加算一時差異です。", m:"積立金方式の圧縮記帳 → 繰延税金負債。", j:JE_ASSHUKU, s:KIJUN},
+    {p:"kk", q:"法人税等調整額は、損益計算書で法人税、住民税及び事業税の次に加減して表示する。", a:true, k:"法人税、住民税及び事業税の次に加減して表示する", t:"特別損益の区分に表示する", y:"法人税等調整額は税金費用の調整なので、税金の項目と並べて表示します。", m:"税引前利益 → 法人税等 → 法人税等調整額 → 当期純利益。", s:KIJUN},
+    {p:"kk", q:"繰延税金資産は、流動資産と投資その他の資産に分けて表示する。", a:false, k:"流動資産と投資その他の資産に分けて表示する", t:"すべて投資その他の資産に表示する", y:"一部改正で、流動・固定の区分をやめ、すべて固定区分にしました。", m:"繰延税金資産は投資その他の資産、繰延税金負債は固定負債。", s:K28},
+    {p:"kk", q:"繰延税金資産は投資その他の資産に、繰延税金負債は固定負債に表示する。", a:true, k:"投資その他の資産", t:"流動資産", y:"現行の基準では、流動・固定に分けず、すべて固定区分で表示します。", m:"繰延税金資産は投資その他の資産、繰延税金負債は固定負債。", s:K28},
+    {p:"kk", q:"同一納税主体の繰延税金資産と繰延税金負債は、相殺して表示する。", a:true, k:"相殺して表示する", t:"両建てで表示する", y:"同じ会社の税金の前払いと未払いは、差し引きした純額で示します。", m:"同一納税主体なら相殺。", s:K28},
+    {p:"kk", q:"異なる納税主体の繰延税金資産と繰延税金負債も、相殺して表示する。", a:false, k:"相殺して表示する", t:"原則として相殺しないで表示する", y:"別の会社の分を相殺すると、それぞれの会社の税金の状況がわからなくなるためです。", m:"相殺するのは同じ納税主体だけ。", s:K28},
+    {p:"sh", q:"繰延税金資産・負債は、一時差異が解消されると見込まれる期の税率で計算する。", a:true, k:"解消されると見込まれる期の税率", t:"発生した期の税率", y:"資産負債法では、将来いくら税金が減る（増える）かを表すので、解消するときの税率を使います。", m:"資産負債法 → 解消時の税率。", s:KIJUN},
+    {p:"sh", q:"繰延税金資産・負債は、一時差異が発生した期の税率で計算し、その後は修正しない。", a:false, k:"発生した期の税率で計算し、その後は修正しない", t:"解消されると見込まれる期の税率で計算し、税率が変われば修正する", y:"発生時の税率で固定するのは繰延法です。現行の基準は資産負債法です。", m:"税率が変われば計算し直す。", j:JE_ZEIRITSU, s:KIJUN},
+    {p:"sh", q:"税効果会計の計算には、法定実効税率を使う。", a:true, k:"法定実効税率", t:"法人税率だけ", y:"法人税・住民税・事業税のすべてが、利益に応じてかかるためです。", m:"実効税率 ＝（法人税率 ×（1 ＋ 住民税率）＋ 事業税率）÷（1 ＋ 事業税率）", s:G28},
+    {p:"sh", q:"法定実効税率の計算で事業税率を分母で調整するのは、事業税が損金に算入されるからである。", a:true, k:"事業税が損金に算入される", t:"事業税が損金に算入されない", y:"事業税は払った期の損金になり、その分ほかの税金を減らします。二重に数えないよう分母で調整します。", m:"分母の「1 ＋ 事業税率」は事業税の損金算入の調整。", s:G28},
+    {p:"sh", q:"決算日までに税率の変更を含む税法が成立した場合は、期首の繰延税金資産・負債を新しい税率で計算し直す。", a:true, k:"新しい税率で計算し直す", t:"変更前の税率のまま据え置く", y:"将来の税金の増減額を正しく表すため、最新の税率に合わせます。", m:"税率変更 → 計算し直す。", j:JE_ZEIRITSU, s:KIJUN},
+    {p:"sh", q:"税率変更による繰延税金資産・負債の修正額は、原則として法人税等調整額で処理する。", a:true, k:"法人税等調整額", t:"繰越利益剰余金", y:"税率の変更は当期に起きた出来事なので、当期の税金費用で調整します。", m:"原則は法人税等調整額。純資産直入項目の分は純資産で。", j:JE_ZEIRITSU, s:KIJUN},
+    {p:"sh", q:"その他有価証券評価差額金に係る税率変更の修正額も、法人税等調整額で処理する。", a:false, k:"法人税等調整額で処理する", t:"その他有価証券評価差額金で処理する", y:"もとの税効果を純資産で処理しているので、修正も純資産で行います。", m:"純資産直入項目の税効果は、修正も純資産で。", s:KIJUN},
+    {p:"sh", q:"その他有価証券の評価差額に係る税効果は、法人税等調整額で処理する。", a:false, k:"法人税等調整額で処理する", t:"評価差額から直接控除する", y:"評価差額は損益計算書を通らないので、税効果も損益にしません。", m:"純資産直入項目 → 法人税等調整額は使わない。", j:JE_SONOTA, s:KIJUN},
+    {p:"sh", q:"その他有価証券の評価差益に係る税効果は、繰延税金負債を計上し、評価差額から直接控除する。", a:true, k:"繰延税金負債", t:"繰延税金資産", y:"評価差益は売却したときに課税されるので、将来の税金が増えます。", m:"評価差益 → 負債、評価差損 → 資産。", j:JE_SONOTA, s:KIJUN},
+    {p:"sh", q:"繰延ヘッジ損益にも、税効果会計を適用する。", a:true, k:"税効果会計を適用する", t:"税効果会計を適用しない", y:"純資産に計上する一時差異なので、その他有価証券と同じく税効果を差し引いて計上します。", m:"純資産直入項目には、どれも税効果を適用する。", j:["先物の評価益300（繰延ヘッジ、税率30%）", [["先物取引差金",300,"繰延税金負債",90],["","","繰延ヘッジ損益",210]]], s:"企業会計基準第10号（金融商品）・"+KIJUN},
+    {p:"sh", q:"積立金方式で圧縮記帳を行う場合、圧縮積立金は税効果相当額を控除した額で積み立てる。", a:true, k:"税効果相当額を控除した額", t:"国庫補助金の全額", y:"将来増える税金は繰延税金負債で計上ずみなので、残りを積み立てます。", m:"3,000 ×（1 − 30%）＝ 2,100", j:JE_ASSHUKU, s:KIJUN},
+    {p:"sh", q:"繰延税金資産は、将来減算一時差異の全額に税率を掛けた額を必ず計上する。", a:false, k:"全額に税率を掛けた額を必ず計上する", t:"回収可能性があると認められる範囲内で計上する", y:"将来に課税所得がなければ、税金は減りません。その分は資産になりません。", m:"繰延税金資産は回収可能性がある分だけ。", j:JE_KAISHU, s:KIJUN+"・"+G26},
+    {p:"sh", q:"繰延税金資産は、将来の税金負担額を軽減する効果があると認められる範囲内で計上する。", a:true, k:"軽減する効果があると認められる範囲内", t:"効果の有無にかかわらず全額", y:"税金を減らせない分まで資産にすると、資産が過大になります。", m:"繰延税金資産は回収可能性がある分だけ。", s:KIJUN},
+    {p:"sh", q:"回収可能性は、収益力にもとづく課税所得、タックスプランニングにもとづく課税所得、将来加算一時差異の解消見込みの3つで判断する。", a:true, k:"3つで判断する", t:"収益力だけで判断する", y:"将来の税金を減らせるかは、課税所得の源泉があるかどうかで決まります。その源泉がこの3つです。", m:"収益力・タックスプランニング・将来加算一時差異。", s:G26},
+    {p:"sh", q:"回収可能性がないと判断した部分は、評価性引当額として繰延税金資産から控除する。", a:true, k:"評価性引当額", t:"繰延税金負債", y:"回収できない分を資産に残すと、資産が過大になります。", m:"回収できない分 → 評価性引当額。", j:JE_KAISHU, s:G26},
+    {p:"sh", q:"繰延税金資産の回収可能性は、計上した期にだけ判断し、その後は見直さない。", a:false, k:"計上した期にだけ判断し、その後は見直さない", t:"毎期見直す", y:"将来の課税所得の見込みは毎期変わるので、決算のたびに見直します。", m:"回収可能性の見直しは毎期。", j:JE_KAISHU, s:KIJUN},
+    {p:"sh", q:"将来減算一時差異が期首800から期末1,000に増えた場合（税率30%）、法人税等調整額は60の貸方となる。", a:true, k:"60の貸方", t:"300の貸方", y:"繰延税金資産は期首240から期末300に60増えます。増えた分だけ税金費用が減る（貸方）ので、60の貸方です。", m:"法人税等調整額 ＝ 差異の増減 × 税率。", j:["繰延税金資産の増加60", [["繰延税金資産",60,"法人税等調整額",60]]], s:KIJUN},
+    {p:"js", q:"連結上の未実現利益の消去に係る税効果は、売却元の会社の税率で計算する。", a:true, k:"売却元の会社の税率", t:"購入側の会社の税率", y:"売却元が利益に対してすでに払った税金を繰り延べる考え方（繰延法）なので、売却元の税率を使います。", m:"未実現利益は売却元の税率。", j:JE_DOWN, s:G28},
+    {p:"js", q:"連結上の未実現利益の消去に係る税効果は、購入側の会社の税率で計算する。", a:false, k:"購入側の会社の税率", t:"売却元の会社の税率", y:"税金を払ったのは利益を計上した売却元です。その税金を繰り延べるので、売却元の税率を使います。", m:"未実現利益は売却元の税率。", j:JE_DOWN, s:G28},
+    {p:"js", q:"未実現利益の消去に係る税効果は、売却元ですでに支払った税金を繰り延べるという考え方による。", a:true, k:"すでに支払った税金を繰り延べる", t:"将来支払う税金を見積もる", y:"未実現利益の消去には、例外的に繰延法の考え方を使います。", m:"未実現利益は繰延法（売却元の税率）。", s:G28},
+    {p:"js", q:"未実現利益を消去すると将来減算一時差異が生じ、連結上の繰延税金資産を計上する。", a:true, k:"繰延税金資産", t:"繰延税金負債", y:"連結上の資産の金額が税務上より小さくなります。その利益が実現したときの税金はすでに払っているので、資産になります。", m:"未実現利益の消去 → 繰延税金資産。", j:JE_DOWN, s:G28},
+    {p:"js", q:"アップストリームの未実現利益の消去では、税効果を考慮した後の金額を非支配株主にも負担させる。", a:true, k:"税効果を考慮した後の金額", t:"税効果を考慮する前の金額", y:"子会社の利益は税引後の額で減るので、非支配株主の持分も税引後の額で減らします。", m:"(2,000 − 500) × 30% ＝ 450", j:JE_UP, s:G28},
+    {p:"js", q:"ダウンストリームの未実現利益の消去による税効果は、親会社の税率で計算する。", a:true, k:"親会社の税率", t:"子会社の税率", y:"ダウンストリームでは親会社が売却元だからです。", m:"ダウン → 親会社、アップ → 子会社の税率。", j:JE_DOWN, s:G28},
+    {p:"js", q:"子会社の資産・負債を時価評価したときの評価差額には、税効果を適用する。", a:true, k:"税効果を適用する", t:"税効果を適用しない", y:"連結上の簿価と税務上の簿価がずれるので、一時差異になります。", m:"評価差額は税効果を差し引いて計上する。", j:JE_HYOKA, s:G28},
+    {p:"js", q:"子会社の土地の時価評価による評価益には、繰延税金資産を計上する。", a:false, k:"繰延税金資産", t:"繰延税金負債", y:"評価益は売却したときに課税されるので、将来の税金が増えます。", m:"評価益 → 負債、評価損 → 資産。", j:JE_HYOKA, s:G28},
+    {p:"js", q:"親会社が子会社の配当方針を決めることができ、予測可能な将来に配当や売却がないと見込まれる場合は、子会社の留保利益に係る繰延税金負債を計上しない。", a:true, k:"繰延税金負債を計上しない", t:"繰延税金負債を必ず計上する", y:"解消の時期を親会社がコントロールでき、予測できる将来に税金が生じないためです。", m:"投資に係る一時差異は、解消の見込みがなければ計上しない。", s:G28},
+    {p:"js", q:"連結財務諸表では、個別財務諸表で計上した繰延税金資産・負債をすべて取り消す。", a:false, k:"すべて取り消す", t:"そのまま引き継ぎ、連結修正による分を加える", y:"個別の税効果は連結でもそのまま有効です。連結修正で生じた一時差異の分を加えます。", m:"個別の税効果は引き継ぐ。", s:G28},
+    {p:"js", q:"繰延税金資産・負債の発生原因別の主な内訳を注記する。", a:true, k:"発生原因別の主な内訳", t:"金額の合計だけ", y:"どの差異から生じたかがわからないと、将来の税金への影響を判断できないためです。", m:"内訳と評価性引当額を注記する。", s:KIJUN},
+    {p:"js", q:"法定実効税率と税効果会計適用後の法人税等の負担率との間に重要な差異がある場合は、その原因を注記する。", a:true, k:"その原因を注記する", t:"注記は不要である", y:"永久差異や評価性引当額の増減などで、負担率が実効税率からずれる理由を示すためです。", m:"負担率の差異の原因を注記する。", s:KIJUN},
+    {p:"js", q:"交際費などの永久差異があると、税効果会計を適用しても法人税等の負担率は法定実効税率と一致しない。", a:true, k:"一致しない", t:"必ず一致する", y:"永久差異は税効果の対象外なので、その分の税金がそのまま残ります。", m:"永久差異があると負担率はずれる。", s:KIJUN},
+    {p:"js", q:"税効果会計を適用すれば、永久差異があっても法人税等の負担率は必ず法定実効税率と一致する。", a:false, k:"必ず法定実効税率と一致する", t:"法定実効税率と一致しないことがある", y:"永久差異は税効果の対象外なので、その分の税金がそのまま負担率を押し上げます。", m:"永久差異があると負担率はずれる。", s:KIJUN},
+    {p:"js", q:"評価性引当額が増えると、税効果会計適用後の法人税等の負担率は上がる。", a:true, k:"上がる", t:"下がる", y:"繰延税金資産が減り、法人税等調整額（借方）が税金費用を増やすためです。", m:"評価性引当額が増える → 負担率が上がる。", j:["評価性引当額の増加100", [["法人税等調整額",100,"繰延税金資産",100]]], s:KIJUN},
+    {p:"js", q:"繰延税金資産は、将来の税金の前払いに当たる性格をもつ。", a:true, k:"前払い", t:"未払い", y:"将来減算一時差異の分だけ、当期に会計より多く税金を払っていて、将来の税金を減らせるためです。", m:"資産は税金の前払い、負債は税金の未払い。", s:KIJUN}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"一時差異と基本", sh:"税率・純資産・回収可能性", js:"連結と注記"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
