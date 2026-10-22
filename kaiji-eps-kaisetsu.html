@@ -1,0 +1,1115 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。開示と1株当たり利益の出やすい論点（1株当たり当期純利益と期中平均株式数、株式分割、潜在株式調整後1株当たり当期純利益、1株当たり純資産、修正後発事象と開示後発事象、継続企業の前提、会計上の見積りの開示、セグメント情報、関連当事者の開示）を、図・仕訳・計算問題・○×問題54問で確認できる学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>開示・1株当たり利益の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(1株当たり利益)は青、PART2(後発事象・継続企業)はコーラル、PART3(セグメント・関連当事者)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：セグメント・関連当事者 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：後発事象・継続企業 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：1株当たり利益 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.ej-row{grid-template-columns:1fr;gap:0}.qbtns .ox{width:96px;height:52px}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 1株当たり利益</a>
+    <a class="n-sh" href="#sh">PART2 後発事象・継続企業</a>
+    <a class="n-js" href="#js">PART3 セグメント・関連当事者</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">開示・<br>1株当たり利益</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">財務諸表の数字を読むための指標と注記をまとめて整理します。中心は<mark>「期中平均株式数と株式分割」「修正後発事象か開示後発事象か」「マネジメント・アプローチと10%基準」</mark>の3つです。図と仕訳で論点を順に確認し、最後に○×問題54問で仕上げます。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>1株当たり利益</b><small>期中平均株式数、株式分割、潜在株式調整後、1株当たり純資産</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>後発事象・継続企業</b><small>修正後発事象と開示後発事象、継続企業の前提、会計上の見積りの開示、中間財務諸表</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>セグメント・関連当事者</b><small>マネジメント・アプローチ、量的基準、関連情報、関連当事者の範囲と対象外取引</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック54問</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 1株当たり利益 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>1株当たり当期純利益と1株当たり純資産</h2>
+    <p>1株当たり当期純利益は、利益を株式の数で割って、株主1株あたりの成果を示す指標です。会社の規模が違っても比べられるので、投資判断によく使われます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-eps">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>基本の式と期中平均株式数</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">1株当たり当期純利益</span><span class="fx kk">当期純利益 − 優先配当額など</span><span class="op">÷</span><span class="fx">普通株式の期中平均株式数（自己株式を除く）</span></div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 270" role="img" aria-label="期中平均株式数の計算。期首からある10,000株は12か月分、期首から6か月後に発行した2,000株は6か月分なので、期中平均株式数は11,000株">
+        <text x="430" y="40" class="t-b c">期中平均株式数 ＝ 10,000 ＋ 1,000 ＝ 11,000株</text>
+        <rect x="430" y="76" width="330" height="44" rx="4" class="b-sh"/>
+        <text x="595" y="104" class="t-s c">2,000株 × 6/12 ＝ 1,000株</text>
+        <rect x="100" y="120" width="660" height="80" rx="4" class="b-kk"/>
+        <text x="430" y="166" class="t-s c">期首からある 10,000株 × 12/12 ＝ 10,000株</text>
+        <line x1="100" y1="200" x2="760" y2="200" class="axis"/>
+        <path d="M100 200 V210 M430 200 V210 M760 200 V210" class="ln"/>
+        <text x="100" y="230" class="t-b c">期首</text>
+        <text x="430" y="230" class="t-b c">6か月後に発行</text>
+        <text x="760" y="230" class="t-b c">期末</text>
+        <text x="430" y="258" class="t-xs c">自己株式は除く。株式分割は期首に行われたと仮定する</text>
+      </svg>
+      <figcaption>新しく発行した株式は、発行した日からの期間だけ数えます。集めたお金が利益を生むのは発行した日からなので、それより前の期間の利益は分けません。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>分子は、当期純利益から<span class="hl">優先配当額など普通株主に帰属しない金額</span>を差し引いたものです。連結では「親会社株主に帰属する当期純利益」から始めます。</li>
+      <li>分母からは<b>自己株式</b>を除きます。会社が持っている自己株式には、利益の分配を受ける権利がないからです。</li>
+      <li>当期純損失のときも、<b>1株当たり当期純損失</b>として開示します。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">期首から6か月後に2,000株を発行した（1株800）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">1,600,000</span><span class="dc">(貸)</span><span>資本金</span><span class="amt">1,600,000</span></div>
+      <span class="je-n">この2,000株は、発行した日から期中平均株式数に入ります（6か月分）。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>1株当たり当期純利益は、当期純利益を期末の発行済株式数で割って求める<span class="why">期中平均株式数で割り、優先配当額なども差し引きます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-bunkatsu">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>株式分割・株式併合</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">期中</span><span>期中に株式分割・併合をしても、<b>期首に行われたと仮定</b>して期中平均株式数を計算する。<small>お金が入らず、株主の持分も変わらないので、株式数の単位が変わっただけと考えます。</small></span></div>
+        <div class="r-row exc"><span class="r-b">前期</span><span>開示する<b>前期の1株当たり情報も</b>、前期首に行われたと仮定して計算し直す。</span></div>
+        <div class="r-row gen"><span class="r-b">期末後</span><span>決算日後、財務諸表の公表前に行った分割・併合も、<b>同じように反映</b>する。</span></div>
+      </div>
+    </div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">例：当期に1株を2株に分割。前期の当期純利益58,000、前期の期中平均株式数20,000株</span><span class="fx">58,000 ÷（20,000 × 2）</span><span class="op">＝</span><span class="res kk">前期の1株当たり当期純利益 1.45</span></div>
+    </div>
+    <ul class="pts">
+      <li>修正しないと、前期は2.90、当期は分割後の数字になり、利益が半分になったように見えてしまいます。<span class="hl">同じ株式数の前提で比べる</span>ために計算し直します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>期中に株式分割をした場合は、分割した日から増えた株式数を加重平均する<span class="why">新株の発行とは違い、期首に分割したと仮定します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-senzai">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>潜在株式調整後1株当たり当期純利益</h3></div>
+    <div class="def"><span class="def-l">希薄化</span><p class="def-t">潜在株式（新株予約権・転換社債型新株予約権付社債など）が株式になったと仮定して計算した1株当たり当期純利益が、<b>もとの1株当たり当期純利益を下回る</b>こと。</p><p class="def-n">希薄化効果があるときだけ開示します。希薄化しないとき（逆希薄化）や当期純損失のときは開示せず、その旨を開示します。</p></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 210" role="img" aria-label="自己株式方式。新株予約権1,000株分が行使価格600で行使されると600,000が入金される。そのお金で期中平均株価800の自己株式を750株買い入れたと仮定するので、増える株式数は250株">
+        <defs>
+          <marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="20" y="30" width="230" height="100" rx="14" class="b-kk"/>
+        <text x="135" y="64" class="t-b c">新株予約権を行使</text>
+        <text x="135" y="90" class="t-s c">1,000株を発行</text>
+        <text x="135" y="114" class="t-s c">入金 1,000 × 600 ＝ 600,000</text>
+        <path d="M252 80 H290" class="ln" marker-end="url(#ah1)"/>
+        <rect x="295" y="30" width="230" height="100" rx="14" class="b-grey"/>
+        <text x="410" y="64" class="t-b c">自己株式を買い入れ</text>
+        <text x="410" y="90" class="t-s c">期中平均株価 800 で</text>
+        <text x="410" y="114" class="t-s c">600,000 ÷ 800 ＝ 750株</text>
+        <path d="M527 80 H565" class="ln" marker-end="url(#ah1)"/>
+        <rect x="570" y="30" width="230" height="100" rx="14" class="b-sun"/>
+        <text x="685" y="64" class="t-b c">増える株式数</text>
+        <text x="685" y="96" class="t-num c" style="font-size:20px">1,000 − 750 ＝ 250株</text>
+        <text x="410" y="176" class="t-s c">行使価格（600）が期中平均株価（800）より低いときに、株式が増えて希薄化する</text>
+      </svg>
+      <figcaption>新株予約権は「自己株式方式」で考えます。行使で入ったお金で自己株式を買い戻したと仮定し、差し引きで増える株式数だけを分母に加えます。分子は調整しません。</figcaption>
+    </figure>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">新株予約権<small>自己株式方式</small></p>
+        <ol class="steps">
+          <li>入金額で、<b>期中平均株価</b>で自己株式を買い入れたと仮定</li>
+          <li class="star">差し引きで増える株式数を<b>分母に加える</b><em>分子はそのまま</em></li>
+        </ol>
+      </div>
+      <div class="lane b">
+        <p class="lane-h">転換社債型新株予約権付社債<small>転換仮定方式</small></p>
+        <ol class="steps">
+          <li>期首（期中に発行したものは発行時）に転換したと仮定</li>
+          <li>転換で増える株式数を<b>分母に加える</b></li>
+          <li class="star">払わなくてよくなる社債利息（税額相当額を除いた額）を<b>分子に加える</b></li>
+        </ol>
+      </div>
+    </div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">例：1株当たり当期純利益 44,000 ÷ 11,000株 ＝ 4.00。社債利息1,000（税率30%）、転換で1,000株増える</span><span class="fx">（44,000 ＋ 700）÷（11,000 ＋ 1,000）</span><span class="op">≒</span><span class="res kk">3.73（希薄化あり）</span></div>
+    </div>
+    <div class="je">
+      <span class="je-t">社債利息を支払った（転換されれば払わなくてよい費用）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>社債利息</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">1,000</span></div>
+      <span class="je-n">転換を仮定すると、この利息はなくなります。ただし税金も300増えるので、足し戻すのは 1,000 ×（1 − 30%）＝ 700 です。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>新株予約権は、行使価格が期中平均株価を上回るときに希薄化効果をもつ<span class="why">行使価格が株価を下回るときです。</span></span></li>
+        <li><span class="mark x">×</span><span>当期純損失の場合も、潜在株式調整後1株当たり当期純損失を開示する<span class="why">損失のときは開示しません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-4 -->
+  <div class="unit" id="u-bps">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">頻出度 ★★</span><h3>1株当たり純資産と注記</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">1株当たり純資産</span><span class="fx kk">純資産 − 新株予約権 − 非支配株主持分 − 優先株式の払込金額など</span><span class="op">÷</span><span class="fx">期末の普通株式数（自己株式を除く）</span></div>
+    </div>
+    <ul class="pts">
+      <li>純資産は期末の残高なので、分母も<span class="hl">期末の株式数</span>を使います（期中平均ではありません）。</li>
+      <li>新株予約権は、まだ株主になっていない人の払込み、非支配株主持分は親会社株主以外の持分なので、どちらも普通株主の純資産から差し引きます。</li>
+      <li>1株当たり当期純利益・潜在株式調整後・1株当たり純資産は、<b>算定上の基礎</b>（分子・分母の内訳）とあわせて注記します。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">新株予約権を発行し、500の払込みを受けた</span>
+      <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">500</span><span class="dc">(貸)</span><span>新株予約権</span><span class="amt">500</span></div>
+      <span class="je-n">純資産の部に計上されますが、1株当たり純資産の計算では差し引きます。</span>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　株式分割がある場合の1株当たり当期純利益</span>
+      <p class="scn-story">会計期間は4月1日から3月31日です。当期純利益は94,000、優先配当額は2,000でした。期首の普通株式は20,000株で、7月1日に4,000株を発行し、10月1日に1株を2株に分割しました。前期の当期純利益は60,000（優先配当額2,000）、前期の期中平均株式数は20,000株です。</p>
+      <ol class="scn-q">
+        <li>当期の期中平均株式数は何株か</li>
+        <li>当期の1株当たり当期純利益はいくらか</li>
+        <li>開示する前期の1株当たり当期純利益はいくらか</li>
+        <li>新株予約権（分割後で4,000株分、行使価格30、期中平均株価40）がある場合、潜在株式調整後1株当たり当期純利益はいくらか（小数点第3位を四捨五入）</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>46,000株</b><span class="calc">分割を期首に行ったと仮定：期首 20,000 × 2 ＝ 40,000株<br>7月発行分も分割後の数で：4,000 × 2 × 9/12 ＝ 6,000株<br>40,000 ＋ 6,000 ＝ 46,000株</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>2.00</b><span class="calc">（94,000 − 2,000）÷ 46,000 ＝ 2.00</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>1.45</b><span class="calc">前期も分割後の株式数で：（60,000 − 2,000）÷（20,000 × 2）＝ 1.45<br>修正前の2.90のままだと、当期と比べられない</span></span></div>
+          <div class="ans-step"><span class="lb">問4</span><span><b>1.96</b><span class="calc">入金 4,000 × 30 ＝ 120,000 → 120,000 ÷ 40 ＝ 3,000株を買い入れたと仮定<br>増える株式数：4,000 − 3,000 ＝ 1,000株<br>92,000 ÷（46,000 ＋ 1,000）≒ 1.96（2.00より下がる → 希薄化あり）</span></span></div>
+          <div class="je">
+            <span class="je-t">7月1日の新株発行（1株50）。株式分割は仕訳なし</span>
+            <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">200,000</span><span class="dc">(貸)</span><span>資本金</span><span class="amt">200,000</span></div>
+            <span class="je-n">株式分割は株式数が増えるだけで、資本金などの金額は変わりません。</span>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 後発事象・継続企業 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>後発事象・継続企業の前提・見積りの開示</h2>
+    <p>決算日のあとにわかったこと、会社を続けられるかどうかの不安、見積りの不確かさなど、数字だけでは伝わらない情報を、修正や注記で補います。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-kohatsu">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>修正後発事象と開示後発事象</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 270" role="img" aria-label="後発事象の区分。決算日から監査報告書日までに起きた事象のうち、原因が決算日にすでにあったものは修正後発事象として当期の財務諸表を修正し、決算日後に新しく生じたものは開示後発事象として注記する">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="380" y="10" width="300" height="64" rx="12" class="b-sh"/>
+        <text x="530" y="38" class="t-b c">修正後発事象</text>
+        <text x="530" y="62" class="t-s c">原因は決算日にあった</text>
+        <path d="M378 42 C 260 42, 200 60, 200 104" class="ln" marker-end="url(#ah2)"/>
+        <text x="280" y="34" class="t-xs c" style="font-weight:700">当期の数字を直す</text>
+        <line x1="40" y1="130" x2="780" y2="130" class="axis"/>
+        <rect x="320" y="112" width="360" height="36" rx="6" class="b-sun"/>
+        <text x="500" y="136" class="t-s c" style="font-weight:700">後発事象の期間</text>
+        <path d="M320 104 V156 M680 104 V156" style="stroke:var(--ink);stroke-width:3"/>
+        <text x="180" y="174" class="t-b c">当期の財務諸表</text>
+        <text x="320" y="174" class="t-b c">決算日</text>
+        <text x="680" y="174" class="t-b c">監査報告書日</text>
+        <rect x="380" y="196" width="300" height="64" rx="12" class="b-js"/>
+        <text x="530" y="224" class="t-b c">開示後発事象</text>
+        <text x="530" y="248" class="t-s c">決算日後に新しく生じた</text>
+        <path d="M682 228 H760" class="ln" marker-end="url(#ah2)"/>
+        <text x="740" y="216" class="t-xs e" style="font-weight:700">注記</text>
+      </svg>
+      <figcaption>決算日から監査報告書日までに起きた事象を、原因が決算日にあったかどうかで分けます。原因があったなら決算日の状況を正しく示すために当期の数字を直し（修正後発事象）、決算日後に新しく生じたなら翌期以降に影響するので注記します（開示後発事象）。</figcaption>
+    </figure>
+    <div class="cases">
+      <div class="case sh"><span>当期の財務諸表を修正する</span><b>修正後発事象</b><small>決算日前から経営が悪化していた得意先の倒産、決算日前からの訴訟の判決の確定</small><p class="to">引当金などの金額を直す</p></div>
+      <div class="case js"><span>翌期以降に影響する</span><b>開示後発事象</b><small>決算日後の火災・出水による損害、多額の増資・社債の発行、合併、株式分割、重要な訴訟の提起</small><p class="to">注記する</p></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">決算日後に得意先が倒産（決算日前から債務超過）。売掛金5,000のうち4,000が回収不能の見込み</span>
+        <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金繰入額</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>貸倒引当金</span><span class="amt">4,000</span></div>
+        <span class="je-n">倒産は決算日後でも、決算日にすでに回収が難しかったので、当期の財務諸表を修正します。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">決算日前からの訴訟で、決算日後に3,000の支払いが確定した</span>
+        <div class="je-row"><span class="dc">(借)</span><span>損害賠償損失引当金繰入額</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>損害賠償損失引当金</span><span class="amt">3,000</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>株式分割は開示後発事象ですが、1株当たり当期純利益は<span class="hl">期首に分割したと仮定して計算</span>します（PART1）。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>決算日後に生じた事象は、すべて注記によって開示する<span class="why">原因が決算日にあった修正後発事象は、当期の財務諸表を修正します。</span></span></li>
+        <li><span class="mark x">×</span><span>決算日後の火災による損失は、当期の財務諸表に計上する<span class="why">決算日後に新しく生じたので、開示後発事象として注記します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-keizoku">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★</span><h3>継続企業の前提に関する注記</h3></div>
+    <div class="lanes">
+      <div class="lane s">
+        <p class="lane-h">注記が必要になる条件<small>2つがそろったとき</small></p>
+        <ol class="steps">
+          <li>継続企業の前提に<b>重要な疑義を生じさせる事象や状況</b>がある<em>継続的な営業損失、債務超過、営業キャッシュ・フローのマイナス、借入金の返済の困難など</em></li>
+          <li class="star">対応策をとっても、なお<b>重要な不確実性</b>が認められる</li>
+        </ol>
+      </div>
+    </div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>事象や状況の内容</b><small>どんな状況が生じているか</small></div>
+      <div class="why-c"><span class="no">2</span><b>対応策</b><small>解消・改善のための経営者の計画</small></div>
+      <div class="why-c"><span class="no">3</span><b>不確実性がある旨と理由</b><small>重要な不確実性が認められること</small></div>
+      <div class="why-c"><span class="no">4</span><b>影響を反映していない旨</b><small>財務諸表は継続企業を前提に作成していること</small></div>
+    </div>
+    <ul class="pts">
+      <li>事象や状況があっても、対応策で<span class="hl">重要な不確実性が解消される</span>なら、財務諸表への注記は求められません。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>債務超過であれば、対応策の内容にかかわらず継続企業の前提に関する注記が必要である<span class="why">対応策をとっても重要な不確実性が残る場合に注記します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-mitsumori">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★</span><h3>会計上の見積りの開示と中間財務諸表</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">識別</span><span>当年度に計上した金額のうち、<b>翌年度の財務諸表に重要な影響を及ぼすリスク</b>がある項目を識別する。<small>例：繰延税金資産の回収可能性、固定資産の減損、引当金。</small></span></div>
+        <div class="r-row exc"><span class="r-b">注記</span><span>項目名、当年度の計上額に加えて、<b>算出方法や主要な仮定</b>など、理解に役立つ情報を注記する。</span></div>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">翌年度に見積りが変わった例：回収可能性がなくなった繰延税金資産100を取り崩す</span>
+      <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">100</span><span class="dc">(貸)</span><span>繰延税金資産</span><span class="amt">100</span></div>
+      <span class="je-n">こうした修正が起きうる項目を、前もって利用者に知らせるのが見積りの開示です。</span>
+    </div>
+    <ul class="pts">
+      <li>2024年4月から、金融商品取引法の<b>四半期報告書は廃止</b>されました。第2四半期は<b>半期報告書</b>（中間財務諸表）になり、第1・第3四半期は取引所の決算短信で開示します。</li>
+      <li>中間財務諸表は、中間会計期間を事業年度と並ぶ一会計期間とみる<span class="hl">実績主義</span>で作ります。税金費用は、年間の見積実効税率を使う簡便な方法も認められています。</li>
+    </ul>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　後発事象の判定と仕訳</span>
+      <p class="scn-story">決算日は3月31日、監査報告書日は5月25日です。決算日後に次のことがありました。</p>
+      <ul class="given">
+        <li>ア　4月20日、得意先A社が倒産した。A社は決算日前から債務超過で、売掛金5,000のうち4,000は回収できない見込み（貸倒引当金は計上していない）</li>
+        <li>イ　5月10日、工場の火災で建物（帳簿価額8,000）が焼失した</li>
+        <li>ウ　決算日前から争っていた損害賠償の訴訟で、5月15日に3,000の支払いが確定した</li>
+        <li>エ　5月20日、1株を2株にする株式分割を決議した</li>
+      </ul>
+      <ol class="scn-q">
+        <li>ア〜エは、修正後発事象と開示後発事象のどちらか</li>
+        <li>修正後発事象について、当期に必要な仕訳はどうなるか</li>
+        <li>エは1株当たり当期純利益にどう影響するか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>修正後発事象：<b>アとウ</b>　開示後発事象：<b>イとエ</b><span class="calc">ア：倒産の原因（債務超過）は決算日にすでにあった<br>イ：火災は決算日後に新しく起きた<br>ウ：訴訟は決算日前から。判決は支払額をはっきりさせる情報<br>エ：株式分割は決算日後に新しく決めたこと</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>下の2つの仕訳</span></div>
+          <div class="je">
+            <span class="je-t">アとウ（当期の財務諸表を修正）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金繰入額</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>貸倒引当金</span><span class="amt">4,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>損害賠償損失引当金繰入額</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>損害賠償損失引当金</span><span class="amt">3,000</span></div>
+          </div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>期首に分割したと仮定</b>して計算する<span class="calc">開示後発事象として注記するが、1株当たり当期純利益（前期分も）は分割後の株式数で計算する</span></span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 セグメント・関連当事者 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>セグメント情報と関連当事者の開示</h2>
+    <p>セグメント情報は企業を事業ごとに、関連当事者の開示は特別な関係にある相手との取引を示します。どちらも、連結財務諸表の合計の数字だけでは見えない情報です。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-segment">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>マネジメント・アプローチと報告セグメント</h3></div>
+    <div class="def"><span class="def-l">考え方</span><p class="def-t"><b>マネジメント・アプローチ</b>：経営者が経営上の意思決定や業績の評価に使っている事業の区分を、そのまま開示の区分にする。</p><p class="def-n">製品別・地域別などに決まっているわけではありません。社内の管理の仕方で決まります。</p></div>
+    <div class="two">
+      <div class="box in">
+        <h4>長所</h4>
+        <div class="chips"><span class="chip">経営者の視点で企業を見られる</span><span class="chip">社内の情報を使うので、作る手間が少ない</span><span class="chip">恣意的な区分になりにくい</span></div>
+      </div>
+      <div class="box out">
+        <h4>短所</h4>
+        <div class="chips"><span class="chip">企業どうしで比べにくい</span><span class="chip">組織を変えると、同じ企業の年度間でも比べにくい</span></div>
+      </div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="報告セグメントの決め方。売上高、利益または損失、資産のどれか1つが10%以上なら報告セグメント。報告セグメントの外部売上高の合計が連結売上高の75%に届かなければ、報告セグメントを追加する">
+        <defs>
+          <marker id="ah3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="20" y="20" width="240" height="80" rx="12" class="b-kk"/>
+        <text x="140" y="52" class="t-b c">売上高</text>
+        <text x="140" y="78" class="t-s c">全セグメント合計の10%以上</text>
+        <rect x="290" y="20" width="240" height="80" rx="12" class="b-sh"/>
+        <text x="410" y="52" class="t-b c">利益または損失</text>
+        <text x="410" y="78" class="t-s c">利益・損失の大きい方の10%以上</text>
+        <rect x="560" y="20" width="240" height="80" rx="12" class="b-js"/>
+        <text x="680" y="52" class="t-b c">資産</text>
+        <text x="680" y="78" class="t-s c">全セグメント合計の10%以上</text>
+        <path d="M140 100 L300 140" class="ln" marker-end="url(#ah3)"/>
+        <path d="M410 100 V140" class="ln" marker-end="url(#ah3)"/>
+        <path d="M680 100 L520 140" class="ln" marker-end="url(#ah3)"/>
+        <rect x="240" y="146" width="340" height="48" rx="12" class="b-sun"/>
+        <text x="410" y="176" class="t-b c">どれか1つでも満たせば報告セグメント</text>
+        <rect x="60" y="232" width="560" height="32" rx="4" class="b-kk"/>
+        <rect x="620" y="232" width="140" height="32" rx="4" class="b-grey"/>
+        <text x="340" y="254" class="t-s c">報告セグメントの外部売上高</text>
+        <text x="690" y="254" class="t-s c">その他</text>
+        <path d="M585 220 V276" style="stroke:var(--c3);stroke-width:3;stroke-dasharray:6 4"/>
+        <text x="585" y="214" class="t-num c" style="fill:var(--c3t)">75%</text>
+        <text x="410" y="294" class="t-xs c">連結売上高を100%としたとき、75%に届かなければ報告セグメントを追加する</text>
+      </svg>
+      <figcaption>量的基準は「売上高・利益（損失）・資産」の3つで、どれか1つが10%以上なら報告セグメントです。報告セグメントに入らない事業は「その他」にまとめます。経済的な特徴が似ている事業セグメントは、一定の要件を満たせば1つに集約できます。</figcaption>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>量的基準の3つをすべて満たした事業セグメントだけを報告セグメントとする<span class="why">どれか1つを満たせば報告セグメントです。</span></span></li>
+        <li><span class="mark x">×</span><span>マネジメント・アプローチの長所は、企業間の比較がしやすいことである<span class="why">企業間で比べにくいのは短所です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-kaiji">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>開示する項目と関連情報</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">必ず</span><span>報告セグメントの概要、<b>利益（または損失）と資産</b>の額、その測定方法。</span></div>
+        <div class="r-row exc"><span class="r-b">負債</span><span>負債は、<b>最高経営意思決定機関に定期的に提供され使用されている場合</b>に開示する。</span></div>
+        <div class="r-row gen"><span class="r-b">調整</span><span>セグメントの数値の合計と、連結財務諸表の数値との<b>差異調整</b>を示す。<small>社内で使う利益は、本社費の配分などが連結財務諸表と違うことがあるためです。</small></span></div>
+      </div>
+    </div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>製品・サービスごと</b><small>外部顧客への売上高</small></div>
+      <div class="why-c"><span class="no">2</span><b>地域ごと</b><small>国内と海外の売上高・有形固定資産</small></div>
+      <div class="why-c"><span class="no">3</span><b>主要な顧客</b><small>外部顧客への売上高が、連結売上高の10%以上の顧客</small></div>
+    </div>
+    <ul class="pts">
+      <li>この3つを<b>関連情報</b>といい、<span class="hl">セグメントが1つしかない企業でも開示</span>します。</li>
+      <li>固定資産の減損損失、のれんの償却額と未償却残高、負ののれん発生益も、報告セグメントごとに開示します。</li>
+    </ul>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-kanren">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★★</span><h3>関連当事者の開示</h3></div>
+    <div class="cases">
+      <div class="case kk"><span>会社</span><b>親会社・子会社・関連会社</b><small>兄弟会社（同じ親会社をもつ会社）、その他の関係会社なども含む</small></div>
+      <div class="case sh"><span>個人</span><b>主要株主</b><small>議決権の10%以上を持つ株主と、その近親者</small></div>
+      <div class="case js"><span>個人</span><b>役員とその近親者</b><small>親会社や重要な子会社の役員も含む。近親者は二親等以内</small></div>
+    </div>
+    <div class="two">
+      <div class="box in">
+        <h4>開示の対象になる</h4>
+        <div class="chips"><span class="chip">関連当事者との重要な取引</span><span class="chip">無償の取引や、低い価格での取引</span><span class="chip">親会社・重要な関連会社に関する情報</span></div>
+      </div>
+      <div class="box out">
+        <h4>開示の対象外</h4>
+        <div class="chips"><span class="chip">一般競争入札による取引</span><span class="chip">預金利息・配当金の受取りなど、条件が一般と同じことが明らかな取引</span><span class="chip">役員報酬・賞与・退職慰労金の支払</span><span class="chip">連結で相殺消去した取引</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>関連当事者は、取引の条件を自分に有利に決められる立場にあります。そうした取引が財務諸表に与える影響を知らせるのが目的です。</li>
+      <li>重要性の判断：関連当事者が<b>個人</b>の場合は、<span class="hl">年間1,000万円を超える取引</span>はすべて開示します。無償の取引などは、第三者との取引だったと仮定した金額で判断します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>役員に対する報酬の支払は、関連当事者との取引として開示する<span class="why">役員報酬・賞与・退職慰労金は対象外です。</span></span></li>
+        <li><span class="mark x">×</span><span>無償の取引は取引金額がないので、開示の対象にならない<span class="why">無償や低い価格での取引も対象になりえます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算3 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 3　報告セグメントの判定</span>
+      <p class="scn-story">事業セグメントは次の5つです。連結売上高は98,000（セグメント間の売上は消去済み）です。</p>
+      <ul class="given">
+        <li>A：売上高 <b>50,000</b>（うち外部 48,000）、利益 <b>6,000</b>、資産 <b>40,000</b></li>
+        <li>B：売上高 <b>25,000</b>（すべて外部）、利益 <b>3,000</b>、資産 <b>20,000</b></li>
+        <li>C：売上高 <b>9,000</b>（すべて外部）、損失 <b>1,500</b>、資産 <b>6,000</b></li>
+        <li>D：売上高 <b>8,000</b>（すべて外部）、利益 <b>400</b>、資産 <b>12,000</b></li>
+        <li>E：売上高 <b>8,000</b>（すべて外部）、利益 <b>600</b>、資産 <b>2,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>売上高・利益（損失）・資産の10%の基準額はそれぞれいくらか</li>
+        <li>報告セグメントになるのはどれか</li>
+        <li>75%の基準によって、報告セグメントを追加する必要はあるか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>売上高 <b>10,000</b>、利益（損失）<b>1,000</b>、資産 <b>8,000</b><span class="calc">売上高の合計（セグメント間も含む）：100,000 → 10% ＝ 10,000<br>利益の合計 10,000、損失の合計 1,500 → 大きい方の10,000 × 10% ＝ 1,000<br>資産の合計：80,000 → 10% ＝ 8,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>A・B・C・D</b><span class="calc">A・B：売上高が10,000以上<br>C：売上高は届かないが、損失1,500が1,000以上<br>D：売上高・利益は届かないが、資産12,000が8,000以上<br>E：どれも届かない → 「その他」</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>必要ない</b><span class="calc">A〜Dの外部売上高：48,000 ＋ 25,000 ＋ 9,000 ＋ 8,000 ＝ 90,000<br>90,000 ÷ 98,000 ≒ 91.8%（75%以上）</span></span></div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">54</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例（または正しい文）」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">1株当たり利益</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">後発事象・継続企業</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">セグメント・関連当事者</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">54</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>1株当たり利益：まずここから</h3>
+      <ol>
+        <li>分子は優先配当を引く、分母は期中平均（自己株式を除く）</li>
+        <li>株式分割は期首に仮定、前期も修正</li>
+        <li>新株予約権は自己株式方式、転換社債は転換仮定方式</li>
+        <li>希薄化するときだけ開示、損失なら開示しない</li>
+        <li>1株当たり純資産は期末の株式数</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>後発事象・継続企業：まずここから</h3>
+      <ol>
+        <li>原因が決算日にあれば修正、なければ開示</li>
+        <li>修正後発事象と開示後発事象の具体例</li>
+        <li>継続企業の注記は、対応策をとっても不確実性が残るとき</li>
+        <li>見積りの開示は、翌年度に重要な影響を及ぼすリスクのある項目</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>セグメント・関連当事者：まずここから</h3>
+      <ol>
+        <li>マネジメント・アプローチの長所と短所</li>
+        <li>量的基準10%（どれか1つ）と75%</li>
+        <li>関連情報はセグメントが1つでも開示</li>
+        <li>主要株主は10%以上、近親者は二親等以内</li>
+        <li>役員報酬・一般競争入札などは対象外</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>開示の論点は、どれも「合計の数字だけでは分からないことを、どう補うか」です。株式数の違いを補うのが1株当たり情報、決算日後の情報を補うのが後発事象、事業ごとの違いを補うのがセグメント情報、特別な関係の取引を補うのが関連当事者の開示です。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第2号「1株当たり当期純利益に関する会計基準」、企業会計基準適用指針第4号、監査・保証実務委員会報告第76号「後発事象に関する監査上の取扱い」、財務諸表等規則、企業会計基準第31号「会計上の見積りの開示に関する会計基準」、企業会計基準第33号「中間財務諸表に関する会計基準」、企業会計基準第17号「セグメント情報等の開示に関する会計基準」、企業会計基準第11号「関連当事者の開示に関する会計基準」、企業会計基準適用指針第13号。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var EPS = "企業会計基準第2号「1株当たり当期純利益に関する会計基準」", G4 = "企業会計基準適用指針第4号（1株当たり当期純利益の適用指針）",
+      KOH = "監査・保証実務委員会報告第76号「後発事象に関する監査上の取扱い」", KEI = "財務諸表等規則、監査・保証実務委員会報告第74号（継続企業の前提）",
+      MIT = "企業会計基準第31号「会計上の見積りの開示に関する会計基準」", CHU = "企業会計基準第33号「中間財務諸表に関する会計基準」",
+      SEG = "企業会計基準第17号「セグメント情報等の開示に関する会計基準」", KAN = "企業会計基準第11号「関連当事者の開示に関する会計基準」",
+      G13 = "企業会計基準適用指針第13号（関連当事者の開示の適用指針）";
+  var JE_HAKKO = ["期首から6か月後に2,000株を発行した（1株800）", [["現金",1600000,"資本金",1600000]]];
+  var JE_JIKO = ["自己株式を50,000で取得した（期中平均株式数から除く）", [["自己株式",50000,"現金",50000]]];
+  var JE_RISOKU = ["社債利息1,000を支払った（転換を仮定すると払わなくてよい費用）", [["社債利息",1000,"現金",1000]]];
+  var JE_SHINKABU = ["新株予約権を発行し、500の払込みを受けた（1株当たり純資産では差し引く）", [["現金",500,"新株予約権",500]]];
+  var JE_KASHIDAORE = ["決算日後に得意先が倒産（決算日前から債務超過）：売掛金5,000のうち4,000が回収不能の見込み", [["貸倒引当金繰入額",4000,"貸倒引当金",4000]]];
+  var JE_SOSHO = ["決算日前からの訴訟で、決算日後に3,000の支払いが確定した", [["損害賠償損失引当金繰入額",3000,"損害賠償損失引当金",3000]]];
+  var JE_KAISHU = ["見積りが変わった例：回収可能性がなくなった繰延税金資産100を取り崩す", [["法人税等調整額",100,"繰延税金資産",100]]];
+  var M_EPS = "1株当たり当期純利益 ＝（当期純利益 − 優先配当額など）÷ 普通株式の期中平均株式数（自己株式を除く）。";
+  var M_BUNKATSU = "株式分割・併合 → 期首に行われたと仮定。前期の1株当たり情報も修正。決算日後の分割・併合も同じ。";
+  var M_SENZAI = "潜在株式調整後：希薄化するときだけ開示。新株予約権は自己株式方式、転換社債は転換仮定方式。損失のときは開示しない。";
+  var M_BPS = "1株当たり純資産 ＝（純資産 − 新株予約権 − 非支配株主持分 − 優先株式の払込金額など）÷ 期末の普通株式数（自己株式を除く）。";
+  var M_KOHATSU = "修正後発事象 → 当期の財務諸表を修正／開示後発事象 → 注記。分かれ目は「原因が決算日にあったか」。";
+  var M_KEIZOKU = "継続企業の注記：疑義を生じさせる事象・状況があり、対応策をとっても重要な不確実性が残るとき。";
+  var M_MITSUMORI = "見積りの開示：翌年度に重要な影響を及ぼすリスクがある項目 → 項目名・当年度の計上額・算出方法や主要な仮定など。";
+  var M_MA = "マネジメント・アプローチ：経営者の意思決定・業績評価の区分で開示。長所は経営者の視点で見られること、短所は他社と比べにくいこと。";
+  var M_RYOTEKI = "量的基準：売上高・利益（損失）・資産のどれかが10%以上 → 報告セグメント。外部売上高の合計が連結売上高の75%に届くまで追加。";
+  var M_SEGKAIJI = "利益（損失）と資産は開示、負債は経営者に定期的に提供・使用されている場合に開示。連結の数値との差異調整も示す。";
+  var M_KANREN_INFO = "関連情報：製品・サービスごと、地域ごと、主要な顧客（外部売上高の10%以上）。セグメントが1つでも開示。";
+  var M_KANREN = "関連当事者：親会社・子会社・関連会社・兄弟会社、主要株主（議決権10%以上）、役員と近親者（二親等以内）など。";
+  var M_TAISHOGAI = "対象外：一般競争入札による取引、預金利息・配当金の受取りなど条件が一般と同じことが明らかな取引、役員報酬・賞与・退職慰労金の支払。";
+
+  var Q = [
+    {p:"kk", q:"1株当たり当期純利益は、普通株式に係る当期純利益を、普通株式の期中平均株式数で割って求める。", a:true, k:"普通株式の期中平均株式数", t:"期末の発行済株式数", y:"当期純利益は1年間かけて稼いだものなので、その間の株式数の平均で割ります。期末の株式数で割ると、期末近くに増資しただけで1株当たりの利益が大きく下がってしまいます。", m:M_EPS, j:JE_HAKKO, s:EPS},
+    {p:"kk", q:"普通株式に係る当期純利益は、損益計算書の当期純利益に優先配当額を加えて求める。", a:false, k:"損益計算書の当期純利益に優先配当額を加えて", t:"損益計算書の当期純利益から優先配当額など普通株主に帰属しない金額を差し引いて", y:"優先配当は優先株主に支払われるもので、普通株主のものではありません。だから当期純利益から差し引きます。", m:M_EPS, s:EPS},
+    {p:"kk", q:"期中平均株式数の計算では、自己株式の数を発行済株式数から差し引く。", a:true, k:"自己株式の数を発行済株式数から差し引く", t:"自己株式の数も発行済株式数に含める", y:"会社が持っている自己株式には、利益の分配を受ける権利がありません。だから利益を分ける相手の数には入れません。", m:M_EPS, j:JE_JIKO, s:EPS},
+    {p:"kk", q:"期中に新株を発行した場合、期中平均株式数は、発行した株式を期首から発行済みだったものとして計算する。", a:false, k:"期首から発行済みだったものとして", t:"発行した日からの期間に応じて加重平均して", y:"新株で集めたお金は、発行した日から利益を生みます。それより前の期間の利益には関係しないので、発行した日からの期間だけ株式数に含めます。", m:M_EPS, j:JE_HAKKO, s:EPS},
+    {p:"kk", q:"期首の普通株式10,000株、期首から6か月後に2,000株を発行した場合、期中平均株式数は11,000株である。", a:true, k:"11,000株", t:"12,000株", y:"期首からある10,000株は12か月分、新しい2,000株は6か月分なので、10,000 ＋ 2,000 × 6/12 ＝ 11,000株です。", m:"期中平均 ＝ 期首の株式数 ＋ 増えた株式数 × 発行後の月数 / 12。", j:JE_HAKKO, s:EPS},
+    {p:"kk", q:"当期純損失の場合にも、1株当たり当期純損失を算定し、開示する。", a:true, k:"1株当たり当期純損失を算定し、開示する", t:"1株当たりの情報は開示しない", y:"損失が出た年も、株主1株あたりでどれだけ損をしたかは投資判断に大切な情報なので、利益のときと同じように開示します。", m:"当期純損失でも1株当たり当期純損失を開示する。潜在株式調整後は開示しない。", s:EPS},
+    {p:"kk", q:"期中に株式分割を行った場合、期首に株式分割が行われたと仮定して期中平均株式数を計算する。", a:true, k:"期首に株式分割が行われたと仮定して", t:"株式分割を行った日から", y:"株式分割では会社にお金が入らず、株主の持分の大きさも変わりません。株式数の単位が変わっただけなので、期首から分割後の数だったとみて計算し、期間を比べられるようにします。", m:M_BUNKATSU, s:EPS},
+    {p:"kk", q:"期中に株式分割を行った場合、前期の1株当たり当期純利益は修正しない。", a:false, k:"修正しない", t:"株式分割が前期首に行われたと仮定して修正する", y:"前期と当期で株式数の前提が違うと、1株当たり当期純利益を比べられません。だから前期の数値も分割後の株式数で計算し直します。", m:M_BUNKATSU, s:EPS},
+    {p:"kk", q:"決算日後、財務諸表の公表前に株式分割を行った場合も、期首に行われたと仮定して1株当たり当期純利益を計算する。", a:true, k:"期首に行われたと仮定して", t:"当期の計算には反映させずに", y:"財務諸表を読む人は、公表した時点の株式数で1株当たり利益を見ます。分割後の株式数で示した方が役に立つので、決算日後の分割も反映します。", m:M_BUNKATSU, s:EPS},
+    {p:"kk", q:"潜在株式調整後1株当たり当期純利益は、潜在株式に希薄化効果がある場合に限って開示する。", a:true, k:"希薄化効果がある場合に限って", t:"潜在株式があれば必ず", y:"潜在株式調整後の数値は、将来株式が増えて1株当たり利益が薄まる可能性を示すものです。薄まらないなら示す意味がないので、希薄化効果があるときだけ開示します。", m:M_SENZAI, s:EPS},
+    {p:"kk", q:"潜在株式があるが希薄化効果がない場合は、潜在株式調整後1株当たり当期純利益も開示しなければならない。", a:false, k:"潜在株式調整後1株当たり当期純利益も開示しなければならない", t:"その旨を開示し、潜在株式調整後1株当たり当期純利益は開示しない", y:"希薄化しないなら、潜在株式を考えても1株当たり利益は下がりません。数値は示さず、潜在株式はあるが希薄化しないことを開示します。", m:M_SENZAI, s:EPS},
+    {p:"kk", q:"1株当たり当期純損失の場合でも、潜在株式があれば潜在株式調整後1株当たり当期純損失を開示する。", a:false, k:"でも、潜在株式があれば潜在株式調整後1株当たり当期純損失を開示する", t:"は、潜在株式があっても潜在株式調整後1株当たり当期純利益は開示しない", y:"損失のときに株式数が増えると、1株当たりの損失は小さくなり、かえって良く見えてしまいます。希薄化とはいえないので開示しません。", m:M_SENZAI, s:EPS},
+    {p:"kk", q:"新株予約権は、権利行使で入金される額で、期中平均株価により自己株式を買い入れたと仮定して、増加する普通株式数を計算する。", a:true, k:"期中平均株価により自己株式を買い入れたと仮定して", t:"期末の株価により自己株式を買い入れたと仮定して", y:"新株予約権が行使されると会社にお金が入るので、そのお金で自己株式を買い戻したと考えます。差し引きで増える株式数だけが、1株当たり利益を薄めます。期間の利益と比べるので、株価も期中平均を使います。", m:M_SENZAI, s:G4},
+    {p:"kk", q:"新株予約権は、行使価格が期中平均株価を上回る場合に希薄化効果をもつ。", a:false, k:"上回る", t:"下回る", y:"行使価格が株価より低ければ、入金額で買い戻せる株式は発行する株式より少なく、差し引きで株式が増えます。行使価格が株価より高いと、計算上も株式は増えません。", m:"新株予約権は、行使価格 ＜ 期中平均株価 のときに希薄化する。", s:G4},
+    {p:"kk", q:"新株予約権1,000株分、行使価格600、期中平均株価800の場合、普通株式の増加数は250株である。", a:true, k:"250株", t:"1,000株", y:"入金額 1,000 × 600 ＝ 600,000 で、株価800の株式を750株買い戻せます。増えるのは 1,000 − 750 ＝ 250株です。", m:M_SENZAI, s:G4},
+    {p:"kk", q:"転換社債型新株予約権付社債は、転換仮定方式により、分母に増加株式数を加えるが、分子は調整しない。", a:false, k:"加えるが、分子は調整しない", t:"加え、分子に支払利息など（税額相当額を控除した後）を加える", y:"転換されれば社債はなくなり、社債の利息も払わなくてよくなります。だから当期の利息（税金の影響を除いた額）を利益に足し戻します。", m:M_SENZAI, j:JE_RISOKU, s:G4},
+    {p:"kk", q:"期中に発行された潜在株式は、発行された日から転換・行使されたと仮定して計算する。", a:true, k:"発行された日から", t:"期首から", y:"期中に発行された潜在株式は、発行日より前には存在していません。だから発行した日から転換・行使されたと仮定します。期首からあるものは期首から仮定します。", m:"潜在株式：期首からあるものは期首から、期中に発行されたものは発行日から行使・転換を仮定する。", s:G4},
+    {p:"kk", q:"1株当たり純資産額は、純資産から新株予約権と非支配株主持分などを差し引き、期末の普通株式数で割って求める。", a:true, k:"期末の普通株式数", t:"普通株式の期中平均株式数", y:"純資産は期末時点の残高なので、同じ時点の株式数（期末の発行済株式数から自己株式を除いた数）で割ります。", m:M_BPS, s:G4},
+    {p:"kk", q:"1株当たり純資産額の計算では、新株予約権も普通株主に帰属する純資産に含める。", a:false, k:"普通株主に帰属する純資産に含める", t:"純資産から差し引く", y:"新株予約権は、まだ株主になっていない人が払い込んだお金で、普通株主のものではありません。だから差し引きます。", m:M_BPS, j:JE_SHINKABU, s:G4},
+    {p:"kk", q:"1株当たり当期純利益の注記では、算定上の基礎として、普通株式に係る当期純利益や期中平均株式数などを示す。", a:true, k:"算定上の基礎", t:"株主の構成", y:"分子と分母がどう計算されたかがわからないと、数値の意味を確かめられないので、算定の基礎もあわせて注記します。", m:"注記：1株当たり当期純利益・潜在株式調整後・1株当たり純資産と、その算定上の基礎。", s:EPS},
+
+    {p:"sh", q:"修正後発事象とは、決算日後に発生した事象で、その実質的な原因が決算日現在においてすでに存在していたものをいう。", a:true, k:"実質的な原因が決算日現在においてすでに存在していた", t:"実質的な原因が決算日後に新たに生じた", y:"原因が決算日にあったなら、決算日の財政状態を正しく示すために、その情報を当期の数字に反映させる必要があるためです。", m:M_KOHATSU, j:JE_KASHIDAORE, s:KOH},
+    {p:"sh", q:"修正後発事象は、当期の財務諸表を修正せず、注記によって開示する。", a:false, k:"当期の財務諸表を修正せず、注記によって開示する", t:"当期の財務諸表を修正する", y:"修正後発事象は、決算日の状況をより正確に示す情報です。注記するだけでなく、当期の財務諸表の金額を直します。", m:M_KOHATSU, j:JE_KASHIDAORE, s:KOH},
+    {p:"sh", q:"決算日後に発生した火災による重大な損害は、開示後発事象に当たる。", a:true, k:"開示後発事象", t:"修正後発事象", y:"火災は決算日後に新しく起きたことで、決算日の財政状態とは関係ありません。翌期以降に影響するので、当期は注記だけにします。", m:M_KOHATSU, s:KOH},
+    {p:"sh", q:"決算日後に得意先が倒産した場合は、倒産の原因にかかわらず、すべて開示後発事象として扱う。", a:false, k:"倒産の原因にかかわらず、すべて開示後発事象として扱う", t:"原因が決算日前からの経営悪化であれば、修正後発事象として扱う", y:"決算日にすでに経営が悪化していたなら、決算日の売掛金はすでに回収が難しかったことになります。その場合は修正後発事象として、貸倒引当金を見直します。", m:M_KOHATSU, j:JE_KASHIDAORE, s:KOH},
+    {p:"sh", q:"決算日前から係争中の訴訟について、決算日後に判決が確定し損害賠償額が決まった場合は、修正後発事象に当たる。", a:true, k:"修正後発事象", t:"開示後発事象", y:"訴訟の原因も、支払う義務の可能性も、決算日にすでにありました。判決はその金額をはっきりさせる情報なので、当期の数字に反映します。", m:M_KOHATSU, j:JE_SOSHO, s:KOH},
+    {p:"sh", q:"決算日後に多額の増資や合併を決議した場合は、開示後発事象として注記する。", a:true, k:"開示後発事象として注記する", t:"当期の財務諸表を修正する", y:"増資や合併は決算日後に新しく決めたことで、決算日の財政状態には関係ありません。ただ翌期以降に大きな影響があるので注記します。", m:M_KOHATSU, s:KOH},
+    {p:"sh", q:"後発事象の対象となるのは、決算日の翌日から監査報告書日までに発生した事象である。", a:true, k:"監査報告書日まで", t:"株主総会の日まで", y:"監査人が財務諸表に意見を述べる日までに分かった事象を、財務諸表に反映・開示します。", m:"後発事象の期間：決算日の翌日から監査報告書日まで。", s:KOH},
+    {p:"sh", q:"決算日後に株式分割を行った場合は、開示後発事象として注記するだけで、1株当たり当期純利益には影響させない。", a:false, k:"注記するだけで、1株当たり当期純利益には影響させない", t:"注記し、1株当たり当期純利益は期首に分割されたと仮定して計算する", y:"株式分割は開示後発事象ですが、1株当たり情報は、決算日後の分割も期首に行われたと仮定して計算します。財務諸表を読む時点の株式数で比べられるようにするためです。", m:M_BUNKATSU, s:EPS},
+    {p:"sh", q:"継続企業の前提に関する注記は、重要な疑義を生じさせる事象や状況があり、対応策をとってもなお重要な不確実性が認められる場合に行う。", a:true, k:"対応策をとってもなお重要な不確実性が認められる場合", t:"対応策によって重要な不確実性が解消される場合", y:"事象や状況があっても、対応策で解消できるなら、会社を続けられないおそれは小さいといえます。対応策をとっても不確実性が残るときに、利用者に注意を促すため注記します。", m:M_KEIZOKU, s:KEI},
+    {p:"sh", q:"継続企業の前提に重要な疑義を生じさせる事象や状況があれば、対応策によって解消される場合でも、財務諸表に注記しなければならない。", a:false, k:"があれば、対応策によって解消される場合でも、財務諸表に注記しなければならない", t:"があり、対応策をとってもなお重要な不確実性が認められる場合に限り、財務諸表に注記する", y:"財務諸表への注記が必要なのは、対応策をとっても重要な不確実性が残る場合です。解消されるなら注記は求められません。", m:M_KEIZOKU, s:KEI},
+    {p:"sh", q:"継続的な営業損失や債務超過、営業キャッシュ・フローの継続的なマイナスは、継続企業の前提に重要な疑義を生じさせる事象や状況の例である。", a:true, k:"継続的な営業損失や債務超過", t:"一時的な売上高の減少", y:"これらが続くと、借入金を返したり事業を続けたりするためのお金が足りなくなるおそれがあるためです。", m:M_KEIZOKU, s:KEI},
+    {p:"sh", q:"会計上の見積りの開示では、当年度の財務諸表に計上した金額のうち、翌年度の財務諸表に重要な影響を及ぼすリスクがある項目を識別して注記する。", a:true, k:"翌年度の財務諸表に重要な影響を及ぼすリスクがある", t:"当年度に金額が最も大きい", y:"見積りは将来の不確実な予測にもとづくので、来年大きく変わるおそれがある項目を知らせることで、利用者が数字の確からしさを判断できるようにします。", m:M_MITSUMORI, j:JE_KAISHU, s:MIT},
+    {p:"sh", q:"会計上の見積りの開示では、識別した項目の当年度の計上額だけを注記すればよい。", a:false, k:"当年度の計上額だけを注記すればよい", t:"当年度の計上額に加えて、算出方法や主要な仮定など理解に役立つ情報も注記する", y:"金額だけでは、どのくらい変わるおそれがあるか分かりません。どう見積もったか、どんな仮定を置いたかもあわせて示します。", m:M_MITSUMORI, s:MIT},
+    {p:"sh", q:"繰延税金資産の回収可能性や固定資産の減損は、会計上の見積りの開示の対象となりやすい項目である。", a:true, k:"会計上の見積りの開示", t:"会計方針の変更の注記", y:"どちらも将来の課税所得やキャッシュ・フローの予測にもとづく金額で、前提が変わると翌年度に大きく修正されるおそれがあるためです。", m:M_MITSUMORI, j:JE_KAISHU, s:MIT},
+    {p:"sh", q:"中間財務諸表は、中間会計期間を事業年度と並ぶ一会計期間とみる実績主義の考え方で作成する。", a:true, k:"実績主義", t:"予測主義", y:"中間会計期間の実績をそのまま示す方が客観的で分かりやすいので、年度の一部として予測を入れる予測主義ではなく、実績主義をとります。", m:"中間財務諸表：実績主義。税金費用は、年間の見積実効税率を使う簡便な方法も可。", s:CHU},
+    {p:"sh", q:"第1四半期と第3四半期の四半期報告書は、現在も金融商品取引法にもとづき提出が求められている。", a:false, k:"現在も金融商品取引法にもとづき提出が求められている", t:"金融商品取引法上は廃止された", y:"2024年4月から、金融商品取引法の四半期報告書は廃止されました。第2四半期は半期報告書（中間財務諸表）になり、第1・第3四半期は取引所の決算短信で開示します。", m:"四半期報告書は廃止 → 第2四半期は半期報告書、第1・第3四半期は決算短信。", s:"金融商品取引法の改正（2024年4月施行）"},
+
+    {p:"js", q:"セグメント情報は、経営者が経営上の意思決定や業績の評価に使っている事業の区分にもとづいて開示する。", a:true, k:"経営者が経営上の意思決定や業績の評価に使っている", t:"製品の種類や地域など、会計基準があらかじめ定めた", y:"経営者と同じ目で企業を見られるようにするためのマネジメント・アプローチです。社内で使っている情報なので、作るための追加の手間も少なくて済みます。", m:M_MA, s:SEG},
+    {p:"js", q:"マネジメント・アプローチの長所は、企業間でセグメント情報を比較しやすいことにある。", a:false, k:"企業間でセグメント情報を比較しやすい", t:"財務諸表利用者が経営者の視点で企業を見ることができる", y:"区分の仕方は会社ごとの組織や経営の仕方で決まるので、他社とは比べにくくなります。これはマネジメント・アプローチの短所です。", m:M_MA, s:SEG},
+    {p:"js", q:"売上高が全セグメントの売上高合計の10%以上の事業セグメントは、報告セグメントとして開示する。", a:true, k:"10%以上", t:"25%以上", y:"一定以上の規模がある事業は、企業全体の業績を理解するのに重要なので、個別に開示します。売上高・利益（損失）・資産のどれか1つが10%以上なら報告セグメントです。", m:M_RYOTEKI, s:SEG},
+    {p:"js", q:"量的基準では、売上高・利益または損失・資産の3つすべてが10%以上の事業セグメントだけを報告セグメントとする。", a:false, k:"3つすべてが10%以上の事業セグメントだけを", t:"どれか1つでも10%以上の事業セグメントを", y:"3つのどれか1つでも基準を満たせば、その事業は企業全体のなかで重要といえるので、報告セグメントにします。", m:M_RYOTEKI, s:SEG},
+    {p:"js", q:"利益または損失の量的基準は、利益の合計額と損失の合計額の絶対値のうち、いずれか大きい額の10%以上かどうかで判定する。", a:true, k:"いずれか大きい額", t:"いずれか小さい額", y:"利益の事業と損失の事業が混じると、単純に合計した額は小さくなってしまいます。大きい方を基準にして、重要な事業を判定します。", m:M_RYOTEKI, s:SEG},
+    {p:"js", q:"報告セグメントの外部顧客への売上高の合計が、連結損益計算書の売上高の50%以上になるまで、報告セグメントを追加する。", a:false, k:"50%以上", t:"75%以上", y:"報告セグメントで企業の売上の大部分を説明できるよう、75%に届くまで報告セグメントを追加します。", m:M_RYOTEKI, s:SEG},
+    {p:"js", q:"報告セグメントに含まれない事業セグメントは、「その他」の区分にまとめて開示する。", a:true, k:"「その他」の区分にまとめて", t:"開示せずに省略して", y:"報告セグメントにならない小さな事業も企業の一部なので、まとめて「その他」として示し、合計が連結の数字とつながるようにします。", m:"報告セグメント以外の事業 → 「その他」の区分。", s:SEG},
+    {p:"js", q:"セグメント負債の額は、経営者に報告されているかどうかにかかわらず、必ず開示しなければならない。", a:false, k:"経営者に報告されているかどうかにかかわらず、必ず開示しなければならない", t:"最高経営意思決定機関に定期的に提供され使用されている場合に開示する", y:"マネジメント・アプローチでは、経営者が使っている情報を開示します。負債を経営判断に使っていない会社にまで、新たに作らせる必要はないからです。", m:M_SEGKAIJI, s:SEG},
+    {p:"js", q:"セグメント情報の利益の額は、経営者が業績の評価に使っている数値で開示し、連結財務諸表の数値との差異調整を示す。", a:true, k:"連結財務諸表の数値との差異調整を示す", t:"連結財務諸表の数値に必ず一致させる", y:"社内で使う利益は、本社費の配分の仕方などが連結財務諸表と違うことがあります。差異調整を示せば、連結の数字とのつながりを確かめられます。", m:M_SEGKAIJI, s:SEG},
+    {p:"js", q:"事業セグメントが1つしかない企業でも、製品・サービス、地域、主要な顧客に関する情報（関連情報）は開示する。", a:true, k:"開示する", t:"開示しなくてよい", y:"セグメントが1つでも、何をどこで売り、どの顧客に頼っているかは、リスクを判断する大切な情報なので開示します。", m:M_KANREN_INFO, s:SEG},
+    {p:"js", q:"外部顧客への売上高が連結損益計算書の売上高の10%以上を占める顧客がいる場合は、主要な顧客として開示する。", a:true, k:"10%以上", t:"50%以上", y:"特定の顧客への売上が大きいと、その顧客を失ったときの影響が大きいので、どれだけ頼っているかを示します。", m:M_KANREN_INFO, s:SEG},
+    {p:"js", q:"関連当事者には、親会社・子会社・関連会社のほか、主要株主や役員とその近親者も含まれる。", a:true, k:"主要株主や役員とその近親者も含まれる", t:"主要株主や役員などの個人は含まれない", y:"役員や大株主は、会社との取引の条件を自分に有利に決められる立場にあります。そうした取引が財務諸表に与える影響を知らせるため、個人も対象にします。", m:M_KANREN, s:KAN},
+    {p:"js", q:"主要株主とは、自己または他人の名義で総株主の議決権の20%以上を保有している株主をいう。", a:false, k:"20%以上", t:"10%以上", y:"主要株主は、議決権の10%以上を持つ株主と定められています。関連会社の判定に使う20%と混同しないようにします。", m:M_KANREN, s:KAN},
+    {p:"js", q:"役員に対する報酬・賞与・退職慰労金の支払は、関連当事者との取引として開示しなければならない。", a:false, k:"関連当事者との取引として開示しなければならない", t:"関連当事者との取引の開示の対象外である", y:"役員報酬などは、別の制度で決め方や開示が定められているので、関連当事者との取引の開示からは除かれています。", m:M_TAISHOGAI, s:KAN},
+    {p:"js", q:"一般競争入札による取引や、預金利息・配当金の受取りなど取引条件が一般の取引と同様であることが明白な取引は、開示の対象外である。", a:true, k:"開示の対象外", t:"必ず開示の対象", y:"誰とでも同じ条件で行う取引は、関連当事者であることを利用した取引ではないので、開示する必要がありません。", m:M_TAISHOGAI, s:KAN},
+    {p:"js", q:"関連当事者との無償取引や低い価格での取引も、開示の対象となりうる。", a:true, k:"開示の対象となりうる", t:"取引金額がないので開示の対象とならない", y:"無償や安い価格での取引こそ、関連当事者だから行われた取引の典型です。第三者との取引だったらいくらだったかを見積もって、重要性を判断します。", m:"無償・低い価格の取引も対象。第三者との取引と仮定した金額で重要性を判断する。", s:G13},
+    {p:"js", q:"連結財務諸表では、連結会社間の取引も関連当事者との取引として開示する。", a:false, k:"連結会社間の取引も関連当事者との取引として開示する", t:"相殺消去した連結会社間の取引は、関連当事者との取引の開示の対象外とする", y:"連結では、連結会社どうしの取引は相殺消去されて財務諸表に残りません。グループ外の関連当事者との取引だけを開示します。", m:M_KANREN, s:KAN},
+    {p:"js", q:"関連当事者が個人の場合、年間1,000万円を超える取引は、すべて開示の対象となる。", a:true, k:"1,000万円", t:"1億円", y:"個人との取引は、会社の規模に比べて金額が小さくても、役員などに利益が流れていないかという点で重要なので、一定額を超えれば開示します。", m:"重要性：関連当事者が個人なら、年間1,000万円を超える取引はすべて開示。", s:G13}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"1株当たり利益", sh:"後発事象・継続企業", js:"セグメント・関連当事者"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
