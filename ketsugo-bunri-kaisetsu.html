@@ -1,0 +1,1107 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。企業結合・事業分離の出やすい論点（取得・共同支配企業の形成・共通支配下の取引、取得企業の決め方と逆取得、株式交換・株式移転、取得原価と取得関連費用、のれんと負ののれん、段階取得、暫定的な会計処理、親子合併と抱合せ株式、事業分離の投資の清算と継続、結合当事企業の株主）を、図・仕訳・計算問題・○×問題50問で確認できる学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>企業結合・事業分離の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(区分と取得企業)は青、PART2(取得原価とのれん)はコーラル、PART3(事業分離と株主)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：事業分離と株主 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：取得原価とのれん */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：区分と取得企業 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.ej-row{grid-template-columns:1fr;gap:0}.qbtns .ox{width:96px;height:52px}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 区分と取得企業</a>
+    <a class="n-sh" href="#sh">PART2 取得原価とのれん</a>
+    <a class="n-js" href="#js">PART3 事業分離と株主</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">企業結合・<br>事業分離</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">合併や会社分割は、法律の形ではなく経済的な実態で処理を決めます。中心は<mark>「取得か、共同支配か、共通支配下か」「取得原価とのれん」「投資の清算か継続か」</mark>の3つです。図と仕訳で論点を順に確認し、最後に○×問題50問で仕上げます。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>区分と取得企業</b><small>3つの区分、取得企業の決め方、逆取得、株式交換・株式移転</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>取得原価とのれん</b><small>取得関連費用、配分、のれんと負ののれん、段階取得、暫定的な会計処理、親子合併</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>事業分離と株主</b><small>投資の清算と継続、分離元・分離先の処理、被結合企業の株主</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック50問</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 区分と取得企業 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>企業結合の区分と取得企業</h2>
+    <p>企業結合は、ある会社と別の会社（またはその事業）が1つの報告単位にまとまることです。合併・株式交換・会社分割など形はいろいろですが、処理は「だれが支配を手に入れたか」で決めます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-kubun">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>企業結合の3つの区分</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 280" role="img" aria-label="企業結合の区分。同じ親会社の下での結合は共通支配下の取引で帳簿価額、契約で共同支配する場合は共同支配企業の形成で帳簿価額、それ以外はすべて取得でパーチェス法により時価">
+        <defs>
+          <marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="20" y="105" width="170" height="70" rx="14" class="b-grey"/>
+        <text x="105" y="136" class="t-b c">企業結合</text>
+        <text x="105" y="160" class="t-s c">支配の状況で判定</text>
+        <path d="M192 128 L414 52" class="ln" marker-end="url(#ah1)"/>
+        <path d="M192 140 H414" class="ln" marker-end="url(#ah1)"/>
+        <path d="M192 152 L414 228" class="ln" marker-end="url(#ah1)"/>
+        <text x="300" y="72" class="t-xs c" style="font-weight:700">①まず確認</text>
+        <text x="300" y="132" class="t-xs c" style="font-weight:700">②次に確認</text>
+        <text x="270" y="228" class="t-xs c" style="font-weight:700">③どちらでもない</text>
+        <rect x="420" y="15" width="380" height="70" rx="14" class="b-js"/>
+        <text x="610" y="45" class="t-b c">共通支配下の取引</text>
+        <text x="610" y="69" class="t-s c">同じ親会社の下での結合 → 帳簿価額</text>
+        <rect x="420" y="105" width="380" height="70" rx="14" class="b-sh"/>
+        <text x="610" y="135" class="t-b c">共同支配企業の形成</text>
+        <text x="610" y="159" class="t-s c">契約で共同支配する → 帳簿価額</text>
+        <rect x="420" y="195" width="380" height="70" rx="14" class="b-kk"/>
+        <text x="610" y="225" class="t-b c">取得</text>
+        <text x="610" y="249" class="t-s c">上の2つ以外 → パーチェス法（時価）</text>
+      </svg>
+      <figcaption>持分プーリング法は廃止されました。共通支配下の取引と共同支配企業の形成に当たらなければ、企業結合はすべて「取得」として、パーチェス法で時価により処理します。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li><b>取得</b>は、ある企業が他の企業の支配を手に入れる取引です。資産を買ったのと同じと考えるので、受け入れる資産・負債は<span class="hl">企業結合日の時価</span>です。</li>
+      <li><b>共同支配企業の形成</b>と<b>共通支配下の取引</b>は、だれも新しく支配を手に入れていないので、<span class="hl">帳簿価額</span>のまま引き継ぎます。</li>
+      <li>共通支配下の取引の例は、親会社と子会社の合併、子会社どうしの合併、100%子会社への会社分割などです。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>持分の結合に当たる企業結合は、持分プーリング法で処理する<span class="why">持分プーリング法は廃止されました。</span></span></li>
+        <li><span class="mark x">×</span><span>企業結合は、合併・株式交換などの法的な形式によって処理が決まる<span class="why">支配を手に入れたかどうかという経済的な実態で決めます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-shutoku">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>取得企業の決め方と逆取得</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">取得企業の決め方<small>上から順に考える</small></p>
+        <ol class="steps">
+          <li class="star">連結会計基準の<b>支配</b>の考え方で判定する</li>
+          <li>決まらなければ、次の要素を考える<em>対価の種類、議決権の比率、取締役会の構成、相対的な規模、最初に提案した企業</em></li>
+        </ol>
+      </div>
+    </div>
+    <div class="whys">
+      <div class="why-c"><span class="no">1</span><b>対価が現金</b><small>通常、現金を支出した企業が取得企業</small></div>
+      <div class="why-c"><span class="no">2</span><b>対価が株式</b><small>通常、株式を交付した企業が取得企業</small></div>
+      <div class="why-c"><span class="no">3</span><b>相対的な規模</b><small>著しく大きい企業が、通常は取得企業</small></div>
+    </div>
+    <div class="def"><span class="def-l">逆取得</span><p class="def-t">株式を交付した企業が、実態としては<b>被取得企業</b>になる場合。例：吸収合併で、消滅会社の株主が存続会社の支配を握る。</p><p class="def-n">存続会社の個別財務諸表では、消滅会社（取得企業）の資産・負債を<b>合併直前の適正な帳簿価額</b>で受け入れます。連結財務諸表ではパーチェス法で処理します。</p></div>
+    <div class="je">
+      <span class="je-t">逆取得：消滅会社（取得企業）の資産の帳簿価額9,000、負債4,000を受け入れた</span>
+      <div class="je-row"><span class="dc">(借)</span><span>諸資産</span><span class="amt">9,000</span><span class="dc">(貸)</span><span>諸負債</span><span class="amt">4,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>資本金</span><span class="amt">5,000</span></div>
+      <span class="je-n">時価で評価し直さず、のれんも計上しません。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>取得企業は、まず相対的な規模を比べて決める<span class="why">まず支配の考え方で判定し、規模はそれで決まらないときに考える要素です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-kokan">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>株式交換・株式移転と増加資本</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">交換</span><span>株式交換（取得）：完全親会社の個別財務諸表では、子会社株式を<b>交付した株式の時価</b>（＋付随費用）で計上する。<small>連結では資本連結をしてのれんを計上し、付随費用は発生した年度の費用に振り替えます。</small></span></div>
+        <div class="r-row exc"><span class="r-b">移転</span><span>株式移転：新しい親会社はただの器なので、<b>完全子会社の中から取得企業を決める</b>。<small>取得企業の株式は株主資本の帳簿価額、被取得企業の株式は時価で計上します。</small></span></div>
+        <div class="r-row gen"><span class="r-b">資本</span><span>企業結合で増える資本は<b>払込資本</b>（資本金・資本準備金・その他資本剰余金）。内訳は合併契約などで会社法にもとづいて決める。</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>対価として<b>自己株式</b>を交付したときは、取得原価から自己株式の帳簿価額を引いた額を払込資本にします。<span class="hl">損益は生じません</span>。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">株式交換：S社の株主にP社株式（時価120,000）を交付し、付随費用2,000を支払った（P社の個別）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>子会社株式</span><span class="amt">122,000</span><span class="dc">(貸)</span><span>資本金</span><span class="amt">120,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>現金</span><span class="amt">2,000</span></div>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　株式交換（個別と連結）</span>
+      <p class="scn-story">P社は株式交換でS社を完全子会社にしました（取得に当たる）。S社の株主にP社株式2,000株（企業結合日の株価 @60）を交付し、増加資本はすべて資本金とします。付随費用2,000を現金で支払いました。S社の資本金は50,000、利益剰余金は30,000で、土地に評価差額10,000があります（税効果は考えない）。</p>
+      <ol class="scn-q">
+        <li>P社の個別財務諸表での子会社株式の取得原価はいくらか</li>
+        <li>連結財務諸表で計上するのれんはいくらか</li>
+        <li>付随費用2,000は、連結財務諸表でどう扱うか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>122,000</b><span class="calc">交付した株式の時価：2,000株 × @60 ＝ 120,000<br>個別では付随費用を含める：120,000 ＋ 2,000 ＝ 122,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>30,000</b><span class="calc">連結での取得原価（付随費用を除く）：120,000<br>S社の時価による純資産：50,000 ＋ 30,000 ＋ 10,000 ＝ 90,000<br>120,000 − 90,000 ＝ 30,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>発生した年度の費用</b>にする<span class="calc">連結では取得関連費用を取得原価に含めないので、子会社株式から費用に振り替える</span></span></div>
+          <div class="je">
+            <span class="je-t">連結修正仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>土地</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>評価差額</span><span class="amt">10,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>資本金</span><span class="amt">50,000</span><span class="dc">(貸)</span><span>子会社株式</span><span class="amt">120,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>利益剰余金</span><span class="amt">30,000</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc"></span><span>評価差額</span><span class="amt">10,000</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">30,000</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>支払手数料</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>子会社株式</span><span class="amt">2,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 取得原価とのれん ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>取得原価の配分とのれん</h2>
+    <p>取得では、支払った対価の時価を取得原価とし、それを受け入れた資産・負債に時価で配分します。配分しきれずに残った部分が、のれん（マイナスなら負ののれん）です。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-genka">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>取得原価と取得関連費用</h3></div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">取得原価</span><span class="fx sh">取得の対価となる財の企業結合日の時価</span><span class="op">（</span><span class="fx">株式なら企業結合日の株価 × 交付株式数</span><span class="op">）</span></div>
+    </div>
+    <ul class="pts">
+      <li>合意を公表した日ではなく、実際に支配を手に入れた<span class="hl">企業結合日</span>の株価を使います。</li>
+      <li>外部のアドバイザーへの報酬などの<b>取得関連費用</b>は、取得原価に含めず、<b>発生した事業年度の費用</b>にします。取引のためのコストで、事業そのものの価値ではないからです。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">合併のアドバイザリー報酬300を支払った</span>
+      <div class="je-row"><span class="dc">(借)</span><span>支払手数料</span><span class="amt">300</span><span class="dc">(貸)</span><span>現金</span><span class="amt">300</span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>取得関連費用は、取得原価に含めてのれんとして償却する<span class="why">発生した事業年度の費用です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-noren">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>取得原価の配分、のれんと負ののれん</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 290" role="img" aria-label="吸収合併の取得原価の配分。借方は受け入れた諸資産の時価10,000とのれん1,000、貸方は引き受けた諸負債の時価6,000と取得原価5,000。のれんは取得原価から時価による純資産4,000を引いた1,000">
+        <text x="300" y="22" class="t-b c">借方</text>
+        <text x="520" y="22" class="t-b c">貸方</text>
+        <rect x="200" y="30" width="200" height="200" rx="4" class="b-grey"/>
+        <text x="300" y="126" class="t-b c">諸資産</text>
+        <text x="300" y="150" class="t-num c">10,000</text>
+        <rect x="200" y="230" width="200" height="22" rx="3" class="b-sun"/>
+        <text x="300" y="246" class="t-s c" style="font-weight:700">のれん 1,000</text>
+        <rect x="420" y="30" width="200" height="120" rx="4" class="b-sh"/>
+        <text x="520" y="86" class="t-b c">諸負債</text>
+        <text x="520" y="110" class="t-num c">6,000</text>
+        <rect x="420" y="150" width="200" height="102" rx="4" class="b-kk"/>
+        <text x="520" y="196" class="t-b c">取得原価</text>
+        <text x="520" y="220" class="t-num c">5,000</text>
+        <text x="188" y="134" class="t-xs e">企業結合日の時価</text>
+        <text x="188" y="246" class="t-xs e">配分の残り</text>
+        <text x="632" y="94" class="t-xs">企業結合日の時価</text>
+        <text x="632" y="200" class="t-xs">交付した株式の時価</text>
+        <text x="632" y="218" class="t-xs">（1,000株 × @5）</text>
+        <text x="410" y="280" class="t-s c">のれん ＝ 取得原価 5,000 −（諸資産 10,000 − 諸負債 6,000）＝ 1,000</text>
+      </svg>
+      <figcaption>受け入れた資産・負債を時価で並べると、借方と貸方の差が出ます。取得原価が時価による純資産より大きければ、その差がのれんです。小さければ負ののれんになります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">吸収合併（取得）：株式1,000株（@5）を交付</span>
+        <div class="je-row"><span class="dc">(借)</span><span>諸資産</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>諸負債</span><span class="amt">6,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">1,000</span><span class="dc"></span><span>資本金</span><span class="amt">5,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">負ののれん：諸資産10,000、諸負債4,000、取得原価5,000</span>
+        <div class="je-row"><span class="dc">(借)</span><span>諸資産</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>諸負債</span><span class="amt">4,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>資本金</span><span class="amt">5,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>負ののれん発生益</span><span class="amt">1,000</span></div>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">配分</span><span>取得原価は、<b>識別可能な</b>資産・負債に時価で配分する。<small>被取得企業が帳簿に載せていなくても、法律上の権利など分離して譲渡できる無形資産は計上します。</small></span></div>
+        <div class="r-row exc"><span class="r-b">のれん</span><span>無形固定資産。<b>20年以内</b>に定額法などで規則的に償却し、償却額は<b>販売費及び一般管理費</b>。減損の対象にもなる。</span></div>
+        <div class="r-row gen"><span class="r-b">負</span><span>負ののれんは、資産・負債の把握と配分を見直したうえで、生じた事業年度の<b>利益（特別利益）</b>にする。</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>取得後に発生が予測される特定の事象の費用・損失で、その可能性が取得の対価に反映されているものは、<b>負債</b>（企業結合に係る特定勘定）として計上します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>負ののれんは、負債として計上し、規則的に償却する<span class="why">見直したうえで、生じた年度の利益にします。</span></span></li>
+        <li><span class="mark x">×</span><span>のれんは償却せず、毎期減損テストだけを行う<span class="why">日本の基準では20年以内に規則的に償却します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-dankai">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★</span><h3>段階取得・暫定的な会計処理・条件付取得対価</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">段階取得：個別財務諸表<small>支配獲得前から持っていた株式</small></p>
+        <ol class="steps">
+          <li class="star"><b>帳簿価額のまま</b>合算して取得原価にする</li>
+        </ol>
+      </div>
+      <div class="lane s">
+        <p class="lane-h">段階取得：連結財務諸表<small>支配獲得前から持っていた株式</small></p>
+        <ol class="steps">
+          <li><b>支配獲得日の時価</b>で評価し直す</li>
+          <li class="star">差額は<b>段階取得に係る損益</b><em>投資の性格が変わったので、いったん清算したとみる</em></li>
+        </ol>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">連結：支配獲得前の持分（帳簿価額15,000、支配獲得日の時価18,000）を評価し直す</span>
+      <div class="je-row"><span class="dc">(借)</span><span>子会社株式</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>段階取得に係る差益</span><span class="amt">3,000</span></div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">暫定</span><span>配分が終わらないときは暫定的に処理し、企業結合日から<b>1年以内</b>に確定する。確定したら、<b>企業結合年度にさかのぼって</b>処理する。</span></div>
+        <div class="r-row exc"><span class="r-b">条件付</span><span>将来の業績しだいで払う対価は、<b>支払いが確実になり時価が合理的に決まった時点</b>で取得原価に加え、のれんを修正する。<small>のれんは企業結合日に計上していたものとして、償却額も修正します。</small></span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>段階取得では、個別財務諸表でも支配獲得前の株式を時価で評価し直す<span class="why">時価で評価し直すのは連結だけです。</span></span></li>
+        <li><span class="mark x">×</span><span>暫定的な会計処理の確定による修正は、確定した年度の損益とする<span class="why">企業結合年度にさかのぼって処理します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-4 -->
+  <div class="unit" id="u-kyotsu">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★</span><h3>共通支配下の取引（親子合併）と抱合せ株式</h3></div>
+    <ul class="pts">
+      <li>親会社が子会社を吸収合併するときは、子会社の資産・負債を<span class="hl">連結財務諸表上の帳簿価額</span>で受け入れます（連結上ののれんも引き継ぎます）。</li>
+      <li>親会社が持っていた子会社株式（<b>抱合せ株式</b>）の帳簿価額と、受け入れた純資産のうち親会社持分の差額は、<b>抱合せ株式消滅差損益</b>として<b>特別損益</b>にします。</li>
+      <li>取得に当たる吸収合併で、合併前から消滅会社の株式を持っていたときは、個別財務諸表ではその帳簿価額を取得原価に加えます（段階取得）。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">100%子会社を吸収合併：子会社の資産（連結上の帳簿価額）12,000、負債4,000、子会社株式の帳簿価額6,000</span>
+      <div class="je-row"><span class="dc">(借)</span><span>諸資産</span><span class="amt">12,000</span><span class="dc">(貸)</span><span>諸負債</span><span class="amt">4,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>子会社株式</span><span class="amt">6,000</span></div>
+      <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>抱合せ株式消滅差益</span><span class="amt">2,000</span></div>
+      <span class="je-n">差益2,000は、子会社が稼いで留保していた利益などで、親会社がまだ損益にしていなかった部分です。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>親子合併の抱合せ株式消滅差損益は、その他資本剰余金に計上する<span class="why">特別損益として処理します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　抱合せ株式がある吸収合併（段階取得）</span>
+      <p class="scn-story">A社は、B社株式の20%（帳簿価額15,000、合併日の時価18,000）を持っています。A社はB社を吸収合併し（取得に当たる）、残り80%の株主にA社株式（時価72,000）を交付しました。増加資本はすべて資本金とします。B社の資産の時価は150,000、負債の時価は70,000です。</p>
+      <ol class="scn-q">
+        <li>A社の個別財務諸表での取得原価とのれんはいくらか</li>
+        <li>合併の仕訳はどうなるか</li>
+        <li>A社が連結財務諸表を作っている場合、連結上ののれんと段階取得に係る損益はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>取得原価 <b>87,000</b>、のれん <b>7,000</b><span class="calc">個別では抱合せ株式を帳簿価額のまま加える：72,000 ＋ 15,000 ＝ 87,000<br>時価による純資産：150,000 − 70,000 ＝ 80,000<br>のれん：87,000 − 80,000 ＝ 7,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>下の仕訳のとおり</span></div>
+          <div class="je">
+            <span class="je-t">吸収合併（A社の個別）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>諸資産</span><span class="amt">150,000</span><span class="dc">(貸)</span><span>諸負債</span><span class="amt">70,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">7,000</span><span class="dc"></span><span>B社株式</span><span class="amt">15,000</span></div>
+            <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>資本金</span><span class="amt">72,000</span></div>
+          </div>
+          <div class="ans-step"><span class="lb">問3</span><span>のれん <b>10,000</b>、段階取得に係る差益 <b>3,000</b><span class="calc">連結では20%分を合併日の時価18,000で評価し直す：18,000 − 15,000 ＝ 3,000（差益）<br>取得原価：72,000 ＋ 18,000 ＝ 90,000 → のれん：90,000 − 80,000 ＝ 10,000</span></span></div>
+          <div class="je">
+            <span class="je-t">連結修正仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>のれん</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>段階取得に係る差益</span><span class="amt">3,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 事業分離と株主 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>事業分離と結合当事企業の株主</h2>
+    <p>事業分離は、ある企業が事業を他の企業に移す取引です。移した側（分離元企業）が損益を出すかどうかは、その事業への「投資が清算されたか、続いているか」で決まります。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-seisan">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>投資の清算と投資の継続</h3></div>
+    <div class="def"><span class="def-l">事業分離</span><p class="def-t">ある企業を構成する事業を、他の企業に移転すること。<b>会社分割・事業譲渡・現物出資</b>など、形式は問わない。</p><p class="def-n">事業を移す側を分離元企業、受け入れる側を分離先企業といいます。</p></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="分離元企業の判定。対価が現金などなら投資の清算で移転損益を認識する。対価が分離先の株式だけで、分離先が子会社や関連会社になるなら投資の継続で移転損益を認識しない。子会社や関連会社にならないなら投資の清算で移転損益を認識する">
+        <defs>
+          <marker id="ah2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <rect x="20" y="110" width="180" height="70" rx="14" class="b-grey"/>
+        <text x="110" y="141" class="t-b c">受け取った対価</text>
+        <text x="110" y="165" class="t-s c">何を受け取ったか</text>
+        <path d="M202 130 L256 56" class="ln" marker-end="url(#ah2)"/>
+        <path d="M202 160 L256 210" class="ln" marker-end="url(#ah2)"/>
+        <rect x="260" y="20" width="220" height="64" rx="12" class="b-grey"/>
+        <text x="370" y="48" class="t-b c">現金など</text>
+        <text x="370" y="72" class="t-xs c">事業と明らかに異なる資産</text>
+        <path d="M482 52 H556" class="ln" marker-end="url(#ah2)"/>
+        <rect x="560" y="20" width="240" height="64" rx="12" class="b-sh"/>
+        <text x="680" y="48" class="t-b c">投資の清算</text>
+        <text x="680" y="72" class="t-s c">移転損益を認識</text>
+        <rect x="260" y="180" width="220" height="70" rx="12" class="b-grey"/>
+        <text x="370" y="208" class="t-b c">分離先の株式だけ</text>
+        <text x="370" y="234" class="t-xs c">分離先は子会社・関連会社？</text>
+        <path d="M482 204 L556 170" class="ln" marker-end="url(#ah2)"/>
+        <path d="M482 228 L556 262" class="ln" marker-end="url(#ah2)"/>
+        <text x="514" y="174" class="t-xs c" style="font-weight:700">なる</text>
+        <text x="514" y="270" class="t-xs c" style="font-weight:700">ならない</text>
+        <rect x="560" y="132" width="240" height="64" rx="12" class="b-kk"/>
+        <text x="680" y="160" class="t-b c">投資の継続</text>
+        <text x="680" y="184" class="t-s c">移転損益なし（帳簿価額）</text>
+        <rect x="560" y="226" width="240" height="64" rx="12" class="b-sh"/>
+        <text x="680" y="254" class="t-b c">投資の清算</text>
+        <text x="680" y="278" class="t-s c">移転損益を認識（時価）</text>
+      </svg>
+      <figcaption>対価が株式でも、分離先が子会社・関連会社にならなければ、受け取った株式は単なる投資（その他有価証券など）です。事業への投資は清算されたとみて、株式の時価で移転損益を出します。</figcaption>
+    </figure>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">移転損益（投資の清算のとき）</span><span class="fx js">受け取った対価の時価</span><span class="op">−</span><span class="fx">移転した事業に係る株主資本相当額（資産 − 負債の帳簿価額）</span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>対価が分離先の株式だけなら、分離先との関係にかかわらず移転損益を認識しない<span class="why">子会社・関連会社にならなければ、投資の清算として移転損益を認識します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-bunrimoto">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>分離元企業と分離先企業の会計処理</h3></div>
+    <div class="prose">
+      <p>例：移転する事業の資産の帳簿価額は12,000、負債は4,000（株主資本相当額8,000）で、事業の時価は10,000です。</p>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">対価が現金10,000（投資の清算）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>諸負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>諸資産</span><span class="amt">12,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>現金</span><span class="amt">10,000</span><span class="dc"></span><span>事業移転利益</span><span class="amt">2,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">対価が分離先の株式だけで、分離先が子会社になる（投資の継続）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>諸負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>諸資産</span><span class="amt">12,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>子会社株式</span><span class="amt">8,000</span><span></span><span></span><span></span></div>
+        <span class="je-n">株式は株主資本相当額8,000で計上し、損益は出しません。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">対価が分離先の株式（時価10,000）だけで、子会社・関連会社にならない（投資の清算）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>諸負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>諸資産</span><span class="amt">12,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>投資有価証券</span><span class="amt">10,000</span><span class="dc"></span><span>事業移転利益</span><span class="amt">2,000</span></div>
+      </div>
+    </div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">連結</span><span>現金を対価に<b>子会社</b>へ移転したときは、個別では移転損益を認識し、連結では<b>未実現損益として消去</b>する。関連会社なら持分相当額だけ消去する。</span></div>
+        <div class="r-row exc"><span class="r-b">持分</span><span>株式を対価に事業を移して分離先が子会社になったとき、連結で生じる親会社の<b>持分変動差額</b>は、損益ではなく<b>資本剰余金</b>にする。</span></div>
+        <div class="r-row gen"><span class="r-b">分離先</span><span>受け入れる側は<b>企業結合会計基準</b>で処理する。取得なら時価、100%子会社への会社分割など共通支配下の取引なら帳簿価額。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>投資が継続しているとき、受け取った子会社株式は時価で計上する<span class="why">移転した事業の株主資本相当額で計上します。</span></span></li>
+        <li><span class="mark x">×</span><span>新設の100%子会社に会社分割で事業を移したとき、子会社は資産・負債を時価で受け入れる<span class="why">共通支配下の取引なので帳簿価額です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-kabunushi">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>結合当事企業の株主の会計処理</h3></div>
+    <div class="cases">
+      <div class="case kk"><span>投資の継続</span><b>交換損益を認識しない</b><small>受け取った結合企業の株式だけで、結合後企業が子会社・関連会社になる</small><p class="to">旧株式の帳簿価額を引き継ぐ</p></div>
+      <div class="case sh"><span>投資の清算</span><b>交換損益を認識する</b><small>現金などを受け取った。子会社・関連会社だった投資が、それ以外の投資に変わった</small><p class="to">時価 − 旧株式の帳簿価額</p></div>
+    </div>
+    <ul class="pts">
+      <li>被結合企業の株主の考え方は、<span class="hl">分離元企業と同じ</span>です。持っていた株式が別の会社の株式に変わっても、投資が続いていれば損益は出しません。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">B社株式（帳簿価額3,000）が、合併でC社株式に変わった。C社は関連会社になる（投資の継続）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>C社株式</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>B社株式</span><span class="amt">3,000</span></div>
+    </div>
+  </div>
+
+  <!-- 計算3 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 3　事業分離の3つのパターン</span>
+      <p class="scn-story">X社は、Y事業（資産の帳簿価額12,000、負債4,000、事業の時価10,000）をZ社に移転しました。次の3つの場合について、X社の移転損益と仕訳を答えてください。</p>
+      <ol class="scn-q">
+        <li>対価として現金10,000を受け取った（Z社はX社と資本関係がない）</li>
+        <li>対価としてZ社株式だけを受け取り、Z社はX社の子会社になった</li>
+        <li>対価としてZ社株式（時価10,000）だけを受け取り、Z社は子会社・関連会社にならない</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">共通</span><span>株主資本相当額 <b>8,000</b><span class="calc">12,000 − 4,000 ＝ 8,000</span></span></div>
+          <div class="ans-step"><span class="lb">問1</span><span>移転利益 <b>2,000</b>（投資の清算）<span class="calc">10,000 − 8,000 ＝ 2,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>移転損益 <b>なし</b>（投資の継続）<span class="calc">子会社株式は株主資本相当額8,000で計上</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span>移転利益 <b>2,000</b>（投資の清算）<span class="calc">株式の時価10,000 − 8,000 ＝ 2,000</span></span></div>
+          <div class="je">
+            <span class="je-t">問1・問2・問3の仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>諸負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>諸資産</span><span class="amt">12,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>現金</span><span class="amt">10,000</span><span class="dc"></span><span>事業移転利益</span><span class="amt">2,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>諸負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>諸資産</span><span class="amt">12,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>子会社株式</span><span class="amt">8,000</span><span></span><span></span><span></span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>諸負債</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>諸資産</span><span class="amt">12,000</span></div>
+            <div class="je-row"><span class="dc"></span><span>投資有価証券</span><span class="amt">10,000</span><span class="dc"></span><span>事業移転利益</span><span class="amt">2,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">50</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例（または正しい文）」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">区分と取得企業</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">取得原価とのれん</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">事業分離と株主</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">50</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>区分と取得企業：まずここから</h3>
+      <ol>
+        <li>取得は時価、共同支配・共通支配下は帳簿価額</li>
+        <li>取得企業は、まず支配の考え方で判定</li>
+        <li>逆取得は、存続会社の個別で帳簿価額</li>
+        <li>株式交換の子会社株式は、交付株式の時価</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>取得原価とのれん：まずここから</h3>
+      <ol>
+        <li>取得原価は企業結合日の時価、取得関連費用は費用</li>
+        <li>のれんは20年以内に償却、負ののれんは特別利益</li>
+        <li>段階取得は個別が帳簿価額、連結が時価</li>
+        <li>暫定的な会計処理は1年以内、さかのぼって確定</li>
+        <li>親子合併の抱合せ株式消滅差損益は特別損益</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>事業分離と株主：まずここから</h3>
+      <ol>
+        <li>投資の清算なら移転損益、継続なら損益なし</li>
+        <li>株式対価でも、子会社・関連会社にならなければ清算</li>
+        <li>継続のとき、株式は株主資本相当額</li>
+        <li>被結合企業の株主も同じ考え方</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>企業結合も事業分離も、問いは同じで「経済的に何が変わったか」です。支配を新しく手に入れたなら時価で買ったとみる（取得）。グループ内の移し替えや、投資が形を変えて続いているだけなら、帳簿価額のまま引き継いで損益を出しません。</p>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第21号「企業結合に関する会計基準」、企業会計基準第7号「事業分離等に関する会計基準」、企業会計基準適用指針第10号「企業結合会計基準及び事業分離等会計基準に関する適用指針」、企業会計基準第22号「連結財務諸表に関する会計基準」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var KK21 = "企業会計基準第21号「企業結合に関する会計基準」", BU7 = "企業会計基準第7号「事業分離等に関する会計基準」",
+      G10 = "企業会計基準適用指針第10号（企業結合・事業分離の適用指針）";
+  var JE_GAPPEI = ["吸収合併（取得）：諸資産の時価10,000、諸負債の時価6,000、株式1,000株（@5）を交付", [["諸資産",10000,"諸負債",6000],["のれん",1000,"資本金",5000]]];
+  var JE_GYAKU = ["逆取得：消滅会社（取得企業）の資産の帳簿価額9,000、負債4,000を受け入れた", [["諸資産",9000,"諸負債",4000],["","","資本金",5000]]];
+  var JE_KOKAN = ["株式交換：S社株主にP社株式（時価120,000）を交付し、付随費用2,000を支払った（P社の個別）", [["子会社株式",122000,"資本金",120000],["","","現金",2000]]];
+  var JE_TESURYO = ["合併のアドバイザリー報酬300を支払った", [["支払手数料",300,"現金",300]]];
+  var JE_NOREN_SHO = ["のれん1,000を10年で償却した", [["のれん償却額",100,"のれん",100]]];
+  var JE_FUNO = ["負ののれん：諸資産10,000、諸負債4,000、取得原価5,000", [["諸資産",10000,"諸負債",4000],["","","資本金",5000],["","","負ののれん発生益",1000]]];
+  var JE_DANKAI = ["連結：支配獲得前の持分（帳簿価額15,000、支配獲得日の時価18,000）を評価し直す", [["子会社株式",3000,"段階取得に係る差益",3000]]];
+  var JE_DAKIAWASE = ["100%子会社を吸収合併：資産（連結上の帳簿価額）12,000、負債4,000、子会社株式の帳簿価額6,000", [["諸資産",12000,"諸負債",4000],["","","子会社株式",6000],["","","抱合せ株式消滅差益",2000]]];
+  var JE_DAKI_SHUTOKU = ["取得の吸収合併（個別）：交付株式の時価72,000、抱合せ株式の帳簿価額15,000、資産の時価150,000、負債70,000", [["諸資産",150000,"諸負債",70000],["のれん",7000,"B社株式",15000],["","","資本金",72000]]];
+  var JE_GENKIN = ["事業分離：資産12,000・負債4,000の事業を現金10,000で移転（投資の清算）", [["諸負債",4000,"諸資産",12000],["現金",10000,"事業移転利益",2000]]];
+  var JE_KABU_KO = ["事業分離：対価が分離先の株式だけで、分離先が子会社になる（投資の継続）", [["諸負債",4000,"諸資産",12000],["子会社株式",8000,"",""]]];
+  var JE_KABU_KANREN = ["事業分離：対価が分離先の株式だけで、分離先が関連会社になる（投資の継続）", [["諸負債",4000,"諸資産",12000],["関連会社株式",8000,"",""]]];
+  var JE_SONOTA = ["事業分離：対価が分離先の株式（時価10,000）だけで、子会社・関連会社にならない（投資の清算）", [["諸負債",4000,"諸資産",12000],["投資有価証券",10000,"事業移転利益",2000]]];
+  var JE_KOUKAN = ["被結合企業の株主：B社株式（帳簿価額3,000）がC社株式に変わり、C社は関連会社になる", [["C社株式",3000,"B社株式",3000]]];
+  var M_KUBUN = "取得 → パーチェス法（時価）／共同支配企業の形成・共通支配下の取引 → 帳簿価額。持分プーリング法は廃止。";
+  var M_SHUTOKU = "取得企業の決め方：①連結基準の支配の考え方 → ②決まらなければ、対価の種類・議決権の比率・取締役会の構成・相対的な規模・最初に提案した企業など。";
+  var M_KOKAN = "株式交換（取得）：個別の子会社株式 ＝ 交付株式の時価（＋付随費用）。連結では資本連結してのれんを計上し、付随費用は費用にする。";
+  var M_IDO = "株式移転：完全子会社の中から取得企業を決める。取得企業の株式は株主資本の帳簿価額、被取得企業の株式は時価で計上。";
+  var M_GENKA = "取得原価 ＝ 対価の企業結合日の時価。取得関連費用は含めず、発生した年度の費用。";
+  var M_HAIBUN = "配分：識別可能な資産・負債に時価で。法律上の権利など分離して譲渡できる無形資産も計上。残りがのれん。";
+  var M_NOREN = "のれん：無形固定資産、20年以内に規則的に償却（販売費及び一般管理費）、減損の対象。負ののれん → 見直したうえで特別利益。";
+  var M_ZANTEI = "暫定的な会計処理：1年以内に確定し、企業結合年度にさかのぼって処理する。";
+  var M_DANKAI = "段階取得：個別 → 帳簿価額のまま合算／連結 → 支配獲得日の時価で評価し直し、差額は段階取得に係る損益。";
+  var M_KYOTSU = "親子合併：子会社の資産・負債を連結上の帳簿価額で受け入れる。抱合せ株式との差額は抱合せ株式消滅差損益（特別損益）。";
+  var M_SEISAN = "投資の清算 → 移転損益を認識／投資の継続 → 移転損益を認識しない（受け取った株式は株主資本相当額）。";
+  var M_KABUNUSHI = "被結合企業の株主：結合後企業が子会社・関連会社 → 投資の継続（交換損益なし、旧株式の帳簿価額を引き継ぐ）／現金を受け取る、子会社・関連会社への投資がそれ以外の投資に変わる → 投資の清算（交換損益あり）。";
+
+  var Q = [
+    {p:"kk", q:"取得とされた企業結合は、パーチェス法により、受け入れた資産・負債を企業結合日の時価で計上する。", a:true, k:"企業結合日の時価", t:"被取得企業の帳簿価額", y:"取得は、ある企業が他の企業の支配を手に入れる取引で、資産を買ったのと同じと考えます。買った資産はその時の時価で計上するので、パーチェス法では時価を使います。", m:M_KUBUN, j:JE_GAPPEI, s:KK21},
+    {p:"kk", q:"現行の基準では、共同支配企業の形成と共通支配下の取引以外の企業結合の一部は、持分プーリング法で処理する。", a:false, k:"一部は、持分プーリング法で処理する", t:"すべては、取得としてパーチェス法で処理する", y:"以前は「持分の結合」に当たる場合に持分プーリング法を使っていましたが、国際的な基準に合わせて廃止されました。共同支配企業の形成と共通支配下の取引以外は、すべて取得として扱います。", m:M_KUBUN, s:KK21},
+    {p:"kk", q:"共同支配企業の形成では、共同支配企業は、移転された資産・負債を移転直前の適正な帳簿価額で計上する。", a:true, k:"移転直前の適正な帳簿価額", t:"企業結合日の時価", y:"共同支配企業の形成では、どの企業も単独では支配を手に入れていません。取得ではないので、資産・負債を評価し直さず、帳簿価額のまま引き継ぎます。", m:M_KUBUN, s:KK21},
+    {p:"kk", q:"共通支配下の取引とは、結合当事企業のすべてが、企業結合の前後で同一の株主により最終的に支配され、その支配が一時的ではない場合の企業結合をいう。", a:true, k:"同一の株主により最終的に支配され", t:"異なる株主により支配され", y:"親会社と子会社、子会社どうしの合併などは、グループ全体で見ると支配する者が変わりません。グループ内での移し替えにすぎないので、帳簿価額で処理します。", m:"共通支配下の取引：親子合併・子会社どうしの合併・100%子会社への会社分割など → 帳簿価額。", j:JE_DAKIAWASE, s:KK21},
+    {p:"kk", q:"企業結合で取得企業を決めるときは、まず相対的な規模を比べ、規模の大きい企業を取得企業とする。", a:false, k:"まず相対的な規模を比べ、規模の大きい企業を取得企業とする", t:"まず連結会計基準の支配の考え方で判定し、それで決まらないときに規模などを考慮する", y:"取得企業は、他の企業の支配を手に入れた企業です。だから、まず支配の考え方で判定します。規模は、それで決まらないときに考える要素の1つです。", m:M_SHUTOKU, s:KK21},
+    {p:"kk", q:"主な対価が現金である企業結合では、通常、現金を支出した企業が取得企業となる。", a:true, k:"現金を支出した企業", t:"現金を受け取った企業", y:"現金を払って相手の事業や株式を手に入れた側が、支配を得たと考えられるからです。", m:M_SHUTOKU, s:KK21},
+    {p:"kk", q:"主な対価が株式である企業結合では、通常、株式を交付した企業が取得企業となる。", a:true, k:"株式を交付した企業", t:"株式を受け取った企業", y:"株式を交付して相手を取り込んだ側が、通常は支配を得ます。ただし、相手の株主が支配を握る場合（逆取得）もあるので、「通常」です。", m:M_SHUTOKU, s:KK21},
+    {p:"kk", q:"吸収合併で消滅会社が取得企業となる逆取得の場合、存続会社の個別財務諸表では、消滅会社の資産・負債を合併直前の適正な帳簿価額で計上する。", a:true, k:"合併直前の適正な帳簿価額", t:"合併日の時価", y:"逆取得では、法律上の存続会社が実は被取得企業です。取得企業（消滅会社）の資産・負債を評価し直す理由はないので、帳簿価額のまま引き継ぎます。", m:"逆取得：存続会社の個別では、消滅会社の資産・負債を帳簿価額で受け入れる。連結ではパーチェス法。", j:JE_GYAKU, s:G10},
+    {p:"kk", q:"企業結合の会計処理は、合併・株式交換・会社分割などの法的な形式によって、取得か否かが決まる。", a:false, k:"合併・株式交換・会社分割などの法的な形式によって", t:"法的な形式ではなく、支配を獲得したかどうかという経済的な実態によって", y:"同じ合併でも、どちらが支配を得たかで処理が変わります。法律上の形式ではなく、支配の実態で判断します。", m:M_SHUTOKU, s:KK21},
+    {p:"kk", q:"株式交換で他社を完全子会社とした場合、取得に当たるなら、完全親会社の個別財務諸表における子会社株式の取得原価は、交付した株式の時価にもとづいて算定する。", a:true, k:"交付した株式の時価", t:"子会社の純資産の帳簿価額", y:"取得では、支払った対価の時価が取得原価です。株式交換の対価は完全親会社の株式なので、その時価で子会社株式を計上します。", m:M_KOKAN, j:JE_KOKAN, s:G10},
+    {p:"kk", q:"株式交換で取得した子会社株式に含めた付随費用は、連結財務諸表では発生した年度の費用として処理する。", a:true, k:"発生した年度の費用", t:"のれんに含めて償却する費用", y:"連結では、企業結合の取得関連費用は取得原価に含めず費用にします。個別で子会社株式に含めた付随費用は、連結修正で費用に振り替えます。", m:M_KOKAN, j:JE_KOKAN, s:KK21},
+    {p:"kk", q:"株式移転では、株式移転完全子会社となる会社がすべて被取得企業となるため、取得企業を決める必要はない。", a:false, k:"がすべて被取得企業となるため、取得企業を決める必要はない", t:"のうちどれか1社を取得企業として決める", y:"株式移転で新しくできる親会社は、ただの器です。実態として支配を得るのは完全子会社のどれかなので、その中から取得企業を決めます。", m:M_IDO, s:G10},
+    {p:"kk", q:"株式移転設立完全親会社の個別財務諸表では、取得企業の株式の取得原価は、取得企業の株式移転日の前日における適正な帳簿価額による株主資本の額にもとづいて算定する。", a:true, k:"適正な帳簿価額による株主資本の額", t:"株式移転日の時価", y:"取得企業の株主から見ると、支配する会社は実質的に変わっていません。評価し直す理由がないので、帳簿価額による株主資本の額で計上します。", m:M_IDO, s:G10},
+    {p:"kk", q:"企業結合により増加する資本は払込資本とし、その内訳（資本金・資本準備金・その他資本剰余金）は、合併契約などにより会社法の規定にもとづいて決める。", a:true, k:"払込資本", t:"利益剰余金", y:"合併で新株を交付するのは、事業を出資してもらったのと同じです。だから増える資本は払込資本です。", m:"増加資本 ＝ 払込資本（資本金・資本準備金・その他資本剰余金）。", j:JE_GAPPEI, s:G10},
+    {p:"kk", q:"合併の対価として自己株式を交付した場合、自己株式の帳簿価額と交付した株式の時価との差額は損益として処理する。", a:false, k:"損益として処理する", t:"損益とせず、払込資本の増減として処理する", y:"自己株式を対価に使うのは、株式を発行するのと同じ資本取引です。損益は生じず、取得原価から自己株式の帳簿価額を引いた額を払込資本にします。", m:"自己株式を対価にした場合：増加資本 ＝ 取得原価 − 自己株式の帳簿価額。損益は出さない。", s:G10},
+    {p:"kk", q:"共同支配企業の形成では、共同支配投資企業は、受け取った共同支配企業の株式を移転した事業の株主資本相当額で計上し、移転損益を認識しない。", a:true, k:"移転損益を認識しない", t:"移転損益を認識する", y:"共同支配企業に事業を移しても、その事業への投資は株式の形で続いています。投資が続いているので、損益は出しません。", m:M_KUBUN, s:BU7},
+
+    {p:"sh", q:"取得原価は、原則として、取得の対価となる財の企業結合日の時価で算定する。", a:true, k:"企業結合日の時価", t:"合意公表日の時価", y:"取得の対価は、実際に支配を手に入れた日（企業結合日）の価値で測ります。合意を公表した日から株価が動いても、企業結合日の株価を使います。", m:M_GENKA, j:JE_GAPPEI, s:KK21},
+    {p:"sh", q:"外部のアドバイザーに支払った報酬などの取得関連費用は、取得原価に含める。", a:false, k:"取得原価に含める", t:"発生した事業年度の費用として処理する", y:"取得関連費用は、事業そのものの価値ではなく、取引をするためのコストです。国際的な基準に合わせ、費用として処理します。", m:M_GENKA, j:JE_TESURYO, s:KK21},
+    {p:"sh", q:"取得原価は、被取得企業から受け入れた資産・引き受けた負債のうち、識別可能なものの企業結合日の時価を基礎として配分する。", a:true, k:"識別可能なもの", t:"被取得企業が帳簿に計上していたものだけ", y:"被取得企業が帳簿に載せていない特許権なども、識別できれば資産として計上します。取得原価をできるだけ具体的な資産に配分し、のれんに入る部分を小さくするためです。", m:M_HAIBUN, j:JE_GAPPEI, s:KK21},
+    {p:"sh", q:"法律上の権利など分離して譲渡可能な無形資産は、識別可能なものとして取得原価を配分する。", a:true, k:"識別可能なもの", t:"のれんの一部", y:"法律上の権利のように、分けて売ることができる無形資産は、のれんとは別の価値があるので、独立した資産として計上します。", m:M_HAIBUN, s:KK21},
+    {p:"sh", q:"のれんは、20年以内のその効果の及ぶ期間にわたって、定額法その他の合理的な方法により規則的に償却する。", a:true, k:"20年以内", t:"5年以内", y:"のれんの価値は、競争などで時間とともに減っていくと考えられます。効果の及ぶ期間に費用を配分するため、20年以内で規則的に償却します。", m:M_NOREN, j:JE_NOREN_SHO, s:KK21},
+    {p:"sh", q:"のれんは、償却せずに毎期減損テストを行う。", a:false, k:"償却せずに毎期減損テストを行う", t:"規則的に償却し、減損の兆候があれば減損処理を行う", y:"日本の基準では、のれんは規則的に償却します。償却しない方法は国際財務報告基準の考え方で、日本では採用されていません。", m:M_NOREN, j:JE_NOREN_SHO, s:KK21},
+    {p:"sh", q:"のれんの償却額は、販売費及び一般管理費に表示する。", a:true, k:"販売費及び一般管理費", t:"営業外費用", y:"のれんは本業の収益力を表す資産なので、その償却額は営業費用（販売費及び一般管理費）として表示します。", m:M_NOREN, j:JE_NOREN_SHO, s:KK21},
+    {p:"sh", q:"負ののれんが生じた場合は、負債として計上し、規則的に償却する。", a:false, k:"負債として計上し、規則的に償却する", t:"資産・負債の把握と配分を見直したうえで、生じた事業年度の利益として処理する", y:"負ののれんは、割安に買えたことを表します。見直しても残るなら、その年度の利益（特別利益）にします。負債として残すことはしません。", m:M_NOREN, j:JE_FUNO, s:KK21},
+    {p:"sh", q:"負ののれん発生益は、特別利益に表示する。", a:true, k:"特別利益", t:"営業外収益", y:"負ののれんは、毎期の営業活動から生じるものではなく、企業結合のときに臨時に生じる利益なので、特別利益にします。", m:M_NOREN, j:JE_FUNO, s:KK21},
+    {p:"sh", q:"取得原価の配分が企業結合年度末までに完了しない場合は、暫定的に会計処理し、企業結合日以後1年以内に確定させる。", a:true, k:"1年以内", t:"3年以内", y:"時価の評価には時間がかかることがあるので、暫定的な処理を認めます。ただし、いつまでも確定しないと困るので、1年以内に確定させます。", m:M_ZANTEI, s:KK21},
+    {p:"sh", q:"暫定的な会計処理が確定した場合は、確定した年度の損益として処理する。", a:false, k:"確定した年度の損益として処理する", t:"企業結合年度に確定が行われたかのように会計処理する", y:"配分の確定は、企業結合日の状況をより正しく反映させるものです。だから企業結合年度にさかのぼって、最初から確定していたように処理します。", m:M_ZANTEI, s:KK21},
+    {p:"sh", q:"支配獲得前から保有していた被取得企業の株式は、連結財務諸表上、支配獲得日の時価で評価し直し、差額を段階取得に係る損益とする。", a:true, k:"支配獲得日の時価で評価し直し", t:"取得時の帳簿価額のまま合算し", y:"支配を獲得すると、それまでの投資は「子会社への投資」に性格が変わります。いったん清算して時価で買い直したと考えるので、時価で評価し直します。", m:M_DANKAI, j:JE_DANKAI, s:KK21},
+    {p:"sh", q:"段階取得の場合、個別財務諸表でも、支配獲得前に保有していた株式を支配獲得日の時価で評価し直す。", a:false, k:"個別財務諸表でも、支配獲得前に保有していた株式を支配獲得日の時価で評価し直す", t:"個別財務諸表では、支配獲得前に保有していた株式を帳簿価額のまま合算する", y:"個別財務諸表では、取得原価にもとづく処理が続くので、支配獲得前の株式は帳簿価額のまま合算します。時価で評価し直すのは連結だけです。", m:M_DANKAI, j:JE_DAKI_SHUTOKU, s:KK21},
+    {p:"sh", q:"将来の業績に依存する条件付取得対価は、交付が確実となり時価が合理的に決定可能となった時点で、取得原価を追加的に認識し、のれんを修正する。", a:true, k:"交付が確実となり時価が合理的に決定可能となった時点", t:"企業結合日の時点で見積もって", y:"将来の業績しだいで払うかどうか決まる対価は、企業結合日には金額が確かではありません。支払いが確実になった時点で取得原価に加え、のれんを修正します。", m:"条件付取得対価（業績条件）：支払いが確実で時価が合理的に決まった時点で、取得原価とのれんを追加。のれんは企業結合日に計上したものとして償却額も修正。", s:KK21},
+    {p:"sh", q:"取得後に発生が予測される特定の事象に対応した費用・損失で、その発生の可能性が取得の対価に反映されているものは、負債として計上する。", a:true, k:"負債として計上する", t:"発生時の費用として処理する", y:"将来の損失が見込まれるので安く買った場合、その分を負債にしないと、のれんが小さくなりすぎ、あとで損失だけが出てしまいます。", m:"企業結合に係る特定勘定：取得の対価に反映された将来の費用・損失 → 負債。", s:KK21},
+    {p:"sh", q:"親会社が子会社を吸収合併した場合、親会社は子会社の資産・負債を連結財務諸表上の帳簿価額で受け入れる。", a:true, k:"連結財務諸表上の帳簿価額", t:"合併日の時価", y:"親子合併は共通支配下の取引なので、グループ全体では何も変わりません。連結財務諸表に載っていた金額（のれんなども含む）をそのまま引き継ぎます。", m:M_KYOTSU, j:JE_DAKIAWASE, s:G10},
+    {p:"sh", q:"親会社が100%子会社を吸収合併したときに生じる抱合せ株式消滅差損益は、その他資本剰余金に計上する。", a:false, k:"その他資本剰余金に計上する", t:"特別損益に計上する", y:"親会社持分に相当する部分は、子会社が稼いだ利益などで、親会社がまだ損益として計上していなかったものです。だから損益（特別損益）として処理します。", m:M_KYOTSU, j:JE_DAKIAWASE, s:G10},
+    {p:"sh", q:"取得に当たる吸収合併で、存続会社が合併前から保有していた消滅会社の株式（抱合せ株式）の帳簿価額は、個別財務諸表上、取得原価に含める。", a:true, k:"取得原価に含める", t:"全額を損失として処理する", y:"合併前から持っていた株式も、消滅会社を手に入れるために支払ったものの一部です。個別財務諸表では、その帳簿価額を取得原価に加えます。", m:M_DANKAI, j:JE_DAKI_SHUTOKU, s:G10},
+
+    {p:"js", q:"事業分離の分離元企業は、移転した事業に関する投資が清算されたとみる場合には、移転損益を認識する。", a:true, k:"移転損益を認識する", t:"移転損益を認識しない", y:"投資が清算されたなら、事業を売って成果が確定したのと同じです。受け取った対価の時価と、移転した事業の株主資本相当額との差額を損益にします。", m:M_SEISAN, j:JE_GENKIN, s:BU7},
+    {p:"js", q:"分離元企業が現金など移転した事業と明らかに異なる資産を対価として受け取った場合は、投資が清算されたとみる。", a:true, k:"投資が清算された", t:"投資が継続している", y:"現金を受け取れば、事業への投資は終わり、別の資産に変わったことになります。だから投資の清算とみます。", m:M_SEISAN, j:JE_GENKIN, s:BU7},
+    {p:"js", q:"分離元企業が分離先企業の株式のみを対価として受け取り、分離先企業が子会社となる場合は、移転損益を認識しない。", a:true, k:"移転損益を認識しない", t:"移転損益を認識する", y:"分離先が子会社になれば、移した事業は子会社を通じて引き続き支配しています。投資が続いているので、損益は出しません。", m:M_SEISAN, j:JE_KABU_KO, s:BU7},
+    {p:"js", q:"投資が継続しているとみる場合、分離元企業が受け取った子会社株式の取得原価は、受け取った株式の時価とする。", a:false, k:"受け取った株式の時価", t:"移転した事業に係る株主資本相当額", y:"投資が続いているので、事業の帳簿価額をそのまま株式に置き換えます。時価で計上すると、続いている投資について利益が出てしまいます。", m:M_SEISAN, j:JE_KABU_KO, s:BU7},
+    {p:"js", q:"分離元企業が分離先企業の株式のみを対価として受け取り、分離先企業が関連会社となる場合も、移転損益を認識しない。", a:true, k:"移転損益を認識しない", t:"移転損益を認識する", y:"関連会社になる場合も、重要な影響力を通じて事業への投資が続いていると考えるので、損益は出しません。", m:M_SEISAN, j:JE_KABU_KANREN, s:BU7},
+    {p:"js", q:"分離元企業が分離先企業の株式のみを対価として受け取った場合は、分離先企業が子会社・関連会社に該当するかどうかにかかわらず、移転損益を認識しない。", a:false, k:"場合は、分離先企業が子会社・関連会社に該当するかどうかにかかわらず、移転損益を認識しない", t:"場合でも、分離先企業が子会社・関連会社に該当しないときは、移転損益を認識する", y:"分離先が子会社・関連会社にならなければ、受け取った株式はその他有価証券などの単なる投資です。事業への投資は清算されたとみて、株式の時価で損益を出します。", m:M_SEISAN, j:JE_SONOTA, s:BU7},
+    {p:"js", q:"現金を対価として子会社へ事業を移転した場合、分離元企業の個別財務諸表では移転損益を認識するが、連結財務諸表では未実現損益として消去する。", a:true, k:"連結財務諸表では未実現損益として消去する", t:"連結財務諸表でもそのまま計上する", y:"個別では現金を受け取って投資を清算しましたが、グループ全体では事業がグループの中に残っています。グループ内部の取引なので、連結では消去します。", m:"子会社に現金で移転：個別は移転損益、連結は消去。関連会社なら持分相当額だけ消去。", s:BU7},
+    {p:"js", q:"分離先企業は、受け入れた事業について、企業結合会計基準にもとづいて会計処理する。", a:true, k:"企業結合会計基準", t:"金融商品会計基準", y:"分離先企業から見ると、事業を受け入れるのは企業結合そのものです。取得なら時価、共通支配下の取引なら帳簿価額というように、企業結合の考え方で処理します。", m:"分離先企業 → 企業結合会計基準で処理（取得・逆取得・共同支配・共通支配下の区分）。", s:BU7},
+    {p:"js", q:"会社分割で事業を新設の100%子会社に移転した場合、分離先の子会社は受け入れた資産・負債を時価で計上する。", a:false, k:"時価で計上する", t:"移転直前の適正な帳簿価額で計上する", y:"親会社が自分の100%子会社に事業を移すのは、共通支配下の取引です。グループ内の移し替えなので、帳簿価額のまま引き継ぎます。", m:"100%子会社への会社分割 → 共通支配下の取引 → 子会社は帳簿価額で受け入れ、親会社は株主資本相当額で子会社株式を計上。", j:JE_KABU_KO, s:G10},
+    {p:"js", q:"事業分離の移転損益は、受け取った対価となる財の時価と、移転した事業に係る株主資本相当額との差額で算定する。", a:true, k:"株主資本相当額との差額", t:"資産の帳簿価額だけとの差額", y:"事業を移すと、資産だけでなく負債も一緒に移ります。資産から負債を引いた株主資本相当額と、受け取った対価の時価を比べます。", m:"移転損益 ＝ 受け取った対価の時価 − 株主資本相当額（資産 − 負債の帳簿価額）。", j:JE_GENKIN, s:BU7},
+    {p:"js", q:"被結合企業の株主が結合企業の株式のみを受け取り、結合後企業が子会社や関連会社となる場合は、交換損益を認識しない。", a:true, k:"交換損益を認識しない", t:"交換損益を認識する", y:"株主から見ると、持っていた会社の株式が新しい会社の株式に変わっただけで、子会社・関連会社への投資は続いています。だから損益は出しません。", m:M_KABUNUSHI, j:JE_KOUKAN, s:BU7},
+    {p:"js", q:"子会社であった被結合企業が合併し、その株主として受け取った結合企業の株式がその他有価証券となる場合でも、交換損益は認識しない。", a:false, k:"でも、交換損益は認識しない", t:"は、交換損益を認識する", y:"子会社への投資が、単なる投資（その他有価証券）に変わったので、子会社への投資は清算されたとみます。受け取った株式の時価と、子会社株式の帳簿価額との差額を損益にします。", m:M_KABUNUSHI, s:BU7},
+    {p:"js", q:"被結合企業の株主が現金など結合企業の株式以外の財産のみを受け取った場合は、原則として交換損益を認識する。", a:true, k:"交換損益を認識する", t:"交換損益を認識しない", y:"現金を受け取れば、その会社への投資は終わったことになります。投資の清算なので、受け取った現金と旧株式の帳簿価額との差額を損益にします。", m:M_KABUNUSHI, s:BU7},
+    {p:"js", q:"投資が継続しているとみる場合、被結合企業の株主が受け取った結合企業の株式の取得原価は、引き換えられた被結合企業の株式の適正な帳簿価額にもとづいて算定する。", a:true, k:"適正な帳簿価額", t:"時価", y:"投資が続いているので、株式の名前が変わっただけと考えます。帳簿価額をそのまま引き継ぐので、損益は生じません。", m:M_KABUNUSHI, j:JE_KOUKAN, s:BU7},
+    {p:"js", q:"事業分離等会計基準でいう事業分離には、会社分割のほか、事業譲渡や現物出資による事業の移転も含まれる。", a:true, k:"事業譲渡や現物出資による事業の移転も含まれる", t:"事業譲渡や現物出資は含まれない", y:"事業分離は、法的な形式ではなく、事業を他の企業に移すという経済的な実態でとらえます。会社分割・事業譲渡・現物出資のどれでも同じ考え方で処理します。", m:"事業分離：会社分割・事業譲渡・現物出資など、形式を問わず事業を移転する取引。", s:BU7},
+    {p:"js", q:"分離先企業の株式のみを受け取り分離先企業が子会社となった場合、連結財務諸表で生じる分離元企業の持分変動差額は、移転損益として計上する。", a:false, k:"移転損益として計上する", t:"資本剰余金として処理する", y:"子会社に事業を移して持分が変わっても、支配が続く限り、その変動は親会社株主と非支配株主の間の資本取引です。だから損益ではなく資本剰余金で処理します。", m:"子会社化する事業分離の連結：持分変動差額 → 資本剰余金。", s:BU7}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"区分と取得企業", sh:"取得原価とのれん", js:"事業分離と株主"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
