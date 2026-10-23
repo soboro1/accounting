@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="簿記1級 会計学向け。外貨換算の出やすい論点（取引時・決算時・決済時の換算、貨幣項目と非貨幣項目、前払金・前受金、二取引基準、外貨建有価証券の換算、為替予約の独立処理と振当処理、直直差額と直先差額、在外支店と在外子会社の換算、為替換算調整勘定）を、図・仕訳・計算問題・○×問題50問で確認できる学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>外貨換算の出る論点</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(外貨建取引の基本)は青、PART2(有価証券と為替予約)はコーラル、PART3(在外支店と在外子会社)はティールで色分け。各トピックは「要点→図→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：在外支店と在外子会社 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：有価証券と為替予約 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：外貨建取引の基本 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.res .je-entry{display:flex;flex-direction:column}.ej-row{display:contents}.je-c{order:1}.qbtns .ox{width:96px;height:52px}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 外貨建取引の基本</a>
+    <a class="n-sh" href="#sh">PART2 有価証券と為替予約</a>
+    <a class="n-js" href="#js">PART3 在外支店と在外子会社</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記1級 ／ 会計学・商業簿記</p>
+  <h1><span class="h-c">外貨換算</span>の<br><span class="h-a">出る論点</span>まとめ</h1>
+  <p class="lead">外貨建の取引や財務諸表を、どの時点の為替相場で円に直すかを整理します。中心は<mark>「貨幣項目は決算時、非貨幣項目は取得時」「為替予約の直直差額と直先差額」「在外支店は為替差損益、在外子会社は為替換算調整勘定」</mark>の3つです。図と仕訳で論点を順に確認し、最後に○×問題50問で仕上げます。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>外貨建取引の基本</b><small>取引時と決算時の換算、貨幣項目と非貨幣項目、前払金・前受金、二取引基準</small></a>
+    <a class="chap" href="#sh"><span>PART2</span><b>有価証券と為替予約</b><small>外貨建有価証券の4分類、独立処理と振当処理、直直差額と直先差額</small></a>
+    <a class="chap" href="#js"><span>PART3</span><b>在外支店と在外子会社</b><small>テンポラル法、決算日レート法、為替換算調整勘定、のれんの換算</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック50問</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 外貨建取引の基本 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>外貨建取引の基本</h2>
+    <p>外貨建の取引は、取引した時の為替相場で円に直して記録します。決算のときに換算し直すかどうかは、その項目が「将来お金で決済されるか」で決まります。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-kihon">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">頻出度 ★★★</span><h3>取引時・決算時・決済時の換算</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 290" role="img" aria-label="輸入取引の換算。取引時は@100で買掛金100,000、決算時は@105で換算し直して105,000とし為替差損5,000、決済時は@103で支払い為替差益2,000。仕入は100,000のまま">
+        <rect x="30" y="20" width="220" height="80" rx="12" class="b-grey"/>
+        <text x="140" y="50" class="t-b c">取引時 @100</text>
+        <text x="140" y="78" class="t-s c">買掛金 100,000</text>
+        <rect x="300" y="20" width="220" height="80" rx="12" class="b-kk"/>
+        <text x="410" y="50" class="t-b c">決算時 @105</text>
+        <text x="410" y="78" class="t-s c">買掛金 105,000 に直す</text>
+        <rect x="570" y="20" width="220" height="80" rx="12" class="b-js"/>
+        <text x="680" y="50" class="t-b c">決済時 @103</text>
+        <text x="680" y="78" class="t-s c">103,000 を支払う</text>
+        <line x1="40" y1="134" x2="780" y2="134" class="axis"/>
+        <circle cx="140" cy="134" r="6" style="fill:var(--ink)"/>
+        <circle cx="410" cy="134" r="6" style="fill:var(--ink)"/>
+        <circle cx="680" cy="134" r="6" style="fill:var(--ink)"/>
+        <path d="M146 158 H404 M146 150 V166 M404 150 V166" fill="none" style="stroke:var(--c3);stroke-width:2"/>
+        <text x="275" y="188" class="t-s c" style="fill:var(--c3t);font-weight:700">為替差損 5,000（当期）</text>
+        <path d="M416 158 H674 M416 150 V166 M674 150 V166" fill="none" style="stroke:var(--c2);stroke-width:2"/>
+        <text x="545" y="188" class="t-s c" style="fill:var(--c2t);font-weight:700">為替差益 2,000（翌期）</text>
+        <rect x="30" y="222" width="760" height="44" rx="10" class="b-sun"/>
+        <text x="410" y="250" class="t-s c">仕入（商品）は非貨幣項目なので 100,000 のまま。換算し直すのは買掛金（貨幣項目）だけ</text>
+      </svg>
+      <figcaption>商品$1,000を掛けで輸入した例です。取引と代金の決済を別々の取引とみる「二取引基準」なので、為替の動きは仕入高を直さず、為替差損益として示します。</figcaption>
+    </figure>
+    <div class="two">
+      <div class="box in">
+        <h4>決算時の為替相場（CR）で換算し直す：貨幣項目</h4>
+        <div class="chips"><span class="chip">外国通貨・外貨預金</span><span class="chip">売掛金・買掛金</span><span class="chip">貸付金・借入金（長期も）</span><span class="chip">未収収益・未払費用</span></div>
+      </div>
+      <div class="box out">
+        <h4>取得時の為替相場（HR）のまま：非貨幣項目</h4>
+        <div class="chips"><span class="chip">棚卸資産</span><span class="chip">有形固定資産</span><span class="chip">前払金・前受金</span><span class="chip">前払費用・前受収益</span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">商品$1,000を掛けで輸入（@100）→ 決算時 @105 → 決済時 @103</span>
+        <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">100,000</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">100,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>為替差損益</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">5,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>買掛金</span><span class="amt">105,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">103,000</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>為替差損益</span><span class="amt">2,000</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>取引時の相場には、その日の直物相場のほか、前月の平均など<b>合理的な平均相場</b>も使えます。</li>
+      <li>為替差損益は、差益と差損を相殺した<span class="hl">純額</span>で、営業外損益に表示します。</li>
+      <li>外貨建の売掛金に貸倒引当金を設定するときは、決算時の相場で換算し直した後の金額をもとに計算します。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>外貨建の長期借入金は、取引時の為替相場のまま換算し直さない<span class="why">金銭債権債務は、長期でも決算時の相場で換算します。</span></span></li>
+        <li><span class="mark x">×</span><span>外貨建取引は、取引と代金決済を一体とみる一取引基準で処理する<span class="why">二取引基準です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-mae">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>前払金・前受金がある取引</h3></div>
+    <ul class="pts">
+      <li>前払金・前受金は、お金ではなく<b>商品やサービスで決済</b>されるので非貨幣項目です。受払時の相場のまま、決算時も換算し直しません。</li>
+      <li>前受金を受け取ってから商品を引き渡したときは、売上高を<span class="hl">2つの相場</span>で計算します。前受金の部分は受取時の相場、残りは売上を計上した時の相場です。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">前受金$200（@100）を受け取り、のちに$1,000の商品を出荷（@105）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>前受金</span><span class="amt">20,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">104,000</span></div>
+        <div class="je-row"><span class="dc"></span><span>売掛金</span><span class="amt">84,000</span><span></span><span></span><span></span></div>
+        <span class="je-n">売上：$200 × 100 ＋ $800 × 105 ＝ 104,000</span>
+      </div>
+      <div class="je">
+        <span class="je-t">前払金$200（@98）を支払い済み。商品$1,000を受け取り、残り$800は掛け（@100）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">99,600</span><span class="dc">(貸)</span><span>前払金</span><span class="amt">19,600</span></div>
+        <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>買掛金</span><span class="amt">80,000</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>外貨建の前受金は、決算時の為替相場で換算し直す<span class="why">非貨幣項目なので、受け取った時の相場のままです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　前払金がある輸入取引</span>
+      <p class="scn-story">商品$1,000を輸入しました。注文時に前払金$200を支払い（@98）、商品を受け取ったときに残り$800を買掛金としました（@100）。決算時の為替相場は@103、翌期の決済時は@101です。</p>
+      <ol class="scn-q">
+        <li>仕入高はいくらか</li>
+        <li>決算時に計上する為替差損益はいくらか（差益か差損か）</li>
+        <li>翌期の決済時に計上する為替差損益はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>99,600</b><span class="calc">前払金の部分：$200 × 98 ＝ 19,600<br>残りの部分：$800 × 100 ＝ 80,000<br>19,600 ＋ 80,000 ＝ 99,600</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>為替差損 <b>2,400</b><span class="calc">換算し直すのは買掛金$800だけ：$800 ×（103 − 100）＝ 2,400<br>仕入と前払金は非貨幣項目なので直さない</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span>為替差益 <b>1,600</b><span class="calc">帳簿価額 $800 × 103 ＝ 82,400、支払額 $800 × 101 ＝ 80,800<br>82,400 − 80,800 ＝ 1,600</span></span></div>
+          <div class="je">
+            <span class="je-t">決算時と決済時</span>
+            <div class="je-row"><span class="dc">(借)</span><span>為替差損益</span><span class="amt">2,400</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">2,400</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>買掛金</span><span class="amt">82,400</span><span class="dc">(貸)</span><span>現金</span><span class="amt">80,800</span></div>
+            <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>為替差損益</span><span class="amt">1,600</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 有価証券と為替予約 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>外貨建有価証券と為替予約</h2>
+    <p>外貨建有価証券は、保有目的ごとに使う為替相場と換算差額の行き先が変わります。為替予約は、原則の独立処理と、認められている振当処理の違いを押さえます。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-yuka">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>外貨建有価証券の換算</h3></div>
+    <div class="cases">
+      <div class="case kk"><span>売買目的有価証券</span><b>外貨の時価 × CR</b><small>換算差額も含めて評価損益</small><p class="to">→ 当期の損益</p></div>
+      <div class="case sh"><span>満期保有目的の債券</span><b>外貨の償却原価 × CR</b><small>償却額は期中平均相場（AR）で換算</small><p class="to">→ 為替差損益</p></div>
+      <div class="case ju"><span>子会社・関連会社株式</span><b>外貨の取得原価 × HR</b><small>換算し直さない</small><p class="to">→ 差額なし</p></div>
+      <div class="case js"><span>その他有価証券</span><b>外貨の時価 × CR</b><small>債券は、為替による部分を為替差損益にすることもできる</small><p class="to">→ 評価差額（純資産）</p></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">満期保有目的の債券：取得$950（@100）、当期の償却額$10（期中平均 @102）、決算時 @105</span>
+        <div class="je-row"><span class="dc">(借)</span><span>満期保有目的債券</span><span class="amt">1,020</span><span class="dc">(貸)</span><span>有価証券利息</span><span class="amt">1,020</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>満期保有目的債券</span><span class="amt">4,780</span><span class="dc">(貸)</span><span>為替差損益</span><span class="amt">4,780</span></div>
+        <span class="je-n">決算時：$960 × 105 ＝ 100,800。95,000 ＋ 1,020 ＝ 96,020 との差 4,780 が為替差損益です。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">その他有価証券：取得$100（@100）、決算時の時価$110（@105）（税効果は考えない）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>その他有価証券</span><span class="amt">1,550</span><span class="dc">(貸)</span><span>その他有価証券評価差額金</span><span class="amt">1,550</span></div>
+        <span class="je-n">$110 × 105 ＝ 11,550。為替による変動も、時価の変動とまとめて評価差額にします。</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>時価が著しく下落したときは、どの分類でも<b>外貨の時価 × CR</b>まで切り下げ、差額を<span class="hl">当期の損失</span>にします。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>外貨建の子会社株式は、決算時の為替相場で換算する<span class="why">取得時の為替相場のままです。</span></span></li>
+        <li><span class="mark x">×</span><span>満期保有目的の債券の償却額は、決算時の為替相場で換算する<span class="why">期中平均相場です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-yoyaku">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>為替予約：独立処理と振当処理</h3></div>
+    <div class="lanes">
+      <div class="lane a">
+        <p class="lane-h">独立処理（原則）<small>債権債務と為替予約を別々の取引とみる</small></p>
+        <ol class="steps">
+          <li>外貨建の債権債務は、通常どおり<b>CR</b>で換算する</li>
+          <li class="star">為替予約はデリバティブとして<b>時価で評価</b>し、評価差額を当期の損益にする</li>
+        </ol>
+      </div>
+      <div class="lane s">
+        <p class="lane-h">振当処理（容認）<small>予約した相場を債権債務に振り当てる</small></p>
+        <ol class="steps">
+          <li>取引の<b>前</b>に予約 → 最初から予約レートで記録する</li>
+          <li>取引の<b>後</b>に予約 → 直直差額は当期の損益、直先差額は期間配分</li>
+          <li class="star">予約後は、決算時も<b>換算し直さない</b></li>
+        </ol>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>まだ取引していない<b>予定取引</b>に予約したときは、ヘッジ会計の要件を満たせば、評価差額を<b>繰延ヘッジ損益</b>として繰り延べます。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">取引前に予約（@98）していた輸出$1,000</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">98,000</span><span class="dc">(貸)</span><span>売上</span><span class="amt">98,000</span></div>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-jikisaki">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>直直差額と直先差額</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 270" role="img" aria-label="直直差額と直先差額。取引時の直物@100から予約日の直物@101までの差が直直差額でプラス1,000、予約日の直物@101から予約した先物@98までの差が直先差額でマイナス3,000">
+        <defs>
+          <marker id="ah1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0L10,5L0,10z" class="mk"/></marker>
+        </defs>
+        <line x1="80" y1="120" x2="740" y2="120" class="axis"/>
+        <path d="M80 120 V128 M212 120 V128 M344 120 V128 M476 120 V128 M608 120 V128 M740 120 V128" class="ln"/>
+        <text x="80" y="146" class="t-num c">97</text>
+        <text x="212" y="146" class="t-num c">98</text>
+        <text x="344" y="146" class="t-num c">99</text>
+        <text x="476" y="146" class="t-num c">100</text>
+        <text x="608" y="146" class="t-num c">101</text>
+        <text x="740" y="146" class="t-num c">102</text>
+        <circle cx="476" cy="120" r="7" style="fill:var(--c4)"/>
+        <circle cx="608" cy="120" r="7" style="fill:var(--c2)"/>
+        <circle cx="212" cy="120" r="7" style="fill:var(--c3)"/>
+        <text x="476" y="98" class="t-s c" style="font-weight:700">取引時の直物 @100</text>
+        <text x="608" y="66" class="t-s c" style="font-weight:700">予約日の直物 @101</text>
+        <text x="212" y="98" class="t-s c" style="font-weight:700">予約した先物 @98</text>
+        <path d="M608 76 V112" class="ln dash"/>
+        <path d="M476 154 V180 M608 154 V182 M608 212 V232 M212 154 V232" class="ln dash"/>
+        <path d="M478 176 H602" style="stroke:var(--c2);stroke-width:3" marker-end="url(#ah1)"/>
+        <text x="542" y="202" class="t-s c" style="fill:var(--c2t);font-weight:700">直直差額 ＋1,000 → 当期の損益</text>
+        <path d="M606 228 H218" style="stroke:var(--c3);stroke-width:3" marker-end="url(#ah1)"/>
+        <text x="410" y="256" class="t-s c" style="fill:var(--c3t);font-weight:700">直先差額 △3,000 → 予約日から決済日までに配分</text>
+      </svg>
+      <figcaption>売掛金$1,000（取引時@100）に、予約日の直物が@101のときに先物@98で予約した例です。直直差額は予約までの為替の動きなので当期の損益、直先差額は通貨の金利差から生じる利息のような差なので、予約日から決済日までの期間に配分します。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">予約日（12/1）と決算日（12/31）。決済日は2/28（予約から3か月）</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>為替差損益</span><span class="amt">1,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>前払費用</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>売掛金</span><span class="amt">3,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>為替差損益</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>前払費用</span><span class="amt">1,000</span></div>
+      <span class="je-n">売掛金は予約レートの 98,000 になります。直先差額のうち次期以降の分（2,000）は前払費用として資産に残します。重要性が乏しければ、全額を当期の損益にしてもかまいません。</span>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>直先差額は、予約日の属する期の損益として一括して処理しなければならない<span class="why">予約日から決済日までの期間に配分します。</span></span></li>
+        <li><span class="mark x">×</span><span>直先差額とは、取引時の直物相場と先物相場との差である<span class="why">予約日の直物相場と先物相場との差です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　取引後に結んだ為替予約（振当処理）</span>
+      <p class="scn-story">11月1日に商品$1,000を掛けで輸出しました（直物@100）。12月1日に、決済日2月28日の為替予約を先物@98で結びました（この日の直物@101）。決算日は12月31日で、決算日の直物は@103です。振当処理を採用し、直先差額は月割で期間配分します。</p>
+      <ol class="scn-q">
+        <li>直直差額はいくらか。いつの損益になるか</li>
+        <li>直先差額はいくらか。当期に配分する額はいくらか</li>
+        <li>決算日の貸借対照表の売掛金はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>直直差額 <b>1,000（益）</b>、当期の損益<span class="calc">（101 − 100）× $1,000 ＝ 1,000。予約日の属する期の損益にする</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>直先差額 <b>3,000（損）</b>、当期配分額 <b>1,000</b><span class="calc">（98 − 101）× $1,000 ＝ △3,000<br>予約日から決済日まで3か月のうち、当期は12月の1か月：3,000 × 1/3 ＝ 1,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>98,000</b><span class="calc">予約レートで確定しているので、決算日の直物@103では換算し直さない：$1,000 × 98</span></span></div>
+          <div class="je">
+            <span class="je-t">12月1日と12月31日の仕訳</span>
+            <div class="je-row"><span class="dc">(借)</span><span>売掛金</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>為替差損益</span><span class="amt">1,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>前払費用</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>売掛金</span><span class="amt">3,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>為替差損益</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>前払費用</span><span class="amt">1,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 在外支店と在外子会社 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>在外支店と在外子会社の換算</h2>
+    <p>在外支店は本店の一部なので本店の取引と同じように換算し、在外子会社は独立した会社なので財務諸表全体を決算時の相場で換算します。換算差額の行き先が違う点がいちばんのポイントです。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-shiten">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★</span><h3>在外支店の財務諸表の換算</h3></div>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">原則</span><span>本店の外貨建取引と同じ方法で換算する。<b>貨幣項目はCR、非貨幣項目はHR</b>（テンポラル法）。</span></div>
+        <div class="r-row exc"><span class="r-b">特例</span><span>収益・費用は<b>期中平均相場</b>でもよい。非貨幣項目の額に重要性がなければ、すべてCRで換算してもよい。</span></div>
+        <div class="r-row gen"><span class="r-b">本店</span><span>本店勘定は、本店側の<b>支店勘定の金額</b>で換算する（本支店の合併で相殺するため）。</span></div>
+        <div class="r-row exc"><span class="r-b">差額</span><span>換算差額は、当期の<b>為替差損益</b>にする。</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>在外支店の換算差額は、為替換算調整勘定として純資産に計上する<span class="why">本店の一部なので、当期の為替差損益です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-kogaisha">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>在外子会社の財務諸表の換算（決算日レート法）</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 290" role="img" aria-label="在外子会社の貸借対照表の換算。資産$1,000は決算時の相場108で108,000。負債$600はCR108で64,800、資本金$300は取得時の相場100で30,000、利益剰余金$100は期中平均104で10,400。差額2,800が為替換算調整勘定">
+        <text x="220" y="22" class="t-b c">借方</text>
+        <text x="440" y="22" class="t-b c">貸方</text>
+        <rect x="120" y="30" width="200" height="216" rx="3" class="b-grey"/>
+        <text x="220" y="128" class="t-b c">資産</text>
+        <text x="220" y="152" class="t-num c">108,000</text>
+        <text x="220" y="174" class="t-xs c">$1,000 × CR 108</text>
+        <rect x="340" y="30" width="200" height="130" rx="3" class="b-sh"/>
+        <text x="440" y="100" class="t-b c">負債 64,800</text>
+        <rect x="340" y="160" width="200" height="60" rx="3" class="b-kk"/>
+        <text x="440" y="195" class="t-b c">資本金 30,000</text>
+        <rect x="340" y="220" width="200" height="21" rx="2" class="b-js"/>
+        <text x="440" y="235" class="t-xs c" style="font-weight:700">利益剰余金 10,400</text>
+        <rect x="340" y="241" width="200" height="5" class="b-sun"/>
+        <text x="552" y="100" class="t-xs">CR 108：$600 × 108</text>
+        <text x="552" y="195" class="t-xs">HR 100：$300 × 100（取得時）</text>
+        <text x="552" y="235" class="t-xs">AR 104：$100 × 104（当期純利益）</text>
+        <text x="440" y="272" class="t-s c" style="font-weight:700;fill:var(--c1t)">為替換算調整勘定 2,800（貸借の差額）</text>
+      </svg>
+      <figcaption>資産・負債はすべて決算時の相場（CR）で換算し、資本金は株式を取得した時の相場（HR）、取得後の利益剰余金は発生した時の相場（当期純利益は期中平均AR）で換算します。使う相場が違うので貸借が合わず、その差額が為替換算調整勘定です。</figcaption>
+    </figure>
+    <div class="rules">
+      <div class="rule">
+        <div class="r-row gen"><span class="r-b">損益</span><span>収益・費用は<b>原則として期中平均相場</b>（CRでもよい）。<small>親会社との取引による収益・費用は、親会社が使った相場で換算し、差額は為替差損益にします。</small></span></div>
+        <div class="r-row exc"><span class="r-b">差額</span><span>換算差額は<b>為替換算調整勘定</b>として純資産（その他の包括利益）に計上し、非支配株主の分は<b>非支配株主持分</b>に振り替える。</span></div>
+        <div class="r-row gen"><span class="r-b">のれん</span><span>在外子会社ののれんは<b>外国通貨で把握</b>し、残高はCR、償却額は原則としてARで換算する。差額は為替換算調整勘定。</span></div>
+        <div class="r-row exc"><span class="r-b">売却</span><span>子会社株式を売却して支配を失ったら、為替換算調整勘定を取り崩して<b>売却損益に含める</b>。</span></div>
+      </div>
+    </div>
+    <div class="je">
+      <span class="je-t">為替換算調整勘定2,800のうち、非支配株主20%の分を振り替える</span>
+      <div class="je-row"><span class="dc">(借)</span><span>為替換算調整勘定</span><span class="amt">560</span><span class="dc">(貸)</span><span>非支配株主持分</span><span class="amt">560</span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>在外子会社の資本金は、決算時の為替相場で換算する<span class="why">株式を取得した時の相場です。</span></span></li>
+        <li><span class="mark x">×</span><span>在外子会社の換算差額は、為替差損益として連結損益計算書に計上する<span class="why">為替換算調整勘定として純資産に計上します。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算3 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 3　在外子会社の換算と為替換算調整勘定</span>
+      <p class="scn-story">P社は期首にS社（在外子会社）の株式80%を取得しました。期末のS社の貸借対照表は、資産$1,000、負債$600、資本金$300（取得時からの金額）、利益剰余金$100（すべて当期純利益）です。取得時の相場は@100、期中平均相場は@104、決算時の相場は@108です。</p>
+      <ol class="scn-q">
+        <li>資産・負債・資本金・利益剰余金の円換算額はいくらか</li>
+        <li>為替換算調整勘定はいくらか</li>
+        <li>非支配株主持分に振り替える額はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>資産 <b>108,000</b>、負債 <b>64,800</b>、資本金 <b>30,000</b>、利益剰余金 <b>10,400</b><span class="calc">資産・負債はCR：$1,000 × 108、$600 × 108<br>資本金は取得時：$300 × 100<br>利益剰余金（当期純利益）はAR：$100 × 104</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>2,800</b><span class="calc">108,000 −（64,800 ＋ 30,000 ＋ 10,400）＝ 2,800</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>560</b><span class="calc">2,800 × 20% ＝ 560（親会社の分は 2,240）</span></span></div>
+          <div class="je">
+            <span class="je-t">連結修正仕訳（非支配株主持分への振替え）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>為替換算調整勘定</span><span class="amt">560</span><span class="dc">(貸)</span><span>非支配株主持分</span><span class="amt">560</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">50</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例（または正しい文）」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">外貨建取引の基本</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">有価証券と為替予約</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">在外支店と在外子会社</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">50</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>外貨建取引の基本：まずここから</h3>
+      <ol>
+        <li>貨幣項目はCRで換算し直し、非貨幣項目はHRのまま</li>
+        <li>前払金・前受金は非貨幣項目</li>
+        <li>前受金がある売上は2つの相場で計算</li>
+        <li>二取引基準：為替の動きは為替差損益</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>有価証券と為替予約：まずここから</h3>
+      <ol>
+        <li>有価証券4分類の相場と換算差額の行き先</li>
+        <li>満期保有目的の償却額はAR</li>
+        <li>為替予約は独立処理が原則、振当処理は容認</li>
+        <li>直直差額は当期、直先差額は期間配分</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>在外支店と在外子会社：まずここから</h3>
+      <ol>
+        <li>在外支店は本店と同じ、差額は為替差損益</li>
+        <li>在外子会社は資産負債CR、資本HR、損益AR</li>
+        <li>差額は為替換算調整勘定、非支配株主分は振替え</li>
+        <li>のれんは外貨で把握してCRで換算</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>決算時に換算し直すかどうかは「将来、外貨のお金で決済されるか」で決まります。お金で決済される貨幣項目は、今の相場で円の価値を示すためにCRで換算し直し、商品やサービスで消えていく非貨幣項目は取得時の円の金額のままにします。</p>
+</section>
+
+<footer>
+  <p>参照：「外貨建取引等会計処理基準」、「外貨建取引等の会計処理に関する実務指針」、企業会計基準第10号「金融商品に関する会計基準」、企業会計基準第25号「包括利益の表示に関する会計基準」。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var GAI = "外貨建取引等会計処理基準", GJ = "外貨建取引等の会計処理に関する実務指針",
+      KIN = "企業会計基準第10号「金融商品に関する会計基準」", HK = "企業会計基準第25号「包括利益の表示に関する会計基準」";
+  var JE_YUNYU = ["商品$1,000を掛けで輸入した（取引時 @100）", [["仕入",100000,"買掛金",100000]]];
+  var JE_KESSAN = ["決算時：買掛金$1,000（取引時 @100 → 決算時 @105）", [["為替差損益",5000,"買掛金",5000]]];
+  var JE_KESSAI = ["決済時：買掛金$1,000（帳簿価額105,000）を @103 で支払った", [["買掛金",105000,"現金",103000],["","","為替差損益",2000]]];
+  var JE_MAEUKE = ["前受金$200（@100）を受け取り、のちに$1,000の商品を出荷（@105）", [["前受金",20000,"売上",104000],["売掛金",84000,"",""]]];
+  var JE_MAEBARAI = ["前払金$200（@98）を支払い済み。商品$1,000を受け取り、残り$800は掛け（@100）", [["仕入",99600,"前払金",19600],["","","買掛金",80000]]];
+  var JE_YOKIN = ["外貨預金$1,000（預入時 @100、決算時 @104）", [["外貨預金",4000,"為替差損益",4000]]];
+  var JE_BAIBAI = ["売買目的有価証券：取得$100（@100）、決算時の時価$105（@104）", [["売買目的有価証券",920,"有価証券評価損益",920]]];
+  var JE_MANKI = ["満期保有目的債券：取得$950（@100）、償却額$10（期中平均 @102）、決算時 @105", [["満期保有目的債券",1020,"有価証券利息",1020],null,["満期保有目的債券",4780,"為替差損益",4780]]];
+  var JE_SONOTA = ["その他有価証券：取得$100（@100）、決算時の時価$110（@105）（税効果は考えない）", [["その他有価証券",1550,"その他有価証券評価差額金",1550]]];
+  var JE_YOYAKU_MAE = ["取引前に予約（@98）していた輸出$1,000", [["売掛金",98000,"売上",98000]]];
+  var JE_JIKIJIKI = ["直直差額：売掛金$1,000（取引時 @100）、予約日の直物 @101", [["売掛金",1000,"為替差損益",1000]]];
+  var JE_JIKISAKI = ["直先差額：予約日の直物 @101、先物 @98（$1,000）。3か月のうち1か月分を当期に", [["前払費用",3000,"売掛金",3000],null,["為替差損益",1000,"前払費用",1000]]];
+  var JE_KANSAN = ["為替換算調整勘定2,800のうち、非支配株主20%の分を振り替える", [["為替換算調整勘定",560,"非支配株主持分",560]]];
+  var M_KIHON = "取引時はHR。決算時：外国通貨・金銭債権債務（貨幣項目）はCRで換算し直し、差額は為替差損益。非貨幣項目はHRのまま。";
+  var M_MAE = "前払金・前受金・前払費用・前受収益は非貨幣項目 → 受払時の相場のまま。前受金がある売上は、前受金部分が受取時、残りが売上時の相場。";
+  var M_NITORI = "二取引基準：取引と代金決済は別の取引。為替の動きは為替差損益で、仕入高や売上高は直さない。";
+  var M_YUKA = "売買目的：外貨時価 × CR（差額は損益）／満期保有：外貨償却原価 × CR（差額は為替差損益、償却額はAR）／子会社・関連会社株式：外貨取得原価 × HR／その他：外貨時価 × CR（差額は評価差額）。";
+  var M_YOYAKU = "為替予約：原則は独立処理（デリバティブとして時価評価）、振当処理も容認。振当処理で取引後に予約 → 直直差額は当期の損益、直先差額は期間配分。予約後は換算し直さない。";
+  var M_SHITEN = "在外支店：本店と同じ（貨幣項目CR、非貨幣項目HR）。収益・費用はARも可。本店勘定は支店勘定の金額。換算差額は為替差損益。";
+  var M_KOGAISHA = "在外子会社：資産・負債CR、資本金は株式取得時の相場、取得後の利益剰余金は発生時の相場、収益・費用は原則AR（CRも可）、差額は為替換算調整勘定。";
+
+  var Q = [
+    {p:"kk", q:"外貨建取引は、原則として、取引発生時の為替相場による円換算額で記録する。", a:true, k:"取引発生時の為替相場", t:"決算時の為替相場", y:"取引をした時点の円の価値で記録するのが、取得原価主義の考え方に合うためです。決算時に換算し直すかどうかは、項目ごとに決めます。", m:M_KIHON, j:JE_YUNYU, s:GAI},
+    {p:"kk", q:"決算時には、外国通貨と外貨建金銭債権債務を、決算時の為替相場で換算する。", a:true, k:"決算時の為替相場", t:"取引発生時の為替相場", y:"外国通貨や外貨建の債権・債務は、将来いくらの円で回収・支払いするかが為替相場で変わります。決算時の相場で換算すると、その時点で見込まれる円の金額を示せます。", m:M_KIHON, j:JE_KESSAN, s:GAI},
+    {p:"kk", q:"外貨建金銭債権債務を決算時に換算して生じた換算差額は、決済されるまで繰り延べる。", a:false, k:"決済されるまで繰り延べる", t:"当期の為替差損益として処理する", y:"決算時の相場で換算し直したのは、その時点の円の価値を示すためです。その差額は、為替相場が動いたことによる当期の損益として処理します。", m:M_KIHON, j:JE_KESSAN, s:GAI},
+    {p:"kk", q:"外貨建の前払金・前受金は、決算時の為替相場で換算し直す。", a:false, k:"決算時の為替相場で換算し直す", t:"受払時の為替相場のまま換算し直さない", y:"前払金・前受金は、将来お金で決済されるのではなく、商品やサービスで決済されます。為替相場が動いても円の価値は変わらないので、換算し直しません。", m:M_MAE, j:JE_MAEUKE, s:GAI},
+    {p:"kk", q:"外貨建の前受金を受け取った後に商品を引き渡した場合、売上高のうち前受金に対応する部分は、前受金を受け取った時の為替相場で換算する。", a:true, k:"前受金を受け取った時の為替相場", t:"商品を引き渡した時の為替相場", y:"前受金の部分は、受け取った時点で円の金額が決まっています。それを売上に振り替えるだけなので、受け取った時の相場のままです。", m:M_MAE, j:JE_MAEUKE, s:GAI},
+    {p:"kk", q:"外貨建で取得した棚卸資産や有形固定資産は、決算時に為替相場で換算し直さない。", a:true, k:"換算し直さない", t:"決算時の為替相場で換算し直す", y:"棚卸資産や固定資産は、売ったり使ったりして回収するもので、外貨で決済されるものではありません。取得したときの円の金額（取得原価）のままにします。", m:M_KIHON, s:GAI},
+    {p:"kk", q:"為替差損益は、原則として差益と差損を相殺した純額で、営業外損益に表示する。", a:true, k:"純額", t:"総額", y:"為替差損益は、同じ為替相場の動きから生じる損益なので、相殺した純額で示す方が実態を表します。", m:"為替差損益 → 純額で営業外損益。", j:JE_KESSAI, s:GAI},
+    {p:"kk", q:"外貨預金は、預け入れたときの為替相場のまま、決算時も換算し直さない。", a:false, k:"預け入れたときの為替相場のまま、決算時も換算し直さない", t:"決算時の為替相場で換算し直す", y:"外貨預金は外国通貨と同じく、為替相場で円の価値が変わる貨幣項目なので、決算時の相場で換算し直します。", m:M_KIHON, j:JE_YOKIN, s:GAI},
+    {p:"kk", q:"外貨建の金銭債権債務を決済したときの為替差損益は、決算時の換算額（または取引時の換算額）と決済額との差額である。", a:true, k:"決算時の換算額（または取引時の換算額）と決済額との差額", t:"常に取引時の換算額と決済額との差額", y:"決算で換算し直していれば、その金額から決済までの相場の動きが新しい差損益になります。前期までの分はすでに計上しているので、二重には数えません。", m:"決済時：直前の帳簿価額（決算時に換算し直していればその額）と決済額の差 → 為替差損益。", j:JE_KESSAI, s:GAI},
+    {p:"kk", q:"輸入した商品の仕入高は、取引発生時の為替相場で換算し、その後に為替相場が変動しても修正しない。", a:true, k:"修正しない", t:"決済時の為替相場で修正する", y:"仕入れた商品の原価は、取引した時点で決まります。その後の為替の動きは代金の支払いの問題なので、為替差損益として別に処理します。", m:M_NITORI, j:JE_YUNYU, s:GAI},
+    {p:"kk", q:"外貨建取引の会計処理は、取引と代金決済を一体の取引とみる一取引基準による。", a:false, k:"取引と代金決済を一体の取引とみる一取引基準", t:"取引と代金決済を別々の取引とみる二取引基準", y:"日本の基準は、取引と代金の決済を別々の取引とみる二取引基準です。為替の動きは、仕入高などを直すのではなく、為替差損益として示します。", m:M_NITORI, s:GAI},
+    {p:"kk", q:"外貨建の長期の金銭債権債務も、決算時の為替相場で換算する。", a:true, k:"決算時の為替相場", t:"取引発生時の為替相場", y:"以前は長期のものは取引時の相場のままでしたが、今は短期・長期を問わず、金銭債権債務は決算時の為替相場で換算します。", m:M_KIHON, s:GAI},
+    {p:"kk", q:"外貨建の未収収益や未払費用は、金銭債権債務として決算時の為替相場で換算する。", a:true, k:"決算時の為替相場", t:"発生時の為替相場のまま", y:"未収収益・未払費用は、将来外貨で受け取り・支払いをするお金の権利・義務なので、金銭債権債務と同じく決算時の相場で換算します。", m:M_KIHON, s:GAI},
+    {p:"kk", q:"外貨建の前払費用や前受収益は、金銭債権債務と同様に決算時の為替相場で換算する。", a:false, k:"金銭債権債務と同様に決算時の為替相場で換算する", t:"非貨幣項目として支出時・収入時の為替相場のまま換算し直さない", y:"前払費用・前受収益は、将来サービスを受け取る・提供することで消えるもので、お金で決済されません。だから換算し直しません。", m:M_MAE, s:GAI},
+    {p:"kk", q:"外貨建取引の換算に用いる為替相場には、取引が発生した日の直物為替相場のほか、合理的な基礎にもとづいて算定された平均相場を用いることができる。", a:true, k:"平均相場", t:"予想相場", y:"毎日の取引をその日の相場で換算するのは手間なので、前月の平均相場など合理的な平均を使うことが認められています。", m:"取引時の相場：その日の直物相場、または前月平均などの合理的な平均相場。", s:GJ},
+    {p:"kk", q:"輸入で商品を受け取る前に前払金を支払っていた場合、仕入高のうち前払金の部分は、前払金を支払った時の為替相場で換算する。", a:true, k:"前払金を支払った時の為替相場", t:"商品を受け取った時の為替相場", y:"前払金の部分は、支払った時点で円の金額が決まっています。商品を受け取ったときは、それを仕入に振り替えるだけです。", m:M_MAE, j:JE_MAEBARAI, s:GAI},
+    {p:"kk", q:"外貨建金銭債権に貸倒引当金を設定するときは、決算時の為替相場で換算した金額をもとに計算する。", a:true, k:"決算時の為替相場で換算した金額", t:"取引時の為替相場で換算した金額", y:"貸倒引当金は、決算時の債権の金額に対する回収不能見込額なので、決算時の相場で換算し直した後の金額をもとに計算します。", m:"貸倒引当金は、CRで換算した後の外貨建債権の金額をもとに設定する。", s:GJ},
+
+    {p:"sh", q:"外貨建の売買目的有価証券は、外国通貨による時価を決算時の為替相場で換算し、換算差額は評価差額に含めて当期の損益とする。", a:true, k:"評価差額に含めて当期の損益とする", t:"為替換算調整勘定として純資産に計上する", y:"売買目的有価証券は時価の変動を当期の損益にするので、為替による変動も分けずに、評価損益に含めて当期の損益にします。", m:M_YUKA, j:JE_BAIBAI, s:GAI},
+    {p:"sh", q:"外貨建の満期保有目的の債券は、外国通貨による取得原価または償却原価を決算時の為替相場で換算する。", a:true, k:"決算時の為替相場", t:"取得時の為替相場", y:"満期保有目的の債券は、満期に外貨で償還される金銭債権と同じ性格なので、決算時の相場で換算し直します。", m:M_YUKA, j:JE_MANKI, s:GAI},
+    {p:"sh", q:"外貨建の満期保有目的の債券に償却原価法を適用する場合、当期の償却額は決算時の為替相場で換算する。", a:false, k:"決算時の為替相場", t:"期中平均相場", y:"償却額は1年を通じて少しずつ生じる利息なので、期中平均相場で換算します。決算時の相場で換算し直した帳簿価額との差は為替差損益になります。", m:M_YUKA, j:JE_MANKI, s:GJ},
+    {p:"sh", q:"外貨建の子会社株式・関連会社株式は、取得時の為替相場による円換算額を付す。", a:true, k:"取得時の為替相場", t:"決算時の為替相場", y:"子会社・関連会社株式は、支配や影響力のための長期の投資です。取得原価で評価するのと同じく、取得時の相場のままにします。", m:M_YUKA, s:GAI},
+    {p:"sh", q:"外貨建のその他有価証券の決算時の換算差額は、原則として当期の為替差損益として処理する。", a:false, k:"原則として当期の為替差損益として処理する", t:"原則として評価差額に含めて純資産に計上する", y:"その他有価証券は、時価の変動を純資産に直接計上します。為替による変動も時価の変動の一部なので、評価差額に含めます。", m:M_YUKA, j:JE_SONOTA, s:GAI},
+    {p:"sh", q:"外貨建のその他有価証券のうち債券については、外国通貨による時価の変動に係る換算差額を評価差額とし、それ以外の換算差額を為替差損益として処理することができる。", a:true, k:"為替差損益として処理することができる", t:"必ず評価差額とする", y:"債券は満期に外貨で償還されるので、為替による変動の部分は金銭債権と同じように損益にする考え方も認められています。", m:M_YUKA, s:GJ},
+    {p:"sh", q:"外貨建有価証券の時価が著しく下落した場合は、外国通貨による時価を決算時の為替相場で換算した金額で評価し、差額を当期の損失とする。", a:true, k:"当期の損失", t:"評価差額として純資産", y:"時価が著しく下がり回復が見込めないときは、子会社株式でもその他有価証券でも、評価を切り下げて当期の損失にします（減損処理）。", m:"時価の著しい下落 → 外貨時価 × CR まで切り下げ、当期の損失。", s:GAI},
+    {p:"sh", q:"為替予約の会計処理は、原則として金融商品会計基準にもとづく独立処理によるが、振当処理も認められる。", a:true, k:"振当処理も認められる", t:"振当処理は認められない", y:"為替予約はデリバティブなので、原則は時価で評価する独立処理です。ただし、予約で円の金額を確定させた実態を表せるので、振当処理も当面認められています。", m:M_YOYAKU, s:GAI},
+    {p:"sh", q:"振当処理で、取引発生前に為替予約を結んだ場合は、外貨建取引と金銭債権債務を予約レートで換算する。", a:true, k:"予約レート", t:"取引発生時の直物相場", y:"取引する前に円の金額を予約で決めているので、最初からその予約レートで記録します。差額は生じません。", m:M_YOYAKU, j:JE_YOYAKU_MAE, s:GAI},
+    {p:"sh", q:"振当処理で、取引発生後に為替予約を結んだ場合、直直差額は予約日の属する期の損益として処理する。", a:true, k:"予約日の属する期の損益", t:"決済日までの期間に配分", y:"直直差額は、予約するまでに為替が動いたことによる差で、予約した日にすでに確定しています。だからその期の損益にします。", m:M_YOYAKU, j:JE_JIKIJIKI, s:GJ},
+    {p:"sh", q:"振当処理で、取引発生後に為替予約を結んだ場合、直先差額は予約日の属する期の損益として一括して処理しなければならない。", a:false, k:"予約日の属する期の損益として一括して処理しなければならない", t:"予約日から決済日までの期間に配分する（重要性が乏しければ当期の損益とすることもできる）", y:"直先差額は、2つの通貨の金利差から生じる、いわば利息のような差額です。だから予約から決済までの期間に配分します。", m:M_YOYAKU, j:JE_JIKISAKI, s:GJ},
+    {p:"sh", q:"直先差額のうち次期以降に配分される額は、貸借対照表上、資産の部または負債の部に計上する。", a:true, k:"資産の部または負債の部", t:"純資産の部", y:"次期以降に配分する直先差額は、前払費用（損の場合）や前受収益（益の場合）と同じ性格なので、資産・負債に計上します。", m:M_YOYAKU, j:JE_JIKISAKI, s:GJ},
+    {p:"sh", q:"振当処理を採用した外貨建金銭債権債務は、決算時に換算し直さない。", a:true, k:"換算し直さない", t:"決算時の為替相場で換算し直す", y:"予約で円の金額を確定させているので、決算時の為替相場が変わっても、受け取る・支払う円の金額は変わりません。だから予約レートのままにします。", m:M_YOYAKU, s:GAI},
+    {p:"sh", q:"独立処理では、外貨建金銭債権債務を予約レートで換算し、為替予約は時価評価しない。", a:false, k:"外貨建金銭債権債務を予約レートで換算し、為替予約は時価評価しない", t:"外貨建金銭債権債務は決算時の為替相場で換算し、為替予約は時価で評価して評価差額を当期の損益とする", y:"独立処理では、債権債務と為替予約を別々の取引とみます。債権債務は通常どおりCRで換算し、為替予約はデリバティブとして時価で評価します。", m:M_YOYAKU, s:KIN},
+    {p:"sh", q:"予定取引をヘッジするために結んだ為替予約は、ヘッジ会計の要件を満たせば、評価差額を繰延ヘッジ損益として繰り延べることができる。", a:true, k:"繰延ヘッジ損益", t:"当期の為替差損益", y:"まだ取引していないので、ヘッジされる側の損益は出ていません。ヘッジ手段の損益だけを当期に出すと損益が対応しないので、繰り延べます。", m:"予定取引のヘッジ → 繰延ヘッジ（評価差額は繰延ヘッジ損益として純資産）。", s:KIN},
+    {p:"sh", q:"直直差額とは、外貨建取引の取引発生時の直物相場と、為替予約を結んだ日の直物相場との差額をいう。", a:true, k:"為替予約を結んだ日の直物相場", t:"為替予約の先物相場", y:"直直差額は「直物と直物」の差、つまり取引から予約までの為替の動きです。予約日の直物と先物の差は直先差額です。", m:M_YOYAKU, j:JE_JIKIJIKI, s:GJ},
+    {p:"sh", q:"直先差額とは、外貨建取引の取引発生時の直物相場と、為替予約の先物相場との差額をいう。", a:false, k:"外貨建取引の取引発生時の直物相場", t:"為替予約を結んだ日の直物相場", y:"直先差額は、予約を結んだ日の直物相場と先物相場の差です。取引時の直物から予約日の直物までの差は、直直差額として別に扱います。", m:M_YOYAKU, j:JE_JIKISAKI, s:GJ},
+
+    {p:"js", q:"在外支店の財務諸表は、原則として本店と同様に、貨幣項目は決算時の為替相場、非貨幣項目は取得時の為替相場で換算する。", a:true, k:"本店と同様", t:"在外子会社と同様", y:"在外支店は本店の一部なので、本店が外貨建取引をしたのと同じように換算します（テンポラル法）。", m:M_SHITEN, s:GAI},
+    {p:"js", q:"在外支店の財務諸表の換算で生じた換算差額は、為替換算調整勘定として純資産に計上する。", a:false, k:"為替換算調整勘定として純資産に計上する", t:"当期の為替差損益として処理する", y:"在外支店は本店の一部なので、本店の外貨建取引と同じく、換算差額は当期の為替差損益にします。為替換算調整勘定は在外子会社の換算で使います。", m:M_SHITEN, s:GAI},
+    {p:"js", q:"在外支店の収益・費用は、期中平均相場で換算することができる。", a:true, k:"期中平均相場", t:"必ず取引発生時の為替相場", y:"収益・費用の取引をすべてその日の相場で換算するのは手間なので、期中平均相場を使う簡便な方法が認められています。", m:M_SHITEN, s:GAI},
+    {p:"js", q:"在外支店で非貨幣項目の額に重要性がない場合は、すべての貸借対照表項目を決算時の為替相場で換算することができる。", a:true, k:"重要性がない場合", t:"重要性がある場合", y:"非貨幣項目が少なければ、取得時の相場と決算時の相場で分けても結果はあまり変わりません。簡便のため、すべてCRで換算することが認められています。", m:M_SHITEN, s:GAI},
+    {p:"js", q:"在外子会社の資産・負債は、決算時の為替相場で換算する。", a:true, k:"決算時の為替相場", t:"取得時の為替相場", y:"在外子会社は独立した事業体とみて、その財務諸表全体を今の為替相場で表します（決算日レート法）。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"在外子会社の資本のうち、親会社による株式取得時の資本金は、決算時の為替相場で換算する。", a:false, k:"決算時の為替相場", t:"株式取得時の為替相場", y:"親会社の投資と相殺する資本は、投資したときの相場で換算しないと、相殺するたびに差額が変わってしまいます。だから株式取得時の相場を使います。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"在外子会社の株式取得後に生じた利益剰余金は、それが発生した時の為替相場（当期純利益は期中平均相場など）で換算する。", a:true, k:"発生した時の為替相場", t:"決算時の為替相場", y:"利益剰余金は、毎期の利益が積み上がったものです。損益計算書の換算と合わせるため、その利益が生じたときの相場で換算します。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"在外子会社の収益・費用は、原則として期中平均相場で換算するが、決算時の為替相場で換算することもできる。", a:true, k:"原則として期中平均相場", t:"必ず決算時の為替相場", y:"収益・費用は1年を通じて生じるので、期中の平均的な相場で換算するのが実態に合います。簡便のため決算時の相場も認められています。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"在外子会社の財務諸表の換算で生じた換算差額は、為替差損益として連結損益計算書に計上する。", a:false, k:"為替差損益として連結損益計算書に計上する", t:"為替換算調整勘定として純資産の部に計上する", y:"換算差額は為替相場が動いただけで生じ、まだ実現していない差額です。損益にはせず、その他の包括利益として純資産に入れます。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"為替換算調整勘定のうち非支配株主の持分に相当する額は、非支配株主持分に振り替える。", a:true, k:"非支配株主持分に振り替える", t:"親会社の持分に含める", y:"在外子会社の純資産の一部は非支配株主のものなので、換算差額もその持分比率で非支配株主の分を分けます。", m:M_KOGAISHA, j:JE_KANSAN, s:GAI},
+    {p:"js", q:"在外子会社の親会社との取引による収益・費用は、親会社が換算に用いる為替相場で換算し、生じた差額は当期の為替差損益とする。", a:true, k:"親会社が換算に用いる為替相場", t:"期中平均相場", y:"親会社との取引は連結で相殺消去します。両方の金額がそろわないと消去できないので、親会社が使った相場で換算します。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"在外子会社の株式を売却して支配を失った場合、為替換算調整勘定のうち売却した持分に相当する額は、株式売却損益に含めて処理する。", a:true, k:"株式売却損益に含めて処理する", t:"そのまま純資産に残す", y:"為替換算調整勘定は、まだ実現していない換算差額です。子会社株式を売って投資を回収すると実現するので、売却損益に含めます（組替調整）。", m:"子会社株式を売却して支配を失う → 為替換算調整勘定を取り崩して売却損益に含める。", s:GJ},
+    {p:"js", q:"在外子会社ののれんは、原則として外国通貨で把握し、決算時の為替相場で換算する。", a:true, k:"決算時の為替相場", t:"支配獲得時の為替相場", y:"のれんは在外子会社の事業の一部として外貨で生じたものと考えるので、ほかの資産と同じく決算時の相場で換算します。換算差額は為替換算調整勘定にします。", m:"在外子会社ののれん：外貨で把握し、残高はCR、償却額は原則AR、差額は為替換算調整勘定。", s:GJ},
+    {p:"js", q:"在外子会社の財務諸表は、在外支店と同じく、貨幣項目は決算時、非貨幣項目は取得時の為替相場で換算する。", a:false, k:"在外支店と同じく、貨幣項目は決算時、非貨幣項目は取得時の為替相場で換算する", t:"資産・負債をすべて決算時の為替相場で換算する（決算日レート法）", y:"在外子会社は本店とは独立した事業体なので、財務諸表全体の比率関係を保つよう、資産・負債をすべて決算時の相場で換算します。", m:M_KOGAISHA, s:GAI},
+    {p:"js", q:"為替換算調整勘定は、連結財務諸表においてその他の包括利益として表示される。", a:true, k:"その他の包括利益", t:"当期純利益", y:"為替換算調整勘定の増減は、損益計算書を通らずに純資産に入るので、包括利益計算書ではその他の包括利益に含めます。", m:"為替換算調整勘定 → その他の包括利益（純資産の部では、その他の包括利益累計額）。", s:HK},
+    {p:"js", q:"在外支店の本店勘定は、本店における支店勘定の金額で換算する。", a:true, k:"本店における支店勘定の金額", t:"決算時の為替相場", y:"本店勘定と支店勘定は、本支店の合併で相殺する勘定です。金額を一致させるため、本店側の支店勘定の金額をそのまま使います。", m:M_SHITEN, s:GJ}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"外貨建取引の基本", sh:"有価証券と為替予約", js:"在外支店と在外子会社"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
