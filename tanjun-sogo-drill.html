@@ -1,0 +1,1138 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>単純総合原価計算ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: 1カラムの答案用紙。出題(図つき)→ 解答欄 → 解答図・解説・仕訳。標準原価計算ドリルと同じ紺×金、ライトテーマも用意 */
+  :root {
+    color-scheme: dark;
+    --bg: #101b2d;
+    --surface: #15233a;
+    --surface-2: #0d1624;
+    --fg: #f6f1e6;
+    --fg-soft: #ddd6c7;
+    --muted: #9aa5b1;
+    --accent: #d4a24c;
+    --accent-ink: #101b2d;
+    --accent-soft: rgba(212, 162, 76, 0.16);
+    --line: rgba(212, 162, 76, 0.36);
+    --rule: rgba(246, 241, 230, 0.12);
+    --good: #8cc152;
+    --good-soft: rgba(140, 193, 82, 0.2);
+    --bad: #ec7f56;
+    --bad-soft: rgba(236, 127, 86, 0.2);
+    --std-fill: rgba(212, 162, 76, 0.2);
+    --c1: #d4a24c; --c2: #5fa8d3; --c3: #7cc6a4; --c4: #b39ddb; --c5: #ec7f56;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+      --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+      --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+      --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+      --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+      --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+      --std-fill: rgba(154, 106, 18, 0.13);
+      --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+    --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+    --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+    --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+    --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+    --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+    --std-fill: rgba(154, 106, 18, 0.13);
+    --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .app {
+    max-width: 860px; margin: 0 auto;
+    padding-inline: 16px; padding-block: 28px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 20px; flex-wrap: wrap; }
+  .top > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .kicker { font-size: 12px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(22px, 4.6vw, 28px); margin: 2px 0 0; line-height: 1.35; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; max-width: 42em; }
+  .score { text-align: right; }
+  .score-k { font-size: 12px; color: var(--muted); }
+  .score-v { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 13px; font-weight: 500; line-height: 1.5;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+  .paper {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px clamp(14px, 3vw, 26px);
+    display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  }
+  .badge {
+    align-self: flex-start; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 14px;
+  }
+  .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+  .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+  .facts b { font-weight: 700; color: var(--fg); }
+
+  .cost-card { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px 6px; background: var(--surface-2); max-width: 560px; }
+  .cc-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .cc-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; column-gap: 14px; font-variant-numeric: tabular-nums; }
+  .cc-grid > span { padding: 5px 0; border-top: 1px dashed var(--rule); font-size: 14px; }
+  .cc-c { color: var(--muted); }
+  .cc-v { text-align: right; font-weight: 500; }
+
+  .figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  .figbox {
+    margin: 0; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .figscroll { overflow-x: auto; }
+  .figbox figcaption { font-size: 12px; color: var(--muted); padding: 0 4px; line-height: 1.6; }
+  .fig { width: 100%; min-width: 330px; height: auto; display: block; }
+  .fig text { font-family: var(--font); }
+  .fig .t { fill: var(--fg); font-size: 13px; }
+  .fig .ts { fill: var(--muted); font-size: 11.5px; }
+  .fig .tb { fill: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .fig .ta { fill: var(--accent); font-size: 12px; font-weight: 700; }
+  .fig .tu { fill: var(--bad); font-size: 12px; font-weight: 700; }
+  .fig .tf { fill: var(--good); font-size: 12px; font-weight: 700; }
+  .fig .box { fill: var(--surface); stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .div { stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig .std { fill: var(--std-fill); stroke: var(--accent); stroke-width: 1.2; }
+  .fig .vu { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; }
+  .fig .ax { stroke: var(--muted); stroke-width: 1.2; }
+  .fig .bar { fill: var(--muted); fill-opacity: 0.5; }
+  .fig .bar-hit { fill: var(--accent); }
+  .fig .arr { stroke: var(--muted); stroke-width: 1.4; }
+  .fig .mk { fill: var(--muted); }
+  .fig .frame { fill: none; stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .fig .s0 { fill: var(--c1); }
+  .fig .s1 { fill: var(--c2); }
+  .fig .s2 { fill: var(--c3); }
+  .fig .s3 { fill: var(--c5); }
+
+  .lad-title { font-size: 13.5px; font-weight: 700; padding: 2px 4px 0; }
+  .ladder { display: flex; flex-direction: column; padding: 4px; font-variant-numeric: tabular-nums; }
+  .rung { border: 1px solid var(--line); background: var(--std-fill); border-radius: 8px; padding: 7px 12px; }
+  .rung-k { font-size: 12px; color: var(--muted); }
+  .rung-v { font-size: 13.5px; overflow-wrap: anywhere; }
+  .step { position: relative; margin-left: 22px; padding: 8px 0 10px 18px; border-left: 2px solid var(--muted); font-size: 13.5px; }
+  .step::after {
+    content: ''; position: absolute; left: -7px; bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--muted);
+  }
+  .step.u b { color: var(--bad); }
+  .step.f b { color: var(--good); }
+  .step.n b { color: var(--fg); }
+  .rung.mark { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+  /* タイムテーブル・換算表・財務諸表 */
+  .tbl { width: 100%; min-width: 320px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .tbl th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .tbl td { padding: 5px 8px; text-align: right; border-bottom: 1px dashed var(--rule); white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl td.l { text-align: left; }
+  .tbl tr.sum td { border-top: 1px solid var(--fg-soft); font-weight: 700; }
+  .tbl tr.hl td { color: var(--accent); font-weight: 700; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    font: inherit; font-size: 14px; line-height: 1.4; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet-head { font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .sheet { display: flex; flex-direction: column; }
+  .ans-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--rule);
+  }
+  .ans-row:first-child { border-top: none; padding-top: 4px; }
+  .ans-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .ans-label { font-weight: 500; }
+  .qno { display: inline-block; min-width: 2.8em; color: var(--accent); font-weight: 700; font-size: 13px; }
+  .ans-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ans-ctrl input {
+    width: 10.5em; padding: 8px 12px; font: inherit; font-size: 16px; line-height: 1.4;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .ans-ctrl input::placeholder { color: var(--muted); opacity: 0.7; }
+  .yen { color: var(--muted); font-size: 14px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: 13.5px; line-height: 1.4; padding: 7px 14px;
+    background: transparent; color: var(--fg-soft); border: none; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .fb { grid-column: 1 / -1; font-size: 13.5px; font-weight: 500; }
+  .fb.ok { color: var(--good); }
+  .fb.ng { color: var(--bad); }
+  @media (max-width: 560px) { .ans-row { grid-template-columns: minmax(0, 1fr); } }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 700; line-height: 1.4;
+    padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-quiet { background: transparent; color: var(--muted); border-color: var(--rule); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .seg button:focus-visible, .ans-ctrl input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .err { color: var(--bad); font-size: 13.5px; }
+
+  .result { display: flex; flex-direction: column; gap: 14px; }
+  .verdict { font-size: 17px; font-weight: 700; }
+  .verdict.all { color: var(--good); }
+  .sol {
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums;
+  }
+  .sol h4 { margin: 12px 0 2px; font-size: 13.5px; color: var(--accent); letter-spacing: 0.04em; }
+  .sol h4:first-child { margin-top: 0; }
+  .sol p { margin: 0; font-size: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
+  .journal { display: flex; flex-direction: column; gap: 10px; }
+  .j-head { margin: 6px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .j-rule { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+  .j-note { margin: 0; font-size: 13.5px; color: var(--fg-soft); max-width: 46em; }
+  .j-list { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 16px; }
+  .j-entry { padding: 9px 0; border-top: 1px dashed var(--rule); }
+  .j-entry:first-child { border-top: none; }
+  .j-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .j-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px; font-variant-numeric: tabular-nums; }
+  .j-line { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; font-size: 14px; line-height: 1.7; }
+  .j-tag { color: var(--accent); font-weight: 700; }
+  .j-amt { text-align: right; }
+  @media (max-width: 540px) { .j-body { grid-template-columns: minmax(0, 1fr); } }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: rise 0.25s ease-out; }
+    @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="kicker">日商簿記1級 工業簿記・原価計算</div>
+      <h1>単純総合原価計算 出題パターンドリル</h1>
+      <p class="lead">単純総合原価計算(平均法・先入先出法)でくり返し出る出題パターン(換算量・平均法と先入先出法の比較・正常仕損と正常減損・材料の追加投入・異常仕損・非度外視法・理論)を、数字を変えて何度でも解けます。解答後は、ボックス図・仕掛品勘定・解説・仕訳を確認できます。問題文と数字はオリジナルで、毎回ランダムに作ります。</p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="score-k">正答数(小問)</div>
+      <div class="score-v"><span id="okN">0</span> / <span id="allN">0</span></div>
+    </div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="出題パターン"></nav>
+
+  <section class="paper" id="problem"></section>
+
+  <section class="paper">
+    <div class="sheet-head">解答欄 <span class="hint">金額は円、換算量は個で答えます(カンマはあってもなくてもOK)。ボタンがある問題は、どちらの方法かも選んでください。選択問題はボタンで答えます。</span></div>
+    <div class="sheet" id="sheet"></div>
+    <div class="err" id="err" hidden></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="checkBtn" type="button">採点する</button>
+      <button class="btn btn-ghost" id="nextBtn" type="button">数字を変えて次の問題</button>
+      <button class="btn btn-quiet" id="revealBtn" type="button">解答を見る</button>
+    </div>
+  </section>
+
+  <section class="result" id="result" hidden></section>
+
+  <footer class="foot">日商簿記1級の単純総合原価計算の練習用(自己採点)。金額の単位は円、数量の単位は個です。<br>「頻出度」は学習上の目安で、日商の公式な集計ではありません。</footer>
+
+</div>
+
+<script>
+var Drill = (function () {
+  'use strict';
+
+  var uid = 0;
+
+  function ri(min, max, step) {
+    step = step || 1;
+    var n = Math.floor((max - min) / step) + 1;
+    return min + Math.floor(Math.random() * n) * step;
+  }
+  function nz(min, max, step) {
+    for (var g = 0; g < 200; g++) { var v = ri(min, max, step); if (v !== 0) return v; }
+    return step || 1;
+  }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function sum(a) { return a.reduce(function (s, x) { return s + x; }, 0); }
+  function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-7; }
+  // 浮動小数の誤差を落としたかけ算
+  function mul(a, b) { return Math.round(a * b * 1e6) / 1e6; }
+  function fmt(n) {
+    n = Math.round(n * 100) / 100;
+    return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP', { maximumFractionDigits: 2 });
+  }
+  function pct(p) { return Math.round(p * 100) + '%'; }
+  function sen(v) { return fmt(v) + '千円'; }
+  function signed(v) { return (v > 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+
+  // ---------- SVG helpers ----------
+  function svg(w, h, label, body) {
+    return '<svg class="fig" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + label + '" xmlns="http://www.w3.org/2000/svg">' + body + '</svg>';
+  }
+  function t(x, y, s, cls, anchor) {
+    return '<text x="' + x + '" y="' + y + '" class="' + cls + '" text-anchor="' + (anchor || 'start') + '">' + s + '</text>';
+  }
+  function rc(x, y, w, h, cls, rx) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" class="' + cls + '"' + (rx ? ' rx="' + rx + '"' : '') + '/>';
+  }
+  function ln(x1, y1, x2, y2, cls, extra) {
+    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" class="' + cls + '"' + (extra || '') + '/>';
+  }
+  function arrowDefs(id) {
+    return '<defs><marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>';
+  }
+  function fig(svgStr, caption) {
+    return '<figure class="figbox"><div class="figscroll">' + svgStr + '</div>' +
+      (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // 表(タイムテーブル・換算表など)。rows は配列、または { c: [...], cls: 'sum' | 'hl' }
+  function tblFig(title, head, rows, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="figscroll"><table class="tbl">';
+    if (head) h += '<thead><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr></thead>';
+    h += '<tbody>' + rows.map(function (r) {
+      var cells = r.c || r, cls = r.cls ? ' class="' + r.cls + '"' : '';
+      return '<tr' + cls + '>' + cells.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody></table></div>';
+    return h + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+  // 貸借対照表(勘定式)
+  function bsFig(title, dr, cr, unit) {
+    var n = Math.max(dr.length, cr.length), rows = [];
+    for (var i = 0; i < n; i++) {
+      var a = dr[i] || ['', ''], b = cr[i] || ['', ''];
+      rows.push([a[0], a[1] === '' ? '' : fmt(a[1]), '<span class="l">' + b[0] + '</span>', b[1] === '' ? '' : fmt(b[1])]);
+    }
+    rows.push({ cls: 'sum', c: ['合計', fmt(sum(dr.map(function (x) { return x[1]; }))), '合計', fmt(sum(cr.map(function (x) { return x[1]; })))] });
+    return tblFig(title, ['借方', unit || '千円', '貸方', unit || '千円'], rows);
+  }
+
+  // ボックス図(左右とも、最低の高さを確保して縮尺どおりに分ける)
+  function boxSide(items, xa, xb, y0, H) {
+    var tot = sum(items.map(function (it) { return it.v; })), base = 40, out = '', y = y0;
+    items.forEach(function (it, i) {
+      var hh = base + (H - base * items.length) * it.v / tot, cx = (xa + xb) / 2, cy = y + hh / 2;
+      if (it.hl) out += rc(xa + 4, y + 4, xb - xa - 8, hh - 8, 'hl', 4);
+      if (i > 0) out += ln(xa, y, xb, y, 'div');
+      out += t(cx, cy - 5, it.n, 'ts', 'middle');
+      out += t(cx, cy + 14, it.t, 't', 'middle');
+      y += hh;
+    });
+    return out;
+  }
+  function boxFig(title, lh, left, rh, right) {
+    var w = 320, x0 = 14, x1 = 306, xm = 160, y0 = 44, y1 = 214;
+    var b = t(w / 2, 16, title, 'tb', 'middle') + t((x0 + xm) / 2, 36, lh, 'ta', 'middle') + t((xm + x1) / 2, 36, rh, 'ta', 'middle');
+    b += rc(x0, y0, x1 - x0, y1 - y0, 'box');
+    b += boxSide(left, x0, xm, y0, y1 - y0) + boxSide(right, xm, x1, y0, y1 - y0);
+    b += ln(xm, y0, xm, y1, 'div');
+    return svg(w, y1 + 10, title, b);
+  }
+
+  // 持分の割合(縮尺どおり)
+  function shareFig(segs, title) {
+    var w = 400, h = 150, x0 = 12, x1 = 388, y0 = 36, bh = 30;
+    var b = t(w / 2, 18, title, 'tb', 'middle'), x = x0, slot = (x1 - x0) / segs.length;
+    segs.forEach(function (s, i) {
+      var sw = (x1 - x0) * s.p, cx = x + sw / 2, mx = x0 + slot * (i + 0.5);
+      b += rc(x, y0, Math.max(sw, 1.5), bh, 's' + i);
+      b += '<polyline points="' + cx + ',' + (y0 + bh + 2) + ' ' + cx + ',' + (y0 + bh + 12) + ' ' + mx + ',' + (y0 + bh + 30) + '" class="lead"/>';
+      b += t(mx, y0 + bh + 48, pct(s.p), 'tb', 'middle') + t(mx, y0 + bh + 66, s.name, 'ts', 'middle');
+      x += sw;
+    });
+    b += rc(x0, y0, x1 - x0, bh, 'frame');
+    return svg(w, h, title, b);
+  }
+
+  // 連結会社間の取引(売り手 → 買い手)
+  function pairFig(o) {
+    var w = 400, h = 150, id = 'mk' + (++uid);
+    var b = arrowDefs(id) + t(w / 2, 18, o.title, 'tb', 'middle');
+    b += rc(14, 44, 104, 64, 'box', 8) + t(66, 72, o.a, 'tb', 'middle') + t(66, 92, o.as, 'ts', 'middle');
+    b += rc(282, 44, 104, 64, 'box', 8) + t(334, 72, o.b, 'tb', 'middle') + t(334, 92, o.bs, 'ts', 'middle');
+    b += ln(122, 62, 276, 62, 'arr', ' marker-end="url(#' + id + ')"') + t(200, 54, o.top, 'ts', 'middle');
+    if (o.bot) b += ln(276, 92, 122, 92, 'arr', ' marker-end="url(#' + id + ')"') + t(200, 110, o.bot, 'ts', 'middle');
+    if (o.note) b += t(w / 2, 138, o.note, 'ta', 'middle');
+    return svg(w, h, o.title, b);
+  }
+
+  // 商品に含まれる未実現利益(縮尺どおり)
+  function invFig(title, rows) {
+    var w = 400, x0 = 96, x1 = 388, top = 34, rowH = 56, h = top + rows.length * rowH + 4;
+    var mx = Math.max.apply(null, rows.map(function (r) { return r.tot; }));
+    var b = t(w / 2, 18, title, 'tb', 'middle');
+    rows.forEach(function (r, i) {
+      var y = top + i * rowH, ww = (x1 - x0) * r.tot / mx, wp = ww * r.pr / r.tot;
+      b += t(8, y + 14, r.n, 'ts') + t(8, y + 32, fmt(r.tot), 't');
+      b += rc(x0, y + 2, ww - wp, 22, 'std') + rc(x0 + ww - wp, y + 2, Math.max(wp, 2), 22, 'vu');
+      b += t(x0, y + 42, '未実現利益 ' + fmt(r.pr), 'tu');
+    });
+    return svg(w, h, title, b);
+  }
+
+  // 年ごとの残高の推移(縮尺どおり)
+  function deprFig(title, vals, cur, note) {
+    var n = vals.length, w = 400, h = 214, px0 = 16, px1 = 384, base = 170, top = 44;
+    var mx = Math.max.apply(null, vals.map(function (x) { return x.v; })) || 1, slot = (px1 - px0) / n, bw = Math.min(44, slot * 0.6);
+    var b = t(w / 2, 18, title, 'tb', 'middle') + ln(px0, base, px1, base, 'ax');
+    vals.forEach(function (x, i) {
+      var cx = px0 + slot * (i + 0.5), hh = (base - top) * x.v / mx;
+      b += rc(cx - bw / 2, base - hh, bw, Math.max(hh, 0.5), i === cur ? 'bar-hit' : 'bar', 2);
+      b += t(cx, base - hh - 6, fmt(x.v), i === cur ? 'ta' : 'ts', 'middle');
+      b += t(cx, base + 16, x.lab, i === cur ? 'ta' : 'ts', 'middle');
+    });
+    if (note) b += t(w / 2, h - 6, note, 'ts', 'middle');
+    return svg(w, h, title, b);
+  }
+
+  // はしご図(HTML)
+  function ladder(title, rungs, steps, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="ladder">';
+    rungs.forEach(function (r, i) {
+      h += '<div class="rung' + (r.mark ? ' mark' : '') + '"><div class="rung-k">' + r.k + '</div><div class="rung-v">' + r.v + '</div></div>';
+      var s = steps[i];
+      if (s) h += '<div class="step ' + s.cls + '">' + s.name + ' <b>' + s.txt + '</b></div>';
+    });
+    return h + '</div>' + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // ---------- 仕訳 ----------
+  function sideSum(lines) { return sum(lines.map(function (l) { return l[1]; })); }
+  function balanced(dr, cr) { return Math.abs(sideSum(dr) - sideSum(cr)) < 1e-6; }
+  function numbered(list) {
+    return list.filter(Boolean).map(function (e, i) {
+      return { t: String.fromCharCode(0x245F + i + 1) + ' ' + e.t, dr: e.dr, cr: e.cr };
+    });
+  }
+  function allBal(list) {
+    return list.every(function (e) {
+      return balanced(e.dr, e.cr) && e.dr.concat(e.cr).every(function (l) { return l[1] > 0 && isInt(l[1]); });
+    });
+  }
+  // 金額の符号で借方・貸方を入れかえる仕訳(v > 0 なら 借方 a / 貸方 b)
+  function flip(title, v, a, b) {
+    return v > 0 ? { t: title, dr: [[a, v]], cr: [[b, v]] } : { t: title, dr: [[b, -v]], cr: [[a, -v]] };
+  }
+
+  function choiceQ(label, answer, others) {
+    var opts = shuffle([answer].concat(others));
+    return { label: label, kind: 'choice', options: opts, value: opts.indexOf(answer) };
+  }
+
+  function yen(v) { return fmt(v) + '円'; }
+  // T勘定(SVG)。dr/cr は [科目, 金額]
+  function tAccount(title, dr, cr) {
+    var rows = Math.max(dr.length, cr.length), w = 400, top = 36, rh = 24, xm = 200;
+    var yEnd = top + rows * rh + 6, h = yEnd + 30;
+    var b = t(w / 2, 20, title, 'tb', 'middle');
+    b += t(12, 28, '(借方)', 'ts') + t(w - 12, 28, '(貸方)', 'ts', 'end');
+    b += ln(8, top, w - 8, top, 'div') + ln(xm, top, xm, yEnd + 22, 'div');
+    dr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(14, y, r[0], r[2] || 't') + t(xm - 8, y, fmt(r[1]), 't', 'end'); });
+    cr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(xm + 10, y, r[0], r[2] || 't') + t(w - 14, y, fmt(r[1]), 't', 'end'); });
+    b += ln(xm - 92, yEnd, xm - 6, yEnd, 'div') + ln(w - 98, yEnd, w - 12, yEnd, 'div');
+    b += t(xm - 8, yEnd + 18, fmt(sideSum(dr)), 'tb', 'end') + t(w - 14, yEnd + 18, fmt(sideSum(cr)), 'tb', 'end');
+    return svg(w, h, title + '勘定', b);
+  }
+
+  // ---------- 共通:生産データと原価要素の計算 ----------
+  var MNAME = { avg: '平均法', fifo: '先入先出法' };
+  function qty(v) { return fmt(v) + '個'; }
+  function prog(p) { return Math.round(p * 100) + '%'; }
+  function pr10(min, max) { return ri(min, max) / 10; }
+
+  // 原価要素1つ分。parts は換算量の内訳 [{ l: '完成', q: 数量, s: +1/-1 }]
+  // 単価 u を先に決めて、当期製造費用 X1 を逆算する(答えが必ず整数になる)
+  function element(o) {
+    function r(x) { return Math.round((x || 0) * 1e6) / 1e6; }
+    o.parts.forEach(function (p) { p.q = r(p.q); });
+    o.endEq = r(o.endEq); o.abnEq = r(o.abnEq); o.spoilEq = r(o.spoilEq);
+    var den = sum(o.parts.map(function (p) { return p.s * p.q; }));
+    var X0 = o.X0 || 0, V = o.V || 0;
+    var X1 = o.u * den - (o.method === 'avg' ? X0 : 0) + V;
+    var end = o.u * o.endEq, abn = o.u * (o.abnEq || 0), spoil = o.u * (o.spoilEq || 0);
+    var comp = X0 + X1 - V - end - abn - spoil;
+    var denStr = o.parts.map(function (p, i) { return (i === 0 ? '' : (p.s > 0 ? ' + ' : ' − ')) + p.l + ' ' + fmt(p.q); }).join('');
+    var pool = o.method === 'avg'
+      ? '(' + fmt(X0) + ' + ' + fmt(X1) + (V ? ' − ' + fmt(V) : '') + ')'
+      : (V ? '(' + fmt(X1) + ' − ' + fmt(V) + ')' : fmt(X1));
+    return { X0: X0, X1: X1, V: V, u: o.u, den: den, end: end, abn: abn, spoil: spoil, comp: comp, endEq: o.endEq,
+      line: o.name + 'の単価 = ' + pool + ' ÷ (' + denStr + ') = ' + fmt(o.method === 'avg' ? X0 + X1 - V : X1 - V) + ' ÷ ' + fmt(den) + ' = @' + fmt(o.u) };
+  }
+  // 原価要素の換算量の内訳
+  function partsOf(method, Qc, beg, end, extra) {
+    var a = [{ l: '完成', q: Qc, s: 1 }];
+    if (method === 'fifo' && beg > 0) a.push({ l: '期首', q: beg, s: -1 });
+    if (end > 0) a.push({ l: '期末', q: end, s: 1 });
+    (extra || []).forEach(function (x) { if (x.q > 0) a.push({ l: x.l, q: x.q, s: 1 }); });
+    return a;
+  }
+  // 期首仕掛品原価(当期の単価の近くでばらつかせる)
+  function begCost(eq, u, spread) { return eq > 0 ? Math.round(eq * Math.max(20, u + ri(-spread, spread))) : 0; }
+
+  // 原価データのカード
+  function costCard(Q0, b0, Qin, els, names) {
+    var rows = [];
+    els.forEach(function (e, i) { if (e.X0 > 0) rows.push(['期首仕掛品', names[i], yen(e.X0)]); });
+    els.forEach(function (e, i) { rows.push(['当期製造費用', names[i], yen(e.X1)]); });
+    return { title: '原価データ', rows: rows };
+  }
+  // 生産データのボックス図(数量)
+  function prodFig(Q0, b0, Qin, Qc, Qe, e, extra) {
+    var right = [{ n: '完成品', t: qty(Qc), v: Qc }];
+    (extra || []).forEach(function (x) { right.push({ n: x.n, t: qty(x.q) + (x.p ? '(' + x.p + ')' : ''), v: x.q }); });
+    right.push({ n: '期末仕掛品', t: qty(Qe) + '(' + prog(e) + ')', v: Qe });
+    var left = (Q0 > 0 ? [{ n: '期首仕掛品', t: qty(Q0) + '(' + prog(b0) + ')', v: Q0 }] : []).concat([{ n: '当期投入', t: qty(Qin), v: Qin }]);
+    return fig(boxFig('生産データ(数量)', '投入', left, '産出', right), '( )の%は加工進捗度。仕損・減損の%は発生点。');
+  }
+  // 原価要素のボックス図(金額)
+  function costFig(name, method, el, Qc, endEq, extra) {
+    var left = method === 'avg'
+      ? [{ n: '期首+当期', t: fmt(el.X0 + el.X1 - el.V), v: 1 }]
+      : (el.X0 > 0 ? [{ n: '期首(完成品へ)', t: fmt(el.X0), v: el.X0 }] : []).concat([{ n: '当期投入' + (el.V ? '(評価額控除後)' : ''), t: fmt(el.X1 - el.V), v: Math.max(el.X1 - el.V, 1) }]);
+    var right = [{ n: '完成品', t: fmt(el.comp), v: Math.max(el.comp, 1) }];
+    (extra || []).forEach(function (x) { if (x.v > 0) right.push({ n: x.n, t: fmt(x.v), v: x.v }); });
+    right.push({ n: '期末 ' + fmt(endEq) + '個 × @' + fmt(el.u), t: fmt(el.end), v: Math.max(el.end, 1), hl: true });
+    return fig(boxFig(name + '(' + MNAME[method] + ')', '借方', left, '貸方', right),
+      method === 'avg' ? '期首と当期を合計して、平均単価で配分する。' : '期末仕掛品は当期投入の単価で計算し、残りを完成品へ。');
+  }
+  // 仕掛品勘定と仕訳
+  function wipAccount(els, names, o) {
+    var X0 = sum(els.map(function (e) { return e.X0; }));
+    var dr = (X0 > 0 ? [['前期繰越', X0]] : []).concat(els.map(function (e, i) { return [names[i], e.X1]; }));
+    var cr = [['製品', o.FG]];
+    if (o.V) cr.push(['仕損品', o.V]);
+    if (o.abn) cr.push(['異常仕損費', o.abn]);
+    cr.push(['次期繰越', o.END]);
+    return { dr: dr, cr: cr };
+  }
+  function wipJournal(els, names, o) {
+    return numbered(els.map(function (e, i) {
+      return { t: names[i] + 'の消費(当期製造費用)', dr: [['仕掛品', e.X1]], cr: [[names[i], e.X1]] };
+    }).concat([
+      o.V ? { t: '仕損品の評価額', dr: [['仕損品', o.V]], cr: [['仕掛品', o.V]] } : null,
+      o.abn ? { t: '異常仕損費の振替(非原価)', dr: [['異常仕損費', o.abn]], cr: [['仕掛品', o.abn]] } : null,
+      { t: '完成品の振替', dr: [['製品', o.FG]], cr: [['仕掛品', o.FG]] }
+    ]));
+  }
+  function baseData() {
+    var Q0 = ri(2, 8) * 100, Qc = ri(15, 40) * 100, Qe = ri(2, 8) * 100;
+    var b0 = pr10(2, 8), e = pr10(2, 8);
+    return { Q0: Q0, Qc: Qc, Qe: Qe, b0: b0, e: e };
+  }
+  function prodFacts(d, Qin, method, extra) {
+    return ['材料はすべて工程の始点で投入している。原価の配分は <b>' + MNAME[method] + '</b> による。',
+      '期首仕掛品 ' + qty(d.Q0) + '(加工進捗度 ' + prog(d.b0) + ')、当期投入 ' + qty(Qin) + '。',
+      '完成品 ' + qty(d.Qc) + '、期末仕掛品 ' + qty(d.Qe) + '(加工進捗度 ' + prog(d.e) + ')。'].concat(extra || []);
+  }
+
+  // ---------- A/B 平均法・先入先出法(基本) ----------
+  function genBasic(method) {
+    for (var g = 0; g < 3000; g++) {
+      var d = baseData(), Qin = d.Qc + d.Qe - d.Q0;
+      if (Qin <= 0) continue;
+      var uM = ri(10, 50) * 10, uC = ri(15, 90) * 10;
+      var M = element({ method: method, name: '材料費', u: uM, X0: begCost(d.Q0, uM, 30), parts: partsOf(method, d.Qc, d.Q0, d.Qe), endEq: d.Qe });
+      var C = element({ method: method, name: '加工費', u: uC, X0: begCost(d.Q0 * d.b0, uC, 40), parts: partsOf(method, d.Qc, d.Q0 * d.b0, d.Qe * d.e), endEq: d.Qe * d.e });
+      if (M.X1 <= 0 || C.X1 <= 0) continue;
+      var END = M.end + C.end, FG = M.comp + C.comp, unit = FG / d.Qc;
+      var els = [M, C], names = ['材料', '加工費'];
+      var ent = wipJournal(els, names, { FG: FG });
+      var tw = wipAccount(els, names, { FG: FG, END: END });
+      if (!allBal(ent) || !balanced(tw.dr, tw.cr)) continue;
+      var qs = method === 'fifo'
+        ? [{ label: '加工費の当期投入の完成品換算量', kind: 'amt', unit: '個', value: C.den }]
+        : [];
+      qs = qs.concat([
+        { label: '期末仕掛品原価', kind: 'amt', value: END },
+        { label: '完成品原価', kind: 'amt', value: FG }
+      ]);
+      if (isInt(unit)) qs.push({ label: '完成品単位原価', kind: 'amt', value: unit });
+      var sol = [
+        { h: '換算量', lines: method === 'avg'
+          ? ['材料は始点投入なので、材料費の換算量は数量のまま(進捗度100%)。',
+             '加工費の期末仕掛品の換算量 = ' + fmt(d.Qe) + ' × ' + prog(d.e) + ' = ' + fmt(d.Qe * d.e) + '個',
+             '平均法では、期首仕掛品の進捗度は使わない(期首と当期をまとめて配分する)。']
+          : ['材料費の当期投入量 = 完成 ' + fmt(d.Qc) + ' − 期首 ' + fmt(d.Q0) + ' + 期末 ' + fmt(d.Qe) + ' = ' + fmt(M.den) + '個',
+             '加工費の当期投入の換算量 = 完成 ' + fmt(d.Qc) + ' − 期首 ' + fmt(d.Q0) + ' × ' + prog(d.b0) + ' + 期末 ' + fmt(d.Qe) + ' × ' + prog(d.e) + ' = ' + fmt(C.den) + '個',
+             '期首仕掛品はすでに ' + prog(d.b0) + ' まで加工済みなので、その分を引く。'] },
+        { h: '単価と期末仕掛品原価', lines: [M.line, C.line,
+          '期末仕掛品原価 = ' + fmt(d.Qe) + ' × @' + fmt(uM) + ' + ' + fmt(d.Qe * d.e) + ' × @' + fmt(uC) + ' = ' + fmt(M.end) + ' + ' + fmt(C.end) + ' = ' + fmt(END)] },
+        { h: '完成品原価', lines: ['完成品原価 = 期首 ' + fmt(M.X0 + C.X0) + ' + 当期 ' + fmt(M.X1 + C.X1) + ' − 期末 ' + fmt(END) + ' = ' + fmt(FG)]
+          .concat(isInt(unit) ? ['完成品単位原価 = ' + fmt(FG) + ' ÷ ' + fmt(d.Qc) + ' = @' + fmt(unit)] : []) }
+      ];
+      return {
+        badge: method === 'avg' ? '平均法(期首と当期を合計して配分)' : '先入先出法(期末は当期投入の単価)',
+        intro: '当工場では単純総合原価計算を採用している。次の資料にもとづいて答えなさい。',
+        card: costCard(d.Q0, d.b0, Qin, els, ['直接材料費', '加工費']),
+        facts: prodFacts(d, Qin, method),
+        figs: [prodFig(d.Q0, d.b0, Qin, d.Qc, d.Qe, d.e)],
+        qs: qs,
+        solFigs: [costFig('材料費', method, M, d.Qc, d.Qe), costFig('加工費', method, C, d.Qc, d.Qe * d.e),
+          fig(tAccount('仕掛品', tw.dr, tw.cr), '借方は期首と当期製造費用、貸方は完成品と期末仕掛品。')],
+        sol: sol,
+        jr: { note: '材料の消費と加工費の配賦で仕掛品勘定に集め、完成品を製品勘定へ振り替える。', entries: ent }
+      };
+    }
+  }
+  function genA() { return genBasic('avg'); }
+  function genB() { return genBasic('fifo'); }
+
+  // ---------- C 平均法と先入先出法の比較 ----------
+  function genC() {
+    for (var g = 0; g < 6000; g++) {
+      var d = baseData(), Qin = d.Qc + d.Qe - d.Q0;
+      if (Qin <= 0) continue;
+      var fM = ri(10, 50) * 10, fC = ri(15, 90) * 10, aM = fM + ri(-4, 4) * 5, aC = fC + ri(-6, 6) * 5;
+      if (aM <= 0 || aC <= 0 || (aM === fM && aC === fC)) continue;
+      var Fm = element({ method: 'fifo', name: '材料費', u: fM, X0: 0, parts: partsOf('fifo', d.Qc, d.Q0, d.Qe), endEq: d.Qe });
+      var Fc = element({ method: 'fifo', name: '加工費', u: fC, X0: 0, parts: partsOf('fifo', d.Qc, d.Q0 * d.b0, d.Qe * d.e), endEq: d.Qe * d.e });
+      var M0 = aM * (d.Qc + d.Qe) - Fm.X1, C0 = aC * (d.Qc + d.Qe * d.e) - Fc.X1;
+      if (M0 <= 0 || C0 <= 0) continue;
+      var rM = M0 / d.Q0 / fM, rC = C0 / (d.Q0 * d.b0) / fC;
+      if (rM < 0.6 || rM > 1.4 || rC < 0.6 || rC > 1.4) continue;
+      var Am = element({ method: 'avg', name: '材料費', u: aM, X0: M0, parts: partsOf('avg', d.Qc, d.Q0, d.Qe), endEq: d.Qe });
+      var Ac = element({ method: 'avg', name: '加工費', u: aC, X0: C0, parts: partsOf('avg', d.Qc, d.Q0 * d.b0, d.Qe * d.e), endEq: d.Qe * d.e });
+      Fm = element({ method: 'fifo', name: '材料費', u: fM, X0: M0, parts: partsOf('fifo', d.Qc, d.Q0, d.Qe), endEq: d.Qe });
+      Fc = element({ method: 'fifo', name: '加工費', u: fC, X0: C0, parts: partsOf('fifo', d.Qc, d.Q0 * d.b0, d.Qe * d.e), endEq: d.Qe * d.e });
+      if (Am.X1 !== Fm.X1 || Ac.X1 !== Fc.X1) continue;
+      var aE = Am.end + Ac.end, fE = Fm.end + Fc.end, aF = Am.comp + Ac.comp, fF = Fm.comp + Fc.comp, diff = aF - fF;
+      if (diff === 0) continue;
+      return {
+        badge: '平均法と先入先出法の比較',
+        intro: '当工場では単純総合原価計算を採用している。次の資料にもとづき、平均法と先入先出法のそれぞれで計算しなさい。',
+        card: costCard(d.Q0, d.b0, Qin, [Am, Ac], ['直接材料費', '加工費']),
+        facts: ['材料はすべて工程の始点で投入している。',
+          '期首仕掛品 ' + qty(d.Q0) + '(加工進捗度 ' + prog(d.b0) + ')、当期投入 ' + qty(Qin) + '。',
+          '完成品 ' + qty(d.Qc) + '、期末仕掛品 ' + qty(d.Qe) + '(加工進捗度 ' + prog(d.e) + ')。'],
+        figs: [prodFig(d.Q0, d.b0, Qin, d.Qc, d.Qe, d.e)],
+        qs: [
+          { label: '平均法による期末仕掛品原価', kind: 'amt', value: aE },
+          { label: '先入先出法による期末仕掛品原価', kind: 'amt', value: fE },
+          { label: '完成品原価が大きくなるのはどちらの方法か、またその差額', kind: 'var', seg: ['平均法', '先入先出法'], value: diff }
+        ],
+        solFigs: [costFig('加工費', 'avg', Ac, d.Qc, d.Qe * d.e), costFig('加工費', 'fifo', Fc, d.Qc, d.Qe * d.e)],
+        sol: [
+          { h: '平均法', lines: [Am.line, Ac.line, '期末仕掛品原価 = ' + fmt(Am.end) + ' + ' + fmt(Ac.end) + ' = ' + fmt(aE), '完成品原価 = ' + fmt(Am.X0 + Am.X1 + Ac.X0 + Ac.X1) + ' − ' + fmt(aE) + ' = ' + fmt(aF)] },
+          { h: '先入先出法', lines: [Fm.line, Fc.line, '期末仕掛品原価 = ' + fmt(Fm.end) + ' + ' + fmt(Fc.end) + ' = ' + fmt(fE), '完成品原価 = ' + fmt(Fm.X0 + Fm.X1 + Fc.X0 + Fc.X1) + ' − ' + fmt(fE) + ' = ' + fmt(fF)] },
+          { h: 'ちがいの理由', lines: [
+            '原価の合計は同じなので、期末仕掛品原価が小さい方法ほど完成品原価が大きくなる。',
+            '差額 = ' + fmt(aF) + ' − ' + fmt(fF) + ' = ' + signed(diff) + ' → ' + (diff > 0 ? '平均法' : '先入先出法') + 'のほうが大きい',
+            '平均法は期首仕掛品の単価を当期と混ぜ、先入先出法は期末を当期投入の単価だけで計算する。この単価のちがいが期末仕掛品原価の差になる。'
+          ] }
+        ],
+        jr: { note: '仕訳の形はどちらの方法でも同じで、金額だけが変わる。', entries: numbered([
+          { t: '完成品の振替(平均法)', dr: [['製品', aF]], cr: [['仕掛品', aF]] },
+          { t: '完成品の振替(先入先出法)', dr: [['製品', fF]], cr: [['仕掛品', fF]] }
+        ]) }
+      };
+    }
+  }
+
+  // ---------- D 正常仕損・正常減損(度外視法) ----------
+  function genD() {
+    for (var g = 0; g < 6000; g++) {
+      var method = pick(['avg', 'fifo']), d = baseData();
+      var kind = pick(['仕損', '仕損', '減損', '減損平均']);
+      var Qs = ri(1, 6) * 50, s = kind === '減損平均' ? null : pick([pr10(1, 9), pr10(1, 9), 1]);
+      if (s !== null && Math.abs(s - d.e) < 1e-9) continue;
+      var both = s === null || s < d.e;
+      var Qin = d.Qc + d.Qe + Qs - d.Q0;
+      if (Qin <= 0) continue;
+      var V = kind === '仕損' ? Qs * ri(2, 8) * 5 : 0;
+      var uM = ri(10, 50) * 10, uC = ri(15, 90) * 10;
+      var sp = function (eq) { return both ? [] : [{ l: kind.slice(0, 2), q: eq }]; };
+      var VinPool = both ? V : 0;
+      var M = element({ method: method, name: '材料費', u: uM, X0: begCost(d.Q0, uM, 30), V: VinPool, parts: partsOf(method, d.Qc, d.Q0, d.Qe, sp(Qs)), endEq: d.Qe, spoilEq: both ? 0 : Qs });
+      var C = element({ method: method, name: '加工費', u: uC, X0: begCost(d.Q0 * d.b0, uC, 40), parts: partsOf(method, d.Qc, d.Q0 * d.b0, d.Qe * d.e, sp(Qs * (s || 0))), endEq: d.Qe * d.e, spoilEq: both ? 0 : Qs * (s || 0) });
+      if (M.X1 <= 0 || C.X1 <= 0) continue;
+      var END = M.end + C.end, total = M.X0 + M.X1 + C.X0 + C.X1, FG = total - V - END;
+      if (!isInt(Qs * (s || 0)) || FG <= 0) continue;
+      var els = [M, C], names = ['材料', '加工費'];
+      var ent = wipJournal(els, names, { FG: FG, V: V });
+      var tw = wipAccount(els, names, { FG: FG, END: END, V: V });
+      if (!allBal(ent) || !balanced(tw.dr, tw.cr)) continue;
+      var word = kind.slice(0, 2), place = s === null ? '工程を通じて平均的に発生' : (s === 1 ? '工程の終点で発生' : '工程の ' + prog(s) + ' の地点で発生');
+      var extraFact = '正常' + word + ' ' + qty(Qs) + ' が' + place + 'した。' + (V ? word + '品の評価額は ' + yen(V) + '(@' + fmt(V / Qs) + ')。' : (kind === '仕損' ? '' : '減損には評価額はない。'));
+      var whyLine = s === null
+        ? '平均的に発生する' + word + 'は、完成品と期末仕掛品の両方が' + word + 'の発生に関わったと考えるので、両者負担。'
+        : '発生点 ' + (s === 1 ? '終点(100%)' : prog(s)) + ' と期末仕掛品の進捗度 ' + prog(d.e) + ' を比べる。' + (both
+          ? '期末仕掛品も' + word + 'の発生点を通過しているので、両者負担。'
+          : '期末仕掛品はまだ' + word + 'の発生点を通過していないので、完成品のみ負担。');
+      return {
+        badge: '正常' + word + '(度外視法・' + (both ? '両者負担' : '完成品のみ負担') + ')',
+        intro: '当工場では単純総合原価計算を採用している。正常' + word + '費は度外視法により処理する。次の資料にもとづいて答えなさい。',
+        card: costCard(d.Q0, d.b0, Qin, els, ['直接材料費', '加工費']),
+        facts: prodFacts(d, Qin, method, [extraFact].concat(V && both ? ['両者負担のときの評価額は、当期投入の材料費から差し引く。'] : [])),
+        figs: [prodFig(d.Q0, d.b0, Qin, d.Qc, d.Qe, d.e, [{ n: '正常' + word, q: Qs, p: s === null ? '平均的' : prog(s) }])],
+        qs: [
+          { label: '正常' + word + '費を負担するのは?', kind: 'choice', options: ['完成品のみ', '完成品と期末仕掛品(両者負担)'], value: both ? 1 : 0 },
+          { label: '期末仕掛品原価', kind: 'amt', value: END },
+          { label: '完成品原価', kind: 'amt', value: FG }
+        ],
+        solFigs: [costFig('材料費', method, M, d.Qc, d.Qe, both ? [] : [{ n: '正常' + word + '(完成品へ)', v: M.spoil }]),
+          costFig('加工費', method, C, d.Qc, d.Qe * d.e, both ? [] : [{ n: '正常' + word + '(完成品へ)', v: C.spoil }]),
+          fig(tAccount('仕掛品', tw.dr, tw.cr), V ? word + '品の評価額は仕掛品勘定から仕損品勘定へ振り替える。' : '')],
+        sol: [
+          { h: 'どちらが負担するか', lines: [whyLine] },
+          { h: '換算量の考え方', lines: both
+            ? ['両者負担の度外視法では、' + word + 'の数量を計算から除く(分母に入れない)。完成品と期末仕掛品に自動的に配分される。']
+              .concat(V ? ['評価額 ' + fmt(V) + ' は、当期投入の材料費から差し引いてから配分する。'] : [])
+            : ['完成品のみ負担では、' + word + 'の数量(加工費は発生点までの換算量 ' + fmt(Qs) + ' × ' + prog(s) + ' = ' + fmt(Qs * s) + '個)を分母に入れて、期末仕掛品に負担させない。',
+               word + 'の分の原価は、完成品原価に含める。'].concat(V ? ['評価額 ' + fmt(V) + ' は、完成品原価から差し引く。'] : []) },
+          { h: '計算', lines: [M.line, C.line,
+            '期末仕掛品原価 = ' + fmt(M.end) + ' + ' + fmt(C.end) + ' = ' + fmt(END),
+            '完成品原価 = 合計 ' + fmt(total) + (V ? ' − 評価額 ' + fmt(V) : '') + ' − 期末 ' + fmt(END) + ' = ' + fmt(FG)] }
+        ],
+        jr: { note: '度外視法では、正常' + word + '費を独立して計算せず、良品の原価に含める。' + (V ? '評価額は仕損品勘定に振り替える。' : ''), entries: ent }
+      };
+    }
+  }
+
+  // ---------- E 材料の追加投入 ----------
+  function genE() {
+    for (var g = 0; g < 6000; g++) {
+      var method = pick(['avg', 'fifo']), d = baseData(), Qin = d.Qc + d.Qe - d.Q0;
+      if (Qin <= 0) continue;
+      var mode = pick(['point', 'point', 'point', 'end', 'even']), p = mode === 'point' ? pr10(2, 8) : null;
+      if (p !== null && (Math.abs(p - d.e) < 1e-9 || Math.abs(p - d.b0) < 1e-9)) continue;
+      var yEnd = mode === 'even' ? d.Qe * d.e : mode === 'end' ? 0 : (d.e > p ? d.Qe : 0);
+      var yBeg = mode === 'even' ? d.Q0 * d.b0 : mode === 'end' ? 0 : (d.b0 > p ? d.Q0 : 0);
+      var uX = ri(10, 40) * 10, uY = ri(5, 30) * 10, uC = ri(15, 90) * 10;
+      var X = element({ method: method, name: 'A材料費', u: uX, X0: begCost(d.Q0, uX, 30), parts: partsOf(method, d.Qc, d.Q0, d.Qe), endEq: d.Qe });
+      var Y = element({ method: method, name: 'B材料費', u: uY, X0: begCost(yBeg, uY, 20), parts: partsOf(method, d.Qc, yBeg, yEnd), endEq: yEnd });
+      var C = element({ method: method, name: '加工費', u: uC, X0: begCost(d.Q0 * d.b0, uC, 40), parts: partsOf(method, d.Qc, d.Q0 * d.b0, d.Qe * d.e), endEq: d.Qe * d.e });
+      if (X.X1 <= 0 || Y.X1 <= 0 || C.X1 <= 0) continue;
+      var END = X.end + Y.end + C.end, FG = X.comp + Y.comp + C.comp;
+      var els = [X, Y, C], names = ['A材料', 'B材料', '加工費'];
+      var ent = wipJournal(els, names, { FG: FG });
+      var tw = wipAccount(els, names, { FG: FG, END: END });
+      if (!allBal(ent) || !balanced(tw.dr, tw.cr)) continue;
+      var where = mode === 'even' ? '工程を通じて平均的に投入' : mode === 'end' ? '工程の終点で投入' : '工程の ' + prog(p) + ' の地点で投入';
+      var why = mode === 'even' ? '平均的に投入する材料は、加工費と同じように進捗度に応じて投入される。期末の換算量 = ' + fmt(d.Qe) + ' × ' + prog(d.e) + ' = ' + fmt(yEnd) + '個'
+        : mode === 'end' ? '終点で投入する材料は、完成品だけに含まれる。期末仕掛品の換算量は0個'
+        : '期末仕掛品の進捗度 ' + prog(d.e) + ' は投入点 ' + prog(p) + ' を' + (d.e > p ? '通過しているので、数量どおり ' + fmt(d.Qe) + '個 を負担する' : 'まだ通過していないので、B材料費は0円');
+      return {
+        badge: '材料の追加投入(' + (mode === 'even' ? '平均的に投入' : mode === 'end' ? '終点投入' : '途中投入') + ')',
+        intro: '当工場では単純総合原価計算を採用している。A材料は工程の始点で、B材料は' + where + 'している。次の資料にもとづいて答えなさい。',
+        card: costCard(d.Q0, d.b0, Qin, els, ['A材料費', 'B材料費', '加工費']),
+        facts: ['原価の配分は <b>' + MNAME[method] + '</b> による。',
+          '期首仕掛品 ' + qty(d.Q0) + '(加工進捗度 ' + prog(d.b0) + ')、当期投入 ' + qty(Qin) + '。',
+          '完成品 ' + qty(d.Qc) + '、期末仕掛品 ' + qty(d.Qe) + '(加工進捗度 ' + prog(d.e) + ')。'],
+        figs: [prodFig(d.Q0, d.b0, Qin, d.Qc, d.Qe, d.e)],
+        qs: [
+          { label: '期末仕掛品に含まれるB材料費', kind: 'amt', value: Y.end },
+          { label: '期末仕掛品原価', kind: 'amt', value: END },
+          { label: '完成品原価', kind: 'amt', value: FG }
+        ],
+        solFigs: [costFig('B材料費', method, Y, d.Qc, yEnd)],
+        sol: [
+          { h: 'B材料の換算量', lines: [why].concat(method === 'fifo'
+            ? ['先入先出法なので、期首仕掛品に含まれるB材料も考える:' + (yBeg > 0 ? '期首の換算量 ' + fmt(yBeg) + '個 を引く。' : '期首仕掛品はB材料をまだ含まない(換算量0個)。')]
+            : []) },
+          { h: '計算', lines: [X.line, Y.line, C.line,
+            '期末仕掛品原価 = ' + fmt(X.end) + ' + ' + fmt(Y.end) + ' + ' + fmt(C.end) + ' = ' + fmt(END),
+            '完成品原価 = 合計 ' + fmt(X.X0 + X.X1 + Y.X0 + Y.X1 + C.X0 + C.X1) + ' − 期末 ' + fmt(END) + ' = ' + fmt(FG)] }
+        ],
+        jr: { note: '材料が2種類でも、仕掛品勘定に集めて完成品を製品勘定へ振り替える流れは同じ。', entries: ent }
+      };
+    }
+  }
+
+  // ---------- F 異常仕損 ----------
+  function genF() {
+    for (var g = 0; g < 6000; g++) {
+      var method = pick(['avg', 'fifo']), d = baseData();
+      var Qs = ri(1, 4) * 50, s = pr10(2, 9);
+      var Qin = d.Qc + d.Qe + Qs - d.Q0;
+      if (Qin <= 0 || !isInt(Qs * s)) continue;
+      var uM = ri(10, 50) * 10, uC = ri(15, 90) * 10;
+      var M = element({ method: method, name: '材料費', u: uM, X0: begCost(d.Q0, uM, 30), parts: partsOf(method, d.Qc, d.Q0, d.Qe, [{ l: '異常仕損', q: Qs }]), endEq: d.Qe, abnEq: Qs });
+      var C = element({ method: method, name: '加工費', u: uC, X0: begCost(d.Q0 * d.b0, uC, 40), parts: partsOf(method, d.Qc, d.Q0 * d.b0, d.Qe * d.e, [{ l: '異常仕損', q: Qs * s }]), endEq: d.Qe * d.e, abnEq: Qs * s });
+      if (M.X1 <= 0 || C.X1 <= 0) continue;
+      var END = M.end + C.end, ABN = M.abn + C.abn, FG = M.comp + C.comp;
+      var els = [M, C], names = ['材料', '加工費'];
+      var ent = wipJournal(els, names, { FG: FG, abn: ABN });
+      var tw = wipAccount(els, names, { FG: FG, END: END, abn: ABN });
+      if (!allBal(ent) || !balanced(tw.dr, tw.cr)) continue;
+      return {
+        badge: '異常仕損(非原価として区別する)',
+        intro: '当工場では単純総合原価計算を採用している。当期に異常仕損が発生した。次の資料にもとづいて答えなさい。',
+        card: costCard(d.Q0, d.b0, Qin, els, ['直接材料費', '加工費']),
+        facts: prodFacts(d, Qin, method, ['異常仕損 ' + qty(Qs) + ' が工程の ' + prog(s) + ' の地点で発生した。仕損品に評価額はない。正常仕損は発生していない。']),
+        figs: [prodFig(d.Q0, d.b0, Qin, d.Qc, d.Qe, d.e, [{ n: '異常仕損', q: Qs, p: prog(s) }])],
+        qs: [
+          { label: '異常仕損費', kind: 'amt', value: ABN },
+          { label: '期末仕掛品原価', kind: 'amt', value: END },
+          { label: '完成品原価', kind: 'amt', value: FG }
+        ],
+        solFigs: [costFig('加工費', method, C, d.Qc, d.Qe * d.e, [{ n: '異常仕損 ' + fmt(Qs * s) + '個', v: C.abn }]),
+          fig(tAccount('仕掛品', tw.dr, tw.cr), '異常仕損費は仕掛品勘定から外して、非原価として処理する。')],
+        sol: [
+          { h: '考え方', lines: ['異常仕損は良品に負担させず、異常仕損品にも原価を配分して「異常仕損費」として取り出す。',
+            '加工費の異常仕損の換算量 = ' + fmt(Qs) + ' × ' + prog(s) + ' = ' + fmt(Qs * s) + '個(発生点まで加工している)'] },
+          { h: '計算', lines: [M.line, C.line,
+            '異常仕損費 = ' + fmt(Qs) + ' × @' + fmt(uM) + ' + ' + fmt(Qs * s) + ' × @' + fmt(uC) + ' = ' + fmt(ABN),
+            '期末仕掛品原価 = ' + fmt(M.end) + ' + ' + fmt(C.end) + ' = ' + fmt(END),
+            '完成品原価 = 合計 ' + fmt(M.X0 + M.X1 + C.X0 + C.X1) + ' − 異常仕損費 ' + fmt(ABN) + ' − 期末 ' + fmt(END) + ' = ' + fmt(FG)] }
+        ],
+        jr: { note: '異常仕損費は非原価項目で、営業外費用または特別損失に計上する。製品の原価には含めない。', entries: ent }
+      };
+    }
+  }
+
+  // ---------- G 非度外視法(完成品のみ負担) ----------
+  function genG() {
+    for (var g = 0; g < 6000; g++) {
+      var method = pick(['avg', 'fifo']), d = baseData();
+      var Qs = ri(1, 6) * 50, s = pick([1, pr10(2, 9)]);
+      if (s <= d.e) continue;
+      var Qin = d.Qc + d.Qe + Qs - d.Q0;
+      if (Qin <= 0 || !isInt(Qs * s)) continue;
+      var V = pick([0, Qs * ri(2, 8) * 5]);
+      var uM = ri(10, 50) * 10, uC = ri(15, 90) * 10;
+      var M = element({ method: method, name: '材料費', u: uM, X0: begCost(d.Q0, uM, 30), parts: partsOf(method, d.Qc, d.Q0, d.Qe, [{ l: '仕損', q: Qs }]), endEq: d.Qe, spoilEq: Qs });
+      var C = element({ method: method, name: '加工費', u: uC, X0: begCost(d.Q0 * d.b0, uC, 40), parts: partsOf(method, d.Qc, d.Q0 * d.b0, d.Qe * d.e, [{ l: '仕損', q: Qs * s }]), endEq: d.Qe * d.e, spoilEq: Qs * s });
+      if (M.X1 <= 0 || C.X1 <= 0) continue;
+      var SP = M.spoil + C.spoil - V, END = M.end + C.end, FG = M.comp + C.comp + SP;
+      if (SP <= 0) continue;
+      var els = [M, C], names = ['材料', '加工費'];
+      var ent = wipJournal(els, names, { FG: FG, V: V });
+      var tw = wipAccount(els, names, { FG: FG, END: END, V: V });
+      if (!allBal(ent) || !balanced(tw.dr, tw.cr)) continue;
+      return {
+        badge: '正常仕損(非度外視法・完成品のみ負担)',
+        intro: '当工場では単純総合原価計算を採用している。正常仕損費は<b>非度外視法</b>により、いったん独立して計算してから良品に負担させる。次の資料にもとづいて答えなさい。',
+        card: costCard(d.Q0, d.b0, Qin, els, ['直接材料費', '加工費']),
+        facts: prodFacts(d, Qin, method, ['正常仕損 ' + qty(Qs) + ' が' + (s === 1 ? '工程の終点' : '工程の ' + prog(s) + ' の地点') + 'で発生した。' + (V ? '仕損品の評価額は ' + yen(V) + '。' : '仕損品に評価額はない。')]),
+        figs: [prodFig(d.Q0, d.b0, Qin, d.Qc, d.Qe, d.e, [{ n: '正常仕損', q: Qs, p: prog(s) }])],
+        qs: [
+          { label: '正常仕損費' + (V ? '(評価額控除後)' : ''), kind: 'amt', value: SP },
+          { label: '期末仕掛品原価', kind: 'amt', value: END },
+          { label: '完成品原価(正常仕損費を含む)', kind: 'amt', value: FG }
+        ],
+        solFigs: [fig(tAccount('仕掛品', tw.dr, tw.cr), '正常仕損費は完成品原価に含めて製品勘定へ振り替える。')],
+        sol: [
+          { h: '負担関係', lines: ['仕損の発生点 ' + (s === 1 ? '終点(100%)' : prog(s)) + ' は期末仕掛品の進捗度 ' + prog(d.e) + ' より後なので、期末仕掛品は発生点を通過していない → 完成品のみ負担。'] },
+          { h: '正常仕損費の計算', lines: [M.line, C.line,
+            '仕損品の原価 = ' + fmt(Qs) + ' × @' + fmt(uM) + ' + ' + fmt(Qs * s) + ' × @' + fmt(uC) + ' = ' + fmt(M.spoil + C.spoil),
+            V ? '正常仕損費 = ' + fmt(M.spoil + C.spoil) + ' − 評価額 ' + fmt(V) + ' = ' + fmt(SP) : '評価額がないので、正常仕損費 = ' + fmt(SP)] },
+          { h: '完成品原価', lines: ['期末仕掛品原価 = ' + fmt(M.end) + ' + ' + fmt(C.end) + ' = ' + fmt(END),
+            '完成品原価 = 良品の原価 ' + fmt(M.comp + C.comp) + ' + 正常仕損費 ' + fmt(SP) + ' = ' + fmt(FG),
+            '完成品のみ負担のときは、度外視法で計算しても完成品原価は同じになる。'] }
+        ],
+        jr: { note: '非度外視法でも、正常仕損費は原価(完成品原価)に含める。' + (V ? '評価額は仕損品勘定へ。' : ''), entries: ent }
+      };
+    }
+  }
+
+  // ---------- T 理論 ----------
+  var THEORY = [
+    { q: '平均法では、期首仕掛品原価と当期製造費用を【　?　】して、完成品と期末仕掛品に配分する。', a: '合計', d: ['区別', '期首分だけ先に完成品に配分', '当期分だけ期末に配分'], e: '平均法は期首と当期をまとめて平均単価を出す。だから期首仕掛品の進捗度は使わない。' },
+    { q: '先入先出法では、期末仕掛品原価は【　?　】の原価だけで計算する。', a: '当期投入分', d: ['期首仕掛品', '期首と当期の平均', '完成品'], e: '先に投入した期首仕掛品から先に完成すると考えるので、期末に残るのは当期投入分。' },
+    { q: '材料を工程の始点で投入する場合、期末仕掛品の材料費の換算量は【　?　】。', a: '数量と同じ(進捗度100%)', d: ['数量 × 加工進捗度', '0個', '数量の半分'], e: '始点で全部投入しているので、加工がどこまで進んでいても材料は100%入っている。' },
+    { q: '度外視法で、正常仕損の発生点が期末仕掛品の進捗度より前のとき、正常仕損費は【　?　】が負担する。', a: '完成品と期末仕掛品', d: ['完成品のみ', '期末仕掛品のみ', '営業外費用'], e: '期末仕掛品も仕損の発生点を通過しているので、両者が負担する。' },
+    { q: '正常仕損が工程の終点で発生する場合、正常仕損費は【　?　】が負担する。', a: '完成品のみ', d: ['完成品と期末仕掛品', '期末仕掛品のみ', '異常仕損費'], e: '終点まで到達したのは完成品だけなので、期末仕掛品には負担させない。' },
+    { q: '異常仕損費は【　?　】として、営業外費用または特別損失に計上する。', a: '非原価項目', d: ['製造原価', '販売費', '正常仕損費'], e: '通常の生産では起こらない異常な仕損なので、製品の原価に含めない。' },
+    { q: '正常減損が工程を通じて平均的に発生する場合、度外視法では【　?　】と考える。', a: '完成品と期末仕掛品の両者が負担する', d: ['完成品のみが負担する', '期末仕掛品のみが負担する', '非原価として処理する'], e: '工程のどこでも少しずつ発生するので、期末仕掛品も減損の発生に関わっている。' },
+    { q: '度外視法の両者負担で仕損品に評価額がある場合、原則として評価額は【　?　】から差し引く。', a: '当期投入の材料費(当期製造費用)', d: ['完成品原価', '期末仕掛品原価', '売上原価'], e: '評価額を差し引いた残りを、完成品と期末仕掛品に配分する。完成品のみ負担なら完成品原価から差し引く。' },
+    { q: '正常仕損費を独立して計算し、完成品などに負担させる方法を【　?　】という。', a: '非度外視法', d: ['度外視法', '修正先入先出法', '純粋先入先出法'], e: '度外視法は仕損の数量を無視して、良品の原価に自動的に含める方法。' },
+    { q: '工程の60%の地点で投入する材料は、加工進捗度40%の期末仕掛品に【　?　】。', a: '含まれない', d: ['40%分だけ含まれる', '60%分だけ含まれる', '全額含まれる'], e: '投入点を通過していないので、その材料はまだ投入されていない。' },
+    { q: '先入先出法で、期首仕掛品(加工進捗度40%)を当期に完成させるために必要な加工は、期首数量の【　?　】。', a: '60%', d: ['40%', '100%', '0%'], e: '前期に40%まで加工済みなので、当期に加工するのは残りの60%。' },
+    { q: '単純総合原価計算は、【　?　】を連続して大量に生産する工場で用いる。', a: '1種類の製品', d: ['種類の異なる製品', '規格の異なる同種の製品', '個別の注文品'], e: '種類が異なる製品は組別、規格だけが異なる同種製品は等級別、注文品は個別原価計算。' }
+  ];
+  function genT() {
+    var picked = shuffle(THEORY).slice(0, 4);
+    return {
+      badge: '理論(用語と考え方)',
+      intro: '次の文章の【　?　】にあてはまる語句を、選択肢から選びなさい。',
+      facts: ['単純総合原価計算の基本的な用語と考え方を確認する問題です。'],
+      figs: [],
+      qs: picked.map(function (it) { return choiceQ(it.q, it.a, it.d); }),
+      solFigs: [],
+      sol: picked.map(function (it, i) { return { h: '問' + (i + 1) + ' 正解:' + it.a, lines: [it.e] }; }),
+      jr: null
+    };
+  }
+
+  // 頻出度は学習上の目安(日商の公式な集計ではない)
+  var FREQ = {
+    A: '★★★ 平均法の基本(換算量・平均単価)',
+    B: '★★★ 先入先出法の基本(当期投入の換算量)',
+    C: '★★ 平均法と先入先出法の比較',
+    D: '★★★ 正常仕損・正常減損の度外視法(負担関係の判断)',
+    E: '★★ 材料の追加投入(途中・終点・平均的)',
+    F: '★★ 異常仕損(非原価)',
+    G: '★★ 非度外視法',
+    T: '理論(用語と考え方)'
+  };
+  var THEMES = [
+    { k: 'all', n: 'すべて' },
+    { k: 'top', n: '頻出(★3の論点)', gens: ['A', 'B', 'D'] },
+    { k: 'g1', n: '平均法・先入先出法', gens: ['A', 'B', 'C'] },
+    { k: 'g2', n: '仕損・減損', gens: ['D', 'F', 'G'] },
+    { k: 'g3', n: '材料の追加投入', gens: ['E'] },
+    { k: 'th', n: '理論', gens: ['T'] }
+  ];
+  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, T: genT };
+
+  return { THEMES: THEMES, GENS: GENS, FREQ: FREQ, fmt: fmt };
+})();
+
+
+(function () {
+  if (typeof document === 'undefined') return;
+  var state = { theme: 'all', last: null, p: null, graded: false, dirs: {}, picks: {}, ok: 0, all: 0 };
+  function el(id) { return document.getElementById(id); }
+  try {
+    var saved = localStorage.getItem('tanjun-sogo-drill-theme');
+    if (Drill.THEMES.some(function (th) { return th.k === saved; })) state.theme = saved;
+  } catch (e) { /* storage unavailable */ }
+
+  function renderChips() {
+    el('chips').innerHTML = Drill.THEMES.map(function (th) {
+      return '<button type="button" class="chip" id="chip-' + th.k + '" data-k="' + th.k + '" aria-pressed="' + (th.k === state.theme) + '">' + th.n + '</button>';
+    }).join('');
+  }
+
+  function newProblem() {
+    var th = Drill.THEMES.filter(function (x) { return x.k === state.theme; })[0];
+    var pool = th.gens || Object.keys(Drill.GENS);
+    var keys = pool.filter(function (k) { return k !== state.last; });
+    if (!keys.length) keys = pool;
+    var key = keys[Math.floor(Math.random() * keys.length)];
+    state.last = key;
+    state.p = Drill.GENS[key](th.opts || {});
+    state.graded = false;
+    state.dirs = {};
+    state.picks = {};
+    render();
+  }
+
+  function cardHtml(card) {
+    return '<div class="cost-card"><div class="cc-title">' + card.title + '</div><div class="cc-grid">' +
+      card.rows.map(function (r) {
+        return '<span>' + r[0] + '</span><span class="cc-c">' + r[1] + '</span><span class="cc-v">' + r[2] + '</span>';
+      }).join('') + '</div></div>';
+  }
+  function segOf(q) { return q.seg || ['有利', '不利']; }
+
+  function render() {
+    var p = state.p;
+    el('problem').innerHTML =
+      '<div class="badge">出題パターン:' + p.badge + '</div>' +
+      (Drill.FREQ[state.last] ? '<div class="freq">頻出度(目安):' + Drill.FREQ[state.last] + '</div>' : '') +
+      '<p class="intro">' + p.intro + '</p>' +
+      (p.card ? cardHtml(p.card) : '') +
+      (p.figs.length ? '<div class="figs">' + p.figs.join('') + '</div>' : '') +
+      '<ul class="facts">' + p.facts.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul>';
+
+    el('sheet').innerHTML = p.qs.map(function (q, i) {
+      if (q.kind === 'choice') {
+        return '<div class="ans-row choice">' +
+          '<div class="ans-label" id="lab-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</div>' +
+          '<div class="opts" role="group" aria-labelledby="lab-' + i + '">' + q.options.map(function (o, j) {
+            return '<button type="button" class="opt" id="opt-' + i + '-' + j + '" data-i="' + i + '" data-j="' + j + '" aria-pressed="false">' + o + '</button>';
+          }).join('') + '</div>' +
+          '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+      }
+      var s = segOf(q);
+      var seg = q.kind === 'var'
+        ? '<div class="seg" role="group" aria-label="問' + (i + 1) + 'の向き">' +
+          '<button type="button" id="dir-' + i + '-f" data-i="' + i + '" data-d="f" aria-pressed="false">' + s[0] + '</button>' +
+          '<button type="button" id="dir-' + i + '-u" data-i="' + i + '" data-d="u" aria-pressed="false">' + s[1] + '</button></div>'
+        : '';
+      return '<div class="ans-row">' +
+        '<label class="ans-label" for="ans-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</label>' +
+        '<div class="ans-ctrl"><input id="ans-' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="' + (q.unit ? '数量' : '金額') + '"><span class="yen">' + (q.unit || '円') + '</span>' + seg + '</div>' +
+        '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+    }).join('');
+
+    el('err').hidden = true;
+    el('result').hidden = true;
+    el('result').innerHTML = '';
+    el('checkBtn').disabled = false;
+    el('revealBtn').disabled = false;
+  }
+
+  function parseNum(s) {
+    var x = String(s || '')
+      .replace(/[\uFF10-\uFF19]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,\uFF0C\u3001\s\u5186\u500B]/g, '').replace(/[\u2212\u30FC\u2015\u2010\u25B2\u25B3\uFF0D-]/g, '-').replace(/\uFF0E/g, '.');
+    if (x === '' || x === '-') return NaN;
+    return Number(x);
+  }
+
+  function journalHtml(jr) {
+    if (!jr) return '';
+    function side(lines, tag) {
+      return '<div class="j-side">' + lines.map(function (l, k) {
+        return '<div class="j-line"><span class="j-tag">' + (k === 0 ? '(' + tag + ')' : '') + '</span>' +
+          '<span class="j-acct">' + l[0] + '</span><span class="j-amt">' + Drill.fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<section class="journal" aria-label="仕訳">' +
+      '<h3 class="j-head">仕訳 <span class="j-rule">金額は円</span></h3>' +
+      '<p class="j-note">' + jr.note + '</p>' +
+      '<div class="j-list">' + jr.entries.map(function (e) {
+        return '<div class="j-entry"><div class="j-title">' + e.t + '</div><div class="j-body">' + side(e.dr, '借') + side(e.cr, '貸') + '</div></div>';
+      }).join('') + '</div>' +
+      '</section>';
+  }
+
+  function correctText(q) {
+    if (q.kind === 'choice') return q.options[q.value];
+    var base = Drill.fmt(Math.abs(q.value)) + (q.unit || '円');
+    return q.kind === 'var' ? base + '(' + segOf(q)[q.value > 0 ? 0 : 1] + ')' : base;
+  }
+
+  function finish(scored) {
+    var p = state.p, okCount = 0;
+    if (scored) {
+      var missing = p.qs.some(function (q, i) {
+        if (q.kind === 'choice') return state.picks[i] === undefined;
+        return isNaN(parseNum(el('ans-' + i).value)) || (q.kind === 'var' && !state.dirs[i]);
+      });
+      if (missing) {
+        el('err').textContent = '未入力の欄があります。すべての金額・数量と、ボタンの選択、選択問題の答えを入力してください。';
+        el('err').hidden = false;
+        return;
+      }
+    }
+    el('err').hidden = true;
+    p.qs.forEach(function (q, i) {
+      var fb = el('fb-' + i);
+      if (scored) {
+        var ok;
+        if (q.kind === 'choice') {
+          ok = state.picks[i] === q.value;
+        } else {
+          var n = Math.abs(parseNum(el('ans-' + i).value));
+          ok = Math.abs(n - Math.abs(q.value)) < 0.5 &&
+            (q.kind !== 'var' || (state.dirs[i] === 'f') === (q.value > 0));
+        }
+        if (ok) okCount++;
+        fb.className = 'fb ' + (ok ? 'ok' : 'ng');
+        fb.textContent = ok ? '✓ 正解 ' + correctText(q) : '✗ 正解は ' + correctText(q);
+      } else {
+        fb.className = 'fb';
+        fb.textContent = '正解 ' + correctText(q);
+      }
+      fb.hidden = false;
+    });
+    if (scored) {
+      state.ok += okCount;
+      state.all += p.qs.length;
+      el('okN').textContent = state.ok;
+      el('allN').textContent = state.all;
+    }
+    state.graded = true;
+    el('checkBtn').disabled = true;
+    el('revealBtn').disabled = true;
+
+    var verdict = scored
+      ? '<div class="verdict' + (okCount === p.qs.length ? ' all' : '') + '">' + p.qs.length + '問中 ' + okCount + '問正解' + (okCount === p.qs.length ? '。全問正解です' : '') + '</div>'
+      : '<div class="verdict">解答と解説</div>';
+    el('result').innerHTML = '<div class="paper">' + verdict +
+      (p.solFigs.length ? '<div class="figs">' + p.solFigs.join('') + '</div>' : '') +
+      '<div class="sol">' + p.sol.map(function (s) {
+        return '<h4>' + s.h + '</h4>' + s.lines.map(function (l) { return '<p>' + l + '</p>'; }).join('');
+      }).join('') + '</div>' + journalHtml(p.jr) + '</div>';
+    el('result').hidden = false;
+  }
+
+  el('chips').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (!b) return;
+    state.theme = b.getAttribute('data-k');
+    try { localStorage.setItem('tanjun-sogo-drill-theme', state.theme); } catch (err) { /* ignore */ }
+    renderChips();
+    newProblem();
+  });
+  el('sheet').addEventListener('click', function (e) {
+    var o = e.target.closest('.opt');
+    if (o) {
+      var qi = o.getAttribute('data-i'), pj = Number(o.getAttribute('data-j'));
+      state.picks[qi] = pj;
+      state.p.qs[qi].options.forEach(function (_, j) { el('opt-' + qi + '-' + j).setAttribute('aria-pressed', String(j === pj)); });
+      return;
+    }
+    var b = e.target.closest('.seg button');
+    if (!b) return;
+    var i = b.getAttribute('data-i'), d = b.getAttribute('data-d');
+    state.dirs[i] = d;
+    el('dir-' + i + '-f').setAttribute('aria-pressed', String(d === 'f'));
+    el('dir-' + i + '-u').setAttribute('aria-pressed', String(d === 'u'));
+  });
+  el('sheet').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !state.graded) finish(true);
+  });
+  el('checkBtn').addEventListener('click', function () { finish(true); });
+  el('revealBtn').addEventListener('click', function () { finish(false); });
+  el('nextBtn').addEventListener('click', function () {
+    newProblem();
+    el('chips').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  renderChips();
+  newProblem();
+})();
+</script>
+</body>
+</html>
