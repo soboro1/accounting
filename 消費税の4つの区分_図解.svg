@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4A5D78"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 24px; fill: #4A5D78; }
+    .tag { font-size: 18px; font-weight: 800; fill: #FFFFFF; }
+    .q { font-size: 23px; font-weight: 700; fill: #1F3A5F; }
+    .hint { font-size: 17px; fill: #4A5D78; }
+    .yes { font-size: 17px; font-weight: 800; }
+    .boxTitle { font-size: 32px; font-weight: 800; fill: #FFFFFF; }
+    .ruby { font-size: 17px; fill: #FFFFFF; }
+    .mean { font-size: 21px; font-weight: 800; }
+    .label { font-size: 17px; fill: #4A5D78; }
+    .ex { font-size: 21px; fill: #1F3A5F; }
+    .row { font-size: 19px; fill: #1F3A5F; }
+    .val { font-size: 19px; font-weight: 800; }
+    .fTitle { font-size: 26px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 22px; fill: #1F3A5F; }
+    .jl { font-size: 19px; font-weight: 800; fill: #4A5D78; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">取引を4つの箱に分けよう ― 消費税の「仕分けゲーム」</text>
+  <text x="800" y="113" text-anchor="middle" class="sub">左の質問から順番に答えていくと、どの箱に入るかが決まる</text>
+
+  <!-- ===== 上の段：質問カード ===== -->
+  <!-- 質問1 -->
+  <rect x="60" y="148" width="330" height="190" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="150" y="164" width="150" height="32" rx="16" fill="#1F3A5F"/>
+  <text x="225" y="187" text-anchor="middle" class="tag">スタート 質問1</text>
+  <text x="225" y="232" text-anchor="middle" class="q">日本で、お店が仕事として</text>
+  <text x="225" y="264" text-anchor="middle" class="q">お金をもらって</text>
+  <text x="225" y="296" text-anchor="middle" class="q">売った？ 貸した？</text>
+  <text x="225" y="324" text-anchor="middle" class="hint">（試験でいう「4つの要件」）</text>
+
+  <!-- 質問2 -->
+  <rect x="442" y="148" width="330" height="190" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="567" y="164" width="80" height="32" rx="16" fill="#1F3A5F"/>
+  <text x="607" y="187" text-anchor="middle" class="tag">質問2</text>
+  <text x="607" y="232" text-anchor="middle" class="q">「税をかけない」と</text>
+  <text x="607" y="264" text-anchor="middle" class="q">決められた特別リストに</text>
+  <text x="607" y="296" text-anchor="middle" class="q">のっている？</text>
+  <text x="607" y="324" text-anchor="middle" class="hint">（土地・利子・病院・学校など）</text>
+
+  <!-- 質問3 -->
+  <rect x="824" y="148" width="330" height="190" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="949" y="164" width="80" height="32" rx="16" fill="#1F3A5F"/>
+  <text x="989" y="187" text-anchor="middle" class="tag">質問3</text>
+  <text x="989" y="248" text-anchor="middle" class="q">外国へ売った？</text>
+  <text x="989" y="280" text-anchor="middle" class="q">（輸出した？）</text>
+  <text x="989" y="324" text-anchor="middle" class="hint">（外国で使われるもの）</text>
+
+  <!-- ゴール -->
+  <rect x="1206" y="148" width="330" height="190" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="1326" y="164" width="90" height="32" rx="16" fill="#1F3A5F"/>
+  <text x="1371" y="187" text-anchor="middle" class="tag">ゴール</text>
+  <text x="1371" y="248" text-anchor="middle" class="q">どの質問にも</text>
+  <text x="1371" y="280" text-anchor="middle" class="q">ひっかからなかった</text>
+  <text x="1371" y="324" text-anchor="middle" class="hint">＝ ふつうの売り買い</text>
+
+  <!-- 横の矢印 -->
+  <text x="416" y="228" text-anchor="middle" class="yes" fill="#1F6FEB">はい</text>
+  <line x1="392" y1="243" x2="438" y2="243" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="798" y="228" text-anchor="middle" class="yes" fill="#1F6FEB" style="font-size:15px">いいえ</text>
+  <line x1="774" y1="243" x2="820" y2="243" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="1180" y="228" text-anchor="middle" class="yes" fill="#1F6FEB" style="font-size:15px">いいえ</text>
+  <line x1="1156" y1="243" x2="1202" y2="243" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- 下向きの矢印 -->
+  <line x1="225" y1="342" x2="225" y2="388" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="240" y="372" class="yes" fill="#64748B">いいえ</text>
+  <line x1="607" y1="342" x2="607" y2="388" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="622" y="372" class="yes" fill="#7C3AED">はい</text>
+  <line x1="989" y1="342" x2="989" y2="388" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+  <text x="1004" y="372" class="yes" fill="#16A34A">はい</text>
+  <line x1="1371" y1="342" x2="1371" y2="388" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- ===== 下の段：4つの箱 ===== -->
+  <!-- 不課税 -->
+  <rect x="60" y="395" width="330" height="310" rx="24" fill="#FFFFFF" stroke="#64748B" stroke-width="3"/>
+  <path d="M60,419 a24,24 0 0 1 24,-24 h282 a24,24 0 0 1 24,24 v38 h-330 z" fill="#64748B"/>
+  <text x="225" y="439" text-anchor="middle" class="boxTitle">不課税<tspan class="ruby" dx="8">ふかぜい</tspan></text>
+  <text x="225" y="490" text-anchor="middle" class="mean" fill="#64748B">そもそも</text>
+  <text x="225" y="518" text-anchor="middle" class="mean" fill="#64748B">消費税の世界の外</text>
+  <text x="80" y="556" class="label">れい</text>
+  <text x="225" y="584" text-anchor="middle" class="ex">給料・寄附・</text>
+  <text x="225" y="612" text-anchor="middle" class="ex">配当金・保険金</text>
+  <line x1="80" y1="632" x2="370" y2="632" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="80" y="662" class="row">売るときの税</text>
+  <text x="370" y="662" text-anchor="end" class="val" fill="#64748B">✕ なし</text>
+  <text x="80" y="690" class="row">仕入の税を引く</text>
+  <text x="370" y="690" text-anchor="end" class="val" fill="#64748B">関係なし</text>
+
+  <!-- 非課税 -->
+  <rect x="442" y="395" width="330" height="310" rx="24" fill="#FFFFFF" stroke="#7C3AED" stroke-width="3"/>
+  <path d="M442,419 a24,24 0 0 1 24,-24 h282 a24,24 0 0 1 24,24 v38 h-330 z" fill="#7C3AED"/>
+  <text x="607" y="439" text-anchor="middle" class="boxTitle">非課税<tspan class="ruby" dx="8">ひかぜい</tspan></text>
+  <text x="607" y="490" text-anchor="middle" class="mean" fill="#7C3AED">世界の中だけど</text>
+  <text x="607" y="518" text-anchor="middle" class="mean" fill="#7C3AED">税をかけないと決めた</text>
+  <text x="462" y="556" class="label">れい</text>
+  <text x="607" y="584" text-anchor="middle" class="ex">土地・利子・病院・</text>
+  <text x="607" y="612" text-anchor="middle" class="ex">学校・住む家の家賃</text>
+  <line x1="462" y1="632" x2="752" y2="632" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="462" y="662" class="row">売るときの税</text>
+  <text x="752" y="662" text-anchor="end" class="val" fill="#7C3AED">✕ なし</text>
+  <text x="462" y="690" class="row">仕入の税を引く</text>
+  <text x="752" y="690" text-anchor="end" class="val" fill="#7C3AED">✕ 引けない</text>
+
+  <!-- 免税 -->
+  <rect x="824" y="395" width="330" height="310" rx="24" fill="#FFFFFF" stroke="#16A34A" stroke-width="3"/>
+  <path d="M824,419 a24,24 0 0 1 24,-24 h282 a24,24 0 0 1 24,24 v38 h-330 z" fill="#16A34A"/>
+  <text x="989" y="439" text-anchor="middle" class="boxTitle">免税<tspan class="ruby" dx="8">めんぜい</tspan></text>
+  <text x="989" y="490" text-anchor="middle" class="mean" fill="#16A34A">外国で使われるから</text>
+  <text x="989" y="518" text-anchor="middle" class="mean" fill="#16A34A">日本の税は0％</text>
+  <text x="844" y="556" class="label">れい</text>
+  <text x="989" y="584" text-anchor="middle" class="ex">外国への輸出・</text>
+  <text x="989" y="612" text-anchor="middle" class="ex">外国への運送</text>
+  <line x1="844" y1="632" x2="1134" y2="632" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="844" y="662" class="row">売るときの税</text>
+  <text x="1134" y="662" text-anchor="end" class="val" fill="#16A34A">0％</text>
+  <text x="844" y="690" class="row">仕入の税を引く</text>
+  <text x="1134" y="690" text-anchor="end" class="val" fill="#16A34A">⭕ 引ける</text>
+
+  <!-- 課税 -->
+  <rect x="1206" y="395" width="330" height="310" rx="24" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="3"/>
+  <path d="M1206,419 a24,24 0 0 1 24,-24 h282 a24,24 0 0 1 24,24 v38 h-330 z" fill="#1F6FEB"/>
+  <text x="1371" y="439" text-anchor="middle" class="boxTitle">課税<tspan class="ruby" dx="8">かぜい</tspan></text>
+  <text x="1371" y="490" text-anchor="middle" class="mean" fill="#1F6FEB">ふつうの売り買い</text>
+  <text x="1371" y="518" text-anchor="middle" class="mean" fill="#1F6FEB">税がつく（食べ物は8％）</text>
+  <text x="1226" y="556" class="label">れい</text>
+  <text x="1371" y="584" text-anchor="middle" class="ex">パン・服・車・</text>
+  <text x="1371" y="612" text-anchor="middle" class="ex">修理・お店の家賃</text>
+  <line x1="1226" y1="632" x2="1516" y2="632" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1226" y="662" class="row">売るときの税</text>
+  <text x="1516" y="662" text-anchor="end" class="val" fill="#1F6FEB">10％</text>
+  <text x="1226" y="690" class="row">仕入の税を引く</text>
+  <text x="1516" y="690" text-anchor="end" class="val" fill="#1F6FEB">⭕ 引ける</text>
+
+  <!-- ===== 下のカード ===== -->
+  <rect x="60" y="722" width="1480" height="163" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="764" class="fTitle">いちばん大事：<tspan fill="#7C3AED">非課税</tspan>と<tspan fill="#16A34A">免税</tspan>のちがい</text>
+  <text x="100" y="804" class="fLine">・どちらも、売るときの税は <tspan font-weight="800">0円</tspan>（ここは同じ）</text>
+  <text x="100" y="837" class="fLine">・<tspan font-weight="800" fill="#16A34A">免税</tspan> → 仕入れではらった税を <tspan font-weight="800" fill="#16A34A">引ける ⭕</tspan></text>
+  <text x="100" y="870" class="fLine">・<tspan font-weight="800" fill="#7C3AED">非課税</tspan> → 仕入れではらった税を <tspan font-weight="800" fill="#7C3AED">引けない ✕</tspan></text>
+
+  <line x1="860" y1="745" x2="860" y2="865" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="900" y="764" class="fTitle">仕訳で見ると（1,000円売ったとき）</text>
+  <text x="900" y="804" class="jl" fill="#1F6FEB">課税</text>
+  <text x="1030" y="804" class="mono">(借) 売掛金</text>
+  <text x="1240" y="804" text-anchor="end" class="mono" font-weight="800">1,100</text>
+  <text x="1270" y="804" class="mono">(貸) 売上</text>
+  <text x="1500" y="804" text-anchor="end" class="mono" font-weight="800">1,000</text>
+  <text x="1316" y="836" class="mono">仮受消費税</text>
+  <text x="1500" y="836" text-anchor="end" class="mono" font-weight="800">100</text>
+  <text x="900" y="870" class="jl">免税・非課税</text>
+  <text x="1030" y="870" class="mono">(借) 売掛金</text>
+  <text x="1240" y="870" text-anchor="end" class="mono" font-weight="800">1,000</text>
+  <text x="1270" y="870" class="mono">(貸) 売上</text>
+  <text x="1500" y="870" text-anchor="end" class="mono" font-weight="800">1,000</text>
+</svg>

@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4A5D78"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#16A34A"/>
+    </marker>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#1F6FEB"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 24px; fill: #4A5D78; }
+    .emoji { font-size: 60px; font-family: "Apple Color Emoji", sans-serif; }
+    .name { font-size: 30px; font-weight: 800; fill: #1F3A5F; }
+    .line { font-size: 24px; fill: #1F3A5F; }
+    .calc { font-size: 26px; font-weight: 800; }
+    .boxText { font-size: 27px; font-weight: 800; fill: #FFFFFF; }
+    .arrowLabel { font-size: 22px; font-weight: 700; fill: #1F3A5F; }
+    .arrowSmall { font-size: 15px; fill: #4A5D78; }
+    .fTitle { font-size: 26px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 22px; fill: #1F3A5F; }
+    .fNote { font-size: 19px; fill: #4A5D78; }
+    .mono { font-size: 23px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="72" text-anchor="middle" class="title">消費税ってなに？ ― パンが届くまでの「税金リレー」</text>
+  <text x="800" y="116" text-anchor="middle" class="sub">消費税をはらうのは「買う人（お客さん）」。お店はそれを <tspan font-weight="800" fill="#7C3AED">あずかって</tspan>、国に <tspan font-weight="800" fill="#7C3AED">とどける</tspan> だけ</text>
+
+  <!-- ① 小麦農家さん -->
+  <rect x="60" y="145" width="420" height="395" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="270" y="220" text-anchor="middle" class="emoji">🌾</text>
+  <text x="270" y="278" text-anchor="middle" class="name">① 小麦農家さん</text>
+  <text x="270" y="325" text-anchor="middle" class="line">小麦を <tspan font-weight="800">200円</tspan> で売る</text>
+  <text x="270" y="360" text-anchor="middle" class="line">税を <tspan font-weight="800" fill="#16A34A">20円</tspan> あずかる</text>
+  <text x="270" y="395" text-anchor="middle" class="line">自分がはらった税は <tspan font-weight="800">0円</tspan></text>
+  <text x="270" y="435" text-anchor="middle" class="calc" fill="#16A34A">20 − 0 ＝ 20円</text>
+  <rect x="100" y="460" width="340" height="60" rx="16" fill="#16A34A"/>
+  <text x="270" y="500" text-anchor="middle" class="boxText">国にとどける 20円</text>
+
+  <!-- 矢印 ①→② -->
+  <text x="535" y="258" text-anchor="middle" class="arrowLabel">小麦</text>
+  <text x="535" y="288" text-anchor="middle" class="arrowLabel">220円</text>
+  <line x1="486" y1="306" x2="582" y2="306" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="535" y="338" text-anchor="middle" class="arrowSmall">（うち税20円）</text>
+
+  <!-- ② パン屋さん -->
+  <rect x="590" y="145" width="420" height="395" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="800" y="220" text-anchor="middle" class="emoji">🍞</text>
+  <text x="800" y="278" text-anchor="middle" class="name">② パン屋さん</text>
+  <text x="800" y="325" text-anchor="middle" class="line">パンを <tspan font-weight="800">500円</tspan> で売る</text>
+  <text x="800" y="360" text-anchor="middle" class="line">税を <tspan font-weight="800" fill="#1F6FEB">50円</tspan> あずかる</text>
+  <text x="800" y="395" text-anchor="middle" class="line">小麦を買うとき <tspan font-weight="800">20円</tspan> はらった</text>
+  <text x="800" y="435" text-anchor="middle" class="calc" fill="#1F6FEB">50 − 20 ＝ 30円</text>
+  <rect x="630" y="460" width="340" height="60" rx="16" fill="#1F6FEB"/>
+  <text x="800" y="500" text-anchor="middle" class="boxText">国にとどける 30円</text>
+
+  <!-- 矢印 ②→③ -->
+  <text x="1065" y="258" text-anchor="middle" class="arrowLabel">パン</text>
+  <text x="1065" y="288" text-anchor="middle" class="arrowLabel">550円</text>
+  <line x1="1016" y1="306" x2="1112" y2="306" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="1065" y="338" text-anchor="middle" class="arrowSmall">（うち税50円）</text>
+
+  <!-- ③ お客さん -->
+  <rect x="1120" y="145" width="420" height="395" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1330" y="220" text-anchor="middle" class="emoji">🧒</text>
+  <text x="1330" y="278" text-anchor="middle" class="name">③ お客さん</text>
+  <text x="1330" y="325" text-anchor="middle" class="line">パン <tspan font-weight="800">500円</tspan> ＋ 税 <tspan font-weight="800" fill="#7C3AED">50円</tspan></text>
+  <text x="1330" y="360" text-anchor="middle" class="line">＝ <tspan font-weight="800">550円</tspan> をはらう</text>
+  <text x="1330" y="395" text-anchor="middle" class="line">自分で国にとどけることはない</text>
+  <text x="1330" y="435" text-anchor="middle" class="calc" fill="#7C3AED">でも税を負担するのはこの人</text>
+  <rect x="1160" y="460" width="340" height="60" rx="16" fill="#7C3AED"/>
+  <text x="1330" y="500" text-anchor="middle" class="boxText">負担した税 50円</text>
+
+  <!-- 下向き矢印 -->
+  <line x1="270" y1="526" x2="270" y2="590" stroke="#16A34A" stroke-width="5" marker-end="url(#arrowGreen)"/>
+  <line x1="800" y1="526" x2="800" y2="590" stroke="#1F6FEB" stroke-width="5" marker-end="url(#arrowBlue)"/>
+
+  <!-- 国のバー -->
+  <rect x="60" y="598" width="1480" height="82" rx="20" fill="#EEF4FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="100" y="650" class="emoji" style="font-size:38px">🏛️</text>
+  <text x="152" y="650" style="font-size:27px;font-weight:800;fill:#1F3A5F">国にとどいた税</text>
+  <text x="760" y="652" text-anchor="middle" style="font-size:36px;font-weight:800;fill:#1F3A5F"><tspan fill="#16A34A">20円</tspan> ＋ <tspan fill="#1F6FEB">30円</tspan> ＝ 50円</text>
+  <text x="1505" y="650" text-anchor="end" style="font-size:26px;font-weight:800;fill:#7C3AED">お客さんがはらった 50円 とぴったり同じ！</text>
+
+  <!-- 下のカード：試験のことば -->
+  <rect x="60" y="700" width="1480" height="180" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="745" class="fTitle">税理士試験のことばにすると</text>
+  <text x="100" y="790" class="fLine">・あずかった税（売ったときの税）→ <tspan font-weight="800" fill="#1F6FEB">仮受消費税</tspan></text>
+  <text x="100" y="825" class="fLine">・はらった税（買ったときの税）→ <tspan font-weight="800" fill="#1F6FEB">仮払消費税</tspan></text>
+  <text x="100" y="860" class="fLine">・はらった分を引き算できるしくみ → <tspan font-weight="800" fill="#7C3AED">仕入税額控除</tspan></text>
+
+  <line x1="860" y1="725" x2="860" y2="860" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="900" y="745" class="fTitle">パン屋さんの決算の仕訳</text>
+  <text x="900" y="792" class="mono">(借) 仮受消費税</text>
+  <text x="1150" y="792" text-anchor="end" class="mono" font-weight="800">50</text>
+  <text x="1190" y="792" class="mono">(貸) 仮払消費税</text>
+  <text x="1490" y="792" text-anchor="end" class="mono" font-weight="800">20</text>
+  <text x="1245" y="830" class="mono">未払消費税</text>
+  <text x="1490" y="830" text-anchor="end" class="mono" font-weight="800">30</text>
+  <text x="900" y="864" class="fNote">あずかった50 − はらった20 ＝ 国にとどける30（未払消費税）</text>
+</svg>

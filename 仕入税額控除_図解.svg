@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4A5D78"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 24px; fill: #4A5D78; }
+    .head { font-size: 25px; font-weight: 800; fill: #1F3A5F; }
+    .barText { font-size: 19px; font-weight: 800; fill: #FFFFFF; }
+    .formula { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .hint { font-size: 17px; fill: #4A5D78; }
+    .rowText { font-size: 21px; font-weight: 700; fill: #1F3A5F; }
+    .cardTitle { font-size: 28px; font-weight: 800; fill: #FFFFFF; }
+    .cardSub { font-size: 18px; fill: #FFFFFF; }
+    .bagLabel { font-size: 19px; font-weight: 800; fill: #1F3A5F; }
+    .bagTax { font-size: 28px; font-weight: 800; }
+    .bagRule { font-size: 18px; font-weight: 700; }
+    .result { font-size: 26px; font-weight: 800; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .fTitle { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 21px; fill: #1F3A5F; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">仕入税額控除 ― 「はらった税」をどこまで引ける？</text>
+  <text x="800" y="113" text-anchor="middle" class="sub">あずかった税から、仕入れではらった税を引ける。でも「非課税の売上」があると、全部は引けないことがある</text>
+
+  <!-- ===== ① 課税売上割合 ===== -->
+  <rect x="60" y="135" width="710" height="205" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="176" class="head">① まず「課税売上割合」を出す</text>
+  <rect x="100" y="196" width="504" height="52" rx="12" fill="#1F6FEB"/>
+  <text x="352" y="229" text-anchor="middle" class="barText">課税＋免税の売上 1,600円</text>
+  <rect x="608" y="196" width="122" height="52" rx="12" fill="#7C3AED"/>
+  <text x="669" y="229" text-anchor="middle" class="barText" style="font-size:17px">非課税 400円</text>
+  <text x="415" y="291" text-anchor="middle" class="formula">1,600円 ÷ 2,000円（全部の売上）＝ <tspan fill="#1F6FEB">80％</tspan></text>
+  <text x="415" y="323" text-anchor="middle" class="hint">免税（輸出）は「課税のなかま」として分子に入れる</text>
+
+  <!-- 矢印 -->
+  <line x1="774" y1="238" x2="826" y2="238" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrow)"/>
+
+  <!-- ===== ② 95%チェック ===== -->
+  <rect x="830" y="135" width="710" height="205" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="870" y="176" class="head">② 95％以上ある？</text>
+  <rect x="870" y="196" width="630" height="54" rx="14" fill="#F0FDF4" stroke="#BBF7D0" stroke-width="2"/>
+  <text x="890" y="231" class="rowText">95％以上（課税売上5億円以下）</text>
+  <text x="1485" y="231" text-anchor="end" class="rowText" fill="#16A34A" style="fill:#16A34A;font-weight:800">→ 全部引ける</text>
+  <rect x="870" y="264" width="630" height="54" rx="14" fill="#EEF4FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="890" y="299" class="rowText">95％未満（今回の80％はこっち）</text>
+  <text x="1485" y="299" text-anchor="end" class="rowText" style="fill:#1F6FEB;font-weight:800">→ ③の方法で計算</text>
+
+  <!-- ===== ③-A 個別対応方式 ===== -->
+  <rect x="60" y="358" width="730" height="347" rx="24" fill="#FFFFFF" stroke="#1F6FEB" stroke-width="3"/>
+  <path d="M60,382 a24,24 0 0 1 24,-24 h682 a24,24 0 0 1 24,24 v34 h-730 z" fill="#1F6FEB"/>
+  <text x="90" y="400" class="cardTitle">③-A 個別対応方式</text>
+  <text x="760" y="399" text-anchor="end" class="cardSub">仕入れの税を3つの袋に分ける</text>
+
+  <!-- 袋1 -->
+  <rect x="85" y="434" width="210" height="170" rx="18" fill="#EEF4FF" stroke="#1F6FEB" stroke-width="2"/>
+  <text x="190" y="466" text-anchor="middle" class="bagLabel">課税売上の</text>
+  <text x="190" y="491" text-anchor="middle" class="bagLabel">ための仕入れ</text>
+  <text x="190" y="543" text-anchor="middle" class="bagTax" fill="#1F6FEB">税 60円</text>
+  <text x="190" y="583" text-anchor="middle" class="bagRule" fill="#1F6FEB">そのまま全部</text>
+  <!-- 袋2 -->
+  <rect x="320" y="434" width="210" height="170" rx="18" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2" stroke-dasharray="8 5"/>
+  <text x="425" y="466" text-anchor="middle" class="bagLabel">両方に使う</text>
+  <text x="425" y="491" text-anchor="middle" class="bagLabel">仕入れ（共通）</text>
+  <text x="425" y="543" text-anchor="middle" class="bagTax" fill="#7C3AED">税 30円</text>
+  <text x="425" y="583" text-anchor="middle" class="bagRule" fill="#7C3AED">× 80％ だけ</text>
+  <!-- 袋3 -->
+  <rect x="555" y="434" width="210" height="170" rx="18" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2"/>
+  <text x="660" y="466" text-anchor="middle" class="bagLabel">非課税売上の</text>
+  <text x="660" y="491" text-anchor="middle" class="bagLabel">ための仕入れ</text>
+  <text x="660" y="543" text-anchor="middle" class="bagTax" fill="#64748B">税 10円</text>
+  <text x="660" y="583" text-anchor="middle" class="bagRule" fill="#64748B">引けない</text>
+
+  <!-- 結果 -->
+  <text x="190" y="642" text-anchor="middle" class="result" fill="#1F6FEB">60円</text>
+  <text x="307" y="642" text-anchor="middle" class="result" fill="#4A5D78">＋</text>
+  <text x="425" y="642" text-anchor="middle" class="result" fill="#7C3AED">24円</text>
+  <text x="542" y="642" text-anchor="middle" class="result" fill="#4A5D78">＋</text>
+  <text x="660" y="642" text-anchor="middle" class="result" fill="#64748B">0円</text>
+  <text x="425" y="688" text-anchor="middle" style="font-size:27px;font-weight:800;fill:#1F6FEB">引ける税 ＝ 84円</text>
+
+  <!-- ===== ③-B 一括比例配分方式 ===== -->
+  <rect x="810" y="358" width="730" height="347" rx="24" fill="#FFFFFF" stroke="#7C3AED" stroke-width="3"/>
+  <path d="M810,382 a24,24 0 0 1 24,-24 h682 a24,24 0 0 1 24,24 v34 h-730 z" fill="#7C3AED"/>
+  <text x="840" y="400" class="cardTitle">③-B 一括比例配分方式</text>
+  <text x="1510" y="399" text-anchor="end" class="cardSub">1つの袋にまとめる</text>
+
+  <rect x="845" y="434" width="330" height="170" rx="18" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="1010" y="470" text-anchor="middle" class="bagLabel">仕入れの税をぜんぶまとめて</text>
+  <text x="1010" y="512" text-anchor="middle" style="font-size:22px;fill:#4A5D78">60 ＋ 30 ＋ 10</text>
+  <text x="1010" y="565" text-anchor="middle" style="font-size:32px;font-weight:800;fill:#7C3AED">税 100円</text>
+
+  <line x1="1185" y1="519" x2="1265" y2="519" stroke="#7C3AED" stroke-width="4" marker-end="url(#arrowPurple)"/>
+  <text x="1225" y="500" text-anchor="middle" style="font-size:22px;font-weight:800;fill:#7C3AED">× 80％</text>
+
+  <rect x="1275" y="464" width="235" height="110" rx="18" fill="#7C3AED"/>
+  <text x="1392" y="506" text-anchor="middle" style="font-size:19px;font-weight:700;fill:#FFFFFF">引ける税</text>
+  <text x="1392" y="551" text-anchor="middle" style="font-size:36px;font-weight:800;fill:#FFFFFF">80円</text>
+
+  <text x="1175" y="645" text-anchor="middle" style="font-size:21px;font-weight:700;fill:#1F3A5F">袋に分けなくていいのでラク</text>
+  <text x="1175" y="680" text-anchor="middle" class="hint" style="font-size:18px">※この方法をえらぶと、2年間は続けないといけない</text>
+
+  <!-- ===== 下のカード ===== -->
+  <rect x="60" y="720" width="1480" height="165" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="760" class="fTitle">くらべると：<tspan fill="#1F6FEB">個別対応 84円</tspan> ＞ <tspan fill="#7C3AED">一括比例 80円</tspan> → 個別対応がトク</text>
+  <text x="100" y="800" class="fLine">・試験では両方計算して、<tspan font-weight="800">多く引けるほう</tspan>をえらぶ</text>
+  <text x="100" y="834" class="fLine">・95％以上（5億円以下）なら、袋に分けずに全部引ける</text>
+  <text x="100" y="868" class="fLine">・引けなかった税は、会社の<tspan font-weight="800">費用</tspan>になる</text>
+
+  <line x1="890" y1="742" x2="890" y2="866" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="925" y="760" class="fTitle">仕訳で見ると（個別対応・売上の税160円）</text>
+  <text x="925" y="800" class="mono">(借) 仮受消費税</text>
+  <text x="1185" y="800" text-anchor="end" class="mono" font-weight="800">160</text>
+  <text x="1220" y="800" class="mono">(貸) 仮払消費税</text>
+  <text x="1500" y="800" text-anchor="end" class="mono" font-weight="800">100</text>
+  <text x="971" y="834" class="mono">租税公課</text>
+  <text x="1185" y="834" text-anchor="end" class="mono" font-weight="800">16</text>
+  <text x="1266" y="834" class="mono">未払消費税</text>
+  <text x="1500" y="834" text-anchor="end" class="mono" font-weight="800">76</text>
+  <text x="925" y="868" class="hint">引けなかった16円（10＋30×20％）は費用、納めるのは160−84＝76円</text>
+</svg>

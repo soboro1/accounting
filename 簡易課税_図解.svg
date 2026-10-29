@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 23px; fill: #4A5D78; }
+    .head { font-size: 25px; font-weight: 800; fill: #1F3A5F; }
+    .lane { font-size: 24px; font-weight: 800; }
+    .laneText { font-size: 20px; fill: #1F3A5F; }
+    .laneRes { font-size: 20px; font-weight: 800; }
+    .cond { font-size: 20px; fill: #1F3A5F; }
+    .hint { font-size: 16px; fill: #4A5D78; }
+    .tag { font-size: 18px; font-weight: 800; fill: #FFFFFF; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .biz { font-size: 22px; font-weight: 800; fill: #1F3A5F; }
+    .ex { font-size: 16px; fill: #4A5D78; }
+    .rate { font-size: 38px; font-weight: 800; fill: #1F6FEB; }
+    .fTitle { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 20px; fill: #1F3A5F; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">簡易課税 ― 仕入れの税を「数えずに」決めるしくみ</text>
+  <text x="800" y="112" text-anchor="middle" class="sub">小さめのお店むけ。仕入れの税を1枚ずつ集計するかわりに「売上の税 × みなし仕入率」で引ける税を決める</text>
+
+  <!-- ===== ① 本則と簡易のちがい ===== -->
+  <rect x="60" y="135" width="940" height="222" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="174" class="head">① 本則課税とのちがい（雑貨屋さん・売上の税100円）</text>
+
+  <rect x="85" y="192" width="890" height="72" rx="14" fill="#F1F5F9"/>
+  <text x="108" y="237" class="emoji" style="font-size:28px">🧾</text>
+  <text x="148" y="238" class="lane" fill="#4A5D78">本則課税</text>
+  <text x="290" y="237" class="laneText">仕入れのレシートを全部集めて、はらった税を数える</text>
+  <text x="955" y="222" text-anchor="end" class="laneRes" fill="#4A5D78">引ける 60円</text>
+  <text x="955" y="252" text-anchor="end" class="laneRes" fill="#4A5D78">納める 40円</text>
+
+  <rect x="85" y="274" width="890" height="72" rx="14" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+  <text x="108" y="319" class="emoji" style="font-size:28px">🧮</text>
+  <text x="148" y="320" class="lane" fill="#16A34A">簡易課税</text>
+  <text x="290" y="319" class="laneText">売上の税 <tspan font-weight="800">100円 × 80％</tspan>（小売業）で決める。数えない！</text>
+  <text x="955" y="304" text-anchor="end" class="laneRes" fill="#16A34A">引ける 80円</text>
+  <text x="955" y="334" text-anchor="end" class="laneRes" fill="#16A34A">納める 20円</text>
+
+  <!-- ===== ② 使える条件 ===== -->
+  <rect x="1020" y="135" width="520" height="222" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1050" y="174" class="head">② 使える条件</text>
+  <text x="1050" y="216" class="cond">✅ 2年前の課税売上が <tspan font-weight="800" fill="#1F6FEB">5,000万円以下</tspan></text>
+  <text x="1050" y="254" class="cond">✅ 前もって <tspan font-weight="800" fill="#1F6FEB">選択届出書</tspan> を出しておく</text>
+  <text x="1050" y="292" class="cond">✅ えらんだら <tspan font-weight="800" fill="#1F6FEB">2年間</tspan> は続ける</text>
+  <text x="1050" y="334" class="hint">※2年前の売上が5,000万円をこえた年は、本則課税で計算</text>
+
+  <!-- ===== ③ みなし仕入率 ===== -->
+  <rect x="60" y="375" width="1480" height="330" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="414" class="head">③ みなし仕入率：仕事の種類で6つ <tspan style="font-size:19px;font-weight:400;fill:#4A5D78">（仕入れが多い仕事ほど、引ける割合が高い）</tspan></text>
+
+  <!-- 第1種 -->
+  <rect x="80" y="432" width="225" height="258" rx="18" fill="#F8FAFC" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="152" y="446" width="80" height="30" rx="15" fill="#1F3A5F"/>
+  <text x="192" y="468" text-anchor="middle" class="tag">第1種</text>
+  <text x="192" y="528" text-anchor="middle" class="emoji" style="font-size:42px">🚚</text>
+  <text x="192" y="570" text-anchor="middle" class="biz">卸売業</text>
+  <text x="192" y="598" text-anchor="middle" class="ex">仕入れて お店に売る</text>
+  <text x="192" y="648" text-anchor="middle" class="rate">90％</text>
+  <rect x="100" y="664" width="185" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="100" y="664" width="166.5" height="10" rx="5" fill="#1F6FEB"/>
+
+  <!-- 第2種（今回の例） -->
+  <rect x="323" y="432" width="225" height="258" rx="18" fill="#F0FDF4" stroke="#16A34A" stroke-width="3"/>
+  <rect x="395" y="446" width="80" height="30" rx="15" fill="#16A34A"/>
+  <text x="435" y="468" text-anchor="middle" class="tag">第2種</text>
+  <text x="435" y="528" text-anchor="middle" class="emoji" style="font-size:42px">🏪</text>
+  <text x="435" y="570" text-anchor="middle" class="biz">小売業</text>
+  <text x="435" y="598" text-anchor="middle" class="ex">仕入れて お客さんに売る</text>
+  <text x="435" y="648" text-anchor="middle" class="rate" style="fill:#16A34A">80％</text>
+  <rect x="343" y="664" width="185" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="343" y="664" width="148" height="10" rx="5" fill="#16A34A"/>
+
+  <!-- 第3種 -->
+  <rect x="566" y="432" width="225" height="258" rx="18" fill="#F8FAFC" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="638" y="446" width="80" height="30" rx="15" fill="#1F3A5F"/>
+  <text x="678" y="468" text-anchor="middle" class="tag">第3種</text>
+  <text x="678" y="528" text-anchor="middle" class="emoji" style="font-size:42px">🏭</text>
+  <text x="678" y="570" text-anchor="middle" class="biz">製造業など</text>
+  <text x="678" y="598" text-anchor="middle" class="ex">作って売る・建設業</text>
+  <text x="678" y="648" text-anchor="middle" class="rate">70％</text>
+  <rect x="586" y="664" width="185" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="586" y="664" width="129.5" height="10" rx="5" fill="#1F6FEB"/>
+
+  <!-- 第4種 -->
+  <rect x="809" y="432" width="225" height="258" rx="18" fill="#F8FAFC" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="881" y="446" width="80" height="30" rx="15" fill="#1F3A5F"/>
+  <text x="921" y="468" text-anchor="middle" class="tag">第4種</text>
+  <text x="921" y="528" text-anchor="middle" class="emoji" style="font-size:42px">🍜</text>
+  <text x="921" y="570" text-anchor="middle" class="biz">その他</text>
+  <text x="921" y="598" text-anchor="middle" class="ex">飲食店など</text>
+  <text x="921" y="648" text-anchor="middle" class="rate">60％</text>
+  <rect x="829" y="664" width="185" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="829" y="664" width="111" height="10" rx="5" fill="#1F6FEB"/>
+
+  <!-- 第5種 -->
+  <rect x="1052" y="432" width="225" height="258" rx="18" fill="#F8FAFC" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="1124" y="446" width="80" height="30" rx="15" fill="#1F3A5F"/>
+  <text x="1164" y="468" text-anchor="middle" class="tag">第5種</text>
+  <text x="1164" y="528" text-anchor="middle" class="emoji" style="font-size:42px">💇</text>
+  <text x="1164" y="570" text-anchor="middle" class="biz">サービス業など</text>
+  <text x="1164" y="598" text-anchor="middle" class="ex">美容室・運送・金融</text>
+  <text x="1164" y="648" text-anchor="middle" class="rate">50％</text>
+  <rect x="1072" y="664" width="185" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="1072" y="664" width="92.5" height="10" rx="5" fill="#1F6FEB"/>
+
+  <!-- 第6種 -->
+  <rect x="1295" y="432" width="225" height="258" rx="18" fill="#F8FAFC" stroke="#C9D6E8" stroke-width="2"/>
+  <rect x="1367" y="446" width="80" height="30" rx="15" fill="#1F3A5F"/>
+  <text x="1407" y="468" text-anchor="middle" class="tag">第6種</text>
+  <text x="1407" y="528" text-anchor="middle" class="emoji" style="font-size:42px">🏠</text>
+  <text x="1407" y="570" text-anchor="middle" class="biz">不動産業</text>
+  <text x="1407" y="598" text-anchor="middle" class="ex">不動産の仲介・貸付</text>
+  <text x="1407" y="648" text-anchor="middle" class="rate">40％</text>
+  <rect x="1315" y="664" width="185" height="10" rx="5" fill="#E2E8F0"/>
+  <rect x="1315" y="664" width="74" height="10" rx="5" fill="#1F6FEB"/>
+
+  <!-- ===== 下のカード ===== -->
+  <rect x="60" y="720" width="1480" height="165" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="760" class="fTitle">おぼえ方</text>
+  <text x="100" y="798" class="fLine">・卸90 → 小売80 → 製造70 → その他60 → サービス50 → 不動産40</text>
+  <text x="100" y="832" class="fLine">・実際の仕入れが少ないお店ほど、簡易課税がトクになりやすい</text>
+  <text x="100" y="866" class="fLine">・2種類以上の仕事なら、売上の割合でまぜて計算（75％ルールもある）</text>
+
+  <line x1="890" y1="742" x2="890" y2="866" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="925" y="760" class="fTitle">仕訳で見ると（簡易課税・実際の仕入れの税60円）</text>
+  <text x="925" y="798" class="mono">(借) 仮受消費税</text>
+  <text x="1185" y="798" text-anchor="end" class="mono" font-weight="800">100</text>
+  <text x="1220" y="798" class="mono">(貸) 仮払消費税</text>
+  <text x="1500" y="798" text-anchor="end" class="mono" font-weight="800">60</text>
+  <text x="1266" y="832" class="mono">未払消費税</text>
+  <text x="1500" y="832" text-anchor="end" class="mono" font-weight="800">20</text>
+  <text x="1266" y="866" class="mono">雑収入</text>
+  <text x="1500" y="866" text-anchor="end" class="mono" font-weight="800">20</text>
+  <text x="925" y="832" class="hint" style="font-size:17px">実際より多く引けた20円は</text>
+  <text x="925" y="862" class="hint" style="font-size:17px">雑収入（トクした分）になる</text>
+</svg>
