@@ -1,73 +1,126 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1280" height="670" viewBox="0 0 1280 670" font-family="'Zen Kaku Gothic New', 'Hiragino Sans', sans-serif">
   <!-- 書き出し:Chromeヘッドレスでこのファイルを開き、1280×670・倍率2で撮る(フォントはGoogle Fontsから読み込む) -->
+  <!-- 税理士試験シリーズ用:深い緑＋ゴールド、右はレシート(簿記1級の紺の見出し画像と区別する) -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Dela+Gothic+One&amp;family=Zen+Kaku+Gothic+New:wght@500;700;900&amp;display=block');
     .dg{font-family:'Dela Gothic One','Hiragino Sans',sans-serif}
   </style>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#1A1F3A"/>
-      <stop offset="1" stop-color="#252B52"/>
+      <stop offset="0" stop-color="#0B3B30"/>
+      <stop offset="1" stop-color="#11574A"/>
     </linearGradient>
-    <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
-      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#000" flood-opacity="0.35"/>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40,0 H0 V40" fill="none" stroke="#FFFFFF" stroke-opacity="0.06" stroke-width="1"/>
+    </pattern>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#000" flood-opacity="0.35"/>
     </filter>
   </defs>
 
-  <!-- 背景 -->
+  <!-- 背景:帳簿の方眼 -->
   <rect width="1280" height="670" fill="url(#bg)"/>
-  <circle cx="60" cy="30" r="160" fill="#2F7DE1" opacity="0.16"/>
-  <circle cx="1250" cy="660" r="210" fill="#E8543F" opacity="0.14"/>
-  <circle cx="680" cy="700" r="110" fill="#0FA18D" opacity="0.12"/>
-  <g fill="#fff" opacity="0.18">
-    <circle cx="640" cy="90" r="4"/><circle cx="664" cy="90" r="4"/><circle cx="688" cy="90" r="4"/>
-    <circle cx="640" cy="114" r="4"/><circle cx="664" cy="114" r="4"/><circle cx="688" cy="114" r="4"/>
-  </g>
+  <rect width="1280" height="670" fill="url(#grid)"/>
+  <circle cx="40" cy="640" r="190" fill="#F2C14E" opacity="0.10"/>
+  <circle cx="1240" cy="40" r="150" fill="#7FE0B8" opacity="0.10"/>
+  <rect x="0" y="0" width="12" height="670" fill="#F2C14E"/>
 
   <!-- 左:テキスト -->
-  <rect x="80" y="86" width="300" height="48" rx="24" fill="#fff" fill-opacity="0.14"/>
-  <text x="230" y="119" text-anchor="middle" font-size="22" font-weight="700" fill="#fff" letter-spacing="1">税理士試験 | 消費税法</text>
+  <rect x="80" y="86" width="300" height="48" rx="24" fill="none" stroke="#F2C14E" stroke-width="2"/>
+  <text x="230" y="119" text-anchor="middle" font-size="22" font-weight="900" fill="#F2C14E" letter-spacing="1">税理士試験 | 消費税法</text>
 
-  <text x="80" y="238" class="dg" font-size="92" fill="#5BA2FF">消費税法</text>
-  <text x="80" y="318" class="dg" font-size="56" fill="#FFC94A">の</text>
-  <text x="150" y="318" class="dg" font-size="68" fill="#FF7A66">基礎を図解</text>
+  <text x="80" y="238" class="dg" font-size="92" fill="#F2C14E">消費税法</text>
+  <text x="80" y="318" class="dg" font-size="56" fill="#FFFFFF">の</text>
+  <text x="150" y="318" class="dg" font-size="68" fill="#7FE0B8">基礎を図解</text>
 
-  <text x="80" y="398" font-size="28" font-weight="700" fill="#fff" opacity="0.95">小学生にもわかる言葉で、しくみから簡易課税まで</text>
+  <text x="80" y="398" font-size="28" font-weight="700" fill="#FFFFFF" opacity="0.95">小学生にもわかる言葉で、しくみから簡易課税まで</text>
 
   <g font-size="22" font-weight="900" text-anchor="middle">
-    <rect x="80" y="432" width="150" height="50" rx="25" fill="#fff"/>
-    <text x="155" y="465" fill="#1D5DB3">図解5枚</text>
-    <rect x="244" y="432" width="150" height="50" rx="25" fill="#fff"/>
-    <text x="319" y="465" fill="#8A6000">仕訳つき</text>
-    <rect x="408" y="432" width="210" height="50" rx="25" fill="#fff"/>
-    <text x="513" y="465" fill="#A8205C">試験の言葉つき</text>
+    <rect x="80" y="432" width="150" height="50" rx="10" fill="#F2C14E"/>
+    <text x="155" y="465" fill="#0B3B30">図解5枚</text>
+    <rect x="244" y="432" width="150" height="50" rx="10" fill="#FFFFFF"/>
+    <text x="319" y="465" fill="#0F5A45">仕訳つき</text>
+    <rect x="408" y="432" width="210" height="50" rx="10" fill="#FFFFFF"/>
+    <text x="513" y="465" fill="#0F5A45">試験の言葉つき</text>
   </g>
 
-  <text x="80" y="556" font-size="20" font-weight="500" fill="#fff" opacity="0.8">保存して、スマホで見返せる1枚絵</text>
+  <text x="80" y="556" font-size="20" font-weight="500" fill="#FFFFFF" opacity="0.8">保存して、スマホで見返せる1枚絵</text>
 
-  <!-- 右:5枚の図 -->
-  <text x="985" y="104" text-anchor="middle" class="dg" font-size="26" fill="#fff">5枚の図で全体がつかめる</text>
+  <!-- 右:レシート -->
+  <g transform="translate(790,58) rotate(-3 210 265)">
+    <path d="M0,0 H420 V520 L410,530 L400,520 L390,530 L380,520 L370,530 L360,520 L350,530 L340,520 L330,530 L320,520 L310,530 L300,520 L290,530 L280,520 L270,530 L260,520 L250,530 L240,520 L230,530 L220,520 L210,530 L200,520 L190,530 L180,520 L170,530 L160,520 L150,530 L140,520 L130,530 L120,520 L110,530 L100,520 L90,530 L80,520 L70,530 L60,520 L50,530 L40,520 L30,530 L20,520 L10,530 L0,520 Z" fill="#FFFDF7" filter="url(#shadow)"/>
+    <text x="210" y="46" text-anchor="middle" font-size="26" font-weight="900" fill="#0B3B30">消費税法の基礎</text>
+    <text x="210" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="#8A8F98" letter-spacing="3">TAX RECEIPT ・ 図解5枚</text>
+    <line x1="20" y1="94" x2="400" y2="94" stroke="#B8BEC4" stroke-width="2" stroke-dasharray="6 5"/>
+      <text x="24" y="130" font-size="20" font-weight="900" fill="#1F2A2E">① しくみ</text>
+      <text x="396" y="130" font-size="14" font-weight="700" fill="#5F6B70" text-anchor="end">あずかって、とどける</text>
+      <text x="24" y="176" font-size="20" font-weight="900" fill="#1F2A2E">② 4つの区分</text>
+      <text x="396" y="176" font-size="14" font-weight="700" fill="#5F6B70" text-anchor="end">課税・非課税・免税・不課税</text>
+      <text x="24" y="222" font-size="20" font-weight="900" fill="#1F2A2E">③ 納税義務者</text>
+      <text x="396" y="222" font-size="14" font-weight="700" fill="#5F6B70" text-anchor="end">2年前の売上で決まる</text>
+      <text x="24" y="268" font-size="20" font-weight="900" fill="#1F2A2E">④ 仕入税額控除</text>
+      <text x="396" y="268" font-size="14" font-weight="700" fill="#5F6B70" text-anchor="end">個別対応と一括比例</text>
+      <text x="24" y="314" font-size="20" font-weight="900" fill="#1F2A2E">⑤ 簡易課税</text>
+      <text x="396" y="314" font-size="14" font-weight="700" fill="#5F6B70" text-anchor="end">みなし仕入率 90〜40%</text>
+    <line x1="20" y1="340" x2="400" y2="340" stroke="#B8BEC4" stroke-width="2" stroke-dasharray="6 5"/>
+    <text x="24" y="374" font-size="18" font-weight="700" fill="#1F2A2E">あずかった税</text>
+    <text x="396" y="374" font-size="18" font-weight="700" fill="#1F2A2E" text-anchor="end">50円</text>
+    <text x="24" y="404" font-size="18" font-weight="700" fill="#1F2A2E">はらった税</text>
+    <text x="396" y="404" font-size="18" font-weight="700" fill="#1F2A2E" text-anchor="end">− 20円</text>
+    <line x1="230" y1="416" x2="400" y2="416" stroke="#1F2A2E" stroke-width="2"/>
+    <line x1="230" y1="421" x2="400" y2="421" stroke="#1F2A2E" stroke-width="2"/>
+    <text x="24" y="454" font-size="24" font-weight="900" fill="#0F7A5C">納める税</text>
+    <text x="396" y="456" font-size="30" font-weight="900" fill="#0F7A5C" text-anchor="end">30円</text>
+      <rect x="70" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="75" y="474" width="4" height="30" fill="#1F2A2E"/>
+      <rect x="83" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="87" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="95" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="102" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="108" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="112" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="117" y="474" width="4" height="30" fill="#1F2A2E"/>
+      <rect x="123" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="127" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="136" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="142" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="146" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="154" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="164" y="474" width="4" height="30" fill="#1F2A2E"/>
+      <rect x="170" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="174" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="182" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="188" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="194" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="200" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="207" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="211" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="221" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="226" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="232" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="238" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="244" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="249" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="258" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="264" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="273" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="279" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="283" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="287" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="296" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="305" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="312" y="474" width="4" height="30" fill="#1F2A2E"/>
+      <rect x="319" y="474" width="6" height="30" fill="#1F2A2E"/>
+      <rect x="327" y="474" width="2" height="30" fill="#1F2A2E"/>
+      <rect x="333" y="474" width="4" height="30" fill="#1F2A2E"/>
+      <rect x="339" y="474" width="3" height="30" fill="#1F2A2E"/>
+      <rect x="344" y="474" width="4" height="30" fill="#1F2A2E"/>
 
-  <g filter="url(#shadow)">
-    <rect x="760" y="130" width="450" height="70" rx="16" fill="#2F7DE1"/>
-    <rect x="760" y="210" width="450" height="70" rx="16" fill="#E8543F"/>
-    <rect x="760" y="290" width="450" height="70" rx="16" fill="#0FA18D"/>
-    <rect x="760" y="370" width="450" height="70" rx="16" fill="#7C5CE0"/>
-    <rect x="760" y="450" width="450" height="70" rx="16" fill="#D98A00"/>
+    <!-- はんこ -->
+    <g transform="rotate(14 362 40)">
+      <circle cx="362" cy="40" r="36" fill="none" stroke="#D9483B" stroke-width="4"/>
+      <circle cx="362" cy="40" r="29" fill="none" stroke="#D9483B" stroke-width="1.5"/>
+      <text x="362" y="49" text-anchor="middle" class="dg" font-size="24" fill="#D9483B">図解</text>
+    </g>
   </g>
-  <g font-weight="900" fill="#fff">
-    <text x="782" y="174" font-size="22">① しくみ</text>
-    <text x="1190" y="174" font-size="17" text-anchor="end">あずかって、国にとどける</text>
-    <text x="782" y="254" font-size="22">② 4つの区分</text>
-    <text x="1190" y="254" font-size="17" text-anchor="end">課税・非課税・免税・不課税</text>
-    <text x="782" y="334" font-size="22">③ 納税義務者</text>
-    <text x="1190" y="334" font-size="17" text-anchor="end">2年前の売上で決まる</text>
-    <text x="782" y="414" font-size="22">④ 仕入税額控除</text>
-    <text x="1190" y="414" font-size="17" text-anchor="end">個別対応と一括比例</text>
-    <text x="782" y="494" font-size="22">⑤ 簡易課税</text>
-    <text x="1190" y="494" font-size="17" text-anchor="end">みなし仕入率 90〜40%</text>
-  </g>
-
-  <rect x="760" y="548" width="450" height="52" rx="26" fill="#fff" fill-opacity="0.10" stroke="#FFC94A" stroke-width="2"/>
-  <text x="985" y="581" text-anchor="middle" font-size="20" font-weight="900" fill="#fff">あずかった税 − はらった税 ＝ 納める税</text>
 </svg>
