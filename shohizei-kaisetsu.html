@@ -253,6 +253,20 @@ svg text{font-family:var(--f-body)}
 .steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
 .steps li.star em{color:var(--c1t);font-weight:700}
 
+/* ケーススタディ */
+.css{display:grid;gap:18px}
+.cs{border-radius:18px;padding:18px;background:var(--surface);border:2px solid var(--c8);display:grid;gap:14px}
+.cs-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.cs-no{font-size:12.5px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:8px;background:var(--c8);color:var(--on-solid)}
+.cs-head b{font-size:18px;line-height:1.5}
+.cs .lane{position:relative}
+.cs .lane.win{box-shadow:0 0 0 3px var(--c1)}
+.cs .lane.win::after{content:"得";position:absolute;top:-12px;right:14px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c1);color:#1B1600;font-weight:700;font-size:14px}
+.cs-total{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;border-top:2px dashed var(--line);padding-top:8px}
+.cs-win{font-weight:700;color:var(--c1t);background:color-mix(in srgb,var(--c1) 16%,var(--surface));border-radius:12px;padding:8px 14px}
+.cs-point{border-left:4px solid var(--c8);padding:6px 12px;display:grid;gap:4px;max-width:52em}
+.cs-point span{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--c8t)}
+
 /* クイズ */
 .quiz-part{padding-block:40px 8px}
 .quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
@@ -360,7 +374,7 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
     <a class="chap" href="#kb"><span>PART1</span><b>しくみと4つの区分</b><small>税金リレー、課税の対象の4要件、非課税と免税のちがい</small></a>
     <a class="chap" href="#gm"><span>PART2</span><b>納税義務者</b><small>基準期間と特定期間、選択届出、新設法人、インボイス登録</small></a>
     <a class="chap" href="#kj"><span>PART3</span><b>税額計算と仕入税額控除</b><small>計算の流れと端数処理、課税売上割合、個別対応と一括比例</small></a>
-    <a class="chap" href="#kn"><span>PART4</span><b>簡易課税</b><small>使える条件、みなし仕入率6つ、75%ルール</small></a>
+    <a class="chap" href="#kn"><span>PART4</span><b>簡易課税</b><small>使える条件、みなし仕入率6つ、75%ルール、実務のケーススタディ</small></a>
     <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック50問</b><small>答えると、ポイント・ひっかけ例・具体例・仕訳つきの解説が出ます</small></a>
   </div>
 </header>
@@ -868,6 +882,152 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
       <li>原則と特例をすべて計算して、<b>いちばん多く控除できるもの</b>を選びます。</li>
       <li>事業の種類ごとに売上を区分していないと、区分していない部分には、その中でいちばん低い率が使われます。</li>
     </ul>
+  </div>
+
+  <!-- 4-3 -->
+  <div class="unit" id="u-case">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">実務 ★★☆</span><h3>実務のケーススタディ：簡易課税と本則課税、どちらを選ぶ？</h3></div>
+    <ul class="pts">
+      <li>どちらにするかは<b>前もって</b>届出で決めます。申告のときに両方計算して、得なほうを選ぶことはできません。だから実務では、業種・利幅・来年の設備投資まで見て判断します。</li>
+      <li>3つのケースはすべて税抜きの金額で、税率は10%だけとします。</li>
+    </ul>
+
+    <div class="css">
+      <!-- ケース1 -->
+      <div class="cs">
+        <div class="cs-head"><span class="cs-no">CASE 1</span><b>美容室（第5種・みなし仕入率50%）</b></div>
+        <ul class="given">
+          <li>売上 <b>30,000,000</b></li>
+          <li>課税仕入れ（材料・家賃・水道光熱費）<b>9,000,000</b></li>
+          <li>スタッフ3人の給料（課税仕入れにならない）</li>
+        </ul>
+        <div class="lanes">
+          <div class="lane a">
+            <p class="lane-h">本則課税<small>実際の仕入れの税で計算</small></p>
+            <ol class="steps">
+              <li>売上の税 2,340,000<em>30,000,000 × 7.8%</em></li>
+              <li>仕入れの税 702,000 を引く<em>9,000,000 × 7.8%</em></li>
+              <li>国 1,638,000 ＋ 地方 462,000</li>
+            </ol>
+            <p class="cs-total">納める合計 2,100,000</p>
+          </div>
+          <div class="lane g win">
+            <p class="lane-h">簡易課税<small>売上の税 × 50%</small></p>
+            <ol class="steps">
+              <li>売上の税 2,340,000</li>
+              <li class="star">引ける税 1,170,000<em>2,340,000 × 50%</em></li>
+              <li>国 1,170,000 ＋ 地方 330,000</li>
+            </ol>
+            <p class="cs-total">納める合計 1,500,000</p>
+          </div>
+        </div>
+        <p class="cs-win">簡易課税のほうが 600,000 得</p>
+        <div class="je">
+          <span class="je-t">簡易課税の決算整理（税抜経理）</span>
+          <div class="je-row"><span class="dc">(借)</span><span>仮受消費税</span><span class="amt">3,000,000</span><span class="dc">(貸)</span><span>仮払消費税</span><span class="amt">900,000</span></div>
+          <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>未払消費税等</span><span class="amt">1,500,000</span></div>
+          <div class="je-row"><span></span><span></span><span></span><span class="dc"></span><span>雑収入</span><span class="amt">600,000</span></div>
+        </div>
+        <div class="cs-point"><span>実務のポイント</span><p>サービス業は売上の多くが人件費で、給料は課税仕入れになりません。実際の仕入れの割合は30%（9,000,000 ÷ 30,000,000）なのに、簡易課税なら50%を引けます。<b>人件費が多い業種ほど、簡易課税が有利</b>になりやすいです。</p></div>
+      </div>
+
+      <!-- ケース2 -->
+      <div class="cs">
+        <div class="cs-head"><span class="cs-no">CASE 2</span><b>利幅の薄い食品の問屋（第1種・みなし仕入率90%）</b></div>
+        <ul class="given">
+          <li>売上 <b>40,000,000</b></li>
+          <li>仕入れ <b>38,000,000</b></li>
+          <li>利幅は5%</li>
+        </ul>
+        <div class="lanes">
+          <div class="lane a win">
+            <p class="lane-h">本則課税<small>実際の仕入れの税で計算</small></p>
+            <ol class="steps">
+              <li>売上の税 3,120,000<em>40,000,000 × 7.8%</em></li>
+              <li class="star">仕入れの税 2,964,000 を引く<em>38,000,000 × 7.8%</em></li>
+              <li>国 156,000 ＋ 地方 44,000</li>
+            </ol>
+            <p class="cs-total">納める合計 200,000</p>
+          </div>
+          <div class="lane g">
+            <p class="lane-h">簡易課税<small>売上の税 × 90%</small></p>
+            <ol class="steps">
+              <li>売上の税 3,120,000</li>
+              <li>引ける税 2,808,000<em>3,120,000 × 90%</em></li>
+              <li>国 312,000 ＋ 地方 88,000</li>
+            </ol>
+            <p class="cs-total">納める合計 400,000</p>
+          </div>
+        </div>
+        <p class="cs-win">本則課税のほうが 200,000 得</p>
+        <div class="je">
+          <span class="je-t">もし簡易課税を選んでいたら（税抜経理）</span>
+          <div class="je-row"><span class="dc">(借)</span><span>仮受消費税</span><span class="amt">4,000,000</span><span class="dc">(貸)</span><span>仮払消費税</span><span class="amt">3,800,000</span></div>
+          <div class="je-row"><span class="dc"></span><span>雑損失</span><span class="amt">200,000</span><span class="dc"></span><span>未払消費税等</span><span class="amt">400,000</span></div>
+        </div>
+        <div class="cs-point"><span>実務のポイント</span><p>実際の仕入れの割合は95%（38,000,000 ÷ 40,000,000）で、みなし仕入率の90%より高くなっています。卸売業は率が高いので簡易課税が得に見えますが、<b>利幅が10%より小さいなら本則課税</b>のほうが得です。</p></div>
+      </div>
+
+      <!-- ケース3 -->
+      <div class="cs">
+        <div class="cs-head"><span class="cs-no">CASE 3</span><b>お店を改装するラーメン店（第4種・みなし仕入率60%）</b></div>
+        <ul class="given">
+          <li>毎年の売上 <b>40,000,000</b></li>
+          <li>ふだんの課税仕入れ <b>16,000,000</b></li>
+          <li>来年、改装に <b>20,000,000</b></li>
+          <li>いまは簡易課税</li>
+        </ul>
+        <div class="lanes">
+          <div class="lane a">
+            <p class="lane-h">本則課税<small>実際の仕入れの税で計算</small></p>
+            <ol class="steps">
+              <li>ふだんの年：納める合計 2,400,000<em>3,120,000 − 1,248,000 ＝ 1,872,000、地方 528,000</em></li>
+              <li class="star">改装する年：納める合計 400,000<em>仕入れの税（16,000,000 ＋ 20,000,000）× 7.8% ＝ 2,808,000 を引く</em></li>
+            </ol>
+          </div>
+          <div class="lane g">
+            <p class="lane-h">簡易課税<small>売上の税 × 60%</small></p>
+            <ol class="steps">
+              <li class="star">ふだんの年：納める合計 1,600,000<em>3,120,000 − 1,872,000 ＝ 1,248,000、地方 352,000</em></li>
+              <li>改装する年：納める合計 1,600,000<em>改装しても、引ける税は 3,120,000 × 60% のまま</em></li>
+            </ol>
+          </div>
+        </div>
+        <p class="cs-win">ふだんの年は簡易課税が 800,000 得、改装する年だけは本則課税が 1,200,000 得</p>
+        <div class="je">
+          <span class="je-t">改装の仕訳（本則課税・税抜経理）</span>
+          <div class="je-row"><span class="dc">(借)</span><span>建物附属設備</span><span class="amt">20,000,000</span><span class="dc">(貸)</span><span>未払金</span><span class="amt">22,000,000</span></div>
+          <div class="je-row"><span class="dc"></span><span>仮払消費税</span><span class="amt">2,000,000</span><span></span><span></span><span></span></div>
+          <span class="je-n">簡易課税のままだと、この仮払消費税2,000,000は控除の計算にまったく効きません。</span>
+        </div>
+        <div class="cs-point"><span>実務のポイント</span><p>改装する年に本則課税へ戻すには、<b>その年が始まる前の日まで</b>に「簡易課税制度選択不適用届出書」を出しておく必要があります。改装が決まってから出しても間に合いません。また、簡易課税を始めてから2年たたないと、不適用届出は出せません。本則課税の間に1件1,000万円以上の資産（高額特定資産）を買うと、その後おおむね3年間は簡易課税に戻れない決まりもあるので、改装後の年まで見て決めます。</p></div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="box in">
+        <h4>簡易課税が向いている</h4>
+        <div class="chips"><span class="chip">人件費の割合が高い（サービス業・美容室・コンサル）</span><span class="chip">家賃や材料が少ない</span><span class="chip">売上と経費が毎年安定している</span></div>
+      </div>
+      <div class="box in">
+        <h4>本則課税が向いている</h4>
+        <div class="chips"><span class="chip">利幅が薄い（卸売業など）</span><span class="chip">輸出が多い（還付を受けられる）</span><span class="chip">設備投資や開業準備で仕入れが大きい年がある</span></div>
+      </div>
+    </div>
+    <div class="formula">
+      <span class="lbl">まず、この2つをくらべる</span>
+      <span class="fx">課税仕入れ ÷ 課税売上高</span><span class="op">と</span><span class="fx">自分の業種のみなし仕入率</span><span class="op">→</span><span class="res">低ければ簡易課税が得</span>
+    </div>
+    <ul class="pts">
+      <li>簡易課税では、仕入れのインボイスを控除のために保存する必要はありません。そのかわり、売上が第1種〜第6種のどれに当たるかを分けて記録しておきます。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>設備投資が決まった年の途中で不適用届出を出せば、その年から本則課税に戻れる<span class="why">不適用届出は、原則として出した課税期間の翌課税期間から効力があります。戻りたい年が始まる前に出しておきます。</span></span></li>
+        <li><span class="mark x">×</span><span>卸売業はみなし仕入率が90%なので、いつでも簡易課税のほうが有利である<span class="why">利幅が10%より小さければ、実際の仕入れの割合が90%を超えるので、本則課税のほうが有利です。</span></span></li>
+      </ul>
+    </div>
   </div>
 
   <!-- 計算4 -->
