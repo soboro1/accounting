@@ -1,0 +1,1003 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>設備投資の意思決定ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: 1カラムの答案用紙。出題(図つき)→ 解答欄 → 解答図・解説・仕訳。標準原価計算ドリルと同じ紺×金、ライトテーマも用意 */
+  :root {
+    color-scheme: dark;
+    --bg: #101b2d;
+    --surface: #15233a;
+    --surface-2: #0d1624;
+    --fg: #f6f1e6;
+    --fg-soft: #ddd6c7;
+    --muted: #9aa5b1;
+    --accent: #d4a24c;
+    --accent-ink: #101b2d;
+    --accent-soft: rgba(212, 162, 76, 0.16);
+    --line: rgba(212, 162, 76, 0.36);
+    --rule: rgba(246, 241, 230, 0.12);
+    --good: #8cc152;
+    --good-soft: rgba(140, 193, 82, 0.2);
+    --bad: #ec7f56;
+    --bad-soft: rgba(236, 127, 86, 0.2);
+    --std-fill: rgba(212, 162, 76, 0.2);
+    --c1: #d4a24c; --c2: #5fa8d3; --c3: #7cc6a4; --c4: #b39ddb; --c5: #ec7f56;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+      --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+      --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+      --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+      --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+      --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+      --std-fill: rgba(154, 106, 18, 0.13);
+      --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+    --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+    --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+    --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+    --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+    --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+    --std-fill: rgba(154, 106, 18, 0.13);
+    --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .app {
+    max-width: 860px; margin: 0 auto;
+    padding-inline: 16px; padding-block: 28px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 20px; flex-wrap: wrap; }
+  .top > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .kicker { font-size: 12px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(22px, 4.6vw, 28px); margin: 2px 0 0; line-height: 1.35; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; max-width: 42em; }
+  .score { text-align: right; }
+  .score-k { font-size: 12px; color: var(--muted); }
+  .score-v { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 13px; font-weight: 500; line-height: 1.5;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+  .paper {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px clamp(14px, 3vw, 26px);
+    display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  }
+  .badge {
+    align-self: flex-start; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 14px;
+  }
+  .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+  .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+  .facts b { font-weight: 700; color: var(--fg); }
+
+  .cost-card { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px 6px; background: var(--surface-2); max-width: 560px; }
+  .cc-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .cc-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; column-gap: 14px; font-variant-numeric: tabular-nums; }
+  .cc-grid > span { padding: 5px 0; border-top: 1px dashed var(--rule); font-size: 14px; }
+  .cc-c { color: var(--muted); }
+  .cc-v { text-align: right; font-weight: 500; }
+
+  .figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  .figbox {
+    margin: 0; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .figscroll { overflow-x: auto; }
+  .figbox figcaption { font-size: 12px; color: var(--muted); padding: 0 4px; line-height: 1.6; }
+  .fig { width: 100%; min-width: 330px; height: auto; display: block; }
+  .fig text { font-family: var(--font); }
+  .fig .t { fill: var(--fg); font-size: 13px; }
+  .fig .ts { fill: var(--muted); font-size: 11.5px; }
+  .fig .tb { fill: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .fig .ta { fill: var(--accent); font-size: 12px; font-weight: 700; }
+  .fig .tu { fill: var(--bad); font-size: 12px; font-weight: 700; }
+  .fig .tf { fill: var(--good); font-size: 12px; font-weight: 700; }
+  .fig .box { fill: var(--surface); stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .div { stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig .std { fill: var(--std-fill); stroke: var(--accent); stroke-width: 1.2; }
+  .fig .vu { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; }
+  .fig .ax { stroke: var(--muted); stroke-width: 1.2; }
+  .fig .bar { fill: var(--muted); fill-opacity: 0.5; }
+  .fig .bar-hit { fill: var(--accent); }
+  .fig .arr { stroke: var(--muted); stroke-width: 1.4; }
+  .fig .mk { fill: var(--muted); }
+  .fig .frame { fill: none; stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .fig .s0 { fill: var(--c1); }
+  .fig .s1 { fill: var(--c2); }
+  .fig .s2 { fill: var(--c3); }
+  .fig .s3 { fill: var(--c5); }
+
+  .lad-title { font-size: 13.5px; font-weight: 700; padding: 2px 4px 0; }
+  .ladder { display: flex; flex-direction: column; padding: 4px; font-variant-numeric: tabular-nums; }
+  .rung { border: 1px solid var(--line); background: var(--std-fill); border-radius: 8px; padding: 7px 12px; }
+  .rung-k { font-size: 12px; color: var(--muted); }
+  .rung-v { font-size: 13.5px; overflow-wrap: anywhere; }
+  .step { position: relative; margin-left: 22px; padding: 8px 0 10px 18px; border-left: 2px solid var(--muted); font-size: 13.5px; }
+  .step::after {
+    content: ''; position: absolute; left: -7px; bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--muted);
+  }
+  .step.u b { color: var(--bad); }
+  .step.f b { color: var(--good); }
+  .step.n b { color: var(--fg); }
+  .rung.mark { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+  /* タイムテーブル・換算表・財務諸表 */
+  .tbl { width: 100%; min-width: 320px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .tbl th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .tbl td { padding: 5px 8px; text-align: right; border-bottom: 1px dashed var(--rule); white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl td.l { text-align: left; }
+  .tbl tr.sum td { border-top: 1px solid var(--fg-soft); font-weight: 700; }
+  .tbl tr.hl td { color: var(--accent); font-weight: 700; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    font: inherit; font-size: 14px; line-height: 1.4; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet-head { font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .sheet { display: flex; flex-direction: column; }
+  .ans-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--rule);
+  }
+  .ans-row:first-child { border-top: none; padding-top: 4px; }
+  .ans-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .ans-label { font-weight: 500; }
+  .qno { display: inline-block; min-width: 2.8em; color: var(--accent); font-weight: 700; font-size: 13px; }
+  .ans-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ans-ctrl input {
+    width: 10.5em; padding: 8px 12px; font: inherit; font-size: 16px; line-height: 1.4;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .ans-ctrl input::placeholder { color: var(--muted); opacity: 0.7; }
+  .yen { color: var(--muted); font-size: 14px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: 13.5px; line-height: 1.4; padding: 7px 14px;
+    background: transparent; color: var(--fg-soft); border: none; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .fb { grid-column: 1 / -1; font-size: 13.5px; font-weight: 500; }
+  .fb.ok { color: var(--good); }
+  .fb.ng { color: var(--bad); }
+  @media (max-width: 560px) { .ans-row { grid-template-columns: minmax(0, 1fr); } }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 700; line-height: 1.4;
+    padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-quiet { background: transparent; color: var(--muted); border-color: var(--rule); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .seg button:focus-visible, .ans-ctrl input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .err { color: var(--bad); font-size: 13.5px; }
+
+  .result { display: flex; flex-direction: column; gap: 14px; }
+  .verdict { font-size: 17px; font-weight: 700; }
+  .verdict.all { color: var(--good); }
+  .sol {
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums;
+  }
+  .sol h4 { margin: 12px 0 2px; font-size: 13.5px; color: var(--accent); letter-spacing: 0.04em; }
+  .sol h4:first-child { margin-top: 0; }
+  .sol p { margin: 0; font-size: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
+  .journal { display: flex; flex-direction: column; gap: 10px; }
+  .j-head { margin: 6px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .j-rule { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+  .j-note { margin: 0; font-size: 13.5px; color: var(--fg-soft); max-width: 46em; }
+  .j-list { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 16px; }
+  .j-entry { padding: 9px 0; border-top: 1px dashed var(--rule); }
+  .j-entry:first-child { border-top: none; }
+  .j-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .j-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px; font-variant-numeric: tabular-nums; }
+  .j-line { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; font-size: 14px; line-height: 1.7; }
+  .j-tag { color: var(--accent); font-weight: 700; }
+  .j-amt { text-align: right; }
+  @media (max-width: 540px) { .j-body { grid-template-columns: minmax(0, 1fr); } }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: rise 0.25s ease-out; }
+    @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+  .figs > .figbox:only-child { grid-column: 1 / -1; }
+  .figs > .figbox:only-child .fig { max-width: 560px; margin: 0 auto; }
+  .tbl { min-width: 0; }
+  .tbl th, .tbl td { padding-left: 6px; padding-right: 6px; }
+  .tbl th:first-child, .tbl td:first-child { white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="kicker">日商簿記1級 工業簿記・原価計算</div>
+      <h1><span style="white-space:nowrap">設備投資の意思決定</span> <span style="white-space:nowrap">出題パターンドリル</span></h1>
+      <p class="lead">正味現在価値法、税引後キャッシュ・フロー(タックス・シールド)、内部利益率法(補間法)、回収期間法・投資利益率法、取替投資、運転資本と設備の売却、加重平均資本コストを、数字を変えて何度でも解けます。現価係数表・キャッシュ・フロー表と解説つき。問題文と数字はオリジナルで、毎回ランダムに作ります。</p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="score-k">正答数(小問)</div>
+      <div class="score-v"><span id="okN">0</span> / <span id="allN">0</span></div>
+    </div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="出題パターン"></nav>
+
+  <section class="paper" id="problem"></section>
+
+  <section class="paper">
+    <div class="sheet-head">解答欄 <span class="hint">金額は円、率は%、期間は年で答えます(小数第2位を四捨五入と書いてある問題は「7.3」のように入力)。向きのボタンがある問題は、プラス・マイナスも選んでください(カンマはあってもなくてもOK)。選択問題はボタンで答えます。</span></div>
+    <div class="sheet" id="sheet"></div>
+    <div class="err" id="err" hidden></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="checkBtn" type="button">採点する</button>
+      <button class="btn btn-ghost" id="nextBtn" type="button">数字を変えて次の問題</button>
+      <button class="btn btn-quiet" id="revealBtn" type="button">解答を見る</button>
+    </div>
+  </section>
+
+  <section class="result" id="result" hidden></section>
+
+  <footer class="foot">日商簿記1級の設備投資の意思決定(構造的意思決定)の練習用(自己採点)。<br>「頻出度」は学習上の目安で、日商の公式な集計ではありません。</footer>
+
+</div>
+
+<script>
+var Drill = (function () {
+  'use strict';
+
+  var uid = 0;
+
+  function ri(min, max, step) {
+    step = step || 1;
+    var n = Math.floor((max - min) / step) + 1;
+    return min + Math.floor(Math.random() * n) * step;
+  }
+  function nz(min, max, step) {
+    for (var g = 0; g < 200; g++) { var v = ri(min, max, step); if (v !== 0) return v; }
+    return step || 1;
+  }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function sum(a) { return a.reduce(function (s, x) { return s + x; }, 0); }
+  function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-7; }
+  // 浮動小数の誤差を落としたかけ算
+  function mul(a, b) { return Math.round(a * b * 1e6) / 1e6; }
+  function fmt(n) {
+    n = Math.round(n * 100) / 100;
+    return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP', { maximumFractionDigits: 2 });
+  }
+  function pct(p) { return Math.round(p * 100) + '%'; }
+  function sen(v) { return fmt(v) + '千円'; }
+  function signed(v) { return (v > 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+
+  // ---------- SVG helpers ----------
+  function svg(w, h, label, body) {
+    return '<svg class="fig" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + label + '" xmlns="http://www.w3.org/2000/svg">' + body + '</svg>';
+  }
+  function t(x, y, s, cls, anchor) {
+    return '<text x="' + x + '" y="' + y + '" class="' + cls + '" text-anchor="' + (anchor || 'start') + '">' + s + '</text>';
+  }
+  function rc(x, y, w, h, cls, rx) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" class="' + cls + '"' + (rx ? ' rx="' + rx + '"' : '') + '/>';
+  }
+  function ln(x1, y1, x2, y2, cls, extra) {
+    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" class="' + cls + '"' + (extra || '') + '/>';
+  }
+  function arrowDefs(id) {
+    return '<defs><marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>';
+  }
+  function fig(svgStr, caption) {
+    return '<figure class="figbox"><div class="figscroll">' + svgStr + '</div>' +
+      (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // 表(タイムテーブル・換算表など)。rows は配列、または { c: [...], cls: 'sum' | 'hl' }
+  function tblFig(title, head, rows, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="figscroll"><table class="tbl">';
+    if (head) h += '<thead><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr></thead>';
+    h += '<tbody>' + rows.map(function (r) {
+      var cells = r.c || r, cls = r.cls ? ' class="' + r.cls + '"' : '';
+      return '<tr' + cls + '>' + cells.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody></table></div>';
+    return h + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+  // 貸借対照表(勘定式)
+  function bsFig(title, dr, cr, unit) {
+    var n = Math.max(dr.length, cr.length), rows = [];
+    for (var i = 0; i < n; i++) {
+      var a = dr[i] || ['', ''], b = cr[i] || ['', ''];
+      rows.push([a[0], a[1] === '' ? '' : fmt(a[1]), '<span class="l">' + b[0] + '</span>', b[1] === '' ? '' : fmt(b[1])]);
+    }
+    rows.push({ cls: 'sum', c: ['合計', fmt(sum(dr.map(function (x) { return x[1]; }))), '合計', fmt(sum(cr.map(function (x) { return x[1]; })))] });
+    return tblFig(title, ['借方', unit || '千円', '貸方', unit || '千円'], rows);
+  }
+
+  // ボックス図(左右とも、最低の高さを確保して縮尺どおりに分ける)
+  function boxSide(items, xa, xb, y0, H) {
+    var tot = sum(items.map(function (it) { return it.v; })), base = 40, out = '', y = y0;
+    items.forEach(function (it, i) {
+      var hh = base + (H - base * items.length) * it.v / tot, cx = (xa + xb) / 2, cy = y + hh / 2;
+      if (it.hl) out += rc(xa + 4, y + 4, xb - xa - 8, hh - 8, 'hl', 4);
+      if (i > 0) out += ln(xa, y, xb, y, 'div');
+      out += t(cx, cy - 5, it.n, 'ts', 'middle');
+      out += t(cx, cy + 14, it.t, 't', 'middle');
+      y += hh;
+    });
+    return out;
+  }
+  function boxFig(title, lh, left, rh, right) {
+    var w = 320, x0 = 14, x1 = 306, xm = 160, y0 = 44, y1 = 214;
+    var b = t(w / 2, 16, title, 'tb', 'middle') + t((x0 + xm) / 2, 36, lh, 'ta', 'middle') + t((xm + x1) / 2, 36, rh, 'ta', 'middle');
+    b += rc(x0, y0, x1 - x0, y1 - y0, 'box');
+    b += boxSide(left, x0, xm, y0, y1 - y0) + boxSide(right, xm, x1, y0, y1 - y0);
+    b += ln(xm, y0, xm, y1, 'div');
+    return svg(w, y1 + 10, title, b);
+  }
+
+  // 持分の割合(縮尺どおり)
+  function shareFig(segs, title) {
+    var w = 400, h = 150, x0 = 12, x1 = 388, y0 = 36, bh = 30;
+    var b = t(w / 2, 18, title, 'tb', 'middle'), x = x0, slot = (x1 - x0) / segs.length;
+    segs.forEach(function (s, i) {
+      var sw = (x1 - x0) * s.p, cx = x + sw / 2, mx = x0 + slot * (i + 0.5);
+      b += rc(x, y0, Math.max(sw, 1.5), bh, 's' + i);
+      b += '<polyline points="' + cx + ',' + (y0 + bh + 2) + ' ' + cx + ',' + (y0 + bh + 12) + ' ' + mx + ',' + (y0 + bh + 30) + '" class="lead"/>';
+      b += t(mx, y0 + bh + 48, pct(s.p), 'tb', 'middle') + t(mx, y0 + bh + 66, s.name, 'ts', 'middle');
+      x += sw;
+    });
+    b += rc(x0, y0, x1 - x0, bh, 'frame');
+    return svg(w, h, title, b);
+  }
+
+  // 連結会社間の取引(売り手 → 買い手)
+  function pairFig(o) {
+    var w = 400, h = 150, id = 'mk' + (++uid);
+    var b = arrowDefs(id) + t(w / 2, 18, o.title, 'tb', 'middle');
+    b += rc(14, 44, 104, 64, 'box', 8) + t(66, 72, o.a, 'tb', 'middle') + t(66, 92, o.as, 'ts', 'middle');
+    b += rc(282, 44, 104, 64, 'box', 8) + t(334, 72, o.b, 'tb', 'middle') + t(334, 92, o.bs, 'ts', 'middle');
+    b += ln(122, 62, 276, 62, 'arr', ' marker-end="url(#' + id + ')"') + t(200, 54, o.top, 'ts', 'middle');
+    if (o.bot) b += ln(276, 92, 122, 92, 'arr', ' marker-end="url(#' + id + ')"') + t(200, 110, o.bot, 'ts', 'middle');
+    if (o.note) b += t(w / 2, 138, o.note, 'ta', 'middle');
+    return svg(w, h, o.title, b);
+  }
+
+  // 商品に含まれる未実現利益(縮尺どおり)
+  function invFig(title, rows) {
+    var w = 400, x0 = 96, x1 = 388, top = 34, rowH = 56, h = top + rows.length * rowH + 4;
+    var mx = Math.max.apply(null, rows.map(function (r) { return r.tot; }));
+    var b = t(w / 2, 18, title, 'tb', 'middle');
+    rows.forEach(function (r, i) {
+      var y = top + i * rowH, ww = (x1 - x0) * r.tot / mx, wp = ww * r.pr / r.tot;
+      b += t(8, y + 14, r.n, 'ts') + t(8, y + 32, fmt(r.tot), 't');
+      b += rc(x0, y + 2, ww - wp, 22, 'std') + rc(x0 + ww - wp, y + 2, Math.max(wp, 2), 22, 'vu');
+      b += t(x0, y + 42, '未実現利益 ' + fmt(r.pr), 'tu');
+    });
+    return svg(w, h, title, b);
+  }
+
+  // 年ごとの残高の推移(縮尺どおり)
+  function deprFig(title, vals, cur, note) {
+    var n = vals.length, w = 400, h = 214, px0 = 16, px1 = 384, base = 170, top = 44;
+    var mx = Math.max.apply(null, vals.map(function (x) { return x.v; })) || 1, slot = (px1 - px0) / n, bw = Math.min(44, slot * 0.6);
+    var b = t(w / 2, 18, title, 'tb', 'middle') + ln(px0, base, px1, base, 'ax');
+    vals.forEach(function (x, i) {
+      var cx = px0 + slot * (i + 0.5), hh = (base - top) * x.v / mx;
+      b += rc(cx - bw / 2, base - hh, bw, Math.max(hh, 0.5), i === cur ? 'bar-hit' : 'bar', 2);
+      b += t(cx, base - hh - 6, fmt(x.v), i === cur ? 'ta' : 'ts', 'middle');
+      b += t(cx, base + 16, x.lab, i === cur ? 'ta' : 'ts', 'middle');
+    });
+    if (note) b += t(w / 2, h - 6, note, 'ts', 'middle');
+    return svg(w, h, title, b);
+  }
+
+  // はしご図(HTML)
+  function ladder(title, rungs, steps, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="ladder">';
+    rungs.forEach(function (r, i) {
+      h += '<div class="rung' + (r.mark ? ' mark' : '') + '"><div class="rung-k">' + r.k + '</div><div class="rung-v">' + r.v + '</div></div>';
+      var s = steps[i];
+      if (s) h += '<div class="step ' + s.cls + '">' + s.name + ' <b>' + s.txt + '</b></div>';
+    });
+    return h + '</div>' + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // ---------- 仕訳 ----------
+  function sideSum(lines) { return sum(lines.map(function (l) { return l[1]; })); }
+  function balanced(dr, cr) { return Math.abs(sideSum(dr) - sideSum(cr)) < 1e-6; }
+  function numbered(list) {
+    return list.filter(Boolean).map(function (e, i) {
+      return { t: String.fromCharCode(0x245F + i + 1) + ' ' + e.t, dr: e.dr, cr: e.cr };
+    });
+  }
+  function allBal(list) {
+    return list.every(function (e) {
+      return balanced(e.dr, e.cr) && e.dr.concat(e.cr).every(function (l) { return l[1] > 0 && isInt(l[1]); });
+    });
+  }
+  // 金額の符号で借方・貸方を入れかえる仕訳(v > 0 なら 借方 a / 貸方 b)
+  function flip(title, v, a, b) {
+    return v > 0 ? { t: title, dr: [[a, v]], cr: [[b, v]] } : { t: title, dr: [[b, -v]], cr: [[a, -v]] };
+  }
+
+  function choiceQ(label, answer, others) {
+    var opts = shuffle([answer].concat(others));
+    return { label: label, kind: 'choice', options: opts, value: opts.indexOf(answer) };
+  }
+
+  function yen(v) { return fmt(v) + '円'; }
+  // T勘定(SVG)。dr/cr は [科目, 金額]
+  function tAccount(title, dr, cr) {
+    var rows = Math.max(dr.length, cr.length), w = 400, top = 36, rh = 24, xm = 200;
+    var yEnd = top + rows * rh + 6, h = yEnd + 30;
+    var b = t(w / 2, 20, title, 'tb', 'middle');
+    b += t(12, 28, '(借方)', 'ts') + t(w - 12, 28, '(貸方)', 'ts', 'end');
+    b += ln(8, top, w - 8, top, 'div') + ln(xm, top, xm, yEnd + 22, 'div');
+    dr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(14, y, r[0], r[2] || 't') + t(xm - 8, y, fmt(r[1]), 't', 'end'); });
+    cr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(xm + 10, y, r[0], r[2] || 't') + t(w - 14, y, fmt(r[1]), 't', 'end'); });
+    b += ln(xm - 92, yEnd, xm - 6, yEnd, 'div') + ln(w - 98, yEnd, w - 12, yEnd, 'div');
+    b += t(xm - 8, yEnd + 18, fmt(sideSum(dr)), 'tb', 'end') + t(w - 14, yEnd + 18, fmt(sideSum(cr)), 'tb', 'end');
+    return svg(w, h, title + '勘定', b);
+  }
+
+  function r6(x) { return Math.round(x * 1e6) / 1e6; }
+  function per(v) { return '@' + fmt(v) + '円'; }
+  function sgn(v) { return (v >= 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function f4(x) { return x.toFixed(4); }
+  // 割引率 r%・n年の現価係数(小数第5位を四捨五入)と年金現価係数(現価係数の合計)
+  function pvf(r, n) { return Math.round(Math.pow(1 + r / 100, -n) * 1e4) / 1e4; }
+  function apf(r, n) { var s = 0; for (var k = 1; k <= n; k++) s += Math.round(pvf(r, k) * 1e4); return s / 1e4; }
+  // 1万円単位のキャッシュ・フロー × 係数(誤差なしの整数)
+  function pv(cf, f) { return Math.round(cf / 10000) * Math.round(f * 1e4); }
+  function ok4(v) { return v % 10000 === 0; }
+  // 小数第2位を四捨五入した値(四捨五入の境目に近いものは null)
+  function rd1(v) { var x = v * 10, fr = x - Math.floor(x); if (Math.abs(fr - 0.5) < 0.15) return null; return Math.round(x) / 10; }
+  function years(n) { var a = []; for (var k = 1; k <= n; k++) a.push(k); return a; }
+  var NEN = ['', '1年度末', '2年度末', '3年度末', '4年度末', '5年度末'];
+
+  // スマホでも横にはみ出さないよう、年数を行・割引率を列にする
+  function pvTable(rates, n) {
+    return tblFig('現価係数表', [''].concat(rates.map(function (r) { return r + '%'; })),
+      years(n).map(function (k) { return [k + '年'].concat(rates.map(function (r) { return f4(pvf(r, k)); })); })
+        .concat([{ cls: 'sum', c: ['年金現価係数(' + n + '年)'].concat(rates.map(function (r) { return f4(apf(r, n)); })) }]),
+      '現価係数は小数第5位を四捨五入。年金現価係数は、1年から' + n + '年までの現価係数の合計。');
+  }
+  function apTable(rates, n) {
+    return tblFig('年金現価係数表(' + n + '年)', ['割引率', '年金現価係数'], rates.map(function (r) { return [r + '%', f4(apf(r, n))]; }));
+  }
+  // 時点ごとのキャッシュ・フローと現在価値。cfs[0] は投資時点
+  function cfFig(title, cfs, r, caption) {
+    var rows = cfs.map(function (c, k) { var f = k ? pvf(r, k) : 1; return [(k ? NEN[k] : '投資時点') + '<br><small>× ' + f4(f) + '</small>', sgn(c), sgn(k ? pv(c, f) : c)]; });
+    var tot = sum(cfs.map(function (c, k) { return k ? pv(c, pvf(r, k)) : c; }));
+    return fig(tblFig(title, ['時点', '金額', '現在価値'], rows.concat([{ cls: 'hl', c: ['正味現在価値', '', sgn(tot)] }])), (caption ? caption + ' ' : '') + '+ は現金の流入、− は流出。時点の下の数字は現価係数(' + r + '%)で、現在価値 = 金額 × 現価係数。');
+  }
+  function npvOf(cfs, r) { return sum(cfs.map(function (c, k) { return k ? pv(c, pvf(r, k)) : c; })); }
+
+  // ---------- A 正味現在価値法 ----------
+  function genA() {
+    for (var g = 0; g < 4000; g++) {
+      var n = ri(3, 5), r = ri(4, 10), I = ri(30, 120) * 100000, uni = Math.random() < 0.5, cfs = [-I];
+      var base = I / apf(r, n);
+      for (var k = 1; k <= n; k++) cfs.push(uni && k > 1 ? cfs[1] : Math.round(base * ri(80, 120) / 100 / 10000) * 10000);
+      var PV = npvOf(cfs, r) + I, NPV = PV - I;
+      if (NPV === 0 || Math.abs(NPV) < 20000 || !cfs.every(ok4)) continue;
+      return {
+        badge: '正味現在価値法(NPV)',
+        intro: '当社は、新しい設備への投資案を検討している。設備の取得原価は ' + yen(I) + '(投資時点で全額支払う)、経済的耐用年数は' + n + '年である。資本コスト率 ' + r + '%で、正味現在価値法により判断しなさい。',
+        facts: [uni ? 'この投資による税引後のキャッシュ・フロー(現金の純流入額)は、毎年 ' + yen(cfs[1]) + 'である。' : 'この投資による税引後のキャッシュ・フロー(現金の純流入額)は、' + years(n).map(function (k) { return k + '年度 ' + yen(cfs[k]); }).join('、') + 'である。',
+          'キャッシュ・フローは各年度末にまとめて発生するものとする。', '計算には、問題の現価係数表を使う。'],
+        figs: [pvTable([r], n)],
+        qs: [
+          { label: '年々のキャッシュ・フローの現在価値の合計', kind: 'amt', value: PV },
+          { label: '正味現在価値', kind: 'var', seg: ['プラス', 'マイナス'], value: NPV },
+          choiceQ('判断', NPV > 0 ? '投資する' : '投資しない', [NPV > 0 ? '投資しない' : '投資する'])
+        ],
+        solFigs: [cfFig('キャッシュ・フローと現在価値', cfs, r)],
+        sol: [
+          { h: '現在価値の合計', lines: uni ? ['毎年同じ額なので、年金現価係数を使う。', fmt(cfs[1]) + ' × ' + f4(apf(r, n)) + ' = ' + fmt(PV)] : years(n).map(function (k) { return k + '年度:' + fmt(cfs[k]) + ' × ' + f4(pvf(r, k)) + ' = ' + fmt(pv(cfs[k], pvf(r, k))); }).concat(['合計 = ' + fmt(PV)]) },
+          { h: '正味現在価値と判断', lines: ['正味現在価値 = ' + fmt(PV) + ' − 投資額 ' + fmt(I) + ' = ' + sgn(NPV), NPV > 0 ? 'プラスなので、資本コストを上回る利益を生む → 投資する' : 'マイナスなので、資本コストをまかなえない → 投資しない'] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- B 税引後キャッシュ・フロー(タックス・シールド) ----------
+  function genB() {
+    for (var g = 0; g < 4000; g++) {
+      var n = ri(3, 5), r = ri(4, 10), tr = pick([30, 40]), d = ri(5, 30) * 100000, I = d * n;
+      var C = ri(10, 50) * 100000, G = ri(10, 60) * 100000, R = C + G;
+      if (G <= d) continue;
+      var ts = d * tr / 100, CF = G * (100 - tr) / 100 + ts, NI = (G - d) * (100 - tr) / 100, NPV = pv(CF, apf(r, n)) - I;
+      if (!ok4(CF) || !isInt(NI) || NPV === 0 || Math.abs(NPV) < 20000 || NPV > 0 && Math.random() < 0.8) continue;
+      var cfs = [-I]; for (var k = 1; k <= n; k++) cfs.push(CF);
+      return {
+        badge: '税引後キャッシュ・フロー(タックス・シールド)',
+        intro: '当社は、取得原価 ' + yen(I) + 'の設備への投資を検討している。次の資料にもとづいて、税引後のキャッシュ・フローと正味現在価値を求めなさい。',
+        facts: ['設備は投資時点で全額支払い、耐用年数' + n + '年・残存価額ゼロの定額法で減価償却する(税法上も同じ)。',
+          'この設備によって、毎年の売上収入が ' + yen(R) + '、現金支出費用が ' + yen(C) + '増える。',
+          '法人税等の実効税率は ' + tr + '%、資本コスト率は ' + r + '%。キャッシュ・フローは各年度末に発生し、会社全体では黒字とする。'],
+        figs: [pvTable([r], n)],
+        qs: [
+          { label: '減価償却費による法人税等の節約額(タックス・シールド・年額)', kind: 'amt', value: ts },
+          { label: '税引後の純利益(年額)', kind: 'amt', value: NI },
+          { label: '年々の税引後キャッシュ・フロー', kind: 'amt', value: CF },
+          { label: '正味現在価値', kind: 'var', seg: ['プラス', 'マイナス'], value: NPV }
+        ],
+        solFigs: [fig(tblFig('年々の税引後キャッシュ・フロー', ['', '円'], [['売上収入', fmt(R)], ['現金支出費用', '−' + fmt(C)], { cls: 'sum', c: ['税引前の現金収支', fmt(G)] }, ['法人税等(× ' + tr + '%)', '−' + fmt(G * tr / 100)], ['タックス・シールド', '+' + fmt(ts)], { cls: 'hl', c: ['税引後キャッシュ・フロー', fmt(CF)] }]), 'タックス・シールド = 減価償却費 ' + fmt(d) + ' × ' + tr + '%。減価償却費は現金の支出ではないが、税金を減らすぶんだけ現金を増やす。'), cfFig('正味現在価値', cfs, r)],
+        sol: [
+          { h: '方法1:現金収支から求める', lines: ['税引前の現金収支 = ' + fmt(R) + ' − ' + fmt(C) + ' = ' + fmt(G), fmt(G) + ' × (1 − ' + tr + '%) + 減価償却費 ' + fmt(d) + ' × ' + tr + '% = ' + fmt(G * (100 - tr) / 100) + ' + ' + fmt(ts) + ' = ' + fmt(CF)] },
+          { h: '方法2:税引後利益から求める', lines: ['減価償却費 = ' + fmt(I) + ' ÷ ' + n + '年 = ' + fmt(d), '税引後の純利益 = (' + fmt(G) + ' − ' + fmt(d) + ') × (1 − ' + tr + '%) = ' + fmt(NI), 'キャッシュ・フロー = 税引後の純利益 ' + fmt(NI) + ' + 減価償却費 ' + fmt(d) + ' = ' + fmt(CF) + '(方法1と一致)'] },
+          { h: '正味現在価値', lines: [fmt(CF) + ' × ' + f4(apf(r, n)) + ' − ' + fmt(I) + ' = ' + sgn(NPV) + ' → ' + (NPV > 0 ? '投資する' : '投資しない')] }
+        ],
+        jr: { note: '設備投資の判断そのものは仕訳を切らない。参考に、取得したときと毎年の決算で切る仕訳。', entries: [
+          { t: '設備を取得したとき', dr: [['機械装置', I]], cr: [['現金預金', I]] },
+          { t: '毎年の決算(定額法・間接法)', dr: [['減価償却費', d]], cr: [['減価償却累計額', d]] }] }
+      };
+    }
+  }
+
+  // ---------- C 内部利益率法 ----------
+  function genC() {
+    for (var g = 0; g < 4000; g++) {
+      var n = ri(3, 5), r = ri(5, 10), k = r + pick([-3, -2, -1, 1, 2, 3]), CF = ri(10, 60) * 100000, interp = Math.random() < 0.5;
+      if (k < 2) continue;
+      var Ak = apf(k, n), Ak1 = apf(k + 1, n), X, irr, I;
+      if (interp) {
+        X = (Math.round(Ak1 * 1e4) + ri(1, Math.round((Ak - Ak1) * 1e4) - 1)) / 1e4;
+        irr = rd1(k + (Ak - X) / (Ak - Ak1));
+        if (irr === null || irr === k || irr === k + 1) continue;
+        I = pv(CF, X);
+      } else { X = Ak; irr = k; I = pv(CF, Ak); }
+      var NPV = pv(CF, apf(r, n)) - I;
+      if (NPV === 0 || !ok4(I)) continue;
+      var lo = Math.min(r, k), hi = Math.max(r, k + 1), rates = [];
+      for (var q = lo; q <= hi; q++) rates.push(q);
+      var good = irr > r;
+      return {
+        badge: '内部利益率法(IRR)' + (interp ? '・補間法' : ''),
+        intro: '当社は、設備への投資案を検討している。投資額は ' + yen(I) + '(投資時点で全額支払う)、この投資から毎年 ' + yen(CF) + 'の税引後キャッシュ・フローが' + n + '年間得られる(各年度末に発生)。内部利益率法で判断しなさい。',
+        facts: ['当社の資本コスト率は ' + r + '%である。', interp ? '内部利益率は補間法(比例配分)で求め、%の小数第2位を四捨五入する。' : '内部利益率は、問題の年金現価係数表の割引率のどれかになる。', '計算には、問題の年金現価係数表を使う。'],
+        figs: [apTable(rates, n)],
+        qs: [
+          { label: '内部利益率', kind: 'amt', unit: '%', tol: interp ? 0.05 : 0.5, value: irr },
+          { label: '資本コスト率で割り引いた正味現在価値', kind: 'var', seg: ['プラス', 'マイナス'], value: NPV },
+          choiceQ('判断', good ? '投資する(内部利益率が資本コスト率を上回る)' : '投資しない(内部利益率が資本コスト率を下回る)', [good ? '投資しない(内部利益率が資本コスト率を下回る)' : '投資する(内部利益率が資本コスト率を上回る)'])
+        ],
+        solFigs: [],
+        sol: [
+          { h: '年金現価係数にあたる値', lines: ['内部利益率は、正味現在価値がちょうど0になる割引率。', '投資額 ÷ 毎年のキャッシュ・フロー = ' + fmt(I) + ' ÷ ' + fmt(CF) + ' = ' + f4(X)] },
+          { h: '表から探す', lines: interp ? [k + '%の係数 ' + f4(Ak) + ' と ' + (k + 1) + '%の係数 ' + f4(Ak1) + ' の間にある。', k + '% + (' + f4(Ak) + ' − ' + f4(X) + ') ÷ (' + f4(Ak) + ' − ' + f4(Ak1) + ') × 1% = ' + (k + (Ak - X) / (Ak - Ak1)).toFixed(3) + '…% → ' + irr + '%'] : ['年金現価係数(' + n + '年)が ' + f4(X) + ' になるのは ' + k + '% → 内部利益率 ' + k + '%'] },
+          { h: '判断', lines: ['内部利益率 ' + irr + '% ' + (good ? '>' : '<') + ' 資本コスト率 ' + r + '% → ' + (good ? '投資する' : '投資しない'), '確認:' + fmt(CF) + ' × ' + f4(apf(r, n)) + ' − ' + fmt(I) + ' = ' + sgn(NPV) + '(正味現在価値の符号と判断が一致する)'] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- D 回収期間法・投資利益率法 ----------
+  function genD() {
+    for (var g = 0; g < 4000; g++) {
+      var n = ri(4, 5), d = ri(4, 20) * 100000, I = d * n, uni = Math.random() < 0.4, cfs = [-I];
+      for (var k = 1; k <= n; k++) cfs.push(uni && k > 1 ? cfs[1] : Math.round(d * ri(105, 170) / 100 / 10000) * 10000);
+      var tot = sum(cfs.slice(1)), avgP = (tot - I) / n;
+      if (tot <= I || !isInt(avgP) || !cfs.every(ok4)) continue;
+      var cum = 0, yr = 0, pb = null;
+      for (k = 1; k <= n; k++) { if (cum + cfs[k] >= I) { pb = rd1(k - 1 + (I - cum) / cfs[k]); yr = k; break; } cum += cfs[k]; }
+      var roi1 = rd1(avgP / I * 100), roi2 = rd1(avgP / (I / 2) * 100);
+      if (pb === null || roi1 === null || roi2 === null || pb === n) continue;
+      var cumRows = [], c2 = 0;
+      for (k = 1; k <= n; k++) { c2 += cfs[k]; cumRows.push({ cls: k === yr ? 'hl' : '', c: [k + '年度', fmt(cfs[k]), fmt(c2) + (c2 >= I ? '<br><small>回収済み</small>' : '<br><small>あと ' + fmt(I - c2) + '</small>')] }); }
+      return {
+        badge: '回収期間法・投資利益率法',
+        intro: '当社は、取得原価 ' + yen(I) + 'の設備への投資を検討している(投資時点で全額支払う)。設備は耐用年数' + n + '年・残存価額ゼロの定額法で減価償却する。次の資料にもとづいて答えなさい。',
+        facts: [uni ? '税引後のキャッシュ・フローは、毎年 ' + yen(cfs[1]) + 'である。' : '税引後のキャッシュ・フローは、' + years(n).map(function (k) { return k + '年度 ' + yen(cfs[k]); }).join('、') + 'である。',
+          'キャッシュ・フローは年度の中で平均的に発生するものとする。減価償却費以外の収益・費用は、すべて現金の収支をともなう。',
+          '回収期間と投資利益率は、小数第2位を四捨五入して答える。投資利益率の平均投資額は(取得原価 + 残存価額)÷ 2 とする。'],
+        figs: [],
+        qs: [
+          { label: '回収期間(単純回収期間法)', kind: 'amt', unit: '年', tol: 0.05, value: pb },
+          { label: '年平均の税引後純利益', kind: 'amt', value: avgP },
+          { label: '投資利益率(原始投資額基準)', kind: 'amt', unit: '%', tol: 0.05, value: roi1 },
+          { label: '投資利益率(平均投資額基準)', kind: 'amt', unit: '%', tol: 0.05, value: roi2 }
+        ],
+        solFigs: [fig(tblFig('キャッシュ・フローの累計', ['年度', '流入額', '累計'], cumRows), '投資額 ' + fmt(I) + '。累計が投資額に届く年度の中で、残りを按分する。')],
+        sol: [
+          { h: '回収期間', lines: uni ? [fmt(I) + ' ÷ ' + fmt(cfs[1]) + ' = ' + pb + '年'] : [(yr - 1) + '年度末までの累計 ' + fmt(cum) + '、残り ' + fmt(I - cum), (yr - 1) + '年 + ' + fmt(I - cum) + ' ÷ ' + fmt(cfs[yr]) + ' = ' + pb + '年'] },
+          { h: '年平均の税引後純利益', lines: ['純利益 = キャッシュ・フロー − 減価償却費(' + fmt(d) + ')', '(合計 ' + fmt(tot) + ' − 減価償却費の合計 ' + fmt(I) + ') ÷ ' + n + '年 = ' + fmt(avgP)] },
+          { h: '投資利益率', lines: ['原始投資額基準 = ' + fmt(avgP) + ' ÷ ' + fmt(I) + ' × 100 = ' + roi1 + '%', '平均投資額基準 = ' + fmt(avgP) + ' ÷ (' + fmt(I) + ' ÷ 2) × 100 = ' + roi2 + '%', 'どちらも貨幣の時間価値を考えない方法。回収期間法は収益性(回収した後の利益)も見ない。'] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- E 取替投資 ----------
+  function genE() {
+    for (var g = 0; g < 4000; g++) {
+      var n = ri(3, 5), u = ri(1, 4), r = ri(4, 10), tr = 30, dO = ri(2, 10) * 100000, A0 = dO * (n + u), AD = dO * u, BV = dO * n;
+      var gain = Math.random() < 0.25, S0 = gain ? BV + ri(1, 5) * 100000 : ri(1, BV / 100000 - 1) * 100000;
+      var dN = dO + ri(2, 15) * 100000, N = dN * n, Sv = Math.round(dN * ri(60, 170) / 100 / 100000) * 100000;
+      if (Sv <= 0) continue;
+      var inflow = S0 + (BV - S0) * tr / 100, dCF = Sv * (100 - tr) / 100 + (dN - dO) * tr / 100, net0 = inflow - N;
+      var NPV = pv(dCF, apf(r, n)) + net0;
+      if (!ok4(dCF) || !isInt(inflow) || NPV === 0 || Math.abs(NPV) < 20000 || S0 <= 0) continue;
+      var cfs = [net0]; for (var k = 1; k <= n; k++) cfs.push(dCF);
+      var loss = BV - S0;
+      return {
+        badge: '取替投資(旧設備の売却と差額キャッシュ・フロー)',
+        intro: '当社は、いま使っている旧設備を売却して、新設備に取り替えるかを検討している。次の資料にもとづいて、取り替えた場合の差額キャッシュ・フローと正味現在価値を求めなさい。',
+        facts: ['旧設備:取得原価 ' + yen(A0) + '、耐用年数' + (n + u) + '年・残存価額ゼロの定額法で' + u + '年償却ずみ(減価償却累計額 ' + yen(AD) + ')。いま売却すると ' + yen(S0) + 'で売れる。',
+          '新設備:取得原価 ' + yen(N) + '(投資時点で全額支払う)、耐用年数' + n + '年・残存価額ゼロの定額法。取り替えると、現金支出費用が毎年 ' + yen(Sv) + '減る。',
+          '旧設備を使い続ける場合も、残り' + n + '年で使い終わる。法人税等の実効税率は ' + tr + '%、資本コスト率は ' + r + '%。売却損益の税金への影響は投資時点に生じ、会社全体では黒字とする。'],
+        figs: [pvTable([r], n)],
+        qs: [
+          { label: '旧設備の売却による現金流入額(税金への影響を含む)', kind: 'amt', value: inflow },
+          { label: '取り替えによる年々の差額キャッシュ・フロー', kind: 'amt', value: dCF },
+          { label: '取替投資の正味現在価値', kind: 'var', seg: ['プラス', 'マイナス'], value: NPV },
+          choiceQ('判断', NPV > 0 ? '新設備に取り替える' : '旧設備を使い続ける', [NPV > 0 ? '旧設備を使い続ける' : '新設備に取り替える'])
+        ],
+        solFigs: [cfFig('取り替えた場合の差額キャッシュ・フロー', cfs, r, '投資時点 = 旧設備の売却による流入 ' + fmt(inflow) + ' − 新設備の取得 ' + fmt(N) + '。')],
+        sol: [
+          { h: '旧設備の売却', lines: ['帳簿価額 = ' + fmt(A0) + ' − ' + fmt(AD) + ' = ' + fmt(BV), loss > 0 ? '売却損 = ' + fmt(BV) + ' − ' + fmt(S0) + ' = ' + fmt(loss) + ' → 税金が ' + fmt(loss * tr / 100) + '減る' : '売却益 = ' + fmt(S0) + ' − ' + fmt(BV) + ' = ' + fmt(-loss) + ' → 税金が ' + fmt(-loss * tr / 100) + '増える',
+            '現金流入額 = ' + fmt(S0) + (loss > 0 ? ' + ' + fmt(loss * tr / 100) : ' − ' + fmt(-loss * tr / 100)) + ' = ' + fmt(inflow)] },
+          { h: '年々の差額キャッシュ・フロー', lines: ['費用の節約(税引後)= ' + fmt(Sv) + ' × (1 − ' + tr + '%) = ' + fmt(Sv * (100 - tr) / 100), '減価償却費の増加 = ' + fmt(dN) + ' − ' + fmt(dO) + ' = ' + fmt(dN - dO) + ' → タックス・シールドの増加 ' + fmt((dN - dO) * tr / 100), '合計 = ' + fmt(dCF)] },
+          { h: '正味現在価値', lines: [fmt(dCF) + ' × ' + f4(apf(r, n)) + ' − (' + fmt(N) + ' − ' + fmt(inflow) + ') = ' + sgn(NPV) + ' → ' + (NPV > 0 ? '取り替える' : '使い続ける'), '旧設備の帳簿価額は過去の支出(埋没原価)。判断に効くのは、売却による現金と税金への影響だけ。'] }
+        ],
+        jr: { note: '旧設備を売却したときと、新設備を取得したときの仕訳(間接法)。', entries: [
+          { t: '旧設備を売却したとき', dr: [['減価償却累計額', AD], ['現金預金', S0]].concat(loss > 0 ? [['固定資産売却損', loss]] : []), cr: [['機械装置', A0]].concat(loss < 0 ? [['固定資産売却益', -loss]] : []) },
+          { t: '新設備を取得したとき', dr: [['機械装置', N]], cr: [['現金預金', N]] }] }
+      };
+    }
+  }
+
+  // ---------- F 運転資本と最終年度の設備売却 ----------
+  function genF() {
+    for (var g = 0; g < 4000; g++) {
+      var n = ri(3, 5), r = ri(4, 10), tr = pick([30, 40]), d = ri(5, 25) * 100000, I = d * n, W = ri(3, 20) * 100000, S = ri(1, 10) * 100000;
+      var C = ri(10, 50) * 100000, G = ri(10, 50) * 100000, R = C + G, CF = G * (100 - tr) / 100 + d * tr / 100, fin = CF + W + S * (100 - tr) / 100;
+      var cfs = [-(I + W)]; for (var k = 1; k <= n; k++) cfs.push(k === n ? fin : CF);
+      var NPV = npvOf(cfs, r);
+      if (!cfs.every(ok4) || NPV === 0 || Math.abs(NPV) < 20000 || NPV > 0 && Math.random() < 0.5) continue;
+      return {
+        badge: '運転資本と最終年度の設備売却',
+        intro: '当社は、新製品を生産するための設備投資を検討している。次の資料にもとづいて、年度ごとの税引後キャッシュ・フローと正味現在価値を求めなさい。',
+        facts: ['設備の取得原価は ' + yen(I) + '。耐用年数' + n + '年・残存価額ゼロの定額法で減価償却し、' + n + '年度末に ' + yen(S) + 'で売却する見込み。',
+          '投資時点で、在庫や売上債権のための正味運転資本 ' + yen(W) + 'が必要になる。これは' + n + '年度末に全額回収する。',
+          '毎年の売上収入は ' + yen(R) + '、現金支出費用は ' + yen(C) + '。法人税等の実効税率は ' + tr + '%、資本コスト率は ' + r + '%。キャッシュ・フローは各年度末に発生し、会社全体では黒字とする。'],
+        figs: [pvTable([r], n)],
+        qs: [
+          { label: '投資時点の現金流出額', kind: 'amt', value: I + W },
+          { label: '1〜' + (n - 1) + '年度の税引後キャッシュ・フロー(年額)', kind: 'amt', value: CF },
+          { label: n + '年度の税引後キャッシュ・フロー', kind: 'amt', value: fin },
+          { label: '正味現在価値', kind: 'var', seg: ['プラス', 'マイナス'], value: NPV }
+        ],
+        solFigs: [cfFig('年度ごとのキャッシュ・フロー', cfs, r)],
+        sol: [
+          { h: '投資時点', lines: ['設備 ' + fmt(I) + ' + 正味運転資本 ' + fmt(W) + ' = ' + fmt(I + W) + '(運転資本も、投資で寝かせるお金なので流出に入れる)'] },
+          { h: '年々のキャッシュ・フロー', lines: ['(' + fmt(R) + ' − ' + fmt(C) + ') × (1 − ' + tr + '%) + 減価償却費 ' + fmt(d) + ' × ' + tr + '% = ' + fmt(CF)] },
+          { h: n + '年度', lines: ['設備の売却:帳簿価額ゼロなので売却益 ' + fmt(S) + '、税引後 ' + fmt(S) + ' × (1 − ' + tr + '%) = ' + fmt(S * (100 - tr) / 100), fmt(CF) + ' + 運転資本の回収 ' + fmt(W) + ' + ' + fmt(S * (100 - tr) / 100) + ' = ' + fmt(fin), '運転資本の回収は利益ではないので、税金はかからない。'] },
+          { h: '正味現在価値', lines: [fmt(CF) + ' × ' + f4(apf(r, n - 1)) + '(' + (n - 1) + '年分の年金現価係数)+ ' + fmt(fin) + ' × ' + f4(pvf(r, n)) + ' − ' + fmt(I + W) + ' = ' + sgn(NPV)] }
+        ],
+        jr: { note: n + '年度末に設備を売却したときの仕訳(間接法。帳簿価額はゼロ)。', entries: [
+          { t: '設備を売却したとき', dr: [['減価償却累計額', I], ['現金預金', S]], cr: [['機械装置', I], ['固定資産売却益', S]] }] }
+      };
+    }
+  }
+
+  // ---------- G 加重平均資本コスト ----------
+  function genG() {
+    for (var g = 0; g < 4000; g++) {
+      var wD = pick([20, 25, 30, 40, 50, 60]), i = ri(2, 8), tr = pick([30, 40]), ke = ri(6, 14);
+      var kd = r6(i * (100 - tr) / 100), W = r6(wD / 100 * kd + (100 - wD) / 100 * ke);
+      if (!isInt(W) || W < 3 || ke <= kd) continue;
+      var T = ri(10, 80) * 1000000, D = T * wD / 100, E = T - D, n = ri(3, 5), CF = ri(10, 60) * 100000;
+      var I = Math.round(pv(CF, apf(W, n)) * ri(88, 112) / 100 / 100000) * 100000, NPV = pv(CF, apf(W, n)) - I;
+      if (NPV === 0 || Math.abs(NPV) < 20000) continue;
+      var rates = []; for (var q = W - 2; q <= W + 2; q++) if (q > 0) rates.push(q);
+      return {
+        badge: '加重平均資本コスト(WACC)',
+        intro: '当社は、設備投資の判断に使う資本コスト率を、資金の調達源泉ごとのコストを加重平均して求めている。次の資料にもとづいて答えなさい。',
+        facts: ['資本構成(時価):借入金 ' + yen(D) + '(利子率 ' + i + '%)、普通株式 ' + yen(E) + '(株主が期待する収益率 ' + ke + '%)。',
+          '支払利息は税金計算で損金になる。法人税等の実効税率は ' + tr + '%。',
+          '投資案:投資額 ' + yen(I) + '(投資時点で全額支払う)、税引後キャッシュ・フローは毎年 ' + yen(CF) + 'で' + n + '年間(各年度末に発生)。割引率には加重平均資本コスト率を使う。'],
+        figs: [apTable(rates, n)],
+        qs: [
+          { label: '借入金の税引後の資本コスト率', kind: 'amt', unit: '%', tol: 0.05, value: kd },
+          { label: '加重平均資本コスト率', kind: 'amt', unit: '%', tol: 0.05, value: W },
+          { label: '投資案の正味現在価値', kind: 'var', seg: ['プラス', 'マイナス'], value: NPV },
+          choiceQ('判断', NPV > 0 ? '投資する' : '投資しない', [NPV > 0 ? '投資しない' : '投資する'])
+        ],
+        solFigs: [fig(tblFig('加重平均資本コスト', ['源泉', '割合', 'コスト', '加重'], [['借入金', wD + '%', fmt(kd) + '%', fmt(r6(wD / 100 * kd)) + '%'], ['普通株式', (100 - wD) + '%', ke + '%', fmt(r6((100 - wD) / 100 * ke)) + '%'], { cls: 'hl', c: ['合計', '100%', '', W + '%'] }]), '借入金は利息が損金になるぶん、実質のコストが下がる。')],
+        sol: [
+          { h: '借入金の税引後コスト', lines: [i + '% × (1 − ' + tr + '%) = ' + fmt(kd) + '%'] },
+          { h: '加重平均', lines: ['構成割合:借入金 ' + fmt(D) + ' ÷ ' + fmt(T) + ' = ' + wD + '%、普通株式 ' + (100 - wD) + '%', fmt(kd) + '% × ' + wD + '% + ' + ke + '% × ' + (100 - wD) + '% = ' + fmt(r6(wD / 100 * kd)) + '% + ' + fmt(r6((100 - wD) / 100 * ke)) + '% = ' + W + '%'] },
+          { h: '正味現在価値', lines: [fmt(CF) + ' × ' + f4(apf(W, n)) + '(' + W + '%・' + n + '年)− ' + fmt(I) + ' = ' + sgn(NPV) + ' → ' + (NPV > 0 ? '投資する' : '投資しない')] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- T 理論 ----------
+  var THEORY = [
+    { q: '投資による現金流入額の現在価値の合計から、投資額を差し引いたものを【　?　】という。', a: '正味現在価値', d: ['内部利益率', '収益性指数', '回収期間'], e: 'プラスなら投資する。資本コストを上回る利益を生むことを意味する。' },
+    { q: '投資の正味現在価値がちょうどゼロになる割引率を【　?　】という。', a: '内部利益率', d: ['資本コスト率', '投資利益率', '割引回収期間'], e: '内部利益率が資本コスト率を上回れば投資する。' },
+    { q: '減価償却費は現金の支出をともなわないが、【　?　】ので、税引後のキャッシュ・フローを増やす。', a: '法人税等を減らす', d: ['売上収入を増やす', '運転資本を減らす', '資本コストを下げる'], e: '減価償却費 × 税率 をタックス・シールドという。' },
+    { q: '投資額を、毎年のキャッシュ・フローで何年で取り戻せるかで判断する方法を【　?　】という。', a: '回収期間法', d: ['正味現在価値法', '内部利益率法', '投資利益率法'], e: '単純な回収期間法は、貨幣の時間価値と回収後のキャッシュ・フローを考えない。' },
+    { q: '貨幣の時間価値を考慮しない方法は【　?　】である。', a: '単純回収期間法と投資利益率法', d: ['正味現在価値法と内部利益率法', '収益性指数法と内部利益率法', '割引回収期間法と正味現在価値法'], e: '正味現在価値法・内部利益率法・収益性指数法は、割り引いて考える。' },
+    { q: '取替投資の判断で、旧設備の帳簿価額は【　?　】。', a: 'それ自体は埋没原価で、売却損益の税金への影響だけを考える', d: ['新設備の取得原価に加える', '全額を投資時点の現金流出とする', '毎年の減価償却費として現金流出に入れる'], e: '帳簿価額は過去の支出。現金に効くのは、売却価額と売却損益にかかる税金。' },
+    { q: '投資時点で必要になった正味運転資本は、【　?　】。', a: '投資時点の流出とし、最終年度に回収する', d: ['減価償却して毎年費用にする', 'キャッシュ・フローには入れない', '毎年の税引後利益から差し引く'], e: '回収額は利益ではないので、税金はかからない。' },
+    { q: '加重平均資本コストで、借入金のコストは【　?　】で計算する。', a: '利子率 ×(1 − 税率)', d: ['利子率そのまま', '利子率 ×(1 + 税率)', '利子率 ÷ 税率'], e: '支払利息が損金になるぶん、実質の負担が軽くなる。' },
+    { q: '投資による現金流入額の現在価値を投資額で割った値を【　?　】という。', a: '収益性指数', d: ['内部利益率', '年金現価係数', '投資利益率'], e: '1を超えれば投資する。投資額の違う案を比べるときに使う。' },
+    { q: '設備投資の意思決定は、長期にわたって会社の構造を変えるので【　?　】に分類される。', a: '構造的意思決定(戦略的意思決定)', d: ['業務的意思決定', '日常的な原価管理', '短期利益計画'], e: '業務的意思決定は、今ある設備を前提にした短期の判断。' }
+  ];
+  function genT() {
+    var picked = shuffle(THEORY).slice(0, 4);
+    return { badge: '理論(設備投資の意思決定)', intro: '次の文章の【　?　】にあてはまる語句を、選択肢から選びなさい。', facts: ['設備投資の意思決定の用語と考え方を確認する問題です。'], figs: [],
+      qs: picked.map(function (it) { return choiceQ(it.q, it.a, it.d); }), solFigs: [],
+      sol: picked.map(function (it, i) { return { h: '問' + (i + 1) + ' 正解:' + it.a, lines: [it.e] }; }), jr: null };
+  }
+
+  var FREQ = { A: '★★★ 正味現在価値法', B: '★★★ 税引後キャッシュ・フロー', C: '★★★ 内部利益率法', D: '★★ 回収期間・投資利益率', E: '★★★ 取替投資', F: '★★ 運転資本・設備の売却', G: '★★ 加重平均資本コスト', T: '理論' };
+  var THEMES = [{ k: 'all', n: 'すべて' }, { k: 'g1', n: '正味現在価値・税引後CF', gens: ['A', 'B'] }, { k: 'g2', n: '内部利益率・回収期間', gens: ['C', 'D'] }, { k: 'g3', n: '取替投資・運転資本', gens: ['E', 'F'] }, { k: 'g4', n: '資本コスト・理論', gens: ['G', 'T'] }];
+  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, T: genT };
+  return { THEMES: THEMES, GENS: GENS, FREQ: FREQ, fmt: fmt };
+})();
+
+(function () {
+  if (typeof document === 'undefined') return;
+  var state = { theme: 'all', last: null, p: null, graded: false, dirs: {}, picks: {}, ok: 0, all: 0 };
+  function el(id) { return document.getElementById(id); }
+  try {
+    var saved = localStorage.getItem('setsubi-toshi-drill-theme');
+    if (Drill.THEMES.some(function (th) { return th.k === saved; })) state.theme = saved;
+  } catch (e) { /* storage unavailable */ }
+
+  function renderChips() {
+    el('chips').innerHTML = Drill.THEMES.map(function (th) {
+      return '<button type="button" class="chip" id="chip-' + th.k + '" data-k="' + th.k + '" aria-pressed="' + (th.k === state.theme) + '">' + th.n + '</button>';
+    }).join('');
+  }
+
+  function newProblem() {
+    var th = Drill.THEMES.filter(function (x) { return x.k === state.theme; })[0];
+    var pool = th.gens || Object.keys(Drill.GENS);
+    var keys = pool.filter(function (k) { return k !== state.last; });
+    if (!keys.length) keys = pool;
+    var key = keys[Math.floor(Math.random() * keys.length)];
+    state.last = key;
+    state.p = Drill.GENS[key](th.opts || {});
+    state.graded = false;
+    state.dirs = {};
+    state.picks = {};
+    render();
+  }
+
+  function cardHtml(card) {
+    return '<div class="cost-card"><div class="cc-title">' + card.title + '</div><div class="cc-grid">' +
+      card.rows.map(function (r) {
+        return '<span>' + r[0] + '</span><span class="cc-c">' + r[1] + '</span><span class="cc-v">' + r[2] + '</span>';
+      }).join('') + '</div></div>';
+  }
+  function segOf(q) { return q.seg || ['有利', '不利']; }
+
+  function render() {
+    var p = state.p;
+    el('problem').innerHTML =
+      '<div class="badge">出題パターン:' + p.badge + '</div>' +
+      (Drill.FREQ[state.last] ? '<div class="freq">頻出度(目安):' + Drill.FREQ[state.last] + '</div>' : '') +
+      '<p class="intro">' + p.intro + '</p>' +
+      (p.card ? cardHtml(p.card) : '') +
+      (p.figs.length ? '<div class="figs">' + p.figs.join('') + '</div>' : '') +
+      '<ul class="facts">' + p.facts.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul>';
+
+    el('sheet').innerHTML = p.qs.map(function (q, i) {
+      if (q.kind === 'choice') {
+        return '<div class="ans-row choice">' +
+          '<div class="ans-label" id="lab-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</div>' +
+          '<div class="opts" role="group" aria-labelledby="lab-' + i + '">' + q.options.map(function (o, j) {
+            return '<button type="button" class="opt" id="opt-' + i + '-' + j + '" data-i="' + i + '" data-j="' + j + '" aria-pressed="false">' + o + '</button>';
+          }).join('') + '</div>' +
+          '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+      }
+      var s = segOf(q);
+      var seg = q.kind === 'var'
+        ? '<div class="seg" role="group" aria-label="問' + (i + 1) + 'の向き">' +
+          '<button type="button" id="dir-' + i + '-f" data-i="' + i + '" data-d="f" aria-pressed="false">' + s[0] + '</button>' +
+          '<button type="button" id="dir-' + i + '-u" data-i="' + i + '" data-d="u" aria-pressed="false">' + s[1] + '</button></div>'
+        : '';
+      return '<div class="ans-row">' +
+        '<label class="ans-label" for="ans-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</label>' +
+        '<div class="ans-ctrl"><input id="ans-' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="' + (q.unit === '個' ? '数量' : q.unit ? '数値' : '金額') + '"><span class="yen">' + (q.unit || '円') + '</span>' + seg + '</div>' +
+        '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+    }).join('');
+
+    el('err').hidden = true;
+    el('result').hidden = true;
+    el('result').innerHTML = '';
+    el('checkBtn').disabled = false;
+    el('revealBtn').disabled = false;
+  }
+
+  function parseNum(s) {
+    var x = String(s || '')
+      .replace(/[\uFF10-\uFF19]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,\uFF0C\u3001\s\u5186\u500B%\uFF05\u500D\u56DE\u5E74]/g, '').replace(/[\u2212\u30FC\u2015\u2010\u25B2\u25B3\uFF0D-]/g, '-').replace(/\uFF0E/g, '.');
+    if (x === '' || x === '-') return NaN;
+    return Number(x);
+  }
+
+  function journalHtml(jr) {
+    if (!jr) return '';
+    function side(lines, tag) {
+      return '<div class="j-side">' + lines.map(function (l, k) {
+        return '<div class="j-line"><span class="j-tag">' + (k === 0 ? '(' + tag + ')' : '') + '</span>' +
+          '<span class="j-acct">' + l[0] + '</span><span class="j-amt">' + Drill.fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<section class="journal" aria-label="仕訳">' +
+      '<h3 class="j-head">仕訳 <span class="j-rule">金額は円</span></h3>' +
+      '<p class="j-note">' + jr.note + '</p>' +
+      '<div class="j-list">' + jr.entries.map(function (e) {
+        return '<div class="j-entry"><div class="j-title">' + e.t + '</div><div class="j-body">' + side(e.dr, '借') + side(e.cr, '貸') + '</div></div>';
+      }).join('') + '</div>' +
+      '</section>';
+  }
+
+  function correctText(q) {
+    if (q.kind === 'choice') return q.options[q.value];
+    var base = Drill.fmt(Math.abs(q.value)) + (q.unit || '円');
+    return q.kind === 'var' ? base + '(' + segOf(q)[q.value > 0 ? 0 : 1] + ')' : base;
+  }
+
+  function finish(scored) {
+    var p = state.p, okCount = 0;
+    if (scored) {
+      var missing = p.qs.some(function (q, i) {
+        if (q.kind === 'choice') return state.picks[i] === undefined;
+        return isNaN(parseNum(el('ans-' + i).value)) || (q.kind === 'var' && !state.dirs[i]);
+      });
+      if (missing) {
+        el('err').textContent = '未入力の欄があります。すべての金額・数量と、ボタンの選択、選択問題の答えを入力してください。';
+        el('err').hidden = false;
+        return;
+      }
+    }
+    el('err').hidden = true;
+    p.qs.forEach(function (q, i) {
+      var fb = el('fb-' + i);
+      if (scored) {
+        var ok;
+        if (q.kind === 'choice') {
+          ok = state.picks[i] === q.value;
+        } else {
+          var n = Math.abs(parseNum(el('ans-' + i).value));
+          ok = Math.abs(n - Math.abs(q.value)) < (q.tol || 0.5) &&
+            (q.kind !== 'var' || (state.dirs[i] === 'f') === (q.value > 0));
+        }
+        if (ok) okCount++;
+        fb.className = 'fb ' + (ok ? 'ok' : 'ng');
+        fb.textContent = ok ? '✓ 正解 ' + correctText(q) : '✗ 正解は ' + correctText(q);
+      } else {
+        fb.className = 'fb';
+        fb.textContent = '正解 ' + correctText(q);
+      }
+      fb.hidden = false;
+    });
+    if (scored) {
+      state.ok += okCount;
+      state.all += p.qs.length;
+      el('okN').textContent = state.ok;
+      el('allN').textContent = state.all;
+    }
+    state.graded = true;
+    el('checkBtn').disabled = true;
+    el('revealBtn').disabled = true;
+
+    var verdict = scored
+      ? '<div class="verdict' + (okCount === p.qs.length ? ' all' : '') + '">' + p.qs.length + '問中 ' + okCount + '問正解' + (okCount === p.qs.length ? '。全問正解です' : '') + '</div>'
+      : '<div class="verdict">解答と解説</div>';
+    el('result').innerHTML = '<div class="paper">' + verdict +
+      (p.solFigs.length ? '<div class="figs">' + p.solFigs.join('') + '</div>' : '') +
+      '<div class="sol">' + p.sol.map(function (s) {
+        return '<h4>' + s.h + '</h4>' + s.lines.map(function (l) { return '<p>' + l + '</p>'; }).join('');
+      }).join('') + '</div>' + journalHtml(p.jr) + '</div>';
+    el('result').hidden = false;
+  }
+
+  el('chips').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (!b) return;
+    state.theme = b.getAttribute('data-k');
+    try { localStorage.setItem('setsubi-toshi-drill-theme', state.theme); } catch (err) { /* ignore */ }
+    renderChips();
+    newProblem();
+  });
+  el('sheet').addEventListener('click', function (e) {
+    var o = e.target.closest('.opt');
+    if (o) {
+      var qi = o.getAttribute('data-i'), pj = Number(o.getAttribute('data-j'));
+      state.picks[qi] = pj;
+      state.p.qs[qi].options.forEach(function (_, j) { el('opt-' + qi + '-' + j).setAttribute('aria-pressed', String(j === pj)); });
+      return;
+    }
+    var b = e.target.closest('.seg button');
+    if (!b) return;
+    var i = b.getAttribute('data-i'), d = b.getAttribute('data-d');
+    state.dirs[i] = d;
+    el('dir-' + i + '-f').setAttribute('aria-pressed', String(d === 'f'));
+    el('dir-' + i + '-u').setAttribute('aria-pressed', String(d === 'u'));
+  });
+  el('sheet').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !state.graded) finish(true);
+  });
+  el('checkBtn').addEventListener('click', function () { finish(true); });
+  el('revealBtn').addEventListener('click', function () { finish(false); });
+  el('nextBtn').addEventListener('click', function () {
+    newProblem();
+    el('chips').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  renderChips();
+  newProblem();
+})();
+</script>
+</body>
+</html>
