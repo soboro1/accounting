@@ -1,0 +1,1436 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="税理士試験 法人税法の基礎。当期利益から所得金額を出す申告調整（加算・減算）、納税義務者と申告、税率と税額計算、益金（無償譲渡・受贈益・受取配当等の益金不算入・還付金）、損金（租税公課・減価償却・役員給与）、交際費等と寄附金を、図解・仕訳・計算問題・○×問題50問で確認できる学習ページ。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>法人税法の基礎</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: 税理士試験シリーズ。PART1(法人税のしくみ)は緑、PART2(益金)は青、PART3(損金)は紫、PART4(交際費等と寄附金)はオレンジで色分け。各トピックは「図解→要点→仕訳→ひっかけ」の順に縦に積む */
+:root{
+  --bg:#F2F7F4; --surface:#FFFFFF; --ink:#16241F; --muted:#526861; --line:#D5E2DC;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#16A34A; --c2t:#0F7A38;   /* 緑：法人税のしくみ */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：益金 */
+  --c5:#7A4FD8; --c5t:#5B35B0;   /* 紫：損金 */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：交際費等と寄附金 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0E1714; --surface:#16231F; --ink:#E7F2ED; --muted:#9DB4AB; --line:#29403A;
+    --on-solid:#0E1714; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#4ADE80; --c2t:#7BE8A3;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c5:#A98BFF; --c5t:#C2ADFF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0E1714; --surface:#16231F; --ink:#E7F2ED; --muted:#9DB4AB; --line:#29403A;
+  --on-solid:#0E1714; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#4ADE80; --c2t:#7BE8A3;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c5:#A98BFF; --c5t:#C2ADFF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c2);outline-offset:2px;border-radius:6px}
+
+/* パートの色 */
+.part-sk{--pc:var(--c2);--pt:var(--c2t)}
+.part-ek{--pc:var(--c4);--pt:var(--c4t)}
+.part-sn{--pc:var(--c5);--pt:var(--c5t)}
+.part-kk{--pc:var(--c8);--pt:var(--c8t)}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-sk{border-color:var(--c2);color:var(--c2t)}
+.top a.n-ek{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sn{border-color:var(--c5);color:var(--c5t)}
+.top a.n-kk{border-color:var(--c8);color:var(--c8t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.eyebrow .series{letter-spacing:.06em;color:var(--on-solid);background:var(--c2);border-radius:999px;padding:2px 12px}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c2t)}
+.hero h1 .h-b{color:var(--c8t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:15px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-c2{fill:color-mix(in srgb,var(--c2) 22%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-c4{fill:color-mix(in srgb,var(--c4) 20%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-c5{fill:color-mix(in srgb,var(--c5) 18%,var(--surface));stroke:var(--c5);stroke-width:2;stroke-dasharray:6 4}
+.b-c8{fill:color-mix(in srgb,var(--c8) 24%,var(--surface));stroke:var(--c8);stroke-width:2}
+.b-c1{fill:color-mix(in srgb,var(--c1) 30%,var(--surface));stroke:var(--c1);stroke-width:2}
+.f-c2{fill:var(--c2t)} .f-c4{fill:var(--c4t)} .f-c5{fill:var(--c5t)} .f-c8{fill:var(--c8t)} .f-c1{fill:var(--c1t)}
+
+/* 図解の画像 */
+.shot{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:10px;display:grid;gap:8px}
+.shot a{display:block;border-radius:12px;overflow:hidden;border:1px solid var(--line);background:#F5F8FC}
+.shot img{display:block;width:100%;height:auto;aspect-ratio:16/9}
+.shot figcaption{font-size:13.5px;color:var(--muted);line-height:1.7;padding:0 6px 4px}
+.shot figcaption b{color:var(--pt,var(--ink))}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px;background:var(--pc)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid);background:var(--pc)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--pc,var(--muted))}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid color-mix(in srgb,var(--pc,var(--muted)) 55%,var(--line));border-radius:16px;padding:16px 18px;display:grid;gap:6px;align-content:start}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--pt,var(--muted))}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--pc,var(--line))}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid);background:var(--pc)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--pc,var(--c2));color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c2)}
+.chap:nth-child(2){background:var(--c4)}
+.chap:nth-child(3){background:var(--c5)}
+.chap:nth-child(4){background:var(--c8)}
+.chap:nth-child(5){background:var(--c7)}
+
+/* カード並び */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--pc,var(--line));border-top-width:8px;display:grid;gap:6px;align-content:start}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5;background:color-mix(in srgb,var(--pc,var(--muted)) 14%,var(--surface));color:var(--pt,var(--ink))}
+.case .big{font-family:var(--f-display);font-weight:400;font-size:34px;line-height:1.1;color:var(--pt)}
+.case.hot{background:color-mix(in srgb,var(--c1) 12%,var(--surface));border-color:var(--c1)}
+
+/* 入る・入らない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--pc)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--pt)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--pc) 60%,var(--line));background:color-mix(in srgb,var(--pc) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c5) 10%,var(--surface));border:2px solid var(--c5)}
+.lane.g{background:color-mix(in srgb,var(--c2) 10%,var(--surface));border:2px solid var(--c2)}
+.lane.p{background:color-mix(in srgb,var(--c7) 8%,var(--surface));border:2px solid var(--c7)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c5t)} .lane.g .lane-h{color:var(--c2t)} .lane.p .lane-h{color:var(--c7t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* ケーススタディ */
+.css{display:grid;gap:18px}
+.cs{border-radius:18px;padding:18px;background:var(--surface);border:2px solid var(--c8);display:grid;gap:14px}
+.cs-head{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.cs-no{font-size:12.5px;font-weight:700;letter-spacing:.1em;padding:3px 10px;border-radius:8px;background:var(--c8);color:var(--on-solid)}
+.cs-head b{font-size:18px;line-height:1.5}
+.cs .lane{position:relative}
+.cs .lane.win{box-shadow:0 0 0 3px var(--c1)}
+.cs .lane.win::after{content:"得";position:absolute;top:-12px;right:14px;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c1);color:#1B1600;font-weight:700;font-size:14px}
+.cs-total{font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;border-top:2px dashed var(--line);padding-top:8px}
+.cs-win{font-weight:700;color:var(--c1t);background:color-mix(in srgb,var(--c1) 16%,var(--surface));border-radius:12px;padding:8px 14px}
+.cs-point{border-left:4px solid var(--c8);padding:6px 12px;display:grid;gap:4px;max-width:52em}
+.cs-point span{font-size:13px;font-weight:700;letter-spacing:.06em;color:var(--c8t)}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-sk-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.btn.f-ek-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sn-btn[aria-pressed="true"]{background:var(--c5);border-color:var(--c5)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c2)}
+.ox:disabled{cursor:default}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid var(--pc)}
+.prio-card h3{font-size:18px;color:var(--pt)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid);background:var(--pc)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2A27}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#08100D}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#08100D}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)} .c-gold{background:var(--c1);color:#1B1600}
+.dt-ex{background:var(--surface);border-radius:10px;padding:9px 14px;border-left:4px solid var(--c1);line-height:1.85;color:var(--ink)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.res .je-entry{display:flex;flex-direction:column}.ej-row{display:contents}.je-c{order:1}.qbtns .ox{width:96px;height:52px}}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-sk" href="#sk">PART1 法人税のしくみ</a>
+    <a class="n-ek" href="#ek">PART2 益金</a>
+    <a class="n-sn" href="#sn">PART3 損金</a>
+    <a class="n-kk" href="#kk">PART4 交際費等と寄附金</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow"><span class="series">税理士試験</span>法人税法 ／ 基礎編</p>
+  <h1><span class="h-a">法人税法</span>の<br><span class="h-b">基礎</span>を図解</h1>
+  <p class="lead">法人税法は、論点が多くて重たい科目ですが、計算はどれも同じ型でできています。それが<mark>「決算書の当期利益から出発して、税法のルールで足したり（加算）引いたり（減算）して所得を出す」</mark>という流れです。この型を、小学生にもわかる言葉の図解と仕訳で順に確認し、計算問題4問と○×問題50問で仕上げます。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#sk"><span>PART1</span><b>法人税のしくみ</b><small>当期利益から所得へ、納税義務者と申告、税率と税額計算</small></a>
+    <a class="chap" href="#ek"><span>PART2</span><b>益金</b><small>無償譲渡と受贈益、受取配当等の益金不算入、評価益と還付金</small></a>
+    <a class="chap" href="#sn"><span>PART3</span><b>損金</b><small>債務確定と租税公課、減価償却、役員給与</small></a>
+    <a class="chap" href="#kk"><span>PART4</span><b>交際費等と寄附金</b><small>資本金で変わる損金不算入額、寄附金の損金算入限度額</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック50問</b><small>答えると、ポイント・ひっかけ例・具体例・仕訳つきの解説が出ます</small></a>
+  </div>
+</header>
+
+<!-- ============ PART1 法人税のしくみ ============ -->
+<section id="sk" class="part part-sk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>法人税のしくみと計算の流れ</h2>
+    <p>法人税は、会社のもうけ（所得）にかかる税です。ただし、決算書の利益をそのまま使うのではなく、税法のものさしで線を引き直します。まずこの「当期利益 → 所得 → 税額」の流れと、だれが・いつ申告するのかをおさえます。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-shikumi">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">重要度 ★★★</span><h3>法人税のしくみ：当期利益から「所得」へ</h3></div>
+    <figure class="shot">
+      <a href="法人税のしくみ_図解.png" target="_blank" rel="noopener"><img src="法人税のしくみ_図解.png" width="1600" height="900" loading="lazy" alt="会社の決算書の当期利益1,000万円に、申告調整で加算300万円（交際費の一部や役員賞与など損金にならないもの）を足し、減算100万円（受取配当金の一部など益金にならないもの）を引いて、所得金額1,200万円を出す"></a>
+      <figcaption><b>図1</b>　決算書の利益を出発点にして、税法で決まっているものだけを足し引きします。画像をタップすると大きく表示されます。</figcaption>
+    </figure>
+    <div class="formula">
+      <span class="lbl">所得金額の出し方（別表四）</span>
+      <span class="fx">当期利益</span><span class="op">＋</span><span class="fx">加算</span><span class="op">−</span><span class="fx">減算</span><span class="op">＝</span><span class="res">所得金額</span>
+    </div>
+    <div class="defs">
+      <div class="def"><span class="def-l">加算する</span><p class="def-t">益金算入</p><p class="def-n">会計では収益でないが、税では益金に入れるもの</p></div>
+      <div class="def"><span class="def-l">加算する</span><p class="def-t">損金不算入</p><p class="def-n">会計では費用だが、税では損金にならないもの</p></div>
+      <div class="def"><span class="def-l">減算する</span><p class="def-t">益金不算入</p><p class="def-n">会計では収益だが、税では益金に入れないもの</p></div>
+      <div class="def"><span class="def-l">減算する</span><p class="def-t">損金算入</p><p class="def-n">会計では費用でないが、税では損金にできるもの</p></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">決算で法人税等3,000,000を見積もった</span>
+        <div class="je-row"><span class="dc">(借)</span><span>法人税等</span><span class="amt">3,000,000</span><span class="dc">(貸)</span><span>未払法人税等</span><span class="amt">3,000,000</span></div>
+        <span class="je-n">会計では費用ですが、法人税と住民税は損金になりません。申告書で「損金経理をした納税充当金」として加算します。</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>所得の金額 ＝ <b>益金の額 − 損金の額</b>（法人税法第22条第1項）。益金・損金は、別段の定めがなければ、<span class="hl">一般に公正妥当と認められる会計処理の基準</span>にしたがって計算します。</li>
+      <li>申告は、株主総会で承認された決算（<b>確定した決算</b>）にもとづいて行います（確定決算主義）。だから、減価償却費のように「決算で費用にしたこと（損金経理）」が条件になる項目があります。</li>
+      <li>試験の計算問題は、ほとんどが「当期利益に加算・減算を積み上げて所得を出す」別表四の形です。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>法人の所得の金額は、決算書の当期利益とつねに一致する<span class="why">税法の別段の定めで加算・減算するので、ふつうは一致しません。</span></span></li>
+        <li><span class="mark x">×</span><span>損金不算入額は、当期利益から減算する<span class="why">損金にならない＝所得が増えるので「加算」です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-gimu">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">重要度 ★★☆</span><h3>納税義務者と申告のスケジュール</h3></div>
+    <div class="cases">
+      <div class="case"><span>内国法人</span><b>普通法人・協同組合等</b><small>株式会社、合同会社、農協など</small><span class="to">国内外のすべての所得に課税</span></div>
+      <div class="case"><span>内国法人</span><b>公益法人等・人格のない社団等</b><small>公益社団法人、学校法人、PTAなど</small><span class="to">収益事業の所得だけに課税</span></div>
+      <div class="case"><span>内国法人</span><b>公共法人</b><small>地方公共団体、国立大学法人など</small><span class="to">納税義務なし</span></div>
+      <div class="case"><span>外国法人</span><b>本店が外国にある法人</b><small>日本で事業をしている外国の会社</small><span class="to">国内源泉所得だけに課税</span></div>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">確定</span><span>事業年度終了の日の翌日から<b>2か月以内</b>に確定申告書を出し、納める<small>3月決算なら5月31日まで。会計監査人の監査などで決算が確定しないときは、申告期限の延長の特例があります。</small></span></div>
+      <div class="r-row exc"><span class="r-b">中間</span><span>事業年度が<b>6か月を超える</b>普通法人は、期首から6か月を過ぎた日から2か月以内に中間申告<small>前期の法人税額 × 6／前期の月数（予定申告）。この額が10万円以下なら中間申告は不要。仮決算をして申告することもできます。</small></span></div>
+    </div>
+    <ul class="pts">
+      <li>事業年度は、定款などで定めた会計期間です。<b>1年を超えることはできません</b>。</li>
+      <li>青色申告の承認を受けた法人は、赤字（欠損金）を<span class="hl">翌期以降10年間</span>繰り越して、所得から引けます。中小法人は所得の全額まで、それ以外の法人は所得の50%までです。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">中間申告で法人税1,000,000を納めた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>仮払法人税等</span><span class="amt">1,000,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">1,000,000</span></div>
+        <span class="je-n">中間で納めた税は、確定申告の税額から差し引きます（前払い）。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">前期分の未払法人税等2,000,000を確定申告で納めた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>未払法人税等</span><span class="amt">2,000,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">2,000,000</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>確定申告書は、事業年度終了の日の翌日から3か月以内に出す<span class="why">原則は2か月以内です（3か月は個人の所得税の確定申告期間と混同しやすい）。</span></span></li>
+        <li><span class="mark x">×</span><span>公益法人等は、すべての所得に法人税が課される<span class="why">収益事業（物品販売業など34業種）から生じた所得だけです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-zeigaku">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">重要度 ★★★</span><h3>税率と税額計算の流れ</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="計算問題1の数字で見る税額計算の流れ。法人税額2,613,112から所得税額控除91,890を引いて差引法人税額2,521,200、中間納付額1,000,000を引いて確定申告で納める額1,521,200">
+        <rect x="40" y="50" width="110" height="180" rx="6" class="b-c4"/>
+        <text x="95" y="40" class="t-num c">2,613,112</text>
+        <line x1="150" y1="50" x2="200" y2="50" class="ln dash"/>
+        <rect x="200" y="50" width="110" height="8" rx="3" class="b-c5"/>
+        <text x="255" y="40" class="t-num c f-c5">−91,890</text>
+        <line x1="310" y1="58" x2="360" y2="58" class="ln dash"/>
+        <rect x="360" y="58" width="110" height="172" rx="6" class="b-c2"/>
+        <text x="415" y="48" class="t-num c">2,521,200</text>
+        <line x1="470" y1="58" x2="520" y2="58" class="ln dash"/>
+        <rect x="520" y="58" width="110" height="69" rx="6" class="b-c8"/>
+        <text x="575" y="97" class="t-num c f-c8">−1,000,000</text>
+        <line x1="630" y1="127" x2="680" y2="127" class="ln dash"/>
+        <rect x="680" y="127" width="110" height="103" rx="6" class="b-c1"/>
+        <text x="735" y="117" class="t-num c">1,521,200</text>
+        <line x1="30" y1="230" x2="800" y2="230" class="axis"/>
+        <text x="95" y="256" class="t-b c f-c4">法人税額</text>
+        <text x="95" y="278" class="t-xs c">所得 × 税率</text>
+        <text x="255" y="256" class="t-b c f-c5">所得税額控除</text>
+        <text x="255" y="278" class="t-xs c">源泉所得税</text>
+        <text x="415" y="256" class="t-b c f-c2">差引法人税額</text>
+        <text x="415" y="278" class="t-xs c">百円未満切捨て</text>
+        <text x="575" y="256" class="t-b c f-c8">中間納付額</text>
+        <text x="575" y="278" class="t-xs c">前払いした分</text>
+        <text x="735" y="256" class="t-b c f-c1">確定納付額</text>
+        <text x="735" y="278" class="t-xs c">2か月以内に納める</text>
+      </svg>
+      <figcaption>計算問題1の数字で見た流れです。所得に税率を掛けたあと、引けるものを順に引いていきます。</figcaption>
+    </figure>
+    <ol class="steps">
+      <li>所得金額 ＝ 当期利益 ＋ 加算 − 減算<em>課税標準となる所得金額は千円未満切捨て</em></li>
+      <li class="star">法人税額 ＝ 所得金額 × 税率<em>中小法人は年800万円以下の部分と、超える部分で税率が違う</em></li>
+      <li>差引法人税額 ＝ 法人税額 − 所得税額控除など<em>百円未満切捨て</em></li>
+      <li>確定申告で納める額 ＝ 差引法人税額 − 中間納付額</li>
+    </ol>
+    <div class="two">
+      <div class="box in">
+        <h4>普通法人の税率</h4>
+        <div class="chips"><span class="chip">原則 23.2%</span><span class="chip">中小法人の年800万円以下の部分 15%（本則は19%）</span></div>
+      </div>
+      <div class="box out">
+        <h4>中小法人に当たらないもの</h4>
+        <div class="chips"><span class="chip">期末資本金1億円超</span><span class="chip">資本金5億円以上の大法人の100%子会社</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>「年800万円」は12か月のときの額です。事業年度が6か月なら <b>800万円 × 6/12 ＝ 400万円</b> になります。</li>
+      <li>受取配当や預金利子から引かれた<b>源泉所得税</b>は、法人税の前払いと考えて法人税額から引けます（所得税額控除）。そのかわり、その所得税は損金にならないので加算します。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">配当600,000を受け取り、源泉所得税91,890が引かれた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">508,110</span><span class="dc">(貸)</span><span>受取配当金</span><span class="amt">600,000</span></div>
+        <div class="je-row"><span class="dc">(借)</span><span>租税公課</span><span class="amt">91,890</span><span></span><span></span><span></span></div>
+        <span class="je-n">91,890は「法人税額から控除される所得税額」として加算し、税額計算で差し引きます。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>中小法人の軽減税率は、所得のうち年1,000万円以下の部分に適用される<span class="why">年800万円以下の部分です。</span></span></li>
+        <li><span class="mark x">×</span><span>資本金1億円以下の法人は、どんな場合でも中小法人として軽減税率を使える<span class="why">資本金5億円以上の大法人の100%子会社などは使えません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算1 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 1　所得金額と納める法人税額を出す</span>
+      <p class="scn-story">X社（3月決算、事業年度12か月、期末資本金3,000万円の中小法人）の当期の資料です。年800万円以下の部分の税率は15%、それを超える部分は23.2%とし、地方法人税は考えません。</p>
+      <ul class="given">
+        <li>当期利益 <b>10,000,000</b></li>
+        <li>加算：損金経理をした法人税等 <b>3,000,000</b></li>
+        <li>加算：交際費等の損金不算入額 <b>1,000,000</b></li>
+        <li>加算：減価償却超過額 <b>500,000</b></li>
+        <li>減算：受取配当等の益金不算入額 <b>300,000</b></li>
+        <li>受取配当金600,000から引かれた源泉所得税 <b>91,890</b>（租税公課で処理。全額を控除できる）</li>
+        <li>中間申告で納めた法人税 <b>1,000,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>所得金額はいくらか</li>
+        <li>所得金額に対する法人税額はいくらか</li>
+        <li>差引法人税額（所得税額控除後）はいくらか</li>
+        <li>確定申告で納める法人税額はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>14,091,890</b>（課税標準は千円未満を切り捨てて 14,091,000）<span class="calc">10,000,000 ＋（3,000,000 ＋ 1,000,000 ＋ 500,000 ＋ 91,890）− 300,000 ＝ 14,091,890<br>源泉所得税91,890は「法人税額から控除される所得税額」として加算する</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>2,613,112</b><span class="calc">8,000,000 × 15% ＝ 1,200,000<br>（14,091,000 − 8,000,000）× 23.2% ＝ 6,091,000 × 23.2% ＝ 1,413,112<br>1,200,000 ＋ 1,413,112 ＝ 2,613,112</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>2,521,200</b><span class="calc">2,613,112 − 91,890 ＝ 2,521,222 → 百円未満切捨て 2,521,200</span></span></div>
+          <div class="ans-step"><span class="lb">問4</span><span><b>1,521,200</b><span class="calc">2,521,200 − 中間納付 1,000,000 ＝ 1,521,200</span></span></div>
+          <div class="je">
+            <span class="je-t">配当の受取り（源泉所得税を租税公課で処理）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">508,110</span><span class="dc">(貸)</span><span>受取配当金</span><span class="amt">600,000</span></div>
+            <div class="je-row"><span class="dc">(借)</span><span>租税公課</span><span class="amt">91,890</span><span></span><span></span><span></span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART2 益金 ============ -->
+<section id="ek" class="part part-ek">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>益金：税の世界の収益</h2>
+    <p>益金は、会計の収益とほとんど同じです。ちがうのは、タダで渡したりもらったりした取引も益金になることと、二重課税などを防ぐために「益金に入れない」と決められたものがあることです。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-ekikin">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">重要度 ★★☆</span><h3>益金の額：タダの取引も益金になる</h3></div>
+    <ul class="pts">
+      <li>益金の額には、資産の販売、<b>有償または無償</b>による資産の譲渡や役務の提供、<b>無償による資産の譲受け</b>などの収益が入ります（法人税法第22条第2項）。</li>
+      <li>タダで資産を渡しても、いったん<span class="hl">時価で売って、その代金をあげた</span>と考えます。だから時価が益金になり、あげた分は寄附金などになります。</li>
+    </ul>
+    <div class="lanes">
+      <div class="lane g">
+        <p class="lane-h">タダで渡した（無償譲渡）<small>時価1,000の土地（帳簿価額600）を取引先にあげた</small></p>
+        <ol class="steps">
+          <li>時価1,000で売ったと考える<em>譲渡益400が益金</em></li>
+          <li class="star">1,000をあげたと考える<em>寄附金1,000（損金算入限度額あり）</em></li>
+        </ol>
+      </div>
+      <div class="lane a">
+        <p class="lane-h">タダでもらった（受贈益）<small>取引先から時価500の備品をもらった</small></p>
+        <ol class="steps">
+          <li>備品を500で受け入れる</li>
+          <li class="star">受贈益500が益金<em>100%グループ内の法人からなら益金不算入</em></li>
+        </ol>
+      </div>
+    </div>
+    <div class="two">
+      <div class="box out">
+        <h4>益金に入れないもの（益金不算入）</h4>
+        <div class="chips"><span class="chip">受取配当等の一部または全部</span><span class="chip">資産の評価益（原則）</span><span class="chip">法人税・住民税の還付金</span><span class="chip">100%グループ内の受贈益</span></div>
+      </div>
+      <div class="box in">
+        <h4>似ているけれど益金に入るもの</h4>
+        <div class="chips"><span class="chip">事業税の還付金</span><span class="chip">グループ外からの受贈益</span><span class="chip">外国法人からの配当（外国子会社は95%不算入）</span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">取引先から時価500,000の備品を無償でもらった</span>
+        <div class="je-row"><span class="dc">(借)</span><span>備品</span><span class="amt">500,000</span><span class="dc">(貸)</span><span>受贈益</span><span class="amt">500,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">前期の法人税の還付金300,000を受け取った</span>
+        <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">300,000</span><span class="dc">(貸)</span><span>還付法人税等</span><span class="amt">300,000</span></div>
+        <span class="je-n">法人税は納めたとき損金にならなかったので、戻ってきても益金にしません（減算）。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>無償で資産を譲渡した場合は、代金を受け取っていないので益金は生じない<span class="why">時価で譲渡したものとして、時価が益金になります。</span></span></li>
+        <li><span class="mark x">×</span><span>事業税の還付金は、益金の額に算入されない<span class="why">事業税は損金になる税なので、還付金は益金です。益金不算入は法人税・住民税の還付金です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-haito">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">重要度 ★★★</span><h3>受取配当等の益金不算入</h3></div>
+    <figure class="shot">
+      <a href="受取配当等の益金不算入_図解.png" target="_blank" rel="noopener"><img src="受取配当等の益金不算入_図解.png" width="1600" height="900" loading="lazy" alt="子会社が税をはらった残りから配当するので、親会社で益金にすると二重課税になる。完全子法人株式等は100%、関連法人株式等（3分の1超）は負債利子を引いた残りの100%、その他の株式等（5%超3分の1以下）は50%、非支配目的株式等（5%以下）は20%を益金に入れない"></a>
+      <figcaption><b>図2</b>　持っている株の割合が大きいほど、益金に入れない割合も大きくなります。画像をタップすると大きく表示されます。</figcaption>
+    </figure>
+    <div class="cases">
+      <div class="case"><span>100%（期間中ずっと）</span><b>完全子法人株式等</b><span class="big">100%</span><small>配当の全額を益金不算入</small></div>
+      <div class="case"><span>3分の1超（6か月以上）</span><b>関連法人株式等</b><span class="big">100%</span><small>配当 − 負債利子（原則、配当の4%）を益金不算入</small></div>
+      <div class="case"><span>5%超 〜 3分の1以下</span><b>その他の株式等</b><span class="big">50%</span><small>配当の半分を益金不算入</small></div>
+      <div class="case"><span>5%以下</span><b>非支配目的株式等</b><span class="big">20%</span><small>配当の2割を益金不算入</small></div>
+    </div>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">原則</span><span>内国法人から受け取った配当は、上の割合で益金不算入<small>確定申告書に益金不算入額と計算の明細を書いたときに適用されます。</small></span></div>
+      <div class="r-row exc"><span class="r-b">対象外</span><span>配当の基準日以前<b>1か月以内</b>に取得し、基準日後<b>2か月以内</b>に譲渡した株式（短期保有株式等）の配当<small>配当だけを目当てにした売り買いを防ぐためです。外国法人からの配当もこの制度の対象外です。</small></span></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">その他の株式等（10%保有）の配当400,000を受け取った</span>
+        <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">400,000</span><span class="dc">(貸)</span><span>受取配当金</span><span class="amt">400,000</span></div>
+        <span class="je-n">会計では収益400,000のまま。申告書で50%の200,000を減算します（源泉所得税は考えない）。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>関連法人株式等とは、発行済株式の5%超を保有する株式をいう<span class="why">3分の1超です。5%超〜3分の1以下は「その他の株式等」です。</span></span></li>
+        <li><span class="mark x">×</span><span>非支配目的株式等の配当は、その50%が益金不算入となる<span class="why">20%です。50%はその他の株式等です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算2 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 2　受取配当等の益金不算入額を出す</span>
+      <p class="scn-story">Y社が当期に受け取った配当は次のとおりです（すべて内国法人からの配当、源泉所得税は考えない）。関連法人株式等の負債利子は、配当の4%とします。</p>
+      <ul class="given">
+        <li>A社（100%子会社、期間中ずっと保有）<b>1,000,000</b></li>
+        <li>B社（40%保有、2年前から保有）<b>500,000</b></li>
+        <li>C社（10%保有）<b>400,000</b></li>
+        <li>D社（上場会社、1%保有）<b>300,000</b></li>
+        <li>E社（1%保有。配当基準日の2週間前に買い、1か月後に売却）<b>100,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>それぞれの株式は、どの区分に当たるか</li>
+        <li>B社の配当の益金不算入額はいくらか</li>
+        <li>受取配当等の益金不算入額の合計はいくらか</li>
+        <li>申告書ではどう調整するか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>A社：完全子法人株式等 ／ B社：関連法人株式等 ／ C社：その他の株式等 ／ D社：非支配目的株式等 ／ E社：短期保有株式等（対象外）<span class="calc">E社は基準日以前1か月以内に取得し、基準日後2か月以内に譲渡しているので益金不算入にならない</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>480,000</b><span class="calc">500,000 − 負債利子（500,000 × 4% ＝ 20,000）＝ 480,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>1,740,000</b><span class="calc">A社 1,000,000 ＋ B社 480,000 ＋ C社 400,000 × 50% ＝ 200,000 ＋ D社 300,000 × 20% ＝ 60,000<br>＝ 1,740,000（E社 0）</span></span></div>
+          <div class="ans-step"><span class="lb">問4</span><span>当期利益から <b>1,740,000を減算</b>（益金不算入）<span class="calc">会計では受取配当金2,300,000が全額収益に入っているので、益金に入れない分を引く</span></span></div>
+          <div class="je">
+            <span class="je-t">配当をまとめて受け取った（会計の仕訳）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>現金</span><span class="amt">2,300,000</span><span class="dc">(貸)</span><span>受取配当金</span><span class="amt">2,300,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART3 損金 ============ -->
+<section id="sn" class="part part-sn">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>損金：税の世界の費用</h2>
+    <p>損金も、会計の費用がもとになります。ただし、税金・減価償却・役員給与などは、会社が好きな額を費用にして税を減らせないように、税法で「損金にできる範囲」が決められています。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-sonkin">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">重要度 ★★★</span><h3>損金の額と租税公課</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">損金その1</span><p class="def-t">売上原価など</p><p class="def-n">売れた商品の原価、完成工事原価</p></div>
+      <div class="def"><span class="def-l">損金その2</span><p class="def-t">販売費・一般管理費など</p><p class="def-n">償却費以外は、期末までに債務が確定しているものだけ</p></div>
+      <div class="def"><span class="def-l">損金その3</span><p class="def-t">損失</p><p class="def-n">災害の損失など。資本等取引は除く</p></div>
+    </div>
+    <div class="two">
+      <div class="box in">
+        <h4>損金になる税金など</h4>
+        <div class="chips"><span class="chip">事業税・特別法人事業税</span><span class="chip">固定資産税</span><span class="chip">印紙税</span><span class="chip">自動車税</span><span class="chip">利子税</span></div>
+      </div>
+      <div class="box out">
+        <h4>損金にならない税金など（加算）</h4>
+        <div class="chips"><span class="chip">法人税・地方法人税</span><span class="chip">住民税（道府県民税・市町村民税）</span><span class="chip">延滞税・加算税</span><span class="chip">印紙税の過怠税</span><span class="chip">罰金・科料・過料・交通反則金</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>事業税は、<span class="hl">申告書を出した日の属する事業年度</span>の損金です。当期分の事業税を決算で未払計上しても当期の損金にはならず、翌期に申告したときに損金になります。</li>
+      <li>引当金は、税法で認められたもの（中小法人などの貸倒引当金など）以外は、債務が確定していないので損金になりません。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">前期分の事業税200,000を、未払法人税等から納めた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>未払法人税等</span><span class="amt">200,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">200,000</span></div>
+        <span class="je-n">会計の費用にはならないが、当期の損金なので申告書で減算します。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">延滞税50,000を納めた</span>
+        <div class="je-row"><span class="dc">(借)</span><span>租税公課</span><span class="amt">50,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">50,000</span></div>
+        <span class="je-n">ペナルティなので損金にならず、加算します。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>事業税は、法人税と同じく損金の額に算入されない<span class="why">事業税は損金になります。損金にならないのは法人税・地方法人税・住民税です。</span></span></li>
+        <li><span class="mark x">×</span><span>延滞税や加算税は、税金なので損金の額に算入される<span class="why">納付が遅れたことなどへのペナルティなので、損金になりません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-shokyaku">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">重要度 ★★★</span><h3>減価償却：損金になるのは償却限度額まで</h3></div>
+    <figure class="shot">
+      <a href="減価償却_図解.png" target="_blank" rel="noopener"><img src="減価償却_図解.png" width="1600" height="900" loading="lazy" alt="償却限度額30万円の機械で、会社が40万円を費用にすると償却超過額10万円を加算、30万円なら調整なし、20万円なら償却不足額10万円は切り捨て。定額法と定率法の計算式、届出がないときの法定償却方法、10万円未満の少額減価償却資産と20万円未満の一括償却資産"></a>
+      <figcaption><b>図3</b>　多すぎた分は加算して翌年以降に持ちこし、少なすぎた分はあとから取り戻せません。画像をタップすると大きく表示されます。</figcaption>
+    </figure>
+    <div class="rule">
+      <div class="r-row gen"><span class="r-b">超過</span><span>会社の償却費 &gt; 償却限度額 → 差額（<b>償却超過額</b>）を加算<small>超過額は翌期以降に繰り越し、償却不足が出た年に、その不足額の範囲で減算（認容）します。</small></span></div>
+      <div class="r-row exc"><span class="r-b">不足</span><span>会社の償却費 &lt; 償却限度額 → 調整なし（<b>償却不足額は切り捨て</b>）<small>損金経理（決算で費用にすること）が条件なので、申告書だけで引くことはできません。</small></span></div>
+    </div>
+    <div class="formulas">
+      <div class="formula">
+        <span class="lbl">定額法の償却限度額</span>
+        <span class="fx">取得価額</span><span class="op">×</span><span class="fx">定額法の償却率</span><span class="op">×</span><span class="fx">使った月数／12</span><span class="op">＝</span><span class="res">償却限度額</span>
+      </div>
+      <div class="formula">
+        <span class="lbl">定率法の償却限度額（2012年4月以後に取得したもの）</span>
+        <span class="fx">期首の帳簿価額</span><span class="op">×</span><span class="fx">定率法の償却率（定額法の率 × 2）</span><span class="op">＝</span><span class="res">償却限度額</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>償却方法を届け出なかったときは、<b>法定償却方法</b>になります。機械や車両は定率法、建物・建物附属設備・構築物は定額法（定率法は選べない）です。</li>
+      <li>取得価額<b>10万円未満</b>（または使える期間が1年未満）の資産は、使い始めた年に損金経理すれば全額が損金です（少額減価償却資産）。</li>
+      <li>取得価額<b>20万円未満</b>の資産は、まとめて<b>3年で3分の1ずつ</b>損金にする方法も選べます（一括償却資産）。使い始めた月に関係なく、12か月の事業年度なら取得価額 × 12/36 です。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">機械の減価償却費400,000を計上（償却限度額300,000）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">400,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">400,000</span></div>
+        <span class="je-n">400,000 − 300,000 ＝ 100,000 を償却超過額として加算します。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">パソコン1台98,000を買ってすぐ使った（少額減価償却資産）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>消耗品費</span><span class="amt">98,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">98,000</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>償却不足額は、翌事業年度に繰り越して損金の額に算入できる<span class="why">償却不足額は切り捨てです。繰り越せるのは償却超過額のほうです。</span></span></li>
+        <li><span class="mark x">×</span><span>償却方法を届け出ていない建物は、定率法で償却する<span class="why">建物は定額法です（そもそも定率法は選べません）。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-yakuin">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">重要度 ★★★</span><h3>役員給与：損金になるのは3つの形だけ</h3></div>
+    <figure class="shot">
+      <a href="役員給与_図解.png" target="_blank" rel="noopener"><img src="役員給与_図解.png" width="1600" height="900" loading="lazy" alt="損金になるのは、毎月同じ額の定期同額給与、前もって税務署に届け出た事前確定届出給与、条件を満たした業績連動給与の3つ。届出のない役員賞与や、期の途中で理由なく増やした部分、不相当に高額な部分は損金にならない。例として11月から月10万円増やすと、10万円×5か月の50万円を加算"></a>
+      <figcaption><b>図4</b>　役員は自分の給料を自分で決められるので、前もって決めた形のものだけを損金にします。画像をタップすると大きく表示されます。</figcaption>
+    </figure>
+    <div class="cases">
+      <div class="case"><span>形1</span><b>定期同額給与</b><small>1か月以下の期間ごとに同じ額。改定は原則、期首から3か月以内</small><span class="to">月給はこの形</span></div>
+      <div class="case"><span>形2</span><b>事前確定届出給与</b><small>決まった時期に決まった額を払うことを、期限までに税務署に届け出る</small><span class="to">役員賞与はこの形</span></div>
+      <div class="case"><span>形3</span><b>業績連動給与</b><small>利益などの指標で計算。算定方法を前もって決めて開示する</small><span class="to">同族会社は原則使えない</span></div>
+    </div>
+    <div class="two">
+      <div class="box out">
+        <h4>損金にならない（加算）</h4>
+        <div class="chips"><span class="chip">3つの形に当たらない給与</span><span class="chip">届出額と違う額の事前確定届出給与（原則全額）</span><span class="chip">期中に理由なく増やした部分</span><span class="chip">不相当に高額な部分</span><span class="chip">隠蔽・仮装して払った給与</span></div>
+      </div>
+      <div class="box in">
+        <h4>役員給与の規制を受けないもの</h4>
+        <div class="chips"><span class="chip">使用人（従業員）の給与・賞与</span><span class="chip">役員の退職給与（高額な部分を除く）</span><span class="chip">使用人兼務役員の使用人分の賞与（他の使用人と同時期に支給）</span></div>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">届出をせずに役員賞与2,000,000を払った</span>
+        <div class="je-row"><span class="dc">(借)</span><span>役員賞与</span><span class="amt">2,000,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">2,000,000</span></div>
+        <span class="je-n">3つの形のどれにも当たらないので、全額を加算します（源泉所得税は考えない）。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>事前確定届出給与を届出額より少なく払ったときは、払った額が損金になる<span class="why">届出どおりでないので、原則として全額が損金になりません。</span></span></li>
+        <li><span class="mark x">×</span><span>期の途中で理由なく役員の月給を増やすと、その役員の給与の全額が損金にならない<span class="why">損金にならないのは、増やした部分だけです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算3 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 3　減価償却と役員給与の申告調整</span>
+      <p class="scn-story">Z社（3月決算、事業年度12か月）の当期の資料です。</p>
+      <ul class="given">
+        <li>機械：取得価額 <b>3,000,000</b>、当期7月に使い始めた、定額法・耐用年数10年（償却率0.100）、会社が計上した減価償却費 <b>300,000</b></li>
+        <li>代表取締役：4〜6月は月額 <b>800,000</b>、6月の定時株主総会で決議し7月から月額 <b>1,000,000</b></li>
+        <li>取締役B：4〜10月は月額 <b>500,000</b>、臨時改定事由なく11月から月額 <b>600,000</b></li>
+        <li>代表取締役に12月に賞与 <b>2,000,000</b>（事前確定届出なし）</li>
+      </ul>
+      <ol class="scn-q">
+        <li>機械の償却限度額はいくらか</li>
+        <li>機械の申告調整はどうなるか</li>
+        <li>役員給与の損金不算入額はいくらか</li>
+        <li>この資料で加算する額の合計はいくらか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span><b>225,000</b><span class="calc">3,000,000 × 0.100 × 9／12（7月〜3月の9か月）＝ 225,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span>償却超過額 <b>75,000を加算</b><span class="calc">300,000 − 225,000 ＝ 75,000（翌期以降に繰り越す）</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>2,500,000</b><span class="calc">代表取締役の増額は期首から3か月以内の定時総会による改定なので、月給は全額損金<br>取締役B：増額分 100,000 × 5か月（11月〜3月）＝ 500,000<br>届出のない賞与 2,000,000<br>500,000 ＋ 2,000,000 ＝ 2,500,000</span></span></div>
+          <div class="ans-step"><span class="lb">問4</span><span><b>2,575,000</b><span class="calc">75,000 ＋ 2,500,000 ＝ 2,575,000</span></span></div>
+          <div class="je">
+            <span class="je-t">機械の減価償却（会社の仕訳）</span>
+            <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">300,000</span><span class="dc">(貸)</span><span>減価償却累計額</span><span class="amt">300,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PART4 交際費等と寄附金 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>交際費等と寄附金</h2>
+    <p>どちらも「事業に必要か、はっきりしない支出」です。全部を損金にすると税が減りすぎるので、損金にできる額に上限があります。計算問題でよく出る、加算額を出す型をおさえます。</p>
+  </div>
+
+  <!-- 4-1 -->
+  <div class="unit" id="u-kosai">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">重要度 ★★★</span><h3>交際費等：資本金で変わる損金不算入額</h3></div>
+    <figure class="shot">
+      <a href="交際費等_図解.png" target="_blank" rel="noopener"><img src="交際費等_図解.png" width="1600" height="900" loading="lazy" alt="1人1万円以下の取引先との飲食、従業員みんなの慰安、カレンダーや手帳、会議のお茶や弁当は交際費等に入らない。資本金1億円以下の中小法人は年800万円か接待飲食費の50%の有利なほうまで損金、1億円超100億円以下は接待飲食費の50%まで損金、100億円超は全額損金にならない"></a>
+      <figcaption><b>図5</b>　まず交際費等に入らないものを外し、次に期末の資本金で計算方法を決めます。画像をタップすると大きく表示されます。</figcaption>
+    </figure>
+    <div class="cases">
+      <div class="case"><span>資本金 1億円以下</span><b>中小法人</b><small>A：年800万円（定額控除限度額）まで損金<br>B：接待飲食費の50%まで損金</small><span class="to">AとBの有利なほう</span></div>
+      <div class="case"><span>資本金 1億円超〜100億円以下</span><b>大法人</b><small>接待飲食費の50%まで損金</small><span class="to">交際費等 − 接待飲食費 × 50% を加算</span></div>
+      <div class="case"><span>資本金 100億円超</span><b>超大法人</b><small>上限なし</small><span class="to">全額を加算</span></div>
+    </div>
+    <div class="two">
+      <div class="box in">
+        <h4>交際費等に入るもの</h4>
+        <div class="chips"><span class="chip">得意先・仕入先の接待</span><span class="chip">お中元・お歳暮</span><span class="chip">取引先の慶弔の費用</span><span class="chip">1人1万円を超える社外の人との飲食</span><span class="chip">社内の人だけの飲み会</span></div>
+      </div>
+      <div class="box out">
+        <h4>交際費等に入らないもの</h4>
+        <div class="chips"><span class="chip">1人1万円以下の社外の人との飲食</span><span class="chip">従業員みんなの慰安旅行・運動会</span><span class="chip">カレンダー・手帳など</span><span class="chip">会議のお茶・弁当</span><span class="chip">取材費</span></div>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>年800万円は12か月のときの額です。事業年度が6か月なら <b>800万円 × 6/12</b> です。</li>
+      <li>1人1万円以下の飲食費を交際費等から外すには、日付・参加者・人数などを書いた書類の保存が必要です。2024年3月31日以前の支出は「1人5,000円以下」でした。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">得意先を接待して12,000,000を払った（中小法人）</span>
+        <div class="je-row"><span class="dc">(借)</span><span>交際費</span><span class="amt">12,000,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">12,000,000</span></div>
+        <span class="je-n">定額控除限度額を使うと、12,000,000 − 8,000,000 ＝ 4,000,000 を加算します。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>資本金1億円超の法人も、年800万円の定額控除限度額を使える<span class="why">定額控除限度額は中小法人だけです。</span></span></li>
+        <li><span class="mark x">×</span><span>社内の役員・従業員だけの飲み会も、1人1万円以下なら交際費等から外せる<span class="why">社内飲食費は1万円基準の対象外です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4-2 -->
+  <div class="unit" id="u-kifu">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">重要度 ★★☆</span><h3>寄附金：相手で変わる損金算入額</h3></div>
+    <ul class="pts">
+      <li>寄附金は、金銭や資産、経済的な利益を<b>タダであげること</b>です。名前が寄附金でなくても、時価より安く売った差額なども寄附金になります。</li>
+      <li>寄附金は<span class="hl">実際に払ったとき</span>に寄附金になります。未払いで計上した寄附金は、払うまで寄附金になりません（加算）。</li>
+    </ul>
+    <div class="cases">
+      <div class="case"><span>相手</span><b>国・地方公共団体、指定寄附金</b><small>市への寄附、財務大臣が指定した寄附金</small><span class="to">全額が損金</span></div>
+      <div class="case"><span>相手</span><b>特定公益増進法人など</b><small>日本赤十字社、公益社団法人など</small><span class="to">一般の枠とは別の、特別な枠まで損金</span></div>
+      <div class="case"><span>相手</span><b>一般の寄附金</b><small>町内会、政治団体など上記以外</small><span class="to">損金算入限度額まで損金</span></div>
+      <div class="case"><span>相手</span><b>100%グループ内の法人</b><small>完全支配関係がある法人への寄附</small><span class="to">全額が損金にならない</span></div>
+    </div>
+    <div class="formula">
+      <span class="lbl">一般の寄附金の損金算入限度額（普通法人）</span>
+      <span class="fx">資本金等の額 × 月数/12 × 2.5/1000</span><span class="op">＋</span><span class="fx">所得の金額 × 2.5/100</span><span class="op">×</span><span class="fx">1/4</span><span class="op">＝</span><span class="res">限度額</span>
+    </div>
+    <ul class="pts">
+      <li>式の「所得の金額」は、<b>寄附金を引く前の所得</b>（申告書の仮計の額 ＋ 支出した寄附金の額）です。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">町内会に寄附を約束し、まだ払っていない300,000</span>
+        <div class="je-row"><span class="dc">(借)</span><span>寄附金</span><span class="amt">300,000</span><span class="dc">(貸)</span><span>未払金</span><span class="amt">300,000</span></div>
+        <span class="je-n">払っていないので、当期の寄附金にはならず加算します。払った期の寄附金になります。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">市に100,000を寄附した</span>
+        <div class="je-row"><span class="dc">(借)</span><span>寄附金</span><span class="amt">100,000</span><span class="dc">(貸)</span><span>現金</span><span class="amt">100,000</span></div>
+        <span class="je-n">国・地方公共団体への寄附金なので、全額が損金です。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>未払計上した寄附金は、計上した事業年度の寄附金になる<span class="why">寄附金は支払った事業年度の寄附金です（現金主義）。</span></span></li>
+        <li><span class="mark x">×</span><span>一般の寄附金の損金算入限度額の「所得の金額」は、寄附金を引いたあとの所得である<span class="why">寄附金を引く前の所得です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 計算4 -->
+  <div class="unit">
+    <div class="scn">
+      <span class="scn-l">計算問題 4　交際費等の損金不算入額を出す</span>
+      <p class="scn-story">W社（3月決算、事業年度12か月、期末資本金5,000万円の中小法人）が交際費勘定に計上した額は13,000,000です。その内訳は次のとおりです。</p>
+      <ul class="given">
+        <li>得意先との飲食（1人あたり8,000円）<b>600,000</b></li>
+        <li>従業員全員の慰安旅行 <b>400,000</b></li>
+        <li>得意先との飲食（1人あたり1万円超）<b>10,000,000</b></li>
+        <li>得意先へのお中元・お歳暮 <b>2,000,000</b></li>
+      </ul>
+      <ol class="scn-q">
+        <li>交際費等の額と、そのうちの接待飲食費の額はいくらか</li>
+        <li>定額控除限度額を使った場合の損金不算入額はいくらか</li>
+        <li>接待飲食費の50%を使った場合の損金不算入額はいくらか</li>
+        <li>有利なのはどちらか。申告書ではどう調整するか</li>
+      </ol>
+      <details class="scn-a">
+        <summary>解答と解説を見る</summary>
+        <div class="ans">
+          <div class="ans-step"><span class="lb">問1</span><span>交際費等 <b>12,000,000</b>、接待飲食費 <b>10,000,000</b><span class="calc">1人1万円以下の飲食600,000と、慰安旅行400,000（福利厚生費）は交際費等から外す<br>13,000,000 − 600,000 − 400,000 ＝ 12,000,000</span></span></div>
+          <div class="ans-step"><span class="lb">問2</span><span><b>4,000,000</b><span class="calc">12,000,000 − 8,000,000 × 12/12 ＝ 4,000,000</span></span></div>
+          <div class="ans-step"><span class="lb">問3</span><span><b>7,000,000</b><span class="calc">12,000,000 − 10,000,000 × 50% ＝ 7,000,000</span></span></div>
+          <div class="ans-step"><span class="lb">問4</span><span>定額控除限度額が有利。<b>4,000,000を加算</b><span class="calc">損金不算入額が少ないほう（損金にできる額が多いほう）を選ぶ</span></span></div>
+          <div class="je">
+            <span class="je-t">慰安旅行は福利厚生費に振り替えるとわかりやすい</span>
+            <div class="je-row"><span class="dc">(借)</span><span>福利厚生費</span><span class="amt">400,000</span><span class="dc">(貸)</span><span>交際費</span><span class="amt">400,000</span></div>
+          </div>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">50</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例（または正しい文）」「なぜ？」「具体例で確認」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-sk-btn" data-qf="sk" aria-pressed="false">法人税のしくみ</button>
+    <button type="button" class="btn f-ek-btn" data-qf="ek" aria-pressed="false">益金</button>
+    <button type="button" class="btn f-sn-btn" data-qf="sn" aria-pressed="false">損金</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">交際費等と寄附金</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">50</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card part-sk">
+      <h3>法人税のしくみ：まずここから</h3>
+      <ol>
+        <li>当期利益 ＋ 加算 − 減算 ＝ 所得金額</li>
+        <li>加算は益金算入・損金不算入、減算は益金不算入・損金算入</li>
+        <li>税率23.2%、中小法人の年800万円以下は15%</li>
+        <li>確定申告は2か月以内、中間申告は10万円以下なら不要</li>
+      </ol>
+    </div>
+    <div class="prio-card part-ek">
+      <h3>益金：まずここから</h3>
+      <ol>
+        <li>無償譲渡も受贈益も益金</li>
+        <li>受取配当等は100・100・50・20</li>
+        <li>関連法人は負債利子を引く、短期保有と外国法人は対象外</li>
+        <li>法人税・住民税の還付は益金不算入、事業税の還付は益金</li>
+      </ol>
+    </div>
+    <div class="prio-card part-sn">
+      <h3>損金：まずここから</h3>
+      <ol>
+        <li>法人税・住民税・延滞税・罰金は損金不算入、事業税は損金</li>
+        <li>償却超過額は加算して繰越し、償却不足額は切捨て</li>
+        <li>10万円未満は全額損金、20万円未満は3年で3分の1ずつ</li>
+        <li>役員給与は定期同額・事前確定届出・業績連動の3つだけ</li>
+      </ol>
+    </div>
+    <div class="prio-card part-kk">
+      <h3>交際費等と寄附金：まずここから</h3>
+      <ol>
+        <li>1人1万円以下の社外飲食、慰安旅行は交際費等から外す</li>
+        <li>中小法人は800万円と飲食費50%の有利なほう</li>
+        <li>国・地方公共団体への寄附金は全額損金</li>
+        <li>寄附金は支払ったときに認識、未払いは加算</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>法人税法の計算は、どれも「当期利益 ＋ 加算 − 減算 ＝ 所得」の形です。各論点は、会計とどこがちがうから「足す」のか「引く」のかを決めるためのルールだと考えると、論点どうしがつながります。迷ったら「所得（税をかける金額）が増えるなら加算、減るなら減算」と考えましょう。</p>
+</section>
+
+<footer>
+  <p>参照：法人税法、法人税法施行令、法人税基本通達、租税特別措置法、同施行令。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。中小法人の軽減税率（15%）や交際費等の特例などは租税特別措置法による期限つきの規定で、防衛特別法人税の創設など改正も続いています。受験する年度の法令と条文の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, x:具体例で確認, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var JE_JUNO = ["決算で法人税等3,000,000を見積もった（申告書で加算）", [["法人税等",3000000,"未払法人税等",3000000]]];
+  var JE_SHOYO = ["届出をせずに役員賞与2,000,000を払った（申告書で加算）", [["役員賞与",2000000,"現金",2000000]]];
+  var JE_HAITO_GEN = ["配当600,000を受け取り、源泉所得税91,890が引かれた", [["現金",508110,"受取配当金",600000],["租税公課",91890,"",""]]];
+  var JE_SHUEKI = ["公益法人等が収益事業（物品販売）で商品を100,000で売った", [["現金",100000,"売上",100000]]];
+  var JE_KIFU_KUNI = ["会社が市（地方公共団体）に100,000を寄附した（全額損金）", [["寄附金",100000,"現金",100000]]];
+  var JE_KAKUTEI = ["前期分の未払法人税等2,000,000を、確定申告で納めた", [["未払法人税等",2000000,"現金",2000000]]];
+  var JE_CHUKAN = ["中間申告で法人税1,000,000を納めた", [["仮払法人税等",1000000,"現金",1000000]]];
+  var JE_KINTO = ["赤字の年：法人税等は住民税の均等割70,000だけを計上した", [["法人税等",70000,"未払法人税等",70000]]];
+  var JE_MUSHO = ["税務ではこう考える：時価1,000,000の土地（帳簿価額600,000）を取引先に無償で譲った", [["寄附金",1000000,"土地",600000],["","","土地譲渡益",400000]]];
+  var JE_JUZO = ["取引先から時価500,000の備品を無償でもらった", [["備品",500000,"受贈益",500000]]];
+  var JE_KANZEN = ["100%子会社から配当1,000,000を受け取った（全額を減算）", [["現金",1000000,"受取配当金",1000000]]];
+  var JE_KANREN = ["40%保有の会社から配当500,000を受け取った（負債利子20,000を引いた480,000を減算）", [["現金",500000,"受取配当金",500000]]];
+  var JE_HISHIHAI = ["上場会社（1%保有）から配当300,000を受け取った（20%の60,000を減算）", [["現金",300000,"受取配当金",300000]]];
+  var JE_TANKI = ["短期保有株式の配当100,000を受け取った（減算しない）", [["現金",100000,"受取配当金",100000]]];
+  var JE_GAIKOKU = ["外国の会社（5%保有）から配当200,000を受け取った（減算しない）", [["現金",200000,"受取配当金",200000]]];
+  var JE_HYOKA = ["土地の帳簿価額を1,000,000増やした（評価益は益金にならず減算）", [["土地",1000000,"土地評価益",1000000]]];
+  var JE_KANPU_HO = ["前期の法人税の還付金300,000を受け取った（益金不算入で減算）", [["現金",300000,"還付法人税等",300000]]];
+  var JE_KANPU_JIGYO = ["前期の事業税の還付金100,000を受け取った（益金になる）", [["現金",100000,"雑収入",100000]]];
+  var JE_SAIMU = ["3月分の電気代50,000の請求が3月末までに確定した（支払いは4月）", [["水道光熱費",50000,"未払金",50000]]];
+  var JE_JIGYOZEI = ["前期分の事業税200,000を、未払法人税等から納めた（当期の損金→減算）", [["未払法人税等",200000,"現金",200000]]];
+  var JE_ENTAI = ["延滞税50,000を納めた（損金にならず加算）", [["租税公課",50000,"現金",50000]]];
+  var JE_BAKKIN = ["社用車の交通反則金15,000を払った（損金にならず加算）", [["雑損失",15000,"現金",15000]]];
+  var JE_ZOGAKU = ["11月から役員の月給を500,000→600,000に増やした（増額分100,000は加算）", [["役員報酬",600000,"現金",600000]]];
+  var JE_SHOKYAKU = ["機械の減価償却費400,000を計上（償却限度額300,000→100,000を加算）", [["減価償却費",400000,"減価償却累計額",400000]]];
+  var JE_FUSOKU = ["機械の減価償却費200,000を計上（償却限度額300,000→不足100,000は切り捨て）", [["減価償却費",200000,"減価償却累計額",200000]]];
+  var JE_NINYO = ["翌期に減価償却費250,000を計上（限度額300,000。前期の超過100,000のうち50,000を減算）", [["減価償却費",250000,"減価償却累計額",250000]]];
+  var JE_TATEMONO = ["建物（取得価額30,000,000、耐用年数50年、定額法の償却率0.020）の1年分の償却", [["減価償却費",600000,"減価償却累計額",600000]]];
+  var JE_SHOGAKU = ["パソコン1台98,000を買ってすぐ使った（少額減価償却資産）", [["消耗品費",98000,"現金",98000]]];
+  var JE_IKKATSU = ["150,000の備品を一括償却資産にして、1年目に3分の1を費用にした", [["一括償却資産",150000,"現金",150000],null,["減価償却費",50000,"一括償却資産",50000]]];
+  var JE_TEIKI = ["役員の月給500,000を払った（定期同額給与）", [["役員報酬",500000,"現金",500000]]];
+  var JE_JIZEN = ["届出額1,000,000の役員賞与を、800,000だけ払った（原則、全額を加算）", [["役員賞与",800000,"現金",800000]]];
+  var JE_KOSAI = ["得意先を接待して12,000,000を払った", [["交際費",12000000,"現金",12000000]]];
+  var JE_KOSAI6 = ["事業年度6か月の中小法人が交際費等5,000,000を払った（4,000,000を超える1,000,000を加算）", [["交際費",5000000,"現金",5000000]]];
+  var JE_INSHOKU = ["得意先と1人8,000円の会食（4人で32,000）をした（交際費等に入れない）", [["会議費",32000,"現金",32000]]];
+  var JE_SHANAI = ["役員と部長だけで1人8,000円の飲み会（4人で32,000）をした（交際費等に入る）", [["交際費",32000,"現金",32000]]];
+  var JE_IAN = ["従業員全員の慰安旅行400,000を払った（福利厚生費）", [["福利厚生費",400000,"現金",400000]]];
+  var JE_KIFU_MIBARAI = ["町内会に寄附を約束し、まだ払っていない300,000（申告書で加算）", [["寄附金",300000,"未払金",300000]]];
+  var JE_KIFU_IPPAN = ["政治団体に一般の寄附金500,000を払った", [["寄附金",500000,"現金",500000]]];
+  var M_SHIKUMI = "所得の金額 ＝ 益金の額 − 損金の額。実際の計算は、当期利益 ＋ 加算（益金算入・損金不算入）− 減算（益金不算入・損金算入）。";
+  var M_KAKUTEI = "確定決算主義：株主総会で承認された決算にもとづいて申告する。減価償却などは損金経理が条件。";
+  var M_GIMU = "普通法人・協同組合等 → すべての所得。公益法人等・人格のない社団等 → 収益事業の所得だけ。公共法人 → 納税義務なし。外国法人 → 国内源泉所得だけ。";
+  var M_SHINKOKU = "事業年度は1年以内。確定申告は終了の日の翌日から2か月以内。中間申告は事業年度6か月超の普通法人で、前期実績×6/前期月数が10万円以下なら不要。";
+  var M_ZEIRITSU = "普通法人23.2%。中小法人（期末資本金1億円以下。大法人の100%子会社などを除く）は年800万円以下の部分15%（本則19%）。800万円は月数で按分。";
+  var M_KESSON = "青色申告法人の欠損金は10年間繰越し。中小法人は所得の全額まで、それ以外は所得の50%まで控除。";
+  var M_GENSEN = "源泉所得税は法人税額から控除できる（所得税額控除）。控除する分は損金にならないので加算する。";
+  var M_EKIKIN = "益金：資産の販売、有償・無償の資産の譲渡や役務の提供、無償の資産の譲受けなど。無償譲渡は時価で益金、相手にあげた分は寄附金。";
+  var M_HAITO = "受取配当等の益金不算入：完全子法人100%、関連法人（3分の1超）100%（負債利子を控除）、その他（5%超）50%、非支配目的（5%以下）20%。";
+  var M_HAITO_GAI = "対象外：短期保有株式等（基準日以前1か月以内に取得し、基準日後2か月以内に譲渡）、外国法人からの配当（外国子会社配当は別制度で95%）。";
+  var M_FUSANNYU = "評価益は原則益金不算入。法人税・地方法人税・住民税の還付金は益金不算入（納めたとき損金でないから）。事業税の還付金は益金。";
+  var M_SONKIN = "損金：売上原価、販管費（償却費以外は期末までに債務確定したもの）、損失。";
+  var M_SOZEI = "損金不算入：法人税・地方法人税・住民税、延滞税・加算税・過怠税、罰金・科料・過料・交通反則金。損金算入：事業税（申告した年度）、固定資産税、印紙税、自動車税、利子税。";
+  var M_SHOKYAKU = "償却費は損金経理した額のうち償却限度額まで。超過額は加算して繰越し（不足が出た年に、その範囲で減算）。不足額は切り捨て。";
+  var M_HOHO = "法定償却方法：機械・車両などは定率法。建物・建物附属設備・構築物は定額法（定率法は選べない）。";
+  var M_SHOGAKU = "10万円未満（または使える期間1年未満）→ 少額減価償却資産で全額損金。20万円未満 → 一括償却資産で3年均等（取得価額×事業年度の月数/36）。";
+  var M_YAKUIN = "役員給与で損金になるのは、定期同額給与・事前確定届出給与・業績連動給与の3つだけ。それでも不相当に高額な部分や隠蔽仮装による給与は損金不算入。";
+  var M_KOSAI = "交際費等の損金不算入：資本金1億円以下は800万円（月数按分）と接待飲食費50%の有利なほう。1億円超100億円以下は接待飲食費50%。100億円超は全額不算入。";
+  var M_KOSAI_GAI = "交際費等から外すもの：1人1万円以下の社外の人との飲食（社内飲食は除く）、従業員みんなの慰安、カレンダー・手帳、会議の茶菓・弁当、取材費。";
+  var M_KIFU = "寄附金：国・地方公共団体と指定寄附金は全額損金。特定公益増進法人などは特別枠。一般は（資本金等×月数/12×2.5/1000＋寄附金を引く前の所得×2.5/100）×1/4。支払ったときに認識。";
+  var HO = "法人税法", REI = "法人税法施行令", TSU = "法人税基本通達", SOTOKU = "租税特別措置法";
+
+  var Q = [
+    /* ---- 法人税のしくみ ---- */
+    {p:"sk", q:"各事業年度の所得の金額は、その事業年度の益金の額から損金の額を控除した金額である。", a:true, k:"益金の額から損金の額を控除した金額", t:"収益の額から費用の額を控除した金額（当期利益）",
+     y:"法人税をかける「所得」は、税法上の収益（益金）から税法上の費用（損金）を引いて求めます。益金・損金は会計の収益・費用がもとになりますが、税法の別段の定めでずれる部分があるので、会計の当期利益とは一致しないのがふつうです。",
+     x:"当期利益1,000万円の会社で、損金にならない交際費が300万円、益金にならない受取配当が100万円あれば、所得は1,000 ＋ 300 − 100 ＝ 1,200万円。",
+     m:M_SHIKUMI, j:JE_JUNO, s:HO + "第21条・第22条第1項"},
+    {p:"sk", q:"法人の所得の金額は、決算書の当期利益とつねに一致する。", a:false, k:"つねに一致する", t:"申告調整（加算・減算）をするので、ふつうは一致しない",
+     y:"会計は会社の成績を正しく表すため、税法は公平に税を集めるためのルールで、目的がちがいます。そこで、決算書の当期利益を出発点に、税法で決められたものだけを申告書（別表四）で足したり引いたりして所得を出します。",
+     x:"決算で法人税等3,000,000を費用にした → 会計では利益が減るが、法人税は損金にならないので、申告書で3,000,000を加算する。",
+     m:M_SHIKUMI, j:JE_JUNO, s:HO + "第22条、別表四"},
+    {p:"sk", q:"損金不算入額と益金算入額は、申告書で当期利益に加算する。", a:true, k:"加算する", t:"減算する",
+     y:"損金不算入は「会計では費用だが、税では引けない」もの、益金算入は「会計では収益でないが、税では収益に入れる」ものです。どちらも所得を増やす方向なので、当期利益に加算します。反対に、益金不算入と損金算入は減算です。",
+     x:"届出をしていない役員賞与2,000,000を費用にした → 損金不算入なので2,000,000を加算。受取配当のうち200,000が益金不算入 → 200,000を減算。",
+     m:M_SHIKUMI, j:JE_SHOYO, s:HO + "第22条、別表四"},
+    {p:"sk", q:"内国法人は、確定した決算に基づいて確定申告書を提出しなければならない。", a:true, k:"確定した決算", t:"仮決算",
+     y:"法人税の申告は、株主総会などで承認された決算（確定した決算）にもとづいて行います。これを確定決算主義といいます。そのため、減価償却費のように「決算で費用にしていること（損金経理）」を損金算入の条件にしている項目があり、申告書だけで損金を増やすことはできません。",
+     x:"機械の償却限度額が300,000でも、決算で200,000しか費用にしていなければ、損金は200,000まで。申告書で残り100,000を引くことはできない。",
+     m:M_KAKUTEI, j:JE_FUSOKU, s:HO + "第74条第1項"},
+    {p:"sk", q:"内国法人である普通法人は、国内源泉所得に対してのみ法人税が課される。", a:false, k:"国内源泉所得に対してのみ", t:"国内・国外を問わず、すべての所得に対して",
+     y:"日本に本店がある内国法人は、日本で生まれた所得だけでなく、外国で得た所得も含めたすべての所得に法人税がかかります（全世界所得課税）。国内源泉所得だけに課税されるのは、本店が外国にある外国法人です。",
+     x:"日本の会社が海外支店で100万円もうけた → 日本の法人税の対象になる（外国で払った税は外国税額控除で調整）。",
+     m:M_GIMU, j:JE_JUNO, s:HO + "第4条・第5条・第9条"},
+    {p:"sk", q:"公益法人等は、収益事業から生じた所得に対してのみ法人税が課される。", a:true, k:"収益事業から生じた所得", t:"すべての所得",
+     y:"公益法人等（学校法人や公益社団法人など）は、公益のための活動が本来の目的なので、寄附や会費などの公益活動の所得には法人税をかけません。ただし、物品販売業など法令で決められた収益事業を営んでいる場合は、ふつうの会社と競争になるので、その所得にだけ課税します。人格のない社団等も同じです。",
+     x:"学校法人が学校で授業料を受け取る → 課税されない。同じ学校法人が売店で文房具を売ってもうけた → 物品販売業の所得として課税される。",
+     m:M_GIMU, j:JE_SHUEKI, s:HO + "第4条第1項・第7条"},
+    {p:"sk", q:"公共法人は、法人税を納める義務がない。", a:true, k:"納める義務がない", t:"収益事業から生じた所得について納める義務がある",
+     y:"地方公共団体や国立大学法人などの公共法人は、国や地方の仕事を行う公共性の高い法人なので、法人税の納税義務がありません。収益事業の所得に課税されるのは公益法人等で、公共法人とは区別して覚えます。",
+     x:"市が駐車場を運営して利益が出ても法人税はかからない。会社が市に寄附したときは、国・地方公共団体への寄附金として全額が損金になる。",
+     m:M_GIMU, j:JE_KIFU_KUNI, s:HO + "第4条第2項・別表第一"},
+    {p:"sk", q:"確定申告書は、原則として事業年度終了の日の翌日から3か月以内に提出しなければならない。", a:false, k:"3か月以内", t:"2か月以内",
+     y:"法人税の確定申告の期限は、事業年度が終わった日の翌日から2か月以内です。会計監査人の監査などで決算が期限までに確定しない場合は、届け出れば申告期限を延ばせる特例があります。",
+     x:"3月31日決算の会社 → 5月31日までに申告して納める。12月31日決算なら2月末まで。",
+     m:M_SHINKOKU, j:JE_KAKUTEI, s:HO + "第74条第1項・第75条の2"},
+    {p:"sk", q:"事業年度が6か月を超える普通法人は、前期実績による中間申告の税額が10万円以下であっても、中間申告をしなければならない。", a:false, k:"10万円以下であっても、中間申告をしなければならない", t:"10万円以下であれば、中間申告をしなくてよい",
+     y:"中間申告は、1年分の税をまとめて納めるのが大変にならないよう、前半の分を前払いするしくみです。前期の法人税額 × 6／前期の月数で計算した額が10万円以下のときは、手間のわりに金額が小さいので中間申告は不要です。",
+     x:"前期の法人税額が180,000（12か月）→ 180,000 × 6/12 ＝ 90,000で10万円以下なので、中間申告は不要。前期が600,000なら300,000を中間申告で納める。",
+     m:M_SHINKOKU, j:JE_CHUKAN, s:HO + "第71条第1項"},
+    {p:"sk", q:"法人の事業年度は、法令または定款等で定める会計期間であり、1年を超えることはできない。", a:true, k:"1年を超えることはできない", t:"2年を超えることはできない",
+     y:"法人税は事業年度ごとに所得を計算します。会計期間は定款などで決めますが、税の計算の単位としては1年以内でなければなりません。定款などに定めがない法人は、会計期間を税務署に届け出ます。",
+     x:"4月1日〜翌年3月31日の会計期間 → この1年が事業年度。設立した年は、設立日から最初の決算日までの1年未満の事業年度になる。",
+     m:M_SHINKOKU, j:JE_JUNO, s:HO + "第13条第1項"},
+    {p:"sk", q:"期末資本金の額が1億円以下の普通法人（大法人の100%子法人などを除く）は、所得の金額のうち年800万円以下の部分に軽減税率が適用される。", a:true, k:"年800万円以下", t:"年1,000万円以下",
+     y:"中小法人の負担を軽くするため、所得のうち年800万円以下の部分には低い税率（本則19%、特例で15%）が使えます。ただし、資本金5億円以上の大法人の100%子会社などは、資本金が小さくても中小法人には当たりません。800万円は12か月の額で、事業年度が短いときは月数で按分します。",
+     x:"所得14,091,000の中小法人 → 8,000,000 × 15% ＝ 1,200,000、6,091,000 × 23.2% ＝ 1,413,112、合計2,613,112。",
+     m:M_ZEIRITSU, j:JE_JUNO, s:HO + "第66条第2項・第6項、" + SOTOKU + "第42条の3の2"},
+    {p:"sk", q:"普通法人の所得の金額のうち、年800万円を超える部分の税率は19%である。", a:false, k:"19%", t:"23.2%",
+     y:"普通法人の基本の税率は23.2%です。19%（特例で15%）は、中小法人の所得のうち年800万円以下の部分だけに使える軽減税率です。中小法人でも、800万円を超える部分には23.2%がかかります。",
+     x:"中小法人の所得1,000万円 → 800万円 × 15% ＋ 200万円 × 23.2% ＝ 120万円 ＋ 46.4万円 ＝ 166.4万円。",
+     m:M_ZEIRITSU, j:JE_JUNO, s:HO + "第66条第1項"},
+    {p:"sk", q:"内国法人が受け取る利子や配当から源泉徴収された所得税は、法人税の額から控除することができる。", a:true, k:"法人税の額から控除する", t:"損金の額に算入する",
+     y:"会社が受け取る預金利子や配当からは、所得税が先に引かれています。これは法人税の前払いと考えられるので、法人税額から差し引けます（所得税額控除）。そのかわり、控除を受ける所得税は損金にならないので、申告書で加算します。",
+     x:"配当600,000から源泉所得税91,890が引かれた → 91,890を加算して所得を出し、計算した法人税額から91,890を差し引く。",
+     m:M_GENSEN, j:JE_HAITO_GEN, s:HO + "第68条第1項・第40条"},
+    {p:"sk", q:"青色申告書を提出した事業年度に生じた欠損金は、翌事業年度以降10年間にわたって繰り越し、各事業年度の所得の金額から控除できる。", a:true, k:"10年間", t:"5年間",
+     y:"赤字の年と黒字の年がある会社と、毎年同じくらいもうけている会社で、税の負担が大きく変わらないようにするしくみです。青色申告をしていれば、赤字（欠損金）を10年間繰り越して、黒字の年の所得から引けます。中小法人は所得の全額まで、それ以外の法人は所得の50%まで引けます。",
+     x:"1年目に欠損金500万円、2年目に所得800万円の中小法人 → 2年目は800 − 500 ＝ 300万円に課税。大法人なら800万円の50%の400万円までしか引けない。",
+     m:M_KESSON, j:JE_KINTO, s:HO + "第57条第1項・第11項"},
+
+    /* ---- 益金 ---- */
+    {p:"ek", q:"法人が資産を無償で譲渡した場合でも、その資産の時価に相当する金額は益金の額に算入される。", a:true, k:"益金の額に算入される", t:"益金の額に算入されない",
+     y:"法人税法では、タダで資産を渡した場合も「時価でいったん売って、その代金を相手にあげた」と考えます。こうしないと、時価で売ってから現金を寄附した会社と、資産をそのままあげた会社で、税の負担がちがってしまうからです。あげた分は寄附金や交際費等として扱います。",
+     x:"時価1,000,000（帳簿価額600,000）の土地を取引先にタダであげた → 譲渡益400,000が益金、寄附金1,000,000（損金算入限度額あり）。",
+     m:M_EKIKIN, j:JE_MUSHO, s:HO + "第22条第2項・第37条"},
+    {p:"ek", q:"他の法人から資産を無償で譲り受けた場合、その受贈益は益金の額に算入されない。", a:false, k:"益金の額に算入されない", t:"益金の額に算入される（100%グループ内の法人からの受贈益を除く）",
+     y:"タダで資産をもらうと、その分だけ会社の財産が増えるので、時価が受贈益として益金になります。益金の額には「無償による資産の譲受け」による収益も入ると、法人税法に書かれています。ただし、100%グループ内の法人からもらった場合は、グループ全体で見ると財産が移っただけなので益金不算入です。",
+     x:"取引先から時価500,000の備品をもらった → 受贈益500,000が益金。100%親会社からもらった → 益金不算入（親会社側の寄附金は全額損金不算入）。",
+     m:M_EKIKIN, j:JE_JUZO, s:HO + "第22条第2項・第25条の2"},
+    {p:"ek", q:"完全子法人株式等に係る受取配当等の額は、その全額が益金の額に算入されない。", a:true, k:"全額", t:"50%",
+     y:"子会社は、もうけに法人税を払ってから、残りを配当します。それを親会社の益金にすると、同じもうけに2回法人税がかかってしまいます。100%子会社は親会社と一体なので、配当の全額を益金不算入にします。",
+     x:"100%子会社から配当1,000,000 → 1,000,000を減算。10%保有の会社からなら、その半分の500,000だけ減算。",
+     m:M_HAITO, j:JE_KANZEN, s:HO + "第23条第1項"},
+    {p:"ek", q:"関連法人株式等とは、発行済株式等の総数の5%を超える株式等を保有している場合のその株式等をいう。", a:false, k:"5%を超える", t:"3分の1を超える（6か月以上保有）",
+     y:"関連法人株式等は、相手の会社の株式を3分の1を超えて、配当の基準日まで6か月以上続けて持っている場合です。経営に大きな影響を持つ関係なので、負債利子を引いた残りの全額が益金不算入になります。5%超〜3分の1以下は「その他の株式等」で、50%です。",
+     x:"40%保有（2年前から）の会社の配当500,000 → 関連法人株式等。負債利子20,000（4%）を引いた480,000が益金不算入。",
+     m:M_HAITO, j:JE_KANREN, s:HO + "第23条第1項・第4項"},
+    {p:"ek", q:"非支配目的株式等に係る受取配当等の額は、その20%が益金の額に算入されない。", a:true, k:"20%", t:"50%",
+     y:"非支配目的株式等は、持株割合5%以下の株式で、経営にかかわらない投資に近いものです。二重課税を取り除く必要は小さいので、益金不算入は20%だけです。持株割合が大きいほど益金不算入の割合も大きくなる、と覚えます。",
+     x:"上場会社の株式を1%持っていて配当300,000 → 300,000 × 20% ＝ 60,000を減算。",
+     m:M_HAITO, j:JE_HISHIHAI, s:HO + "第23条第1項"},
+    {p:"ek", q:"配当等の基準日以前1か月以内に取得し、その基準日後2か月以内に譲渡した株式等の配当等も、受取配当等の益金不算入の対象となる。", a:false, k:"受取配当等の益金不算入の対象となる", t:"受取配当等の益金不算入の対象とならない",
+     y:"配当の直前に株を買って配当を受け取り、すぐに売ると、配当は益金不算入、株価が下がった分の売却損は損金、という形で税を減らせてしまいます。これを防ぐため、こうした短期保有株式等の配当は益金不算入の対象から外します。",
+     x:"配当基準日の2週間前に買い、1か月後に売った株の配当100,000 → 益金不算入にならない（減算しない）。",
+     m:M_HAITO_GAI, j:JE_TANKI, s:HO + "第23条第2項"},
+    {p:"ek", q:"外国法人から受け取った配当等は、受取配当等の益金不算入の対象となる。", a:false, k:"受取配当等の益金不算入の対象となる", t:"受取配当等の益金不算入の対象とならない（外国子会社からの配当は別の制度で95%が益金不算入）",
+     y:"受取配当等の益金不算入は、日本で法人税を払ったあとの利益から出る配当の二重課税を防ぐ制度なので、対象は内国法人からの配当です。外国の会社は日本の法人税を払っていないからです。ただし、25%以上を6か月以上持つ外国子会社からの配当は、別の制度で95%が益金不算入になります。",
+     x:"外国の会社を5%持っていて配当200,000 → 全額が益金（減算しない）。30%を1年持つ外国子会社からなら、200,000 × 95% ＝ 190,000を減算。",
+     m:M_HAITO_GAI, j:JE_GAIKOKU, s:HO + "第23条第1項・第23条の2"},
+    {p:"ek", q:"法人がその有する資産の評価換えをしてその帳簿価額を増額した場合、その増額部分は原則として益金の額に算入されない。", a:true, k:"益金の額に算入されない", t:"益金の額に算入される",
+     y:"評価益は、資産を売っていないのに帳簿の金額を上げただけで、お金が入ってきたわけではありません。もし益金にすると、会社が評価換えで利益を好きに動かせてしまいます。そこで、会社更生などの特別な場合を除いて、評価益は益金に入れません。",
+     x:"帳簿価額3,000,000の土地を4,000,000に評価換えして評価益1,000,000を計上 → 1,000,000を減算（土地の税務上の帳簿価額は3,000,000のまま）。",
+     m:M_FUSANNYU, j:JE_HYOKA, s:HO + "第25条第1項"},
+    {p:"ek", q:"法人税や住民税の還付金は、益金の額に算入される。", a:false, k:"益金の額に算入される", t:"益金の額に算入されない",
+     y:"法人税や住民税は、納めたときに損金になっていません。それが戻ってきたときに益金にすると、損金にしていないのに益金だけ増えることになります。そこで、損金にならない税金の還付金は益金不算入です。",
+     x:"前期の中間納付が多すぎて法人税300,000が還付された → 会計では収益300,000だが、申告書で300,000を減算。",
+     m:M_FUSANNYU, j:JE_KANPU_HO, s:HO + "第26条第1項"},
+    {p:"ek", q:"事業税の還付金は、益金の額に算入される。", a:true, k:"益金の額に算入される", t:"益金の額に算入されない",
+     y:"事業税は、納めたときに損金になる税金です。損金にした税金が戻ってきたら、そのぶん益金にしないとつり合いません。益金不算入になる還付金は、法人税や住民税のように、もともと損金にならない税金のものだけです。",
+     x:"前期に損金にした事業税のうち100,000が還付された → 益金に入れる（減算しない）。同じ年に法人税が還付されたら、そちらは減算。",
+     m:M_FUSANNYU, j:JE_KANPU_JIGYO, s:HO + "第26条第1項"},
+
+    /* ---- 損金 ---- */
+    {p:"sn", q:"損金の額に算入される販売費、一般管理費その他の費用（償却費を除く）は、事業年度終了の日までに債務の確定しているものに限られる。", a:true, k:"債務の確定しているもの", t:"支払いの済んでいるもの",
+     y:"費用を早めに見積もって損金にすると、所得を自由に減らせてしまいます。そこで税法では、期末までに「払う義務が決まり、何をしたかがはっきりし、金額も計算できる」もの（債務確定）だけを損金にします。支払いが翌期でもかまいません。償却費は債務がないので、この条件から外れます。",
+     x:"3月分の電気代50,000の請求が3月末までに確定し、4月に払った → 3月決算の当期の損金。まだ何も決まっていない来期の修繕の見積り → 損金にならない。",
+     m:M_SONKIN, j:JE_SAIMU, s:HO + "第22条第3項第2号"},
+    {p:"sn", q:"法人税、地方法人税および住民税の本税は、損金の額に算入されない。", a:true, k:"損金の額に算入されない", t:"損金の額に算入される",
+     y:"法人税は所得から払う税なので、それを損金にすると「税を引いた所得にまた税をかける」ような、ぐるぐる回る計算になってしまいます。住民税（道府県民税・市町村民税）も法人税をもとに計算するので、同じく損金になりません。",
+     x:"決算で法人税等3,000,000を費用にした → 損金経理をした法人税等として3,000,000を加算。",
+     m:M_SOZEI, j:JE_JUNO, s:HO + "第38条第1項・第2項"},
+    {p:"sn", q:"事業税は、法人税と同じく損金の額に算入されない。", a:false, k:"損金の額に算入されない", t:"申告書を提出した日の属する事業年度の損金の額に算入される",
+     y:"事業税は、会社が事業をするために必要なコストと考えられるので、損金になります。損金になるのは、申告書を出して納める税額が決まった事業年度です。そのため、当期分の事業税を決算で未払計上しても当期の損金にはならず、翌期の損金になります。",
+     x:"前期分の事業税200,000を当期に申告して納めた → 当期の損金。未払法人税等から払ったので会計の費用になっていなければ、申告書で200,000を減算。",
+     m:M_SOZEI, j:JE_JIGYOZEI, s:TSU + "9-5-1"},
+    {p:"sn", q:"延滞税や加算税は、損金の額に算入される。", a:false, k:"損金の額に算入される", t:"損金の額に算入されない",
+     y:"延滞税や加算税は、納付が遅れたり、申告をまちがえたりしたことへのペナルティです。これを損金にすると、ペナルティの一部を国が負担することになり、罰の効果が弱くなります。だから損金になりません。",
+     x:"納付が遅れて延滞税50,000を払った → 租税公課で費用にしていても、50,000を加算。",
+     m:M_SOZEI, j:JE_ENTAI, s:HO + "第55条第4項"},
+    {p:"sn", q:"罰金や交通反則金は、損金の額に算入されない。", a:true, k:"損金の額に算入されない", t:"損金の額に算入される",
+     y:"罰金・科料・過料や交通反則金も、悪いことをした罰として払うものです。延滞税と同じく、損金にすると罰の重さが軽くなってしまうので、損金になりません。",
+     x:"営業車の駐車違反で反則金15,000を会社が払った → 15,000を加算。",
+     m:M_SOZEI, j:JE_BAKKIN, s:HO + "第55条第5項"},
+    {p:"sn", q:"期首から3か月を過ぎてから、臨時改定事由もなく役員の月額給与を増額した場合、増額した部分は損金の額に算入されない。", a:true, k:"増額した部分", t:"その役員の給与の全額",
+     y:"定期同額給与は、期首から3か月以内に改定するのが原則です。期の途中で理由もなく増やすと、利益の出具合を見て給料を増やし、税を減らせてしまいます。ただし、もとの額は毎月同じ額で払い続けているので、損金にならないのは増やした部分だけです。",
+     x:"月額500,000を11月から600,000に増やした（3月決算）→ 100,000 × 5か月 ＝ 500,000を加算。もとの500,000 × 12か月は損金。",
+     m:M_YAKUIN, j:JE_ZOGAKU, s:HO + "第34条第1項第1号、" + REI + "第69条第1項"},
+    {p:"sn", q:"減価償却資産の償却費は、損金経理をした金額のうち償却限度額に達するまでの金額が損金の額に算入される。", a:true, k:"損金経理をした金額", t:"申告書で減算した金額",
+     y:"減価償却費は、実際にお金が出ていく費用ではないので、会社が自分で決算に入れた額（損金経理）を前提にします。そのうえで、税法で決められた上限（償却限度額）までを損金にします。上限を超えた分は加算し、上限より少なくても申告書で引くことはできません。",
+     x:"償却限度額300,000の機械で、決算で400,000を費用にした → 100,000を加算。200,000しか費用にしていなければ、損金は200,000まで。",
+     m:M_SHOKYAKU, j:JE_SHOKYAKU, s:HO + "第31条第1項"},
+    {p:"sn", q:"償却不足額が生じた場合は、その償却不足額を翌事業年度に繰り越して損金の額に算入できる。", a:false, k:"翌事業年度に繰り越して損金の額に算入できる", t:"繰り越すことはできず、切り捨てとなる",
+     y:"償却不足は、会社が自分で決算に入れる額を少なくしたということです。損金経理が条件なので、足りなかった分を翌期に回すことはできません。ただし、資産の帳簿価額は残るので、その分は翌期以降の償却でゆっくり費用になっていきます。",
+     x:"償却限度額300,000の機械で、決算で200,000だけ費用にした → 不足100,000は切り捨て。申告書の調整はなし。",
+     m:M_SHOKYAKU, j:JE_FUSOKU, s:HO + "第31条第1項"},
+    {p:"sn", q:"償却超過額は、翌事業年度以後に償却不足額が生じたとき、その償却不足額の範囲で損金の額に算入される。", a:true, k:"その償却不足額の範囲で", t:"償却超過額の全額を",
+     y:"償却超過額は、前に損金経理したのに損金にならなかった額です。会社としては一度費用にしているので、翌期以降に償却不足が出たら、その不足額の範囲で損金にしてよい（認容）とされています。不足額を超えて取り戻すことはできません。",
+     x:"前期の超過額100,000。当期は限度額300,000に対して250,000を費用にした → 不足50,000の範囲で、50,000を減算（残り50,000は翌期以降に繰越し）。",
+     m:M_SHOKYAKU, j:JE_NINYO, s:HO + "第31条第4項"},
+    {p:"sn", q:"償却方法を届け出なかった場合、建物の償却方法は定率法となる。", a:false, k:"定率法", t:"定額法",
+     y:"届出をしないときの償却方法（法定償却方法）は、多くの資産では定率法です。しかし、建物・建物附属設備・構築物は、長く同じように使うものなので定額法と決められていて、そもそも定率法を選ぶことができません。",
+     x:"取得価額30,000,000、耐用年数50年の建物 → 定額法で30,000,000 × 0.020 ＝ 600,000が1年分の償却限度額。",
+     m:M_HOHO, j:JE_TATEMONO, s:REI + "第48条の2第1項・第53条"},
+    {p:"sn", q:"取得価額が10万円未満の減価償却資産は、事業の用に供した事業年度に損金経理をすれば、その全額が損金の額に算入される。", a:true, k:"10万円未満", t:"20万円未満",
+     y:"安い資産まで何年もかけて償却すると、手間がかかるわりに税への影響が小さいので、取得価額10万円未満（または使える期間が1年未満）のものは、使い始めた年に全額を損金にできます（少額減価償却資産）。20万円未満は一括償却資産で、3年で3分の1ずつです。",
+     x:"パソコン1台98,000を買ってすぐ使った → 消耗品費として全額損金。1台150,000なら、一括償却資産として1年目は50,000。",
+     m:M_SHOGAKU, j:JE_SHOGAKU, s:REI + "第133条"},
+    {p:"sn", q:"一括償却資産の損金算入限度額は、取得価額に、事業の用に供した日から期末までの月数を掛け、36で割って計算する。", a:false, k:"事業の用に供した日から期末までの月数", t:"その事業年度の月数",
+     y:"一括償却資産は、手間をかけずに3年で均等に損金にするための制度です。そのため、いつ使い始めたかに関係なく、その事業年度の月数（ふつうは12）を使って、取得価額 × 12/36 を損金にします。期末近くに買っても、1年目から3分の1を損金にできます。",
+     x:"3月決算の会社が3月に150,000の備品を使い始めた → 150,000 × 12/36 ＝ 50,000（1か月分ではない）。",
+     m:M_SHOGAKU, j:JE_IKKATSU, s:REI + "第133条の2第1項"},
+    {p:"sn", q:"役員に対して支給する定期同額給与は、損金の額に算入される。", a:true, k:"定期同額給与", t:"事前の届出をしていない役員賞与",
+     y:"役員は自分たちで給料を決められるので、利益を見てから給料を増やして税を減らすことができてしまいます。そこで、前もって決めた形の給与だけを損金にします。毎月同じ額を払う定期同額給与はその代表です。",
+     x:"代表取締役に毎月500,000を払った → 全額損金。決算前に利益が多いので急に賞与1,000,000を払った（届出なし）→ 全額を加算。",
+     m:M_YAKUIN, j:JE_TEIKI, s:HO + "第34条第1項第1号"},
+    {p:"sn", q:"事前確定届出給与について、届出額よりも少ない額を支給した場合は、実際に支給した額が損金の額に算入される。", a:false, k:"実際に支給した額が損金の額に算入される", t:"原則としてその全額が損金の額に算入されない",
+     y:"事前確定届出給与は「届け出たとおりに払うこと」が損金になる条件です。少なく払った場合も、届出どおりではないので、原則としてその支給額の全額が損金になりません。多く払った場合も同じです。",
+     x:"届出額1,000,000の役員賞与を800,000だけ払った → 800,000の全額を加算。",
+     m:M_YAKUIN, j:JE_JIZEN, s:HO + "第34条第1項第2号、" + TSU + "9-2-14"},
+
+    /* ---- 交際費等と寄附金 ---- */
+    {p:"kk", q:"交際費等とは、得意先や仕入先その他事業に関係のある者等に対する接待、供応、慰安、贈答その他これらに類する行為のために支出するものをいう。", a:true, k:"事業に関係のある者等", t:"自社の従業員だけ",
+     y:"交際費等は、取引先など事業に関係のある人をもてなしたり、贈り物をしたりするための支出です。事業に必要な面はありますが、使いすぎを防ぐため、損金にできる額に上限があります。相手には、自社の役員や従業員も含まれます。",
+     x:"得意先を料亭で接待した、取引先にお歳暮を贈った → 交際費等。従業員全員の慰安旅行 → 福利厚生費で交際費等に入らない。",
+     m:M_KOSAI_GAI, j:JE_KOSAI, s:SOTOKU + "第61条の4"},
+    {p:"kk", q:"期末資本金の額が1億円以下の法人は、支出した交際費等のうち年800万円までの金額を損金の額に算入できる。", a:true, k:"年800万円", t:"年600万円",
+     y:"中小法人は、取引先とのつきあいの費用が経営に大切なので、年800万円（定額控除限度額）までは損金にできます。800万円は12か月のときの額で、事業年度が短いときは月数で按分します。",
+     x:"資本金5,000万円の会社が交際費等12,000,000を支出 → 12,000,000 − 8,000,000 ＝ 4,000,000を加算。",
+     m:M_KOSAI, j:JE_KOSAI, s:SOTOKU + "第61条の4第2項"},
+    {p:"kk", q:"期末資本金の額が1億円以下の法人は、定額控除限度額と接待飲食費の50%のどちらか有利なほうを選べる。", a:true, k:"どちらか有利なほうを選べる", t:"定額控除限度額だけを使える",
+     y:"中小法人は、年800万円までを損金にする方法と、接待飲食費の50%を損金にする方法のうち、損金が多くなるほうを選べます。接待飲食費が1,600万円を超えるような会社では、50%のほうが有利になることがあります。",
+     x:"交際費等2,000万円（すべて接待飲食費）→ 定額控除なら2,000 − 800 ＝ 1,200万円加算、50%なら2,000 − 1,000 ＝ 1,000万円加算。50%のほうが有利。",
+     m:M_KOSAI, j:JE_KOSAI, s:SOTOKU + "第61条の4第1項・第2項"},
+    {p:"kk", q:"期末資本金の額が100億円を超える法人は、接待飲食費の50%に相当する金額を損金の額に算入できる。", a:false, k:"損金の額に算入できる", t:"損金の額に算入できない（交際費等の全額が損金不算入）",
+     y:"とても大きな会社は、交際費を損金にしなくても負担に耐えられると考えられています。そのため、資本金100億円超の法人は、接待飲食費の50%のルールも使えず、交際費等の全額が損金不算入です。50%ルールが使えるのは資本金100億円以下の法人です。",
+     x:"資本金200億円の会社が接待飲食費1,000万円を支出 → 1,000万円の全額を加算。資本金50億円の会社なら、500万円を加算。",
+     m:M_KOSAI, j:JE_KOSAI, s:SOTOKU + "第61条の4第1項"},
+    {p:"kk", q:"期末資本金の額が1億円を超え100億円以下の法人も、年800万円の定額控除限度額を使える。", a:false, k:"年800万円の定額控除限度額を使える", t:"接待飲食費の50%だけを損金の額に算入できる",
+     y:"定額控除限度額は、中小法人（資本金1億円以下。大法人の100%子会社などを除く）のための特例です。資本金1億円を超える法人は、接待飲食費の50%までしか損金にできません。",
+     x:"資本金3億円の会社が交際費等1,200万円（うち接待飲食費1,000万円）→ 1,200 − 1,000 × 50% ＝ 700万円を加算。",
+     m:M_KOSAI, j:JE_KOSAI, s:SOTOKU + "第61条の4第1項・第2項"},
+    {p:"kk", q:"事業年度が6か月である中小法人の定額控除限度額は、800万円である。", a:false, k:"800万円である", t:"800万円 × 6/12 ＝ 400万円である",
+     y:"定額控除限度額の年800万円は、12か月の事業年度を前提にした額です。設立した年などで事業年度が短いときは、800万円 × その事業年度の月数 ／ 12 で計算します。",
+     x:"事業年度6か月の中小法人が交際費等5,000,000を支出 → 限度額4,000,000、5,000,000 − 4,000,000 ＝ 1,000,000を加算。",
+     m:M_KOSAI, j:JE_KOSAI6, s:SOTOKU + "第61条の4第2項"},
+    {p:"kk", q:"得意先との飲食で、1人あたりの金額が1万円以下のものは、一定の書類を保存すれば交際費等から除かれる。", a:true, k:"1万円以下", t:"5千円以下",
+     y:"ふつうの打ち合わせをかねた食事まで交際費等にすると、会社の負担が重くなります。そこで、社外の人との飲食で1人あたり1万円以下のものは、日付・参加者・人数などを書いた書類を保存すれば、交際費等から外せます。2024年3月31日までの支出は5千円以下でした。",
+     x:"得意先と4人で32,000（1人8,000円）の会食 → 交際費等に入れない。4人で48,000（1人12,000円）なら交際費等（接待飲食費）。",
+     m:M_KOSAI_GAI, j:JE_INSHOKU, s:SOTOKU + "第61条の4、同施行令第37条の5"},
+    {p:"kk", q:"自社の役員や従業員だけで行った飲食は、1人あたり1万円以下であれば交際費等から除かれる。", a:false, k:"交際費等から除かれる", t:"交際費等から除かれない（社内飲食費は1万円基準の対象外）",
+     y:"1人1万円以下で交際費等から外せるのは、取引先など社外の人との飲食です。社内の役員や従業員だけの飲み会（社内飲食費）は、金額が小さくても交際費等になります。ただし、従業員みんなが参加する忘年会などは福利厚生費です。",
+     x:"役員と部長だけで4人32,000（1人8,000円）の飲み会 → 交際費等。全従業員参加の忘年会 → 福利厚生費。",
+     m:M_KOSAI_GAI, j:JE_SHANAI, s:SOTOKU + "第61条の4"},
+    {p:"kk", q:"専ら従業員の慰安のために行われる運動会や旅行のための費用は、交際費等に含まれる。", a:false, k:"交際費等に含まれる", t:"交際費等に含まれない（福利厚生費）",
+     y:"従業員みんなのための運動会や旅行は、取引先をもてなすものではなく、働く人のための福利厚生です。そのため、交際費等から外れて、ふつうの費用として損金になります。一部の役員や従業員だけが参加するものは、交際費等や給与になることがあります。",
+     x:"従業員全員の慰安旅行400,000 → 福利厚生費で全額損金。交際費に計上していたら、交際費等の額から外して計算する。",
+     m:M_KOSAI_GAI, j:JE_IAN, s:SOTOKU + "第61条の4"},
+    {p:"kk", q:"国または地方公共団体に対する寄附金は、その全額が損金の額に算入される。", a:true, k:"全額", t:"損金算入限度額まで",
+     y:"国や地方公共団体への寄附は、税を払うのと同じように公共のために使われるので、全額を損金にできます。財務大臣が指定した寄附金（指定寄附金）も同じです。一般の寄附金は、損金算入限度額までしか損金になりません。",
+     x:"市に100,000を寄附した → 全額損金。町内会に100,000を寄附した → 一般の寄附金として損金算入限度額と比べる。",
+     m:M_KIFU, j:JE_KIFU_KUNI, s:HO + "第37条第3項第1号"},
+    {p:"kk", q:"未払金に計上した寄附金は、計上した事業年度の寄附金として扱う。", a:false, k:"計上した事業年度の寄附金として扱う", t:"実際に支払うまで寄附金として扱わない",
+     y:"寄附金は、支払ったときに寄附金になります（現金主義）。未払計上を認めると、払うかどうかわからない寄附で所得を減らせてしまうからです。未払計上した分は当期に加算し、実際に払った期の寄附金として扱います。手形で払った場合も、決済されたときが支払いです。",
+     x:"3月決算の会社が3月に寄附を約束して未払金300,000を計上、5月に払った → 当期は300,000を加算、翌期の寄附金になる。",
+     m:M_KIFU, j:JE_KIFU_MIBARAI, s:REI + "第78条"},
+    {p:"kk", q:"一般の寄附金の損金算入限度額は、資本金等の額と所得の金額をもとに計算する。", a:true, k:"資本金等の額と所得の金額", t:"売上高と交際費等の額",
+     y:"会社の大きさ（資本金等の額）と、もうけの大きさ（所得の金額）に応じて、寄附できる余裕があると考えます。普通法人の場合、（資本金等の額 × 月数/12 × 2.5/1000 ＋ 所得の金額 × 2.5/100）× 1/4 が限度額です。所得の金額は、寄附金を引く前の金額を使います。",
+     x:"資本金等1億円、寄附金を引く前の所得2,000万円（12か月）→（250,000 ＋ 500,000）× 1/4 ＝ 187,500。一般の寄附金500,000なら312,500を加算。",
+     m:M_KIFU, j:JE_KIFU_IPPAN, s:HO + "第37条第1項、" + REI + "第73条"}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {sk:"法人税のしくみ", ek:"益金", sn:"損金", kk:"交際費等と寄附金"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    if(item.x) h += '<div class="dt-blk"><span class="dt-lbl c-gold">具体例で確認</span><div class="dt-ex">' + esc(item.x) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

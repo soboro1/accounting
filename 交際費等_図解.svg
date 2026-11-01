@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4A5D78"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 23px; fill: #4A5D78; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .head { font-size: 25px; font-weight: 800; fill: #1F3A5F; }
+    .line { font-size: 20px; fill: #1F3A5F; }
+    .hint { font-size: 17px; fill: #4A5D78; }
+    .chip { font-size: 19px; font-weight: 800; fill: #1F3A5F; }
+    .cap { font-size: 24px; font-weight: 800; fill: #FFFFFF; }
+    .capS { font-size: 18px; fill: #FFFFFF; }
+    .rule { font-size: 21px; fill: #1F3A5F; }
+    .big { font-size: 30px; font-weight: 800; }
+    .fTitle { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 20px; fill: #1F3A5F; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">交際費等 ― 会社の大きさで「損金にできる額」が変わる</text>
+  <text x="800" y="112" text-anchor="middle" class="sub">取引先をもてなすお金は、使いすぎを防ぐため原則 <tspan font-weight="800" fill="#D9367D">損金にならない</tspan>。ただし中小法人には大きなワクがある</text>
+
+  <!-- ① 交際費等に入らないもの -->
+  <rect x="60" y="135" width="1480" height="215" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="174" class="head">① まず「交際費等に入らないもの」を外す <tspan style="font-size:19px;font-weight:400;fill:#4A5D78">（ふつうの費用として損金になる）</tspan></text>
+  <g>
+    <rect x="90" y="196" width="340" height="132" rx="18" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+    <text x="120" y="248" class="emoji" style="font-size:38px">🍽️</text>
+    <text x="175" y="244" class="chip">1人 1万円以下の飲食</text>
+    <text x="175" y="276" class="hint">取引先との飲食。社内の人</text>
+    <text x="175" y="302" class="hint">だけの飲み会は対象外</text>
+
+    <rect x="450" y="196" width="340" height="132" rx="18" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+    <text x="480" y="248" class="emoji" style="font-size:38px">🚌</text>
+    <text x="535" y="244" class="chip">従業員みんなの慰安</text>
+    <text x="535" y="276" class="hint">社員旅行・運動会など</text>
+    <text x="535" y="302" class="hint">（福利厚生費）</text>
+
+    <rect x="810" y="196" width="340" height="132" rx="18" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+    <text x="840" y="248" class="emoji" style="font-size:38px">📆</text>
+    <text x="895" y="244" class="chip">カレンダー・手帳</text>
+    <text x="895" y="276" class="hint">会社名入りで多くの人に</text>
+    <text x="895" y="302" class="hint">配るもの（広告宣伝費）</text>
+
+    <rect x="1170" y="196" width="340" height="132" rx="18" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+    <text x="1200" y="248" class="emoji" style="font-size:38px">🍱</text>
+    <text x="1255" y="244" class="chip">会議のお茶・弁当</text>
+    <text x="1255" y="276" class="hint">会議に関連して出す</text>
+    <text x="1255" y="302" class="hint">ふつうの程度のもの</text>
+  </g>
+
+  <!-- ② 資本金で3つ -->
+  <rect x="60" y="370" width="1480" height="350" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="409" class="head">② 期末の資本金で、損金にならない額が決まる</text>
+
+  <!-- 中小 -->
+  <rect x="90" y="430" width="520" height="270" rx="20" fill="#F0FDF4" stroke="#16A34A" stroke-width="3"/>
+  <rect x="90" y="430" width="520" height="70" rx="20" fill="#16A34A"/>
+  <rect x="90" y="470" width="520" height="30" fill="#16A34A"/>
+  <text x="350" y="463" text-anchor="middle" class="cap">資本金 1億円以下（中小法人）</text>
+  <text x="350" y="490" text-anchor="middle" class="capS">AかBの有利なほうを選べる</text>
+  <text x="115" y="540" class="rule"><tspan font-weight="800" fill="#16A34A">A</tspan> 年 <tspan font-weight="800">800万円</tspan> までは損金</text>
+  <text x="140" y="570" class="hint">（定額控除限度額。12か月未満なら月数で按分）</text>
+  <text x="115" y="614" class="rule"><tspan font-weight="800" fill="#16A34A">B</tspan> 接待飲食費の <tspan font-weight="800">50%</tspan> までは損金</text>
+  <text x="140" y="644" class="hint">（1人1万円を超える、社外の人との飲食）</text>
+  <text x="115" y="684" class="hint" style="font-weight:800;fill:#1F3A5F">超えた分を加算</text>
+
+  <!-- 大法人 -->
+  <rect x="630" y="430" width="440" height="270" rx="20" fill="#FFF7ED" stroke="#F07C1E" stroke-width="3"/>
+  <rect x="630" y="430" width="440" height="70" rx="20" fill="#F07C1E"/>
+  <rect x="630" y="470" width="440" height="30" fill="#F07C1E"/>
+  <text x="850" y="463" text-anchor="middle" class="cap">資本金 1億円超〜100億円以下</text>
+  <text x="850" y="490" text-anchor="middle" class="capS">大法人の100%子会社もこちら</text>
+  <text x="655" y="550" class="rule">接待飲食費の <tspan font-weight="800">50%</tspan> までは損金</text>
+  <text x="655" y="590" class="hint">800万円のワクは使えない</text>
+  <text x="850" y="660" text-anchor="middle" class="big" fill="#F07C1E">交際費等 − 飲食費×50%</text>
+  <text x="850" y="690" text-anchor="middle" class="hint">を加算</text>
+
+  <!-- 超大 -->
+  <rect x="1090" y="430" width="420" height="270" rx="20" fill="#FFF1F6" stroke="#D9367D" stroke-width="3"/>
+  <rect x="1090" y="430" width="420" height="70" rx="20" fill="#D9367D"/>
+  <rect x="1090" y="470" width="420" height="30" fill="#D9367D"/>
+  <text x="1300" y="463" text-anchor="middle" class="cap">資本金 100億円超</text>
+  <text x="1300" y="490" text-anchor="middle" class="capS">とても大きな会社</text>
+  <text x="1115" y="550" class="rule">ワクはない</text>
+  <text x="1115" y="590" class="hint">接待飲食費の50%も使えない</text>
+  <text x="1300" y="660" text-anchor="middle" class="big" fill="#D9367D">全額を加算</text>
+  <text x="1300" y="690" text-anchor="middle" class="hint">交際費等はすべて損金にならない</text>
+
+  <!-- 下のカード -->
+  <rect x="60" y="740" width="1480" height="145" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="780" class="fTitle">例：資本金5,000万円・12か月</text>
+  <text x="100" y="816" class="fLine">交際費等1,200万円（うち接待飲食費1,000万円）</text>
+  <text x="100" y="850" class="fLine">A 1,200 − 800 ＝ <tspan font-weight="800" fill="#16A34A">400万円</tspan>　B 1,200 − 500 ＝ 700万円</text>
+  <text x="100" y="876" class="hint">少ないほう（A）を選び、400万円を加算</text>
+
+  <line x1="890" y1="760" x2="890" y2="866" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="925" y="780" class="fTitle">得意先を接待して1,200を払った</text>
+  <text x="925" y="818" class="mono">(借) 交際費</text>
+  <text x="1185" y="818" text-anchor="end" class="mono" font-weight="800">1,200</text>
+  <text x="1220" y="818" class="mono">(貸) 現金</text>
+  <text x="1500" y="818" text-anchor="end" class="mono" font-weight="800">1,200</text>
+  <text x="925" y="858" class="hint" style="font-size:19px">会計では全額費用 → 申告書で <tspan font-weight="800" fill="#D9367D">400を加算</tspan>（単位：万円）</text>
+</svg>

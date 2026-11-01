@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4A5D78"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 23px; fill: #4A5D78; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .head { font-size: 25px; font-weight: 800; fill: #1F3A5F; }
+    .line { font-size: 21px; fill: #1F3A5F; }
+    .hint { font-size: 17px; fill: #4A5D78; }
+    .kind { font-size: 23px; font-weight: 800; fill: #1F3A5F; }
+    .own { font-size: 18px; fill: #4A5D78; }
+    .pct { font-size: 40px; font-weight: 800; }
+    .fTitle { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 20px; fill: #1F3A5F; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">受取配当等の益金不算入 ― 同じもうけに2回かけないしくみ</text>
+  <text x="800" y="112" text-anchor="middle" class="sub">配当は、子会社が <tspan font-weight="800" fill="#7C3AED">法人税をはらったあと</tspan> の利益から出る。親会社でまた課税すると二重になるので、一部または全部を益金に入れない</text>
+
+  <!-- ① 二重課税 -->
+  <rect x="60" y="135" width="560" height="315" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="174" class="head">① なぜ益金に入れないの？</text>
+  <text x="150" y="250" text-anchor="middle" class="emoji" style="font-size:52px">🏭</text>
+  <text x="150" y="292" text-anchor="middle" class="kind">子会社</text>
+  <text x="150" y="324" text-anchor="middle" class="line">利益100</text>
+  <text x="150" y="354" text-anchor="middle" class="line">税をはらう <tspan font-weight="800" fill="#D9367D">−30</tspan></text>
+  <line x1="232" y1="290" x2="408" y2="290" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrowGray)"/>
+  <text x="320" y="272" text-anchor="middle" class="line" font-weight="800">配当 70</text>
+  <text x="320" y="320" text-anchor="middle" class="hint">税をはらった残り</text>
+  <text x="490" y="250" text-anchor="middle" class="emoji" style="font-size:52px">🏢</text>
+  <text x="490" y="292" text-anchor="middle" class="kind">親会社</text>
+  <text x="490" y="324" text-anchor="middle" class="line">配当70にまた</text>
+  <text x="490" y="354" text-anchor="middle" class="line">税をかけると…<tspan font-weight="800" fill="#D9367D">二重</tspan></text>
+  <rect x="85" y="378" width="510" height="54" rx="14" fill="#F0FDF4" stroke="#16A34A" stroke-width="2"/>
+  <text x="340" y="413" text-anchor="middle" class="line" font-weight="800" fill="#16A34A">親会社では益金に入れない ＝ 申告書で減算</text>
+
+  <!-- ② 対象外 -->
+  <rect x="640" y="135" width="900" height="315" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="670" y="174" class="head">② ひっかけやすいポイント</text>
+  <text x="670" y="222" class="line">✅ 持株割合が <tspan font-weight="800" fill="#1F6FEB">大きいほど</tspan>、益金に入れない割合も大きい</text>
+  <text x="670" y="264" class="line">✅ 関連法人株式等だけは <tspan font-weight="800" fill="#1F6FEB">負債利子</tspan>（原則、配当の4%）を引いてから全額</text>
+  <text x="670" y="306" class="line">❌ 配当の基準日の前<tspan font-weight="800" fill="#D9367D">1か月以内</tspan>に買い、後<tspan font-weight="800" fill="#D9367D">2か月以内</tspan>に売った株は対象外</text>
+  <text x="670" y="348" class="line">❌ <tspan font-weight="800" fill="#D9367D">外国法人</tspan>からの配当は対象外（外国子会社は別の制度で95%）</text>
+  <text x="670" y="390" class="line">📝 確定申告書に、益金に入れない額と計算の明細を書く</text>
+  <text x="670" y="428" class="hint">※ 関連法人株式等の負債利子は、その年の支払利子の10%が上限</text>
+
+  <!-- ③ 4つの区分 -->
+  <rect x="60" y="468" width="1480" height="260" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="506" class="head">③ 持っている株の割合で4つに分ける <tspan style="font-size:19px;font-weight:400;fill:#4A5D78">（バー ＝ 益金に入れない割合）</tspan></text>
+
+  <!-- 完全子法人 -->
+  <rect x="80" y="524" width="350" height="190" rx="18" fill="#F3EEFF" stroke="#7C3AED" stroke-width="3"/>
+  <text x="255" y="562" text-anchor="middle" class="kind">完全子法人株式等</text>
+  <text x="255" y="592" text-anchor="middle" class="own">100%（期間中ずっと）</text>
+  <text x="255" y="648" text-anchor="middle" class="pct" fill="#7C3AED">100%</text>
+  <rect x="105" y="672" width="300" height="14" rx="7" fill="#E2E8F0"/>
+  <rect x="105" y="672" width="300" height="14" rx="7" fill="#7C3AED"/>
+  <text x="255" y="706" text-anchor="middle" class="hint">全額を益金に入れない</text>
+
+  <!-- 関連法人 -->
+  <rect x="446" y="524" width="350" height="190" rx="18" fill="#EEF4FF" stroke="#1F6FEB" stroke-width="3"/>
+  <text x="621" y="562" text-anchor="middle" class="kind">関連法人株式等</text>
+  <text x="621" y="592" text-anchor="middle" class="own">3分の1超（6か月以上）</text>
+  <text x="621" y="648" text-anchor="middle" class="pct" fill="#1F6FEB">100%</text>
+  <rect x="471" y="672" width="300" height="14" rx="7" fill="#E2E8F0"/>
+  <rect x="471" y="672" width="288" height="14" rx="7" fill="#1F6FEB"/>
+  <text x="621" y="706" text-anchor="middle" class="hint">負債利子を引いた残りを全額</text>
+
+  <!-- その他 -->
+  <rect x="812" y="524" width="350" height="190" rx="18" fill="#F0FDF4" stroke="#16A34A" stroke-width="3"/>
+  <text x="987" y="562" text-anchor="middle" class="kind">その他の株式等</text>
+  <text x="987" y="592" text-anchor="middle" class="own">5%超 〜 3分の1以下</text>
+  <text x="987" y="648" text-anchor="middle" class="pct" fill="#16A34A">50%</text>
+  <rect x="837" y="672" width="300" height="14" rx="7" fill="#E2E8F0"/>
+  <rect x="837" y="672" width="150" height="14" rx="7" fill="#16A34A"/>
+  <text x="987" y="706" text-anchor="middle" class="hint">半分を益金に入れない</text>
+
+  <!-- 非支配目的 -->
+  <rect x="1178" y="524" width="342" height="190" rx="18" fill="#FFF7ED" stroke="#F07C1E" stroke-width="3"/>
+  <text x="1349" y="562" text-anchor="middle" class="kind">非支配目的株式等</text>
+  <text x="1349" y="592" text-anchor="middle" class="own">5%以下</text>
+  <text x="1349" y="648" text-anchor="middle" class="pct" fill="#F07C1E">20%</text>
+  <rect x="1199" y="672" width="300" height="14" rx="7" fill="#E2E8F0"/>
+  <rect x="1199" y="672" width="60" height="14" rx="7" fill="#F07C1E"/>
+  <text x="1349" y="706" text-anchor="middle" class="hint">2割だけ益金に入れない</text>
+
+  <!-- 下のカード -->
+  <rect x="60" y="745" width="1480" height="140" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="785" class="fTitle">おぼえ方</text>
+  <text x="100" y="822" class="fLine">・100%・3分の1超 → 全額、5%超 → 半分、5%以下 → 2割</text>
+  <text x="100" y="856" class="fLine">・「100・100・50・20」と、持株割合の線「100%・1/3・5%」をセットで</text>
+
+  <line x1="890" y1="765" x2="890" y2="866" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="925" y="785" class="fTitle">配当100を受け取った（その他の株式等）</text>
+  <text x="925" y="822" class="mono">(借) 現金</text>
+  <text x="1185" y="822" text-anchor="end" class="mono" font-weight="800">100</text>
+  <text x="1220" y="822" class="mono">(貸) 受取配当金</text>
+  <text x="1500" y="822" text-anchor="end" class="mono" font-weight="800">100</text>
+  <text x="925" y="860" class="hint" style="font-size:19px">会計では収益100のまま → 申告書で <tspan font-weight="800" fill="#16A34A">50を減算</tspan>（益金不算入）</text>
+</svg>

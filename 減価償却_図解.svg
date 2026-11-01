@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 23px; fill: #4A5D78; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .head { font-size: 25px; font-weight: 800; fill: #1F3A5F; }
+    .line { font-size: 21px; fill: #1F3A5F; }
+    .hint { font-size: 17px; fill: #4A5D78; }
+    .bar { font-size: 20px; font-weight: 800; fill: #FFFFFF; }
+    .lbl { font-size: 20px; font-weight: 800; fill: #1F3A5F; }
+    .res { font-size: 22px; font-weight: 800; }
+    .tag { font-size: 18px; font-weight: 800; fill: #FFFFFF; }
+    .price { font-size: 30px; font-weight: 800; fill: #1F3A5F; }
+    .fTitle { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 20px; fill: #1F3A5F; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">減価償却 ― 損金にできるのは「上限（償却限度額）」まで</text>
+  <text x="800" y="112" text-anchor="middle" class="sub">会社が決算で費用にした額（<tspan font-weight="800" fill="#1F6FEB">損金経理</tspan>）と、税法の上限をくらべる。多すぎたら足し戻し、少なすぎても取り戻せない</text>
+
+  <!-- ① 超過と不足 -->
+  <rect x="60" y="135" width="940" height="430" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="174" class="head">① 機械（償却限度額 30万円）で3つのケース</text>
+
+  <!-- 上限ライン -->
+  <line x1="300" y1="200" x2="300" y2="540" stroke="#7C3AED" stroke-width="3" stroke-dasharray="8 6"/>
+  <text x="306" y="222" class="hint" style="fill:#7C3AED;font-weight:800">← 償却限度額 30</text>
+  <text x="90" y="222" class="hint">会社が費用にした額</text>
+
+  <!-- ケースA 超過 -->
+  <text x="90" y="252" class="lbl">A 40万円</text>
+  <rect x="90" y="266" width="210" height="44" rx="8" fill="#1F6FEB"/>
+  <rect x="300" y="266" width="70" height="44" rx="8" fill="#D9367D"/>
+  <text x="195" y="296" text-anchor="middle" class="bar">損金 30</text>
+  <text x="335" y="296" text-anchor="middle" class="bar">10</text>
+  <text x="395" y="284" class="res" fill="#D9367D">償却超過額 10万円</text>
+  <text x="395" y="310" class="hint">→ 損金にならない：申告書で <tspan font-weight="800" fill="#D9367D">加算</tspan>（翌年以降に繰り越す）</text>
+
+  <!-- ケースB ぴったり -->
+  <text x="90" y="356" class="lbl">B 30万円</text>
+  <rect x="90" y="370" width="210" height="44" rx="8" fill="#1F6FEB"/>
+  <text x="195" y="400" text-anchor="middle" class="bar">損金 30</text>
+  <text x="395" y="398" class="res" fill="#1F6FEB">調整なし</text>
+  <text x="395" y="424" class="hint">→ 上限と同じ額なので、全部損金</text>
+
+  <!-- ケースC 不足 -->
+  <text x="90" y="460" class="lbl">C 20万円</text>
+  <rect x="90" y="474" width="140" height="44" rx="8" fill="#1F6FEB"/>
+  <rect x="230" y="474" width="70" height="44" rx="8" fill="none" stroke="#4A5D78" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="160" y="504" text-anchor="middle" class="bar">損金 20</text>
+  <text x="265" y="503" text-anchor="middle" class="hint" style="font-weight:800">不足10</text>
+  <text x="395" y="502" class="res" fill="#4A5D78">償却不足額 10万円</text>
+  <text x="395" y="528" class="hint">→ 申告書で引くことはできない（<tspan font-weight="800">切り捨て</tspan>）</text>
+  <text x="395" y="552" class="hint">　 前の年の償却超過額があれば、不足額の範囲で減算（認容）</text>
+
+  <!-- ② 計算 -->
+  <rect x="1020" y="135" width="520" height="430" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1050" y="174" class="head">② 償却限度額の出し方</text>
+  <text x="1050" y="218" class="line" font-weight="800">定額法（毎年同じ額）</text>
+  <text x="1050" y="252" class="line">取得価額 × 定額法の償却率</text>
+  <text x="1050" y="284" class="line">× 使った月数 ／ 12</text>
+  <text x="1050" y="334" class="line" font-weight="800">定率法（最初に多く）</text>
+  <text x="1050" y="368" class="line">期首の帳簿価額 × 定率法の償却率</text>
+  <text x="1050" y="400" class="hint">定率法の償却率 ＝ 定額法の償却率 × 2（200%定率法）</text>
+  <rect x="1045" y="420" width="470" height="126" rx="14" fill="#EEF4FF"/>
+  <text x="1065" y="454" class="hint" style="font-weight:800;fill:#1F6FEB">届出をしないときの方法（法定償却方法）</text>
+  <text x="1065" y="486" class="line">機械・車両など → <tspan font-weight="800">定率法</tspan></text>
+  <text x="1065" y="520" class="line">建物・建物附属設備・構築物 → <tspan font-weight="800">定額法</tspan></text>
+
+  <!-- ③ 少額 -->
+  <rect x="60" y="585" width="1480" height="135" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="90" y="622" class="head">③ 安いものは、使い始めた年にまとめて損金にできる</text>
+  <rect x="90" y="642" width="124" height="30" rx="15" fill="#16A34A"/>
+  <text x="152" y="664" text-anchor="middle" class="tag">10万円未満</text>
+  <text x="228" y="666" class="line"><tspan font-weight="800">少額減価償却資産</tspan>：損金経理すれば全額をその年の損金に</text>
+  <text x="228" y="700" class="hint">使える期間が1年未満のものも同じ</text>
+  <rect x="820" y="642" width="124" height="30" rx="15" fill="#F07C1E"/>
+  <text x="882" y="664" text-anchor="middle" class="tag">20万円未満</text>
+  <text x="958" y="666" class="line"><tspan font-weight="800">一括償却資産</tspan>：3年で3分の1ずつ損金に</text>
+  <text x="958" y="700" class="hint">使い始めた月に関係なく、1年 ＝ 取得価額 × 12/36</text>
+
+  <!-- 下のカード -->
+  <rect x="60" y="740" width="1480" height="145" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="780" class="fTitle">おぼえ方</text>
+  <text x="100" y="816" class="fLine">・多すぎ（超過）→ 加算して、翌年以降に持ちこす</text>
+  <text x="100" y="850" class="fLine">・少なすぎ（不足）→ そのまま。あとから取り戻せない</text>
+  <text x="100" y="874" class="hint">損金経理（決算で費用にすること）が条件</text>
+
+  <line x1="890" y1="760" x2="890" y2="866" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="925" y="780" class="fTitle">ケースAの決算の仕訳（間接法）</text>
+  <text x="925" y="818" class="mono">(借) 減価償却費</text>
+  <text x="1185" y="818" text-anchor="end" class="mono" font-weight="800">40</text>
+  <text x="1220" y="818" class="mono">(貸) 減価償却累計額</text>
+  <text x="1500" y="818" text-anchor="end" class="mono" font-weight="800">40</text>
+  <text x="925" y="858" class="hint" style="font-size:19px">会計では40を費用に → 申告書で <tspan font-weight="800" fill="#D9367D">10を加算</tspan>（償却超過額）</text>
+</svg>

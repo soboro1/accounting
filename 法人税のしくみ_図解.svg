@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <defs>
+    <marker id="arrowGray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4A5D78"/>
+    </marker>
+  </defs>
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 24px; fill: #4A5D78; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .head { font-size: 28px; font-weight: 800; fill: #1F3A5F; }
+    .line { font-size: 23px; fill: #1F3A5F; }
+    .big { font-size: 34px; font-weight: 800; }
+    .adj { font-size: 22px; font-weight: 800; fill: #FFFFFF; }
+    .adjS { font-size: 18px; fill: #FFFFFF; }
+    .item { font-size: 19px; fill: #1F3A5F; }
+    .fTitle { font-size: 26px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 22px; fill: #1F3A5F; }
+    .fNote { font-size: 19px; fill: #4A5D78; }
+    .mono { font-size: 23px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="72" text-anchor="middle" class="title">法人税ってなに？ ― 会社の「もうけ」に、税のものさしで線を引き直す</text>
+  <text x="800" y="116" text-anchor="middle" class="sub">決算書の利益をそのまま使わず、税法のルールで <tspan font-weight="800" fill="#7C3AED">足したり</tspan>・<tspan font-weight="800" fill="#7C3AED">引いたり</tspan> して「所得」を出す</text>
+
+  <!-- 左：会計 -->
+  <rect x="60" y="145" width="430" height="400" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="275" y="218" text-anchor="middle" class="emoji" style="font-size:56px">📒</text>
+  <text x="275" y="272" text-anchor="middle" class="head">① 会社の決算書（会計）</text>
+  <text x="275" y="322" text-anchor="middle" class="line">収益 − 費用 ＝ <tspan font-weight="800">当期利益</tspan></text>
+  <text x="275" y="360" text-anchor="middle" class="line">株主や銀行に見せるための数字</text>
+  <rect x="100" y="400" width="350" height="110" rx="18" fill="#1F6FEB"/>
+  <text x="275" y="446" text-anchor="middle" class="adjS">当期利益</text>
+  <text x="275" y="490" text-anchor="middle" class="big" fill="#FFFFFF">1,000万円</text>
+
+  <!-- 矢印 -->
+  <line x1="496" y1="345" x2="560" y2="345" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrowGray)"/>
+
+  <!-- 中央：申告調整 -->
+  <rect x="570" y="145" width="460" height="400" rx="24" fill="#FFFFFF" stroke="#7C3AED" stroke-width="3"/>
+  <text x="800" y="196" text-anchor="middle" class="head">② 申告調整（別表四）</text>
+  <text x="800" y="230" text-anchor="middle" class="fNote">税法では「足す」「引く」と決まっているもの</text>
+
+  <rect x="600" y="252" width="400" height="128" rx="16" fill="#D9367D"/>
+  <text x="625" y="290" class="adj">＋ 加算　300万円</text>
+  <text x="625" y="324" class="adjS">損金不算入：交際費の一部、役員賞与、</text>
+  <text x="625" y="352" class="adjS">法人税・住民税、減価償却の超過額 など</text>
+
+  <rect x="600" y="394" width="400" height="128" rx="16" fill="#16A34A"/>
+  <text x="625" y="432" class="adj">− 減算　100万円</text>
+  <text x="625" y="466" class="adjS">益金不算入：受取配当金の一部、</text>
+  <text x="625" y="494" class="adjS">法人税・住民税の還付金 など</text>
+
+  <!-- 矢印 -->
+  <line x1="1036" y1="345" x2="1100" y2="345" stroke="#4A5D78" stroke-width="4" marker-end="url(#arrowGray)"/>
+
+  <!-- 右：税務 -->
+  <rect x="1110" y="145" width="430" height="400" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="1325" y="218" text-anchor="middle" class="emoji" style="font-size:56px">🏛️</text>
+  <text x="1325" y="272" text-anchor="middle" class="head">③ 税の計算（税務）</text>
+  <text x="1325" y="322" text-anchor="middle" class="line">益金 − 損金 ＝ <tspan font-weight="800">所得</tspan></text>
+  <text x="1325" y="360" text-anchor="middle" class="line">この「所得」に税率を掛ける</text>
+  <rect x="1150" y="400" width="350" height="110" rx="18" fill="#7C3AED"/>
+  <text x="1325" y="446" text-anchor="middle" class="adjS">所得金額</text>
+  <text x="1325" y="490" text-anchor="middle" class="big" fill="#FFFFFF">1,200万円</text>
+
+  <!-- 式のバー -->
+  <rect x="60" y="568" width="1480" height="82" rx="20" fill="#F3EEFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="100" y="620" style="font-size:27px;font-weight:800;fill:#1F3A5F">所得の出し方</text>
+  <text x="1500" y="622" text-anchor="end" style="font-size:33px;font-weight:800;fill:#1F3A5F"><tspan fill="#1F6FEB">当期利益 1,000万</tspan> ＋ <tspan fill="#D9367D">加算 300万</tspan> − <tspan fill="#16A34A">減算 100万</tspan> ＝ <tspan fill="#7C3AED">所得 1,200万</tspan></text>
+
+  <!-- 下のカード -->
+  <rect x="60" y="672" width="1480" height="208" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="717" class="fTitle">税理士試験のことばにすると</text>
+  <text x="100" y="760" class="fLine">・税の世界の収益 → <tspan font-weight="800" fill="#1F6FEB">益金</tspan>、税の世界の費用 → <tspan font-weight="800" fill="#1F6FEB">損金</tspan></text>
+  <text x="100" y="796" class="fLine">・加算 ＝ <tspan font-weight="800" fill="#D9367D">益金算入・損金不算入</tspan></text>
+  <text x="100" y="832" class="fLine">・減算 ＝ <tspan font-weight="800" fill="#16A34A">益金不算入・損金算入</tspan></text>
+  <text x="100" y="866" class="fNote">決算書の利益を出発点にする ＝ 確定決算主義</text>
+
+  <line x1="860" y1="697" x2="860" y2="862" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="900" y="717" class="fTitle">決算で法人税等を見積もった仕訳</text>
+  <text x="900" y="764" class="mono">(借) 法人税等</text>
+  <text x="1150" y="764" text-anchor="end" class="mono" font-weight="800">300</text>
+  <text x="1180" y="764" class="mono">(貸) 未払法人税等</text>
+  <text x="1490" y="764" text-anchor="end" class="mono" font-weight="800">300</text>
+  <text x="900" y="808" class="fNote">会計では費用でも、法人税と住民税は損金にならない</text>
+  <text x="900" y="840" class="fNote">→ 申告書で <tspan font-weight="800" fill="#D9367D">加算</tspan>（納税充当金の繰入額）</text>
+  <text x="900" y="868" class="fNote">（単位：万円）</text>
+</svg>

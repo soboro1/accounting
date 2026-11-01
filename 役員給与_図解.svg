@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <style>
+    text { font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", sans-serif; }
+    .title { font-size: 44px; font-weight: 800; fill: #1F3A5F; }
+    .sub { font-size: 23px; fill: #4A5D78; }
+    .emoji { font-family: "Apple Color Emoji", sans-serif; }
+    .head { font-size: 25px; font-weight: 800; fill: #1F3A5F; }
+    .door { font-size: 26px; font-weight: 800; }
+    .line { font-size: 20px; fill: #1F3A5F; }
+    .hint { font-size: 17px; fill: #4A5D78; }
+    .ok { font-size: 22px; font-weight: 800; fill: #FFFFFF; }
+    .mon { font-size: 15px; fill: #4A5D78; }
+    .fTitle { font-size: 24px; font-weight: 800; fill: #1F3A5F; }
+    .fLine { font-size: 20px; fill: #1F3A5F; }
+    .mono { font-size: 21px; fill: #1F3A5F; }
+  </style>
+
+  <rect width="1600" height="900" fill="#F5F8FC"/>
+
+  <!-- タイトル -->
+  <text x="800" y="70" text-anchor="middle" class="title">役員給与 ― 損金になるのは「3つの形」だけ</text>
+  <text x="800" y="112" text-anchor="middle" class="sub">役員は自分で自分の給料を決められる。利益を見てから好きに増やせないよう、<tspan font-weight="800" fill="#7C3AED">前もって決めた形</tspan>のものだけ損金にする</text>
+
+  <!-- 3つの形 -->
+  <g>
+    <rect x="60" y="135" width="470" height="330" rx="24" fill="#FFFFFF" stroke="#16A34A" stroke-width="3"/>
+    <text x="295" y="205" text-anchor="middle" class="emoji" style="font-size:52px">📅</text>
+    <text x="295" y="255" text-anchor="middle" class="door" fill="#16A34A">① 定期同額給与</text>
+    <text x="295" y="298" text-anchor="middle" class="line">毎月、同じ額を払う</text>
+    <text x="295" y="330" text-anchor="middle" class="line">額を変えるのは原則</text>
+    <text x="295" y="360" text-anchor="middle" class="line"><tspan font-weight="800">期首から3か月以内</tspan>の改定だけ</text>
+    <rect x="100" y="388" width="390" height="56" rx="16" fill="#16A34A"/>
+    <text x="295" y="425" text-anchor="middle" class="ok">損金になる</text>
+  </g>
+  <g>
+    <rect x="565" y="135" width="470" height="330" rx="24" fill="#FFFFFF" stroke="#16A34A" stroke-width="3"/>
+    <text x="800" y="205" text-anchor="middle" class="emoji" style="font-size:52px">📮</text>
+    <text x="800" y="255" text-anchor="middle" class="door" fill="#16A34A">② 事前確定届出給与</text>
+    <text x="800" y="298" text-anchor="middle" class="line">いつ・いくら払うかを決めて</text>
+    <text x="800" y="330" text-anchor="middle" class="line"><tspan font-weight="800">税務署に前もって届け出る</tspan></text>
+    <text x="800" y="360" text-anchor="middle" class="line">役員賞与はこの形で</text>
+    <rect x="605" y="388" width="390" height="56" rx="16" fill="#16A34A"/>
+    <text x="800" y="425" text-anchor="middle" class="ok">届出どおりなら損金</text>
+  </g>
+  <g>
+    <rect x="1070" y="135" width="470" height="330" rx="24" fill="#FFFFFF" stroke="#16A34A" stroke-width="3"/>
+    <text x="1305" y="205" text-anchor="middle" class="emoji" style="font-size:52px">📈</text>
+    <text x="1305" y="255" text-anchor="middle" class="door" fill="#16A34A">③ 業績連動給与</text>
+    <text x="1305" y="298" text-anchor="middle" class="line">利益などの指標で決まる</text>
+    <text x="1305" y="330" text-anchor="middle" class="line">計算方法を前もって決め、開示</text>
+    <text x="1305" y="360" text-anchor="middle" class="line"><tspan font-weight="800">同族会社は原則使えない</tspan></text>
+    <rect x="1110" y="388" width="390" height="56" rx="16" fill="#16A34A"/>
+    <text x="1305" y="425" text-anchor="middle" class="ok">条件を満たせば損金</text>
+  </g>
+
+  <!-- 損金にならない -->
+  <rect x="60" y="485" width="1480" height="235" rx="24" fill="#FFF1F6" stroke="#D9367D" stroke-width="2"/>
+  <text x="90" y="526" class="head" style="fill:#D9367D">✕ 損金にならない（申告書で加算）</text>
+  <text x="90" y="568" class="line">・3つの形のどれにも当たらない給与（届出をしていない役員賞与など）→ <tspan font-weight="800">全額</tspan></text>
+  <text x="90" y="602" class="line">・届出と違う額を払った事前確定届出給与 → 原則 <tspan font-weight="800">全額</tspan>（多くても少なくても）</text>
+  <text x="90" y="636" class="line">・期の途中で理由なく増やした月給 → <tspan font-weight="800">増やした部分</tspan></text>
+  <text x="90" y="670" class="line">・形は満たしていても、<tspan font-weight="800">不相当に高額な部分</tspan>／事実を隠したり偽ったりして払った給与</text>
+
+  <!-- 月の帯 -->
+  <text x="1040" y="526" class="hint" style="font-weight:800;fill:#1F3A5F">例：3月決算、11月から理由なく月10万円アップ</text>
+  <g>
+    <rect x="1040" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1080" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1120" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1160" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1200" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1240" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1280" y="546" width="38" height="60" rx="6" fill="#16A34A"/>
+    <rect x="1320" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1360" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1400" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1440" y="546" width="38" height="60" rx="6" fill="#16A34A"/><rect x="1480" y="546" width="38" height="60" rx="6" fill="#16A34A"/>
+    <rect x="1320" y="530" width="38" height="16" rx="4" fill="#D9367D"/><rect x="1360" y="530" width="38" height="16" rx="4" fill="#D9367D"/><rect x="1400" y="530" width="38" height="16" rx="4" fill="#D9367D"/><rect x="1440" y="530" width="38" height="16" rx="4" fill="#D9367D"/><rect x="1480" y="530" width="38" height="16" rx="4" fill="#D9367D"/>
+  </g>
+  <g text-anchor="middle" class="mon">
+    <text x="1059" y="626">4</text><text x="1099" y="626">5</text><text x="1139" y="626">6</text><text x="1179" y="626">7</text><text x="1219" y="626">8</text><text x="1259" y="626">9</text><text x="1299" y="626">10</text><text x="1339" y="626">11</text><text x="1379" y="626">12</text><text x="1419" y="626">1</text><text x="1459" y="626">2</text><text x="1499" y="626">3</text>
+  </g>
+  <text x="1040" y="660" class="hint">緑 ＝ 50万円×12か月は損金</text>
+  <text x="1040" y="686" class="hint"><tspan font-weight="800" fill="#D9367D">ピンク ＝ 10万円×5か月 ＝ 50万円は加算</tspan></text>
+
+  <!-- 下のカード -->
+  <rect x="60" y="740" width="1480" height="145" rx="24" fill="#FFFFFF" stroke="#C9D6E8" stroke-width="2"/>
+  <text x="100" y="780" class="fTitle">おぼえ方</text>
+  <text x="100" y="816" class="fLine">・「毎月同じ」「前もって届出」「業績で連動」の3つだけが損金</text>
+  <text x="100" y="850" class="fLine">・使用人（従業員）の給与や賞与は、ふつうに損金</text>
+  <text x="100" y="874" class="hint">役員の退職金は、不相当に高額な部分を除いて損金</text>
+
+  <line x1="890" y1="760" x2="890" y2="866" stroke="#C9D6E8" stroke-width="2"/>
+
+  <text x="925" y="780" class="fTitle">届出なしで役員賞与200を払った</text>
+  <text x="925" y="818" class="mono">(借) 役員賞与</text>
+  <text x="1185" y="818" text-anchor="end" class="mono" font-weight="800">200</text>
+  <text x="1220" y="818" class="mono">(貸) 現金</text>
+  <text x="1500" y="818" text-anchor="end" class="mono" font-weight="800">200</text>
+  <text x="925" y="858" class="hint" style="font-size:19px">会計では費用 → 申告書で <tspan font-weight="800" fill="#D9367D">200を加算</tspan>（役員給与の損金不算入）</text>
+</svg>
