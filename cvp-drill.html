@@ -251,6 +251,8 @@
     .result:not([hidden]) { animation: rise 0.25s ease-out; }
     @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
   }
+  .figs > .figbox:only-child { grid-column: 1 / -1; }
+  .figs > .figbox:only-child .fig { max-width: 560px; margin: 0 auto; }
 </style>
 </head>
 <body>
