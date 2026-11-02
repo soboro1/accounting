@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>予算実績差異分析ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: 1カラムの答案用紙。出題(図つき)→ 解答欄 → 解答図・解説・仕訳。標準原価計算ドリルと同じ紺×金、ライトテーマも用意 */
+  :root {
+    color-scheme: dark;
+    --bg: #101b2d;
+    --surface: #15233a;
+    --surface-2: #0d1624;
+    --fg: #f6f1e6;
+    --fg-soft: #ddd6c7;
+    --muted: #9aa5b1;
+    --accent: #d4a24c;
+    --accent-ink: #101b2d;
+    --accent-soft: rgba(212, 162, 76, 0.16);
+    --line: rgba(212, 162, 76, 0.36);
+    --rule: rgba(246, 241, 230, 0.12);
+    --good: #8cc152;
+    --good-soft: rgba(140, 193, 82, 0.2);
+    --bad: #ec7f56;
+    --bad-soft: rgba(236, 127, 86, 0.2);
+    --std-fill: rgba(212, 162, 76, 0.2);
+    --c1: #d4a24c; --c2: #5fa8d3; --c3: #7cc6a4; --c4: #b39ddb; --c5: #ec7f56;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+      --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+      --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+      --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+      --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+      --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+      --std-fill: rgba(154, 106, 18, 0.13);
+      --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+    --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+    --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+    --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+    --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+    --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+    --std-fill: rgba(154, 106, 18, 0.13);
+    --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .app {
+    max-width: 860px; margin: 0 auto;
+    padding-inline: 16px; padding-block: 28px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 20px; flex-wrap: wrap; }
+  .top > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .kicker { font-size: 12px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(22px, 4.6vw, 28px); margin: 2px 0 0; line-height: 1.35; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; max-width: 42em; }
+  .score { text-align: right; }
+  .score-k { font-size: 12px; color: var(--muted); }
+  .score-v { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 13px; font-weight: 500; line-height: 1.5;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+  .paper {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px clamp(14px, 3vw, 26px);
+    display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  }
+  .badge {
+    align-self: flex-start; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 14px;
+  }
+  .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+  .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+  .facts b { font-weight: 700; color: var(--fg); }
+
+  .cost-card { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px 6px; background: var(--surface-2); max-width: 560px; }
+  .cc-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .cc-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; column-gap: 14px; font-variant-numeric: tabular-nums; }
+  .cc-grid > span { padding: 5px 0; border-top: 1px dashed var(--rule); font-size: 14px; }
+  .cc-c { color: var(--muted); }
+  .cc-v { text-align: right; font-weight: 500; }
+
+  .figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  .figbox {
+    margin: 0; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .figscroll { overflow-x: auto; }
+  .figbox figcaption { font-size: 12px; color: var(--muted); padding: 0 4px; line-height: 1.6; }
+  .fig { width: 100%; min-width: 330px; height: auto; display: block; }
+  .fig text { font-family: var(--font); }
+  .fig .t { fill: var(--fg); font-size: 13px; }
+  .fig .ts { fill: var(--muted); font-size: 11.5px; }
+  .fig .tb { fill: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .fig .ta { fill: var(--accent); font-size: 12px; font-weight: 700; }
+  .fig .tu { fill: var(--bad); font-size: 12px; font-weight: 700; }
+  .fig .tf { fill: var(--good); font-size: 12px; font-weight: 700; }
+  .fig .box { fill: var(--surface); stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .div { stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig .std { fill: var(--std-fill); stroke: var(--accent); stroke-width: 1.2; }
+  .fig .vu { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; }
+  .fig .ax { stroke: var(--muted); stroke-width: 1.2; }
+  .fig .bar { fill: var(--muted); fill-opacity: 0.5; }
+  .fig .bar-hit { fill: var(--accent); }
+  .fig .arr { stroke: var(--muted); stroke-width: 1.4; }
+  .fig .mk { fill: var(--muted); }
+  .fig .frame { fill: none; stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .fig .s0 { fill: var(--c1); }
+  .fig .s1 { fill: var(--c2); }
+  .fig .s2 { fill: var(--c3); }
+  .fig .s3 { fill: var(--c5); }
+
+  .lad-title { font-size: 13.5px; font-weight: 700; padding: 2px 4px 0; }
+  .ladder { display: flex; flex-direction: column; padding: 4px; font-variant-numeric: tabular-nums; }
+  .rung { border: 1px solid var(--line); background: var(--std-fill); border-radius: 8px; padding: 7px 12px; }
+  .rung-k { font-size: 12px; color: var(--muted); }
+  .rung-v { font-size: 13.5px; overflow-wrap: anywhere; }
+  .step { position: relative; margin-left: 22px; padding: 8px 0 10px 18px; border-left: 2px solid var(--muted); font-size: 13.5px; }
+  .step::after {
+    content: ''; position: absolute; left: -7px; bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--muted);
+  }
+  .step.u b { color: var(--bad); }
+  .step.f b { color: var(--good); }
+  .step.n b { color: var(--fg); }
+  .rung.mark { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+  /* タイムテーブル・換算表・財務諸表 */
+  .tbl { width: 100%; min-width: 320px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .tbl th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .tbl td { padding: 5px 8px; text-align: right; border-bottom: 1px dashed var(--rule); white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl td.l { text-align: left; }
+  .tbl tr.sum td { border-top: 1px solid var(--fg-soft); font-weight: 700; }
+  .tbl tr.hl td { color: var(--accent); font-weight: 700; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    font: inherit; font-size: 14px; line-height: 1.4; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet-head { font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .sheet { display: flex; flex-direction: column; }
+  .ans-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--rule);
+  }
+  .ans-row:first-child { border-top: none; padding-top: 4px; }
+  .ans-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .ans-label { font-weight: 500; }
+  .qno { display: inline-block; min-width: 2.8em; color: var(--accent); font-weight: 700; font-size: 13px; }
+  .ans-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ans-ctrl input {
+    width: 10.5em; padding: 8px 12px; font: inherit; font-size: 16px; line-height: 1.4;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .ans-ctrl input::placeholder { color: var(--muted); opacity: 0.7; }
+  .yen { color: var(--muted); font-size: 14px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: 13.5px; line-height: 1.4; padding: 7px 14px;
+    background: transparent; color: var(--fg-soft); border: none; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .fb { grid-column: 1 / -1; font-size: 13.5px; font-weight: 500; }
+  .fb.ok { color: var(--good); }
+  .fb.ng { color: var(--bad); }
+  @media (max-width: 560px) { .ans-row { grid-template-columns: minmax(0, 1fr); } }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 700; line-height: 1.4;
+    padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-quiet { background: transparent; color: var(--muted); border-color: var(--rule); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .seg button:focus-visible, .ans-ctrl input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .err { color: var(--bad); font-size: 13.5px; }
+
+  .result { display: flex; flex-direction: column; gap: 14px; }
+  .verdict { font-size: 17px; font-weight: 700; }
+  .verdict.all { color: var(--good); }
+  .sol {
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums;
+  }
+  .sol h4 { margin: 12px 0 2px; font-size: 13.5px; color: var(--accent); letter-spacing: 0.04em; }
+  .sol h4:first-child { margin-top: 0; }
+  .sol p { margin: 0; font-size: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
+  .journal { display: flex; flex-direction: column; gap: 10px; }
+  .j-head { margin: 6px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .j-rule { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+  .j-note { margin: 0; font-size: 13.5px; color: var(--fg-soft); max-width: 46em; }
+  .j-list { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 16px; }
+  .j-entry { padding: 9px 0; border-top: 1px dashed var(--rule); }
+  .j-entry:first-child { border-top: none; }
+  .j-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .j-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px; font-variant-numeric: tabular-nums; }
+  .j-line { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; font-size: 14px; line-height: 1.7; }
+  .j-tag { color: var(--accent); font-weight: 700; }
+  .j-amt { text-align: right; }
+  @media (max-width: 540px) { .j-body { grid-template-columns: minmax(0, 1fr); } }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: rise 0.25s ease-out; }
+    @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+  .figs > .figbox:only-child { grid-column: 1 / -1; }
+  .figs > .figbox:only-child .fig { max-width: 560px; margin: 0 auto; }
+  .figs { grid-template-columns: 1fr; }
+  .figs .fig { max-width: 560px; margin: 0 auto; }
+  .fig { min-width: 0; }
+  .fig .vf { fill: var(--good-soft); stroke: var(--good); stroke-width: 1.2; }
+  .tbl { min-width: 0; }
+  @media (max-width: 420px) { .tbl { font-size: 12px; } .tbl th, .tbl td { padding-left: 3px !important; padding-right: 3px !important; } }
+  .tbl th, .tbl td { padding-left: 6px; padding-right: 6px; }
+  .tbl th:first-child, .tbl td:first-child { white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="kicker">日商簿記1級 工業簿記・原価計算</div>
+      <h1><span style="white-space:nowrap">予算実績差異分析</span> <span style="white-space:nowrap">出題パターンドリル</span></h1>
+      <p class="lead">販売価格差異・販売数量差異、営業利益の差異分析、市場占拠率差異・市場総需要量差異、セールス・ミックス差異、固定予算と変動予算、全部原価計算の差異分析、予算編成を、数字を変えて何度でも解けます。差異分析図と解説つき。問題文と数字はオリジナルで、毎回ランダムに作ります。</p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="score-k">正答数(小問)</div>
+      <div class="score-v"><span id="okN">0</span> / <span id="allN">0</span></div>
+    </div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="出題パターン"></nav>
+
+  <section class="paper" id="problem"></section>
+
+  <section class="paper">
+    <div class="sheet-head">解答欄 <span class="hint">金額は円で答えます。差異は金額を入力して、有利・不利のボタンも選んでください(カンマはあってもなくてもOK)。数量は個やkg、割合は%で答えます。選択問題はボタンで答えます。</span></div>
+    <div class="sheet" id="sheet"></div>
+    <div class="err" id="err" hidden></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="checkBtn" type="button">採点する</button>
+      <button class="btn btn-ghost" id="nextBtn" type="button">数字を変えて次の問題</button>
+      <button class="btn btn-quiet" id="revealBtn" type="button">解答を見る</button>
+    </div>
+  </section>
+
+  <section class="result" id="result" hidden></section>
+
+  <footer class="foot">日商簿記1級の予算実績差異分析の練習用(自己採点)。<br>「頻出度」は学習上の目安で、日商の公式な集計ではありません。</footer>
+
+</div>
+
+<script>
+var Drill = (function () {
+  'use strict';
+
+  var uid = 0;
+
+  function ri(min, max, step) {
+    step = step || 1;
+    var n = Math.floor((max - min) / step) + 1;
+    return min + Math.floor(Math.random() * n) * step;
+  }
+  function nz(min, max, step) {
+    for (var g = 0; g < 200; g++) { var v = ri(min, max, step); if (v !== 0) return v; }
+    return step || 1;
+  }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function sum(a) { return a.reduce(function (s, x) { return s + x; }, 0); }
+  function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-7; }
+  // 浮動小数の誤差を落としたかけ算
+  function mul(a, b) { return Math.round(a * b * 1e6) / 1e6; }
+  function fmt(n) {
+    n = Math.round(n * 100) / 100;
+    return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP', { maximumFractionDigits: 2 });
+  }
+  function pct(p) { return Math.round(p * 100) + '%'; }
+  function sen(v) { return fmt(v) + '千円'; }
+  function signed(v) { return (v > 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+
+  // ---------- SVG helpers ----------
+  function svg(w, h, label, body) {
+    return '<svg class="fig" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + label + '" xmlns="http://www.w3.org/2000/svg">' + body + '</svg>';
+  }
+  function t(x, y, s, cls, anchor) {
+    return '<text x="' + x + '" y="' + y + '" class="' + cls + '" text-anchor="' + (anchor || 'start') + '">' + s + '</text>';
+  }
+  function rc(x, y, w, h, cls, rx) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" class="' + cls + '"' + (rx ? ' rx="' + rx + '"' : '') + '/>';
+  }
+  function ln(x1, y1, x2, y2, cls, extra) {
+    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" class="' + cls + '"' + (extra || '') + '/>';
+  }
+  function arrowDefs(id) {
+    return '<defs><marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>';
+  }
+  function fig(svgStr, caption) {
+    return '<figure class="figbox"><div class="figscroll">' + svgStr + '</div>' +
+      (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // 表(タイムテーブル・換算表など)。rows は配列、または { c: [...], cls: 'sum' | 'hl' }
+  function tblFig(title, head, rows, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="figscroll"><table class="tbl">';
+    if (head) h += '<thead><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr></thead>';
+    h += '<tbody>' + rows.map(function (r) {
+      var cells = r.c || r, cls = r.cls ? ' class="' + r.cls + '"' : '';
+      return '<tr' + cls + '>' + cells.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody></table></div>';
+    return h + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+  // 貸借対照表(勘定式)
+  function bsFig(title, dr, cr, unit) {
+    var n = Math.max(dr.length, cr.length), rows = [];
+    for (var i = 0; i < n; i++) {
+      var a = dr[i] || ['', ''], b = cr[i] || ['', ''];
+      rows.push([a[0], a[1] === '' ? '' : fmt(a[1]), '<span class="l">' + b[0] + '</span>', b[1] === '' ? '' : fmt(b[1])]);
+    }
+    rows.push({ cls: 'sum', c: ['合計', fmt(sum(dr.map(function (x) { return x[1]; }))), '合計', fmt(sum(cr.map(function (x) { return x[1]; })))] });
+    return tblFig(title, ['借方', unit || '千円', '貸方', unit || '千円'], rows);
+  }
+
+  // ボックス図(左右とも、最低の高さを確保して縮尺どおりに分ける)
+  function boxSide(items, xa, xb, y0, H) {
+    var tot = sum(items.map(function (it) { return it.v; })), base = 40, out = '', y = y0;
+    items.forEach(function (it, i) {
+      var hh = base + (H - base * items.length) * it.v / tot, cx = (xa + xb) / 2, cy = y + hh / 2;
+      if (it.hl) out += rc(xa + 4, y + 4, xb - xa - 8, hh - 8, 'hl', 4);
+      if (i > 0) out += ln(xa, y, xb, y, 'div');
+      out += t(cx, cy - 5, it.n, 'ts', 'middle');
+      out += t(cx, cy + 14, it.t, 't', 'middle');
+      y += hh;
+    });
+    return out;
+  }
+  function boxFig(title, lh, left, rh, right) {
+    var w = 320, x0 = 14, x1 = 306, xm = 160, y0 = 44, y1 = 214;
+    var b = t(w / 2, 16, title, 'tb', 'middle') + t((x0 + xm) / 2, 36, lh, 'ta', 'middle') + t((xm + x1) / 2, 36, rh, 'ta', 'middle');
+    b += rc(x0, y0, x1 - x0, y1 - y0, 'box');
+    b += boxSide(left, x0, xm, y0, y1 - y0) + boxSide(right, xm, x1, y0, y1 - y0);
+    b += ln(xm, y0, xm, y1, 'div');
+    return svg(w, y1 + 10, title, b);
+  }
+
+  // 持分の割合(縮尺どおり)
+  function shareFig(segs, title) {
+    var w = 400, h = 150, x0 = 12, x1 = 388, y0 = 36, bh = 30;
+    var b = t(w / 2, 18, title, 'tb', 'middle'), x = x0, slot = (x1 - x0) / segs.length;
+    segs.forEach(function (s, i) {
+      var sw = (x1 - x0) * s.p, cx = x + sw / 2, mx = x0 + slot * (i + 0.5);
+      b += rc(x, y0, Math.max(sw, 1.5), bh, 's' + i);
+      b += '<polyline points="' + cx + ',' + (y0 + bh + 2) + ' ' + cx + ',' + (y0 + bh + 12) + ' ' + mx + ',' + (y0 + bh + 30) + '" class="lead"/>';
+      b += t(mx, y0 + bh + 48, pct(s.p), 'tb', 'middle') + t(mx, y0 + bh + 66, s.name, 'ts', 'middle');
+      x += sw;
+    });
+    b += rc(x0, y0, x1 - x0, bh, 'frame');
+    return svg(w, h, title, b);
+  }
+
+  // 連結会社間の取引(売り手 → 買い手)
+  function pairFig(o) {
+    var w = 400, h = 150, id = 'mk' + (++uid);
+    var b = arrowDefs(id) + t(w / 2, 18, o.title, 'tb', 'middle');
+    b += rc(14, 44, 104, 64, 'box', 8) + t(66, 72, o.a, 'tb', 'middle') + t(66, 92, o.as, 'ts', 'middle');
+    b += rc(282, 44, 104, 64, 'box', 8) + t(334, 72, o.b, 'tb', 'middle') + t(334, 92, o.bs, 'ts', 'middle');
+    b += ln(122, 62, 276, 62, 'arr', ' marker-end="url(#' + id + ')"') + t(200, 54, o.top, 'ts', 'middle');
+    if (o.bot) b += ln(276, 92, 122, 92, 'arr', ' marker-end="url(#' + id + ')"') + t(200, 110, o.bot, 'ts', 'middle');
+    if (o.note) b += t(w / 2, 138, o.note, 'ta', 'middle');
+    return svg(w, h, o.title, b);
+  }
+
+  // 商品に含まれる未実現利益(縮尺どおり)
+  function invFig(title, rows) {
+    var w = 400, x0 = 96, x1 = 388, top = 34, rowH = 56, h = top + rows.length * rowH + 4;
+    var mx = Math.max.apply(null, rows.map(function (r) { return r.tot; }));
+    var b = t(w / 2, 18, title, 'tb', 'middle');
+    rows.forEach(function (r, i) {
+      var y = top + i * rowH, ww = (x1 - x0) * r.tot / mx, wp = ww * r.pr / r.tot;
+      b += t(8, y + 14, r.n, 'ts') + t(8, y + 32, fmt(r.tot), 't');
+      b += rc(x0, y + 2, ww - wp, 22, 'std') + rc(x0 + ww - wp, y + 2, Math.max(wp, 2), 22, 'vu');
+      b += t(x0, y + 42, '未実現利益 ' + fmt(r.pr), 'tu');
+    });
+    return svg(w, h, title, b);
+  }
+
+  // 年ごとの残高の推移(縮尺どおり)
+  function deprFig(title, vals, cur, note) {
+    var n = vals.length, w = 400, h = 214, px0 = 16, px1 = 384, base = 170, top = 44;
+    var mx = Math.max.apply(null, vals.map(function (x) { return x.v; })) || 1, slot = (px1 - px0) / n, bw = Math.min(44, slot * 0.6);
+    var b = t(w / 2, 18, title, 'tb', 'middle') + ln(px0, base, px1, base, 'ax');
+    vals.forEach(function (x, i) {
+      var cx = px0 + slot * (i + 0.5), hh = (base - top) * x.v / mx;
+      b += rc(cx - bw / 2, base - hh, bw, Math.max(hh, 0.5), i === cur ? 'bar-hit' : 'bar', 2);
+      b += t(cx, base - hh - 6, fmt(x.v), i === cur ? 'ta' : 'ts', 'middle');
+      b += t(cx, base + 16, x.lab, i === cur ? 'ta' : 'ts', 'middle');
+    });
+    if (note) b += t(w / 2, h - 6, note, 'ts', 'middle');
+    return svg(w, h, title, b);
+  }
+
+  // はしご図(HTML)
+  function ladder(title, rungs, steps, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="ladder">';
+    rungs.forEach(function (r, i) {
+      h += '<div class="rung' + (r.mark ? ' mark' : '') + '"><div class="rung-k">' + r.k + '</div><div class="rung-v">' + r.v + '</div></div>';
+      var s = steps[i];
+      if (s) h += '<div class="step ' + s.cls + '">' + s.name + ' <b>' + s.txt + '</b></div>';
+    });
+    return h + '</div>' + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // ---------- 仕訳 ----------
+  function sideSum(lines) { return sum(lines.map(function (l) { return l[1]; })); }
+  function balanced(dr, cr) { return Math.abs(sideSum(dr) - sideSum(cr)) < 1e-6; }
+  function numbered(list) {
+    return list.filter(Boolean).map(function (e, i) {
+      return { t: String.fromCharCode(0x245F + i + 1) + ' ' + e.t, dr: e.dr, cr: e.cr };
+    });
+  }
+  function allBal(list) {
+    return list.every(function (e) {
+      return balanced(e.dr, e.cr) && e.dr.concat(e.cr).every(function (l) { return l[1] > 0 && isInt(l[1]); });
+    });
+  }
+  // 金額の符号で借方・貸方を入れかえる仕訳(v > 0 なら 借方 a / 貸方 b)
+  function flip(title, v, a, b) {
+    return v > 0 ? { t: title, dr: [[a, v]], cr: [[b, v]] } : { t: title, dr: [[b, -v]], cr: [[a, -v]] };
+  }
+
+  function choiceQ(label, answer, others) {
+    var opts = shuffle([answer].concat(others));
+    return { label: label, kind: 'choice', options: opts, value: opts.indexOf(answer) };
+  }
+
+  function yen(v) { return fmt(v) + '円'; }
+  // T勘定(SVG)。dr/cr は [科目, 金額]
+  function tAccount(title, dr, cr) {
+    var rows = Math.max(dr.length, cr.length), w = 400, top = 36, rh = 24, xm = 200;
+    var yEnd = top + rows * rh + 6, h = yEnd + 30;
+    var b = t(w / 2, 20, title, 'tb', 'middle');
+    b += t(12, 28, '(借方)', 'ts') + t(w - 12, 28, '(貸方)', 'ts', 'end');
+    b += ln(8, top, w - 8, top, 'div') + ln(xm, top, xm, yEnd + 22, 'div');
+    dr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(14, y, r[0], r[2] || 't') + t(xm - 8, y, fmt(r[1]), 't', 'end'); });
+    cr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(xm + 10, y, r[0], r[2] || 't') + t(w - 14, y, fmt(r[1]), 't', 'end'); });
+    b += ln(xm - 92, yEnd, xm - 6, yEnd, 'div') + ln(w - 98, yEnd, w - 12, yEnd, 'div');
+    b += t(xm - 8, yEnd + 18, fmt(sideSum(dr)), 'tb', 'end') + t(w - 14, yEnd + 18, fmt(sideSum(cr)), 'tb', 'end');
+    return svg(w, h, title + '勘定', b);
+  }
+
+  function ko(v) { return fmt(v) + '個'; }
+  function per(v) { return '@' + fmt(v) + '円'; }
+  function sgn(v) { return (v >= 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function yu(v) { return fmt(Math.abs(v)) + '円(' + (v > 0 ? '有利' : '不利') + ')'; }
+
+  // 売上高(利益)の差異分析図。価格は実績の販売量に、数量は予算の価格(利益)にかける。形は模式図
+  function boxFig(title, P0, P1, Q0, Q1, pv, qv, qname, caption) {
+    var w = 400, h = 262, x0 = 84, yb = 214, lowQ = x0 + 180, highQ = x0 + 280;
+    var xQ0 = Q1 > Q0 ? lowQ : highQ, xQ1 = Q1 > Q0 ? highQ : lowQ;
+    var yP0 = P1 > P0 ? yb - 112 : yb - 164, yP1 = P1 > P0 ? yb - 164 : yb - 112, yLow = Math.max(yP0, yP1), yTop = Math.min(yP0, yP1);
+    var b = t(w / 2, 18, title, 'tb', 'middle');
+    b += rc(x0, yLow, lowQ - x0, yb - yLow, 'box');
+    b += rc(x0, yTop, xQ1 - x0, yLow - yTop, pv > 0 ? 'vf' : 'vu');
+    b += rc(lowQ, yP0, highQ - lowQ, yb - yP0, qv > 0 ? 'vf' : 'vu');
+    b += t((x0 + lowQ) / 2, yTop + 21, '販売価格差異', pv > 0 ? 'tf' : 'tu', 'middle') + t((x0 + lowQ) / 2, yTop + 38, sgn(pv), pv > 0 ? 'tf' : 'tu', 'middle');
+    b += t((lowQ + highQ) / 2, yb - 44, qname, qv > 0 ? 'tf' : 'tu', 'middle') + t((lowQ + highQ) / 2, yb - 25, sgn(qv), qv > 0 ? 'tf' : 'tu', 'middle');
+    b += t(x0 - 6, yP0 + 5, '予算 ' + per(P0).replace('円', ''), 'ts', 'end') + t(x0 - 6, yP1 + 5, '実績 ' + per(P1).replace('円', ''), 'ts', 'end');
+    b += ln(x0, yb, x0 + 300, yb, 'ax') + ln(x0, yb, x0, yTop - 8, 'ax');
+    b += t(xQ0, yb + 18, '予算', 'ts', 'middle') + t(xQ0, yb + 33, fmt(Q0) + '個', 'ts', 'middle') + t(xQ1, yb + 18, '実績', 'ts', 'middle') + t(xQ1, yb + 33, fmt(Q1) + '個', 'ts', 'middle');
+    return fig(svg(w, h, title, b), caption || '緑は有利差異、赤は不利差異。図の大きさは模式図で、金額に比例していない。');
+  }
+
+  // 予算の営業利益から実績の営業利益までの橋わたし図(縦軸は途中から)
+  function bridgeFig(title, start, steps, end) {
+    var w = 400, h = 264, yb = 226, yt = 66, n = steps.length + 2, cw = (w - 16) / n, bw = Math.min(40, cw - 14);
+    var cum = [start], k;
+    steps.forEach(function (s) { cum.push(cum[cum.length - 1] + s[1]); });
+    var lo = Math.min.apply(null, cum.concat([end])), hi = Math.max.apply(null, cum.concat([end]));
+    var floor = Math.max(0, lo - Math.max(hi - lo, 1) * 0.5);
+    var Y = function (v) { return yb - (v - floor) / (hi - floor) * (yb - yt); };
+    var X = function (i) { return 8 + cw * i + cw / 2; };
+    var b = t(w / 2, 18, title, 'tb', 'middle');
+    function bar(i, a, c, cls, name, label, lc) {
+      var top = Math.min(Y(a), Y(c)), ht = Math.max(Math.abs(Y(a) - Y(c)), 2);
+      b += rc(X(i) - bw / 2, top, bw, ht, cls);
+      b += t(X(i), top - 6 - (i % 2 ? 14 : 0), label, lc, 'middle');
+      b += t(X(i), yb + 17, name, 'ts', 'middle');
+    }
+    bar(0, floor, start, 'std', '予算', fmt(start), 'ts');
+    steps.forEach(function (s, i) {
+      bar(i + 1, cum[i], cum[i + 1], s[1] > 0 ? 'vf' : 'vu', s[0], sgn(s[1]), s[1] > 0 ? 'tf' : 'tu');
+      b += ln(X(i) + bw / 2, Y(cum[i]), X(i + 1) - bw / 2, Y(cum[i]), 'lead');
+    });
+    b += ln(X(n - 2) + bw / 2, Y(end), X(n - 1) - bw / 2, Y(end), 'lead');
+    bar(n - 1, floor, end, 'std', '実績', fmt(end), 'ts');
+    b += ln(8, yb, w - 8, yb, 'ax');
+    return fig(svg(w, h, title, b), '緑は営業利益を増やす差異、赤は減らす差異。縦軸は途中から描いている。');
+  }
+
+  // ---------- A 売上高の差異分析 ----------
+  function genA() {
+    for (var g = 0; g < 4000; g++) {
+      var P0 = ri(10, 50) * 100, Q0 = ri(10, 60) * 100, P1 = P0 + nz(-15, 15) * 10, Q1 = Q0 + nz(-10, 10) * 50;
+      if (P1 <= 0 || Q1 <= 0) continue;
+      var S0 = P0 * Q0, S1 = P1 * Q1, sv = S1 - S0, pv = (P1 - P0) * Q1, qv = (Q1 - Q0) * P0;
+      if (sv === 0) continue;
+      return {
+        badge: '売上高の差異分析(販売価格差異・販売数量差異)',
+        intro: '当社は製品Aを販売している。当月の予算と実績は次のとおりである。売上高の差異を、販売価格差異と販売数量差異に分けなさい。',
+        facts: ['予算:販売価格 ' + per(P0) + '、販売量 ' + ko(Q0) + '。', '実績:販売価格 ' + per(P1) + '、販売量 ' + ko(Q1) + '。', '販売数量差異は予算の販売価格で計算する(売上高ベース)。'],
+        figs: [],
+        qs: [
+          { label: '売上高の差異(合計)', kind: 'var', value: sv },
+          { label: '販売価格差異', kind: 'var', value: pv },
+          { label: '販売数量差異', kind: 'var', value: qv },
+          choiceQ('販売価格差異の計算にかける販売量', '実績の販売量', ['予算の販売量', '実績と予算の差の販売量'])
+        ],
+        solFigs: [boxFig('売上高の差異分析図', P0, P1, Q0, Q1, pv, qv, '販売数量差異')],
+        sol: [
+          { h: '売上高の差異', lines: ['予算 ' + fmt(P0) + ' × ' + fmt(Q0) + ' = ' + fmt(S0) + '、実績 ' + fmt(P1) + ' × ' + fmt(Q1) + ' = ' + fmt(S1), '差異 = ' + fmt(S1) + ' − ' + fmt(S0) + ' = ' + yu(sv)] },
+          { h: '分解する', lines: ['販売価格差異 = (' + fmt(P1) + ' − ' + fmt(P0) + ') × 実績 ' + fmt(Q1) + ' = ' + yu(pv), '販売数量差異 = (' + fmt(Q1) + ' − ' + fmt(Q0) + ') × 予算 ' + fmt(P0) + ' = ' + yu(qv), '合計 = ' + sgn(pv) + ' ' + sgn(qv) + ' = ' + sgn(sv) + '(売上高の差異と一致する)'] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- B 営業利益の差異分析(直接原価計算) ----------
+  function genB() {
+    for (var g = 0; g < 4000; g++) {
+      var P0 = ri(20, 60) * 100, Q0 = ri(10, 50) * 100, vm0 = Math.round(P0 * ri(30, 45) / 1000) * 10, vs0 = ri(5, 20) * 10, v0 = vm0 + vs0, c0 = P0 - v0;
+      var F0 = Math.round(c0 * Q0 * ri(40, 75) / 100 / 100000) * 100000;
+      var P1 = P0 + nz(-10, 10) * 10, Q1 = Q0 + nz(-8, 8) * 50, vm1 = vm0 + nz(-3, 3) * 10, vs1 = vs0 + nz(-2, 2) * 10, v1 = vm1 + vs1, F1 = F0 + nz(-10, 10) * 20000;
+      if (vs1 <= 0 || Q1 <= 0 || v1 === v0 || F0 <= 0) continue;
+      var O0 = c0 * Q0 - F0, O1 = (P1 - v1) * Q1 - F1, pv = (P1 - P0) * Q1, qv = (Q1 - Q0) * c0, vv = (v0 - v1) * Q1, fv = F0 - F1, tot = O1 - O0;
+      if (O0 <= 0 || O1 <= 0 || tot === 0) continue;
+      return {
+        badge: '営業利益の差異分析(直接原価計算)',
+        intro: '当社は製品Bを販売し、直接原価計算で予算管理を行っている。当月の予算と実績にもとづいて、営業利益の差異を分析しなさい。',
+        facts: ['予算:販売価格 ' + per(P0) + '、販売量 ' + ko(Q0) + '、変動売上原価 ' + per(vm0) + '、変動販売費 ' + per(vs0) + '、固定費 ' + yen(F0) + '。',
+          '実績:販売価格 ' + per(P1) + '、販売量 ' + ko(Q1) + '、変動売上原価 ' + per(vm1) + '、変動販売費 ' + per(vs1) + '、固定費 ' + yen(F1) + '。',
+          '販売数量差異は予算の1個あたり貢献利益で計算する。変動費差異は変動売上原価と変動販売費の合計で、実績の販売量にかける。'],
+        figs: [],
+        qs: [
+          { label: '販売価格差異', kind: 'var', value: pv },
+          { label: '販売数量差異(貢献利益ベース)', kind: 'var', value: qv },
+          { label: '変動費差異', kind: 'var', value: vv },
+          { label: '固定費差異', kind: 'var', value: fv },
+          { label: '営業利益の差異(合計)', kind: 'var', value: tot }
+        ],
+        solFigs: [bridgeFig('予算の営業利益から実績の営業利益へ', O0, [['価格', pv], ['数量', qv], ['変動費', vv], ['固定費', fv]], O1),
+          fig(tblFig('直接原価計算の損益計算書', ['', '予算', '実績'], [['売上高', fmt(P0 * Q0), fmt(P1 * Q1)], ['変動費', fmt(v0 * Q0), fmt(v1 * Q1)], { cls: 'sum', c: ['貢献利益', fmt(c0 * Q0), fmt((P1 - v1) * Q1)] }, ['固定費', fmt(F0), fmt(F1)], { cls: 'hl', c: ['営業利益', fmt(O0), fmt(O1)] }]))],
+        sol: [
+          { h: '売上と数量', lines: ['販売価格差異 = (' + fmt(P1) + ' − ' + fmt(P0) + ') × ' + fmt(Q1) + ' = ' + yu(pv), '予算の貢献利益 = ' + fmt(P0) + ' − ' + fmt(v0) + ' = ' + per(c0), '販売数量差異 = (' + fmt(Q1) + ' − ' + fmt(Q0) + ') × ' + fmt(c0) + ' = ' + yu(qv)] },
+          { h: '費用', lines: ['変動費 1個あたり:予算 ' + fmt(v0) + '、実績 ' + fmt(v1), '変動費差異 = (' + fmt(v0) + ' − ' + fmt(v1) + ') × ' + fmt(Q1) + ' = ' + yu(vv), '固定費差異 = ' + fmt(F0) + ' − ' + fmt(F1) + ' = ' + yu(fv)] },
+          { h: '合計の確認', lines: ['実績 ' + fmt(O1) + ' − 予算 ' + fmt(O0) + ' = ' + sgn(tot), sgn(pv) + ' ' + sgn(qv) + ' ' + sgn(vv) + ' ' + sgn(fv) + ' = ' + sgn(tot) + '(一致する)', '費用の差異は「予算 − 実績」、収益の差異は「実績 − 予算」。プラスが有利になるように引く。'] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- C 市場占拠率差異・市場総需要量差異 ----------
+  function genC() {
+    for (var g = 0; g < 4000; g++) {
+      var M0 = ri(20, 100) * 1000, s0 = ri(10, 40), M1 = M0 + nz(-10, 10) * 1000, s1 = s0 + nz(-5, 5), c0 = ri(10, 60) * 10;
+      if (M1 <= 0 || s1 <= 0) continue;
+      var Q0 = M0 * s0 / 100, Q1 = M1 * s1 / 100, Qm = M1 * s0 / 100, shv = (Q1 - Qm) * c0, mv = (Qm - Q0) * c0, qv = (Q1 - Q0) * c0;
+      if (qv === 0 || !isInt(Q0) || !isInt(Q1) || !isInt(Qm)) continue;
+      return {
+        badge: '市場占拠率差異・市場総需要量差異',
+        intro: '当社は製品Cを販売している。販売数量差異(貢献利益ベース)を、市場占拠率差異と市場総需要量差異に分けなさい。',
+        facts: ['予算:市場総需要量 ' + ko(M0) + '、当社の市場占拠率 ' + s0 + '%、1個あたりの貢献利益 ' + per(c0) + '。',
+          '実績:市場総需要量 ' + ko(M1) + '、当社の販売量 ' + ko(Q1) + '。',
+          '差異はどちらも、予算の1個あたり貢献利益で計算する。'],
+        figs: [],
+        qs: [
+          { label: '実績の市場占拠率', kind: 'amt', unit: '%', value: s1 },
+          { label: '販売数量差異(合計)', kind: 'var', value: qv },
+          { label: '市場占拠率差異', kind: 'var', value: shv },
+          { label: '市場総需要量差異', kind: 'var', value: mv }
+        ],
+        solFigs: [fig(tblFig('販売量を3段階で比べる', ['', '総需要量 × 占拠率', '販売量'], [['予算', fmt(M0) + ' × ' + s0 + '%', ko(Q0)], ['中間', fmt(M1) + ' × ' + s0 + '%', ko(Qm)], ['実績', fmt(M1) + ' × ' + s1 + '%', ko(Q1)]]), '中間 = 実績の総需要量 × 予算の占拠率。予算 → 中間が市場総需要量差異(市場全体の増減)。中間 → 実績が市場占拠率差異(当社の実力)。')],
+        sol: [
+          { h: '実績の市場占拠率', lines: [fmt(Q1) + ' ÷ ' + fmt(M1) + ' = ' + s1 + '%'] },
+          { h: '市場占拠率差異', lines: ['(' + s1 + '% − ' + s0 + '%) × 実績の総需要量 ' + fmt(M1) + ' = ' + sgn(Q1 - Qm) + '個', sgn(Q1 - Qm) + '個 × ' + fmt(c0) + ' = ' + yu(shv)] },
+          { h: '市場総需要量差異', lines: ['(' + fmt(M1) + ' − ' + fmt(M0) + ') × 予算の占拠率 ' + s0 + '% = ' + sgn(Qm - Q0) + '個', sgn(Qm - Q0) + '個 × ' + fmt(c0) + ' = ' + yu(mv)] },
+          { h: '合計の確認', lines: ['販売数量差異 = (' + fmt(Q1) + ' − ' + fmt(Q0) + ') × ' + fmt(c0) + ' = ' + yu(qv), sgn(shv) + ' ' + sgn(mv) + ' = ' + sgn(qv) + '(一致する)', qv !== 0 && shv * mv < 0 ? '2つの差異の向きが逆になっている。市場の動きと当社の実力を分けて見るのが、この分析の目的。' : '市場の動きと当社の実力を分けて見るのが、この分析の目的。'] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- D セールス・ミックス差異・総販売数量差異 ----------
+  function genD() {
+    for (var g = 0; g < 4000; g++) {
+      var three = Math.random() < 0.5, names = three ? ['製品X', '製品Y', '製品Z'] : ['製品X', '製品Y'];
+      var rs = names.map(function () { return ri(1, 5); }), rsum = sum(rs), k = ri(1, 10) * 100, k1 = k + nz(-4, 4) * 10;
+      if (k1 <= 0) continue;
+      var cs = names.map(function () { return ri(10, 60) * 10; }), T0 = rsum * k, T1 = rsum * k1;
+      var Q0 = rs.map(function (r) { return r * k; }), Qa = rs.map(function (r) { return r * k1; });
+      var ds = names.map(function () { return nz(-8, 8) * 10; });
+      ds[ds.length - 1] = -sum(ds.slice(0, -1));
+      var Q1 = Qa.map(function (q, i) { return q + ds[i]; });
+      var avg = sum(rs.map(function (r, i) { return r * cs[i]; })) / rsum;
+      if (!Q1.every(function (q) { return q > 0; }) || !isInt(avg) || ds[ds.length - 1] === 0) continue;
+      var mixs = ds.map(function (d, i) { return d * cs[i]; }), mixv = sum(mixs), qtys = Qa.map(function (q, i) { return (q - Q0[i]) * cs[i]; }), qtyv = sum(qtys), qv = mixv + qtyv;
+      if (mixv === 0 || qv === 0 || qtyv !== (T1 - T0) * avg) continue;
+      return {
+        badge: 'セールス・ミックス差異・総販売数量差異',
+        intro: '当社は' + names.join('・') + 'を販売している。販売数量差異(貢献利益ベース)を、セールス・ミックス差異と総販売数量差異に分けなさい。',
+        facts: names.map(function (n, i) { return n + ':予算の販売量 ' + ko(Q0[i]) + '、実績の販売量 ' + ko(Q1[i]) + '、予算の1個あたり貢献利益 ' + per(cs[i]) + '。'; }).concat(['セールス・ミックスは、予算の販売量の割合とする。']),
+        figs: [],
+        qs: [
+          { label: '予算の平均貢献利益(1個あたり)', kind: 'amt', value: avg },
+          { label: 'セールス・ミックス差異', kind: 'var', value: mixv },
+          { label: '総販売数量差異', kind: 'var', value: qtyv },
+          { label: '販売数量差異(合計)', kind: 'var', value: qv }
+        ],
+        solFigs: [fig(tblFig('セールス・ミックス差異', ['', '実績', '配分', '差異'], names.map(function (n, i) { return [n, fmt(Q1[i]), fmt(Qa[i]), sgn(mixs[i])]; }).concat([{ cls: 'hl', c: ['合計', fmt(T1), fmt(T1), sgn(mixv)] }]), '配分 = 実績の総販売量 ' + fmt(T1) + '個を予算の割合で分けた量。差異 =(実績 − 配分)× 予算の貢献利益。')),
+          fig(tblFig('総販売数量差異', ['', '配分', '予算', '差異'], names.map(function (n, i) { return [n, fmt(Qa[i]), fmt(Q0[i]), sgn(qtys[i])]; }).concat([{ cls: 'hl', c: ['合計', fmt(T1), fmt(T0), sgn(qtyv)] }]), '差異 =(配分 − 予算)× 予算の貢献利益。'))],
+        sol: [
+          { h: '予算の割合と平均貢献利益', lines: ['予算の割合 ' + names.map(function (n, i) { return n.slice(2) + ' ' + rs[i]; }).join(' : '), '平均貢献利益 = (' + names.map(function (n, i) { return fmt(Q0[i]) + ' × ' + fmt(cs[i]); }).join(' + ') + ') ÷ ' + fmt(T0) + ' = ' + per(avg)] },
+          { h: 'セールス・ミックス差異', lines: names.map(function (n, i) { return n + ':(' + fmt(Q1[i]) + ' − ' + fmt(Qa[i]) + ') × ' + fmt(cs[i]) + ' = ' + sgn(mixs[i]); }).concat(['合計 = ' + yu(mixv)]) },
+          { h: '総販売数量差異', lines: ['(実績の総販売量 ' + fmt(T1) + ' − 予算の総販売量 ' + fmt(T0) + ') × ' + per(avg) + ' = ' + yu(qtyv), '合計の確認:' + sgn(mixv) + ' ' + sgn(qtyv) + ' = ' + sgn(qv)] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- E 固定予算と変動予算 ----------
+  function genE() {
+    for (var g = 0; g < 4000; g++) {
+      var P0 = ri(20, 60) * 100, Q0 = ri(10, 50) * 100, v0 = Math.round(P0 * ri(40, 60) / 1000) * 10, c0 = P0 - v0, F0 = Math.round(c0 * Q0 * ri(40, 70) / 100 / 100000) * 100000;
+      var Q1 = Q0 + nz(-8, 8) * 50, P1 = P0 + nz(-8, 8) * 10, v1 = v0 + nz(-4, 4) * 10, F1 = F0 + nz(-8, 8) * 25000;
+      if (Q1 <= 0 || F0 <= 0) continue;
+      var O0 = c0 * Q0 - F0, Of = c0 * Q1 - F0, O1 = (P1 - v1) * Q1 - F1, sa = Of - O0, fb = O1 - Of;
+      if (O0 <= 0 || Of <= 0 || O1 <= 0 || sa === 0 || fb === 0) continue;
+      return {
+        badge: '固定予算と変動予算(販売数量差異・変動予算差異)',
+        intro: '当社の当月の予算(固定予算)と実績は次のとおりである。実績の販売量に合わせた変動予算を作り、営業利益の差異を分析しなさい。',
+        facts: ['固定予算(販売量 ' + ko(Q0) + '):売上高 ' + yen(P0 * Q0) + '、変動費 ' + yen(v0 * Q0) + '、固定費 ' + yen(F0) + '。',
+          '実績(販売量 ' + ko(Q1) + '):売上高 ' + yen(P1 * Q1) + '、変動費 ' + yen(v1 * Q1) + '、固定費 ' + yen(F1) + '。',
+          '変動予算は、販売価格・1個あたりの変動費・固定費を予算のままにして、販売量だけを実績に置きかえたものとする。'],
+        figs: [],
+        qs: [
+          { label: '変動予算の売上高', kind: 'amt', value: P0 * Q1 },
+          { label: '変動予算の営業利益', kind: 'amt', value: Of },
+          { label: '販売数量差異(固定予算と変動予算の差)', kind: 'var', value: sa },
+          { label: '変動予算差異(変動予算と実績の差)', kind: 'var', value: fb }
+        ],
+        solFigs: [fig(tblFig('3つの損益計算書', ['', '固定予算', '変動予算', '実績'], [['販売量', fmt(Q0), fmt(Q1), fmt(Q1)], ['売上高', fmt(P0 * Q0), fmt(P0 * Q1), fmt(P1 * Q1)], ['変動費', fmt(v0 * Q0), fmt(v0 * Q1), fmt(v1 * Q1)], ['固定費', fmt(F0), fmt(F0), fmt(F1)], { cls: 'hl', c: ['営業利益', fmt(O0), fmt(Of), fmt(O1)] }]), '左と中の差は「売れた量の違い」、中と右の差は「価格と費用の違い」。')],
+        sol: [
+          { h: '予算の単価', lines: ['販売価格 = ' + fmt(P0 * Q0) + ' ÷ ' + fmt(Q0) + ' = ' + per(P0), '変動費 = ' + fmt(v0 * Q0) + ' ÷ ' + fmt(Q0) + ' = ' + per(v0)] },
+          { h: '変動予算', lines: ['売上高 = ' + fmt(P0) + ' × ' + fmt(Q1) + ' = ' + fmt(P0 * Q1), '変動費 = ' + fmt(v0) + ' × ' + fmt(Q1) + ' = ' + fmt(v0 * Q1), '営業利益 = ' + fmt(P0 * Q1) + ' − ' + fmt(v0 * Q1) + ' − ' + fmt(F0) + ' = ' + fmt(Of)] },
+          { h: '差異', lines: ['販売数量差異 = ' + fmt(Of) + ' − ' + fmt(O0) + ' = ' + yu(sa), '変動予算差異 = ' + fmt(O1) + ' − ' + fmt(Of) + ' = ' + yu(fb), '合計 = 実績 ' + fmt(O1) + ' − 固定予算 ' + fmt(O0) + ' = ' + sgn(O1 - O0)] }
+        ],
+        jr: null
+      };
+    }
+  }
+
+  // ---------- F 全部原価計算(標準原価計算)の差異分析 ----------
+  function genF() {
+    for (var g = 0; g < 4000; g++) {
+      var P0 = ri(20, 60) * 100, Q0 = ri(10, 50) * 100, sc = Math.round(P0 * ri(50, 70) / 1000) * 10, gp = P0 - sc, S0 = Math.round(gp * Q0 * ri(40, 70) / 100 / 100000) * 100000;
+      var P1 = P0 + nz(-10, 10) * 10, Q1 = Q0 + nz(-8, 8) * 50, dv = nz(-15, 15) * 10000, S1 = S0 + nz(-10, 10) * 20000;
+      if (Q1 <= 0 || S0 <= 0) continue;
+      var O0 = gp * Q0 - S0, O1 = (P1 - sc) * Q1 + dv - S1, pv = (P1 - P0) * Q1, qv = (Q1 - Q0) * gp, sv = S0 - S1, tot = O1 - O0;
+      if (O0 <= 0 || O1 <= 0 || tot === 0) continue;
+      return {
+        badge: '全部原価計算の差異分析(標準原価差異を含む)',
+        intro: '当社は製品Dを販売し、標準原価計算(全部原価計算)を採用している。当月の予算と実績にもとづいて、営業利益の差異を分析しなさい。',
+        facts: ['予算:販売価格 ' + per(P0) + '、販売量 ' + ko(Q0) + '、標準製造原価 ' + per(sc) + '、販売費及び一般管理費 ' + yen(S0) + '。',
+          '実績:販売価格 ' + per(P1) + '、販売量 ' + ko(Q1) + '、販売費及び一般管理費 ' + yen(S1) + '。',
+          '当月の標準原価差異は ' + yen(Math.abs(dv)) + 'の' + (dv > 0 ? '有利' : '不利') + '差異で、全額を売上原価に賦課する。販売数量差異は予算の1個あたり売上総利益で計算する。'],
+        figs: [],
+        qs: [
+          { label: '販売価格差異', kind: 'var', value: pv },
+          { label: '販売数量差異(売上総利益ベース)', kind: 'var', value: qv },
+          { label: '販売費及び一般管理費の差異', kind: 'var', value: sv },
+          { label: '営業利益の差異(合計)', kind: 'var', value: tot }
+        ],
+        solFigs: [bridgeFig('予算の営業利益から実績の営業利益へ', O0, [['価格', pv], ['数量', qv], ['原価', dv], ['販管費', sv]], O1),
+          fig(tblFig('全部原価計算の損益計算書', ['', '予算', '実績'], [['売上高', fmt(P0 * Q0), fmt(P1 * Q1)], ['標準売上原価', fmt(sc * Q0), fmt(sc * Q1)], ['標準原価差異', '—', dv > 0 ? '−' + fmt(dv) : '+' + fmt(-dv)], { cls: 'sum', c: ['売上総利益', fmt(gp * Q0), fmt((P1 - sc) * Q1 + dv)] }, ['販管費', fmt(S0), fmt(S1)], { cls: 'hl', c: ['営業利益', fmt(O0), fmt(O1)] }]), '標準原価差異の行は、売上原価に足す額(+)と引く額(−)。')],
+        sol: [
+          { h: '売上と数量', lines: ['販売価格差異 = (' + fmt(P1) + ' − ' + fmt(P0) + ') × ' + fmt(Q1) + ' = ' + yu(pv), '予算の売上総利益 = ' + fmt(P0) + ' − ' + fmt(sc) + ' = ' + per(gp), '販売数量差異 = (' + fmt(Q1) + ' − ' + fmt(Q0) + ') × ' + fmt(gp) + ' = ' + yu(qv)] },
+          { h: '費用', lines: ['標準原価差異 = ' + yu(dv) + '(問題の資料どおり)', '販管費の差異 = ' + fmt(S0) + ' − ' + fmt(S1) + ' = ' + yu(sv)] },
+          { h: '合計の確認', lines: ['実績 ' + fmt(O1) + ' − 予算 ' + fmt(O0) + ' = ' + sgn(tot), sgn(pv) + ' ' + sgn(qv) + ' ' + sgn(dv) + ' ' + sgn(sv) + ' = ' + sgn(tot) + '(一致する)', '直接原価計算と違い、全部原価計算の数量差異は売上総利益でかける。固定製造原価が単価に入っているため。'] }
+        ],
+        jr: { note: '標準原価差異を売上原価に賦課する仕訳。', entries: [flip('標準原価差異の賦課', -dv, '売上原価', '標準原価差異')] }
+      };
+    }
+  }
+
+  // ---------- G 予算編成 ----------
+  function genG() {
+    for (var g = 0; g < 4000; g++) {
+      var S = ri(10, 60) * 100, B = ri(2, 8) * 100, E = ri(2, 8) * 100, Pd = S + E - B, a = ri(2, 6), Mb = ri(5, 30) * 100, Me = ri(5, 30) * 100, use = Pd * a, buy = use + Me - Mb, m = ri(10, 60) * 10;
+      var p = ri(20, 60) * 100, pc = pick([40, 50, 60, 70]), AR = ri(10, 80) * 100000, Sales = S * p, cashNow = Sales * pc / 100, cash = cashNow + AR;
+      if (Pd <= 0 || buy <= 0 || !isInt(cashNow) || E === B || Me === Mb) continue;
+      return {
+        badge: '予算編成(製造予算・購入予算・現金収入)',
+        intro: '当社は来月の予算を編成している。次の資料にもとづいて、製造予算、材料の購入予算、現金収入の予算を求めなさい。',
+        facts: ['販売予算:製品 ' + ko(S) + '、販売価格 ' + per(p) + '。製品の月初在庫は ' + ko(B) + '、月末在庫は ' + ko(E) + 'とする。',
+          '材料は製品1個あたり ' + a + 'kg を使う。材料の月初在庫は ' + fmt(Mb) + 'kg、月末在庫は ' + fmt(Me) + 'kg、購入単価は ' + per(m) + '/kg。仕掛品の在庫はない。',
+          '売上のうち ' + pc + '%は販売した月に現金で回収し、残りは翌月に回収する。前月末の売掛金は ' + yen(AR) + 'で、全額を来月に回収する。'],
+        figs: [],
+        qs: [
+          { label: '製造予算(生産量)', kind: 'amt', unit: '個', value: Pd },
+          { label: '材料の購入量', kind: 'amt', unit: 'kg', value: buy },
+          { label: '材料の購入額', kind: 'amt', value: buy * m },
+          { label: '来月の現金収入', kind: 'amt', value: cash }
+        ],
+        solFigs: [fig(tAccount('製品(個)', [['月初在庫', B], ['生産量', Pd, 'ta']], [['販売量', S], ['月末在庫', E]])), fig(tAccount('材料(kg)', [['月初在庫', Mb], ['購入量', buy, 'ta']], [['消費量', use], ['月末在庫', Me]]))],
+        sol: [
+          { h: '製造予算', lines: ['生産量 = 販売量 ' + fmt(S) + ' + 月末 ' + fmt(E) + ' − 月初 ' + fmt(B) + ' = ' + ko(Pd)] },
+          { h: '購入予算', lines: ['消費量 = ' + fmt(Pd) + ' × ' + a + 'kg = ' + fmt(use) + 'kg', '購入量 = ' + fmt(use) + ' + 月末 ' + fmt(Me) + ' − 月初 ' + fmt(Mb) + ' = ' + fmt(buy) + 'kg', '購入額 = ' + fmt(buy) + ' × ' + fmt(m) + ' = ' + fmt(buy * m)] },
+          { h: '現金収入', lines: ['来月の売上 = ' + fmt(S) + ' × ' + fmt(p) + ' = ' + fmt(Sales), '当月の回収 = ' + fmt(Sales) + ' × ' + pc + '% = ' + fmt(cashNow), '前月の売掛金の回収 ' + fmt(AR) + ' を足して ' + fmt(cash)] }
+        ],
+        jr: { note: '予算どおりに取引した場合の仕訳。予算の編成そのものは仕訳を切らない。材料は掛けで購入するものとする。', entries: [
+          { t: '材料を購入したとき', dr: [['材料', buy * m]], cr: [['買掛金', buy * m]] },
+          { t: '製品を販売したとき', dr: [['現金預金', cashNow], ['売掛金', Sales - cashNow]], cr: [['売上', Sales]] },
+          { t: '前月の売掛金を回収したとき', dr: [['現金預金', AR]], cr: [['売掛金', AR]] }] }
+      };
+    }
+  }
+
+  // ---------- T 理論 ----------
+  var THEORY = [
+    { q: '販売価格差異は、(実績の価格 − 予算の価格)に【　?　】をかけて求める。', a: '実績の販売量', d: ['予算の販売量', '実績と予算の差の販売量', '市場総需要量'], e: '数量の影響は、販売数量差異のほうで測る。' },
+    { q: '直接原価計算の販売数量差異(利益ベース)は、販売量の差に【　?　】をかけて求める。', a: '予算の1個あたり貢献利益', d: ['実績の1個あたり貢献利益', '予算の販売価格', '予算の1個あたり営業利益'], e: '固定費は販売量で変わらないので、貢献利益で測る。' },
+    { q: '販売数量差異のうち、当社の実力の変化を表すものを【　?　】という。', a: '市場占拠率差異', d: ['市場総需要量差異', '販売価格差異', '変動予算差異'], e: '市場全体の増減による部分は、市場総需要量差異で表す。' },
+    { q: '市場総需要量差異は、総需要量の差に【　?　】をかけ、さらに予算の貢献利益をかける。', a: '予算の市場占拠率', d: ['実績の市場占拠率', '実績の販売量', '予算の販売価格'], e: '市場占拠率差異は実績の総需要量に、市場総需要量差異は予算の占拠率にかける。' },
+    { q: '複数の製品で、実際の販売割合が予算の割合とずれたことによる差異を【　?　】という。', a: 'セールス・ミックス差異', d: ['総販売数量差異', '市場総需要量差異', '販売価格差異'], e: '貢献利益の高い製品の割合が増えれば有利になる。' },
+    { q: '総販売数量差異は、総販売量の差に【　?　】をかけて求める。', a: '予算の平均貢献利益', d: ['実績の平均貢献利益', '製品ごとの販売価格', '貢献利益の最も大きい製品の貢献利益'], e: '製品ごとに、(実績の総販売量 × 予算の割合 − 予算の販売量)× 貢献利益 としても同じ。' },
+    { q: '変動予算とは、【　?　】に合わせて作り直した予算である。', a: '実績の販売量(操業度)', d: ['実績の販売価格', '実績の固定費', '前期の実績'], e: '売れた量の違いと、価格・費用の違いを分けて見るために使う。' },
+    { q: '全部原価計算で販売数量差異を計算するときは、販売量の差に【　?　】をかける。', a: '予算の1個あたり売上総利益', d: ['予算の1個あたり貢献利益', '予算の1個あたり営業利益', '実績の販売価格'], e: '標準製造原価に固定費が含まれている。' },
+    { q: '原料の価格が上がって生産部門で不利差異が出ても、原料の市場価格は生産部門の【　?　】。', a: '管理不能な要因である', d: ['管理可能な要因である', '業績の評価に必ず含める要因である', '販売部門の責任である'], e: '差異分析は、責任を持てる部門ごとに差異を分けることが大切。' },
+    { q: '製造予算の生産量は、【　?　】で求める。', a: '販売量 + 月末在庫 − 月初在庫', d: ['販売量 − 月末在庫 + 月初在庫', '販売量 + 月初在庫 + 月末在庫', '販売量 − 月初在庫 − 月末在庫'], e: '材料の購入量も同じ形で、消費量 + 月末在庫 − 月初在庫。' }
+  ];
+  function genT() {
+    var picked = shuffle(THEORY).slice(0, 4);
+    return { badge: '理論(予算実績差異分析)', intro: '次の文章の【　?　】にあてはまる語句を、選択肢から選びなさい。', facts: ['予算実績差異分析の用語と考え方を確認する問題です。'], figs: [],
+      qs: picked.map(function (it) { return choiceQ(it.q, it.a, it.d); }), solFigs: [],
+      sol: picked.map(function (it, i) { return { h: '問' + (i + 1) + ' 正解:' + it.a, lines: [it.e] }; }), jr: null };
+  }
+
+  var FREQ = { A: '★★★ 販売価格差異・販売数量差異', B: '★★★ 営業利益の差異分析', C: '★★★ 市場占拠率差異', D: '★★★ セールス・ミックス差異', E: '★★ 変動予算', F: '★★ 全部原価計算の差異分析', G: '★★ 予算編成', T: '理論' };
+  var THEMES = [{ k: 'all', n: 'すべて' }, { k: 'g1', n: '価格・数量', gens: ['A'] }, { k: 'g2', n: '営業利益の差異分析', gens: ['B', 'E', 'F'] }, { k: 'g3', n: '市場占拠率・ミックス', gens: ['C', 'D'] }, { k: 'g4', n: '予算編成・理論', gens: ['G', 'T'] }];
+  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, T: genT };
+  return { THEMES: THEMES, GENS: GENS, FREQ: FREQ, fmt: fmt };
+})();
+
+(function () {
+  if (typeof document === 'undefined') return;
+  var state = { theme: 'all', last: null, p: null, graded: false, dirs: {}, picks: {}, ok: 0, all: 0 };
+  function el(id) { return document.getElementById(id); }
+  try {
+    var saved = localStorage.getItem('yosan-jisseki-drill-theme');
+    if (Drill.THEMES.some(function (th) { return th.k === saved; })) state.theme = saved;
+  } catch (e) { /* storage unavailable */ }
+
+  function renderChips() {
+    el('chips').innerHTML = Drill.THEMES.map(function (th) {
+      return '<button type="button" class="chip" id="chip-' + th.k + '" data-k="' + th.k + '" aria-pressed="' + (th.k === state.theme) + '">' + th.n + '</button>';
+    }).join('');
+  }
+
+  function newProblem() {
+    var th = Drill.THEMES.filter(function (x) { return x.k === state.theme; })[0];
+    var pool = th.gens || Object.keys(Drill.GENS);
+    var keys = pool.filter(function (k) { return k !== state.last; });
+    if (!keys.length) keys = pool;
+    var key = keys[Math.floor(Math.random() * keys.length)];
+    state.last = key;
+    state.p = Drill.GENS[key](th.opts || {});
+    state.graded = false;
+    state.dirs = {};
+    state.picks = {};
+    render();
+  }
+
+  function cardHtml(card) {
+    return '<div class="cost-card"><div class="cc-title">' + card.title + '</div><div class="cc-grid">' +
+      card.rows.map(function (r) {
+        return '<span>' + r[0] + '</span><span class="cc-c">' + r[1] + '</span><span class="cc-v">' + r[2] + '</span>';
+      }).join('') + '</div></div>';
+  }
+  function segOf(q) { return q.seg || ['有利', '不利']; }
+
+  function render() {
+    var p = state.p;
+    el('problem').innerHTML =
+      '<div class="badge">出題パターン:' + p.badge + '</div>' +
+      (Drill.FREQ[state.last] ? '<div class="freq">頻出度(目安):' + Drill.FREQ[state.last] + '</div>' : '') +
+      '<p class="intro">' + p.intro + '</p>' +
+      (p.card ? cardHtml(p.card) : '') +
+      (p.figs.length ? '<div class="figs">' + p.figs.join('') + '</div>' : '') +
+      '<ul class="facts">' + p.facts.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul>';
+
+    el('sheet').innerHTML = p.qs.map(function (q, i) {
+      if (q.kind === 'choice') {
+        return '<div class="ans-row choice">' +
+          '<div class="ans-label" id="lab-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</div>' +
+          '<div class="opts" role="group" aria-labelledby="lab-' + i + '">' + q.options.map(function (o, j) {
+            return '<button type="button" class="opt" id="opt-' + i + '-' + j + '" data-i="' + i + '" data-j="' + j + '" aria-pressed="false">' + o + '</button>';
+          }).join('') + '</div>' +
+          '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+      }
+      var s = segOf(q);
+      var seg = q.kind === 'var'
+        ? '<div class="seg" role="group" aria-label="問' + (i + 1) + 'の向き">' +
+          '<button type="button" id="dir-' + i + '-f" data-i="' + i + '" data-d="f" aria-pressed="false">' + s[0] + '</button>' +
+          '<button type="button" id="dir-' + i + '-u" data-i="' + i + '" data-d="u" aria-pressed="false">' + s[1] + '</button></div>'
+        : '';
+      return '<div class="ans-row">' +
+        '<label class="ans-label" for="ans-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</label>' +
+        '<div class="ans-ctrl"><input id="ans-' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="' + (q.unit === '個' ? '数量' : q.unit ? '数値' : '金額') + '"><span class="yen">' + (q.unit || '円') + '</span>' + seg + '</div>' +
+        '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+    }).join('');
+
+    el('err').hidden = true;
+    el('result').hidden = true;
+    el('result').innerHTML = '';
+    el('checkBtn').disabled = false;
+    el('revealBtn').disabled = false;
+  }
+
+  function parseNum(s) {
+    var x = String(s || '')
+      .replace(/[\uFF10-\uFF19]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,\uFF0C\u3001\s\u5186\u500B%\uFF05\u500D\u56DE\u5E74kgKG\uFF4B\uFF47]/g, '').replace(/[\u2212\u30FC\u2015\u2010\u25B2\u25B3\uFF0D-]/g, '-').replace(/\uFF0E/g, '.');
+    if (x === '' || x === '-') return NaN;
+    return Number(x);
+  }
+
+  function journalHtml(jr) {
+    if (!jr) return '';
+    function side(lines, tag) {
+      return '<div class="j-side">' + lines.map(function (l, k) {
+        return '<div class="j-line"><span class="j-tag">' + (k === 0 ? '(' + tag + ')' : '') + '</span>' +
+          '<span class="j-acct">' + l[0] + '</span><span class="j-amt">' + Drill.fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<section class="journal" aria-label="仕訳">' +
+      '<h3 class="j-head">仕訳 <span class="j-rule">金額は円</span></h3>' +
+      '<p class="j-note">' + jr.note + '</p>' +
+      '<div class="j-list">' + jr.entries.map(function (e) {
+        return '<div class="j-entry"><div class="j-title">' + e.t + '</div><div class="j-body">' + side(e.dr, '借') + side(e.cr, '貸') + '</div></div>';
+      }).join('') + '</div>' +
+      '</section>';
+  }
+
+  function correctText(q) {
+    if (q.kind === 'choice') return q.options[q.value];
+    var base = Drill.fmt(Math.abs(q.value)) + (q.unit || '円');
+    return q.kind === 'var' ? base + '(' + segOf(q)[q.value > 0 ? 0 : 1] + ')' : base;
+  }
+
+  function finish(scored) {
+    var p = state.p, okCount = 0;
+    if (scored) {
+      var missing = p.qs.some(function (q, i) {
+        if (q.kind === 'choice') return state.picks[i] === undefined;
+        return isNaN(parseNum(el('ans-' + i).value)) || (q.kind === 'var' && !state.dirs[i]);
+      });
+      if (missing) {
+        el('err').textContent = '未入力の欄があります。すべての金額・数量と、ボタンの選択、選択問題の答えを入力してください。';
+        el('err').hidden = false;
+        return;
+      }
+    }
+    el('err').hidden = true;
+    p.qs.forEach(function (q, i) {
+      var fb = el('fb-' + i);
+      if (scored) {
+        var ok;
+        if (q.kind === 'choice') {
+          ok = state.picks[i] === q.value;
+        } else {
+          var n = Math.abs(parseNum(el('ans-' + i).value));
+          ok = Math.abs(n - Math.abs(q.value)) < (q.tol || 0.5) &&
+            (q.kind !== 'var' || (state.dirs[i] === 'f') === (q.value > 0));
+        }
+        if (ok) okCount++;
+        fb.className = 'fb ' + (ok ? 'ok' : 'ng');
+        fb.textContent = ok ? '✓ 正解 ' + correctText(q) : '✗ 正解は ' + correctText(q);
+      } else {
+        fb.className = 'fb';
+        fb.textContent = '正解 ' + correctText(q);
+      }
+      fb.hidden = false;
+    });
+    if (scored) {
+      state.ok += okCount;
+      state.all += p.qs.length;
+      el('okN').textContent = state.ok;
+      el('allN').textContent = state.all;
+    }
+    state.graded = true;
+    el('checkBtn').disabled = true;
+    el('revealBtn').disabled = true;
+
+    var verdict = scored
+      ? '<div class="verdict' + (okCount === p.qs.length ? ' all' : '') + '">' + p.qs.length + '問中 ' + okCount + '問正解' + (okCount === p.qs.length ? '。全問正解です' : '') + '</div>'
+      : '<div class="verdict">解答と解説</div>';
+    el('result').innerHTML = '<div class="paper">' + verdict +
+      (p.solFigs.length ? '<div class="figs">' + p.solFigs.join('') + '</div>' : '') +
+      '<div class="sol">' + p.sol.map(function (s) {
+        return '<h4>' + s.h + '</h4>' + s.lines.map(function (l) { return '<p>' + l + '</p>'; }).join('');
+      }).join('') + '</div>' + journalHtml(p.jr) + '</div>';
+    el('result').hidden = false;
+  }
+
+  el('chips').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (!b) return;
+    state.theme = b.getAttribute('data-k');
+    try { localStorage.setItem('yosan-jisseki-drill-theme', state.theme); } catch (err) { /* ignore */ }
+    renderChips();
+    newProblem();
+  });
+  el('sheet').addEventListener('click', function (e) {
+    var o = e.target.closest('.opt');
+    if (o) {
+      var qi = o.getAttribute('data-i'), pj = Number(o.getAttribute('data-j'));
+      state.picks[qi] = pj;
+      state.p.qs[qi].options.forEach(function (_, j) { el('opt-' + qi + '-' + j).setAttribute('aria-pressed', String(j === pj)); });
+      return;
+    }
+    var b = e.target.closest('.seg button');
+    if (!b) return;
+    var i = b.getAttribute('data-i'), d = b.getAttribute('data-d');
+    state.dirs[i] = d;
+    el('dir-' + i + '-f').setAttribute('aria-pressed', String(d === 'f'));
+    el('dir-' + i + '-u').setAttribute('aria-pressed', String(d === 'u'));
+  });
+  el('sheet').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !state.graded) finish(true);
+  });
+  el('checkBtn').addEventListener('click', function () { finish(true); });
+  el('revealBtn').addEventListener('click', function () { finish(false); });
+  el('nextBtn').addEventListener('click', function () {
+    newProblem();
+    el('chips').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  renderChips();
+  newProblem();
+})();
+</script>
+</body>
+</html>
