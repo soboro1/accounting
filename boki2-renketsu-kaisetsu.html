@@ -391,10 +391,10 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
 .drill-cta b::after{content:" →"}
 .drill-cta small{font-size:14px;color:var(--muted)}
 #priority .drill-cta{margin-top:16px}
-.steps{list-style:none;counter-reset:st;display:grid;gap:10px;max-width:48em}
-.steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
-.steps li::before{content:counter(st);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--c8);color:var(--on-solid);font-weight:700}
-.steps li span{grid-column:2;font-size:14.5px;color:var(--muted);line-height:1.7}
+.solve-steps{list-style:none;counter-reset:st;display:grid;gap:10px;max-width:48em}
+.solve-steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.solve-steps li::before{content:counter(st);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--c8);color:var(--on-solid);font-weight:700}
+.solve-steps li span{grid-column:2;font-size:14.5px;color:var(--muted);line-height:1.7}
 .je-group{display:grid;gap:8px}
 .je-group + .je-group{border-top:1px dashed var(--line);padding-top:8px}
 .fig.wide svg{min-width:760px}
@@ -1219,7 +1219,7 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
   <!-- 4-3 -->
   <div class="unit" id="u-tejun">
     <div class="unit-head"><span class="tag">4-3</span><span class="freq">試験の手順</span><h3>試験で解く順番</h3></div>
-    <ol class="steps">
+    <ol class="solve-steps">
       <li><b>タイムテーブルを書く</b><span>S社の資本、非支配株主持分、のれんを年度ごとに並べます。</span></li>
       <li><b>開始仕訳を切る</b><span>のれんと非支配株主持分はタイムテーブルの当期首の数字を使います。利益剰余金当期首残高は貸借の差額で出します。</span></li>
       <li><b>当期の3つの仕訳を切る</b><span>のれんの償却、利益の按分、配当の修正です。</span></li>
