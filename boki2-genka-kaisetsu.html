@@ -1,0 +1,1198 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="日商簿記2級の製品原価計算を、図と仕訳で解説。個別原価計算、部門別計算(直接配賦法・相互配賦法)、単純総合原価計算(平均法・先入先出法・度外視法)、工程別・組別・等級別まで確認できます。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>簿記2級 製品原価計算</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(個別)は青、PART2(部門別)はティール、PART3(単純総合)はコーラル、PART4(工程別・組別・等級別)はオレンジで色分け */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：持分法と在外子会社 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：成果連結と表示 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：範囲と資本連結 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.res .je-entry{display:flex;flex-direction:column}.ej-row{display:contents}.je-c{order:1}.qbtns .ox{width:96px;height:52px}}
+
+/* 2級ページの追加分:PART4、問題アプリへのリンク、解く手順、連結精算表 */
+.top a.n-js,.top a.n-sh,.top a.n-fs{white-space:nowrap}
+.top a.n-fs{border-color:var(--c8);color:var(--c8t)}
+.top a.n-dr{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.part-fs .part-head{background:var(--c8)}
+.part-fs .tag{background:var(--c8)}
+.part-fs .pts li::before{background:var(--c8)}
+.part-fs .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.part-fs .def-l{color:var(--c8t)}
+.chap:nth-child(2){background:var(--c2)}
+.chap:nth-child(3){background:var(--c3)}
+.chap:nth-child(4){background:var(--c8)}
+.chap:nth-child(5){background:var(--c7)}
+.btn.f-fs-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.drill-cta{display:grid;gap:2px;text-decoration:none;padding:16px 20px;border-radius:16px;background:color-mix(in srgb,var(--c7) 10%,var(--surface));border:2px solid var(--c7);margin-top:4px}
+.drill-cta b{font-size:18px;color:var(--c7t)}
+.drill-cta b::after{content:" →"}
+.drill-cta small{font-size:14px;color:var(--muted)}
+#priority .drill-cta{margin-top:16px}
+.steps{list-style:none;counter-reset:st;display:grid;gap:10px;max-width:48em}
+.steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.steps li::before{content:counter(st);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--c8);color:var(--on-solid);font-weight:700}
+.steps li span{grid-column:2;font-size:14.5px;color:var(--muted);line-height:1.7}
+.je-group{display:grid;gap:8px}
+.je-group + .je-group{border-top:1px dashed var(--line);padding-top:8px}
+.fig.wide svg{min-width:760px}
+.ws-sec{font-size:14px;font-weight:700;fill:var(--c8t)}
+.ws-h{font-size:13px;font-weight:700;fill:var(--muted)}
+.ws-l{font-size:13.5px;fill:var(--ink)}
+.ws-n{font-family:var(--f-data);font-size:13.5px;fill:var(--ink);text-anchor:end}
+.ws-b{font-weight:700}
+.ws-hl{fill:color-mix(in srgb,var(--c1) 26%,var(--surface))}
+.ws-rule{stroke:var(--line);stroke-width:1}
+.ws-rule.s{stroke:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 個別原価計算</a>
+    <a class="n-js" href="#js">PART2 部門別計算</a>
+    <a class="n-sh" href="#sh">PART3 単純総合原価計算</a>
+    <a class="n-fs" href="#fs">PART4 工程別・組別・等級別</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+    <a class="n-dr" href="boki2-genka-drill.html">問題アプリ</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記2級 ／ 工業簿記</p>
+  <h1><span class="h-c">製品原価計算</span>を<br><span class="h-a">図と仕訳</span>でつかむ</h1>
+  <p class="lead">製品原価計算は、製品1つあたりの原価を求める手続です。受注生産なら<mark>個別原価計算</mark>、大量生産なら<mark>総合原価計算</mark>を使います。工場を部門に分けて製造間接費を正確に配賦するのが<mark>部門別計算</mark>です。このページでは、計算と仕訳、勘定の流れを一緒に確認します。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>個別原価計算</b><small>製造指図書、原価計算表、勘定の流れ、仕損費</small></a>
+    <a class="chap" href="#js"><span>PART2</span><b>部門別計算</b><small>第1次集計、直接配賦法、相互配賦法、予定配賦と差異</small></a>
+    <a class="chap" href="#sh"><span>PART3</span><b>単純総合原価計算</b><small>平均法、先入先出法、正常仕損・減損、材料の追加投入</small></a>
+    <a class="chap" href="#fs"><span>PART4</span><b>工程別・組別・等級別</b><small>累加法、組間接費の配賦、等価係数と積数</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+
+  <a class="drill-cta" href="boki2-genka-drill.html"><b>問題アプリで練習する</b><small>数字を変えて何度でも解けます。全13パターン、仕訳つきの解説あり</small></a>
+</header>
+
+<!-- ============ PART1 個別原価計算 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>個別原価計算</h2>
+    <p>注文ごとに製造指図書を発行し、その番号ごとに原価を集めます。完成したか、引き渡したかで、原価の行き先が決まります。金額の単位はこのページではすべて円です。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-zentai">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">まず全体像</span><h3>製品原価計算のどこを学ぶのか</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 240" role="img" aria-label="費目別計算で材料費、労務費、経費に分け、製造間接費は部門別計算を経て、製品別計算に進む。製品別計算は受注生産なら個別原価計算、大量生産なら総合原価計算">
+        <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <rect x="20" y="70" width="170" height="92" rx="10" class="b-grey"/>
+        <text x="105" y="104" class="t-b c">費目別計算</text>
+        <text x="105" y="128" class="t-xs c">材料費・労務費・経費</text>
+        <path d="M194 116 H232" class="ln" marker-end="url(#ar1)"/>
+        <rect x="238" y="70" width="170" height="92" rx="10" class="b-js"/>
+        <text x="323" y="104" class="t-b c">部門別計算</text>
+        <text x="323" y="128" class="t-xs c">製造間接費を部門へ</text>
+        <path d="M412 116 H450" class="ln" marker-end="url(#ar1)"/>
+        <text x="472" y="30" class="t-xs">製品別計算</text>
+        <rect x="456" y="42" width="344" height="82" rx="10" class="b-kk"/>
+        <text x="628" y="74" class="t-b c">個別原価計算</text>
+        <text x="628" y="100" class="t-xs c">受注生産。製造指図書ごとに集計</text>
+        <rect x="456" y="134" width="344" height="82" rx="10" class="b-sh"/>
+        <text x="628" y="166" class="t-b c">総合原価計算</text>
+        <text x="628" y="192" class="t-xs c">大量生産。1か月の原価を生産量で割る</text>
+      </svg>
+      <figcaption>このページでは、部門別計算を個別原価計算と組み合わせて説明します。</figcaption>
+    </figure>
+    <div class="two">
+      <div class="box in">
+        <h4>2級で出る内容</h4>
+        <div class="chips">
+          <span class="chip">製造指図書と原価計算表</span><span class="chip">補修指図書の仕損費</span><span class="chip">直接配賦法</span><span class="chip">相互配賦法(簡便法)</span><span class="chip">平均法・先入先出法</span><span class="chip">正常仕損・減損(度外視法)</span><span class="chip">累加法</span><span class="chip">組別・等級別</span>
+        </div>
+      </div>
+      <div class="box out">
+        <h4>1級の範囲(2級では出ない)</h4>
+        <div class="chips">
+          <span class="chip">代品の製造指図書</span><span class="chip">作業くずの処理</span><span class="chip">純粋の相互配賦法</span><span class="chip">階梯式配賦法</span><span class="chip">異常仕損・異常減損</span><span class="chip">非度外視法</span><span class="chip">非累加法</span><span class="chip">副産物・連産品</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-kobetsu">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>製造指図書と原価計算表</h3></div>
+    <div class="prose">
+      <p>当月のデータです。製造間接費は、切削部は1時間500円、組立部は1時間400円で予定配賦します(この配賦率はPART2で扱います)。</p>
+    </div>
+    <ul class="pts">
+      <li><b>No.1:</b>前月からの繰越 100,000。材料 120,000、労務費 200,000。切削部 400時間、組立部 300時間。<b>完成・引渡済み</b></li>
+      <li><b>No.2:</b>今月着手。材料 150,000、労務費 180,000。切削部 350時間、組立部 400時間。<b>完成・未引渡</b></li>
+      <li><b>No.3:</b>今月着手。材料 80,000、労務費 100,000。切削部 200時間、組立部 200時間。<b>未完成</b></li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="No.1の原価740000は売上原価、No.2の665000は製品、No.3の360000は仕掛品になる">
+        <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <text x="20" y="28" class="t-b">原価計算表の合計</text>
+        <text x="620" y="28" class="t-b">当月末の行き先</text>
+        <rect x="20" y="44" width="470" height="70" rx="10" class="b-kk"/>
+        <text x="36" y="72" class="t-b">No.1</text><text x="36" y="96" class="t-xs">100,000 ＋ 120,000 ＋ 200,000 ＋ 320,000</text><text x="474" y="86" class="t-num e">740,000</text>
+        <rect x="20" y="124" width="470" height="70" rx="10" class="b-kk"/>
+        <text x="36" y="152" class="t-b">No.2</text><text x="36" y="176" class="t-xs">150,000 ＋ 180,000 ＋ 335,000</text><text x="474" y="166" class="t-num e">665,000</text>
+        <rect x="20" y="204" width="470" height="70" rx="10" class="b-kk"/>
+        <text x="36" y="232" class="t-b">No.3</text><text x="36" y="256" class="t-xs">80,000 ＋ 100,000 ＋ 180,000</text><text x="474" y="246" class="t-num e">360,000</text>
+        <path d="M494 79 H608" class="ln" marker-end="url(#ar2)"/><path d="M494 159 H608" class="ln" marker-end="url(#ar2)"/><path d="M494 239 H608" class="ln" marker-end="url(#ar2)"/>
+        <text x="550" y="70" class="t-xs c">引渡済み</text><text x="550" y="150" class="t-xs c">未引渡</text><text x="550" y="230" class="t-xs c">未完成</text>
+        <rect x="614" y="50" width="186" height="58" rx="10" class="b-sh"/><text x="707" y="85" class="t-b c">売上原価</text>
+        <rect x="614" y="130" width="186" height="58" rx="10" class="b-sun"/><text x="707" y="165" class="t-b c">製品(月末在庫)</text>
+        <rect x="614" y="210" width="186" height="58" rx="10" class="b-js"/><text x="707" y="245" class="t-b c">仕掛品(月末在庫)</text>
+      </svg>
+      <figcaption>製造間接費は、No.1が 400時間 × 500円 ＋ 300時間 × 400円 ＝ 320,000、No.2が 335,000、No.3が 180,000 です。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">当月の原価を仕掛品に集める</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">350,000</span><span class="dc">(貸)</span><span>材料</span><span class="amt">350,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">480,000</span><span class="dc">(貸)</span><span>賃金</span><span class="amt">480,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">835,000</span><span class="dc">(貸)</span><span>製造間接費</span><span class="amt">835,000</span></div>
+        <span class="je-n">間接費はNo.1からNo.3までの予定配賦額の合計です。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">完成と引渡し</span>
+      <div class="je-row"><span class="dc">(借)</span><span>製品</span><span class="amt">1,405,000</span><span class="dc">(貸)</span><span>仕掛品</span><span class="amt">1,405,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">740,000</span><span class="dc">(貸)</span><span>製品</span><span class="amt">740,000</span></div>
+        <span class="je-n">完成はNo.1とNo.2の合計、引渡しはNo.1だけです。</span>
+      </div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 216" role="img" aria-label="仕掛品勘定。借方は前月繰越100000、材料350000、賃金480000、製造間接費835000で合計1765000。貸方は製品1405000、次月繰越360000で合計1765000">
+        <text x="410" y="24" class="t-b c">仕掛品</text>
+        <path d="M40 36 H780 M410 36 V198" class="ln"/>
+        <text x="60" y="62" class="t-s">前月繰越</text><text x="396" y="62" class="t-num e">100,000</text>
+        <text x="60" y="90" class="t-s">材料</text><text x="396" y="90" class="t-num e">350,000</text>
+        <text x="60" y="118" class="t-s">賃金</text><text x="396" y="118" class="t-num e">480,000</text>
+        <text x="60" y="146" class="t-s">製造間接費</text><text x="396" y="146" class="t-num e">835,000</text>
+        <text x="430" y="62" class="t-s">製品(No.1とNo.2)</text><text x="766" y="62" class="t-num e">1,405,000</text>
+        <text x="430" y="90" class="t-s">次月繰越(No.3)</text><text x="766" y="90" class="t-num e">360,000</text>
+        <path d="M280 160 H400 M650 160 H770" class="ln"/>
+        <text x="396" y="184" class="t-num e">1,765,000</text><text x="766" y="184" class="t-num e">1,765,000</text>
+      </svg>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>完成した指図書の原価は、すべて売上原価になる<span class="why">引き渡していなければ製品のままです。売上原価になるのは引渡済みの分だけです。</span></span></li>
+        <li><span class="mark x">×</span><span>前月からの繰越は、今月の原価計算表には入れない<span class="why">No.1の完成品原価には、前月までの100,000も含めます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-shison">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★</span><h3>仕損費(補修指図書)</h3></div>
+    <div class="prose">
+      <p>製品の一部に不具合が出て、補修すれば合格品になるときは、<b>補修指図書</b>を発行します。補修にかかった原価の全額が仕損費で、もとの製造指図書に賦課します。No.2に補修指図書 No.2-1 を発行し、材料 10,000、労務費 15,000、製造間接費 20,000 がかかった例です。</p>
+    </div>
+    <div class="je">
+      <span class="je-t">補修指図書の原価と仕損費</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">45,000</span><span class="dc">(貸)</span><span>材料</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>賃金</span><span class="amt">15,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>製造間接費</span><span class="amt">20,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>仕損費</span><span class="amt">45,000</span><span class="dc">(貸)</span><span>仕掛品</span><span class="amt">45,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">45,000</span><span class="dc">(貸)</span><span>仕損費</span><span class="amt">45,000</span></div>
+      <span class="je-n">1行目で補修の原価を集め、2行目で仕損費に振り替え、3行目でNo.2に賦課します。</span>
+    </div>
+    <ul class="pts">
+      <li>No.2の製造原価は 665,000 ＋ 45,000 ＝ <b>710,000</b> になります。補修指図書の分は、別の製品として計上しません。</li>
+      <li>代品を作り直す場合や、作業くずの処理は1級の範囲です。</li>
+    </ul>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 1　個別原価計算</span>
+    <p class="scn-story">製造間接費の予定配賦率は1時間600円です。No.11は前月繰越 50,000、材料 80,000、労務費 90,000、100時間で、完成・引渡済みです。No.12は材料 60,000、労務費 70,000、80時間で、完成・未引渡です。No.13は材料 40,000、労務費 30,000、50時間で、未完成です。製造間接費の実際発生額は 145,000 です。</p>
+    <ol class="scn-q">
+      <li>売上原価はいくらか</li>
+      <li>月末の製品と月末の仕掛品はいくらか</li>
+      <li>製造間接費配賦差異はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>売上原価 <b>280,000</b><span class="calc">No.11：50,000 ＋ 80,000 ＋ 90,000 ＋ 100時間 × 600 ＝ 280,000</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>製品 <b>178,000</b>、仕掛品 <b>100,000</b><span class="calc">No.12：60,000 ＋ 70,000 ＋ 80時間 × 600 ＝ 178,000<br>No.13：40,000 ＋ 30,000 ＋ 50時間 × 600 ＝ 100,000</span></span></div>
+        <div class="ans-step"><span class="lb">問3</span><span><b>7,000の不利差異</b><span class="calc">予定配賦額：230時間 × 600 ＝ 138,000<br>138,000 − 実際発生額 145,000 ＝ −7,000</span></span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART2 部門別計算 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>部門別計算</h2>
+    <p>製造間接費を部門ごとに集め、補助部門の分を製造部門に移してから、製品に配賦します。作業の内容が違う部門ごとに配賦率を使うので、製品の原価が正確になります。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-ichiji">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★</span><h3>第1次集計(部門個別費と部門共通費)</h3></div>
+    <ul class="pts">
+      <li><b>製造部門:</b>切削部、組立部(製品を直接加工する)</li>
+      <li><b>補助部門:</b>動力部、修繕部(製造部門を支える)</li>
+      <li><b>部門個別費:</b>切削部 300,000、組立部 200,000、動力部 80,000、修繕部 60,000</li>
+      <li><b>部門共通費:</b>建物の減価償却費 200,000。床面積の比 40 : 30 : 20 : 10 で配賦します。</li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 820 170" role="img" aria-label="第1次集計の結果。切削部380000、組立部260000、動力部120000、修繕部80000、合計840000">
+        <rect x="20" y="30" width="185" height="110" rx="10" class="b-kk"/><text x="112" y="62" class="t-b c">切削部</text><text x="112" y="86" class="t-xs c">300,000 ＋ 80,000</text><text x="112" y="118" class="t-num c">380,000</text>
+        <rect x="218" y="30" width="185" height="110" rx="10" class="b-kk"/><text x="310" y="62" class="t-b c">組立部</text><text x="310" y="86" class="t-xs c">200,000 ＋ 60,000</text><text x="310" y="118" class="t-num c">260,000</text>
+        <rect x="416" y="30" width="185" height="110" rx="10" class="b-grey"/><text x="508" y="62" class="t-b c">動力部</text><text x="508" y="86" class="t-xs c">80,000 ＋ 40,000</text><text x="508" y="118" class="t-num c">120,000</text>
+        <rect x="614" y="30" width="185" height="110" rx="10" class="b-grey"/><text x="706" y="62" class="t-b c">修繕部</text><text x="706" y="86" class="t-xs c">60,000 ＋ 20,000</text><text x="706" y="118" class="t-num c">80,000</text>
+      </svg>
+    </figure>
+    <div class="je">
+      <span class="je-t">第1次集計(部門費への振替)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>切削部門費</span><span class="amt">380,000</span><span class="dc">(貸)</span><span>製造間接費</span><span class="amt">840,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>組立部門費</span><span class="amt">260,000</span><span></span><span></span><span></span></div>
+      <div class="je-row"><span class="dc"></span><span>動力部門費</span><span class="amt">120,000</span><span></span><span></span><span></span></div>
+      <div class="je-row"><span class="dc"></span><span>修繕部門費</span><span class="amt">80,000</span><span></span><span></span><span></span></div>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-chokusetsu">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>第2次集計(直接配賦法)</h3></div>
+    <div class="prose">
+      <p>補助部門の費用を製造部門に移します。配賦の基準は次のとおりです。<b>直接配賦法は、補助部門どうしのやりとりを無視します</b>。</p>
+    </div>
+    <ul class="pts">
+      <li><b>動力部の基準(電力の使用量):</b>切削部 600、組立部 400、修繕部 200</li>
+      <li><b>修繕部の基準(修繕の回数):</b>切削部 3、組立部 5、動力部 2</li>
+    </ul>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">動力部 120,000 を 600 : 400 で配賦(修繕部の200は使わない)</span><span class="fx js">切削部 72,000</span><span class="fx js">組立部 48,000</span></div>
+      <div class="formula"><span class="lbl">修繕部 80,000 を 3 : 5 で配賦(動力部の2は使わない)</span><span class="fx js">切削部 30,000</span><span class="fx js">組立部 50,000</span></div>
+      <div class="formula"><span class="lbl">製造部門費の合計</span><span class="res js">切削部 482,000</span><span class="res js">組立部 358,000</span><span class="op">合計 840,000</span></div>
+    </div>
+    <div class="je">
+      <span class="je-t">第2次集計(直接配賦法)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>切削部門費</span><span class="amt">102,000</span><span class="dc">(貸)</span><span>動力部門費</span><span class="amt">120,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>組立部門費</span><span class="amt">98,000</span><span class="dc"></span><span>修繕部門費</span><span class="amt">80,000</span></div>
+    </div>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-sogo">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>第2次集計(相互配賦法・簡便法)</h3></div>
+    <div class="prose">
+      <p>2級の相互配賦法は簡便法です。<b>1回目は補助部門どうしにも配賦し、2回目は直接配賦法と同じように製造部門だけに配賦</b>します。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 340" role="img" aria-label="相互配賦法の簡便法。1回目で動力部は切削60000、組立40000、修繕20000に配賦し、修繕部は切削24000、組立40000、動力16000に配賦する。2回目は受け入れた動力16000を切削9600、組立6400に、修繕20000を切削7500、組立12500に配賦する">
+        <text x="20" y="28" class="t-b f-js">1回目:補助部門どうしにも配賦する</text>
+        <rect x="20" y="42" width="780" height="50" rx="8" class="b-grey"/><text x="36" y="73" class="t-s">動力部 120,000 を 600 : 400 : 200</text><text x="784" y="73" class="t-num e">切削 60,000 ／ 組立 40,000 ／ 修繕 20,000</text>
+        <rect x="20" y="102" width="780" height="50" rx="8" class="b-grey"/><text x="36" y="133" class="t-s">修繕部 80,000 を 3 : 5 : 2</text><text x="784" y="133" class="t-num e">切削 24,000 ／ 組立 40,000 ／ 動力 16,000</text>
+        <text x="20" y="186" class="t-b f-js">2回目:受け入れた分を製造部門だけに配賦する</text>
+        <rect x="20" y="200" width="780" height="50" rx="8" class="b-js"/><text x="36" y="231" class="t-s">動力部 16,000 を 600 : 400</text><text x="784" y="231" class="t-num e">切削 9,600 ／ 組立 6,400</text>
+        <rect x="20" y="260" width="780" height="50" rx="8" class="b-js"/><text x="36" y="291" class="t-s">修繕部 20,000 を 3 : 5</text><text x="784" y="291" class="t-num e">切削 7,500 ／ 組立 12,500</text>
+      </svg>
+    </figure>
+    <div class="formula"><span class="fx js">切削部 380,000 ＋ 60,000 ＋ 24,000 ＋ 9,600 ＋ 7,500</span><span class="op">＝</span><span class="res js">481,100</span></div>
+    <div class="formula"><span class="fx js">組立部 260,000 ＋ 40,000 ＋ 40,000 ＋ 6,400 ＋ 12,500</span><span class="op">＝</span><span class="res js">358,900</span></div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">1回目の配賦</span>
+      <div class="je-row"><span class="dc">(借)</span><span>切削部門費</span><span class="amt">84,000</span><span class="dc">(貸)</span><span>動力部門費</span><span class="amt">120,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>組立部門費</span><span class="amt">80,000</span><span class="dc"></span><span>修繕部門費</span><span class="amt">80,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>動力部門費</span><span class="amt">16,000</span><span></span><span></span><span></span></div>
+      <div class="je-row"><span class="dc"></span><span>修繕部門費</span><span class="amt">20,000</span><span></span><span></span><span></span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">2回目の配賦</span>
+      <div class="je-row"><span class="dc">(借)</span><span>切削部門費</span><span class="amt">17,100</span><span class="dc">(貸)</span><span>動力部門費</span><span class="amt">16,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>組立部門費</span><span class="amt">18,900</span><span class="dc"></span><span>修繕部門費</span><span class="amt">20,000</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>2回目も補助部門どうしに配賦する<span class="why">何度も繰り返すのは純粋の相互配賦法で、1級の範囲です。2級では2回目で終わります。</span></span></li>
+        <li><span class="mark x">×</span><span>直接配賦法でも修繕部への電力を比に入れる<span class="why">直接配賦法の比は、製造部門の分だけです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-4 -->
+  <div class="unit" id="u-yotei">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★</span><h3>製造部門費の予定配賦と差異</h3></div>
+    <div class="prose">
+      <p>実際の部門費は月末まで確定しないので、予定配賦率で製品に配賦します。直接配賦法の結果を実際発生額として、差異を求めます。</p>
+    </div>
+    <ul class="pts">
+      <li><b>切削部:</b>950時間 × 500円 ＝ 475,000。実際 482,000 なので <b>7,000 の不利差異</b></li>
+      <li><b>組立部:</b>900時間 × 400円 ＝ 360,000。実際 358,000 なので <b>2,000 の有利差異</b></li>
+    </ul>
+    <div class="je">
+      <span class="je-t">予定配賦と差異の振替</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">835,000</span><span class="dc">(貸)</span><span>切削部門費</span><span class="amt">475,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>組立部門費</span><span class="amt">360,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>製造部門費配賦差異</span><span class="amt">7,000</span><span class="dc">(貸)</span><span>切削部門費</span><span class="amt">7,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>組立部門費</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>製造部門費配賦差異</span><span class="amt">2,000</span></div>
+    </div>
+    <div class="prose">
+      <p>差異の原因は、予算差異と操業度差異に分けます。切削部の予算が公式法変動予算で、変動費率が1時間200円、固定費が月 300,000、基準操業度が1,000時間の例です。予定配賦率は 200 ＋ 300,000 ÷ 1,000 ＝ 500円です。</p>
+    </div>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">予算差異(実際の時間での予算 − 実際発生額)</span><span class="fx js">200 × 950 ＋ 300,000</span><span class="op">−</span><span class="fx js">482,000</span><span class="op">＝</span><span class="res js">8,000 有利</span></div>
+      <div class="formula"><span class="lbl">操業度差異(固定費率 × (実際の時間 − 基準操業度))</span><span class="fx js">300 × (950 − 1,000)</span><span class="op">＝</span><span class="res js">15,000 不利</span></div>
+    </div>
+    <div class="prose"><p>合わせると 8,000 − 15,000 ＝ −7,000 で、上の差異と一致します。</p></div>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 2　相互配賦法</span>
+    <p class="scn-story">第1次集計後の部門費は、製造部門Xが 100,000、製造部門Yが 150,000、補助部門Aが 50,000、補助部門Bが 40,000 です。Aの基準は X 3、Y 2、B 5。Bの基準は X 1、Y 3、A 4 です。相互配賦法(簡便法)で配賦します。</p>
+    <ol class="scn-q">
+      <li>1回目の配賦で、AがBから受け入れる金額はいくらか</li>
+      <li>配賦後のXの部門費はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>20,000</b><span class="calc">40,000 × 4 ÷ (1 ＋ 3 ＋ 4) ＝ 20,000</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>138,250</b><span class="calc">1回目 A → X：50,000 × 3 ÷ 10 ＝ 15,000、1回目 B → X：40,000 × 1 ÷ 8 ＝ 5,000<br>2回目 A(受入 20,000)→ X：20,000 × 3 ÷ 5 ＝ 12,000<br>2回目 B(受入 25,000)→ X：25,000 × 1 ÷ 4 ＝ 6,250<br>100,000 ＋ 15,000 ＋ 5,000 ＋ 12,000 ＋ 6,250 ＝ 138,250</span></span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART3 単純総合原価計算 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>単純総合原価計算</h2>
+    <p>同じ製品を大量に作るときの計算です。1か月の原価を、完成品と月末仕掛品に分けます。カギは、加工の進み具合を数量に直す「完成品換算量」です。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-tanjun">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>完成品換算量と平均法・先入先出法</h3></div>
+    <ul class="given">
+      <li>月初仕掛品 <b>200個</b>(進捗度50%)、材料費 <b>30,000</b>、加工費 <b>20,000</b></li>
+      <li>当月投入 <b>1,000個</b>、材料費 <b>210,000</b>、加工費 <b>310,000</b></li>
+      <li>完成品 <b>1,000個</b>、月末仕掛品 <b>200個</b>(進捗度50%)</li>
+      <li>材料は工程の始点で投入</li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 820 280" role="img" aria-label="加工費のボックス図。平均法は合計330000を1100で割り単価300、月末30000。先入先出法は当月310000を1000で割り単価310、月末31000">
+        <text x="210" y="26" class="t-b c f-sh">平均法(加工費)</text>
+        <rect x="20" y="40" width="185" height="210" class="b-grey"/>
+        <text x="112" y="130" class="t-s c">月初 ＋ 当月</text><text x="112" y="154" class="t-num c">330,000</text>
+        <rect x="205" y="40" width="185" height="150" class="b-sh"/><text x="297" y="105" class="t-s c">完成 1,000個</text><text x="297" y="129" class="t-num c">300,000</text>
+        <rect x="205" y="190" width="185" height="60" class="b-sun"/><text x="297" y="214" class="t-s c">月末 100個</text><text x="297" y="236" class="t-num c">30,000</text>
+        <text x="610" y="26" class="t-b c f-sh">先入先出法(加工費)</text>
+        <rect x="430" y="40" width="185" height="50" class="b-grey"/><text x="522" y="62" class="t-s c">月初 100個</text><text x="522" y="82" class="t-num c">20,000</text>
+        <rect x="430" y="90" width="185" height="160" class="b-grey"/><text x="522" y="162" class="t-s c">当月 1,000個</text><text x="522" y="186" class="t-num c">310,000</text>
+        <rect x="615" y="40" width="185" height="150" class="b-sh"/><text x="707" y="105" class="t-s c">完成 1,000個</text><text x="707" y="129" class="t-num c">299,000</text>
+        <rect x="615" y="190" width="185" height="60" class="b-sun"/><text x="707" y="214" class="t-s c">月末 100個</text><text x="707" y="236" class="t-num c">31,000</text>
+      </svg>
+      <figcaption>加工費の月末100個は 200個 × 50% です。材料は始点投入なので、材料費は数量のまま 200個で計算します。</figcaption>
+    </figure>
+    <div class="two">
+      <div class="box in">
+        <h4>平均法</h4>
+        <p>月初と当月を混ぜて、平均の単価で分けます。</p>
+        <ul class="pts">
+          <li>材料費:(30,000 ＋ 210,000)÷ 1,200個 ＝ 200円</li>
+          <li>加工費:(20,000 ＋ 310,000)÷ 1,100個 ＝ 300円</li>
+          <li>月末仕掛品:200個 × 200 ＋ 100個 × 300 ＝ <b>70,000</b></li>
+          <li>完成品原価:570,000 − 70,000 ＝ <b>500,000</b>(1個 500円)</li>
+        </ul>
+      </div>
+      <div class="box in">
+        <h4>先入先出法</h4>
+        <p>月初の分から先に完成するとみて、月末は当月の単価で計算します。</p>
+        <ul class="pts">
+          <li>材料費:210,000 ÷ 1,000個 ＝ 210円</li>
+          <li>加工費:310,000 ÷ 1,000個 ＝ 310円</li>
+          <li>月末仕掛品:200個 × 210 ＋ 100個 × 310 ＝ <b>73,000</b></li>
+          <li>完成品原価:570,000 − 73,000 ＝ <b>497,000</b>(1個 497円)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">当月の原価と完成(平均法)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">210,000</span><span class="dc">(貸)</span><span>材料</span><span class="amt">210,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>仕掛品</span><span class="amt">310,000</span><span class="dc">(貸)</span><span>加工費</span><span class="amt">310,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>製品</span><span class="amt">500,000</span><span class="dc">(貸)</span><span>仕掛品</span><span class="amt">500,000</span></div>
+        <span class="je-n">加工費は、労務費と製造間接費などをまとめた呼び方です。</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-dogai">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>正常仕損・正常減損(度外視法)</h3></div>
+    <div class="prose">
+      <p>作っている途中で、不良品(仕損)が出たり、材料が蒸発して減ったり(減損)することがあります。通常の範囲なら、その原価は良品が負担します。誰が負担するかは、<b>発生した場所を月末仕掛品が通過したか</b>で決まります。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 230" role="img" aria-label="月末仕掛品の進捗度50パーセント。仕損の発生点が20パーセントなら月末仕掛品も通過しているので両者負担。発生点が100パーセントなら通過していないので完成品のみ負担">
+        <text x="40" y="44" class="t-b">発生点 20%</text>
+        <rect x="170" y="26" width="600" height="28" rx="6" class="b-grey"/><rect x="170" y="26" width="300" height="28" rx="6" class="b-kk"/>
+        <path d="M290 18 V62" class="ln" style="stroke:var(--ng);stroke-width:3"/><text x="290" y="82" class="t-xs c">仕損</text>
+        <text x="470" y="82" class="t-xs c">月末仕掛品 50%</text>
+        <text x="640" y="82" class="t-b c f-sh">両者負担</text>
+        <text x="40" y="154" class="t-b">発生点 100%</text>
+        <rect x="170" y="136" width="600" height="28" rx="6" class="b-grey"/><rect x="170" y="136" width="300" height="28" rx="6" class="b-kk"/>
+        <path d="M770 128 V172" class="ln" style="stroke:var(--ng);stroke-width:3"/><text x="770" y="192" class="t-xs e">仕損</text>
+        <text x="470" y="192" class="t-xs c">月末仕掛品 50%</text>
+        <text x="640" y="192" class="t-b c f-sh">完成品のみ負担</text>
+      </svg>
+    </figure>
+    <div class="prose">
+      <p>同じデータで比べます。当月投入 1,200個、材料費 264,000(始点投入)、加工費 483,000。完成 1,000個、月末 100個(進捗度50%)、正常仕損 100個です。月初仕掛品と仕損品の評価額はありません。</p>
+    </div>
+    <div class="two">
+      <div class="box in">
+        <h4>発生点20%:両者負担</h4>
+        <p>仕損がなかったものとして、良品だけで割ります。</p>
+        <ul class="pts">
+          <li>材料費:264,000 ÷ (1,000 ＋ 100)＝ 240円</li>
+          <li>加工費:483,000 ÷ (1,000 ＋ 50)＝ 460円</li>
+          <li>月末仕掛品:100 × 240 ＋ 50 × 460 ＝ <b>47,000</b></li>
+          <li>完成品原価:747,000 − 47,000 ＝ <b>700,000</b></li>
+        </ul>
+      </div>
+      <div class="box in">
+        <h4>発生点100%:完成品のみ負担</h4>
+        <p>仕損も含めて割り、月末は自分の分だけ持ちます。残りが完成品です。</p>
+        <ul class="pts">
+          <li>材料費:264,000 ÷ (1,000 ＋ 100 ＋ 100)＝ 220円</li>
+          <li>加工費:483,000 ÷ (1,000 ＋ 50 ＋ 100)＝ 420円</li>
+          <li>月末仕掛品:100 × 220 ＋ 50 × 420 ＝ <b>43,000</b></li>
+          <li>完成品原価:747,000 − 43,000 ＝ <b>704,000</b></li>
+        </ul>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>仕損品に売却できる価値(評価額)があるときは、負担する原価から差し引きます。<span class="sub">完成品のみ負担なら完成品原価から、両者負担なら当月の材料費から差し引くのが2級の基本です。</span></li>
+      <li>減損も計算は同じです。減損には評価額がありません。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">仕損品に評価額 5,000 があるとき</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕損品</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>仕掛品</span><span class="amt">5,000</span></div>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-tsuika">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>材料の追加投入</h3></div>
+    <div class="prose">
+      <p>途中で入れる材料は、投入のタイミングで計算が変わります。完成 1,000個、月末 100個(進捗度50%)の例です。追加材料の費用は 105,000 とします。</p>
+    </div>
+    <ul class="pts">
+      <li><b>終点で投入:</b>月末仕掛品にはまだ入っていないので、<b>全額が完成品</b>の原価です。月末は 0。</li>
+      <li><b>工程の平均的に投入:</b>加工費と同じ換算量で分けます。105,000 ÷ (1,000 ＋ 50)＝ 100円。月末は <b>5,000</b>。</li>
+      <li><b>進捗度40%で投入:</b>月末(50%)は通過しているので、完成品と月末仕掛品に数量で分けます。費用が 110,000 なら 110,000 ÷ (1,000 ＋ 100)＝ 100円で、月末は <b>10,000</b>。</li>
+      <li><b>進捗度60%で投入:</b>月末(50%)はまだ通過していないので、<b>全額が完成品</b>です。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>追加材料は、いつ投入しても完成品と月末仕掛品に数量で分ける<span class="why">月末仕掛品がその地点を通過していなければ、月末には入っていません。</span></span></li>
+        <li><span class="mark x">×</span><span>平均法でも、月初仕掛品の進捗度で換算量を引く<span class="why">月初の換算量を引くのは先入先出法です。平均法では引きません。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 3　度外視法</span>
+    <p class="scn-story">当月投入 1,000個、材料費 190,000(始点投入)、加工費 273,000。完成 800個、月末 150個(進捗度40%)、正常減損 50個(発生点は工程の終点)です。月初仕掛品はありません。</p>
+    <ol class="scn-q">
+      <li>減損費を負担するのは完成品だけか、両者か</li>
+      <li>月末仕掛品原価はいくらか</li>
+      <li>完成品原価はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span><b>完成品のみ</b><span class="calc">発生点100%に対して、月末は40%なので通過していない</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>月末仕掛品原価 <b>46,500</b><span class="calc">材料費：190,000 ÷ (800 ＋ 150 ＋ 50) ＝ 190円 → 150個 × 190 ＝ 28,500<br>加工費：273,000 ÷ (800 ＋ 60 ＋ 50) ＝ 300円 → 60個 × 300 ＝ 18,000<br>28,500 ＋ 18,000 ＝ 46,500</span></span></div>
+        <div class="ans-step"><span class="lb">問3</span><span>完成品原価 <b>416,500</b><span class="calc">463,000 − 46,500 ＝ 416,500</span></span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART4 工程別・組別・等級別 ============ -->
+<section id="fs" class="part part-fs">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>工程別・組別・等級別</h2>
+    <p>単純総合原価計算の応用です。「工程で分ける」「製品の種類で分ける」「同じ製品の等級で分ける」と覚えると、区別しやすくなります。</p>
+  </div>
+
+  <!-- 4-1 -->
+  <div class="unit" id="u-kotei">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★</span><h3>工程別総合原価計算(累加法)</h3></div>
+    <div class="prose">
+      <p>第1工程の完成品を第2工程に送ります。第2工程から見ると、<b>前工程費は始点で投入する材料と同じ</b>です。第1工程の完成品 1,000個、500,000 をすべて第2工程に送る例です。第2工程の加工費は 285,000、完成 900個、月末 100個(進捗度50%)です。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 190" role="img" aria-label="第1工程の完成品原価500000が第2工程の前工程費になる。第2工程は月末65000、完成品720000">
+        <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <rect x="20" y="40" width="210" height="110" rx="10" class="b-grey"/><text x="125" y="78" class="t-b c">第1工程</text><text x="125" y="104" class="t-xs c">完成品 1,000個</text><text x="125" y="128" class="t-num c">500,000</text>
+        <path d="M234 95 H300" class="ln" marker-end="url(#ar3)"/><text x="266" y="84" class="t-xs c">前工程費</text>
+        <rect x="306" y="40" width="240" height="110" rx="10" class="b-sun"/><text x="426" y="72" class="t-b c">第2工程</text><text x="426" y="98" class="t-xs c">前工程費 500,000</text><text x="426" y="122" class="t-xs c">加工費 285,000</text>
+        <path d="M550 72 H606" class="ln" marker-end="url(#ar3)"/><path d="M550 118 H606" class="ln" marker-end="url(#ar3)"/>
+        <rect x="612" y="40" width="188" height="56" rx="10" class="b-sh"/><text x="706" y="64" class="t-xs c">完成品 900個</text><text x="706" y="84" class="t-num c">720,000</text>
+        <rect x="612" y="104" width="188" height="56" rx="10" class="b-grey"/><text x="706" y="128" class="t-xs c">月末 100個</text><text x="706" y="148" class="t-num c">65,000</text>
+      </svg>
+    </figure>
+    <ul class="pts">
+      <li>前工程費:500,000 ÷ 1,000個 ＝ 500円 → 月末は 100個 × 500 ＝ 50,000</li>
+      <li>加工費:285,000 ÷ (900 ＋ 50)＝ 300円 → 月末は 50個 × 300 ＝ 15,000</li>
+      <li>完成品原価:785,000 − 65,000 ＝ <b>720,000</b>(1個 800円)</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">工程間の振替と完成</span>
+      <div class="je-row"><span class="dc">(借)</span><span>第2工程仕掛品</span><span class="amt">500,000</span><span class="dc">(貸)</span><span>第1工程仕掛品</span><span class="amt">500,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>製品</span><span class="amt">720,000</span><span class="dc">(貸)</span><span>第2工程仕掛品</span><span class="amt">720,000</span></div>
+    </div>
+  </div>
+
+  <!-- 4-2 -->
+  <div class="unit" id="u-kumi">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★</span><h3>組別総合原価計算</h3></div>
+    <div class="prose">
+      <p>違う種類の製品(A組、B組)を作る場合です。組ごとにわかる<b>組直接費</b>はそのまま賦課し、共通の<b>組間接費</b>は作業時間などで配賦します。そのあとは組ごとに単純総合原価計算をします。</p>
+    </div>
+    <ul class="pts">
+      <li>組間接費 300,000 を、A組 600時間、B組 400時間で配賦 → <b>A組 180,000、B組 120,000</b></li>
+      <li>A組:材料費 200,000(始点投入)、組直接の加工費 105,000、完成 900個、月末 100個(進捗度50%)</li>
+      <li>A組の材料費:200,000 ÷ 1,000個 ＝ 200円。加工費:(105,000 ＋ 180,000)÷ 950個 ＝ 300円</li>
+      <li>A組の月末仕掛品:100 × 200 ＋ 50 × 300 ＝ 35,000。完成品原価:485,000 − 35,000 ＝ <b>450,000</b></li>
+    </ul>
+    <div class="je">
+      <span class="je-t">組間接費の配賦とA組の完成</span>
+      <div class="je-row"><span class="dc">(借)</span><span>A組仕掛品</span><span class="amt">180,000</span><span class="dc">(貸)</span><span>組間接費</span><span class="amt">300,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>B組仕掛品</span><span class="amt">120,000</span><span></span><span></span><span></span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>A組製品</span><span class="amt">450,000</span><span class="dc">(貸)</span><span>A組仕掛品</span><span class="amt">450,000</span></div>
+    </div>
+  </div>
+
+  <!-- 4-3 -->
+  <div class="unit" id="u-tokyu">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">頻出度 ★★</span><h3>等級別総合原価計算</h3></div>
+    <div class="prose">
+      <p>同じ種類で、大きさや品質だけが違う製品の場合です。完成品原価をまとめて計算し、<b>等価係数 × 完成品数量 ＝ 積数</b>の比で分けます。完成品原価 720,000 の例です。</p>
+    </div>
+    <ul class="pts">
+      <li>1級製品 800個、等価係数 1 → 積数 800</li>
+      <li>2級製品 800個、等価係数 0.5 → 積数 400</li>
+      <li>積数1あたり:720,000 ÷ 1,200 ＝ 600円</li>
+      <li>1級製品:800 × 600 ＝ <b>480,000</b>(1個 600円)、2級製品:400 × 600 ＝ <b>240,000</b>(1個 300円)</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">完成品の振替</span>
+      <div class="je-row"><span class="dc">(借)</span><span>1級製品</span><span class="amt">480,000</span><span class="dc">(貸)</span><span>仕掛品</span><span class="amt">720,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>2級製品</span><span class="amt">240,000</span><span></span><span></span><span></span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>完成品原価を数量の比で分ける<span class="why">数量ではなく、等価係数を掛けた積数の比で分けます。</span></span></li>
+        <li><span class="mark x">×</span><span>組別と等級別は同じ計算である<span class="why">組別は組ごとに原価を集めます。等級別はまとめて計算してから分けます。</span></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">30</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例(または正しい文)」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">個別原価計算</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">部門別計算</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">単純総合原価計算</button>
+    <button type="button" class="btn f-fs-btn" data-qf="fs" aria-pressed="false">工程別・組別・等級別</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">30</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>個別原価計算：まずここから</h3>
+      <ol>
+        <li>指図書ごとに材料費、労務費、製造間接費を集める</li>
+        <li>引渡済みは売上原価、未引渡は製品、未完成は仕掛品</li>
+        <li>仕掛品勘定を書いて貸借を合わせる</li>
+        <li>補修の原価は仕損費として、もとの指図書に賦課する</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>部門別計算：まずここから</h3>
+      <ol>
+        <li>直接配賦法は、製造部門の比だけで分ける</li>
+        <li>相互配賦法は、1回目に補助部門にも配賦する</li>
+        <li>予定配賦額 − 実際発生額で差異を出す</li>
+        <li>予算差異と操業度差異に分ける</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>総合原価計算：まずここから</h3>
+      <ol>
+        <li>加工費は完成品換算量で分ける</li>
+        <li>平均法と先入先出法の単価の違い</li>
+        <li>発生点と月末の進捗度を比べて負担を決める</li>
+        <li>累加法の前工程費は始点投入の材料と同じ</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>個別でも総合でも、最後は仕掛品勘定の貸借で合わせます。迷ったら「借方に集めた原価を、完成品と月末仕掛品に分けている」と考えると、計算の形が見えてきます。</p>
+  <a class="drill-cta" href="boki2-genka-drill.html"><b>問題アプリで練習する</b><small>数字を変えて、仕訳と勘定の流れまで確認できます</small></a>
+</section>
+
+<footer>
+  <p>参照：日本商工会議所「商工会議所簿記検定試験 出題区分表」(工業簿記・原価計算)、原価計算基準。</p>
+  <p>「頻出度」は学習上の目安で、日商の公式な集計ではありません。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。基準の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var KIJUN = "原価計算基準", KUBUN = "日本商工会議所「出題区分表」(工業簿記・原価計算)", TEXT = "工業簿記の基本手続(学習上の整理)";
+  var JE_KANSEI = ["No.1とNo.2が完成し、No.1を引き渡した", [["製品",1405000,"仕掛品",1405000],null,["売上原価",740000,"製品",740000]]];
+  var JE_HAIFU = ["製造間接費を予定配賦した", [["仕掛品",835000,"製造間接費",835000]]];
+  var JE_SHISON = ["補修指図書の原価45,000を仕損費として、もとの指図書に賦課する", [["仕損費",45000,"仕掛品",45000],null,["仕掛品",45000,"仕損費",45000]]];
+  var JE_ICHIJI = ["第1次集計", [["切削部門費",380000,"製造間接費",840000],["組立部門費",260000,"",""],["動力部門費",120000,"",""],["修繕部門費",80000,"",""]]];
+  var JE_CHOKU = ["直接配賦法による第2次集計", [["切削部門費",102000,"動力部門費",120000],["組立部門費",98000,"修繕部門費",80000]]];
+  var JE_SOGO = ["相互配賦法(簡便法)の1回目", [["切削部門費",84000,"動力部門費",120000],["組立部門費",80000,"修繕部門費",80000],["動力部門費",16000,"",""],["修繕部門費",20000,"",""]]];
+  var JE_SAI = ["切削部の予定配賦額475,000、実際発生額482,000", [["仕掛品",475000,"切削部門費",475000],null,["製造部門費配賦差異",7000,"切削部門費",7000]]];
+  var JE_SOUGOU = ["平均法:当月の材料費と加工費、完成品原価", [["仕掛品",520000,"材料",210000],["","","加工費",310000],null,["製品",500000,"仕掛品",500000]]];
+  var JE_HYOKA = ["仕損品に評価額5,000がある", [["仕損品",5000,"仕掛品",5000]]];
+  var JE_KOTEI = ["第1工程の完成品を第2工程へ送り、第2工程で完成した", [["第2工程仕掛品",500000,"第1工程仕掛品",500000],null,["製品",720000,"第2工程仕掛品",720000]]];
+  var JE_KUMI = ["組間接費300,000を配賦", [["A組仕掛品",180000,"組間接費",300000],["B組仕掛品",120000,"",""]]];
+  var JE_TOKYU = ["完成品原価720,000を積数の比で分ける", [["1級製品",480000,"仕掛品",720000],["2級製品",240000,"",""]]];
+
+  var Q = [
+    /* 個別原価計算 */
+    {p:"kk", q:"個別原価計算は、種類や規格の異なる製品を受注生産する場合に適している。", a:true, k:"受注生産", t:"同じ製品の大量生産", y:"注文ごとに製造指図書を発行し、その番号ごとに原価を集めるので、受注生産に向いています。", m:"受注生産は個別、大量生産は総合。", s:KIJUN},
+    {p:"kk", q:"個別原価計算で、完成して引渡しが済んだ指図書の原価は、製品勘定に残る。", a:false, k:"製品勘定に残る", t:"売上原価勘定に振り替える", y:"引き渡した製品はもう在庫ではないので、製品勘定から売上原価勘定に振り替えます。", m:"引渡済みは売上原価、未引渡は製品、未完成は仕掛品。", j:JE_KANSEI, s:TEXT},
+    {p:"kk", q:"月末に未完成の指図書の原価合計は、月末仕掛品原価になる。", a:true, k:"月末仕掛品原価", t:"月末製品原価", y:"未完成の指図書の原価は、仕掛品勘定に残って次月に繰り越されます。", m:"未完成の指図書の合計 ＝ 次月繰越。", s:TEXT},
+    {p:"kk", q:"製造間接費の予定配賦額は、予定配賦率に実際の直接作業時間を掛けて計算する。", a:true, k:"実際の直接作業時間", t:"基準操業度", y:"率は予定ですが、時間は実際です。基準操業度を掛けるのは予算額の計算です。", m:"予定配賦額 ＝ 予定配賦率 × 実際の時間。", j:JE_HAIFU, s:KIJUN},
+    {p:"kk", q:"前月から繰り越した指図書の完成品原価には、前月までに集計した原価は含めない。", a:false, k:"含めない", t:"含める", y:"製造を始めてから完成するまでの原価の合計が、その指図書の完成品原価です。", m:"完成品原価 ＝ 前月繰越 ＋ 当月の原価。", s:TEXT},
+    {p:"kk", q:"補修指図書に集計した原価は、仕損費として、もとの製造指図書に賦課する。", a:true, k:"もとの製造指図書に賦課する", t:"別の製品として計上する", y:"補修は、もとの製品を完成させるための費用なので、その指図書が負担します。", m:"補修の原価の全額が仕損費。", j:JE_SHISON, s:KUBUN},
+    {p:"kk", q:"作業くずの処理は、2級の出題範囲である。", a:false, k:"2級の出題範囲である", t:"1級の出題範囲である", y:"出題区分表では、作業くずの処理は1級の欄にあります。代品の製造指図書を発行する場合も1級です。", m:"2級の仕損費は、補修指図書の場合。", s:KUBUN},
+    /* 部門別計算 */
+    {p:"js", q:"部門個別費は、特定の部門で発生したことがわかる費用である。", a:true, k:"特定の部門で発生したことがわかる", t:"複数の部門に共通して発生する", y:"部門個別費はその部門に直接集めます。複数の部門に共通する費用は部門共通費で、基準を使って配賦します。", m:"個別費は直課、共通費は配賦。", j:JE_ICHIJI, s:KIJUN},
+    {p:"js", q:"建物の減価償却費は、一般に部門個別費として各部門に直接集計する。", a:false, k:"部門個別費", t:"部門共通費", y:"建物は複数の部門で使うので部門共通費です。床面積などの基準で配賦します。", m:"建物関係は床面積で配賦。", s:KIJUN},
+    {p:"js", q:"直接配賦法では、補助部門どうしのサービスのやりとりを無視して、製造部門だけに配賦する。", a:true, k:"無視して", t:"計算に入れて", y:"製造部門の使用割合だけで分けるので、計算が簡単です。", m:"比は製造部門の分だけ。", j:JE_CHOKU, s:KUBUN},
+    {p:"js", q:"相互配賦法(簡便法)の1回目の配賦では、補助部門にも配賦する。", a:true, k:"補助部門にも配賦する", t:"製造部門だけに配賦する", y:"1回目で補助部門どうしのやりとりを反映します。2回目は製造部門だけに配賦します。", m:"1回目は全部へ、2回目は製造部門へ。", j:JE_SOGO, s:KUBUN},
+    {p:"js", q:"相互配賦法(簡便法)の2回目の配賦でも、補助部門どうしに配賦する。", a:false, k:"補助部門どうしに配賦する", t:"製造部門だけに配賦する", y:"簡便法は2回目で終わらせるため、直接配賦法と同じように製造部門だけに配賦します。", m:"繰り返す方法は1級の純粋の相互配賦法。", s:KUBUN},
+    {p:"js", q:"補助部門費の配賦の方法を変えても、製造部門費の合計額は変わらない。", a:true, k:"合計額は変わらない", t:"合計額も変わる", y:"部門の間で移しているだけなので、合計は同じです。変わるのは切削部と組立部の内訳です。", m:"検算は合計額で。", s:TEXT},
+    {p:"js", q:"予定配賦額が実際発生額より大きいときの差異は、不利差異である。", a:false, k:"不利差異", t:"有利差異", y:"実際にかかった費用のほうが少ないので、有利差異です。", m:"予定 − 実際 がプラスなら有利。", j:JE_SAI, s:TEXT},
+    {p:"js", q:"操業度差異は、固定費率に、実際の操業度と基準操業度の差を掛けて計算する。", a:true, k:"固定費率", t:"変動費率", y:"操業度が基準に届かないと、固定費を配賦しきれません。その部分が操業度差異です。", m:"操業度差異 ＝ 固定費率 × (実際 − 基準)。", s:TEXT},
+    /* 単純総合原価計算 */
+    {p:"sh", q:"総合原価計算は、同じ製品を連続して大量生産する場合に用いる。", a:true, k:"連続して大量生産", t:"注文ごとに受注生産", y:"一定期間の原価を生産量で割って、1個あたりの原価を求めます。", m:"総合は期間で集計する。", s:KIJUN},
+    {p:"sh", q:"材料を工程の始点で投入するとき、月末仕掛品の材料費は加工進捗度を掛けた換算量で計算する。", a:false, k:"加工進捗度を掛けた換算量", t:"数量そのもの", y:"始点で全部入っているので、未完成でも材料は100%入っています。進捗度を掛けるのは加工費です。", m:"始点投入の材料費は数量のまま。", s:TEXT},
+    {p:"sh", q:"平均法では、月初仕掛品原価と当月製造費用の合計を、完成品と月末仕掛品に分ける。", a:true, k:"月初仕掛品原価と当月製造費用の合計", t:"当月製造費用だけ", y:"月初の分と当月の分を混ぜて、平均の単価で分けるのが平均法です。", m:"平均法は混ぜる。先入先出法は月末を当月の単価で。", j:JE_SOUGOU, s:KUBUN},
+    {p:"sh", q:"先入先出法では、月末仕掛品は当月投入分から成るものとして計算する。", a:true, k:"当月投入分", t:"月初仕掛品", y:"月初の分から先に完成するとみるので、月末に残るのは当月投入の分です。", m:"月末 ＝ 当月の単価 × 換算量。", s:KUBUN},
+    {p:"sh", q:"先入先出法の加工費の換算量は、完成品に月末の換算量を足し、月初の換算量を引いて求める。", a:true, k:"月初の換算量を引いて", t:"月初の換算量を足して", y:"月初の分は前月に加工済みなので、当月の作業量からは除きます。", m:"当月の換算量 ＝ 完成 − 月初 ＋ 月末。", s:TEXT},
+    {p:"sh", q:"正常仕損の発生点を月末仕掛品が通過していないときは、完成品と月末仕掛品の両者が負担する。", a:false, k:"完成品と月末仕掛品の両者", t:"完成品だけ", y:"月末仕掛品は発生点まで達していないので、仕損の原価を負担する理由がありません。", m:"通過していれば両者、していなければ完成品のみ。", s:TEXT},
+    {p:"sh", q:"度外視法で両者負担のときは、仕損の数量を分母に入れずに単価を計算する。", a:true, k:"分母に入れずに", t:"分母に入れて", y:"仕損がなかったものとして計算すると、自動的に良品の単価が上がり、両者が負担した形になります。", m:"度外視 ＝ なかったものとして計算。", s:KUBUN},
+    {p:"sh", q:"仕損品に評価額があるときは、その金額を負担する原価から差し引く。", a:true, k:"差し引く", t:"加える", y:"売却できる価値の分だけ、仕損の負担は軽くなります。", m:"(借)仕損品 (貸)仕掛品。", j:JE_HYOKA, s:TEXT},
+    {p:"sh", q:"工程の終点で投入する追加材料の費用は、月末仕掛品にも配分する。", a:false, k:"月末仕掛品にも配分する", t:"全額を完成品に負担させる", y:"月末仕掛品は終点に達していないので、その材料はまだ入っていません。", m:"通過していない材料は月末に入らない。", s:TEXT},
+    {p:"sh", q:"工程を通じて平均的に投入する材料は、加工費と同じ換算量で配分する。", a:true, k:"加工費と同じ換算量", t:"数量そのもの", y:"進捗に合わせて少しずつ投入されるので、進捗度を掛けた換算量で分けます。", m:"平均的に投入 ＝ 加工費と同じ。", s:TEXT},
+    /* 工程別・組別・等級別 */
+    {p:"fs", q:"累加法では、前工程の完成品原価を、次の工程の始点で投入した材料と同じように扱う。", a:true, k:"始点で投入した材料", t:"平均的に投入した材料", y:"前工程の完成品は次の工程の最初から全部入っているので、月末仕掛品も数量のまま計算します。", m:"前工程費は数量で分ける。", j:JE_KOTEI, s:KUBUN},
+    {p:"fs", q:"工程間の振替の仕訳は、製品勘定を使って行う。", a:false, k:"製品勘定を使って", t:"次の工程の仕掛品勘定を使って", y:"途中の工程の完成品はまだ製品ではないので、次の工程の仕掛品に振り替えます。", m:"製品になるのは最終工程の完成品だけ。", j:JE_KOTEI, s:TEXT},
+    {p:"fs", q:"組別総合原価計算では、組間接費を一定の基準で各組に配賦する。", a:true, k:"組間接費", t:"組直接費", y:"組ごとにわかる組直接費はそのまま賦課し、共通の組間接費だけを配賦します。", m:"直接費は賦課、間接費は配賦。", j:JE_KUMI, s:KUBUN},
+    {p:"fs", q:"等級別総合原価計算では、完成品原価を完成品数量の比で各等級に分ける。", a:false, k:"完成品数量の比", t:"積数(等価係数 × 完成品数量)の比", y:"等級によって価値が違うので、等価係数で重みをつけて分けます。", m:"積数 ＝ 等価係数 × 数量。", j:JE_TOKYU, s:KUBUN},
+    {p:"fs", q:"同じ種類で大きさや品質が異なる製品を作るときは、等級別総合原価計算を用いる。", a:true, k:"等級別総合原価計算", t:"組別総合原価計算", y:"種類が違う製品は組別、同じ種類で大きさや品質が違う製品は等級別です。", m:"種類が違う ＝ 組別、等級が違う ＝ 等級別。", s:KIJUN}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"個別原価計算", js:"部門別計算", sh:"単純総合原価計算", fs:"工程別・組別・等級別"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
