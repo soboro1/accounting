@@ -1,0 +1,1454 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="日商簿記2級の連結会計を、同じP社とS社の数字で通して解説。投資と資本の相殺、のれん、非支配株主持分、開始仕訳、内部取引、未実現利益(棚卸資産・土地)、連結精算表まで、図と仕訳で確認できます。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>簿記2級 連結会計</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(支配獲得日)は青、PART2(支配獲得後)はティール、PART3(内部取引と未実現利益)はコーラル、PART4(連結精算表)はオレンジで色分け。例の数字は全パートで共通 */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：持分法と在外子会社 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：成果連結と表示 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：範囲と資本連結 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.res .je-entry{display:flex;flex-direction:column}.ej-row{display:contents}.je-c{order:1}.qbtns .ox{width:96px;height:52px}}
+
+/* 2級ページの追加分:PART4、問題アプリへのリンク、解く手順、連結精算表 */
+.top a.n-js,.top a.n-sh,.top a.n-fs{white-space:nowrap}
+.top a.n-fs{border-color:var(--c8);color:var(--c8t)}
+.top a.n-dr{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.part-fs .part-head{background:var(--c8)}
+.part-fs .tag{background:var(--c8)}
+.part-fs .pts li::before{background:var(--c8)}
+.part-fs .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.part-fs .def-l{color:var(--c8t)}
+.chap:nth-child(2){background:var(--c2)}
+.chap:nth-child(3){background:var(--c3)}
+.chap:nth-child(4){background:var(--c8)}
+.chap:nth-child(5){background:var(--c7)}
+.btn.f-fs-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.drill-cta{display:grid;gap:2px;text-decoration:none;padding:16px 20px;border-radius:16px;background:color-mix(in srgb,var(--c7) 10%,var(--surface));border:2px solid var(--c7);margin-top:4px}
+.drill-cta b{font-size:18px;color:var(--c7t)}
+.drill-cta b::after{content:" →"}
+.drill-cta small{font-size:14px;color:var(--muted)}
+#priority .drill-cta{margin-top:16px}
+.steps{list-style:none;counter-reset:st;display:grid;gap:10px;max-width:48em}
+.steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.steps li::before{content:counter(st);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--c8);color:var(--on-solid);font-weight:700}
+.steps li span{grid-column:2;font-size:14.5px;color:var(--muted);line-height:1.7}
+.je-group{display:grid;gap:8px}
+.je-group + .je-group{border-top:1px dashed var(--line);padding-top:8px}
+.fig.wide svg{min-width:760px}
+.ws-sec{font-size:14px;font-weight:700;fill:var(--c8t)}
+.ws-h{font-size:13px;font-weight:700;fill:var(--muted)}
+.ws-l{font-size:13.5px;fill:var(--ink)}
+.ws-n{font-family:var(--f-data);font-size:13.5px;fill:var(--ink);text-anchor:end}
+.ws-b{font-weight:700}
+.ws-hl{fill:color-mix(in srgb,var(--c1) 26%,var(--surface))}
+.ws-rule{stroke:var(--line);stroke-width:1}
+.ws-rule.s{stroke:var(--muted)}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 支配獲得日</a>
+    <a class="n-js" href="#js">PART2 支配獲得後</a>
+    <a class="n-sh" href="#sh">PART3 内部取引と未実現利益</a>
+    <a class="n-fs" href="#fs">PART4 連結精算表</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+    <a class="n-dr" href="boki2-renketsu-drill.html">問題アプリ</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記2級 ／ 商業簿記</p>
+  <h1><span class="h-c">連結会計</span>を<br><span class="h-a">同じ数字</span>で通して学ぶ</h1>
+  <p class="lead">連結会計は、親会社と子会社を1つのグループとみて財務諸表を作る手続です。やることは<mark>「投資と資本の相殺」「支配獲得後の利益の振り分け」「グループ内の取引と未実現利益の消去」</mark>の3つです。このページでは、同じP社とS社の数字を最後の連結精算表まで使います。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>支配獲得日</b><small>連結の流れ、投資と資本の相殺、のれん、非支配株主持分</small></a>
+    <a class="chap" href="#js"><span>PART2</span><b>支配獲得後</b><small>のれん償却、利益の按分、配当の修正、開始仕訳、タイムテーブル</small></a>
+    <a class="chap" href="#sh"><span>PART3</span><b>内部取引と未実現利益</b><small>売上と仕入、債権債務、貸倒引当金、棚卸資産、土地</small></a>
+    <a class="chap" href="#fs"><span>PART4</span><b>連結精算表</b><small>精算表の埋め方、連結財務諸表の表示、解く手順</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+
+  <a class="drill-cta" href="boki2-renketsu-drill.html"><b>問題アプリで練習する</b><small>数字を変えて何度でも解けます。全10パターン、仕訳つきの解説あり</small></a>
+</header>
+
+<!-- ============ PART1 支配獲得日 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>支配獲得日の連結</h2>
+    <p>子会社を支配した日に作るのは、連結貸借対照表だけです。親会社の投資(S社株式)と子会社の資本を相殺し、差額をのれんにします。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-flow">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">まず全体像</span><h3>連結財務諸表ができるまで</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 210" role="img" aria-label="P社とS社の個別財務諸表を合算し、連結修正仕訳で修正して、連結財務諸表を作る流れ">
+        <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <rect x="20" y="24" width="170" height="66" rx="10" class="b-kk"/>
+        <text x="105" y="52" class="t-b c">P社の個別F/S</text>
+        <text x="105" y="74" class="t-xs c">親会社の帳簿どおり</text>
+        <rect x="20" y="118" width="170" height="66" rx="10" class="b-kk"/>
+        <text x="105" y="146" class="t-b c">S社の個別F/S</text>
+        <text x="105" y="168" class="t-xs c">子会社の帳簿どおり</text>
+        <path d="M194 57 H238 V96 M194 151 H238 V112" class="ln"/>
+        <path d="M238 104 H262" class="ln" marker-end="url(#ar1)"/>
+        <rect x="268" y="66" width="130" height="76" rx="10" class="b-grey"/>
+        <text x="333" y="100" class="t-b c">単純に合算</text>
+        <text x="333" y="122" class="t-xs c">科目ごとに足す</text>
+        <path d="M402 104 H432" class="ln" marker-end="url(#ar1)"/>
+        <rect x="438" y="56" width="168" height="96" rx="10" class="b-sun"/>
+        <text x="522" y="86" class="t-b c">連結修正仕訳</text>
+        <text x="522" y="108" class="t-xs c">投資と資本の相殺</text>
+        <text x="522" y="127" class="t-xs c">内部取引の消去 など</text>
+        <path d="M610 104 H640" class="ln" marker-end="url(#ar1)"/>
+        <rect x="646" y="66" width="154" height="76" rx="10" class="b-js"/>
+        <text x="723" y="100" class="t-b c">連結F/S</text>
+        <text x="723" y="122" class="t-xs c">グループ全体の成績</text>
+      </svg>
+      <figcaption>個別の帳簿には記帳しません。連結修正仕訳は、連結精算表の上だけで行う仕訳です。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>議決権の過半数を持つなどして他社を支配している会社が<b>親会社(P社)</b>、支配されている会社が<b>子会社(S社)</b>です。</li>
+      <li>連結修正仕訳は個別の帳簿に残りません。そのため、<b>前期までの修正を毎年やり直します</b>。これがPART2の開始仕訳です。</li>
+    </ul>
+    <div class="two">
+      <div class="box in">
+        <h4>2級で出る内容</h4>
+        <div class="chips">
+          <span class="chip">投資と資本の相殺</span><span class="chip">のれん</span><span class="chip">非支配株主持分</span><span class="chip">連結会社間取引</span><span class="chip">未実現損益(棚卸資産・土地)</span><span class="chip">連結精算表</span><span class="chip">連結財務諸表</span>
+        </div>
+      </div>
+      <div class="box out">
+        <h4>1級の範囲(2級では出ない)</h4>
+        <div class="chips">
+          <span class="chip">子会社の資産・負債の時価評価</span><span class="chip">段階取得</span><span class="chip">追加取得・一部売却</span><span class="chip">持分法</span><span class="chip">連結の税効果</span><span class="chip">在外子会社</span><span class="chip">連結CF計算書</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-sosai">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>投資と資本の相殺</h3></div>
+    <div class="prose">
+      <p>このページの共通の例です。金額の単位はすべて<b>千円</b>です。</p>
+    </div>
+    <ul class="given">
+      <li>P社はX1年3月31日に、S社の株式の<b>80%</b>を<b>44,000</b>で取得した</li>
+      <li>この日のS社の資本金 <b>40,000</b></li>
+      <li>この日のS社の利益剰余金 <b>10,000</b></li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 820 250" role="img" aria-label="S社の資本50000のうち、80パーセントの40000がP社の持分、20パーセントの10000が非支配株主持分。P社の投資44000と持分40000の差額4000がのれん">
+        <text x="20" y="42" class="t-b">S社の資本</text>
+        <text x="20" y="62" class="t-xs">50,000</text>
+        <rect x="130" y="20" width="500" height="58" class="b-kk"/>
+        <rect x="630" y="20" width="125" height="58" class="b-grey"/>
+        <text x="380" y="45" class="t-b c">P社の持分 80%</text>
+        <text x="380" y="66" class="t-num c">40,000</text>
+        <text x="692" y="45" class="t-s c" style="font-weight:700">非支配株主 20%</text>
+        <text x="692" y="66" class="t-num c">10,000</text>
+        <text x="20" y="166" class="t-b">P社の投資</text>
+        <text x="20" y="186" class="t-xs">44,000</text>
+        <rect x="130" y="144" width="500" height="58" class="b-kk"/>
+        <rect x="630" y="144" width="50" height="58" class="b-sun"/>
+        <text x="380" y="169" class="t-b c">S社の資本のうちP社の持分</text>
+        <text x="380" y="190" class="t-num c">40,000</text>
+        <text x="655" y="169" class="t-s c" style="font-weight:700">差額</text>
+        <text x="655" y="190" class="t-num c">4,000</text>
+        <path d="M130 84 V138 M630 84 V138" class="ln dash"/>
+        <path d="M655 208 V226 H690" class="ln"/>
+        <text x="696" y="231" class="t-b">のれん</text>
+        <text x="380" y="116" class="t-xs c">同じ大きさ</text>
+      </svg>
+      <figcaption>図の長さは金額に比例しています。上の段と下の段で、P社の持分の幅は同じです。</figcaption>
+    </figure>
+    <div class="formulas">
+      <div class="formula"><span class="lbl">のれん</span><span class="fx kk">投資額 44,000</span><span class="op">−</span><span class="fx kk">S社の資本 50,000 × 80%</span><span class="op">＝</span><span class="res kk">のれん 4,000</span></div>
+      <div class="formula"><span class="lbl">非支配株主持分</span><span class="fx kk">S社の資本 50,000</span><span class="op">×</span><span class="fx kk">20%</span><span class="op">＝</span><span class="res kk">非支配株主持分 10,000</span></div>
+    </div>
+    <div class="je">
+      <span class="je-t">支配獲得日の連結修正仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>資本金</span><span class="amt">40,000</span><span class="dc">(貸)</span><span>S社株式</span><span class="amt">44,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>利益剰余金</span><span class="amt">10,000</span><span class="dc"></span><span>非支配株主持分</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">4,000</span><span></span><span></span><span></span></div>
+    </div>
+    <ul class="pts">
+      <li>S社の資本の<b>全部</b>を消します。P社の持分だけを消すのではありません。</li>
+      <li>消した資本のうち、P社以外の株主の分が<b>非支配株主持分</b>(連結貸借対照表の純資産の部)です。</li>
+      <li>のれんは、S社の純資産より高く買った分です。連結貸借対照表の<b>無形固定資産</b>に表示します。</li>
+    </ul>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-nega">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★</span><h3>投資額が持分より小さいとき</h3></div>
+    <div class="prose">
+      <p>投資額がP社の持分より小さいと、差額は貸方に出ます。これが<b>負ののれん発生益</b>で、発生した年度の<b>特別利益</b>です。上の例で投資額が38,000なら、次の仕訳になります。</p>
+    </div>
+    <div class="je">
+      <span class="je-t">投資額38,000の場合(持分40,000との差額2,000)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>資本金</span><span class="amt">40,000</span><span class="dc">(貸)</span><span>S社株式</span><span class="amt">38,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>利益剰余金</span><span class="amt">10,000</span><span class="dc"></span><span>非支配株主持分</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>負ののれん発生益</span><span class="amt">2,000</span></div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>非支配株主持分は、投資額の残り20%で計算する<span class="why">S社の資本 × 20% で計算します。44,000は使いません。</span></span></li>
+        <li><span class="mark x">×</span><span>のれんは、S社の資本全体と投資額の差額である<span class="why">比べるのは、S社の資本のうち<b>P社の持分</b>(50,000 × 80%)です。</span></span></li>
+        <li><span class="mark x">×</span><span>支配獲得日にも連結損益計算書を作る<span class="why">支配獲得日に作るのは連結貸借対照表だけです。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 1　支配獲得日</span>
+    <p class="scn-story">P社はS社の株式の70%を29,000で取得し、支配を獲得しました。この日のS社の資本金は30,000、利益剰余金は10,000です。</p>
+    <ol class="scn-q">
+      <li>のれんはいくらか</li>
+      <li>非支配株主持分はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>のれん <b>1,000</b><span class="calc">S社の資本：30,000 ＋ 10,000 ＝ 40,000<br>P社の持分：40,000 × 70% ＝ 28,000<br>のれん：29,000 − 28,000 ＝ 1,000</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>非支配株主持分 <b>12,000</b><span class="calc">40,000 × 30% ＝ 12,000</span></span></div>
+        <div class="je">
+          <span class="je-t">連結修正仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>資本金</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>S社株式</span><span class="amt">29,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>利益剰余金</span><span class="amt">10,000</span><span class="dc"></span><span>非支配株主持分</span><span class="amt">12,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">1,000</span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART2 支配獲得後 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>支配獲得後の連結</h2>
+    <p>1年たつと、のれんの償却、S社が稼いだ利益、S社が払った配当の3つを修正します。2年目からは、その前に開始仕訳を切ります。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-y1">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>1年目(X2年3月期)の修正</h3></div>
+    <ul class="given">
+      <li>S社の当期純利益 <b>6,000</b></li>
+      <li>S社の配当 <b>2,000</b></li>
+      <li>のれんは<b>20年</b>で定額法により償却</li>
+    </ul>
+    <div class="prose">
+      <p>まず、支配獲得日の仕訳をもう一度切ります。個別の帳簿に残っていないからです。このとき、資本金と利益剰余金は<b>「当期首残高」</b>の科目を使います。そのあと、次の3つの仕訳を切ります。</p>
+    </div>
+    <div class="je">
+      <span class="je-t">開始仕訳(支配獲得日の仕訳のやり直し)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>資本金当期首残高</span><span class="amt">40,000</span><span class="dc">(貸)</span><span>S社株式</span><span class="amt">44,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>利益剰余金当期首残高</span><span class="amt">10,000</span><span class="dc"></span><span>非支配株主持分当期首残高</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">4,000</span><span></span><span></span><span></span></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">① のれんの償却(4,000 ÷ 20年)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>のれん償却</span><span class="amt">200</span><span class="dc">(貸)</span><span>のれん</span><span class="amt">200</span></div>
+        <span class="je-n">のれん償却は販売費及び一般管理費です。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">② 利益の按分(6,000 × 20%)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">1,200</span><span class="dc">(貸)</span><span>非支配株主持分当期変動額</span><span class="amt">1,200</span></div>
+        <span class="je-n">S社の利益のうち、非支配株主の分を振り替えます。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">③ 配当の修正(2,000のうち80%がP社へ)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>受取配当金</span><span class="amt">1,600</span><span class="dc">(貸)</span><span>剰余金の配当</span><span class="amt">2,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>非支配株主持分当期変動額</span><span class="amt">400</span><span></span><span></span><span></span></div>
+        <span class="je-n">P社の受取配当金はグループ内の取引なので消します。残りは非支配株主持分を減らします。</span>
+      </div>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 200" role="img" aria-label="非支配株主持分は期首10000に利益の按分1200を足し、配当400を引いて期末10800になる。これはS社の期末の資本54000の20パーセントと一致する">
+        <defs><marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <text x="410" y="26" class="t-b c">非支配株主持分の動き</text>
+        <rect x="20" y="52" width="150" height="72" rx="10" class="b-grey"/>
+        <text x="95" y="82" class="t-s c">当期首</text><text x="95" y="106" class="t-num c">10,000</text>
+        <path d="M174 88 H226" class="ln" marker-end="url(#ar2)"/>
+        <rect x="232" y="52" width="150" height="72" rx="10" class="b-js"/>
+        <text x="307" y="82" class="t-s c">利益の按分</text><text x="307" y="106" class="t-num c">＋ 1,200</text>
+        <path d="M386 88 H438" class="ln" marker-end="url(#ar2)"/>
+        <rect x="444" y="52" width="150" height="72" rx="10" class="b-sh"/>
+        <text x="519" y="82" class="t-s c">配当</text><text x="519" y="106" class="t-num c">− 400</text>
+        <path d="M598 88 H650" class="ln" marker-end="url(#ar2)"/>
+        <rect x="656" y="52" width="150" height="72" rx="10" class="b-sun"/>
+        <text x="731" y="82" class="t-s c">当期末</text><text x="731" y="106" class="t-num c">10,800</text>
+        <text x="410" y="164" class="t-s c">検算：S社の期末の資本 (50,000 ＋ 6,000 − 2,000) × 20% ＝ 10,800</text>
+      </svg>
+    </figure>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>S社の配当2,000の全額を受取配当金から消す<span class="why">P社が受け取ったのは80%の1,600だけです。受取配当金の消去は1,600です。</span></span></li>
+        <li><span class="mark x">×</span><span>のれんの償却額も非支配株主に按分する<span class="why">のれんはP社の投資から生じたものです。償却額は全額P社の負担です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-kaishi">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>2年目の開始仕訳</h3></div>
+    <div class="prose">
+      <p>2年目(X3年3月期)は、1年目までの仕訳をすべてやり直します。そのとき、前期の<b>損益と配当の科目は、すべて「利益剰余金当期首残高」</b>に置きかえます。前期の損益は、今では利益剰余金に入っているからです。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="利益剰余金当期首残高の修正額11000の内訳。支配獲得時の10000に、のれん償却200、非支配株主の利益1200、受取配当金1600を足し、剰余金の配当2000を引く">
+        <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <text x="20" y="26" class="t-b">1年目に使った科目</text>
+        <rect x="20" y="42" width="370" height="42" rx="8" class="b-grey"/><text x="36" y="68" class="t-s">利益剰余金当期首残高(借方)</text><text x="376" y="68" class="t-num e">＋ 10,000</text>
+        <rect x="20" y="92" width="370" height="42" rx="8" class="b-js"/><text x="36" y="118" class="t-s">のれん償却(借方)</text><text x="376" y="118" class="t-num e">＋ 200</text>
+        <rect x="20" y="142" width="370" height="42" rx="8" class="b-js"/><text x="36" y="168" class="t-s">非支配株主に帰属する当期純利益(借方)</text><text x="376" y="168" class="t-num e">＋ 1,200</text>
+        <rect x="20" y="192" width="370" height="42" rx="8" class="b-js"/><text x="36" y="218" class="t-s">受取配当金(借方)</text><text x="376" y="218" class="t-num e">＋ 1,600</text>
+        <rect x="20" y="242" width="370" height="42" rx="8" class="b-sh"/><text x="36" y="268" class="t-s">剰余金の配当(貸方)</text><text x="376" y="268" class="t-num e">− 2,000</text>
+        <path d="M398 163 H470" class="ln" marker-end="url(#ar3)"/>
+        <rect x="478" y="104" width="322" height="118" rx="12" class="b-sun"/>
+        <text x="639" y="142" class="t-b c">利益剰余金当期首残高</text>
+        <text x="639" y="166" class="t-xs c">2年目の開始仕訳の借方</text>
+        <text x="639" y="198" class="t-num c" style="font-size:20px">11,000</text>
+      </svg>
+    </figure>
+    <div class="je">
+      <span class="je-t">2年目の開始仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>資本金当期首残高</span><span class="amt">40,000</span><span class="dc">(貸)</span><span>S社株式</span><span class="amt">44,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>利益剰余金当期首残高</span><span class="amt">11,000</span><span class="dc"></span><span>非支配株主持分当期首残高</span><span class="amt">10,800</span></div>
+      <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">3,800</span><span></span><span></span><span></span></div>
+    </div>
+    <ul class="pts">
+      <li>のれんは償却後の<b>3,800</b>、非支配株主持分は前期末の<b>10,800</b>です。</li>
+      <li>利益剰余金当期首残高は、次の式でも計算できます。<span class="sub">支配獲得時 10,000 ＋ 増えた利益剰余金 4,000 × 20% ＋ のれん償却の累計 200 ＝ 11,000</span></li>
+    </ul>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-tt">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>タイムテーブルで整理する</h3></div>
+    <div class="prose">
+      <p>試験では、仕訳を切る前にタイムテーブルを書くと速く解けます。2年目のS社の当期純利益を8,000、配当を3,000とすると、次のようになります。</p>
+    </div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 322" role="img" aria-label="タイムテーブル。支配獲得時、1年目末、2年目末の順に、利益剰余金は10000、14000、19000。資本合計は50000、54000、59000。非支配株主持分は10000、10800、11800。のれんは4000、3800、3600">
+        <text x="290" y="34" class="t-b c">支配獲得時</text><text x="290" y="54" class="t-xs c">X1年3月末</text>
+        <text x="490" y="34" class="t-b c">1年目末</text><text x="490" y="54" class="t-xs c">X2年3月末</text>
+        <text x="690" y="34" class="t-b c">2年目末</text><text x="690" y="54" class="t-xs c">X3年3月末</text>
+        <path d="M20 66 H800" class="ln"/>
+        <text x="20" y="96" class="t-s">資本金</text><text x="290" y="96" class="t-num c">40,000</text><text x="490" y="96" class="t-num c">40,000</text><text x="690" y="96" class="t-num c">40,000</text>
+        <text x="20" y="136" class="t-s">利益剰余金</text><text x="290" y="136" class="t-num c">10,000</text><text x="490" y="136" class="t-num c">14,000</text><text x="690" y="136" class="t-num c">19,000</text>
+        <text x="390" y="122" class="t-xs c f-js">＋6,000 −2,000</text><text x="590" y="122" class="t-xs c f-js">＋8,000 −3,000</text>
+        <path d="M20 152 H800" class="ln dash"/>
+        <text x="20" y="182" class="t-b">S社の資本合計</text><text x="290" y="182" class="t-num c">50,000</text><text x="490" y="182" class="t-num c">54,000</text><text x="690" y="182" class="t-num c">59,000</text>
+        <rect x="14" y="196" width="792" height="44" rx="8" class="b-js"/>
+        <text x="24" y="224" class="t-b">非支配株主持分(20%)</text><text x="290" y="224" class="t-num c">10,000</text><text x="490" y="224" class="t-num c">10,800</text><text x="690" y="224" class="t-num c">11,800</text>
+        <rect x="14" y="250" width="792" height="44" rx="8" class="b-sun"/>
+        <text x="24" y="278" class="t-b">のれん</text><text x="290" y="278" class="t-num c">4,000</text><text x="490" y="278" class="t-num c">3,800</text><text x="690" y="278" class="t-num c">3,600</text>
+        <text x="390" y="264" class="t-xs c">−200</text><text x="590" y="264" class="t-xs c">−200</text>
+      </svg>
+      <figcaption>非支配株主持分はS社の資本合計 × 20% で、毎年すぐに出せます。のれんは毎年200ずつ減ります。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">2年目の① のれんの償却</span>
+      <div class="je-row"><span class="dc">(借)</span><span>のれん償却</span><span class="amt">200</span><span class="dc">(貸)</span><span>のれん</span><span class="amt">200</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">2年目の② 利益の按分(8,000 × 20%)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">1,600</span><span class="dc">(貸)</span><span>非支配株主持分当期変動額</span><span class="amt">1,600</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">2年目の③ 配当の修正(3,000のうち80%がP社へ)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>受取配当金</span><span class="amt">2,400</span><span class="dc">(貸)</span><span>剰余金の配当</span><span class="amt">3,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>非支配株主持分当期変動額</span><span class="amt">600</span><span></span><span></span><span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 2　2年目の開始仕訳</span>
+    <p class="scn-story">P社はX1年3月末にS社の株式の60%を27,000で取得しました。この日のS社の資本金は30,000、利益剰余金は10,000です。のれんは10年で償却します。X2年3月期のS社の当期純利益は5,000、配当は1,000でした。</p>
+    <ol class="scn-q">
+      <li>X3年3月期の開始仕訳ののれんはいくらか</li>
+      <li>開始仕訳の非支配株主持分当期首残高はいくらか</li>
+      <li>開始仕訳の利益剰余金当期首残高はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>のれん <b>2,700</b><span class="calc">発生時：27,000 − 40,000 × 60% ＝ 3,000<br>1年分の償却：3,000 ÷ 10年 ＝ 300<br>3,000 − 300 ＝ 2,700</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>非支配株主持分当期首残高 <b>17,600</b><span class="calc">前期末の資本：40,000 ＋ 5,000 − 1,000 ＝ 44,000<br>44,000 × 40% ＝ 17,600</span></span></div>
+        <div class="ans-step"><span class="lb">問3</span><span>利益剰余金当期首残高 <b>11,900</b><span class="calc">10,000 ＋ 増えた利益剰余金 4,000 × 40% ＋ のれん償却 300 ＝ 11,900</span></span></div>
+        <div class="je">
+          <span class="je-t">X3年3月期の開始仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>資本金当期首残高</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>S社株式</span><span class="amt">27,000</span></div>
+      <div class="je-row"><span class="dc"></span><span>利益剰余金当期首残高</span><span class="amt">11,900</span><span class="dc"></span><span>非支配株主持分当期首残高</span><span class="amt">17,600</span></div>
+      <div class="je-row"><span class="dc"></span><span>のれん</span><span class="amt">2,700</span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART3 内部取引と未実現利益 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>内部取引と未実現利益</h2>
+    <p>グループの中の売買や貸し借りは、外から見れば社内の移動です。だから取引を消し、グループの外にまだ売れていない分の利益も消します。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-torihiki">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>売上と仕入の相殺</h3></div>
+    <div class="prose">
+      <p>P社はS社に、当期に商品を30,000で販売しました。P社の売上高とS社の仕入(売上原価)を消します。</p>
+    </div>
+    <div class="je">
+      <span class="je-t">内部取引の相殺</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売上高</span><span class="amt">30,000</span><span class="dc">(貸)</span><span>売上原価</span><span class="amt">30,000</span></div>
+    </div>
+    <ul class="pts">
+      <li>同じように、受取利息と支払利息も相殺します。</li>
+      <li>貸付金と借入金、未収収益と未払費用も相殺します。<span class="sub">例：P社がS社に貸付。貸付金10,000、当期の利息200のうち100が未収</span></li>
+    </ul>
+    <div class="je">
+      <span class="je-t">貸付金と利息の相殺</span>
+      <div class="je-row"><span class="dc">(借)</span><span>借入金</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>貸付金</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>受取利息</span><span class="amt">200</span><span class="dc">(貸)</span><span>支払利息</span><span class="amt">200</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>未払費用</span><span class="amt">100</span><span class="dc">(貸)</span><span>未収収益</span><span class="amt">100</span></div>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-saiken">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★★</span><h3>債権債務の相殺と貸倒引当金</h3></div>
+    <div class="prose">
+      <p>P社の売掛金のうち6,000がS社に対するものです。P社は売掛金に2%の貸倒引当金を設定しています。相殺した売掛金には貸倒れのおそれがないので、<b>引当金も取り消します</b>。前期末の相手先への売掛金は5,000でした。</p>
+    </div>
+    <div class="je">
+      <span class="je-t">当期末の売掛金と買掛金の相殺</span>
+      <div class="je-row"><span class="dc">(借)</span><span>買掛金</span><span class="amt">6,000</span><span class="dc">(貸)</span><span>売掛金</span><span class="amt">6,000</span></div>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">前期末の分(5,000 × 2%)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金</span><span class="amt">100</span><span class="dc">(貸)</span><span>利益剰余金当期首残高</span><span class="amt">100</span></div>
+        <span class="je-n">前期の修正は、当期首の利益剰余金で引き継ぎます。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">当期に増えた分(6,000 × 2% − 100)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金</span><span class="amt">20</span><span class="dc">(貸)</span><span>貸倒引当金繰入</span><span class="amt">20</span></div>
+        <span class="je-n">2つ合わせて、引当金は120減ります。</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>当期が支配獲得後1年目なら、前期末の分はありません。<b>貸倒引当金120と貸倒引当金繰入120</b>を修正するだけです。</li>
+      <li>売掛金を持っているのがS社なら、取り消す繰入の分だけS社の利益が増えます。<b>その20%を非支配株主に振り替えます</b>。</li>
+    </ul>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-tana">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★★</span><h3>棚卸資産の未実現利益(期末と期首)</h3></div>
+    <ul class="given">
+      <li>P社の売上総利益率 <b>20%</b></li>
+      <li>S社の期末商品のうちP社から仕入れた分 <b>5,000</b></li>
+      <li>S社の期首商品のうちP社から仕入れた分 <b>4,000</b></li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 820 180" role="img" aria-label="S社の期末商品5000のうちP社の利益は1000。S社の期首商品4000のうちP社の利益は800">
+        <text x="20" y="46" class="t-b">期末商品</text><text x="20" y="66" class="t-xs">5,000</text>
+        <rect x="130" y="24" width="500" height="50" class="b-kk"/><rect x="630" y="24" width="125" height="50" class="b-sh"/>
+        <text x="380" y="55" class="t-s c">P社の原価 4,000</text><text x="692" y="46" class="t-xs c">未実現利益</text><text x="692" y="65" class="t-num c">1,000</text>
+        <text x="20" y="122" class="t-b">期首商品</text><text x="20" y="142" class="t-xs">4,000</text>
+        <rect x="130" y="100" width="400" height="50" class="b-kk"/><rect x="530" y="100" width="100" height="50" class="b-sh"/>
+        <text x="330" y="131" class="t-s c">P社の原価 3,200</text><text x="580" y="122" class="t-xs c">未実現利益</text><text x="580" y="141" class="t-num c">800</text>
+      </svg>
+      <figcaption>未実現利益はS社の商品に含まれるP社の利益です。原価に一定の率を付加して売っている場合は、計算が変わります(付加率25%なら 5,000 × 0.25 ÷ 1.25 ＝ 1,000)。</figcaption>
+    </figure>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">期末の未実現利益を消す</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>商品</span><span class="amt">1,000</span></div>
+        <span class="je-n">連結の期末商品が減るので、売上原価が増えます。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">期首の未実現利益を引き継ぎ、当期に実現させる</span>
+      <div class="je-row"><span class="dc">(借)</span><span>利益剰余金当期首残高</span><span class="amt">800</span><span class="dc">(貸)</span><span>売上原価</span><span class="amt">800</span></div>
+        <span class="je-n">前期に消した利益は、当期に外部へ売れて実現したとみます。売上原価が減ります。</span>
+      </div>
+    </div>
+    <div class="prose">
+      <p>期首の仕訳は、次の2つをまとめたものです。</p>
+    </div>
+    <div class="je">
+      <span class="je-t">期首の仕訳の内訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>利益剰余金当期首残高</span><span class="amt">800</span><span class="dc">(貸)</span><span>商品</span><span class="amt">800</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>商品</span><span class="amt">800</span><span class="dc">(貸)</span><span>売上原価</span><span class="amt">800</span></div>
+    </div>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-updown">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★★</span><h3>ダウンストリームとアップストリーム</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 250" role="img" aria-label="親会社から子会社への販売がダウンストリームで、未実現利益は親会社が全額負担する。子会社から親会社への販売がアップストリームで、未実現利益は親会社と非支配株主が持分比率で負担する">
+        <defs><marker id="ar4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <rect x="20" y="16" width="370" height="218" rx="14" class="b-kk" style="fill-opacity:.4"/>
+        <text x="205" y="44" class="t-b c f-kk">ダウンストリーム</text>
+        <rect x="150" y="56" width="110" height="42" rx="8" class="b-kk"/><text x="205" y="83" class="t-b c">P社(売り手)</text>
+        <path d="M205 100 V128" class="ln" marker-end="url(#ar4)"/>
+        <rect x="150" y="132" width="110" height="42" rx="8" class="b-grey"/><text x="205" y="159" class="t-b c">S社</text>
+        <text x="205" y="202" class="t-s c">利益を出したのは親会社</text>
+        <text x="205" y="222" class="t-b c f-kk">親会社が全額負担</text>
+        <rect x="430" y="16" width="370" height="218" rx="14" class="b-sh" style="fill-opacity:.4"/>
+        <text x="615" y="44" class="t-b c f-sh">アップストリーム</text>
+        <rect x="560" y="56" width="110" height="42" rx="8" class="b-grey"/><text x="615" y="83" class="t-b c">P社</text>
+        <path d="M615 130 V102" class="ln" marker-end="url(#ar4)"/>
+        <rect x="560" y="132" width="110" height="42" rx="8" class="b-sh"/><text x="615" y="159" class="t-b c">S社(売り手)</text>
+        <text x="615" y="202" class="t-s c">利益を出したのは子会社</text>
+        <text x="615" y="222" class="t-b c f-sh">非支配株主も持分比率で負担</text>
+      </svg>
+    </figure>
+    <div class="prose">
+      <p>消す金額はどちらも<b>全額</b>です。違うのは、誰が負担するかです。S社がP社に販売していて、未実現利益の金額が同じ(期末1,000、期首800)なら、次の仕訳が加わります。非支配株主の持分は20%です。</p>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">期末の未実現利益(アップストリーム)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>商品</span><span class="amt">1,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主持分当期変動額</span><span class="amt">200</span><span class="dc">(貸)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">200</span></div>
+        <span class="je-n">S社の利益が1,000減るので、非支配株主の取り分を200減らします。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">期首の未実現利益(アップストリーム)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>利益剰余金当期首残高</span><span class="amt">800</span><span class="dc">(貸)</span><span>売上原価</span><span class="amt">800</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主持分当期首残高</span><span class="amt">160</span><span class="dc">(貸)</span><span>利益剰余金当期首残高</span><span class="amt">160</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">160</span><span class="dc">(貸)</span><span>非支配株主持分当期変動額</span><span class="amt">160</span></div>
+        <span class="je-n">2行目は前期の負担の引き継ぎ、3行目は当期に実現した分の負担です。</span>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>アップストリームでは、消す未実現利益も80%だけにする<span class="why">消すのは全額です。按分するのは負担だけです。</span></span></li>
+        <li><span class="mark x">×</span><span>ダウンストリームでも非支配株主に按分する<span class="why">利益を出したのは親会社なので、按分しません。</span></span></li>
+        <li><span class="mark x">×</span><span>未実現利益を売価のまま消す<span class="why">消すのは利益の部分だけです。5,000 × 20% ＝ 1,000 です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3-5 -->
+  <div class="unit" id="u-tochi">
+    <div class="unit-head"><span class="tag">3-5</span><span class="freq">頻出度 ★★</span><h3>土地の未実現損益</h3></div>
+    <div class="prose">
+      <p>P社はS社に、帳簿価額20,000の土地を25,000で売却し、S社はまだ保有しています。P社の土地売却益5,000は、グループの中で土地を移しただけなので消します。</p>
+    </div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">売却した年度(ダウンストリーム)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>土地売却益</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>土地</span><span class="amt">5,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">翌年度以降の開始仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>利益剰余金当期首残高</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>土地</span><span class="amt">5,000</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">S社が売り手の場合(アップストリーム)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>土地売却益</span><span class="amt">5,000</span><span class="dc">(貸)</span><span>土地</span><span class="amt">5,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主持分当期変動額</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">1,000</span></div>
+        <span class="je-n">5,000 × 20% ＝ 1,000 を非支配株主が負担します。</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>商品と違って、土地は外部に売るまで実現しません。<b>保有している間は、毎年の開始仕訳で引き継ぎます</b>。</li>
+      <li>売却損が出ているときは、借方と貸方が逆になります。<span class="sub">(借)土地 ×× (貸)土地売却損 ××</span></li>
+    </ul>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 3　未実現利益</span>
+    <p class="scn-story">S社(P社の持分70%)はP社に商品を販売しており、売上総利益率は25%です。当期の販売額は20,000です。P社の期末商品のうちS社から仕入れた分は4,000、期首商品のうちS社から仕入れた分は2,000です。S社の当期純利益は10,000で、未実現利益のほかに修正はありません。</p>
+    <ol class="scn-q">
+      <li>期末の未実現利益はいくらか</li>
+      <li>売上原価は、合算した額からいくら増減するか</li>
+      <li>非支配株主に帰属する当期純利益はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>期末の未実現利益 <b>1,000</b><span class="calc">4,000 × 25% ＝ 1,000</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>19,500の減少</b><span class="calc">内部取引 − 20,000、期末の未実現利益 ＋ 1,000、期首の未実現利益(2,000 × 25%)− 500<br>− 20,000 ＋ 1,000 − 500 ＝ − 19,500</span></span></div>
+        <div class="ans-step"><span class="lb">問3</span><span>非支配株主に帰属する当期純利益 <b>2,850</b><span class="calc">(10,000 − 1,000 ＋ 500) × 30% ＝ 2,850</span></span></div>
+        <div class="je">
+          <span class="je-t">当期の仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売上高</span><span class="amt">20,000</span><span class="dc">(貸)</span><span>売上原価</span><span class="amt">20,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>売上原価</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>商品</span><span class="amt">1,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主持分当期変動額</span><span class="amt">300</span><span class="dc">(貸)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">300</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>利益剰余金当期首残高</span><span class="amt">500</span><span class="dc">(貸)</span><span>売上原価</span><span class="amt">500</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主持分当期首残高</span><span class="amt">150</span><span class="dc">(貸)</span><span>利益剰余金当期首残高</span><span class="amt">150</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">150</span><span class="dc">(貸)</span><span>非支配株主持分当期変動額</span><span class="amt">150</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>非支配株主に帰属する当期純利益</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>非支配株主持分当期変動額</span><span class="amt">3,000</span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART4 連結精算表 ============ -->
+<section id="fs" class="part part-fs">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>連結精算表と連結財務諸表</h2>
+    <p>ここまでの仕訳を1枚に集めます。例は2年目(X3年3月期)です。P社からS社への販売(ダウンストリーム)の数字を、そのまま入れています。</p>
+  </div>
+
+  <!-- 4-1 -->
+  <div class="unit" id="u-seisan">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★★</span><h3>連結精算表の完成形</h3></div>
+    <ul class="pts">
+      <li>2年目の仕訳は次のとおりです。開始仕訳、のれんの償却、利益の按分、配当の修正、売上と仕入の相殺、期首と期末の未実現利益、売掛金と買掛金の相殺、貸倒引当金の修正です。</li>
+      <li>黄色の行は答案で問われやすい数字です。</li>
+    </ul>
+    <figure class="fig wide">
+      <svg viewBox="0 0 810 936" role="img" aria-label="X3年3月期の連結精算表。親会社株主に帰属する当期純利益26020、利益剰余金78320、非支配株主持分11800、のれん3600、資産合計240120">
+        <text x="410" y="28" class="ws-h" text-anchor="end">P社</text>
+        <text x="500" y="28" class="ws-h" text-anchor="end">S社</text>
+        <text x="590" y="28" class="ws-h" text-anchor="end">修正(借方)</text>
+        <text x="680" y="28" class="ws-h" text-anchor="end">修正(貸方)</text>
+        <text x="790" y="28" class="ws-h" text-anchor="end">連結</text>
+        <text x="12" y="28" class="ws-h">単位:千円</text>
+        <line x1="8" y1="38" x2="802" y2="38" class="ws-rule s"/>
+        <text x="12" y="66" class="ws-sec">損益計算書</text>
+        <line x1="8" y1="74" x2="802" y2="74" class="ws-rule s"/>
+        <rect x="8" y="76" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="93" class="ws-l">売上高</text>
+        <text x="410" y="93" class="ws-n">200,000</text>
+        <text x="500" y="93" class="ws-n">80,000</text>
+        <text x="590" y="93" class="ws-n">30,000</text>
+        <text x="790" y="93" class="ws-n">250,000</text>
+        <line x1="8" y1="100" x2="802" y2="100" class="ws-rule"/>
+        <rect x="8" y="101" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="118" class="ws-l">売上原価</text>
+        <text x="410" y="118" class="ws-n">140,000</text>
+        <text x="500" y="118" class="ws-n">60,000</text>
+        <text x="590" y="118" class="ws-n">1,000</text>
+        <text x="680" y="118" class="ws-n">30,800</text>
+        <text x="790" y="118" class="ws-n">170,200</text>
+        <line x1="8" y1="125" x2="802" y2="125" class="ws-rule"/>
+        <text x="14" y="143" class="ws-l">貸倒引当金繰入</text>
+        <text x="410" y="143" class="ws-n">400</text>
+        <text x="500" y="143" class="ws-n">100</text>
+        <text x="680" y="143" class="ws-n">20</text>
+        <text x="790" y="143" class="ws-n">480</text>
+        <line x1="8" y1="150" x2="802" y2="150" class="ws-rule"/>
+        <text x="14" y="168" class="ws-l">のれん償却</text>
+        <text x="590" y="168" class="ws-n">200</text>
+        <text x="790" y="168" class="ws-n">200</text>
+        <line x1="8" y1="175" x2="802" y2="175" class="ws-rule"/>
+        <text x="14" y="193" class="ws-l">その他の費用</text>
+        <text x="410" y="193" class="ws-n">39,600</text>
+        <text x="500" y="193" class="ws-n">11,900</text>
+        <text x="790" y="193" class="ws-n">51,500</text>
+        <line x1="8" y1="200" x2="802" y2="200" class="ws-rule"/>
+        <text x="14" y="218" class="ws-l">受取配当金</text>
+        <text x="410" y="218" class="ws-n">2,400</text>
+        <text x="590" y="218" class="ws-n">2,400</text>
+        <line x1="8" y1="225" x2="802" y2="225" class="ws-rule"/>
+        <text x="14" y="243" class="ws-l ws-b">当期純利益</text>
+        <text x="410" y="243" class="ws-n ws-b">22,400</text>
+        <text x="500" y="243" class="ws-n ws-b">8,000</text>
+        <text x="590" y="243" class="ws-n ws-b">33,600</text>
+        <text x="680" y="243" class="ws-n ws-b">30,820</text>
+        <text x="790" y="243" class="ws-n ws-b">27,620</text>
+        <line x1="8" y1="250" x2="802" y2="250" class="ws-rule"/>
+        <rect x="8" y="251" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="268" class="ws-l">非支配株主に帰属する当期純利益</text>
+        <text x="590" y="268" class="ws-n">1,600</text>
+        <text x="790" y="268" class="ws-n">1,600</text>
+        <line x1="8" y1="275" x2="802" y2="275" class="ws-rule"/>
+        <rect x="8" y="276" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="293" class="ws-l ws-b">親会社株主に帰属する当期純利益</text>
+        <text x="410" y="293" class="ws-n ws-b">22,400</text>
+        <text x="500" y="293" class="ws-n ws-b">8,000</text>
+        <text x="590" y="293" class="ws-n ws-b">35,200</text>
+        <text x="680" y="293" class="ws-n ws-b">30,820</text>
+        <text x="790" y="293" class="ws-n ws-b">26,020</text>
+        <line x1="8" y1="300" x2="802" y2="300" class="ws-rule"/>
+        <text x="12" y="328" class="ws-sec">株主資本等変動計算書</text>
+        <line x1="8" y1="336" x2="802" y2="336" class="ws-rule s"/>
+        <text x="14" y="355" class="ws-l">資本金当期首残高</text>
+        <text x="410" y="355" class="ws-n">100,000</text>
+        <text x="500" y="355" class="ws-n">40,000</text>
+        <text x="590" y="355" class="ws-n">40,000</text>
+        <text x="790" y="355" class="ws-n">100,000</text>
+        <line x1="8" y1="362" x2="802" y2="362" class="ws-rule"/>
+        <text x="14" y="380" class="ws-l ws-b">資本金当期末残高</text>
+        <text x="410" y="380" class="ws-n ws-b">100,000</text>
+        <text x="500" y="380" class="ws-n ws-b">40,000</text>
+        <text x="590" y="380" class="ws-n ws-b">40,000</text>
+        <text x="790" y="380" class="ws-n ws-b">100,000</text>
+        <line x1="8" y1="387" x2="802" y2="387" class="ws-rule"/>
+        <text x="14" y="405" class="ws-l">利益剰余金当期首残高</text>
+        <text x="410" y="405" class="ws-n">60,000</text>
+        <text x="500" y="405" class="ws-n">14,000</text>
+        <text x="590" y="405" class="ws-n">11,800</text>
+        <text x="680" y="405" class="ws-n">100</text>
+        <text x="790" y="405" class="ws-n">62,300</text>
+        <line x1="8" y1="412" x2="802" y2="412" class="ws-rule"/>
+        <text x="14" y="430" class="ws-l">剰余金の配当</text>
+        <text x="410" y="430" class="ws-n">△10,000</text>
+        <text x="500" y="430" class="ws-n">△3,000</text>
+        <text x="680" y="430" class="ws-n">3,000</text>
+        <text x="790" y="430" class="ws-n">△10,000</text>
+        <line x1="8" y1="437" x2="802" y2="437" class="ws-rule"/>
+        <text x="14" y="455" class="ws-l">親会社株主に帰属する当期純利益</text>
+        <text x="410" y="455" class="ws-n">22,400</text>
+        <text x="500" y="455" class="ws-n">8,000</text>
+        <text x="590" y="455" class="ws-n">35,200</text>
+        <text x="680" y="455" class="ws-n">30,820</text>
+        <text x="790" y="455" class="ws-n">26,020</text>
+        <line x1="8" y1="462" x2="802" y2="462" class="ws-rule"/>
+        <rect x="8" y="463" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="480" class="ws-l ws-b">利益剰余金当期末残高</text>
+        <text x="410" y="480" class="ws-n ws-b">72,400</text>
+        <text x="500" y="480" class="ws-n ws-b">19,000</text>
+        <text x="590" y="480" class="ws-n ws-b">47,000</text>
+        <text x="680" y="480" class="ws-n ws-b">33,920</text>
+        <text x="790" y="480" class="ws-n ws-b">78,320</text>
+        <line x1="8" y1="487" x2="802" y2="487" class="ws-rule"/>
+        <text x="14" y="505" class="ws-l">非支配株主持分当期首残高</text>
+        <text x="680" y="505" class="ws-n">10,800</text>
+        <text x="790" y="505" class="ws-n">10,800</text>
+        <line x1="8" y1="512" x2="802" y2="512" class="ws-rule"/>
+        <text x="14" y="530" class="ws-l">非支配株主持分当期変動額</text>
+        <text x="590" y="530" class="ws-n">600</text>
+        <text x="680" y="530" class="ws-n">1,600</text>
+        <text x="790" y="530" class="ws-n">1,000</text>
+        <line x1="8" y1="537" x2="802" y2="537" class="ws-rule"/>
+        <rect x="8" y="538" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="555" class="ws-l ws-b">非支配株主持分当期末残高</text>
+        <text x="590" y="555" class="ws-n ws-b">600</text>
+        <text x="680" y="555" class="ws-n ws-b">12,400</text>
+        <text x="790" y="555" class="ws-n ws-b">11,800</text>
+        <line x1="8" y1="562" x2="802" y2="562" class="ws-rule"/>
+        <text x="12" y="590" class="ws-sec">貸借対照表</text>
+        <line x1="8" y1="598" x2="802" y2="598" class="ws-rule s"/>
+        <text x="14" y="617" class="ws-l">現金預金</text>
+        <text x="410" y="617" class="ws-n">29,400</text>
+        <text x="500" y="617" class="ws-n">20,400</text>
+        <text x="790" y="617" class="ws-n">49,800</text>
+        <line x1="8" y1="624" x2="802" y2="624" class="ws-rule"/>
+        <text x="14" y="642" class="ws-l">売掛金</text>
+        <text x="410" y="642" class="ws-n">50,000</text>
+        <text x="500" y="642" class="ws-n">20,000</text>
+        <text x="680" y="642" class="ws-n">6,000</text>
+        <text x="790" y="642" class="ws-n">64,000</text>
+        <line x1="8" y1="649" x2="802" y2="649" class="ws-rule"/>
+        <text x="14" y="667" class="ws-l">貸倒引当金</text>
+        <text x="410" y="667" class="ws-n">△1,000</text>
+        <text x="500" y="667" class="ws-n">△400</text>
+        <text x="590" y="667" class="ws-n">120</text>
+        <text x="790" y="667" class="ws-n">△1,280</text>
+        <line x1="8" y1="674" x2="802" y2="674" class="ws-rule"/>
+        <rect x="8" y="675" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="692" class="ws-l">商品</text>
+        <text x="410" y="692" class="ws-n">40,000</text>
+        <text x="500" y="692" class="ws-n">15,000</text>
+        <text x="680" y="692" class="ws-n">1,000</text>
+        <text x="790" y="692" class="ws-n">54,000</text>
+        <line x1="8" y1="699" x2="802" y2="699" class="ws-rule"/>
+        <text x="14" y="717" class="ws-l">土地</text>
+        <text x="410" y="717" class="ws-n">50,000</text>
+        <text x="500" y="717" class="ws-n">20,000</text>
+        <text x="790" y="717" class="ws-n">70,000</text>
+        <line x1="8" y1="724" x2="802" y2="724" class="ws-rule"/>
+        <rect x="8" y="725" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="742" class="ws-l">のれん</text>
+        <text x="590" y="742" class="ws-n">3,800</text>
+        <text x="680" y="742" class="ws-n">200</text>
+        <text x="790" y="742" class="ws-n">3,600</text>
+        <line x1="8" y1="749" x2="802" y2="749" class="ws-rule"/>
+        <text x="14" y="767" class="ws-l">S社株式</text>
+        <text x="410" y="767" class="ws-n">44,000</text>
+        <text x="680" y="767" class="ws-n">44,000</text>
+        <line x1="8" y1="774" x2="802" y2="774" class="ws-rule"/>
+        <text x="14" y="792" class="ws-l ws-b">資産合計</text>
+        <text x="410" y="792" class="ws-n ws-b">212,400</text>
+        <text x="500" y="792" class="ws-n ws-b">75,000</text>
+        <text x="590" y="792" class="ws-n ws-b">3,920</text>
+        <text x="680" y="792" class="ws-n ws-b">51,200</text>
+        <text x="790" y="792" class="ws-n ws-b">240,120</text>
+        <line x1="8" y1="799" x2="802" y2="799" class="ws-rule"/>
+        <text x="14" y="817" class="ws-l">買掛金</text>
+        <text x="410" y="817" class="ws-n">40,000</text>
+        <text x="500" y="817" class="ws-n">16,000</text>
+        <text x="590" y="817" class="ws-n">6,000</text>
+        <text x="790" y="817" class="ws-n">50,000</text>
+        <line x1="8" y1="824" x2="802" y2="824" class="ws-rule"/>
+        <text x="14" y="842" class="ws-l">資本金</text>
+        <text x="410" y="842" class="ws-n">100,000</text>
+        <text x="500" y="842" class="ws-n">40,000</text>
+        <text x="590" y="842" class="ws-n">40,000</text>
+        <text x="790" y="842" class="ws-n">100,000</text>
+        <line x1="8" y1="849" x2="802" y2="849" class="ws-rule"/>
+        <rect x="8" y="850" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="867" class="ws-l">利益剰余金</text>
+        <text x="410" y="867" class="ws-n">72,400</text>
+        <text x="500" y="867" class="ws-n">19,000</text>
+        <text x="590" y="867" class="ws-n">47,000</text>
+        <text x="680" y="867" class="ws-n">33,920</text>
+        <text x="790" y="867" class="ws-n">78,320</text>
+        <line x1="8" y1="874" x2="802" y2="874" class="ws-rule"/>
+        <rect x="8" y="875" width="794" height="24" class="ws-hl"/>
+        <text x="14" y="892" class="ws-l">非支配株主持分</text>
+        <text x="590" y="892" class="ws-n">600</text>
+        <text x="680" y="892" class="ws-n">12,400</text>
+        <text x="790" y="892" class="ws-n">11,800</text>
+        <line x1="8" y1="899" x2="802" y2="899" class="ws-rule"/>
+        <text x="14" y="917" class="ws-l ws-b">負債純資産合計</text>
+        <text x="410" y="917" class="ws-n ws-b">212,400</text>
+        <text x="500" y="917" class="ws-n ws-b">75,000</text>
+        <text x="590" y="917" class="ws-n ws-b">93,600</text>
+        <text x="680" y="917" class="ws-n ws-b">46,320</text>
+        <text x="790" y="917" class="ws-n ws-b">240,120</text>
+        <line x1="8" y1="924" x2="802" y2="924" class="ws-rule"/>
+      </svg>
+      <figcaption>黄色の行は答案で問われやすい数字です。スマホでは図を横にスクロールできます。修正欄は、2年目の修正仕訳をすべて集計した金額です。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>損益計算書の<b>親会社株主に帰属する当期純利益</b>の修正額を、株主資本等変動計算書にそのまま移します。</li>
+      <li>株主資本等変動計算書の<b>当期末残高</b>の修正額を、貸借対照表にそのまま移します。</li>
+      <li>最後に、<b>貸借対照表の左右の合計が一致するか</b>を確かめます(240,120で一致)。</li>
+      <li>問題によっては、株主資本等変動計算書を省略した精算表が出ます。その場合は、当期首残高の科目を資本金や利益剰余金などに置きかえて集計します。</li>
+    </ul>
+  </div>
+
+  <!-- 4-2 -->
+  <div class="unit" id="u-hyoji">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★</span><h3>連結財務諸表の表示</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">連結損益計算書の最後</span><span class="def-t">当期純利益 27,620<br>非支配株主に帰属する当期純利益 1,600<br>親会社株主に帰属する当期純利益 26,020</span><span class="def-n">当期純利益はグループ全体の利益です。そのあとで、非支配株主の分と親会社株主の分に分けます。</span></div>
+      <div class="def"><span class="def-l">連結貸借対照表の純資産の部</span><span class="def-t">資本金 100,000<br>利益剰余金 78,320<br>非支配株主持分 11,800</span><span class="def-n">資本金はP社の分だけが残ります。S社の資本金は相殺で消えています。</span></div>
+      <div class="def"><span class="def-l">のれんの表示</span><span class="def-t">のれん：無形固定資産<br>のれん償却：販売費及び一般管理費<br>負ののれん発生益：特別利益</span><span class="def-n">それぞれの置き場所も問われます。</span></div>
+    </div>
+    <div class="prose">
+      <p>連結の利益剰余金は、次の式で検算できます。この例の修正額は、借方合計47,000から貸方合計33,920を引いた13,080です。</p>
+    </div>
+    <div class="formula"><span class="fx js">P社 72,400</span><span class="op">＋</span><span class="fx js">S社 19,000</span><span class="op">−</span><span class="fx sh">修正額 13,080</span><span class="op">＝</span><span class="res js">連結の利益剰余金 78,320</span></div>
+  </div>
+
+  <!-- 4-3 -->
+  <div class="unit" id="u-tejun">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">試験の手順</span><h3>試験で解く順番</h3></div>
+    <ol class="steps">
+      <li><b>タイムテーブルを書く</b><span>S社の資本、非支配株主持分、のれんを年度ごとに並べます。</span></li>
+      <li><b>開始仕訳を切る</b><span>のれんと非支配株主持分はタイムテーブルの当期首の数字を使います。利益剰余金当期首残高は貸借の差額で出します。</span></li>
+      <li><b>当期の3つの仕訳を切る</b><span>のれんの償却、利益の按分、配当の修正です。</span></li>
+      <li><b>内部取引と未実現利益を処理する</b><span>売り手がS社なら、非支配株主への按分を忘れないようにします。</span></li>
+      <li><b>精算表に転記して集計する</b><span>損益計算書、株主資本等変動計算書、貸借対照表の順に埋めます。</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">32</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例(または正しい文)」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">支配獲得日</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">支配獲得後</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">内部取引と未実現利益</button>
+    <button type="button" class="btn f-fs-btn" data-qf="fs" aria-pressed="false">精算表と表示</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">32</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>支配獲得日と支配獲得後：まずここから</h3>
+      <ol>
+        <li>のれん ＝ 投資額 − S社の資本 × P社の持分</li>
+        <li>非支配株主持分 ＝ S社の資本 × 非支配株主の持分</li>
+        <li>のれん償却、利益の按分、配当の修正の3つの仕訳</li>
+        <li>開始仕訳では、損益と配当を利益剰余金当期首残高に置きかえる</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>内部取引と未実現利益：まずここから</h3>
+      <ol>
+        <li>売上と仕入、債権と債務を相殺する</li>
+        <li>相殺した売掛金の貸倒引当金も取り消す</li>
+        <li>期末の未実現利益は売上原価を増やし、期首の分は売上原価を減らす</li>
+        <li>売り手がS社なら、非支配株主も負担する</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>連結精算表：まずここから</h3>
+      <ol>
+        <li>損益計算書、株主資本等変動計算書、貸借対照表の順に埋める</li>
+        <li>親会社株主に帰属する当期純利益の修正額を移す</li>
+        <li>利益剰余金の修正額を貸借対照表に移す</li>
+        <li>貸借対照表の左右の合計で検算する</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>連結は「グループの外から見たらどう見えるか」で考えます。グループの中の売買や貸し借りは消し、利益は外に売れたときに初めて実現します。迷ったら、その利益を出したのは親会社か子会社かを確かめます。</p>
+  <a class="drill-cta" href="boki2-renketsu-drill.html"><b>問題アプリで練習する</b><small>数字を変えて、仕訳と連結精算表まで確認できます</small></a>
+</section>
+
+<footer>
+  <p>参照：企業会計基準第22号「連結財務諸表に関する会計基準」、企業会計基準第21号「企業結合に関する会計基準」、日本商工会議所「商工会議所簿記検定試験 出題区分表」(2022年度版、2027年度版)。</p>
+  <p>2027年4月以降の試験では手形が出題範囲から外れるため、このページの債権債務は売掛金と買掛金で説明しています。「頻出度」は学習上の目安で、日商の公式な集計ではありません。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。基準の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var RK = "企業会計基準第22号「連結財務諸表に関する会計基準」", KK21 = "企業会計基準第21号「企業結合に関する会計基準」",
+      KUBUN = "日本商工会議所「出題区分表」", TEXT = "連結会計の基本手続(学習上の整理)";
+  var JE_SHIHON = ["支配獲得日：S社株式80%を44,000で取得(資本金40,000、利益剰余金10,000)", [["資本金",40000,"S社株式",44000],["利益剰余金",10000,"非支配株主持分",10000],["のれん",4000,"",""]]];
+  var JE_NEGA = ["投資額38,000の場合", [["資本金",40000,"S社株式",38000],["利益剰余金",10000,"非支配株主持分",10000],["","","負ののれん発生益",2000]]];
+  var JE_ANBUN = ["S社の当期純利益6,000、非支配株主の持分20%", [["非支配株主に帰属する当期純利益",1200,"非支配株主持分当期変動額",1200]]];
+  var JE_HAITO = ["S社の配当2,000、P社の持分80%", [["受取配当金",1600,"剰余金の配当",2000],["非支配株主持分当期変動額",400,"",""]]];
+  var JE_NOREN = ["のれん4,000を20年で償却", [["のれん償却",200,"のれん",200]]];
+  var JE_KAISHI = ["2年目の開始仕訳", [["資本金当期首残高",40000,"S社株式",44000],["利益剰余金当期首残高",11000,"非支配株主持分当期首残高",10800],["のれん",3800,"",""]]];
+  var JE_URIAGE = ["P社がS社に商品30,000を販売", [["売上高",30000,"売上原価",30000]]];
+  var JE_SAIKEN = ["P社のS社に対する売掛金6,000(貸倒引当金2%)、支配獲得後1年目", [["買掛金",6000,"売掛金",6000],null,["貸倒引当金",120,"貸倒引当金繰入",120]]];
+  var JE_SAIKEN2 = ["前期末の売掛金5,000、当期末の売掛金6,000(貸倒引当金2%)", [["貸倒引当金",100,"利益剰余金当期首残高",100],null,["貸倒引当金",20,"貸倒引当金繰入",20]]];
+  var JE_MATSU = ["S社の期末商品のうちP社から仕入れた分5,000、P社の売上総利益率20%", [["売上原価",1000,"商品",1000]]];
+  var JE_KISHU = ["S社の期首商品のうちP社から仕入れた分4,000、P社の売上総利益率20%", [["利益剰余金当期首残高",800,"売上原価",800]]];
+  var JE_UP = ["アップストリーム：期末の未実現利益1,000、非支配株主の持分20%", [["売上原価",1000,"商品",1000],null,["非支配株主持分当期変動額",200,"非支配株主に帰属する当期純利益",200]]];
+  var JE_TOCHI = ["P社がS社に帳簿価額20,000の土地を25,000で売却", [["土地売却益",5000,"土地",5000]]];
+  var JE_TOCHI2 = ["翌年度の開始仕訳", [["利益剰余金当期首残高",5000,"土地",5000]]];
+  var JE_RISOKU = ["P社がS社に貸付。貸付金10,000、利息200のうち100が未収", [["借入金",10000,"貸付金",10000],null,["受取利息",200,"支払利息",200],null,["未払費用",100,"未収収益",100]]];
+
+  var Q = [
+    /* 支配獲得日 */
+    {p:"kk", q:"連結修正仕訳は、親会社と子会社の個別の帳簿には記帳しない。", a:true, k:"個別の帳簿には記帳しない", t:"親会社の帳簿に記帳する", y:"連結修正仕訳は連結精算表の上だけで行う仕訳です。帳簿に残らないので、翌期には開始仕訳でやり直します。", m:"帳簿に残らないから、毎年開始仕訳が必要。", s:TEXT},
+    {p:"kk", q:"支配獲得日に作成するのは、連結貸借対照表だけである。", a:true, k:"連結貸借対照表だけ", t:"連結貸借対照表と連結損益計算書", y:"支配を獲得した時点では、まだグループとしての損益が発生していません。", m:"支配獲得日は連結B/Sだけ。", j:JE_SHIHON, s:TEXT},
+    {p:"kk", q:"投資と資本の相殺では、子会社の資本のうち親会社の持分に相当する部分だけを消去する。", a:false, k:"親会社の持分に相当する部分だけ", t:"全部", y:"子会社の資本は全部消します。親会社の持分以外は、非支配株主持分に振り替えます。", m:"S社の資本は全部消す。残りの持分は非支配株主持分へ。", j:JE_SHIHON, s:RK},
+    {p:"kk", q:"のれんは、投資額と、子会社の資本のうち親会社の持分との差額である。", a:true, k:"子会社の資本のうち親会社の持分", t:"子会社の資本全体", y:"親会社が買ったのは持分の部分だけなので、その持分と投資額を比べます。例：44,000 − 50,000 × 80% ＝ 4,000", m:"のれん ＝ 投資額 − S社の資本 × P社の持分。", j:JE_SHIHON, s:RK},
+    {p:"kk", q:"非支配株主持分は、親会社の投資額に非支配株主の持分比率を掛けて計算する。", a:false, k:"親会社の投資額", t:"子会社の資本", y:"非支配株主持分は、子会社の資本に対する権利です。投資額は使いません。例：50,000 × 20% ＝ 10,000", m:"非支配株主持分 ＝ S社の資本 × 非支配株主の持分。", j:JE_SHIHON, s:RK},
+    {p:"kk", q:"のれんは、連結貸借対照表の無形固定資産に表示する。", a:true, k:"無形固定資産", t:"投資その他の資産", y:"のれんは超過収益力を表す資産で、無形固定資産に区分します。", m:"のれんは無形固定資産。償却は販管費。", j:JE_NOREN, s:KK21},
+    {p:"kk", q:"非支配株主持分は、連結貸借対照表の負債の部に表示する。", a:false, k:"負債の部", t:"純資産の部", y:"非支配株主持分は返済義務のある負債ではなく、子会社の資本のうち親会社以外の株主の持分です。", m:"非支配株主持分は純資産の部。", s:RK},
+    {p:"kk", q:"投資額が親会社の持分を下回るときの差額は、負ののれん発生益として特別利益に計上する。", a:true, k:"特別利益", t:"営業外収益", y:"負ののれん発生益は、発生した年度に一度だけ生じる利益なので特別利益です。", m:"のれんは資産、負ののれんは特別利益。", j:JE_NEGA, s:KK21},
+    {p:"kk", q:"2級の連結会計では、支配獲得時に子会社の資産・負債を時価で評価する処理も出題範囲である。", a:false, k:"出題範囲である", t:"出題範囲ではない(1級の範囲である)", y:"子会社の資産・負債の時価評価は、出題区分表で1級の範囲とされています。段階取得や追加取得も同じです。", m:"時価評価、段階取得、追加取得、持分法は1級。", s:KUBUN},
+
+    /* 支配獲得後 */
+    {p:"js", q:"のれんは、20年以内のその効果の及ぶ期間にわたり、定額法などで規則的に償却する。", a:true, k:"20年以内", t:"5年以内", y:"企業結合会計基準で、のれんの償却期間は20年以内とされています。問題文の年数に従います。", m:"のれんは20年以内で償却。償却期間は問題文で確認。", j:JE_NOREN, s:KK21},
+    {p:"js", q:"のれんの償却額は、親会社と非支配株主が持分比率に応じて負担する。", a:false, k:"親会社と非支配株主が持分比率に応じて負担する", t:"全額を親会社が負担する", y:"のれんは親会社の投資から生じたものです。非支配株主には按分しません。", m:"のれん償却は按分しない。", j:JE_NOREN, s:TEXT},
+    {p:"js", q:"子会社の当期純利益のうち非支配株主の持分は、非支配株主に帰属する当期純利益として振り替える。", a:true, k:"非支配株主に帰属する当期純利益", t:"受取配当金", y:"子会社の利益は全額が合算されているので、親会社の持分以外を非支配株主の分に振り替えます。", m:"S社の利益 × 非支配株主の持分を振り替える。", j:JE_ANBUN, s:RK},
+    {p:"js", q:"子会社の配当の修正では、親会社が計上した受取配当金は、配当の全額を消去する。", a:false, k:"配当の全額", t:"親会社の持分に相当する額", y:"親会社が受け取ったのは持分に相当する額だけです。例：配当2,000 × 80% ＝ 1,600", m:"受取配当金の消去は、配当 × P社の持分。", j:JE_HAITO, s:RK},
+    {p:"js", q:"子会社の配当のうち非支配株主に支払った分は、非支配株主持分を減額する。", a:true, k:"非支配株主持分を減額する", t:"非支配株主持分を増額する", y:"配当で子会社の資本が減るので、非支配株主の持分も減ります。", m:"非支配株主持分 ＝ 期首 ＋ 利益の按分 − 配当。", j:JE_HAITO, s:RK},
+    {p:"js", q:"開始仕訳では、前期ののれん償却や受取配当金は、利益剰余金当期首残高に置きかえる。", a:true, k:"利益剰余金当期首残高", t:"のれん償却や受取配当金のまま", y:"前期の損益と配当は、当期首では利益剰余金に入っています。そのため、すべて利益剰余金当期首残高で引き継ぎます。", m:"前期の損益と配当は、すべて利益剰余金当期首残高へ。", j:JE_KAISHI, s:TEXT},
+    {p:"js", q:"2年目の開始仕訳で計上するのれんは、支配獲得時の金額のままである。", a:false, k:"支配獲得時の金額のまま", t:"前期までの償却額を差し引いた金額", y:"前期の償却も帳簿に残っていないので、開始仕訳に含めます。例：4,000 − 200 ＝ 3,800", m:"開始仕訳ののれんは、前期末の残高。", j:JE_KAISHI, s:TEXT},
+    {p:"js", q:"開始仕訳の非支配株主持分当期首残高は、子会社の前期末の資本に非支配株主の持分比率を掛けた額と一致する。", a:true, k:"前期末の資本", t:"支配獲得時の資本", y:"前期までの利益の按分と配当の修正が反映されるので、前期末の資本の持分と一致します。例：54,000 × 20% ＝ 10,800(未実現利益のアップストリームがない場合)", m:"タイムテーブルで資本 × 持分を出す。", j:JE_KAISHI, s:TEXT},
+
+    /* 内部取引と未実現利益 */
+    {p:"sh", q:"親会社から子会社への商品の販売は、売上高と売上原価を相殺する。", a:true, k:"売上高と売上原価", t:"売上高と売掛金", y:"親会社の売上高と子会社の仕入を消します。連結では、仕入は売上原価の中に入っているので、売上原価を減らします。", m:"(借)売上高 (貸)売上原価。", j:JE_URIAGE, s:RK},
+    {p:"sh", q:"連結会社間の貸付金と借入金を相殺するときは、受取利息と支払利息も相殺する。", a:true, k:"受取利息と支払利息", t:"受取配当金と支払利息", y:"グループの中の貸し借りなので、利息も内部の取引です。未収収益と未払費用も相殺します。", m:"元本、利息、経過勘定の3セットで相殺。", j:JE_RISOKU, s:RK},
+    {p:"sh", q:"連結会社間の売掛金を相殺しても、その売掛金に設定した貸倒引当金は修正しない。", a:false, k:"修正しない", t:"修正する", y:"相殺した売掛金には貸倒れのおそれがないので、対応する引当金と繰入も取り消します。", m:"売掛金を消したら、引当金も消す。", j:JE_SAIKEN, s:RK},
+    {p:"sh", q:"前期末の連結会社間の売掛金に対する貸倒引当金の修正は、当期の開始仕訳で利益剰余金当期首残高として引き継ぐ。", a:true, k:"利益剰余金当期首残高", t:"貸倒引当金繰入", y:"前期の繰入の修正は前期の損益に含まれるので、当期首の利益剰余金で引き継ぎます。", m:"前期分は当期首残高、当期の増減分は繰入で修正。", j:JE_SAIKEN2, s:TEXT},
+    {p:"sh", q:"期末の未実現利益を消去すると、連結の売上原価は減少する。", a:false, k:"減少する", t:"増加する", y:"期末商品が減ると、売上原価 ＝ 期首商品 ＋ 仕入 − 期末商品 の引く数が減るので、売上原価は増えます。", m:"期末：(借)売上原価 (貸)商品。", j:JE_MATSU, s:RK},
+    {p:"sh", q:"期首の未実現利益は、当期に外部へ販売されて実現したとみて、売上原価から差し引く。", a:true, k:"売上原価から差し引く", t:"売上原価に加える", y:"前期に消した利益は、商品が外部に売れた当期に実現します。そのため、当期の売上原価を減らします。", m:"期首：(借)利益剰余金当期首残高 (貸)売上原価。", j:JE_KISHU, s:RK},
+    {p:"sh", q:"未実現利益は、売上総利益率が20%なら、期末商品のうち内部取引の分の20%で計算する。", a:true, k:"内部取引の分", t:"期末商品全部", y:"未実現利益が含まれるのは、グループ内から仕入れた商品だけです。外部から仕入れた商品は関係ありません。", m:"未実現利益 ＝ 内部から仕入れた分 × 利益率。", j:JE_MATSU, s:TEXT},
+    {p:"sh", q:"ダウンストリームの未実現利益は、親会社が全額を負担する。", a:true, k:"親会社が全額を負担する", t:"親会社と非支配株主が持分比率で負担する", y:"利益を出した売り手が親会社なので、非支配株主は関係ありません。", m:"売り手がP社なら按分なし。", j:JE_MATSU, s:RK},
+    {p:"sh", q:"アップストリームの未実現利益は、親会社の持分に相当する部分だけを消去する。", a:false, k:"親会社の持分に相当する部分だけ", t:"全額", y:"消去するのは全額です。そのうえで、非支配株主の持分に相当する額を非支配株主の負担にします。", m:"消すのは全額、負担を分ける。", j:JE_UP, s:RK},
+    {p:"sh", q:"連結会社間で売却した土地の売却益は、その土地を連結の外部に売却するまで消去し続ける。", a:true, k:"外部に売却するまで", t:"売却の翌期に実現するので当期だけ", y:"土地は償却も販売もされないので、グループの外に売るまで利益は実現しません。毎年の開始仕訳で引き継ぎます。", m:"土地は外部に売るまで開始仕訳で引き継ぐ。", j:JE_TOCHI2, s:RK},
+    {p:"sh", q:"親会社が子会社に土地を売却して生じた売却益を消去するときは、非支配株主にも負担させる。", a:false, k:"非支配株主にも負担させる", t:"親会社が全額を負担する", y:"売り手が親会社なのでダウンストリームです。非支配株主には按分しません。", m:"按分するのは、売り手が子会社のときだけ。", j:JE_TOCHI, s:RK},
+
+    /* 精算表と表示 */
+    {p:"fs", q:"連結損益計算書では、当期純利益から非支配株主に帰属する当期純利益を差し引いて、親会社株主に帰属する当期純利益を表示する。", a:true, k:"親会社株主に帰属する当期純利益", t:"連結当期純利益", y:"当期純利益はグループ全体の利益です。そのあとで非支配株主の分を引きます。", m:"順番は当期純利益、非支配株主の分、親会社株主の分。", s:RK},
+    {p:"fs", q:"連結貸借対照表の資本金は、親会社の資本金と子会社の資本金の合計である。", a:false, k:"親会社の資本金と子会社の資本金の合計", t:"親会社の資本金", y:"子会社の資本金は投資と資本の相殺で消えるので、親会社の分だけが残ります。", m:"連結の資本金はP社の分だけ。", j:JE_SHIHON, s:RK},
+    {p:"fs", q:"連結精算表では、損益計算書の修正額を株主資本等変動計算書に移し、その当期末残高の修正額を貸借対照表に移す。", a:true, k:"損益計算書の修正額を株主資本等変動計算書に移し", t:"貸借対照表の修正額を損益計算書に移し", y:"利益はP/L → S/S → B/Sの順に流れます。修正額も同じ順に流します。", m:"P/L → S/S → B/Sの順に埋める。", s:TEXT},
+    {p:"fs", q:"連結のS社株式は、投資と資本の相殺によって連結貸借対照表には残らない。", a:true, k:"連結貸借対照表には残らない", t:"取得原価のまま連結貸借対照表に残る", y:"親会社の投資は子会社の資本と相殺されます。子会社の資産と負債が代わりに合算されています。", m:"S社株式は連結B/Sに出てこない。", j:JE_SHIHON, s:RK}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"支配獲得日", js:"支配獲得後", sh:"内部取引と未実現利益", fs:"精算表と表示"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
