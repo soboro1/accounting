@@ -1,0 +1,1091 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>簿記2級 決算と財務諸表ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: 1カラムの答案用紙。出題 → 解答欄 → 図・解説・仕訳。ほかの出題パターンドリルと同じ紺×金、ライトテーマも用意 */
+  :root {
+    color-scheme: dark;
+    --bg: #101b2d;
+    --surface: #15233a;
+    --surface-2: #0d1624;
+    --fg: #f6f1e6;
+    --fg-soft: #ddd6c7;
+    --muted: #9aa5b1;
+    --accent: #d4a24c;
+    --accent-ink: #101b2d;
+    --accent-soft: rgba(212, 162, 76, 0.16);
+    --line: rgba(212, 162, 76, 0.36);
+    --rule: rgba(246, 241, 230, 0.12);
+    --good: #8cc152;
+    --good-soft: rgba(140, 193, 82, 0.2);
+    --bad: #ec7f56;
+    --bad-soft: rgba(236, 127, 86, 0.2);
+    --std-fill: rgba(212, 162, 76, 0.2);
+    --c1: #d4a24c; --c2: #5fa8d3; --c3: #7cc6a4; --c4: #b39ddb; --c5: #ec7f56;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+      --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+      --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+      --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+      --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+      --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+      --std-fill: rgba(154, 106, 18, 0.13);
+      --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+    --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+    --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+    --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+    --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+    --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+    --std-fill: rgba(154, 106, 18, 0.13);
+    --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .app {
+    max-width: 860px; margin: 0 auto;
+    padding-inline: 16px; padding-block: 28px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 20px; flex-wrap: wrap; }
+  .top > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .kicker { font-size: 12px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(22px, 4.6vw, 28px); margin: 2px 0 0; line-height: 1.35; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; max-width: 42em; }
+  .score { text-align: right; }
+  .score-k { font-size: 12px; color: var(--muted); }
+  .score-v { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 13px; font-weight: 500; line-height: 1.5;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+  .paper {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px clamp(14px, 3vw, 26px);
+    display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  }
+  .badge {
+    align-self: flex-start; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 14px;
+  }
+  .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+  .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+  .facts b { font-weight: 700; color: var(--fg); }
+
+  .cost-card { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px 6px; background: var(--surface-2); max-width: 560px; }
+  .cc-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .cc-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; column-gap: 14px; font-variant-numeric: tabular-nums; }
+  .cc-grid > span { padding: 5px 0; border-top: 1px dashed var(--rule); font-size: 14px; }
+  .cc-c { color: var(--muted); }
+  .cc-v { text-align: right; font-weight: 500; }
+
+  .figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  .figbox {
+    margin: 0; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .figscroll { overflow-x: auto; }
+  .figbox figcaption { font-size: 12px; color: var(--muted); padding: 0 4px; line-height: 1.6; }
+  .fig { width: 100%; min-width: 330px; height: auto; display: block; }
+  .fig text { font-family: var(--font); }
+  .fig .t { fill: var(--fg); font-size: 13px; }
+  .fig .ts { fill: var(--muted); font-size: 11.5px; }
+  .fig .tb { fill: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .fig .ta { fill: var(--accent); font-size: 12px; font-weight: 700; }
+  .fig .tu { fill: var(--bad); font-size: 12px; font-weight: 700; }
+  .fig .tf { fill: var(--good); font-size: 12px; font-weight: 700; }
+  .fig .box { fill: var(--surface); stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .div { stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig .std { fill: var(--std-fill); stroke: var(--accent); stroke-width: 1.2; }
+  .fig .vu { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; }
+  .fig .ax { stroke: var(--muted); stroke-width: 1.2; }
+  .fig .bar { fill: var(--muted); fill-opacity: 0.5; }
+  .fig .bar-hit { fill: var(--accent); }
+  .fig .arr { stroke: var(--muted); stroke-width: 1.4; }
+  .fig .mk { fill: var(--muted); }
+  .fig .frame { fill: none; stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .fig .s0 { fill: var(--c1); }
+  .fig .s1 { fill: var(--c2); }
+  .fig .s2 { fill: var(--c3); }
+  .fig .s3 { fill: var(--c5); }
+
+  .lad-title { font-size: 13.5px; font-weight: 700; padding: 2px 4px 0; }
+  .ladder { display: flex; flex-direction: column; padding: 4px; font-variant-numeric: tabular-nums; }
+  .rung { border: 1px solid var(--line); background: var(--std-fill); border-radius: 8px; padding: 7px 12px; }
+  .rung-k { font-size: 12px; color: var(--muted); }
+  .rung-v { font-size: 13.5px; overflow-wrap: anywhere; }
+  .step { position: relative; margin-left: 22px; padding: 8px 0 10px 18px; border-left: 2px solid var(--muted); font-size: 13.5px; }
+  .step::after {
+    content: ''; position: absolute; left: -7px; bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--muted);
+  }
+  .step.u b { color: var(--bad); }
+  .step.f b { color: var(--good); }
+  .step.n b { color: var(--fg); }
+  .rung.mark { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+  /* タイムテーブル・換算表・財務諸表 */
+  .tbl { width: 100%; min-width: 320px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .tbl th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .tbl td { padding: 5px 8px; text-align: right; border-bottom: 1px dashed var(--rule); white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl td.l { text-align: left; }
+  .tbl tr.sum td { border-top: 1px solid var(--fg-soft); font-weight: 700; }
+  .tbl tr.hl td { color: var(--accent); font-weight: 700; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    font: inherit; font-size: 14px; line-height: 1.4; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet-head { font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .sheet { display: flex; flex-direction: column; }
+  .ans-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--rule);
+  }
+  .ans-row:first-child { border-top: none; padding-top: 4px; }
+  .ans-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .ans-label { font-weight: 500; }
+  .qno { display: inline-block; min-width: 2.8em; color: var(--accent); font-weight: 700; font-size: 13px; }
+  .ans-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ans-ctrl input {
+    width: 10.5em; padding: 8px 12px; font: inherit; font-size: 16px; line-height: 1.4;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .ans-ctrl input::placeholder { color: var(--muted); opacity: 0.7; }
+  .yen { color: var(--muted); font-size: 14px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: 13.5px; line-height: 1.4; padding: 7px 14px;
+    background: transparent; color: var(--fg-soft); border: none; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .fb { grid-column: 1 / -1; font-size: 13.5px; font-weight: 500; }
+  .fb.ok { color: var(--good); }
+  .fb.ng { color: var(--bad); }
+  @media (max-width: 560px) { .ans-row { grid-template-columns: minmax(0, 1fr); } }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 700; line-height: 1.4;
+    padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-quiet { background: transparent; color: var(--muted); border-color: var(--rule); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .seg button:focus-visible, .ans-ctrl input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .err { color: var(--bad); font-size: 13.5px; }
+
+  .result { display: flex; flex-direction: column; gap: 14px; }
+  .verdict { font-size: 17px; font-weight: 700; }
+  .verdict.all { color: var(--good); }
+  .sol {
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums;
+  }
+  .sol h4 { margin: 12px 0 2px; font-size: 13.5px; color: var(--accent); letter-spacing: 0.04em; }
+  .sol h4:first-child { margin-top: 0; }
+  .sol p { margin: 0; font-size: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
+  .journal { display: flex; flex-direction: column; gap: 10px; }
+  .j-head { margin: 6px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .j-rule { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+  .j-note { margin: 0; font-size: 13.5px; color: var(--fg-soft); max-width: 46em; }
+  .j-list { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 16px; }
+  .j-entry { padding: 9px 0; border-top: 1px dashed var(--rule); }
+  .j-entry:first-child { border-top: none; }
+  .j-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .j-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px; font-variant-numeric: tabular-nums; }
+  .j-line { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; font-size: 14px; line-height: 1.7; }
+  .j-tag { color: var(--accent); font-weight: 700; }
+  .j-amt { text-align: right; }
+  @media (max-width: 540px) { .j-body { grid-template-columns: minmax(0, 1fr); } }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+
+  .figbox.wide { grid-column: 1 / -1; }
+  .figbox.wide .tbl { min-width: 0; }
+  .tbl tr.hl td { background: var(--accent-soft); }
+  .tbl tr.sec td { color: var(--accent); font-weight: 700; }
+  .lead a { color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .opt { text-align: left; overflow-wrap: anywhere; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: rise 0.25s ease-out; }
+    @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="kicker">日商簿記2級 商業簿記</div>
+      <h1>決算と財務諸表 出題パターンドリル</h1>
+      <p class="lead">決算整理と財務諸表の作成を、数字を変えて何度でも解けます。解説には仕訳が付きます。<a href="boki2-kessan-kaisetsu.html">解説ページはこちら</a></p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="score-k">正答数(小問)</div>
+      <div class="score-v"><span id="okN">0</span> / <span id="allN">0</span></div>
+    </div>
+  </header>
+
+  <nav class="chips" id="chips" aria-label="出題パターン"></nav>
+
+  <section class="paper" id="problem"></section>
+
+  <section class="paper">
+    <div class="sheet-head">解答欄 <span class="hint">金額は千円で答えます(カンマはあってもなくてもOK)。ボタンがある問題は、種類も選んでください。</span></div>
+    <div class="sheet" id="sheet"></div>
+    <div class="err" id="err" hidden></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="checkBtn" type="button">採点する</button>
+      <button class="btn btn-ghost" id="nextBtn" type="button">数字を変えて次の問題</button>
+      <button class="btn btn-quiet" id="revealBtn" type="button">解答を見る</button>
+    </div>
+  </section>
+
+  <section class="result" id="result" hidden></section>
+
+  <footer class="foot">日商簿記2級の決算と財務諸表の練習用(自己採点)。金額の単位は千円です。<br>「頻出度」は学習上の目安で、日商の公式な集計ではありません。</footer>
+
+</div>
+
+<script>
+var Drill = (function () {
+  'use strict';
+
+  var uid = 0;
+
+  function ri(min, max, step) {
+    step = step || 1;
+    var n = Math.floor((max - min) / step) + 1;
+    return min + Math.floor(Math.random() * n) * step;
+  }
+  function nz(min, max, step) {
+    for (var g = 0; g < 200; g++) { var v = ri(min, max, step); if (v !== 0) return v; }
+    return step || 1;
+  }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function sum(a) { return a.reduce(function (s, x) { return s + x; }, 0); }
+  function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-7; }
+  // 浮動小数の誤差を落としたかけ算
+  function mul(a, b) { return Math.round(a * b * 1e6) / 1e6; }
+  function fmt(n) {
+    n = Math.round(n * 100) / 100;
+    return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP', { maximumFractionDigits: 2 });
+  }
+  function pct(p) { return Math.round(p * 100) + '%'; }
+  function sen(v) { return fmt(v) + '千円'; }
+  function signed(v) { return (v > 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+
+  // ---------- SVG helpers ----------
+  function svg(w, h, label, body) {
+    return '<svg class="fig" viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="' + label + '" xmlns="http://www.w3.org/2000/svg">' + body + '</svg>';
+  }
+  function t(x, y, s, cls, anchor) {
+    return '<text x="' + x + '" y="' + y + '" class="' + cls + '" text-anchor="' + (anchor || 'start') + '">' + s + '</text>';
+  }
+  function rc(x, y, w, h, cls, rx) {
+    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" class="' + cls + '"' + (rx ? ' rx="' + rx + '"' : '') + '/>';
+  }
+  function ln(x1, y1, x2, y2, cls, extra) {
+    return '<line x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" class="' + cls + '"' + (extra || '') + '/>';
+  }
+  function arrowDefs(id) {
+    return '<defs><marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>';
+  }
+  function fig(svgStr, caption) {
+    return '<figure class="figbox"><div class="figscroll">' + svgStr + '</div>' +
+      (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+
+  // 表(タイムテーブル・換算表など)。rows は配列、または { c: [...], cls: 'sum' | 'hl' }
+  function tblFig(title, head, rows, caption) {
+    var h = '<figure class="figbox"><div class="lad-title">' + title + '</div><div class="figscroll"><table class="tbl">';
+    if (head) h += '<thead><tr>' + head.map(function (x) { return '<th>' + x + '</th>'; }).join('') + '</tr></thead>';
+    h += '<tbody>' + rows.map(function (r) {
+      var cells = r.c || r, cls = r.cls ? ' class="' + r.cls + '"' : '';
+      return '<tr' + cls + '>' + cells.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+    }).join('') + '</tbody></table></div>';
+    return h + (caption ? '<figcaption>' + caption + '</figcaption>' : '') + '</figure>';
+  }
+  // ---------- 仕訳 ----------
+  function sideSum(lines) { return sum(lines.map(function (l) { return l[1]; })); }
+  function balanced(dr, cr) { return Math.abs(sideSum(dr) - sideSum(cr)) < 1e-6; }
+  function numbered(list) {
+    return list.filter(Boolean).map(function (e, i) {
+      return { t: String.fromCharCode(0x245F + i + 1) + ' ' + e.t, dr: e.dr, cr: e.cr };
+    });
+  }
+  function allBal(list) {
+    return list.every(function (e) {
+      return balanced(e.dr, e.cr) && e.dr.concat(e.cr).every(function (l) { return l[1] > 0 && isInt(l[1]); });
+    });
+  }
+  // 金額の符号で借方・貸方を入れかえる仕訳(v > 0 なら 借方 a / 貸方 b)
+  function flip(title, v, a, b) {
+    return v > 0 ? { t: title, dr: [[a, v]], cr: [[b, v]] } : { t: title, dr: [[b, -v]], cr: [[a, -v]] };
+  }
+
+  function choiceQ(label, answer, others) {
+    var opts = shuffle([answer].concat(others));
+    return { label: label, kind: 'choice', options: opts, value: opts.indexOf(answer) };
+  }
+
+  function yen(v) { return fmt(v) + '円'; }
+  // T勘定(SVG)。dr/cr は [科目, 金額]
+  function tAccount(title, dr, cr) {
+    var rows = Math.max(dr.length, cr.length), w = 400, top = 36, rh = 24, xm = 200;
+    var yEnd = top + rows * rh + 6, h = yEnd + 30;
+    var b = t(w / 2, 20, title, 'tb', 'middle');
+    b += t(12, 28, '(借方)', 'ts') + t(w - 12, 28, '(貸方)', 'ts', 'end');
+    b += ln(8, top, w - 8, top, 'div') + ln(xm, top, xm, yEnd + 22, 'div');
+    dr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(14, y, r[0], r[2] || 't') + t(xm - 8, y, fmt(r[1]), 't', 'end'); });
+    cr.forEach(function (r, i) { var y = top + (i + 1) * rh - 6; b += t(xm + 10, y, r[0], r[2] || 't') + t(w - 14, y, fmt(r[1]), 't', 'end'); });
+    b += ln(xm - 92, yEnd, xm - 6, yEnd, 'div') + ln(w - 98, yEnd, w - 12, yEnd, 'div');
+    b += t(xm - 8, yEnd + 18, fmt(sideSum(dr)), 'tb', 'end') + t(w - 14, yEnd + 18, fmt(sideSum(cr)), 'tb', 'end');
+    return svg(w, h, title + '勘定', b);
+  }
+
+  // ---------- 共通 ----------
+  function amt(label, value) { return { label: label, kind: 'amt', value: value, unit: '千円' }; }
+  function dirQ(label, value, seg) { return { label: label, kind: 'var', value: value, seg: seg, unit: '千円' }; }
+  function ent(title, dr, cr) {
+    function keep(l) { return l[1] !== 0; }
+    return { t: title, dr: dr.filter(keep), cr: cr.filter(keep) };
+  }
+  function wide(html) { return html.replace('<figure class="figbox">', '<figure class="figbox wide">'); }
+  function rnd(x) { return Math.round(x * 1e6) / 1e6; }
+  var TAX = 0.3;
+
+  // A:売上原価、棚卸減耗損、商品評価損
+  function genA() {
+    var beg = ri(5, 30) * 1000, pur = ri(10, 40) * 10000, cost = ri(5, 30) * 10, bq = ri(5, 20) * 10, aq = bq - ri(1, 8), nrv = cost - ri(1, 4) * 5;
+    if (nrv <= 0) return genA();
+    var book = cost * bq, gen = (bq - aq) * cost, hyoka = aq * (cost - nrv), inv = aq * nrv, base = beg + pur - book;
+    var incl = pick(['hyoka', 'both']);
+    var how = { hyoka: '商品評価損は売上原価の内訳とし、棚卸減耗損は販売費及び一般管理費とする。', both: '棚卸減耗損と商品評価損は、どちらも売上原価の内訳とする。' }[incl];
+    var cogs = base + hyoka + (incl === 'both' ? gen : 0);
+    return {
+      badge: '売上原価と棚卸減耗・評価損',
+      intro: '期末商品について、次の資料にもとづいて答えなさい(単位:千円)。' + how,
+      facts: ['期首商品棚卸高 ' + sen(beg) + '、当期商品仕入高 ' + sen(pur) + '。', '帳簿数量 ' + fmt(bq) + '個、原価 @' + fmt(cost) + '。', '実地数量 ' + fmt(aq) + '個、正味売却価額 @' + fmt(nrv) + '。'],
+      figs: [],
+      qs: [amt('棚卸減耗損', gen), amt('商品評価損', hyoka), amt('損益計算書の売上原価', cogs), amt('貸借対照表の商品', inv)],
+      solFigs: [],
+      sol: [
+        { h: '減耗と評価損', lines: ['棚卸減耗損 = (' + fmt(bq) + ' − ' + fmt(aq) + ') × ' + fmt(cost) + ' = ' + fmt(gen), '商品評価損 = ' + fmt(aq) + ' × (' + fmt(cost) + ' − ' + fmt(nrv) + ') = ' + fmt(hyoka)] },
+        { h: '売上原価', lines: ['帳簿棚卸高 = ' + fmt(bq) + ' × ' + fmt(cost) + ' = ' + fmt(book), '期首 ' + fmt(beg) + ' + 仕入 ' + fmt(pur) + ' − 期末 ' + fmt(book) + ' = ' + fmt(base), '売上原価に入れる分を足して ' + fmt(cogs)] },
+        { h: '商品', lines: [fmt(aq) + ' × ' + fmt(nrv) + ' = ' + fmt(inv) + '(' + fmt(book) + ' − ' + fmt(gen) + ' − ' + fmt(hyoka) + ' と同じ)'] }
+      ],
+      jr: { note: '売上原価の計算のあとに、減耗と評価損を繰越商品から差し引く。', entries: numbered([
+        ent('期首商品の振替', [['仕入', beg]], [['繰越商品', beg]]),
+        ent('期末商品の振替', [['繰越商品', book]], [['仕入', book]]),
+        ent('減耗と評価損', [['棚卸減耗損', gen], ['商品評価損', hyoka]], [['繰越商品', gen + hyoka]])
+      ]) },
+      chk: [[inv, book - gen - hyoka]]
+    };
+  }
+
+  // B:貸倒引当金
+  function genB() {
+    var ar = ri(6, 30) * 5000, rate = pick([1, 2, 3]), loan = Math.random() < 0.4 ? ri(2, 8) * 5000 : 0, lr = pick([2, 3, 5]);
+    var ind = Math.random() < 0.3 ? ri(1, 3) * 1000 : 0;
+    var need = rnd((ar - ind) * rate / 100) + Math.round(ind / 2) + rnd(loan * lr / 100);
+    var needAr = rnd((ar - ind) * rate / 100) + Math.round(ind / 2), needLoan = rnd(loan * lr / 100);
+    var bal = ri(1, 12) * 100, diff = needAr - bal;
+    if (diff === 0) return genB();
+    var list = [diff > 0 ? ent('売掛金の分の繰入', [['貸倒引当金繰入', diff]], [['貸倒引当金', diff]]) : ent('売掛金の分の戻入', [['貸倒引当金', -diff]], [['貸倒引当金戻入', -diff]])];
+    if (loan) list.push(ent('貸付金の分の繰入', [['貸倒引当金繰入(営業外費用)', needLoan]], [['貸倒引当金', needLoan]]));
+    var qs = [dirQ('売掛金の分の差額(繰入か戻入か)', diff, ['繰入', '戻入']), amt('貸借対照表の貸倒引当金の合計', need)];
+    if (loan) qs.push(amt('営業外費用の貸倒引当金繰入', needLoan));
+    return {
+      badge: '貸倒引当金',
+      intro: '期末の貸倒引当金を差額補充法で設定する。次の資料にもとづいて答えなさい(単位:千円)。',
+      facts: ['売掛金の期末残高 ' + sen(ar) + '。' + (ind ? 'このうち ' + sen(ind) + ' は特定の相手先の債権で、その50%を個別に見積もる。' : '') + (ind ? '残りには' : '') + rate + '%を一括で設定する。', '貸倒引当金の決算整理前残高 ' + sen(bal) + '(すべて売掛金に対するもの)。'].concat(loan ? ['貸付金 ' + sen(loan) + ' に ' + lr + '%を設定する(前期からの残高はない)。'] : []),
+      figs: [],
+      qs: qs,
+      solFigs: [],
+      sol: [
+        { h: '必要額', lines: (ind ? ['個別評価 = ' + fmt(ind) + ' × 50% = ' + fmt(Math.round(ind / 2)), '一括評価 = (' + fmt(ar) + ' − ' + fmt(ind) + ') × ' + rate + '% = ' + fmt(needAr - Math.round(ind / 2))] : ['売掛金の分 = ' + fmt(ar) + ' × ' + rate + '% = ' + fmt(needAr)]).concat(loan ? ['貸付金の分 = ' + fmt(loan) + ' × ' + lr + '% = ' + fmt(needLoan)] : []) },
+        { h: '差額', lines: ['売掛金の分の必要額 ' + fmt(needAr) + ' − 残高 ' + fmt(bal) + ' = ' + (diff > 0 ? fmt(diff) + '(足りないので繰入)' : '−' + fmt(-diff) + '(多いので戻入)'), '貸借対照表の合計 = ' + fmt(need)] }
+      ],
+      jr: { note: '売掛金の分の繰入は販売費及び一般管理費、貸付金の分は営業外費用に表示する。', entries: numbered(list) }
+    };
+  }
+
+  // C:減価償却
+  function genC() {
+    var kind = pick(['sl', 'sl-m', 'db', 'unit']);
+    if (kind === 'sl' || kind === 'sl-m') {
+      var life = pick([10, 20, 25, 40]), yrs = ri(1, 5), m = kind === 'sl-m' ? pick([3, 6, 9]) : 12, cost = life * 12 * ri(5, 40) * 10, y = cost / life, cur = y * m / 12, acc0 = kind === 'sl-m' ? 0 : y * yrs;
+      return {
+        badge: kind === 'sl-m' ? '減価償却(定額法・期中取得)' : '減価償却(定額法)',
+        intro: '建物の減価償却費を定額法で計算する。残存価額は0、間接法で記帳している(単位:千円)。',
+        facts: ['取得原価 ' + sen(cost) + '、耐用年数 ' + life + '年。', kind === 'sl-m' ? '当期に取得し、当期の使用は ' + m + 'か月である(月割計算)。' : '期首の減価償却累計額は ' + sen(acc0) + 'である。'],
+        figs: [],
+        qs: [amt('当期の減価償却費', cur), amt('期末の減価償却累計額', acc0 + cur), amt('期末の帳簿価額', cost - acc0 - cur)],
+        solFigs: [],
+        sol: [{ h: '計算', lines: [fmt(cost) + ' ÷ ' + life + '年 = ' + fmt(y) + (m < 12 ? '、' + fmt(y) + ' × ' + m + '/12 = ' + fmt(cur) : ''), '累計額 = ' + fmt(acc0) + ' + ' + fmt(cur) + ' = ' + fmt(acc0 + cur), '帳簿価額 = ' + fmt(cost) + ' − ' + fmt(acc0 + cur) + ' = ' + fmt(cost - acc0 - cur)] }],
+        jr: { note: '間接法では、減価償却累計額に記入する。', entries: numbered([ent('減価償却', [['減価償却費', cur]], [['建物減価償却累計額', cur]])]) }
+      };
+    }
+    if (kind === 'db') {
+      var r = pick([0.25, 0.2, 0.4]), cost2 = ri(4, 30) * 2000, acc = ri(0, 3) * 1000;
+      if (acc >= cost2) return genC();
+      var cur2 = rnd((cost2 - acc) * r);
+      return {
+        badge: '減価償却(200%定率法)',
+        intro: '備品の減価償却費を200%定率法で計算する。償却率は ' + r + '、間接法で記帳している(単位:千円)。',
+        facts: ['取得原価 ' + sen(cost2) + '、期首の減価償却累計額 ' + (acc ? sen(acc) : 'なし(当期首に取得)') + '。', '償却率は取得原価ではなく、期首の帳簿価額に掛ける。保証額は考えない。'],
+        figs: [],
+        qs: [amt('期首の帳簿価額', cost2 - acc), amt('当期の減価償却費', cur2), amt('期末の帳簿価額', cost2 - acc - cur2)],
+        solFigs: [],
+        sol: [{ h: '計算', lines: ['期首の帳簿価額 = ' + fmt(cost2) + ' − ' + fmt(acc) + ' = ' + fmt(cost2 - acc), '減価償却費 = ' + fmt(cost2 - acc) + ' × ' + r + ' = ' + fmt(cur2), '期末の帳簿価額 = ' + fmt(cost2 - acc) + ' − ' + fmt(cur2) + ' = ' + fmt(cost2 - acc - cur2)] }],
+        jr: { note: '定率法は、帳簿価額が減るにつれて償却費も減る。', entries: numbered([ent('減価償却', [['減価償却費', cur2]], [['備品減価償却累計額', cur2]])]) }
+      };
+    }
+    var tot = ri(4, 20) * 10000, per = ri(1, 9) * 2000, unitAmt = ri(1, 9) / 10, depBase = rnd(tot * unitAmt), resid = pick([0, 0.1]), cost3 = rnd(depBase / (1 - resid));
+    if (!isInt(cost3)) return genC();
+    var cur3 = rnd(per * unitAmt);
+    return {
+      badge: '減価償却(生産高比例法)',
+      intro: '車両の減価償却費を生産高比例法で計算する。間接法で記帳している(単位:千円)。',
+      facts: ['取得原価 ' + sen(cost3) + '、残存価額は取得原価の ' + Math.round(resid * 100) + '%。', '総走行可能距離 ' + fmt(tot) + 'km、当期の走行距離 ' + fmt(per) + 'km。'],
+      figs: [],
+      qs: [amt('償却の対象となる金額', depBase), amt('当期の減価償却費', cur3)],
+      solFigs: [],
+      sol: [{ h: '計算', lines: ['対象 = ' + fmt(cost3) + ' × ' + Math.round((1 - resid) * 100) + '% = ' + fmt(depBase), '減価償却費 = ' + fmt(depBase) + ' × ' + fmt(per) + ' ÷ ' + fmt(tot) + ' = ' + fmt(cur3)] }],
+      jr: { note: '利用した分だけ費用にする方法である。', entries: numbered([ent('減価償却', [['減価償却費', cur3]], [['車両減価償却累計額', cur3]])]) }
+    };
+  }
+
+  // D:有価証券の評価替
+  function genD() {
+    var tb = ri(4, 20) * 500, td = nz(-6, 6) * 100, face = ri(2, 10) * 10000, left = pick([2, 3, 4, 5]), gapU = ri(1, 4) * 50, mb = face - gapU * left, ob = ri(4, 20) * 1000, od = nz(-5, 5) * 1000;
+    var ote = rnd(Math.abs(od) * TAX), oval = Math.abs(od) - ote, sonota = od > 0
+      ? ent('その他有価証券(評価益)', [['その他有価証券', od]], [['繰延税金負債', ote], ['その他有価証券評価差額金', oval]])
+      : ent('その他有価証券(評価損)', [['繰延税金資産', ote], ['その他有価証券評価差額金', oval]], [['その他有価証券', -od]]);
+    return {
+      badge: '有価証券の評価替',
+      intro: '期末に保有する有価証券について答えなさい(単位:千円)。法定実効税率は30%で、その他有価証券には全部純資産直入法と税効果を適用する。',
+      facts: ['売買目的有価証券:帳簿価額 ' + sen(tb) + '、時価 ' + sen(tb + td) + '。', '満期保有目的債券:額面 ' + sen(face) + '、帳簿価額 ' + sen(mb) + '、満期まで残り ' + left + '年。差額はすべて金利の調整で、償却原価法(定額法)による。', 'その他有価証券:帳簿価額 ' + sen(ob) + '、時価 ' + sen(ob + od) + '。'],
+      figs: [],
+      qs: [dirQ('売買目的有価証券の評価損益', td, ['評価益', '評価損']), amt('期末の満期保有目的債券', mb + gapU), amt('その他有価証券の税効果の金額', ote), dirQ('その他有価証券評価差額金', od > 0 ? oval : -oval, ['貸方(増加)', '借方(減少)']), amt('貸借対照表の投資有価証券', mb + gapU + ob + od)],
+      solFigs: [],
+      sol: [
+        { h: '売買目的', lines: [fmt(tb + td) + ' − ' + fmt(tb) + ' = ' + (td > 0 ? '+' : '−') + fmt(Math.abs(td)) + '。当期の損益にする。'] },
+        { h: '満期保有', lines: ['(' + fmt(face) + ' − ' + fmt(mb) + ') ÷ ' + left + '年 = ' + fmt(gapU), '期末 = ' + fmt(mb) + ' + ' + fmt(gapU) + ' = ' + fmt(mb + gapU)] },
+        { h: 'その他', lines: ['評価差額 = ' + (od > 0 ? '+' : '−') + fmt(Math.abs(od)) + '、税効果 = ' + fmt(Math.abs(od)) + ' × 30% = ' + fmt(ote), '評価差額金 = ' + fmt(Math.abs(od)) + ' − ' + fmt(ote) + ' = ' + fmt(oval) + '。損益を通さず純資産に計上する。'] },
+        { h: '表示', lines: ['売買目的は流動資産の有価証券。満期保有とその他は投資有価証券で、合計 ' + fmt(mb + gapU + ob + od) + '。'] }
+      ],
+      jr: { note: '保有目的によって、差額の行き先が変わる。', entries: numbered([
+        td > 0 ? ent('売買目的有価証券', [['売買目的有価証券', td]], [['有価証券評価益', td]]) : ent('売買目的有価証券', [['有価証券評価損', -td]], [['売買目的有価証券', -td]]),
+        ent('満期保有目的債券', [['満期保有目的債券', gapU]], [['有価証券利息', gapU]]),
+        sonota
+      ]) }
+    };
+  }
+
+  // E:経過勘定
+  function genE() {
+    var pY = ri(2, 10) * 1200, pm = ri(2, 10), e = 12 - pm, start = 4 - e <= 0 ? 4 - e + 12 : 4 - e, pre = pY / 12 * pm;
+    var L = ri(1, 6) * 12000, r = pick([2, 3, 5]), um = ri(2, 6), un = L * r / 100 * um / 12, paid = ri(2, 12) * 100;
+    var g = ri(1, 8) * 100, fm = ri(1, 4), rm = 12 + fm, rent = g * rm, adv = g * fm;
+    var LL = ri(1, 6) * 12000, rr = pick([2, 3, 5]), am = ri(2, 6), acc = LL * rr / 100 * am / 12, rec = ri(1, 8) * 100;
+    return {
+      badge: '経過勘定',
+      intro: '決算日は3月31日である。次の決算整理事項について答えなさい(単位:千円、月割計算)。',
+      facts: ['保険料:' + start + '月1日に1年分 ' + sen(pY) + ' を前払いした(決算整理前の保険料は同額)。', '支払利息:決算整理前 ' + sen(paid) + '。ほかに借入金 ' + sen(L) + '(年利 ' + r + '%)の利息 ' + um + 'か月分が未払である。', '受取家賃:月額 ' + sen(g) + '。決算整理前は ' + rm + 'か月分 ' + sen(rent) + ' で、このうち ' + fm + 'か月分は翌期の分である。', '受取利息:決算整理前 ' + sen(rec) + '。ほかに貸付金 ' + sen(LL) + '(年利 ' + rr + '%)の利息 ' + am + 'か月分が未収である。'],
+      figs: [],
+      qs: [amt('貸借対照表の前払費用', pre), amt('損益計算書の保険料', pY - pre), amt('貸借対照表の未払費用', un), amt('損益計算書の支払利息', paid + un), amt('貸借対照表の前受収益', adv), amt('損益計算書の受取家賃', rent - adv), amt('貸借対照表の未収収益', acc), amt('損益計算書の受取利息', rec + acc)],
+      solFigs: [],
+      sol: [
+        { h: '前払と未払', lines: ['前払保険料 = ' + fmt(pY) + ' × ' + pm + '/12 = ' + fmt(pre) + '、保険料 = ' + fmt(pY - pre), '未払利息 = ' + fmt(L) + ' × ' + r + '% × ' + um + '/12 = ' + fmt(un) + '、支払利息 = ' + fmt(paid + un)] },
+        { h: '前受と未収', lines: ['前受家賃 = ' + fmt(g) + ' × ' + fm + ' = ' + fmt(adv) + '、受取家賃 = ' + fmt(rent - adv), '未収利息 = ' + fmt(LL) + ' × ' + rr + '% × ' + am + '/12 = ' + fmt(acc) + '、受取利息 = ' + fmt(rec + acc)] }
+      ],
+      jr: { note: '費用と収益を、当期の分にそろえる。', entries: numbered([
+        ent('前払', [['前払保険料', pre]], [['保険料', pre]]), ent('未払', [['支払利息', un]], [['未払利息', un]]),
+        ent('前受', [['受取家賃', adv]], [['前受家賃', adv]]), ent('未収', [['未収利息', acc]], [['受取利息', acc]])
+      ]) }
+    };
+  }
+
+  // F:引当金
+  function genF() {
+    var ret0 = ri(10, 50) * 1000, retAdd = ri(2, 10) * 500, retPaid = ri(1, 4) * 500;
+    var bonusTotal = ri(4, 16) * 1200, bm = pick([2, 3, 4]), bonus = bonusTotal / 6 * bm;
+    var repair = ri(2, 12) * 500, sales = ri(10, 50) * 10000, wr = pick([1, 2]), warr = sales * wr / 100;
+    return {
+      badge: '引当金',
+      intro: '決算日は3月31日である。次の引当金について答えなさい(単位:千円)。',
+      facts: ['退職給付引当金:期首残高 ' + sen(ret0) + '。当期に退職金 ' + sen(retPaid) + ' を支払い、引当金を取り崩した。当期の負担額は ' + sen(retAdd) + 'である。', '賞与引当金:6月に支給する賞与の見込額は ' + sen(bonusTotal) + '(対象期間は12月から5月の6か月)で、当期の負担は ' + bm + 'か月分である。', '修繕引当金:当期の負担額は ' + sen(repair) + 'である(前期からの残高はない)。', '商品保証引当金:当期の売上高 ' + sen(sales) + ' の ' + wr + '%を設定する(前期からの残高はない)。'],
+      figs: [],
+      qs: [amt('期末の退職給付引当金', ret0 - retPaid + retAdd), amt('賞与引当金繰入', bonus), amt('修繕引当金繰入', repair), amt('商品保証引当金繰入', warr), amt('引当金の繰入などの費用の合計', retAdd + bonus + repair + warr)],
+      solFigs: [fig(tAccount('退職給付引当金', [['現金預金', retPaid], ['次期繰越', ret0 - retPaid + retAdd]], [['前期繰越', ret0], ['退職給付費用', retAdd]]))],
+      sol: [
+        { h: '退職給付', lines: [fmt(ret0) + ' − ' + fmt(retPaid) + ' + ' + fmt(retAdd) + ' = ' + fmt(ret0 - retPaid + retAdd), '固定負債に表示する。'] },
+        { h: '賞与', lines: [fmt(bonusTotal) + ' × ' + bm + '/6 = ' + fmt(bonus), '流動負債に表示する。'] },
+        { h: '商品保証', lines: [fmt(sales) + ' × ' + wr + '% = ' + fmt(warr)] }
+      ],
+      jr: { note: '当期の負担額を費用にして、引当金を増やす。', entries: numbered([
+        ent('退職金の支払い', [['退職給付引当金', retPaid]], [['現金預金', retPaid]]),
+        ent('退職給付', [['退職給付費用', retAdd]], [['退職給付引当金', retAdd]]),
+        ent('賞与', [['賞与引当金繰入', bonus]], [['賞与引当金', bonus]]),
+        ent('修繕', [['修繕引当金繰入', repair]], [['修繕引当金', repair]]),
+        ent('商品保証', [['商品保証引当金繰入', warr]], [['商品保証引当金', warr]])
+      ]) }
+    };
+  }
+
+  // G:外貨建の売掛金と買掛金
+  function genG() {
+    var arD = ri(2, 10) * 10, apD = ri(2, 10) * 10, arR = ri(100, 118), apR = ri(100, 118), cl = ri(100, 120);
+    var dAr = arD * (cl - arR), dAp = apD * (cl - apR), net = dAr - dAp;
+    if (net === 0 || dAr === 0 || dAp === 0) return genG();
+    var arJ = ri(10, 40) * 1000, apJ = ri(10, 40) * 1000;
+    return {
+      badge: '外貨建の売掛金と買掛金',
+      intro: '決算日の為替相場は1ドル ' + cl + '円である。外貨建の売掛金と買掛金を換算替えする(単位:千円)。',
+      facts: ['売掛金:円建て ' + sen(arJ) + ' のほかに、' + arD + '千ドル(記帳時 ' + arR + '円)がある。', '買掛金:円建て ' + sen(apJ) + ' のほかに、' + apD + '千ドル(記帳時 ' + apR + '円)がある。', '前払金や商品などの非貨幣項目は、ここでは考えない。'],
+      figs: [],
+      qs: [amt('貸借対照表の売掛金', arJ + arD * cl), amt('貸借対照表の買掛金', apJ + apD * cl), dirQ('為替差損益の純額', net, ['差益(営業外収益)', '差損(営業外費用)'])],
+      solFigs: [],
+      sol: [
+        { h: '売掛金', lines: [arD + '千ドル × (' + cl + ' − ' + arR + ') = ' + (dAr > 0 ? '+' : '−') + fmt(Math.abs(dAr)) + (dAr > 0 ? '。資産が増えるので差益。' : '。資産が減るので差損。')] },
+        { h: '買掛金', lines: [apD + '千ドル × (' + cl + ' − ' + apR + ') = ' + (dAp > 0 ? '+' : '−') + fmt(Math.abs(dAp)) + (dAp > 0 ? '。負債が増えるので差損。' : '。負債が減るので差益。')] },
+        { h: '純額', lines: [(dAr > 0 ? '+' : '−') + fmt(Math.abs(dAr)) + (dAp > 0 ? ' − ' : ' + ') + fmt(Math.abs(dAp)) + ' = ' + (net > 0 ? '+' : '−') + fmt(Math.abs(net))] }
+      ],
+      jr: { note: '為替差損益は1つの勘定で処理し、損益計算書では純額で表示する。', entries: numbered([
+        dAr > 0 ? ent('売掛金', [['売掛金', dAr]], [['為替差損益', dAr]]) : ent('売掛金', [['為替差損益', -dAr]], [['売掛金', -dAr]]),
+        dAp > 0 ? ent('買掛金', [['為替差損益', dAp]], [['買掛金', dAp]]) : ent('買掛金', [['買掛金', -dAp]], [['為替差損益', -dAp]])
+      ]) }
+    };
+  }
+
+  // H:消費税、法人税等、税効果
+  function genH() {
+    var sales = ri(10, 50) * 10000, purch = ri(5, 30) * 10000, ru = rnd(sales * 0.1), rp = rnd(purch * 0.1);
+    if (ru <= rp) return genH();
+    var pre = ri(10, 50) * 1000, diff = ri(1, 8) * 100, taxable = pre + diff, taxAmt = rnd(taxable * TAX), adj = rnd(diff * TAX), adv = ri(1, 3) * 1000, payable = taxAmt - adv, ni = pre - taxAmt + adj;
+    if (payable <= 0) return genH();
+    var kind = pick(['貸倒引当金の繰入', '減価償却費']);
+    return {
+      badge: '消費税、法人税等、税効果',
+      intro: '次の資料にもとづいて答えなさい(単位:千円)。消費税は税抜方式で処理している。税率は30%である。',
+      facts: ['消費税:仮受消費税 ' + sen(ru) + '、仮払消費税 ' + sen(rp) + '。', '税引前当期純利益 ' + sen(pre) + '。' + kind + 'のうち ' + sen(diff) + ' が税法上の費用にならず、課税所得は ' + sen(taxable) + 'である。', '法人税等は課税所得の30%である。中間で ' + sen(adv) + ' を納付し、仮払法人税等に計上している。'],
+      figs: [],
+      qs: [amt('未払消費税', ru - rp), amt('法人税等(法人税、住民税及び事業税)', taxAmt), amt('未払法人税等', payable), amt('繰延税金資産', adj), amt('法人税等調整額', adj), amt('当期純利益', ni)],
+      solFigs: [],
+      sol: [
+        { h: '消費税', lines: [fmt(ru) + ' − ' + fmt(rp) + ' = ' + fmt(ru - rp)] },
+        { h: '法人税等', lines: [fmt(taxable) + ' × 30% = ' + fmt(taxAmt), '未払 = ' + fmt(taxAmt) + ' − ' + fmt(adv) + ' = ' + fmt(payable)] },
+        { h: '税効果', lines: [fmt(diff) + ' × 30% = ' + fmt(adj) + '。将来の税金が減るので、繰延税金資産を計上する。', '損益計算書では、法人税等から ' + fmt(adj) + ' を差し引く。'] },
+        { h: '当期純利益', lines: [fmt(pre) + ' − ' + fmt(taxAmt) + ' + ' + fmt(adj) + ' = ' + fmt(ni), '検算:' + fmt(pre) + ' × (1 − 30%) = ' + fmt(rnd(pre * 0.7))] }
+      ],
+      jr: { note: '税効果で、利益と税金の対応がそろう。', entries: numbered([
+        ent('消費税', [['仮受消費税', ru]], [['仮払消費税', rp], ['未払消費税', ru - rp]]),
+        ent('法人税等', [['法人税等', taxAmt]], [['仮払法人税等', adv], ['未払法人税等', payable]]),
+        ent('税効果', [['繰延税金資産', adj]], [['法人税等調整額', adj]])
+      ]) },
+      chk: [[ni, rnd(pre * 0.7)]]
+    };
+  }
+
+  // I:損益計算書の段階利益
+  function genI() {
+    var sales = ri(20, 60) * 10000, cost = Math.round(sales * (0.55 + ri(0, 15) / 100) / 1000) * 1000;
+    var items = [['給料', ri(5, 15) * 1000], ['減価償却費', ri(2, 8) * 1000], ['貸倒引当金繰入', ri(1, 8) * 100], ['退職給付費用', ri(1, 6) * 500]];
+    var nonInc = [['受取利息', ri(1, 8) * 100], ['有価証券利息', ri(1, 8) * 100]], nonExp = [['支払利息', ri(2, 10) * 100], ['有価証券評価損', ri(1, 8) * 100]];
+    var spI = [['固定資産売却益', ri(1, 8) * 500]], spE = [['火災損失', ri(1, 6) * 500]];
+    var sg = sum(items.map(function (x) { return x[1]; })), ni1 = sum(nonInc.map(function (x) { return x[1]; })), ne = sum(nonExp.map(function (x) { return x[1]; }));
+    var gp = sales - cost, op = gp - sg, ord = op + ni1 - ne, pt = ord + spI[0][1] - spE[0][1];
+    if (op <= 0 || pt <= 0) return genI();
+    if (pt % 10 !== 0) return genI();
+    var tx = rnd(pt * TAX), net = pt - tx;
+    var all = shuffle(items.concat(nonInc, nonExp, spI, spE));
+    return {
+      badge: '損益計算書の段階利益',
+      intro: '次の資料から、損益計算書の利益を計算しなさい(単位:千円)。税率は30%で、税効果は考えない。',
+      card: { title: '決算整理後の金額', rows: [['売上高', '', fmt(sales)], ['売上原価', '', fmt(cost)]].concat(all.map(function (x) { return [x[0], '', fmt(x[1])]; })) },
+      facts: ['科目ごとに、どの区分に入るかを判断する。'],
+      figs: [],
+      qs: [amt('売上総利益', gp), amt('営業利益', op), amt('経常利益', ord), amt('税引前当期純利益', pt), amt('当期純利益', net)],
+      solFigs: [],
+      sol: [
+        { h: '販売費及び一般管理費', lines: [items.map(function (x) { return x[0]; }).join('、') + ' = ' + fmt(sg)] },
+        { h: '営業外損益', lines: ['収益:' + nonInc.map(function (x) { return x[0]; }).join('、') + ' = ' + fmt(ni1), '費用:' + nonExp.map(function (x) { return x[0]; }).join('、') + ' = ' + fmt(ne)] },
+        { h: '特別損益', lines: ['利益:' + spI[0][0] + ' ' + fmt(spI[0][1]) + '、損失:' + spE[0][0] + ' ' + fmt(spE[0][1])] },
+        { h: '段階利益', lines: ['売上総利益 = ' + fmt(sales) + ' − ' + fmt(cost) + ' = ' + fmt(gp), '営業利益 = ' + fmt(gp) + ' − ' + fmt(sg) + ' = ' + fmt(op), '経常利益 = ' + fmt(op) + ' + ' + fmt(ni1) + ' − ' + fmt(ne) + ' = ' + fmt(ord), '税引前当期純利益 = ' + fmt(ord) + ' + ' + fmt(spI[0][1]) + ' − ' + fmt(spE[0][1]) + ' = ' + fmt(pt), '当期純利益 = ' + fmt(pt) + ' − ' + fmt(pt) + ' × 30% = ' + fmt(net)] }
+      ],
+      jr: { note: '当期純利益は損益勘定から繰越利益剰余金に振り替える。', entries: numbered([
+        ent('法人税等の計上(仮払はないものとする)', [['法人税等', tx]], [['未払法人税等', tx]]),
+        ent('当期純利益の振替', [['損益', net]], [['繰越利益剰余金', net]])
+      ]) }
+    };
+  }
+
+  // J:貸借対照表の区分
+  function genJ() {
+    var d = {
+      cash: ri(5, 30) * 1000, ar: ri(5, 20) * 2000, al: 0, inv: ri(5, 20) * 1000, sec: ri(2, 12) * 500, pre: ri(1, 6) * 100,
+      bld: ri(10, 30) * 10000, acc: ri(3, 8) * 10000, soft: ri(2, 8) * 500, ins: ri(5, 20) * 1000, dta: ri(1, 6) * 100,
+      ap: ri(4, 16) * 1000, unp: ri(1, 8) * 100, tax: ri(1, 8) * 1000, bonus: ri(1, 6) * 500, loanS: ri(2, 8) * 1000, loanL: ri(5, 20) * 2000, ret: ri(5, 20) * 1000,
+      cap: ri(10, 30) * 10000, re: 0
+    };
+    d.al = rnd(d.ar * 0.02);
+    var ca = d.cash + d.ar - d.al + d.inv + d.sec + d.pre, fa = d.bld - d.acc + d.soft + d.ins + d.dta, cl = d.ap + d.unp + d.tax + d.bonus + d.loanS, ncl = d.loanL + d.ret, A = ca + fa;
+    d.re = A - cl - ncl - d.cap;
+    if (d.re <= 0) return genJ();
+    return {
+      badge: '貸借対照表の区分',
+      intro: '決算整理後の金額から、貸借対照表の合計を計算しなさい(単位:千円)。借入金は短期と長期に分かれている。',
+      card: { title: '決算整理後の金額', rows: [['現金預金', '', fmt(d.cash)], ['売掛金', '', fmt(d.ar)], ['貸倒引当金', '', fmt(d.al)], ['商品', '', fmt(d.inv)], ['有価証券(売買目的)', '', fmt(d.sec)], ['前払費用', '', fmt(d.pre)], ['建物', '', fmt(d.bld)], ['建物減価償却累計額', '', fmt(d.acc)], ['ソフトウェア', '', fmt(d.soft)], ['投資有価証券', '', fmt(d.ins)], ['繰延税金資産', '', fmt(d.dta)], ['買掛金', '', fmt(d.ap)], ['未払費用', '', fmt(d.unp)], ['未払法人税等', '', fmt(d.tax)], ['賞与引当金', '', fmt(d.bonus)], ['短期借入金', '', fmt(d.loanS)], ['長期借入金', '', fmt(d.loanL)], ['退職給付引当金', '', fmt(d.ret)], ['資本金', '', fmt(d.cap)], ['繰越利益剰余金', '', fmt(d.re)]] },
+      facts: ['貸倒引当金と減価償却累計額は、資産から差し引く。'],
+      figs: [],
+      qs: [amt('流動資産合計', ca), amt('固定資産合計', fa), amt('流動負債合計', cl), amt('固定負債合計', ncl), amt('純資産合計', d.cap + d.re)],
+      solFigs: [],
+      sol: [
+        { h: '資産', lines: ['流動資産:現金預金、売掛金、貸倒引当金、商品、有価証券、前払費用 = ' + fmt(ca), '固定資産:建物、累計額、ソフトウェア、投資有価証券、繰延税金資産 = ' + fmt(fa)] },
+        { h: '負債', lines: ['流動負債:買掛金、未払費用、未払法人税等、賞与引当金、短期借入金 = ' + fmt(cl), '固定負債:長期借入金、退職給付引当金 = ' + fmt(ncl)] },
+        { h: '検算', lines: ['資産合計 ' + fmt(A) + ' = 負債 ' + fmt(cl + ncl) + ' + 純資産 ' + fmt(d.cap + d.re)] }
+      ],
+      jr: null,
+      chk: [[A, cl + ncl + d.cap + d.re]]
+    };
+  }
+
+  // K:株主資本等変動計算書
+  function genK() {
+    var cap = ri(10, 40) * 10000, rc = ri(2, 6) * 5000, ep = ri(2, 6) * 2500, re0 = ri(10, 40) * 2000, div = ri(1, 8) * 2000, ni = ri(6, 30) * 1000, ev = nz(-6, 6) * 100;
+    var limit = rnd(cap / 4) - rc - ep, tenth = rnd(div / 10), res = Math.min(limit, tenth);
+    if (limit < 0 || !isInt(res)) return genK();
+    var rA = re0 - div - res + ni;
+    if (rA <= 0) return genK();
+    var ev0 = ri(1, 8) * 100;
+    if (ev0 + ev <= 0) return genK();
+    return {
+      badge: '株主資本等変動計算書',
+      intro: '純資産の当期の変動について答えなさい(単位:千円)。株主総会で配当を決議し、会社法の規定にしたがって利益準備金を積み立てた。',
+      card: { title: '当期首の残高', rows: [['資本金', '', fmt(cap)], ['資本準備金', '', fmt(rc)], ['利益準備金', '', fmt(ep)], ['繰越利益剰余金', '', fmt(re0)], ['その他有価証券評価差額金', '', fmt(ev0)]] },
+      facts: ['配当 ' + sen(div) + '(繰越利益剰余金から)。', '当期純利益 ' + sen(ni) + '。', 'その他有価証券評価差額金の当期変動額(純額)は ' + (ev > 0 ? '+' : '−') + fmt(Math.abs(ev)) + '千円である。'],
+      figs: [],
+      qs: [amt('利益準備金の積立額', res), amt('当期末の利益準備金', ep + res), amt('当期末の繰越利益剰余金', rA), amt('当期末の純資産合計', cap + rc + ep + res + rA + ev0 + ev)],
+      solFigs: [],
+      sol: [
+        { h: '積立額', lines: ['配当の10分の1 = ' + fmt(tenth), '上限 = 資本金の4分の1 ' + fmt(rnd(cap / 4)) + ' − 資本準備金 ' + fmt(rc) + ' − 利益準備金 ' + fmt(ep) + ' = ' + fmt(limit), '小さいほうの ' + fmt(res) + ' を積み立てる。'] },
+        { h: '繰越利益剰余金', lines: [fmt(re0) + ' − ' + fmt(div) + ' − ' + fmt(res) + ' + ' + fmt(ni) + ' = ' + fmt(rA)] },
+        { h: '純資産合計', lines: [fmt(cap) + ' + ' + fmt(rc) + ' + ' + fmt(ep + res) + ' + ' + fmt(rA) + ' + ' + fmt(ev0 + ev) + ' = ' + fmt(cap + rc + ep + res + rA + ev0 + ev)] }
+      ],
+      jr: { note: '配当は未払配当金に計上し、当期純利益は決算で振り替える。', entries: numbered([
+        ent('配当と準備金の積立', [['繰越利益剰余金', div + res]], [['未払配当金', div], ['利益準備金', res]]),
+        ent('当期純利益の振替', [['損益', ni]], [['繰越利益剰余金', ni]])
+      ]) }
+    };
+  }
+
+  // L:総合(試算表から財務諸表へ)。修正は仕訳から集計し、貸借対照表の一致で検算する
+  function buildL() {
+    var sales = ri(30, 60) * 10000, pur = Math.round(sales * 0.68 / 1000) * 1000, beg = ri(10, 30) * 1000, cost = ri(10, 40) * 10, bq = ri(5, 15) * 10, aq = bq - ri(1, 6), nrv = cost - ri(1, 3) * 5;
+    var book = cost * bq, gen = (bq - aq) * cost, hy = aq * (cost - nrv);
+    var ar = ri(6, 16) * 5000, alB = ri(1, 4) * 100, alAdd = rnd(ar * 0.02) - alB;
+    var life = pick([20, 25, 40]), bld = life * ri(5, 20) * 1000, bldAcc = bld / life * ri(2, 10), bldDep = bld / life;
+    var eq = ri(10, 40) * 2000, eqAcc = ri(2, 8) * 2000, eqDep = rnd((eq - eqAcc) * 0.25);
+    if (eqAcc >= eq) return null;
+    var soft = ri(1, 4) * 5000, softAm = soft / 5;
+    var tSec = ri(4, 16) * 500, tD = nz(-5, 5) * 100;
+    var face = ri(2, 6) * 10000, left = pick([2, 3, 4]), gap = ri(1, 4) * 100, htm = face - gap * left;
+    var oSec = ri(4, 16) * 1000, oD = nz(-4, 4) * 1000, oT = rnd(Math.abs(oD) * TAX), oV = Math.abs(oD) - oT;
+    var pay = ri(2, 10) * 1000, prep = ri(1, 4) * 500, sal = ri(4, 10) * 10000, loan = ri(2, 8) * 10000, intP = ri(4, 20) * 100, intU = ri(1, 5) * 100, rent = ri(2, 6) * 1200, rentA = ri(1, 4) * 100, secI = ri(2, 8) * 100;
+    if (prep >= pay || rentA >= rent) return null;
+    var retB = ri(10, 30) * 1000, retAdd = ri(2, 6) * 500, bonus = ri(2, 8) * 500, sale = ri(1, 4) * 500;
+    var ru = rnd(sales * 0.1), rp = rnd(pur * 0.1);
+    var apB = ri(6, 12) * 5000, cap = ri(15, 30) * 10000, rsv = ri(2, 6) * 5000, re = ri(5, 20) * 5000, advTax = ri(2, 6) * 1000;
+
+    var E = [
+      ent('期首商品の振替', [['仕入', beg]], [['繰越商品', beg]]), ent('期末商品の振替', [['繰越商品', book]], [['仕入', book]]),
+      ent('棚卸減耗と評価損', [['棚卸減耗損', gen], ['商品評価損', hy]], [['繰越商品', gen + hy]]),
+      alAdd > 0 ? ent('貸倒引当金', [['貸倒引当金繰入', alAdd]], [['貸倒引当金', alAdd]]) : null,
+      ent('減価償却', [['減価償却費', bldDep + eqDep]], [['建物減価償却累計額', bldDep], ['備品減価償却累計額', eqDep]]),
+      ent('ソフトウェアの償却', [['ソフトウェア償却', softAm]], [['ソフトウェア', softAm]]),
+      tD > 0 ? ent('売買目的有価証券', [['売買目的有価証券', tD]], [['有価証券評価損益', tD]]) : ent('売買目的有価証券', [['有価証券評価損益', -tD]], [['売買目的有価証券', -tD]]),
+      ent('満期保有目的債券', [['満期保有目的債券', gap]], [['有価証券利息', gap]]),
+      oD > 0 ? ent('その他有価証券', [['その他有価証券', oD]], [['繰延税金負債', oT], ['その他有価証券評価差額金', oV]]) : ent('その他有価証券', [['繰延税金資産', oT], ['その他有価証券評価差額金', oV]], [['その他有価証券', -oD]]),
+      ent('前払保険料', [['前払保険料', prep]], [['保険料', prep]]), ent('未払利息', [['支払利息', intU]], [['未払利息', intU]]), ent('前受家賃', [['受取家賃', rentA]], [['前受家賃', rentA]]),
+      ent('退職給付', [['退職給付費用', retAdd]], [['退職給付引当金', retAdd]]), ent('賞与引当金', [['賞与引当金繰入', bonus]], [['賞与引当金', bonus]]),
+      ent('消費税', [['仮受消費税', ru]], [['仮払消費税', rp], ['未払消費税', ru - rp]])
+    ].filter(Boolean);
+    if (ru <= rp || alAdd <= 0) return null;
+
+    var PLNAMES = ['売上', '有価証券利息', '受取家賃', '有価証券評価損益', '固定資産売却益', '仕入', '商品評価損', '給料', '保険料', '棚卸減耗損', '貸倒引当金繰入', '減価償却費', 'ソフトウェア償却', '退職給付費用', '賞与引当金繰入', '支払利息', '法人税等'];
+    var TBD = [['現金預金', 0], ['売掛金', ar], ['繰越商品', beg], ['仮払法人税等', advTax], ['仮払消費税', rp], ['売買目的有価証券', tSec], ['建物', bld], ['備品', eq], ['ソフトウェア', soft], ['満期保有目的債券', htm], ['その他有価証券', oSec], ['仕入', pur], ['給料', sal], ['保険料', pay], ['支払利息', intP]];
+    var TBC = [['買掛金', apB], ['借入金', loan], ['貸倒引当金', alB], ['建物減価償却累計額', bldAcc], ['備品減価償却累計額', eqAcc], ['退職給付引当金', retB], ['仮受消費税', ru], ['資本金', cap], ['利益準備金', rsv], ['繰越利益剰余金', re], ['売上', sales], ['有価証券利息', secI], ['受取家賃', rent], ['固定資産売却益', sale]];
+    function amtOf(list, k) { var f = list.filter(function (x) { return x[0] === k; })[0]; return f ? f[1] : 0; }
+    function adjD(k, es) { return sum(es.map(function (e) { return sum(e.dr.filter(function (l) { return l[0] === k; }).map(function (l) { return l[1]; })); })); }
+    function adjC(k, es) { return sum(es.map(function (e) { return sum(e.cr.filter(function (l) { return l[0] === k; }).map(function (l) { return l[1]; })); })); }
+    function net(k, es) { return amtOf(TBD, k) - amtOf(TBC, k) + adjD(k, es) - adjC(k, es); }
+
+    var cogs = net('仕入', E) + net('商品評価損', E);
+    var sga = sum(['給料', '保険料', '棚卸減耗損', '貸倒引当金繰入', '減価償却費', 'ソフトウェア償却', '退職給付費用', '賞与引当金繰入'].map(function (k) { return net(k, E); }));
+    var gp = sales - cogs, op = gp - sga;
+    var nonIn = -net('有価証券利息', E) - net('受取家賃', E), evalPL = -net('有価証券評価損益', E), nonOut = net('支払利息', E);
+    var ord = op + nonIn + evalPL - nonOut, pt = ord + sale;
+    if (pt <= 0 || op <= 0) return null;
+    var tx = rnd(pt * TAX);
+    if (!isInt(tx) || tx <= advTax) return null;
+    E.push(ent('法人税等', [['法人税等', tx]], [['仮払法人税等', advTax], ['未払法人税等', tx - advTax]]));
+    var ni = pt - tx, reEnd = re + ni;
+
+    // 現金預金で試算表の貸借をそろえる
+    var cash = sum(TBC.map(function (x) { return x[1]; })) - sum(TBD.map(function (x) { return x[1]; }));
+    if (cash < 5000) return null;
+    TBD[0][1] = cash;
+
+    var invB = net('繰越商品', E), secB = net('売買目的有価証券', E), inv2 = net('満期保有目的債券', E) + net('その他有価証券', E);
+    var A = sum(['現金預金', '売掛金', '貸倒引当金', '繰越商品', '売買目的有価証券', '前払保険料', '建物', '建物減価償却累計額', '備品', '備品減価償却累計額', 'ソフトウェア', '満期保有目的債券', 'その他有価証券', '繰延税金資産'].map(function (k) { return net(k, E); }));
+    var evalSign = -net('その他有価証券評価差額金', E);
+    var L = sum(['買掛金', '借入金', '未払利息', '前受家賃', '未払消費税', '未払法人税等', '賞与引当金', '退職給付引当金', '繰延税金負債'].map(function (k) { return -net(k, E); }));
+    var EQ = cap + rsv + reEnd + evalSign;
+
+    // 精算表
+    var keys = TBD.concat(TBC).map(function (x) { return x[0]; }), seen = {};
+    keys.forEach(function (k) { seen[k] = 1; });
+    E.forEach(function (e) { e.dr.concat(e.cr).forEach(function (l) { if (!seen[l[0]]) { seen[l[0]] = 1; keys.push(l[0]); } }); });
+    function cell(v) { return v ? fmt(v) : ''; }
+    var tot = [0, 0, 0, 0, 0, 0, 0, 0];
+    var rows = keys.map(function (k) {
+      var v = net(k, E), isPL = PLNAMES.indexOf(k) >= 0 || k === '棚卸減耗損' || k === '商品評価損';
+      var vals = [amtOf(TBD, k), amtOf(TBC, k), adjD(k, E), adjC(k, E), isPL ? Math.max(v, 0) : 0, isPL ? Math.max(-v, 0) : 0, isPL ? 0 : Math.max(v, 0), isPL ? 0 : Math.max(-v, 0)];
+      vals.forEach(function (x, i) { tot[i] += x; });
+      return [k].concat(vals.map(cell));
+    });
+    rows.push({ cls: 'hl', c: ['当期純利益', '', '', '', '', fmt(ni), '', '', fmt(ni)] });
+    rows.push({ cls: 'sum', c: ['合計', fmt(tot[0]), fmt(tot[1]), fmt(tot[2]), fmt(tot[3]), fmt(tot[4] + ni), fmt(tot[5]), fmt(tot[6]), fmt(tot[7] + ni)] });
+
+    var tbRows = [];
+    for (var i = 0; i < Math.max(TBD.length, TBC.length); i++) {
+      var a = TBD[i] || ['', ''], b = TBC[i] || ['', ''];
+      tbRows.push([a[0], a[1] === '' ? '' : fmt(a[1]), b[0], b[1] === '' ? '' : fmt(b[1])]);
+    }
+    tbRows.push({ cls: 'sum', c: ['合計', fmt(tot[0]), '合計', fmt(tot[1])] });
+
+    return {
+      badge: '財務諸表の作成(総合)',
+      intro: '次の決算整理前残高試算表と決算整理事項から、財務諸表の金額を答えなさい(単位:千円)。決算日は3月31日、税率は30%である。',
+      facts: [
+        '期末商品:帳簿 ' + fmt(bq) + '個、原価 @' + fmt(cost) + '、実地 ' + fmt(aq) + '個、正味売却価額 @' + fmt(nrv) + '。商品評価損は売上原価の内訳、棚卸減耗損は販売費及び一般管理費とする。',
+        '売掛金の期末残高に2%の貸倒引当金を差額補充法で設定する。',
+        '建物は定額法(耐用年数 ' + life + '年、残存価額0)、備品は200%定率法(償却率0.25)。ソフトウェアは当期首に取得し、5年で償却する。',
+        '売買目的有価証券の時価 ' + sen(tSec + tD) + '。満期保有目的債券は額面 ' + sen(face) + '、満期まで残り ' + left + '年で、償却原価法(定額法)による。',
+        'その他有価証券の時価 ' + sen(oSec + oD) + '。全部純資産直入法で、税効果(30%)を適用する。',
+        '保険料の前払分 ' + sen(prep) + '、支払利息の未払分 ' + sen(intU) + '、受取家賃の前受分 ' + sen(rentA) + '。',
+        '退職給付費用 ' + sen(retAdd) + '、賞与引当金の繰入 ' + sen(bonus) + '。',
+        '消費税は税抜方式で処理する。法人税等は税引前当期純利益の30%で、ほかに税効果の調整はない。借入金はすべて長期である。'
+      ],
+      figs: [wide(tblFig('決算整理前残高試算表(単位:千円)', ['借方', '金額', '貸方', '金額'], tbRows))],
+      qs: [amt('売上原価', cogs), amt('営業利益', op), amt('経常利益', ord), amt('当期純利益', ni), amt('貸借対照表の商品', invB), amt('貸借対照表の投資有価証券', inv2), amt('貸借対照表の繰越利益剰余金', reEnd), amt('資産合計', A)],
+      solFigs: [wide(tblFig('精算表(単位:千円)', ['科目', '試算表 借', '試算表 貸', '修正 借', '修正 貸', 'P/L 借', 'P/L 貸', 'B/S 借', 'B/S 貸'], rows, '横にスクロールできます。修正欄は下の仕訳を集計した金額です。'))],
+      sol: [
+        { h: '売上原価', lines: ['期首 ' + fmt(beg) + ' + 仕入 ' + fmt(pur) + ' − 期末 ' + fmt(book) + ' + 評価損 ' + fmt(hy) + ' = ' + fmt(cogs)] },
+        { h: '段階利益', lines: ['売上総利益 ' + fmt(gp) + ' − 販管費 ' + fmt(sga) + ' = 営業利益 ' + fmt(op), '経常利益 = ' + fmt(op) + ' + 営業外収益 ' + fmt(nonIn + Math.max(evalPL, 0)) + ' − 営業外費用 ' + fmt(nonOut + Math.max(-evalPL, 0)) + ' = ' + fmt(ord), '税引前当期純利益 = ' + fmt(ord) + ' + 固定資産売却益 ' + fmt(sale) + ' = ' + fmt(pt), '当期純利益 = ' + fmt(pt) + ' − ' + fmt(tx) + ' = ' + fmt(ni)] },
+        { h: '検算', lines: ['資産合計 ' + fmt(A) + ' = 負債 ' + fmt(L) + ' + 純資産 ' + fmt(EQ)] }
+      ],
+      jr: { note: '法人税等は、税引前当期純利益を出してから最後に切る。', entries: numbered(E) },
+      chk: [[A, L + EQ], [tot[0], tot[1]], [tot[2], tot[3]], [tot[4] + ni, tot[5]], [tot[6], tot[7] + ni]]
+    };
+  }
+  function genL() {
+    for (var g = 0; g < 2000; g++) { var p = buildL(); if (p) return p; }
+    throw new Error('総合問題の生成に失敗');
+  }
+
+  // M:仕訳を選ぶ
+  function jtext(dr, cr) {
+    function side(lines) { return lines.map(function (l) { return l[0] + ' ' + fmt(l[1]); }).join('、'); }
+    return '(借)' + side(dr) + ' /(貸)' + side(cr);
+  }
+  function genM() {
+    var a = ri(2, 30) * 100, b = ri(2, 20) * 100, ot = ri(1, 8) * 1000, ota = rnd(ot * 0.3), otv = ot - ota, d = ri(2, 8) * 100;
+    var S = [
+      function () { return { label: '期末商品の帳簿棚卸高は ' + fmt(a) + '、実地棚卸高(原価)は ' + fmt(a - d) + ' である。棚卸減耗の仕訳を選ぶ。', dr: [['棚卸減耗損', d]], cr: [['繰越商品', d]], wrong: [jtext([['繰越商品', d]], [['棚卸減耗損', d]]), jtext([['棚卸減耗損', d]], [['仕入', d]]), jtext([['商品評価損', d]], [['繰越商品', d]])], why: 'なくなった分を繰越商品から減らす。' }; },
+      function () { return { label: '貸倒引当金の必要額は ' + fmt(a + b) + '、決算整理前の残高は ' + fmt(a) + ' である。', dr: [['貸倒引当金繰入', b]], cr: [['貸倒引当金', b]], wrong: [jtext([['貸倒引当金', b]], [['貸倒引当金戻入', b]]), jtext([['貸倒引当金繰入', a + b]], [['貸倒引当金', a + b]]), jtext([['貸倒損失', b]], [['貸倒引当金', b]])], why: '足りない分だけを繰り入れる。' }; },
+      function () { return { label: '備品の減価償却費 ' + fmt(a) + ' を間接法で計上する。', dr: [['減価償却費', a]], cr: [['備品減価償却累計額', a]], wrong: [jtext([['減価償却費', a]], [['備品', a]]), jtext([['備品減価償却累計額', a]], [['減価償却費', a]]), jtext([['備品', a]], [['減価償却費', a]])], why: '間接法では累計額に記入する。' }; },
+      function () { return { label: '自社利用のソフトウェアを ' + fmt(a) + ' 償却する。', dr: [['ソフトウェア償却', a]], cr: [['ソフトウェア', a]], wrong: [jtext([['ソフトウェア償却', a]], [['ソフトウェア減価償却累計額', a]]), jtext([['ソフトウェア', a]], [['ソフトウェア償却', a]]), jtext([['減価償却費', a]], [['ソフトウェア減価償却累計額', a]])], why: '無形固定資産は直接減らす。' }; },
+      function () { return { label: '売買目的有価証券の帳簿価額は ' + fmt(a + d) + '、時価は ' + fmt(a) + ' である。', dr: [['有価証券評価損', d]], cr: [['売買目的有価証券', d]], wrong: [jtext([['売買目的有価証券', d]], [['有価証券評価益', d]]), jtext([['その他有価証券評価差額金', d]], [['売買目的有価証券', d]]), jtext([['有価証券評価損', a + d]], [['売買目的有価証券', a + d]])], why: '時価が下がった分を当期の損にする。' }; },
+      function () { return { label: 'その他有価証券の帳簿価額は ' + fmt(a * 10) + '、時価はそれより ' + fmt(ot) + ' 高い(税率30%)。', dr: [['その他有価証券', ot]], cr: [['繰延税金負債', ota], ['その他有価証券評価差額金', otv]], wrong: [jtext([['その他有価証券', ot]], [['有価証券評価益', ot]]), jtext([['その他有価証券', ot]], [['その他有価証券評価差額金', ot]]), jtext([['その他有価証券', ot]], [['繰延税金資産', ota], ['その他有価証券評価差額金', otv]])], why: '評価益は純資産に計上し、税金の分は繰延税金負債にする。' }; },
+      function () { return { label: '保険料のうち翌期の分 ' + fmt(a) + ' を前払計上する。', dr: [['前払保険料', a]], cr: [['保険料', a]], wrong: [jtext([['保険料', a]], [['前払保険料', a]]), jtext([['未払保険料', a]], [['保険料', a]]), jtext([['前受保険料', a]], [['保険料', a]])], why: '翌期の分を費用から除いて資産にする。' }; },
+      function () { return { label: '受取家賃のうち翌期の分 ' + fmt(a) + ' を前受計上する。', dr: [['受取家賃', a]], cr: [['前受家賃', a]], wrong: [jtext([['前受家賃', a]], [['受取家賃', a]]), jtext([['未収家賃', a]], [['受取家賃', a]]), jtext([['受取家賃', a]], [['未収家賃', a]])], why: '翌期の分を収益から除いて負債にする。' }; },
+      function () { return { label: '仮受消費税 ' + fmt(a + b) + '、仮払消費税 ' + fmt(a) + ' を整理する。', dr: [['仮受消費税', a + b]], cr: [['仮払消費税', a], ['未払消費税', b]], wrong: [jtext([['仮払消費税', a], ['未払消費税', b]], [['仮受消費税', a + b]]), jtext([['仮受消費税', a + b]], [['仮払消費税', a], ['未払法人税等', b]]), jtext([['租税公課', b]], [['未払消費税', b]])], why: '預かった分と支払った分を消し、差額を未払にする。' }; },
+      function () { return { label: '法人税等 ' + fmt(a + b) + ' を計上する。中間納付額 ' + fmt(a) + ' は仮払法人税等にある。', dr: [['法人税等', a + b]], cr: [['仮払法人税等', a], ['未払法人税等', b]], wrong: [jtext([['法人税等', b]], [['未払法人税等', b]]), jtext([['法人税等', a + b]], [['未払法人税等', a + b]]), jtext([['仮払法人税等', a], ['未払法人税等', b]], [['法人税等', a + b]])], why: '全額を費用にし、中間納付の分を除いた残りが未払である。' }; },
+      function () { return { label: '税法上の費用にならない貸倒引当金の繰入 ' + fmt(d * 10) + ' について税効果を計上する(税率30%)。', dr: [['繰延税金資産', d * 3]], cr: [['法人税等調整額', d * 3]], wrong: [jtext([['法人税等調整額', d * 3]], [['繰延税金負債', d * 3]]), jtext([['法人税等調整額', d * 3]], [['繰延税金資産', d * 3]]), jtext([['繰延税金資産', d * 10]], [['法人税等調整額', d * 10]])], why: '将来の税金が減るので資産に計上する。' }; }
+    ];
+    var picked = shuffle(S).slice(0, 4).map(function (f) { return f(); });
+    return {
+      badge: '仕訳を選ぶ',
+      intro: '次の決算整理事項について、正しい仕訳を選びなさい(単位:千円)。',
+      facts: ['事項はそれぞれ独立している。'],
+      figs: [],
+      qs: picked.map(function (it) { return choiceQ(it.label, jtext(it.dr, it.cr), it.wrong); }),
+      solFigs: [],
+      sol: picked.map(function (it, i) { return { h: '問' + (i + 1), lines: [it.why] }; }),
+      jr: { note: '正しい仕訳です。', entries: numbered(picked.map(function (it, i) { return ent('問' + (i + 1), it.dr, it.cr); })) }
+    };
+  }
+
+  var FREQ = { A: '★★★ 売上原価と棚卸', B: '★★★ 貸倒引当金', C: '★★★ 減価償却', D: '★★★ 有価証券', E: '★★★ 経過勘定', F: '★★ 引当金', G: '★★ 外貨換算', H: '★★★ 税金と税効果', I: '★★★ 損益計算書', J: '★★★ 貸借対照表', K: '★★★ 株主資本等変動計算書', L: '★★★ 総合', M: '★★★ 仕訳' };
+  var THEMES = [{ k: 'all', n: 'すべて' }, { k: 'g1', n: '資産の決算整理', gens: ['A', 'B', 'C', 'D'] }, { k: 'g2', n: '負債と損益の決算整理', gens: ['E', 'F', 'G', 'H'] }, { k: 'g3', n: '財務諸表の区分', gens: ['I', 'J', 'K'] }, { k: 'g4', n: '財務諸表の作成(総合)', gens: ['L'] }, { k: 'g5', n: '仕訳を選ぶ', gens: ['M'] }];
+  var GENS = { A: genA, B: genB, C: genC, D: genD, E: genE, F: genF, G: genG, H: genH, I: genI, J: genJ, K: genK, L: genL, M: genM };
+  return { THEMES: THEMES, GENS: GENS, FREQ: FREQ, fmt: fmt, allBal: allBal };
+})();
+
+(function () {
+  if (typeof document === 'undefined') return;
+  var state = { theme: 'all', last: null, p: null, graded: false, dirs: {}, picks: {}, ok: 0, all: 0 };
+  function el(id) { return document.getElementById(id); }
+  try {
+    var saved = localStorage.getItem('boki2-kessan-drill-theme');
+    if (Drill.THEMES.some(function (th) { return th.k === saved; })) state.theme = saved;
+  } catch (e) { /* storage unavailable */ }
+
+  function renderChips() {
+    el('chips').innerHTML = Drill.THEMES.map(function (th) {
+      return '<button type="button" class="chip" id="chip-' + th.k + '" data-k="' + th.k + '" aria-pressed="' + (th.k === state.theme) + '">' + th.n + '</button>';
+    }).join('');
+  }
+
+  function newProblem() {
+    var th = Drill.THEMES.filter(function (x) { return x.k === state.theme; })[0];
+    var pool = th.gens || Object.keys(Drill.GENS);
+    var keys = pool.filter(function (k) { return k !== state.last; });
+    if (!keys.length) keys = pool;
+    var key = keys[Math.floor(Math.random() * keys.length)];
+    state.last = key;
+    state.p = Drill.GENS[key](th.opts || {});
+    state.graded = false;
+    state.dirs = {};
+    state.picks = {};
+    render();
+  }
+
+  function cardHtml(card) {
+    return '<div class="cost-card"><div class="cc-title">' + card.title + '</div><div class="cc-grid">' +
+      card.rows.map(function (r) {
+        return '<span>' + r[0] + '</span><span class="cc-c">' + r[1] + '</span><span class="cc-v">' + r[2] + '</span>';
+      }).join('') + '</div></div>';
+  }
+  function segOf(q) { return q.seg || ['有利', '不利']; }
+
+  function render() {
+    var p = state.p;
+    el('problem').innerHTML =
+      '<div class="badge">出題パターン:' + p.badge + '</div>' +
+      (Drill.FREQ[state.last] ? '<div class="freq">頻出度(目安):' + Drill.FREQ[state.last] + '</div>' : '') +
+      '<p class="intro">' + p.intro + '</p>' +
+      (p.card ? cardHtml(p.card) : '') +
+      (p.figs.length ? '<div class="figs">' + p.figs.join('') + '</div>' : '') +
+      '<ul class="facts">' + p.facts.map(function (f) { return '<li>' + f + '</li>'; }).join('') + '</ul>';
+
+    el('sheet').innerHTML = p.qs.map(function (q, i) {
+      if (q.kind === 'choice') {
+        return '<div class="ans-row choice">' +
+          '<div class="ans-label" id="lab-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</div>' +
+          '<div class="opts" role="group" aria-labelledby="lab-' + i + '">' + q.options.map(function (o, j) {
+            return '<button type="button" class="opt" id="opt-' + i + '-' + j + '" data-i="' + i + '" data-j="' + j + '" aria-pressed="false">' + o + '</button>';
+          }).join('') + '</div>' +
+          '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+      }
+      var s = segOf(q);
+      var seg = q.kind === 'var'
+        ? '<div class="seg" role="group" aria-label="問' + (i + 1) + 'の向き">' +
+          '<button type="button" id="dir-' + i + '-f" data-i="' + i + '" data-d="f" aria-pressed="false">' + s[0] + '</button>' +
+          '<button type="button" id="dir-' + i + '-u" data-i="' + i + '" data-d="u" aria-pressed="false">' + s[1] + '</button></div>'
+        : '';
+      return '<div class="ans-row">' +
+        '<label class="ans-label" for="ans-' + i + '"><span class="qno">問' + (i + 1) + '</span>' + q.label + '</label>' +
+        '<div class="ans-ctrl"><input id="ans-' + i + '" type="text" inputmode="numeric" autocomplete="off" placeholder="金額"><span class="yen">' + (q.unit || '円') + '</span>' + seg + '</div>' +
+        '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+    }).join('');
+
+    el('err').hidden = true;
+    el('result').hidden = true;
+    el('result').innerHTML = '';
+    el('checkBtn').disabled = false;
+    el('revealBtn').disabled = false;
+  }
+
+  function parseNum(s) {
+    var x = String(s || '')
+      .replace(/[\uFF10-\uFF19]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,\uFF0C\u3001\s\u5186\u500B]/g, '').replace(/[\u2212\u30FC\u2015\u2010\u25B2\u25B3\uFF0D-]/g, '-').replace(/\uFF0E/g, '.');
+    if (x === '' || x === '-') return NaN;
+    return Number(x);
+  }
+
+  function journalHtml(jr) {
+    if (!jr) return '';
+    function side(lines, tag) {
+      return '<div class="j-side">' + lines.map(function (l, k) {
+        return '<div class="j-line"><span class="j-tag">' + (k === 0 ? '(' + tag + ')' : '') + '</span>' +
+          '<span class="j-acct">' + l[0] + '</span><span class="j-amt">' + Drill.fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<section class="journal" aria-label="仕訳">' +
+      '<h3 class="j-head">仕訳 <span class="j-rule">金額は千円</span></h3>' +
+      '<p class="j-note">' + jr.note + '</p>' +
+      '<div class="j-list">' + jr.entries.map(function (e) {
+        return '<div class="j-entry"><div class="j-title">' + e.t + '</div><div class="j-body">' + side(e.dr, '借') + side(e.cr, '貸') + '</div></div>';
+      }).join('') + '</div>' +
+      '</section>';
+  }
+
+  function correctText(q) {
+    if (q.kind === 'choice') return q.options[q.value];
+    var base = Drill.fmt(Math.abs(q.value)) + (q.unit || '円');
+    return q.kind === 'var' ? base + '(' + segOf(q)[q.value > 0 ? 0 : 1] + ')' : base;
+  }
+
+  function finish(scored) {
+    var p = state.p, okCount = 0;
+    if (scored) {
+      var missing = p.qs.some(function (q, i) {
+        if (q.kind === 'choice') return state.picks[i] === undefined;
+        return isNaN(parseNum(el('ans-' + i).value)) || (q.kind === 'var' && !state.dirs[i]);
+      });
+      if (missing) {
+        el('err').textContent = '未入力の欄があります。すべての金額・数量と、ボタンの選択、選択問題の答えを入力してください。';
+        el('err').hidden = false;
+        return;
+      }
+    }
+    el('err').hidden = true;
+    p.qs.forEach(function (q, i) {
+      var fb = el('fb-' + i);
+      if (scored) {
+        var ok;
+        if (q.kind === 'choice') {
+          ok = state.picks[i] === q.value;
+        } else {
+          var n = Math.abs(parseNum(el('ans-' + i).value));
+          ok = Math.abs(n - Math.abs(q.value)) < 0.5 &&
+            (q.kind !== 'var' || (state.dirs[i] === 'f') === (q.value > 0));
+        }
+        if (ok) okCount++;
+        fb.className = 'fb ' + (ok ? 'ok' : 'ng');
+        fb.textContent = ok ? '✓ 正解 ' + correctText(q) : '✗ 正解は ' + correctText(q);
+      } else {
+        fb.className = 'fb';
+        fb.textContent = '正解 ' + correctText(q);
+      }
+      fb.hidden = false;
+    });
+    if (scored) {
+      state.ok += okCount;
+      state.all += p.qs.length;
+      el('okN').textContent = state.ok;
+      el('allN').textContent = state.all;
+    }
+    state.graded = true;
+    el('checkBtn').disabled = true;
+    el('revealBtn').disabled = true;
+
+    var verdict = scored
+      ? '<div class="verdict' + (okCount === p.qs.length ? ' all' : '') + '">' + p.qs.length + '問中 ' + okCount + '問正解' + (okCount === p.qs.length ? '。全問正解です' : '') + '</div>'
+      : '<div class="verdict">解答と解説</div>';
+    el('result').innerHTML = '<div class="paper">' + verdict +
+      (p.solFigs.length ? '<div class="figs">' + p.solFigs.join('') + '</div>' : '') +
+      '<div class="sol">' + p.sol.map(function (s) {
+        return '<h4>' + s.h + '</h4>' + s.lines.map(function (l) { return '<p>' + l + '</p>'; }).join('');
+      }).join('') + '</div>' + journalHtml(p.jr) + '</div>';
+    el('result').hidden = false;
+  }
+
+  el('chips').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (!b) return;
+    state.theme = b.getAttribute('data-k');
+    try { localStorage.setItem('boki2-kessan-drill-theme', state.theme); } catch (err) { /* ignore */ }
+    renderChips();
+    newProblem();
+  });
+  el('sheet').addEventListener('click', function (e) {
+    var o = e.target.closest('.opt');
+    if (o) {
+      var qi = o.getAttribute('data-i'), pj = Number(o.getAttribute('data-j'));
+      state.picks[qi] = pj;
+      state.p.qs[qi].options.forEach(function (_, j) { el('opt-' + qi + '-' + j).setAttribute('aria-pressed', String(j === pj)); });
+      return;
+    }
+    var b = e.target.closest('.seg button');
+    if (!b) return;
+    var i = b.getAttribute('data-i'), d = b.getAttribute('data-d');
+    state.dirs[i] = d;
+    el('dir-' + i + '-f').setAttribute('aria-pressed', String(d === 'f'));
+    el('dir-' + i + '-u').setAttribute('aria-pressed', String(d === 'u'));
+  });
+  el('sheet').addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !state.graded) finish(true);
+  });
+  el('checkBtn').addEventListener('click', function () { finish(true); });
+  el('revealBtn').addEventListener('click', function () { finish(false); });
+  el('nextBtn').addEventListener('click', function () {
+    newProblem();
+    el('chips').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  renderChips();
+  newProblem();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1112 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="日商簿記2級の決算と財務諸表を、同じ決算整理前残高試算表で通して解説。売上原価、貸倒引当金、減価償却、有価証券、経過勘定、税効果から、損益計算書、貸借対照表、株主資本等変動計算書、精算表まで確認できます。">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
+<title>簿記2級 決算と財務諸表</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=BIZ+UDGothic:wght@400;700&display=swap">
+<style>
+/* Layout: PART1(流れと形)は青、PART2(資産)はティール、PART3(負債と損益)はコーラル、PART4(財務諸表)はオレンジで色分け。例の数字は全パートで共通 */
+:root{
+  --bg:#F4F6FB; --surface:#FFFFFF; --ink:#191E38; --muted:#565D7B; --line:#DADFEE;
+  --on-solid:#FFFFFF; --ok:#1F8F52; --ng:#D23B45;
+  --c1:#E3A300; --c1t:#8A6000;   /* 黄：強調・問い */
+  --c2:#0FA18D; --c2t:#0A6E61;   /* ティール：持分法と在外子会社 */
+  --c3:#E8543F; --c3t:#B23726;   /* コーラル：成果連結と表示 */
+  --c4:#2F7DE1; --c4t:#1D5DB3;   /* 青：範囲と資本連結 */
+  --c7:#D9367D; --c7t:#A8205C;   /* ピンク：ひっかけ */
+  --c8:#F07C1E; --c8t:#AE560C;   /* オレンジ：補助 */
+  --f-display:"Dela Gothic One","Hiragino Kaku Gothic StdN","Hiragino Sans","Yu Gothic",sans-serif;
+  --f-body:"Zen Kaku Gothic New","Hiragino Kaku Gothic ProN","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --f-data:"BIZ UDGothic","Hiragino Kaku Gothic ProN","Osaka-Mono","MS Gothic",monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+    --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+    --c1:#FFC94A; --c1t:#FFD573;
+    --c2:#34D1BA; --c2t:#62E0CC;
+    --c3:#FF7A66; --c3t:#FF9887;
+    --c4:#5BA2FF; --c4t:#86BBFF;
+    --c7:#FF66A8; --c7t:#FF8DBF;
+    --c8:#FF9F4A; --c8t:#FFB879;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1228; --surface:#181C38; --ink:#ECEFFA; --muted:#A4AACA; --line:#2D3259;
+  --on-solid:#12152B; --ok:#4CD38A; --ng:#FF6B74;
+  --c1:#FFC94A; --c1t:#FFD573;
+  --c2:#34D1BA; --c2t:#62E0CC;
+  --c3:#FF7A66; --c3t:#FF9887;
+  --c4:#5BA2FF; --c4t:#86BBFF;
+  --c7:#FF66A8; --c7t:#FF8DBF;
+  --c8:#FF9F4A; --c8t:#FFB879;
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.85;line-break:strict;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{text-wrap:balance;word-break:auto-phrase;margin:0}
+p{margin:0}
+ul,ol{margin:0;padding:0}
+b,strong{font-weight:700}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--c4);outline-offset:2px;border-radius:6px}
+
+/* ナビ */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;gap:8px;align-items:center;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.top a{flex:none;text-decoration:none;font-size:14px;font-weight:700;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--surface);white-space:nowrap}
+.top a.n-kk{border-color:var(--c4);color:var(--c4t)}
+.top a.n-sh{border-color:var(--c3);color:var(--c3t)}
+.top a.n-js{border-color:var(--c2);color:var(--c2t)}
+.top a.n-qz{border-color:var(--c7);color:var(--c7t)}
+.top a.n-pr{border-color:var(--c1);color:var(--c1t)}
+
+/* ヒーロー */
+.hero{padding-block:44px 24px;display:grid;grid-template-columns:minmax(0,1fr);gap:18px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted)}
+.hero h1{font-family:var(--f-display);font-weight:400;font-size:clamp(30px,6vw,54px);line-height:1.25;letter-spacing:.02em}
+.hero h1 .h-a{color:var(--c3t)}
+.hero h1 .h-c{color:var(--c4t)}
+.hero h1 .h-b{color:var(--c2t)}
+.lead{max-width:44em;font-size:17px}
+.lead mark{background:linear-gradient(transparent 60%,color-mix(in srgb,var(--c1) 40%,transparent) 60%);color:inherit}
+
+/* 図 */
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:18px;overflow-x:auto}
+.fig svg{display:block;width:100%;min-width:600px;height:auto}
+.fig figcaption,.cap{font-size:13.5px;color:var(--muted);margin-top:10px;line-height:1.7}
+figure{margin:0}
+svg text{font-family:var(--f-body)}
+.t-h{font-family:var(--f-display);font-size:20px;fill:var(--ink)}
+.t-b{font-size:16px;font-weight:700;fill:var(--ink)}
+.t-s{font-size:14.5px;fill:var(--ink)}
+.t-xs{font-size:12.5px;fill:var(--muted)}
+.t-num{font-family:var(--f-data);font-size:14px;font-weight:700;fill:var(--ink)}
+.c{text-anchor:middle}
+.e{text-anchor:end}
+.ln{fill:none;stroke:var(--muted);stroke-width:2}
+.ln.dash{stroke-dasharray:6 5}
+.mk{fill:var(--muted)}
+.axis{stroke:var(--ink);stroke-width:2}
+.b-kk{fill:color-mix(in srgb,var(--c4) 16%,var(--surface));stroke:var(--c4);stroke-width:2}
+.b-sh{fill:color-mix(in srgb,var(--c3) 18%,var(--surface));stroke:var(--c3);stroke-width:2}
+.b-js{fill:color-mix(in srgb,var(--c2) 20%,var(--surface));stroke:var(--c2);stroke-width:2}
+.b-grey{fill:color-mix(in srgb,var(--muted) 14%,var(--surface));stroke:var(--muted);stroke-width:2}
+.b-ghost{fill:none;stroke:var(--muted);stroke-width:2;stroke-dasharray:6 4}
+.b-sun{fill:color-mix(in srgb,var(--c1) 24%,var(--surface));stroke:var(--c1);stroke-width:2}
+.s-sh{fill:var(--c3)} .s-sun{fill:var(--c1)}
+.f-kk{fill:var(--c4t)} .f-sh{fill:var(--c3t)} .f-js{fill:var(--c2t)} .f-mu{fill:var(--muted)}
+
+/* パート */
+.part{padding-block:40px 8px}
+.part-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;color:var(--on-solid);margin-bottom:28px}
+.part-kk .part-head{background:var(--c4)}
+.part-sh .part-head{background:var(--c3)}
+.part-js .part-head{background:var(--c2)}
+.part-no{font-size:13px;font-weight:700;letter-spacing:.16em}
+.part-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.part-head p{max-width:46em}
+
+/* ユニット */
+.unit{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:28px;border-top:1px dashed var(--line)}
+.unit:first-of-type{border-top:0;padding-top:4px}
+.unit-head{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.tag{font-size:12.5px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:8px;color:var(--on-solid)}
+.part-kk .tag{background:var(--c4)}
+.part-sh .tag{background:var(--c3)}
+.part-js .tag{background:var(--c2)}
+.freq{font-size:13px;font-weight:700;color:var(--c1t);letter-spacing:.04em}
+.unit h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.4;flex-basis:100%}
+.prose{max-width:46em;display:grid;gap:10px}
+.pts{display:grid;gap:8px;list-style:none;max-width:48em}
+.pts li{position:relative;padding-left:1.3em}
+.pts li::before{content:"";position:absolute;left:.25em;top:.72em;width:.5em;height:.5em;border-radius:50%;background:var(--muted)}
+.part-kk .pts li::before{background:var(--c4)}
+.part-sh .pts li::before{background:var(--c3)}
+.part-js .pts li::before{background:var(--c2)}
+.pts .sub{display:block;font-size:14.5px;color:var(--muted)}
+.hl{font-weight:700;background:linear-gradient(transparent 62%,color-mix(in srgb,var(--c1) 38%,transparent) 62%)}
+
+/* 定義カード */
+.def{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px 18px;display:grid;gap:6px}
+.part-kk .def{border-color:color-mix(in srgb,var(--c4) 55%,var(--line))}
+.part-sh .def{border-color:color-mix(in srgb,var(--c3) 55%,var(--line))}
+.part-js .def{border-color:color-mix(in srgb,var(--c2) 55%,var(--line))}
+.def-l{font-size:13px;font-weight:700;letter-spacing:.06em}
+.part-kk .def-l{color:var(--c4t)} .part-sh .def-l{color:var(--c3t)} .part-js .def-l{color:var(--c2t)}
+.def-t{font-size:16.5px;line-height:1.9}
+.def-n{font-size:14px;color:var(--muted)}
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:12px}
+
+/* 公式 */
+.formula{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-weight:700;font-size:16px}
+.formula .fx{border-radius:10px;padding:6px 12px;background:var(--surface);border:2px solid var(--line)}
+.formula .fx.kk{border-color:var(--c4)} .formula .fx.sh{border-color:var(--c3)} .formula .fx.js{border-color:var(--c2)}
+.formula .op{color:var(--muted)}
+.formula .res{border-radius:10px;padding:6px 12px;color:var(--on-solid)}
+.formula .res.kk{background:var(--c4)} .formula .res.sh{background:var(--c3)} .formula .res.js{background:var(--c2)}
+.formula .lbl{font-size:13px;color:var(--muted);flex-basis:100%;font-weight:700}
+.formulas{display:grid;gap:14px}
+
+/* ひっかけ */
+.trap{border-radius:16px;padding:16px 18px;background:color-mix(in srgb,var(--c7) 9%,var(--surface));border:2px solid color-mix(in srgb,var(--c7) 45%,var(--line));display:grid;gap:10px}
+.trap-t{font-weight:700;color:var(--c7t);font-size:14px;letter-spacing:.08em}
+.trap ul{list-style:none;display:grid;gap:8px}
+.trap li{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.mark{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;font-weight:700;font-size:15px;color:var(--on-solid);line-height:1}
+.mark.x{background:var(--ng)}
+.mark.o{background:var(--ok)}
+.trap .why{display:block;font-size:14.5px;color:var(--muted)}
+
+/* 計算問題 */
+.scn{border-radius:18px;padding:18px;background:color-mix(in srgb,var(--c1) 10%,var(--surface));border:2px solid var(--c1);display:grid;gap:12px}
+.scn-l{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--c1t);display:flex;gap:8px;align-items:center}
+.scn-l::before{content:"✎";display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--c1);color:#1B1600;font-size:14px;letter-spacing:0}
+.scn-story{font-size:16px;line-height:1.9;max-width:48em}
+.given{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+.given li{background:var(--surface);border-radius:10px;padding:6px 12px;font-size:14.5px;line-height:1.5;border:1px solid var(--line)}
+.given li b{font-family:var(--f-data)}
+.scn-q{list-style:none;counter-reset:sq;display:grid;gap:8px}
+.scn-q li{counter-increment:sq;display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;font-weight:700;line-height:1.7}
+.scn-q li::before{content:"問" counter(sq);font-size:12.5px;padding:2px 8px;border-radius:8px;background:var(--c1);color:#1B1600;white-space:nowrap;margin-top:2px}
+.scn-a summary{cursor:pointer;font-weight:700;color:var(--c1t);padding:8px 14px;border-radius:10px;background:var(--surface);border:2px dashed var(--c1);list-style:none;display:inline-block}
+.scn-a summary::-webkit-details-marker{display:none}
+.scn-a[open] summary{border-style:solid;margin-bottom:10px}
+.ans{display:grid;gap:10px}
+.ans-step{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;align-items:start;background:var(--surface);border-radius:12px;padding:10px 12px;line-height:1.75}
+.ans-step .lb{font-size:12.5px;font-weight:700;padding:2px 8px;border-radius:8px;white-space:nowrap;margin-top:3px;color:var(--on-solid);background:var(--ok)}
+.ans-step .calc{display:block;font-family:var(--f-data);font-size:14.5px;color:var(--muted)}
+
+/* 原則→例外 */
+.rule{display:grid;border-radius:16px;overflow:hidden;border:2px solid var(--line);background:var(--surface)}
+.r-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:12px;padding:12px 14px;align-items:start;line-height:1.75}
+.r-row + .r-row{border-top:2px dashed var(--line)}
+.r-b{font-weight:700;font-size:13px;text-align:center;padding:3px 0;border-radius:8px;margin-top:2px}
+.r-row.gen .r-b{background:var(--c4);color:var(--on-solid)}
+.r-row.exc{background:color-mix(in srgb,var(--c1) 13%,var(--surface))}
+.r-row.exc .r-b{background:var(--c1);color:#1B1600}
+.r-row small{display:block;color:var(--muted);font-size:14px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+
+/* 仕訳 */
+.je{background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--c1);border-radius:12px;padding:14px 16px;display:grid;gap:8px;font-family:var(--f-data);font-size:15px;align-content:start}
+.je-t{font-family:var(--f-body);font-weight:700;font-size:14.5px}
+.je-row{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto minmax(0,1fr) auto;gap:4px 10px;align-items:baseline}
+.je-row .amt{font-variant-numeric:tabular-nums;text-align:right;font-weight:700}
+.je-row .dc{color:var(--muted)}
+.je-n{font-family:var(--f-body);font-size:14px;color:var(--muted)}
+.jes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+@media (max-width:620px){.je-row{grid-template-columns:auto minmax(0,1fr) auto}}
+
+/* 章チップ */
+.chapters{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:10px}
+.chap{border-radius:14px;padding:14px;color:var(--on-solid);display:grid;gap:2px;text-decoration:none}
+.chap span{font-size:12.5px;font-weight:700;letter-spacing:.08em;opacity:.9}
+.chap b{font-size:17px}
+.chap small{font-size:13px;opacity:.92;line-height:1.6}
+.chap:nth-child(1){background:var(--c4)}
+.chap:nth-child(2){background:var(--c3)}
+.chap:nth-child(3){background:var(--c2)}
+.chap:nth-child(4){background:var(--c7)}
+
+/* 制作目的の4分類 */
+.cases{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:12px}
+.case{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--line);border-top-width:8px;display:grid;gap:6px;align-content:start;text-decoration:none}
+.case span{font-size:12.5px;font-weight:700;letter-spacing:.06em;color:var(--muted)}
+.case b{font-size:17px;line-height:1.5}
+.case small{font-size:13.5px;color:var(--muted);line-height:1.6}
+.case .to{font-weight:700;font-size:14.5px;border-radius:10px;padding:6px 10px;line-height:1.5}
+.case.kk{border-color:var(--c4)} .case.kk .to{background:color-mix(in srgb,var(--c4) 14%,var(--surface));color:var(--c4t)}
+.case.ju{border-color:var(--muted)} .case.ju .to{background:color-mix(in srgb,var(--muted) 14%,var(--surface))}
+.case.sh{border-color:var(--c3)} .case.sh .to{background:color-mix(in srgb,var(--c3) 14%,var(--surface));color:var(--c3t)}
+.case.js{border-color:var(--c2)} .case.js .to{background:color-mix(in srgb,var(--c2) 14%,var(--surface));color:var(--c2t)}
+
+/* 当たる・当たらない */
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.box{background:var(--surface);border:2px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px;align-content:start}
+.box.in{border-color:var(--c4)} .box.out{border-color:var(--muted);border-style:dashed}
+.box h4{font-size:16.5px}
+.box.in h4{color:var(--c4t)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;padding:6px 12px;border-radius:12px;background:var(--surface);border:2px solid var(--line);line-height:1.5;font-weight:700;font-size:14.5px;max-width:100%}
+.box.in .chip{border-color:color-mix(in srgb,var(--c4) 60%,var(--line));background:color-mix(in srgb,var(--c4) 8%,var(--surface))}
+.box.out .chip{color:var(--muted)}
+
+/* 損益計算書・貸借対照表の置き場所 */
+.pl{display:grid;border:2px solid var(--ink);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pl-row{display:grid;grid-template-columns:170px minmax(0,1fr)}
+.pl-row + .pl-row{border-top:1px solid var(--line)}
+.pl-k{padding:12px 14px;font-weight:700;background:color-mix(in srgb,var(--muted) 10%,var(--surface));display:grid;align-content:center;line-height:1.4}
+.pl-k small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.pl-v{padding:10px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;flex-direction:column;border-radius:12px;padding:6px 12px;font-weight:700;font-size:14.5px;line-height:1.4;color:var(--on-solid)}
+.pill small{font-weight:500;font-size:12.5px;opacity:.92}
+.pill.kk{background:var(--c4)} .pill.sh{background:var(--c3)} .pill.js{background:var(--c2)}
+@media (max-width:560px){.pl-row{grid-template-columns:1fr}}
+
+/* 二車線 */
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:14px}
+.lane{border-radius:18px;padding:16px;display:grid;gap:12px;align-content:start}
+.lane.a{background:color-mix(in srgb,var(--c4) 10%,var(--surface));border:2px solid var(--c4)}
+.lane.b{background:color-mix(in srgb,var(--c8) 11%,var(--surface));border:2px solid var(--c8)}
+.lane.s{background:color-mix(in srgb,var(--c3) 10%,var(--surface));border:2px solid var(--c3)}
+.lane.j{background:color-mix(in srgb,var(--c2) 11%,var(--surface));border:2px solid var(--c2)}
+.lane-h{font-weight:700;font-size:19px}
+.lane.a .lane-h{color:var(--c4t)} .lane.b .lane-h{color:var(--c8t)} .lane.s .lane-h{color:var(--c3t)} .lane.j .lane-h{color:var(--c2t)}
+.lane-h small{display:block;font-size:13px;color:var(--muted);font-weight:500}
+.steps{list-style:none;display:grid;gap:8px;counter-reset:st}
+.steps li{counter-increment:st;position:relative;background:var(--surface);border-radius:12px;padding:8px 10px 8px 48px;line-height:1.6}
+.steps li::before{content:counter(st);position:absolute;left:10px;top:7px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:color-mix(in srgb,var(--muted) 22%,var(--surface));font-weight:700;font-size:13px}
+.steps li.star{outline:2px solid var(--c1);background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+.steps li.star::before{background:var(--c1);color:#1B1600}
+.steps em{display:block;font-style:normal;font-size:13.5px;color:var(--muted)}
+.steps li.star em{color:var(--c1t);font-weight:700}
+
+/* 理由カード */
+.whys{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.why-c{border-radius:16px;padding:14px 16px;background:var(--surface);border:2px solid var(--c4);display:grid;gap:6px;align-content:start}
+.why-c .no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--c4);color:var(--on-solid);font-weight:700}
+.why-c b{font-size:16.5px}
+.why-c small{font-size:14px;color:var(--muted);line-height:1.65}
+
+/* クイズ */
+.quiz-part{padding-block:40px 8px}
+.quiz-head{display:grid;gap:10px;padding:26px 24px;border-radius:22px;background:var(--c7);color:var(--on-solid);margin-bottom:20px}
+.quiz-head h2{font-family:var(--f-display);font-weight:400;font-size:clamp(24px,4.4vw,38px);line-height:1.3}
+.score{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin-bottom:14px;position:sticky;top:calc(env(safe-area-inset-top,0px) + 58px);z-index:5}
+.score b{font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-weight:700;font-size:14px;border-radius:999px;padding:6px 16px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn:hover{border-color:var(--c7)}
+.qz-ctrl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.btn[aria-pressed="true"]{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.btn.f-kk-btn[aria-pressed="true"]{background:var(--c4);border-color:var(--c4)}
+.btn.f-sh-btn[aria-pressed="true"]{background:var(--c3);border-color:var(--c3)}
+.btn.f-js-btn[aria-pressed="true"]{background:var(--c2);border-color:var(--c2)}
+.qlist{list-style:none;display:grid;gap:12px}
+.qi{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:grid;gap:10px}
+.qi-top{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start}
+.qno{font-weight:700;font-size:12.5px;padding:2px 8px;border-radius:8px;color:var(--on-solid);white-space:nowrap}
+.qno.kk{background:var(--c4)} .qno.sh{background:var(--c3)} .qno.js{background:var(--c2)}
+.qbtns{display:flex;gap:10px}
+.ox{font:inherit;font-weight:700;font-size:20px;width:64px;height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.ox:hover:not(:disabled){border-color:var(--c4)}
+.ox:disabled{cursor:default}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{border-radius:12px;padding:10px 12px;font-size:14.5px;line-height:1.7}
+.res.ok{background:color-mix(in srgb,var(--ok) 12%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 10%,var(--surface))}
+.res b{display:block}
+.res.ok b{color:var(--ok)} .res.ng b{color:var(--ng)}
+
+/* 優先順位 */
+.prio{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:16px}
+.prio-card{border-radius:18px;padding:18px;display:grid;gap:12px;align-content:start;background:var(--surface);border:2px solid}
+.prio-card.kk{border-color:var(--c4)} .prio-card.sh{border-color:var(--c3)} .prio-card.js{border-color:var(--c2)}
+.prio-card h3{font-size:18px}
+.prio-card.kk h3{color:var(--c4t)} .prio-card.sh h3{color:var(--c3t)} .prio-card.js h3{color:var(--c2t)}
+.prio-card ol{list-style:none;counter-reset:pr;display:grid;gap:8px}
+.prio-card li{counter-increment:pr;display:grid;grid-template-columns:30px 1fr;gap:10px;align-items:start;line-height:1.65}
+.prio-card li::before{content:counter(pr);display:grid;place-items:center;width:28px;height:28px;border-radius:8px;font-weight:700;color:var(--on-solid)}
+.prio-card.kk li::before{background:var(--c4)} .prio-card.sh li::before{background:var(--c3)} .prio-card.js li::before{background:var(--c2)}
+.link-note{margin-top:16px;padding:16px 18px;border-radius:16px;background:color-mix(in srgb,var(--c1) 16%,var(--surface));border:2px solid var(--c1);max-width:52em}
+footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;gap:6px}
+
+@media (prefers-reduced-motion: no-preference){
+  .ox,.btn{transition:background .15s,border-color .15s}
+}
+
+.b-or{fill:color-mix(in srgb,var(--c8) 22%,var(--surface));stroke:var(--c8);stroke-width:2}
+.case.sun .to{background:color-mix(in srgb,var(--c1) 16%,var(--surface))}
+
+/* ○×の詳しい解説（正しい文／ここがポイント／ひっかけ例／なぜ？／覚えるポイント／仕訳で確認／根拠） */
+:root{--purple:#7A4FD8;--code-bg:#1F2433}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--purple:#A98BFF;--code-bg:#0B0E20}}
+:root[data-theme="dark"]{--purple:#A98BFF;--code-bg:#0B0E20}
+.qi{gap:10px}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top p{font-weight:700;font-size:16.5px;line-height:1.75}
+.qi .qno{background:var(--purple);font-size:14px;padding:3px 10px}
+.qbtns .ox{width:120px;height:58px;font-size:26px;border-radius:14px}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:var(--on-solid)}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:var(--on-solid)}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.res{padding:14px 16px;border-radius:14px;font-size:15px}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:var(--on-solid);border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85;color:var(--ink)}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.dt-txt{color:var(--ink);line-height:1.8}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.res .entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-family:var(--f-data);font-size:14px;line-height:1.85}
+.res .je-cm{color:#9AA1B3;font-family:var(--f-body)}
+.res .je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-weight:700;font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"（借）"} .ej-row:not(.cont) .je-c i::before{content:"（貸）"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"（借）";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+@media (max-width:560px){.res .je-entry{display:flex;flex-direction:column}.ej-row{display:contents}.je-c{order:1}.qbtns .ox{width:96px;height:52px}}
+
+/* 2級ページの追加分:PART4、問題アプリへのリンク、解く手順、連結精算表 */
+.top a.n-js,.top a.n-sh,.top a.n-fs{white-space:nowrap}
+.top a.n-fs{border-color:var(--c8);color:var(--c8t)}
+.top a.n-dr{background:var(--c7);border-color:var(--c7);color:var(--on-solid)}
+.part-fs .part-head{background:var(--c8)}
+.part-fs .tag{background:var(--c8)}
+.part-fs .pts li::before{background:var(--c8)}
+.part-fs .def{border-color:color-mix(in srgb,var(--c8) 55%,var(--line))}
+.part-fs .def-l{color:var(--c8t)}
+.chap:nth-child(2){background:var(--c2)}
+.chap:nth-child(3){background:var(--c3)}
+.chap:nth-child(4){background:var(--c8)}
+.chap:nth-child(5){background:var(--c7)}
+.btn.f-fs-btn[aria-pressed="true"]{background:var(--c8);border-color:var(--c8)}
+.drill-cta{display:grid;gap:2px;text-decoration:none;padding:16px 20px;border-radius:16px;background:color-mix(in srgb,var(--c7) 10%,var(--surface));border:2px solid var(--c7);margin-top:4px}
+.drill-cta b{font-size:18px;color:var(--c7t)}
+.drill-cta b::after{content:" →"}
+.drill-cta small{font-size:14px;color:var(--muted)}
+#priority .drill-cta{margin-top:16px}
+.solve-steps{list-style:none;counter-reset:st;display:grid;gap:10px;max-width:48em}
+.solve-steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.solve-steps li::before{content:counter(st);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--c8);color:var(--on-solid);font-weight:700}
+.solve-steps li span{grid-column:2;font-size:14.5px;color:var(--muted);line-height:1.7}
+.je-group{display:grid;gap:8px}
+.je-group + .je-group{border-top:1px dashed var(--line);padding-top:8px}
+.fig.wide svg{min-width:760px}
+.ws-sec{font-size:14px;font-weight:700;fill:var(--c8t)}
+.ws-h{font-size:13px;font-weight:700;fill:var(--muted)}
+.ws-l{font-size:13.5px;fill:var(--ink)}
+.ws-n{font-family:var(--f-data);font-size:13.5px;fill:var(--ink);text-anchor:end}
+.ws-b{font-weight:700}
+.ws-hl{fill:color-mix(in srgb,var(--c1) 26%,var(--surface))}
+.ws-rule{stroke:var(--line);stroke-width:1}
+.ws-rule.s{stroke:var(--muted)}
+.solve-steps li::before{background:var(--c8)}
+</style>
+</head>
+<body>
+
+<nav class="top" aria-label="ページ内リンク">
+  <div class="wrap">
+    <a class="n-kk" href="#kk">PART1 流れと表の形</a>
+    <a class="n-js" href="#js">PART2 資産の決算整理</a>
+    <a class="n-sh" href="#sh">PART3 負債と損益の決算整理</a>
+    <a class="n-fs" href="#fs">PART4 財務諸表の完成</a>
+    <a class="n-qz" href="#quiz">○×チェック</a>
+    <a class="n-pr" href="#priority">優先順位</a>
+    <a class="n-dr" href="boki2-kessan-drill.html">問題アプリ</a>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- ============ ヒーロー ============ -->
+<header class="hero">
+  <p class="eyebrow">日商簿記2級 ／ 商業簿記</p>
+  <h1><span class="h-c">決算と財務諸表</span>を<br><span class="h-a">1つの試算表</span>で通して学ぶ</h1>
+  <p class="lead">決算は、1年の帳簿を整えて、利益と財産の状態を確定させる手続です。やることは<mark>「決算整理仕訳を切る」「損益計算書と貸借対照表に区分して並べる」</mark>の2つです。このページでは、同じ決算整理前残高試算表から、最後の財務諸表まで作ります。</p>
+
+  <div class="chapters">
+    <a class="chap" href="#kk"><span>PART1</span><b>流れと表の形</b><small>決算の手順、損益計算書の段階利益、貸借対照表の区分、共通の例</small></a>
+    <a class="chap" href="#js"><span>PART2</span><b>資産の決算整理</b><small>売上原価、棚卸減耗、貸倒引当金、減価償却、有価証券</small></a>
+    <a class="chap" href="#sh"><span>PART3</span><b>負債と損益の決算整理</b><small>経過勘定、引当金、外貨換算、消費税、法人税等、税効果</small></a>
+    <a class="chap" href="#fs"><span>PART4</span><b>財務諸表の完成</b><small>損益計算書、貸借対照表、株主資本等変動計算書、精算表</small></a>
+    <a class="chap" href="#quiz"><span>CHECK</span><b>○×チェック</b><small>答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます</small></a>
+  </div>
+
+  <a class="drill-cta" href="boki2-kessan-drill.html"><b>問題アプリで練習する</b><small>数字を変えて何度でも解けます。全13パターン、仕訳つきの解説あり</small></a>
+</header>
+
+<!-- ============ PART1 ============ -->
+<section id="kk" class="part part-kk">
+  <div class="part-head">
+    <span class="part-no">PART 1</span>
+    <h2>決算の流れと財務諸表の形</h2>
+    <p>先にゴールの形を見ます。どの科目がどの区分に入るかがわかると、決算整理仕訳の意味もつかみやすくなります。金額の単位はこのページではすべて千円です。</p>
+  </div>
+
+  <!-- 1-1 -->
+  <div class="unit" id="u-flow">
+    <div class="unit-head"><span class="tag">1-1</span><span class="freq">まず全体像</span><h3>決算の流れ</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 170" role="img" aria-label="決算整理前残高試算表に決算整理仕訳を加え、決算整理後の金額で損益計算書、貸借対照表、株主資本等変動計算書を作る">
+        <defs><marker id="ar1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" class="mk"/></marker></defs>
+        <rect x="20" y="40" width="190" height="90" rx="10" class="b-grey"/><text x="115" y="78" class="t-b c">決算整理前</text><text x="115" y="102" class="t-b c">残高試算表</text>
+        <path d="M214 85 H248" class="ln" marker-end="url(#ar1)"/>
+        <rect x="254" y="40" width="190" height="90" rx="10" class="b-sun"/><text x="349" y="78" class="t-b c">決算整理仕訳</text><text x="349" y="102" class="t-xs c">期末の正しい金額に直す</text>
+        <path d="M448 85 H482" class="ln" marker-end="url(#ar1)"/>
+        <rect x="488" y="16" width="312" height="42" rx="8" class="b-kk"/><text x="644" y="43" class="t-b c">損益計算書</text>
+        <rect x="488" y="64" width="312" height="42" rx="8" class="b-js"/><text x="644" y="91" class="t-b c">貸借対照表</text>
+        <rect x="488" y="112" width="312" height="42" rx="8" class="b-sh"/><text x="644" y="139" class="t-b c">株主資本等変動計算書</text>
+      </svg>
+    </figure>
+    <div class="two">
+      <div class="box in">
+        <h4>2級で出る内容</h4>
+        <div class="chips">
+          <span class="chip">棚卸減耗・商品評価損</span><span class="chip">引当金</span><span class="chip">無形固定資産の償却</span><span class="chip">有価証券の評価替</span><span class="chip">繰延税金資産・負債</span><span class="chip">外貨建売上債権・仕入債務の換算</span><span class="chip">報告式の財務諸表</span><span class="chip">株主資本等変動計算書</span><span class="chip">精算表(8桁)</span>
+        </div>
+      </div>
+      <div class="box out">
+        <h4>1級の範囲(2級では出ない)</h4>
+        <div class="chips">
+          <span class="chip">部分純資産直入法</span><span class="chip">時価が著しく下落した有価証券の処理</span><span class="chip">社債の償却原価法</span><span class="chip">売上債権・仕入債務以外の外貨換算</span><span class="chip">資産除去債務</span><span class="chip">キャッシュ・フロー計算書</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1-2 -->
+  <div class="unit" id="u-pl">
+    <div class="unit-head"><span class="tag">1-2</span><span class="freq">頻出度 ★★★</span><h3>損益計算書は5つの利益で読む</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 820 340" role="img" aria-label="売上高から売上原価を引いて売上総利益、販売費及び一般管理費を引いて営業利益、営業外損益で経常利益、特別損益で税引前当期純利益、法人税等で当期純利益">
+        <rect x="20" y="16" width="380" height="44" rx="8" class="b-grey"/><text x="36" y="44" class="t-s">売上高 − 売上原価</text>
+        <rect x="430" y="16" width="370" height="44" rx="8" class="b-kk"/><text x="446" y="44" class="t-b">売上総利益</text><text x="788" y="44" class="t-xs e">商品の儲け</text>
+        <rect x="20" y="80" width="380" height="44" rx="8" class="b-grey"/><text x="36" y="108" class="t-s">− 販売費及び一般管理費</text>
+        <rect x="430" y="80" width="370" height="44" rx="8" class="b-kk"/><text x="446" y="108" class="t-b">営業利益</text><text x="788" y="108" class="t-xs e">本業の儲け</text>
+        <rect x="20" y="144" width="380" height="44" rx="8" class="b-grey"/><text x="36" y="172" class="t-s">＋ 営業外収益 − 営業外費用</text>
+        <rect x="430" y="144" width="370" height="44" rx="8" class="b-kk"/><text x="446" y="172" class="t-b">経常利益</text><text x="788" y="172" class="t-xs e">ふだんの活動の儲け</text>
+        <rect x="20" y="208" width="380" height="44" rx="8" class="b-grey"/><text x="36" y="236" class="t-s">＋ 特別利益 − 特別損失</text>
+        <rect x="430" y="208" width="370" height="44" rx="8" class="b-kk"/><text x="446" y="236" class="t-b">税引前当期純利益</text><text x="788" y="236" class="t-xs e">臨時の分も含む</text>
+        <rect x="20" y="272" width="380" height="44" rx="8" class="b-grey"/><text x="36" y="300" class="t-s">− 法人税等 ± 法人税等調整額</text>
+        <rect x="430" y="272" width="370" height="44" rx="8" class="b-sun"/><text x="446" y="300" class="t-b">当期純利益</text><text x="788" y="300" class="t-xs e">最終の儲け</text>
+      </svg>
+    </figure>
+    <ul class="pts">
+      <li><b>販売費及び一般管理費:</b>給料、保険料、減価償却費、貸倒引当金繰入(売上債権の分)、退職給付費用、賞与引当金繰入、のれん償却、ソフトウェア償却</li>
+      <li><b>営業外収益・費用:</b>受取利息、有価証券利息、有価証券評価損益、為替差損益、支払利息、貸倒引当金繰入(貸付金など営業外債権の分)</li>
+      <li><b>特別利益・損失:</b>固定資産売却損益、火災損失など、臨時の損益</li>
+    </ul>
+  </div>
+
+  <!-- 1-3 -->
+  <div class="unit" id="u-bs">
+    <div class="unit-head"><span class="tag">1-3</span><span class="freq">頻出度 ★★★</span><h3>貸借対照表の区分</h3></div>
+    <div class="defs">
+      <div class="def"><span class="def-l">流動資産</span><span class="def-t">現金預金、売掛金、商品、有価証券、前払費用、未収収益</span><span class="def-n">売買目的有価証券は「有価証券」と表示します。</span></div>
+      <div class="def"><span class="def-l">固定資産</span><span class="def-t">有形:建物、備品、土地<br>無形:のれん、ソフトウェア<br>投資その他:投資有価証券、関係会社株式、長期貸付金、繰延税金資産</span><span class="def-n">満期保有目的債券とその他有価証券は「投資有価証券」です。</span></div>
+      <div class="def"><span class="def-l">流動負債</span><span class="def-t">買掛金、未払費用、前受収益、未払法人税等、未払消費税、賞与引当金、短期借入金</span><span class="def-n">1年以内に返す分です。</span></div>
+      <div class="def"><span class="def-l">固定負債</span><span class="def-t">長期借入金、退職給付引当金、繰延税金負債</span><span class="def-n">1年を超えて返す分です。</span></div>
+      <div class="def"><span class="def-l">純資産</span><span class="def-t">資本金、資本剰余金、利益剰余金(利益準備金、繰越利益剰余金)、その他有価証券評価差額金</span><span class="def-n">当期純利益は繰越利益剰余金に入ります。</span></div>
+    </div>
+    <ul class="pts">
+      <li><b>1年基準:</b>決算日の翌日から1年以内に回収・返済するものは流動、1年を超えるものは固定です。</li>
+      <li><b>正常営業循環基準:</b>売掛金、商品、買掛金のように営業の流れの中にあるものは、期間にかかわらず流動です。</li>
+    </ul>
+  </div>
+
+  <!-- 1-4 -->
+  <div class="unit" id="u-tb">
+    <div class="unit-head"><span class="tag">1-4</span><span class="freq">共通の例</span><h3>このページで使う決算整理前残高試算表</h3></div>
+    <div class="prose"><p>決算日は3月31日、法人税等の税率は30%です。PART2とPART3の例は、すべてこの試算表の数字です。</p></div>
+    <figure class="fig wide">
+      <svg viewBox="0 0 810 445" role="img" aria-label="決算整理前残高試算表。借方と貸方の合計はどちらも827400"><text x="14" y="24" class="ws-h">借方</text><text x="420" y="24" class="ws-h">貸方</text><line x1="8" y1="34" x2="802" y2="34" class="ws-rule s"/><text x="14" y="56" class="ws-l">現金預金</text><text x="392" y="56" class="ws-n">73,800</text><text x="420" y="56" class="ws-l">買掛金</text><text x="796" y="56" class="ws-n">30,000</text><line x1="8" y1="63" x2="802" y2="63" class="ws-rule"/><text x="14" y="81" class="ws-l">売掛金</text><text x="392" y="81" class="ws-n">50,000</text><text x="420" y="81" class="ws-l">借入金</text><text x="796" y="81" class="ws-n">40,000</text><line x1="8" y1="88" x2="802" y2="88" class="ws-rule"/><text x="14" y="106" class="ws-l">繰越商品</text><text x="392" y="106" class="ws-n">18,000</text><text x="420" y="106" class="ws-l">貸倒引当金</text><text x="796" y="106" class="ws-n">400</text><line x1="8" y1="113" x2="802" y2="113" class="ws-rule"/><text x="14" y="131" class="ws-l">仮払法人税等</text><text x="392" y="131" class="ws-n">4,000</text><text x="420" y="131" class="ws-l">建物減価償却累計額</text><text x="796" y="131" class="ws-n">60,000</text><line x1="8" y1="138" x2="802" y2="138" class="ws-rule"/><text x="14" y="156" class="ws-l">仮払消費税</text><text x="392" y="156" class="ws-n">30,000</text><text x="420" y="156" class="ws-l">備品減価償却累計額</text><text x="796" y="156" class="ws-n">10,000</text><line x1="8" y1="163" x2="802" y2="163" class="ws-rule"/><text x="14" y="181" class="ws-l">売買目的有価証券</text><text x="392" y="181" class="ws-n">8,000</text><text x="420" y="181" class="ws-l">退職給付引当金</text><text x="796" y="181" class="ws-n">20,000</text><line x1="8" y1="188" x2="802" y2="188" class="ws-rule"/><text x="14" y="206" class="ws-l">建物</text><text x="392" y="206" class="ws-n">200,000</text><text x="420" y="206" class="ws-l">仮受消費税</text><text x="796" y="206" class="ws-n">42,000</text><line x1="8" y1="213" x2="802" y2="213" class="ws-rule"/><text x="14" y="231" class="ws-l">備品</text><text x="392" y="231" class="ws-n">40,000</text><text x="420" y="231" class="ws-l">資本金</text><text x="796" y="231" class="ws-n">150,000</text><line x1="8" y1="238" x2="802" y2="238" class="ws-rule"/><text x="14" y="256" class="ws-l">ソフトウェア</text><text x="392" y="256" class="ws-n">5,000</text><text x="420" y="256" class="ws-l">利益準備金</text><text x="796" y="256" class="ws-n">15,000</text><line x1="8" y1="263" x2="802" y2="263" class="ws-rule"/><text x="14" y="281" class="ws-l">満期保有目的債券</text><text x="392" y="281" class="ws-n">19,400</text><text x="420" y="281" class="ws-l">繰越利益剰余金</text><text x="796" y="281" class="ws-n">35,000</text><line x1="8" y1="288" x2="802" y2="288" class="ws-rule"/><text x="14" y="306" class="ws-l">その他有価証券</text><text x="392" y="306" class="ws-n">12,000</text><text x="420" y="306" class="ws-l">売上</text><text x="796" y="306" class="ws-n">420,000</text><line x1="8" y1="313" x2="802" y2="313" class="ws-rule"/><text x="14" y="331" class="ws-l">仕入</text><text x="392" y="331" class="ws-n">300,000</text><text x="420" y="331" class="ws-l">有価証券利息</text><text x="796" y="331" class="ws-n">400</text><line x1="8" y1="338" x2="802" y2="338" class="ws-rule"/><text x="14" y="356" class="ws-l">給料</text><text x="392" y="356" class="ws-n">60,000</text><text x="420" y="356" class="ws-l">受取家賃</text><text x="796" y="356" class="ws-n">3,600</text><line x1="8" y1="363" x2="802" y2="363" class="ws-rule"/><text x="14" y="381" class="ws-l">保険料</text><text x="392" y="381" class="ws-n">6,000</text><text x="420" y="381" class="ws-l">固定資産売却益</text><text x="796" y="381" class="ws-n">1,000</text><line x1="8" y1="388" x2="802" y2="388" class="ws-rule"/><text x="14" y="406" class="ws-l">支払利息</text><text x="392" y="406" class="ws-n">1,200</text><line x1="8" y1="413" x2="802" y2="413" class="ws-rule"/><rect x="8" y="414" width="794" height="24" class="ws-hl"/><text x="14" y="431" class="ws-l ws-b">合計</text><text x="392" y="431" class="ws-n ws-b">827,400</text><text x="420" y="431" class="ws-l ws-b">合計</text><text x="796" y="431" class="ws-n ws-b">827,400</text></svg>
+      <figcaption>消費税は税抜方式で処理しています。</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ============ PART2 ============ -->
+<section id="js" class="part part-js">
+  <div class="part-head">
+    <span class="part-no">PART 2</span>
+    <h2>資産の決算整理</h2>
+    <p>帳簿の金額を、期末の正しい金額に直します。費用の計上と資産の評価は、いつもセットです。</p>
+  </div>
+
+  <!-- 2-1 -->
+  <div class="unit" id="u-urigen">
+    <div class="unit-head"><span class="tag">2-1</span><span class="freq">頻出度 ★★★</span><h3>売上原価、棚卸減耗損、商品評価損</h3></div>
+    <ul class="given">
+      <li>期首商品 <b>18,000</b>、当期仕入 <b>300,000</b></li>
+      <li>期末の帳簿数量 <b>100個</b>、原価 <b>@200</b>(帳簿棚卸高 20,000)</li>
+      <li>実地数量 <b>95個</b>、正味売却価額 <b>@180</b></li>
+    </ul>
+    <figure class="fig">
+      <svg viewBox="0 0 820 300" role="img" aria-label="ボックス図。原価200、正味売却価額180。実地95個の商品は17100。評価損は95個かける20で1900。減耗は5個かける200で1000">
+        <rect x="120" y="60" width="520" height="70" class="b-sh"/><text x="380" y="92" class="t-b c">商品評価損</text><text x="380" y="116" class="t-num c">95個 × (200 − 180)＝ 1,900</text>
+        <rect x="120" y="130" width="520" height="130" class="b-kk"/><text x="380" y="186" class="t-b c">貸借対照表の商品</text><text x="380" y="212" class="t-num c">95個 × 180 ＝ 17,100</text>
+        <rect x="640" y="60" width="150" height="200" class="b-sun"/><text x="715" y="146" class="t-b c">棚卸減耗損</text><text x="715" y="172" class="t-num c">5個 × 200</text><text x="715" y="194" class="t-num c">＝ 1,000</text>
+        <text x="100" y="66" class="t-num e">@200</text><text x="100" y="136" class="t-num e">@180</text>
+        <text x="640" y="284" class="t-num c">95個</text><text x="790" y="284" class="t-num e">100個</text>
+      </svg>
+      <figcaption>減耗は「なくなった数量 × 原価」、評価損は「残っている数量 × 下がった単価」です。必ず減耗を先に計算します。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">売上原価の計算と期末商品の評価</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">18,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">18,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">20,000</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">20,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">2,900</span></div>
+      <div class="je-row"><span class="dc"></span><span>商品評価損</span><span class="amt">1,900</span><span></span><span></span><span></span></div>
+    </div>
+    <ul class="pts">
+      <li>売上原価 ＝ 18,000 ＋ 300,000 − 20,000 ＝ <b>298,000</b></li>
+      <li>損益計算書での扱いは問題文に従います。この例では、<b>商品評価損は売上原価の内訳、棚卸減耗損は販売費及び一般管理費</b>とします。売上原価は <b>299,900</b> です。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>評価損を帳簿数量100個で計算する<span class="why">なくなった5個は減耗損で処理済みです。評価損は実地数量95個で計算します。</span></span></li>
+        <li><span class="mark x">×</span><span>貸借対照表の商品を帳簿棚卸高のままにする<span class="why">減耗と評価損を引いた 17,100 です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2-2 -->
+  <div class="unit" id="u-kashi">
+    <div class="unit-head"><span class="tag">2-2</span><span class="freq">頻出度 ★★★</span><h3>貸倒引当金</h3></div>
+    <div class="prose"><p>売掛金 50,000 に2%を設定します。試算表の貸倒引当金は 400 なので、<b>足りない分だけ</b>を繰り入れます(差額補充法)。</p></div>
+    <div class="formula"><span class="fx js">50,000 × 2% ＝ 1,000</span><span class="op">−</span><span class="fx js">残高 400</span><span class="op">＝</span><span class="res js">繰入 600</span></div>
+    <div class="je">
+      <span class="je-t">貸倒引当金の設定</span>
+      <div class="je-row"><span class="dc">(借)</span><span>貸倒引当金繰入</span><span class="amt">600</span><span class="dc">(貸)</span><span>貸倒引当金</span><span class="amt">600</span></div>
+    </div>
+    <ul class="pts">
+      <li>残高のほうが多いときは、<b>貸倒引当金戻入</b>で減らします。</li>
+      <li>売掛金の分は販売費及び一般管理費、<b>貸付金など営業外の債権の分は営業外費用</b>です。</li>
+      <li>特定の相手先の債権を個別に見積もる指示があるときは、その分を除いてから残りに一括で設定します。</li>
+    </ul>
+  </div>
+
+  <!-- 2-3 -->
+  <div class="unit" id="u-gensho">
+    <div class="unit-head"><span class="tag">2-3</span><span class="freq">頻出度 ★★★</span><h3>減価償却と無形固定資産の償却</h3></div>
+    <ul class="pts">
+      <li><b>建物(定額法・40年・残存価額0):</b>200,000 ÷ 40年 ＝ <b>5,000</b></li>
+      <li><b>備品(200%定率法・償却率25%):</b>(40,000 − 10,000)× 25% ＝ <b>7,500</b><span class="sub">定率法は期首の帳簿価額に掛けます。取得原価ではありません。</span></li>
+      <li><b>ソフトウェア(当期首に取得・5年):</b>5,000 ÷ 5年 ＝ <b>1,000</b><span class="sub">無形固定資産は、累計額を使わず直接減らします。</span></li>
+      <li><b>生産高比例法:</b>(取得原価 − 残存価額)× 当期の利用量 ÷ 総利用可能量</li>
+      <li><b>期中に取得したとき:</b>月割にします。10月1日に取得して3月決算なら 6/12 です。</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">減価償却(間接法)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>減価償却費</span><span class="amt">12,500</span><span class="dc">(貸)</span><span>建物減価償却累計額</span><span class="amt">5,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>備品減価償却累計額</span><span class="amt">7,500</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">ソフトウェアの償却</span>
+      <div class="je-row"><span class="dc">(借)</span><span>ソフトウェア償却</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>ソフトウェア</span><span class="amt">1,000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-4 -->
+  <div class="unit" id="u-yuka">
+    <div class="unit-head"><span class="tag">2-4</span><span class="freq">頻出度 ★★★</span><h3>有価証券の評価替</h3></div>
+    <ul class="pts">
+      <li><b>売買目的有価証券:</b>帳簿 8,000、時価 8,500 → 差額は<b>当期の損益</b>(有価証券評価益 500)</li>
+      <li><b>満期保有目的債券:</b>額面 20,000、帳簿 19,400、満期まで残り3年 → 差額を毎期均等に増やす(償却原価法・定額法)。600 ÷ 3年 ＝ 200</li>
+      <li><b>その他有価証券:</b>帳簿 12,000、時価 13,000 → 差額は<b>純資産</b>(全部純資産直入法)。税効果30%を差し引く</li>
+    </ul>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">売買目的有価証券</span>
+      <div class="je-row"><span class="dc">(借)</span><span>売買目的有価証券</span><span class="amt">500</span><span class="dc">(貸)</span><span>有価証券評価益</span><span class="amt">500</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">満期保有目的債券</span>
+      <div class="je-row"><span class="dc">(借)</span><span>満期保有目的債券</span><span class="amt">200</span><span class="dc">(貸)</span><span>有価証券利息</span><span class="amt">200</span></div>
+      </div>
+      <div class="je">
+        <span class="je-t">その他有価証券(評価益)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>その他有価証券</span><span class="amt">1,000</span><span class="dc">(貸)</span><span>繰延税金負債</span><span class="amt">300</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>その他有価証券評価差額金</span><span class="amt">700</span></div>
+      </div>
+    </div>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>その他有価証券の評価差額を損益計算書に計上する<span class="why">全部純資産直入法なので純資産です。当期純利益には影響しません。</span></span></li>
+        <li><span class="mark x">×</span><span>満期保有目的債券を時価で評価する<span class="why">満期まで持つので時価は使いません。償却原価法です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 1　売上原価と商品</span>
+    <p class="scn-story">期首商品 10,000、当期仕入 80,000。期末の帳簿数量 200個、原価 @60。実地数量 190個、正味売却価額 @55。商品評価損は売上原価に含め、棚卸減耗損は販売費及び一般管理費とします。</p>
+    <ol class="scn-q">
+      <li>棚卸減耗損と商品評価損はいくらか</li>
+      <li>損益計算書の売上原価はいくらか</li>
+      <li>貸借対照表の商品はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>棚卸減耗損 <b>600</b>、商品評価損 <b>950</b><span class="calc">(200 − 190)× 60 ＝ 600<br>190 × (60 − 55)＝ 950</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>売上原価 <b>78,950</b><span class="calc">10,000 ＋ 80,000 − 12,000 ＋ 950 ＝ 78,950</span></span></div>
+        <div class="ans-step"><span class="lb">問3</span><span>商品 <b>10,450</b><span class="calc">190 × 55 ＝ 10,450(12,000 − 600 − 950 と同じ)</span></span></div>
+        <div class="je">
+          <span class="je-t">決算整理仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仕入</span><span class="amt">10,000</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">10,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>繰越商品</span><span class="amt">12,000</span><span class="dc">(貸)</span><span>仕入</span><span class="amt">12,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>棚卸減耗損</span><span class="amt">600</span><span class="dc">(貸)</span><span>繰越商品</span><span class="amt">1,550</span></div>
+      <div class="je-row"><span class="dc"></span><span>商品評価損</span><span class="amt">950</span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART3 ============ -->
+<section id="sh" class="part part-sh">
+  <div class="part-head">
+    <span class="part-no">PART 3</span>
+    <h2>負債と損益の決算整理</h2>
+    <p>費用と収益を当期の分だけにそろえ、将来の支払いに備え、最後に税金を計算します。</p>
+  </div>
+
+  <!-- 3-1 -->
+  <div class="unit" id="u-keika">
+    <div class="unit-head"><span class="tag">3-1</span><span class="freq">頻出度 ★★★</span><h3>経過勘定</h3></div>
+    <ul class="pts">
+      <li><b>前払費用:</b>保険料 6,000 のうち翌期の分が 2,000 → 費用から除く</li>
+      <li><b>未払費用:</b>当期の支払利息で未払の分が 300 → 費用に加える</li>
+      <li><b>前受収益:</b>受取家賃 3,600 のうち翌期の分が 600 → 収益から除く</li>
+      <li><b>未収収益:</b>当期の収益で未収の分があれば、収益に加える</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">経過勘定の計上</span>
+      <div class="je-row"><span class="dc">(借)</span><span>前払保険料</span><span class="amt">2,000</span><span class="dc">(貸)</span><span>保険料</span><span class="amt">2,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>支払利息</span><span class="amt">300</span><span class="dc">(貸)</span><span>未払利息</span><span class="amt">300</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>受取家賃</span><span class="amt">600</span><span class="dc">(貸)</span><span>前受家賃</span><span class="amt">600</span></div>
+      <span class="je-n">貸借対照表では、前払費用、未払費用、前受収益と表示します。</span>
+    </div>
+  </div>
+
+  <!-- 3-2 -->
+  <div class="unit" id="u-hikiate">
+    <div class="unit-head"><span class="tag">3-2</span><span class="freq">頻出度 ★★</span><h3>引当金</h3></div>
+    <ul class="pts">
+      <li><b>退職給付引当金:</b>当期の負担額 3,000 を費用にします。固定負債です。</li>
+      <li><b>賞与引当金:</b>翌期に払う賞与のうち当期の分 4,000 を費用にします。流動負債です。</li>
+      <li><b>修繕引当金、商品保証引当金:</b>形は同じです。当期の負担額を繰り入れます。</li>
+    </ul>
+    <div class="je">
+      <span class="je-t">引当金の繰入</span>
+      <div class="je-row"><span class="dc">(借)</span><span>退職給付費用</span><span class="amt">3,000</span><span class="dc">(貸)</span><span>退職給付引当金</span><span class="amt">3,000</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>賞与引当金繰入</span><span class="amt">4,000</span><span class="dc">(貸)</span><span>賞与引当金</span><span class="amt">4,000</span></div>
+    </div>
+  </div>
+
+  <!-- 3-3 -->
+  <div class="unit" id="u-gaika">
+    <div class="unit-head"><span class="tag">3-3</span><span class="freq">頻出度 ★★</span><h3>外貨建の売掛金と買掛金</h3></div>
+    <div class="prose"><p>買掛金のうち 100千ドルは、1ドル108円で記帳しています。決算日の為替相場は1ドル110円です。決算日のレートに直すと、買掛金は 100 × (110 − 108)＝ 200 増えます。</p></div>
+    <div class="je">
+      <span class="je-t">換算替え</span>
+      <div class="je-row"><span class="dc">(借)</span><span>為替差損益</span><span class="amt">200</span><span class="dc">(貸)</span><span>買掛金</span><span class="amt">200</span></div>
+      <span class="je-n">負債が増えたので損です。売掛金なら逆で、レートが上がると益になります。</span>
+    </div>
+    <ul class="pts">
+      <li>為替差損益は、差損なら営業外費用、差益なら営業外収益です。</li>
+      <li>商品や前払金などの非貨幣項目は換算替えしません。</li>
+    </ul>
+  </div>
+
+  <!-- 3-4 -->
+  <div class="unit" id="u-zei">
+    <div class="unit-head"><span class="tag">3-4</span><span class="freq">頻出度 ★★★</span><h3>消費税と法人税等</h3></div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">消費税(税抜方式)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>仮受消費税</span><span class="amt">42,000</span><span class="dc">(貸)</span><span>仮払消費税</span><span class="amt">30,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>未払消費税</span><span class="amt">12,000</span></div>
+        <span class="je-n">預かった分と支払った分の差額を納めます。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">法人税等(税引前当期純利益 37,400 × 30%)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>法人税等</span><span class="amt">11,220</span><span class="dc">(貸)</span><span>仮払法人税等</span><span class="amt">4,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>未払法人税等</span><span class="amt">7,220</span></div>
+        <span class="je-n">中間で払った分を引いた残りが未払です。</span>
+      </div>
+    </div>
+    <div class="prose"><p>法人税等は、税引前当期純利益を出してから最後に計算します。だから、決算整理の順番では<b>いちばん最後</b>です。</p></div>
+  </div>
+
+  <!-- 3-5 -->
+  <div class="unit" id="u-zeikoka">
+    <div class="unit-head"><span class="tag">3-5</span><span class="freq">頻出度 ★★★</span><h3>税効果会計</h3></div>
+    <div class="prose"><p>会計の費用と税法の費用がずれるとき、その税金の分を調整して、会計上の利益と税金の対応を保ちます。2級で出る一時差異は、<b>引当金、減価償却、その他有価証券</b>の3つです。この試算表の例ではその他有価証券だけですが、次の形も押さえます。税率は30%です。</p></div>
+    <div class="jes">
+      <div class="je">
+        <span class="je-t">貸倒引当金の繰入 100 が税法上の費用にならない</span>
+      <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">30</span><span class="dc">(貸)</span><span>法人税等調整額</span><span class="amt">30</span></div>
+        <span class="je-n">今は税金を多く払い、将来減る。だから資産です。</span>
+      </div>
+      <div class="je">
+        <span class="je-t">前期の差異 100 が解消した</span>
+      <div class="je-row"><span class="dc">(借)</span><span>法人税等調整額</span><span class="amt">30</span><span class="dc">(貸)</span><span>繰延税金資産</span><span class="amt">30</span></div>
+        <span class="je-n">設定のときと逆の仕訳です。</span>
+      </div>
+    </div>
+    <ul class="pts">
+      <li>法人税等調整額は、損益計算書で法人税等に加減します。</li>
+      <li>その他有価証券の税効果は、純資産の評価差額金で調整するので、<b>法人税等調整額を使いません</b>。</li>
+      <li>繰延税金資産は投資その他の資産、繰延税金負債は固定負債です。</li>
+    </ul>
+    <div class="trap">
+      <span class="trap-t">ひっかけ注意</span>
+      <ul>
+        <li><span class="mark x">×</span><span>繰延税金資産を流動資産に表示する<span class="why">投資その他の資産です。繰延税金負債も固定負債です。</span></span></li>
+        <li><span class="mark x">×</span><span>その他有価証券の評価差額の全額を評価差額金にする<span class="why">税効果の分を除いた額です。例では 1,000 のうち 700 です。</span></span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 2　その他有価証券と税効果</span>
+    <p class="scn-story">その他有価証券の帳簿価額は 5,000、時価は 4,500 です。全部純資産直入法で処理し、税率は30%です。</p>
+    <ol class="scn-q">
+      <li>繰延税金資産はいくらか</li>
+      <li>その他有価証券評価差額金はいくらか(借方・貸方も答える)</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>繰延税金資産 <b>150</b><span class="calc">500 × 30% ＝ 150</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span><b>350(借方)</b><span class="calc">500 − 150 ＝ 350。評価損なので純資産のマイナスです</span></span></div>
+        <div class="je">
+          <span class="je-t">決算整理仕訳</span>
+      <div class="je-row"><span class="dc">(借)</span><span>繰延税金資産</span><span class="amt">150</span><span class="dc">(貸)</span><span>その他有価証券</span><span class="amt">500</span></div>
+      <div class="je-row"><span class="dc"></span><span>その他有価証券評価差額金</span><span class="amt">350</span><span></span><span></span><span></span></div>
+        </div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ PART4 ============ -->
+<section id="fs" class="part part-fs">
+  <div class="part-head">
+    <span class="part-no">PART 4</span>
+    <h2>財務諸表を完成させる</h2>
+    <p>ここまでの決算整理をすべて反映すると、次の財務諸表になります。貸借対照表の左右の合計で検算します。</p>
+  </div>
+
+  <!-- 4-1 -->
+  <div class="unit" id="u-plfig">
+    <div class="unit-head"><span class="tag">4-1</span><span class="freq">頻出度 ★★★</span><h3>損益計算書(報告式)</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 620 846" role="img" aria-label="損益計算書。売上総利益120100、営業利益34000、経常利益36400、税引前当期純利益37400、当期純利益26180" style="max-width:620px"><text x="14" y="24" class="ws-l ws-b">売上高</text><text x="606" y="24" class="ws-n ws-b">420,000</text><line x1="8" y1="31" x2="612" y2="31" class="ws-rule"/><text x="14" y="57" class="ws-sec">売上原価</text><line x1="8" y1="64" x2="612" y2="64" class="ws-rule s"/><text x="28" y="85" class="ws-l">期首商品棚卸高</text><text x="606" y="85" class="ws-n">18,000</text><line x1="8" y1="92" x2="612" y2="92" class="ws-rule"/><text x="28" y="110" class="ws-l">当期商品仕入高</text><text x="606" y="110" class="ws-n">300,000</text><line x1="8" y1="117" x2="612" y2="117" class="ws-rule"/><text x="28" y="135" class="ws-l">期末商品棚卸高</text><text x="606" y="135" class="ws-n">△20,000</text><line x1="8" y1="142" x2="612" y2="142" class="ws-rule"/><text x="28" y="160" class="ws-l">商品評価損</text><text x="606" y="160" class="ws-n">1,900</text><line x1="8" y1="167" x2="612" y2="167" class="ws-rule"/><text x="14" y="185" class="ws-l ws-b">売上原価</text><text x="606" y="185" class="ws-n ws-b">299,900</text><line x1="8" y1="192" x2="612" y2="192" class="ws-rule"/><rect x="8" y="193" width="604" height="24" class="ws-hl"/><text x="14" y="210" class="ws-l ws-b">売上総利益</text><text x="606" y="210" class="ws-n ws-b">120,100</text><line x1="8" y1="217" x2="612" y2="217" class="ws-rule"/><text x="14" y="243" class="ws-sec">販売費及び一般管理費</text><line x1="8" y1="250" x2="612" y2="250" class="ws-rule s"/><text x="28" y="271" class="ws-l">給料</text><text x="606" y="271" class="ws-n">60,000</text><line x1="8" y1="278" x2="612" y2="278" class="ws-rule"/><text x="28" y="296" class="ws-l">保険料</text><text x="606" y="296" class="ws-n">4,000</text><line x1="8" y1="303" x2="612" y2="303" class="ws-rule"/><text x="28" y="321" class="ws-l">棚卸減耗損</text><text x="606" y="321" class="ws-n">1,000</text><line x1="8" y1="328" x2="612" y2="328" class="ws-rule"/><text x="28" y="346" class="ws-l">貸倒引当金繰入</text><text x="606" y="346" class="ws-n">600</text><line x1="8" y1="353" x2="612" y2="353" class="ws-rule"/><text x="28" y="371" class="ws-l">減価償却費</text><text x="606" y="371" class="ws-n">12,500</text><line x1="8" y1="378" x2="612" y2="378" class="ws-rule"/><text x="28" y="396" class="ws-l">ソフトウェア償却</text><text x="606" y="396" class="ws-n">1,000</text><line x1="8" y1="403" x2="612" y2="403" class="ws-rule"/><text x="28" y="421" class="ws-l">退職給付費用</text><text x="606" y="421" class="ws-n">3,000</text><line x1="8" y1="428" x2="612" y2="428" class="ws-rule"/><text x="28" y="446" class="ws-l">賞与引当金繰入</text><text x="606" y="446" class="ws-n">4,000</text><line x1="8" y1="453" x2="612" y2="453" class="ws-rule"/><rect x="8" y="454" width="604" height="24" class="ws-hl"/><text x="14" y="471" class="ws-l ws-b">営業利益</text><text x="606" y="471" class="ws-n ws-b">34,000</text><line x1="8" y1="478" x2="612" y2="478" class="ws-rule"/><text x="14" y="504" class="ws-sec">営業外収益</text><line x1="8" y1="511" x2="612" y2="511" class="ws-rule s"/><text x="28" y="532" class="ws-l">受取家賃</text><text x="606" y="532" class="ws-n">3,000</text><line x1="8" y1="539" x2="612" y2="539" class="ws-rule"/><text x="28" y="557" class="ws-l">有価証券利息</text><text x="606" y="557" class="ws-n">600</text><line x1="8" y1="564" x2="612" y2="564" class="ws-rule"/><text x="28" y="582" class="ws-l">有価証券評価益</text><text x="606" y="582" class="ws-n">500</text><line x1="8" y1="589" x2="612" y2="589" class="ws-rule"/><text x="14" y="615" class="ws-sec">営業外費用</text><line x1="8" y1="622" x2="612" y2="622" class="ws-rule s"/><text x="28" y="643" class="ws-l">支払利息</text><text x="606" y="643" class="ws-n">1,500</text><line x1="8" y1="650" x2="612" y2="650" class="ws-rule"/><text x="28" y="668" class="ws-l">為替差損</text><text x="606" y="668" class="ws-n">200</text><line x1="8" y1="675" x2="612" y2="675" class="ws-rule"/><rect x="8" y="676" width="604" height="24" class="ws-hl"/><text x="14" y="693" class="ws-l ws-b">経常利益</text><text x="606" y="693" class="ws-n ws-b">36,400</text><line x1="8" y1="700" x2="612" y2="700" class="ws-rule"/><text x="14" y="726" class="ws-sec">特別利益</text><line x1="8" y1="733" x2="612" y2="733" class="ws-rule s"/><text x="28" y="754" class="ws-l">固定資産売却益</text><text x="606" y="754" class="ws-n">1,000</text><line x1="8" y1="761" x2="612" y2="761" class="ws-rule"/><rect x="8" y="762" width="604" height="24" class="ws-hl"/><text x="14" y="779" class="ws-l ws-b">税引前当期純利益</text><text x="606" y="779" class="ws-n ws-b">37,400</text><line x1="8" y1="786" x2="612" y2="786" class="ws-rule"/><text x="28" y="804" class="ws-l">法人税、住民税及び事業税</text><text x="606" y="804" class="ws-n">11,220</text><line x1="8" y1="811" x2="612" y2="811" class="ws-rule"/><rect x="8" y="812" width="604" height="24" class="ws-hl"/><text x="14" y="829" class="ws-l ws-b">当期純利益</text><text x="606" y="829" class="ws-n ws-b">26,180</text><line x1="8" y1="836" x2="612" y2="836" class="ws-rule"/></svg>
+      <figcaption>黄色の行が段階利益です。</figcaption>
+    </figure>
+  </div>
+
+  <!-- 4-2 -->
+  <div class="unit" id="u-bsfig">
+    <div class="unit-head"><span class="tag">4-2</span><span class="freq">頻出度 ★★★</span><h3>貸借対照表</h3></div>
+    <figure class="fig">
+      <svg viewBox="0 0 620 1021" role="img" aria-label="貸借対照表。資産合計と負債純資産合計はどちらも344500" style="max-width:620px"><text x="14" y="32" class="ws-sec">流動資産</text><line x1="8" y1="39" x2="612" y2="39" class="ws-rule s"/><text x="28" y="60" class="ws-l">現金預金</text><text x="606" y="60" class="ws-n">73,800</text><line x1="8" y1="67" x2="612" y2="67" class="ws-rule"/><text x="28" y="85" class="ws-l">売掛金</text><text x="606" y="85" class="ws-n">50,000</text><line x1="8" y1="92" x2="612" y2="92" class="ws-rule"/><text x="28" y="110" class="ws-l">貸倒引当金</text><text x="606" y="110" class="ws-n">△1,000</text><line x1="8" y1="117" x2="612" y2="117" class="ws-rule"/><text x="28" y="135" class="ws-l">商品</text><text x="606" y="135" class="ws-n">17,100</text><line x1="8" y1="142" x2="612" y2="142" class="ws-rule"/><text x="28" y="160" class="ws-l">有価証券</text><text x="606" y="160" class="ws-n">8,500</text><line x1="8" y1="167" x2="612" y2="167" class="ws-rule"/><text x="28" y="185" class="ws-l">前払費用</text><text x="606" y="185" class="ws-n">2,000</text><line x1="8" y1="192" x2="612" y2="192" class="ws-rule"/><text x="14" y="210" class="ws-l ws-b">流動資産合計</text><text x="606" y="210" class="ws-n ws-b">150,400</text><line x1="8" y1="217" x2="612" y2="217" class="ws-rule"/><text x="14" y="243" class="ws-sec">固定資産</text><line x1="8" y1="250" x2="612" y2="250" class="ws-rule s"/><text x="28" y="271" class="ws-l">建物</text><text x="606" y="271" class="ws-n">200,000</text><line x1="8" y1="278" x2="612" y2="278" class="ws-rule"/><text x="28" y="296" class="ws-l">減価償却累計額</text><text x="606" y="296" class="ws-n">△65,000</text><line x1="8" y1="303" x2="612" y2="303" class="ws-rule"/><text x="28" y="321" class="ws-l">備品</text><text x="606" y="321" class="ws-n">40,000</text><line x1="8" y1="328" x2="612" y2="328" class="ws-rule"/><text x="28" y="346" class="ws-l">減価償却累計額</text><text x="606" y="346" class="ws-n">△17,500</text><line x1="8" y1="353" x2="612" y2="353" class="ws-rule"/><text x="28" y="371" class="ws-l">ソフトウェア</text><text x="606" y="371" class="ws-n">4,000</text><line x1="8" y1="378" x2="612" y2="378" class="ws-rule"/><text x="28" y="396" class="ws-l">投資有価証券</text><text x="606" y="396" class="ws-n">32,600</text><line x1="8" y1="403" x2="612" y2="403" class="ws-rule"/><text x="14" y="421" class="ws-l ws-b">固定資産合計</text><text x="606" y="421" class="ws-n ws-b">194,100</text><line x1="8" y1="428" x2="612" y2="428" class="ws-rule"/><rect x="8" y="429" width="604" height="24" class="ws-hl"/><text x="14" y="446" class="ws-l ws-b">資産合計</text><text x="606" y="446" class="ws-n ws-b">344,500</text><line x1="8" y1="453" x2="612" y2="453" class="ws-rule"/><text x="14" y="479" class="ws-sec">流動負債</text><line x1="8" y1="486" x2="612" y2="486" class="ws-rule s"/><text x="28" y="507" class="ws-l">買掛金</text><text x="606" y="507" class="ws-n">30,200</text><line x1="8" y1="514" x2="612" y2="514" class="ws-rule"/><text x="28" y="532" class="ws-l">未払費用</text><text x="606" y="532" class="ws-n">300</text><line x1="8" y1="539" x2="612" y2="539" class="ws-rule"/><text x="28" y="557" class="ws-l">前受収益</text><text x="606" y="557" class="ws-n">600</text><line x1="8" y1="564" x2="612" y2="564" class="ws-rule"/><text x="28" y="582" class="ws-l">未払消費税</text><text x="606" y="582" class="ws-n">12,000</text><line x1="8" y1="589" x2="612" y2="589" class="ws-rule"/><text x="28" y="607" class="ws-l">未払法人税等</text><text x="606" y="607" class="ws-n">7,220</text><line x1="8" y1="614" x2="612" y2="614" class="ws-rule"/><text x="28" y="632" class="ws-l">賞与引当金</text><text x="606" y="632" class="ws-n">4,000</text><line x1="8" y1="639" x2="612" y2="639" class="ws-rule"/><text x="14" y="657" class="ws-l ws-b">流動負債合計</text><text x="606" y="657" class="ws-n ws-b">54,320</text><line x1="8" y1="664" x2="612" y2="664" class="ws-rule"/><text x="14" y="690" class="ws-sec">固定負債</text><line x1="8" y1="697" x2="612" y2="697" class="ws-rule s"/><text x="28" y="718" class="ws-l">長期借入金</text><text x="606" y="718" class="ws-n">40,000</text><line x1="8" y1="725" x2="612" y2="725" class="ws-rule"/><text x="28" y="743" class="ws-l">退職給付引当金</text><text x="606" y="743" class="ws-n">23,000</text><line x1="8" y1="750" x2="612" y2="750" class="ws-rule"/><text x="28" y="768" class="ws-l">繰延税金負債</text><text x="606" y="768" class="ws-n">300</text><line x1="8" y1="775" x2="612" y2="775" class="ws-rule"/><text x="14" y="793" class="ws-l ws-b">固定負債合計</text><text x="606" y="793" class="ws-n ws-b">63,300</text><line x1="8" y1="800" x2="612" y2="800" class="ws-rule"/><text x="14" y="818" class="ws-l ws-b">負債合計</text><text x="606" y="818" class="ws-n ws-b">117,620</text><line x1="8" y1="825" x2="612" y2="825" class="ws-rule"/><text x="14" y="851" class="ws-sec">純資産</text><line x1="8" y1="858" x2="612" y2="858" class="ws-rule s"/><text x="28" y="879" class="ws-l">資本金</text><text x="606" y="879" class="ws-n">150,000</text><line x1="8" y1="886" x2="612" y2="886" class="ws-rule"/><text x="28" y="904" class="ws-l">利益準備金</text><text x="606" y="904" class="ws-n">15,000</text><line x1="8" y1="911" x2="612" y2="911" class="ws-rule"/><text x="28" y="929" class="ws-l">繰越利益剰余金</text><text x="606" y="929" class="ws-n">61,180</text><line x1="8" y1="936" x2="612" y2="936" class="ws-rule"/><text x="28" y="954" class="ws-l">その他有価証券評価差額金</text><text x="606" y="954" class="ws-n">700</text><line x1="8" y1="961" x2="612" y2="961" class="ws-rule"/><text x="14" y="979" class="ws-l ws-b">純資産合計</text><text x="606" y="979" class="ws-n ws-b">226,880</text><line x1="8" y1="986" x2="612" y2="986" class="ws-rule"/><rect x="8" y="987" width="604" height="24" class="ws-hl"/><text x="14" y="1004" class="ws-l ws-b">負債純資産合計</text><text x="606" y="1004" class="ws-n ws-b">344,500</text><line x1="8" y1="1011" x2="612" y2="1011" class="ws-rule"/></svg>
+      <figcaption>△は差し引く金額です。実際の貸借対照表では左右に並べる形(勘定式)も使います。</figcaption>
+    </figure>
+    <ul class="pts">
+      <li>有価証券は、売買目的の分だけです。満期保有目的債券とその他有価証券の合計 32,600 が投資有価証券です。</li>
+      <li>貸倒引当金と減価償却累計額は、資産から差し引く形で表示します。</li>
+      <li>借入金は決算日の翌日から1年を超えて返す条件なので、長期借入金としています。</li>
+    </ul>
+  </div>
+
+  <!-- 4-3 -->
+  <div class="unit" id="u-ss">
+    <div class="unit-head"><span class="tag">4-3</span><span class="freq">頻出度 ★★★</span><h3>株主資本等変動計算書</h3></div>
+    <div class="prose"><p>純資産の1年間の増減を示す表です。当期中に、配当 3,000 と利益準備金の積立 300 を行いました。積立額は、配当の10分の1です(資本準備金と利益準備金の合計が資本金の4分の1に達するまで)。</p></div>
+    <figure class="fig">
+      <svg viewBox="0 0 620 460" role="img" aria-label="株主資本等変動計算書。繰越利益剰余金の当期末残高は61180" style="max-width:620px"><text x="14" y="32" class="ws-sec">資本金</text><line x1="8" y1="39" x2="612" y2="39" class="ws-rule s"/><text x="14" y="60" class="ws-l ws-b">当期首残高・当期末残高</text><text x="606" y="60" class="ws-n ws-b">150,000</text><line x1="8" y1="67" x2="612" y2="67" class="ws-rule"/><text x="14" y="93" class="ws-sec">利益準備金</text><line x1="8" y1="100" x2="612" y2="100" class="ws-rule s"/><text x="28" y="121" class="ws-l">当期首残高</text><text x="606" y="121" class="ws-n">14,700</text><line x1="8" y1="128" x2="612" y2="128" class="ws-rule"/><text x="28" y="146" class="ws-l">剰余金の配当にともなう積立</text><text x="606" y="146" class="ws-n">300</text><line x1="8" y1="153" x2="612" y2="153" class="ws-rule"/><text x="14" y="171" class="ws-l ws-b">当期末残高</text><text x="606" y="171" class="ws-n ws-b">15,000</text><line x1="8" y1="178" x2="612" y2="178" class="ws-rule"/><text x="14" y="204" class="ws-sec">繰越利益剰余金</text><line x1="8" y1="211" x2="612" y2="211" class="ws-rule s"/><text x="28" y="232" class="ws-l">当期首残高</text><text x="606" y="232" class="ws-n">38,300</text><line x1="8" y1="239" x2="612" y2="239" class="ws-rule"/><text x="28" y="257" class="ws-l">剰余金の配当</text><text x="606" y="257" class="ws-n">△3,000</text><line x1="8" y1="264" x2="612" y2="264" class="ws-rule"/><text x="28" y="282" class="ws-l">利益準備金の積立</text><text x="606" y="282" class="ws-n">△300</text><line x1="8" y1="289" x2="612" y2="289" class="ws-rule"/><text x="28" y="307" class="ws-l">当期純利益</text><text x="606" y="307" class="ws-n">26,180</text><line x1="8" y1="314" x2="612" y2="314" class="ws-rule"/><rect x="8" y="315" width="604" height="24" class="ws-hl"/><text x="14" y="332" class="ws-l ws-b">当期末残高</text><text x="606" y="332" class="ws-n ws-b">61,180</text><line x1="8" y1="339" x2="612" y2="339" class="ws-rule"/><text x="14" y="365" class="ws-sec">その他有価証券評価差額金</text><line x1="8" y1="372" x2="612" y2="372" class="ws-rule s"/><text x="28" y="393" class="ws-l">当期首残高</text><text x="606" y="393" class="ws-n"></text><line x1="8" y1="400" x2="612" y2="400" class="ws-rule"/><text x="28" y="418" class="ws-l">当期変動額(純額)</text><text x="606" y="418" class="ws-n">700</text><line x1="8" y1="425" x2="612" y2="425" class="ws-rule"/><text x="14" y="443" class="ws-l ws-b">当期末残高</text><text x="606" y="443" class="ws-n ws-b">700</text><line x1="8" y1="450" x2="612" y2="450" class="ws-rule"/></svg>
+      <figcaption>実際の計算書は横に並べる形です。ここでは1項目ずつ縦に示しています。</figcaption>
+    </figure>
+    <div class="je">
+      <span class="je-t">配当と準備金の積立(期中の仕訳)、当期純利益の振替(決算)</span>
+      <div class="je-row"><span class="dc">(借)</span><span>繰越利益剰余金</span><span class="amt">3,300</span><span class="dc">(貸)</span><span>未払配当金</span><span class="amt">3,000</span></div>
+      <div class="je-row"><span class="dc"></span><span></span><span></span><span class="dc"></span><span>利益準備金</span><span class="amt">300</span></div>
+      <div class="je-row"><span class="dc">(借)</span><span>損益</span><span class="amt">26,180</span><span class="dc">(貸)</span><span>繰越利益剰余金</span><span class="amt">26,180</span></div>
+    </div>
+  </div>
+
+  <!-- 4-4 -->
+  <div class="unit" id="u-ws">
+    <div class="unit-head"><span class="tag">4-4</span><span class="freq">頻出度 ★★</span><h3>精算表(8桁)</h3></div>
+    <div class="prose"><p>同じ内容を1枚に集めたのが精算表です。試算表に修正を加え、収益と費用は損益計算書の欄へ、それ以外は貸借対照表の欄へ移します。</p></div>
+    <figure class="fig wide">
+      <svg viewBox="0 0 820 1184" role="img" aria-label="8桁の精算表。当期純利益は26180で、損益計算書と貸借対照表の欄の差額が一致する"><text x="335" y="20" class="ws-h" text-anchor="middle">試算表</text><text x="482" y="20" class="ws-h" text-anchor="middle">修正記入</text><text x="632" y="20" class="ws-h" text-anchor="middle">損益計算書</text><text x="775" y="20" class="ws-h" text-anchor="middle">貸借対照表</text><text x="300" y="40" class="ws-h" text-anchor="end">借方</text><text x="370" y="40" class="ws-h" text-anchor="end">貸方</text><text x="445" y="40" class="ws-h" text-anchor="end">借方</text><text x="520" y="40" class="ws-h" text-anchor="end">貸方</text><text x="595" y="40" class="ws-h" text-anchor="end">借方</text><text x="670" y="40" class="ws-h" text-anchor="end">貸方</text><text x="745" y="40" class="ws-h" text-anchor="end">借方</text><text x="805" y="40" class="ws-h" text-anchor="end">貸方</text><text x="10" y="40" class="ws-h">科目</text><line x1="6" y1="48" x2="812" y2="48" class="ws-rule s"/><text x="10" y="68" class="ws-l" style="font-size:12.5px">現金預金</text><text x="300" y="68" class="ws-n" style="font-size:12px">73,800</text><text x="745" y="68" class="ws-n" style="font-size:12px">73,800</text><line x1="6" y1="74" x2="812" y2="74" class="ws-rule"/><text x="10" y="91" class="ws-l" style="font-size:12.5px">売掛金</text><text x="300" y="91" class="ws-n" style="font-size:12px">50,000</text><text x="745" y="91" class="ws-n" style="font-size:12px">50,000</text><line x1="6" y1="97" x2="812" y2="97" class="ws-rule"/><text x="10" y="114" class="ws-l" style="font-size:12.5px">繰越商品</text><text x="300" y="114" class="ws-n" style="font-size:12px">18,000</text><text x="445" y="114" class="ws-n" style="font-size:12px">20,000</text><text x="520" y="114" class="ws-n" style="font-size:12px">20,900</text><text x="745" y="114" class="ws-n" style="font-size:12px">17,100</text><line x1="6" y1="120" x2="812" y2="120" class="ws-rule"/><text x="10" y="137" class="ws-l" style="font-size:12.5px">仮払法人税等</text><text x="300" y="137" class="ws-n" style="font-size:12px">4,000</text><text x="520" y="137" class="ws-n" style="font-size:12px">4,000</text><line x1="6" y1="143" x2="812" y2="143" class="ws-rule"/><text x="10" y="160" class="ws-l" style="font-size:12.5px">仮払消費税</text><text x="300" y="160" class="ws-n" style="font-size:12px">30,000</text><text x="520" y="160" class="ws-n" style="font-size:12px">30,000</text><line x1="6" y1="166" x2="812" y2="166" class="ws-rule"/><text x="10" y="183" class="ws-l" style="font-size:12.5px">売買目的有価証券</text><text x="300" y="183" class="ws-n" style="font-size:12px">8,000</text><text x="445" y="183" class="ws-n" style="font-size:12px">500</text><text x="745" y="183" class="ws-n" style="font-size:12px">8,500</text><line x1="6" y1="189" x2="812" y2="189" class="ws-rule"/><text x="10" y="206" class="ws-l" style="font-size:12.5px">建物</text><text x="300" y="206" class="ws-n" style="font-size:12px">200,000</text><text x="745" y="206" class="ws-n" style="font-size:12px">200,000</text><line x1="6" y1="212" x2="812" y2="212" class="ws-rule"/><text x="10" y="229" class="ws-l" style="font-size:12.5px">備品</text><text x="300" y="229" class="ws-n" style="font-size:12px">40,000</text><text x="745" y="229" class="ws-n" style="font-size:12px">40,000</text><line x1="6" y1="235" x2="812" y2="235" class="ws-rule"/><text x="10" y="252" class="ws-l" style="font-size:12.5px">ソフトウェア</text><text x="300" y="252" class="ws-n" style="font-size:12px">5,000</text><text x="520" y="252" class="ws-n" style="font-size:12px">1,000</text><text x="745" y="252" class="ws-n" style="font-size:12px">4,000</text><line x1="6" y1="258" x2="812" y2="258" class="ws-rule"/><text x="10" y="275" class="ws-l" style="font-size:12.5px">満期保有目的債券</text><text x="300" y="275" class="ws-n" style="font-size:12px">19,400</text><text x="445" y="275" class="ws-n" style="font-size:12px">200</text><text x="745" y="275" class="ws-n" style="font-size:12px">19,600</text><line x1="6" y1="281" x2="812" y2="281" class="ws-rule"/><text x="10" y="298" class="ws-l" style="font-size:12.5px">その他有価証券</text><text x="300" y="298" class="ws-n" style="font-size:12px">12,000</text><text x="445" y="298" class="ws-n" style="font-size:12px">1,000</text><text x="745" y="298" class="ws-n" style="font-size:12px">13,000</text><line x1="6" y1="304" x2="812" y2="304" class="ws-rule"/><text x="10" y="321" class="ws-l" style="font-size:12.5px">仕入</text><text x="300" y="321" class="ws-n" style="font-size:12px">300,000</text><text x="445" y="321" class="ws-n" style="font-size:12px">18,000</text><text x="520" y="321" class="ws-n" style="font-size:12px">20,000</text><text x="595" y="321" class="ws-n" style="font-size:12px">298,000</text><line x1="6" y1="327" x2="812" y2="327" class="ws-rule"/><text x="10" y="344" class="ws-l" style="font-size:12.5px">給料</text><text x="300" y="344" class="ws-n" style="font-size:12px">60,000</text><text x="595" y="344" class="ws-n" style="font-size:12px">60,000</text><line x1="6" y1="350" x2="812" y2="350" class="ws-rule"/><text x="10" y="367" class="ws-l" style="font-size:12.5px">保険料</text><text x="300" y="367" class="ws-n" style="font-size:12px">6,000</text><text x="520" y="367" class="ws-n" style="font-size:12px">2,000</text><text x="595" y="367" class="ws-n" style="font-size:12px">4,000</text><line x1="6" y1="373" x2="812" y2="373" class="ws-rule"/><text x="10" y="390" class="ws-l" style="font-size:12.5px">支払利息</text><text x="300" y="390" class="ws-n" style="font-size:12px">1,200</text><text x="445" y="390" class="ws-n" style="font-size:12px">300</text><text x="595" y="390" class="ws-n" style="font-size:12px">1,500</text><line x1="6" y1="396" x2="812" y2="396" class="ws-rule"/><text x="10" y="413" class="ws-l" style="font-size:12.5px">買掛金</text><text x="370" y="413" class="ws-n" style="font-size:12px">30,000</text><text x="520" y="413" class="ws-n" style="font-size:12px">200</text><text x="805" y="413" class="ws-n" style="font-size:12px">30,200</text><line x1="6" y1="419" x2="812" y2="419" class="ws-rule"/><text x="10" y="436" class="ws-l" style="font-size:12.5px">借入金</text><text x="370" y="436" class="ws-n" style="font-size:12px">40,000</text><text x="805" y="436" class="ws-n" style="font-size:12px">40,000</text><line x1="6" y1="442" x2="812" y2="442" class="ws-rule"/><text x="10" y="459" class="ws-l" style="font-size:12.5px">貸倒引当金</text><text x="370" y="459" class="ws-n" style="font-size:12px">400</text><text x="520" y="459" class="ws-n" style="font-size:12px">600</text><text x="805" y="459" class="ws-n" style="font-size:12px">1,000</text><line x1="6" y1="465" x2="812" y2="465" class="ws-rule"/><text x="10" y="482" class="ws-l" style="font-size:12.5px">建物減価償却累計額</text><text x="370" y="482" class="ws-n" style="font-size:12px">60,000</text><text x="520" y="482" class="ws-n" style="font-size:12px">5,000</text><text x="805" y="482" class="ws-n" style="font-size:12px">65,000</text><line x1="6" y1="488" x2="812" y2="488" class="ws-rule"/><text x="10" y="505" class="ws-l" style="font-size:12.5px">備品減価償却累計額</text><text x="370" y="505" class="ws-n" style="font-size:12px">10,000</text><text x="520" y="505" class="ws-n" style="font-size:12px">7,500</text><text x="805" y="505" class="ws-n" style="font-size:12px">17,500</text><line x1="6" y1="511" x2="812" y2="511" class="ws-rule"/><text x="10" y="528" class="ws-l" style="font-size:12.5px">退職給付引当金</text><text x="370" y="528" class="ws-n" style="font-size:12px">20,000</text><text x="520" y="528" class="ws-n" style="font-size:12px">3,000</text><text x="805" y="528" class="ws-n" style="font-size:12px">23,000</text><line x1="6" y1="534" x2="812" y2="534" class="ws-rule"/><text x="10" y="551" class="ws-l" style="font-size:12.5px">仮受消費税</text><text x="370" y="551" class="ws-n" style="font-size:12px">42,000</text><text x="445" y="551" class="ws-n" style="font-size:12px">42,000</text><line x1="6" y1="557" x2="812" y2="557" class="ws-rule"/><text x="10" y="574" class="ws-l" style="font-size:12.5px">資本金</text><text x="370" y="574" class="ws-n" style="font-size:12px">150,000</text><text x="805" y="574" class="ws-n" style="font-size:12px">150,000</text><line x1="6" y1="580" x2="812" y2="580" class="ws-rule"/><text x="10" y="597" class="ws-l" style="font-size:12.5px">利益準備金</text><text x="370" y="597" class="ws-n" style="font-size:12px">15,000</text><text x="805" y="597" class="ws-n" style="font-size:12px">15,000</text><line x1="6" y1="603" x2="812" y2="603" class="ws-rule"/><text x="10" y="620" class="ws-l" style="font-size:12.5px">繰越利益剰余金</text><text x="370" y="620" class="ws-n" style="font-size:12px">35,000</text><text x="805" y="620" class="ws-n" style="font-size:12px">35,000</text><line x1="6" y1="626" x2="812" y2="626" class="ws-rule"/><text x="10" y="643" class="ws-l" style="font-size:12.5px">売上</text><text x="370" y="643" class="ws-n" style="font-size:12px">420,000</text><text x="670" y="643" class="ws-n" style="font-size:12px">420,000</text><line x1="6" y1="649" x2="812" y2="649" class="ws-rule"/><text x="10" y="666" class="ws-l" style="font-size:12.5px">有価証券利息</text><text x="370" y="666" class="ws-n" style="font-size:12px">400</text><text x="520" y="666" class="ws-n" style="font-size:12px">200</text><text x="670" y="666" class="ws-n" style="font-size:12px">600</text><line x1="6" y1="672" x2="812" y2="672" class="ws-rule"/><text x="10" y="689" class="ws-l" style="font-size:12.5px">受取家賃</text><text x="370" y="689" class="ws-n" style="font-size:12px">3,600</text><text x="445" y="689" class="ws-n" style="font-size:12px">600</text><text x="670" y="689" class="ws-n" style="font-size:12px">3,000</text><line x1="6" y1="695" x2="812" y2="695" class="ws-rule"/><text x="10" y="712" class="ws-l" style="font-size:12.5px">固定資産売却益</text><text x="370" y="712" class="ws-n" style="font-size:12px">1,000</text><text x="670" y="712" class="ws-n" style="font-size:12px">1,000</text><line x1="6" y1="718" x2="812" y2="718" class="ws-rule"/><text x="10" y="735" class="ws-l" style="font-size:12.5px">棚卸減耗損</text><text x="445" y="735" class="ws-n" style="font-size:12px">1,000</text><text x="595" y="735" class="ws-n" style="font-size:12px">1,000</text><line x1="6" y1="741" x2="812" y2="741" class="ws-rule"/><text x="10" y="758" class="ws-l" style="font-size:12.5px">商品評価損</text><text x="445" y="758" class="ws-n" style="font-size:12px">1,900</text><text x="595" y="758" class="ws-n" style="font-size:12px">1,900</text><line x1="6" y1="764" x2="812" y2="764" class="ws-rule"/><text x="10" y="781" class="ws-l" style="font-size:12.5px">貸倒引当金繰入</text><text x="445" y="781" class="ws-n" style="font-size:12px">600</text><text x="595" y="781" class="ws-n" style="font-size:12px">600</text><line x1="6" y1="787" x2="812" y2="787" class="ws-rule"/><text x="10" y="804" class="ws-l" style="font-size:12.5px">減価償却費</text><text x="445" y="804" class="ws-n" style="font-size:12px">12,500</text><text x="595" y="804" class="ws-n" style="font-size:12px">12,500</text><line x1="6" y1="810" x2="812" y2="810" class="ws-rule"/><text x="10" y="827" class="ws-l" style="font-size:12.5px">ソフトウェア償却</text><text x="445" y="827" class="ws-n" style="font-size:12px">1,000</text><text x="595" y="827" class="ws-n" style="font-size:12px">1,000</text><line x1="6" y1="833" x2="812" y2="833" class="ws-rule"/><text x="10" y="850" class="ws-l" style="font-size:12.5px">前払保険料</text><text x="445" y="850" class="ws-n" style="font-size:12px">2,000</text><text x="745" y="850" class="ws-n" style="font-size:12px">2,000</text><line x1="6" y1="856" x2="812" y2="856" class="ws-rule"/><text x="10" y="873" class="ws-l" style="font-size:12.5px">退職給付費用</text><text x="445" y="873" class="ws-n" style="font-size:12px">3,000</text><text x="595" y="873" class="ws-n" style="font-size:12px">3,000</text><line x1="6" y1="879" x2="812" y2="879" class="ws-rule"/><text x="10" y="896" class="ws-l" style="font-size:12.5px">賞与引当金繰入</text><text x="445" y="896" class="ws-n" style="font-size:12px">4,000</text><text x="595" y="896" class="ws-n" style="font-size:12px">4,000</text><line x1="6" y1="902" x2="812" y2="902" class="ws-rule"/><text x="10" y="919" class="ws-l" style="font-size:12.5px">為替差損益</text><text x="445" y="919" class="ws-n" style="font-size:12px">200</text><text x="595" y="919" class="ws-n" style="font-size:12px">200</text><line x1="6" y1="925" x2="812" y2="925" class="ws-rule"/><text x="10" y="942" class="ws-l" style="font-size:12.5px">法人税等</text><text x="445" y="942" class="ws-n" style="font-size:12px">11,220</text><text x="595" y="942" class="ws-n" style="font-size:12px">11,220</text><line x1="6" y1="948" x2="812" y2="948" class="ws-rule"/><text x="10" y="965" class="ws-l" style="font-size:12.5px">有価証券評価益</text><text x="520" y="965" class="ws-n" style="font-size:12px">500</text><text x="670" y="965" class="ws-n" style="font-size:12px">500</text><line x1="6" y1="971" x2="812" y2="971" class="ws-rule"/><text x="10" y="988" class="ws-l" style="font-size:12.5px">繰延税金負債</text><text x="520" y="988" class="ws-n" style="font-size:12px">300</text><text x="805" y="988" class="ws-n" style="font-size:12px">300</text><line x1="6" y1="994" x2="812" y2="994" class="ws-rule"/><text x="10" y="1011" class="ws-l" style="font-size:12.5px">その他有価証券評価差額金</text><text x="520" y="1011" class="ws-n" style="font-size:12px">700</text><text x="805" y="1011" class="ws-n" style="font-size:12px">700</text><line x1="6" y1="1017" x2="812" y2="1017" class="ws-rule"/><text x="10" y="1034" class="ws-l" style="font-size:12.5px">未払利息</text><text x="520" y="1034" class="ws-n" style="font-size:12px">300</text><text x="805" y="1034" class="ws-n" style="font-size:12px">300</text><line x1="6" y1="1040" x2="812" y2="1040" class="ws-rule"/><text x="10" y="1057" class="ws-l" style="font-size:12.5px">前受家賃</text><text x="520" y="1057" class="ws-n" style="font-size:12px">600</text><text x="805" y="1057" class="ws-n" style="font-size:12px">600</text><line x1="6" y1="1063" x2="812" y2="1063" class="ws-rule"/><text x="10" y="1080" class="ws-l" style="font-size:12.5px">賞与引当金</text><text x="520" y="1080" class="ws-n" style="font-size:12px">4,000</text><text x="805" y="1080" class="ws-n" style="font-size:12px">4,000</text><line x1="6" y1="1086" x2="812" y2="1086" class="ws-rule"/><text x="10" y="1103" class="ws-l" style="font-size:12.5px">未払消費税</text><text x="520" y="1103" class="ws-n" style="font-size:12px">12,000</text><text x="805" y="1103" class="ws-n" style="font-size:12px">12,000</text><line x1="6" y1="1109" x2="812" y2="1109" class="ws-rule"/><text x="10" y="1126" class="ws-l" style="font-size:12.5px">未払法人税等</text><text x="520" y="1126" class="ws-n" style="font-size:12px">7,220</text><text x="805" y="1126" class="ws-n" style="font-size:12px">7,220</text><line x1="6" y1="1132" x2="812" y2="1132" class="ws-rule"/><rect x="6" y="1134" width="806" height="22" class="ws-hl"/><text x="10" y="1149" class="ws-l ws-b" style="font-size:12.5px">当期純利益</text><text x="595" y="1149" class="ws-n ws-b" style="font-size:12px">26,180</text><text x="805" y="1149" class="ws-n ws-b" style="font-size:12px">26,180</text><text x="10" y="1172" class="ws-l ws-b" style="font-size:12.5px">合計</text><text x="300" y="1172" class="ws-n ws-b" style="font-size:12px">827,400</text><text x="370" y="1172" class="ws-n ws-b" style="font-size:12px">827,400</text><text x="445" y="1172" class="ws-n ws-b" style="font-size:12px">120,020</text><text x="520" y="1172" class="ws-n ws-b" style="font-size:12px">120,020</text><text x="595" y="1172" class="ws-n ws-b" style="font-size:12px">425,100</text><text x="670" y="1172" class="ws-n ws-b" style="font-size:12px">425,100</text><text x="745" y="1172" class="ws-n ws-b" style="font-size:12px">428,000</text><text x="805" y="1172" class="ws-n ws-b" style="font-size:12px">428,000</text></svg>
+      <figcaption>スマホでは図を横にスクロールできます。損益計算書の欄の差額と貸借対照表の欄の差額が、どちらも当期純利益になります。</figcaption>
+    </figure>
+  </div>
+
+  <!-- 4-5 -->
+  <div class="unit" id="u-tejun">
+    <div class="unit-head"><span class="tag">4-5</span><span class="freq">試験の手順</span><h3>試験で解く順番</h3></div>
+    <ol class="solve-steps">
+      <li><b>資料を読み、下書きに仕訳を書く</b><span>試算表の金額に、その場で増減を書き足すと速くなります。</span></li>
+      <li><b>売上原価と商品を先に確定する</b><span>売上原価を間違えると、後ろの利益がすべてずれます。</span></li>
+      <li><b>税金以外の決算整理をすべて終える</b><span>貸倒引当金、減価償却、有価証券、経過勘定、引当金、外貨換算です。</span></li>
+      <li><b>損益計算書を上から埋める</b><span>段階利益を順に出して、税引前当期純利益まで進みます。</span></li>
+      <li><b>法人税等を計算し、貸借対照表を埋める</b><span>繰越利益剰余金は、試算表の金額に当期純利益を足します。</span></li>
+    </ol>
+  </div>
+
+  <div class="scn">
+    <span class="scn-l">計算問題 3　段階利益</span>
+    <p class="scn-story">売上高 100,000、売上原価 60,000、販売費及び一般管理費 25,000、営業外収益 1,000、営業外費用 2,000、特別利益 500、特別損失 1,500。税率は30%です。</p>
+    <ol class="scn-q">
+      <li>営業利益と経常利益はいくらか</li>
+      <li>税引前当期純利益はいくらか</li>
+      <li>当期純利益はいくらか</li>
+    </ol>
+    <details class="scn-a">
+      <summary>解答と解説を見る</summary>
+      <div class="ans">
+        <div class="ans-step"><span class="lb">問1</span><span>営業利益 <b>15,000</b>、経常利益 <b>14,000</b><span class="calc">100,000 − 60,000 − 25,000 ＝ 15,000<br>15,000 ＋ 1,000 − 2,000 ＝ 14,000</span></span></div>
+        <div class="ans-step"><span class="lb">問2</span><span>税引前当期純利益 <b>13,000</b><span class="calc">14,000 ＋ 500 − 1,500 ＝ 13,000</span></span></div>
+        <div class="ans-step"><span class="lb">問3</span><span>当期純利益 <b>9,100</b><span class="calc">13,000 × (1 − 30%)＝ 9,100</span></span></div>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- ============ ○×チェック ============ -->
+<section id="quiz" class="quiz-part">
+  <div class="quiz-head">
+    <span class="part-no">CHECK</span>
+    <h2>ひっかけ○×チェック <span id="qz-count">30</span>問</h2>
+    <p>○か×を選ぶと、「ここがポイント」「ひっかけ例(または正しい文)」「なぜ？」「覚えるポイント」「仕訳で確認」「根拠」がすぐに出ます。分野で絞り込んだり、順番をシャッフルしたりできます。</p>
+  </div>
+  <div class="qz-ctrl" role="group" aria-label="出題範囲">
+    <button type="button" class="btn" data-qf="all" aria-pressed="true">すべて</button>
+    <button type="button" class="btn f-kk-btn" data-qf="kk" aria-pressed="false">区分と表示</button>
+    <button type="button" class="btn f-js-btn" data-qf="js" aria-pressed="false">資産の決算整理</button>
+    <button type="button" class="btn f-sh-btn" data-qf="sh" aria-pressed="false">負債と損益の決算整理</button>
+    <button type="button" class="btn f-fs-btn" data-qf="fs" aria-pressed="false">財務諸表の完成</button>
+    <button type="button" class="btn" id="qz-shuffle">シャッフル</button>
+  </div>
+  <div class="score"><span>正解 <b id="sc-ok">0</b> ／ 回答 <b id="sc-done">0</b> ／ 全<b id="sc-all">30</b>問</span><button type="button" class="btn" id="qz-reset">最初からやり直す</button></div>
+  <ol class="qlist" id="qz-list"></ol>
+</section>
+
+<!-- ============ 優先順位 ============ -->
+<section id="priority" class="part">
+  <div class="prio">
+    <div class="prio-card kk">
+      <h3>資産の決算整理：まずここから</h3>
+      <ol>
+        <li>減耗は原価で、評価損は実地数量で計算する</li>
+        <li>貸倒引当金は差額を繰り入れる</li>
+        <li>定率法は期首の帳簿価額に掛ける</li>
+        <li>有価証券は保有目的で処理を分ける</li>
+      </ol>
+    </div>
+    <div class="prio-card sh">
+      <h3>負債と損益の決算整理：まずここから</h3>
+      <ol>
+        <li>経過勘定で費用と収益を当期分にそろえる</li>
+        <li>引当金は当期の負担額を費用にする</li>
+        <li>外貨建の売掛金と買掛金を決算日のレートに直す</li>
+        <li>法人税等は最後に計算する</li>
+      </ol>
+    </div>
+    <div class="prio-card js">
+      <h3>財務諸表：まずここから</h3>
+      <ol>
+        <li>5つの段階利益の順番を覚える</li>
+        <li>科目の区分を覚える(特に営業外と投資その他)</li>
+        <li>繰越利益剰余金に当期純利益を足す</li>
+        <li>貸借対照表の左右の合計で検算する</li>
+      </ol>
+    </div>
+  </div>
+  <p class="link-note"><b>つなげて覚えるコツ：</b>決算整理の仕訳は、費用や収益と、資産や負債がセットです。片方が損益計算書へ、もう片方が貸借対照表へ行きます。迷ったら、この金額はどちらの表に行くのかを考えます。</p>
+  <a class="drill-cta" href="boki2-kessan-drill.html"><b>問題アプリで練習する</b><small>数字を変えて、仕訳と財務諸表の集計まで確認できます</small></a>
+</section>
+
+<footer>
+  <p>参照：日本商工会議所「商工会議所簿記検定試験 出題区分表」(2022年度版、2027年度版)、企業会計基準第10号「金融商品に関する会計基準」、企業会計原則、税効果会計に係る会計基準。</p>
+  <p>製造業を営む会社の決算処理と月次決算は2級の範囲ですが、このページでは扱っていません。「頻出度」は学習上の目安で、日商の公式な集計ではありません。</p>
+  <p>試験対策用に要点をまとめた学習ノートです。基準の正確な文言は原文で確認してください。</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+            y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ..., null(=別の仕訳)]](任意), s:根拠} */
+  var GEN = "企業会計原則", KIN = "企業会計基準第10号「金融商品に関する会計基準」", TAX = "税効果会計に係る会計基準", KUBUN = "日本商工会議所「出題区分表」", TEXT = "決算の基本手続(学習上の整理)";
+  var JE_URI = ["期首商品18,000、期末の帳簿棚卸高20,000", [["仕入",18000,"繰越商品",18000],null,["繰越商品",20000,"仕入",20000]]];
+  var JE_GEN = ["帳簿100個・実地95個、原価@200・正味売却価額@180", [["棚卸減耗損",1000,"繰越商品",2900],["商品評価損",1900,"",""]]];
+  var JE_KASHI = ["売掛金50,000に2%、残高400", [["貸倒引当金繰入",600,"貸倒引当金",600]]];
+  var JE_MODOSHI = ["必要額400に対して残高500", [["貸倒引当金",100,"貸倒引当金戻入",100]]];
+  var JE_TEIRITSU = ["備品40,000、累計額10,000、償却率25%", [["減価償却費",7500,"備品減価償却累計額",7500]]];
+  var JE_SOFT = ["ソフトウェア5,000を5年で償却", [["ソフトウェア償却",1000,"ソフトウェア",1000]]];
+  var JE_BAIBAI = ["売買目的有価証券:帳簿8,000、時価8,500", [["売買目的有価証券",500,"有価証券評価益",500]]];
+  var JE_MANKI = ["満期保有目的債券:額面20,000、帳簿19,400、残り3年", [["満期保有目的債券",200,"有価証券利息",200]]];
+  var JE_SONOTA = ["その他有価証券:帳簿12,000、時価13,000、税率30%", [["その他有価証券",1000,"繰延税金負債",300],["","","その他有価証券評価差額金",700]]];
+  var JE_MAEBARAI = ["保険料のうち翌期の分2,000", [["前払保険料",2000,"保険料",2000]]];
+  var JE_MIHARAI = ["支払利息の未払分300", [["支払利息",300,"未払利息",300]]];
+  var JE_TAIKYU = ["退職給付の当期負担額3,000", [["退職給付費用",3000,"退職給付引当金",3000]]];
+  var JE_KAWASE = ["買掛金100千ドル、記帳108円、決算110円", [["為替差損益",200,"買掛金",200]]];
+  var JE_SHOHI = ["仮受消費税42,000、仮払消費税30,000", [["仮受消費税",42000,"仮払消費税",30000],["","","未払消費税",12000]]];
+  var JE_HOJIN = ["法人税等11,220、仮払法人税等4,000", [["法人税等",11220,"仮払法人税等",4000],["","","未払法人税等",7220]]];
+  var JE_ZEIKOKA = ["貸倒引当金の繰入100が税法上の費用にならない(税率30%)", [["繰延税金資産",30,"法人税等調整額",30]]];
+  var JE_HAITO = ["配当3,000と利益準備金の積立300", [["繰越利益剰余金",3300,"未払配当金",3000],["","","利益準備金",300]]];
+
+  var Q = [
+    /* 区分と表示 */
+    {p:"kk", q:"営業利益は、売上総利益から販売費及び一般管理費を差し引いて計算する。", a:true, k:"販売費及び一般管理費", t:"営業外費用", y:"本業の費用を引いたものが営業利益です。営業外の損益は次の段階の経常利益で加減します。", m:"総利益、営業、経常、税引前、当期純利益の順。", s:GEN},
+    {p:"kk", q:"支払利息は、販売費及び一般管理費に表示する。", a:false, k:"販売費及び一般管理費", t:"営業外費用", y:"借入れは財務の活動なので、本業の費用ではありません。", m:"利息は営業外。", j:JE_MIHARAI, s:GEN},
+    {p:"kk", q:"固定資産売却益は、特別利益に表示する。", a:true, k:"特別利益", t:"営業外収益", y:"固定資産の売却はふだんの活動ではない臨時の損益です。", m:"臨時の損益は特別損益。", s:GEN},
+    {p:"kk", q:"売買目的有価証券は、貸借対照表の流動資産に有価証券として表示する。", a:true, k:"流動資産に有価証券", t:"固定資産に投資有価証券", y:"短期間の売買を目的とする有価証券なので流動資産です。", m:"売買目的は有価証券、満期とその他は投資有価証券。", j:JE_BAIBAI, s:GEN},
+    {p:"kk", q:"決算日の翌日から1年を超えて返済する借入金は、流動負債に表示する。", a:false, k:"流動負債", t:"固定負債", y:"1年基準により、返済まで1年を超えるものは固定負債です。", m:"1年以内が流動、1年超が固定。", s:GEN},
+    {p:"kk", q:"売掛金や買掛金は、正常な営業の流れの中にあるので流動項目である。", a:true, k:"流動項目", t:"固定項目", y:"正常営業循環基準により、営業の流れの中にあるものは流動です。", m:"営業の流れの中なら流動。", s:GEN},
+    {p:"kk", q:"繰延税金資産は、流動資産に表示する。", a:false, k:"流動資産", t:"投資その他の資産", y:"繰延税金資産は投資その他の資産、繰延税金負債は固定負債に表示します。", m:"繰延税金は固定側。", j:JE_ZEIKOKA, s:TAX},
+    /* 資産の決算整理 */
+    {p:"js", q:"売上原価は、期首商品に当期仕入を加え、期末商品を差し引いて計算する。", a:true, k:"期末商品を差し引いて", t:"期末商品を加えて", y:"売れ残った分は当期の費用ではないので引きます。", m:"しーくり、くりしー。", j:JE_URI, s:TEXT},
+    {p:"js", q:"棚卸減耗損は、減耗した数量に正味売却価額を掛けて計算する。", a:false, k:"正味売却価額", t:"原価", y:"なくなった商品はもともと原価で記録しています。", m:"減耗 ＝ 減った数量 × 原価。", j:JE_GEN, s:TEXT},
+    {p:"js", q:"商品評価損は、実地数量に、原価と正味売却価額の差額を掛けて計算する。", a:true, k:"実地数量", t:"帳簿数量", y:"評価損は実際に残っている商品だけで計算します。減った分は減耗損で処理済みです。", m:"評価損 ＝ 実地数量 × 単価の下落。", j:JE_GEN, s:TEXT},
+    {p:"js", q:"貸倒引当金の残高が必要額より多いときは、差額を貸倒引当金戻入で処理する。", a:true, k:"貸倒引当金戻入", t:"貸倒損失", y:"多すぎる分を減らして、収益に戻します。", m:"足りなければ繰入、多ければ戻入。", j:JE_MODOSHI, s:TEXT},
+    {p:"js", q:"貸付金に対する貸倒引当金繰入は、販売費及び一般管理費に表示する。", a:false, k:"販売費及び一般管理費", t:"営業外費用", y:"貸付金は営業取引の債権ではないので、営業外費用です。", m:"売上債権は販管費、営業外債権は営業外費用。", s:KUBUN},
+    {p:"js", q:"200%定率法の減価償却費は、取得原価に償却率を掛けて計算する。", a:false, k:"取得原価", t:"期首の帳簿価額", y:"定率法は、毎年減っていく帳簿価額に一定の率を掛けます。", m:"定率法 ＝ (取得原価 − 累計額)× 償却率。", j:JE_TEIRITSU, s:TEXT},
+    {p:"js", q:"ソフトウェアの償却は、資産の金額を直接減らして記帳する。", a:true, k:"直接減らして", t:"累計額を使って", y:"無形固定資産は累計額を使わず、直接減らします。", m:"無形固定資産は直接法。", j:JE_SOFT, s:TEXT},
+    {p:"js", q:"売買目的有価証券の評価差額は、当期の損益として計上する。", a:true, k:"当期の損益", t:"純資産の部", y:"いつでも売れる目的で持っているので、時価の変動をそのまま損益にします。", m:"売買目的は有価証券評価損益。", j:JE_BAIBAI, s:KIN},
+    {p:"js", q:"満期保有目的債券は、期末に時価で評価する。", a:false, k:"時価で評価する", t:"償却原価法で評価する", y:"満期まで持つので時価の変動は関係ありません。額面との差額を毎期調整します。", m:"満期保有は償却原価法(定額法)。", j:JE_MANKI, s:KIN},
+    {p:"js", q:"その他有価証券の評価差額は、全部純資産直入法により純資産の部に計上する。", a:true, k:"純資産の部", t:"損益計算書", y:"2級で出るのは全部純資産直入法です。当期純利益には影響しません。", m:"その他有価証券は損益を通さない。", j:JE_SONOTA, s:KUBUN},
+    /* 負債と損益の決算整理 */
+    {p:"sh", q:"翌期の分まで支払った保険料は、当期の費用から除いて前払費用とする。", a:true, k:"前払費用", t:"未払費用", y:"翌期のサービスの分を先に払っているので資産です。", m:"先に払った分は前払費用。", j:JE_MAEBARAI, s:GEN},
+    {p:"sh", q:"当期の利息で未払の分は、費用に加えて未払費用とする。", a:true, k:"費用に加えて", t:"費用から除いて", y:"当期に発生した費用は、払っていなくても当期の費用です。", m:"発生主義で費用を計上する。", j:JE_MIHARAI, s:GEN},
+    {p:"sh", q:"受け取った家賃のうち翌期の分は、未収収益とする。", a:false, k:"未収収益", t:"前受収益", y:"先に受け取っているので、翌期にサービスを提供する義務(負債)です。", m:"先にもらった分は前受収益。", s:GEN},
+    {p:"sh", q:"退職給付引当金は、固定負債に表示する。", a:true, k:"固定負債", t:"流動負債", y:"退職給付の支払いは通常1年を超えて先なので固定負債です。", m:"賞与引当金は流動、退職給付引当金は固定。", j:JE_TAIKYU, s:GEN},
+    {p:"sh", q:"外貨建の買掛金は、決算時に決算日の為替相場で換算替えする。", a:true, k:"決算日の為替相場", t:"取引日の為替相場", y:"買掛金は貨幣項目なので、決算日のレートに直します。", m:"売掛金、買掛金は決算レート。", j:JE_KAWASE, s:KUBUN},
+    {p:"sh", q:"外貨建の商品は、決算時に決算日の為替相場で換算替えする。", a:false, k:"換算替えする", t:"換算替えしない", y:"商品は非貨幣項目なので、取得時のレートのままです。", m:"貨幣項目だけ換算替え。", s:KUBUN},
+    {p:"sh", q:"消費税(税抜方式)では、仮受消費税と仮払消費税の差額を未払消費税とする。", a:true, k:"未払消費税", t:"未払法人税等", y:"預かった分から支払った分を引いた残りを納めます。", m:"仮受 − 仮払 ＝ 未払消費税。", j:JE_SHOHI, s:KUBUN},
+    {p:"sh", q:"法人税等のうち中間で納付した分を除いた残りは、未払法人税等とする。", a:true, k:"未払法人税等", t:"仮払法人税等", y:"すでに払った仮払法人税等を相殺した残りが、これから払う分です。", m:"法人税等 − 仮払法人税等 ＝ 未払法人税等。", j:JE_HOJIN, s:TEXT},
+    {p:"sh", q:"その他有価証券の税効果では、法人税等調整額を計上する。", a:false, k:"法人税等調整額を計上する", t:"その他有価証券評価差額金で調整する", y:"評価差額は損益を通らないので、税効果も損益を通しません。", m:"その他有価証券だけ法人税等調整額を使わない。", j:JE_SONOTA, s:TAX},
+    {p:"sh", q:"2級の税効果会計で扱う一時差異は、引当金、減価償却、その他有価証券に限られる。", a:true, k:"引当金、減価償却、その他有価証券", t:"すべての一時差異", y:"出題区分表で、2級はこの3つに限定されています。繰延税金資産の回収可能性の検討も除かれています。", m:"2級の税効果は3つ。", s:KUBUN},
+    /* 財務諸表の完成 */
+    {p:"fs", q:"貸借対照表の繰越利益剰余金は、決算整理前の残高に当期純利益を加えた金額である。", a:true, k:"当期純利益を加えた", t:"経常利益を加えた", y:"当期純利益は、決算の振替で繰越利益剰余金に入ります。", m:"損益勘定から繰越利益剰余金へ。", s:TEXT},
+    {p:"fs", q:"剰余金の配当にともなう利益準備金の積立額は、配当の10分の1である(資本金の4分の1に達するまで)。", a:true, k:"配当の10分の1", t:"配当の4分の1", y:"会社法のルールです。資本準備金と利益準備金の合計が資本金の4分の1に達するまで積み立てます。", m:"配当の10分の1、上限は資本金の4分の1。", j:JE_HAITO, s:KUBUN},
+    {p:"fs", q:"2級の株主資本等変動計算書では、株主資本とその他有価証券評価差額金の増減を扱う。", a:true, k:"その他有価証券評価差額金", t:"すべての純資産項目", y:"出題区分表で、2級はこの範囲に限定されています。", m:"株主資本 ＋ 評価差額金の増減を追う。", s:KUBUN}
+  ];
+
+  var list = document.getElementById("qz-list");
+  var okEl = document.getElementById("sc-ok"), doneEl = document.getElementById("sc-done"), allEl = document.getElementById("sc-all");
+  var LABEL = {kk:"区分と表示", js:"資産の決算整理", sh:"負債と損益の決算整理", fs:"財務諸表の完成"};
+  var filter = "all", order = null, ok = 0, done = 0;
+  document.getElementById("qz-count").textContent = Q.length;
+
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+  function yen(n){ return n === "" ? "" : Number(n).toLocaleString("ja-JP"); }
+  function mark(text, word, cls){ return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j){
+    if(!j) return "";
+    var groups = [[]];
+    j[1].forEach(function(r){ if(r === null) groups.push([]); else groups[groups.length-1].push(r); });
+    function side(cls, name, amt){ return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function(g){ return '<div class="je-entry">' + g.map(function(r, i){ return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side("je-d", r[0], r[1]) + side("je-c", r[2], r[3]) + '</div>'; }).join("") + '</div>'; }).join("") +
+      '</div></div>';
+  }
+  function detail(item){
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if(item.a){
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, "ok-word") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, "trap-w") + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+  function current(){
+    var idx = [];
+    Q.forEach(function(item, i){ if(filter === "all" || item.p === filter) idx.push(i); });
+    if(order){ idx.sort(function(a, b){ return order[a] - order[b]; }); }
+    return idx;
+  }
+  function update(){ okEl.textContent = ok; doneEl.textContent = done; }
+  function mk(t, cls){
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "ox " + cls; b.textContent = t;
+    b.setAttribute("aria-label", t === "○" ? "正しい" : "誤り");
+    return b;
+  }
+  function render(){
+    list.innerHTML = ""; ok = 0; done = 0;
+    var idx = current();
+    allEl.textContent = idx.length; update();
+    idx.forEach(function(qi, n){
+      var item = Q[qi];
+      var li = document.createElement("li"); li.className = "qi";
+      var cat = document.createElement("span"); cat.className = "qcat"; cat.textContent = LABEL[item.p];
+      var top = document.createElement("div"); top.className = "qi-top";
+      var no = document.createElement("span"); no.className = "qno"; no.textContent = "Q" + (n+1);
+      var tx = document.createElement("p"); tx.textContent = item.q;
+      top.appendChild(no); top.appendChild(tx);
+      var btns = document.createElement("div"); btns.className = "qbtns";
+      var bO = mk("○", "o"), bX = mk("×", "x");
+      btns.appendChild(bO); btns.appendChild(bX);
+      var res = document.createElement("div"); res.className = "res"; res.hidden = true; res.setAttribute("aria-live", "polite");
+      function answer(pick){
+        if(bO.disabled) return;
+        var right = (pick === item.a);
+        (pick ? bO : bX).classList.add(right ? "pick-ok" : "pick-ng");
+        (item.a ? bO : bX).classList.add("answer");
+        bO.disabled = true; bX.disabled = true;
+        res.className = "res " + (right ? "ok" : "ng");
+        res.innerHTML = '<b class="verdict">' + (right ? "正解！" : "不正解") + '　答えは ' + (item.a ? "○" : "×") + '</b>' + detail(item);
+        res.hidden = false;
+        done++; if(right) ok++; update();
+      }
+      bO.addEventListener("click", function(){ answer(true); });
+      bX.addEventListener("click", function(){ answer(false); });
+      li.appendChild(cat); li.appendChild(top); li.appendChild(btns); li.appendChild(res);
+      list.appendChild(li);
+    });
+  }
+
+  document.querySelectorAll("[data-qf]").forEach(function(b){
+    b.addEventListener("click", function(){
+      filter = b.getAttribute("data-qf");
+      document.querySelectorAll("[data-qf]").forEach(function(x){ x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      render();
+    });
+  });
+  document.getElementById("qz-shuffle").addEventListener("click", function(){
+    order = Q.map(function(){ return Math.random(); });
+    render();
+  });
+  document.getElementById("qz-reset").addEventListener("click", function(){ order = null; render(); });
+  render();
+})();
+</script>
+</body>
+</html>
