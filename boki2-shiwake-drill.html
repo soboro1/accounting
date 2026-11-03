@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>簿記2級 第1問の仕訳ドリル</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: 1カラムの答案用紙。問題ごとに借方・貸方の科目と金額を入力し、採点後に仕訳と計算を表示。ほかの出題パターンドリルと同じ紺×金、ライトテーマも用意 */
+  :root {
+    color-scheme: dark;
+    --bg: #101b2d;
+    --surface: #15233a;
+    --surface-2: #0d1624;
+    --fg: #f6f1e6;
+    --fg-soft: #ddd6c7;
+    --muted: #9aa5b1;
+    --accent: #d4a24c;
+    --accent-ink: #101b2d;
+    --accent-soft: rgba(212, 162, 76, 0.16);
+    --line: rgba(212, 162, 76, 0.36);
+    --rule: rgba(246, 241, 230, 0.12);
+    --good: #8cc152;
+    --good-soft: rgba(140, 193, 82, 0.2);
+    --bad: #ec7f56;
+    --bad-soft: rgba(236, 127, 86, 0.2);
+    --std-fill: rgba(212, 162, 76, 0.2);
+    --c1: #d4a24c; --c2: #5fa8d3; --c3: #7cc6a4; --c4: #b39ddb; --c5: #ec7f56;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+      --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+      --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+      --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+      --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+      --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+      --std-fill: rgba(154, 106, 18, 0.13);
+      --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+    --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+    --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+    --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+    --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+    --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+    --std-fill: rgba(154, 106, 18, 0.13);
+    --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .app {
+    max-width: 860px; margin: 0 auto;
+    padding-inline: 16px; padding-block: 28px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 20px; flex-wrap: wrap; }
+  .top > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .kicker { font-size: 12px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(22px, 4.6vw, 28px); margin: 2px 0 0; line-height: 1.35; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; max-width: 42em; }
+  .score { text-align: right; }
+  .score-k { font-size: 12px; color: var(--muted); }
+  .score-v { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 13px; font-weight: 500; line-height: 1.5;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+  .paper {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px clamp(14px, 3vw, 26px);
+    display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  }
+  .badge {
+    align-self: flex-start; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 14px;
+  }
+  .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+  .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+  .facts b { font-weight: 700; color: var(--fg); }
+
+  .cost-card { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px 6px; background: var(--surface-2); max-width: 560px; }
+  .cc-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .cc-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; column-gap: 14px; font-variant-numeric: tabular-nums; }
+  .cc-grid > span { padding: 5px 0; border-top: 1px dashed var(--rule); font-size: 14px; }
+  .cc-c { color: var(--muted); }
+  .cc-v { text-align: right; font-weight: 500; }
+
+  .figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  .figbox {
+    margin: 0; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .figscroll { overflow-x: auto; }
+  .figbox figcaption { font-size: 12px; color: var(--muted); padding: 0 4px; line-height: 1.6; }
+  .fig { width: 100%; min-width: 330px; height: auto; display: block; }
+  .fig text { font-family: var(--font); }
+  .fig .t { fill: var(--fg); font-size: 13px; }
+  .fig .ts { fill: var(--muted); font-size: 11.5px; }
+  .fig .tb { fill: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .fig .ta { fill: var(--accent); font-size: 12px; font-weight: 700; }
+  .fig .tu { fill: var(--bad); font-size: 12px; font-weight: 700; }
+  .fig .tf { fill: var(--good); font-size: 12px; font-weight: 700; }
+  .fig .box { fill: var(--surface); stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .div { stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig .std { fill: var(--std-fill); stroke: var(--accent); stroke-width: 1.2; }
+  .fig .vu { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; }
+  .fig .ax { stroke: var(--muted); stroke-width: 1.2; }
+  .fig .bar { fill: var(--muted); fill-opacity: 0.5; }
+  .fig .bar-hit { fill: var(--accent); }
+  .fig .arr { stroke: var(--muted); stroke-width: 1.4; }
+  .fig .mk { fill: var(--muted); }
+  .fig .frame { fill: none; stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .fig .s0 { fill: var(--c1); }
+  .fig .s1 { fill: var(--c2); }
+  .fig .s2 { fill: var(--c3); }
+  .fig .s3 { fill: var(--c5); }
+
+  .lad-title { font-size: 13.5px; font-weight: 700; padding: 2px 4px 0; }
+  .ladder { display: flex; flex-direction: column; padding: 4px; font-variant-numeric: tabular-nums; }
+  .rung { border: 1px solid var(--line); background: var(--std-fill); border-radius: 8px; padding: 7px 12px; }
+  .rung-k { font-size: 12px; color: var(--muted); }
+  .rung-v { font-size: 13.5px; overflow-wrap: anywhere; }
+  .step { position: relative; margin-left: 22px; padding: 8px 0 10px 18px; border-left: 2px solid var(--muted); font-size: 13.5px; }
+  .step::after {
+    content: ''; position: absolute; left: -7px; bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--muted);
+  }
+  .step.u b { color: var(--bad); }
+  .step.f b { color: var(--good); }
+  .step.n b { color: var(--fg); }
+  .rung.mark { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+  /* タイムテーブル・換算表・財務諸表 */
+  .tbl { width: 100%; min-width: 320px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .tbl th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .tbl td { padding: 5px 8px; text-align: right; border-bottom: 1px dashed var(--rule); white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl td.l { text-align: left; }
+  .tbl tr.sum td { border-top: 1px solid var(--fg-soft); font-weight: 700; }
+  .tbl tr.hl td { color: var(--accent); font-weight: 700; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    font: inherit; font-size: 14px; line-height: 1.4; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet-head { font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .sheet { display: flex; flex-direction: column; }
+  .ans-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--rule);
+  }
+  .ans-row:first-child { border-top: none; padding-top: 4px; }
+  .ans-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .ans-label { font-weight: 500; }
+  .qno { display: inline-block; min-width: 2.8em; color: var(--accent); font-weight: 700; font-size: 13px; }
+  .ans-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ans-ctrl input {
+    width: 10.5em; padding: 8px 12px; font: inherit; font-size: 16px; line-height: 1.4;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .ans-ctrl input::placeholder { color: var(--muted); opacity: 0.7; }
+  .yen { color: var(--muted); font-size: 14px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: 13.5px; line-height: 1.4; padding: 7px 14px;
+    background: transparent; color: var(--fg-soft); border: none; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .fb { grid-column: 1 / -1; font-size: 13.5px; font-weight: 500; }
+  .fb.ok { color: var(--good); }
+  .fb.ng { color: var(--bad); }
+  @media (max-width: 560px) { .ans-row { grid-template-columns: minmax(0, 1fr); } }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 700; line-height: 1.4;
+    padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-quiet { background: transparent; color: var(--muted); border-color: var(--rule); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .seg button:focus-visible, .ans-ctrl input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .err { color: var(--bad); font-size: 13.5px; }
+
+  .result { display: flex; flex-direction: column; gap: 14px; }
+  .verdict { font-size: 17px; font-weight: 700; }
+  .verdict.all { color: var(--good); }
+  .sol {
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums;
+  }
+  .sol h4 { margin: 12px 0 2px; font-size: 13.5px; color: var(--accent); letter-spacing: 0.04em; }
+  .sol h4:first-child { margin-top: 0; }
+  .sol p { margin: 0; font-size: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
+  .journal { display: flex; flex-direction: column; gap: 10px; }
+  .j-head { margin: 6px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .j-rule { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+  .j-note { margin: 0; font-size: 13.5px; color: var(--fg-soft); max-width: 46em; }
+  .j-list { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 16px; }
+  .j-entry { padding: 9px 0; border-top: 1px dashed var(--rule); }
+  .j-entry:first-child { border-top: none; }
+  .j-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .j-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px; font-variant-numeric: tabular-nums; }
+  .j-line { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; font-size: 14px; line-height: 1.7; }
+  .j-tag { color: var(--accent); font-weight: 700; }
+  .j-amt { text-align: right; }
+  @media (max-width: 540px) { .j-body { grid-template-columns: minmax(0, 1fr); } }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+
+  .chips.range { align-items: center; }
+  .range-l { font-size: 13px; color: var(--muted); font-weight: 700; margin-right: 2px; }
+  .lead a { color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .je-q { border-top: 1px solid var(--rule); padding: 16px 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .je-q:first-child { border-top: none; padding-top: 4px; }
+  .je-tag { font-size: 12px; color: var(--muted); font-weight: 700; }
+  .je-text { margin: 0; font-size: 15px; line-height: 1.85; overflow-wrap: anywhere; }
+  .je-text .qno { margin-right: 4px; }
+  .je-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; }
+  .je-h { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .jr { display: grid; grid-template-columns: minmax(0, 1fr) 7.5em; gap: 6px; margin-bottom: 6px; }
+  .jr select, .jr input { width: 100%; min-width: 0; padding: 8px; font: inherit; font-size: 16px; line-height: 1.4; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg); }
+  .jr input { text-align: right; font-variant-numeric: tabular-nums; }
+  .jr select:focus-visible, .jr input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .journal { border-top: 1px solid var(--rule); padding-top: 12px; }
+  @media (max-width: 620px) { .je-grid { grid-template-columns: minmax(0, 1fr); } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: rise 0.25s ease-out; }
+    @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="kicker">日商簿記2級 商業簿記</div>
+      <h1>第1問の仕訳ドリル</h1>
+      <p class="lead">勘定科目を選び、金額を入力して採点します。数字は毎回変わります。本試験と同じ5問セットと、分野別の3問セットがあります。<a href="boki2-shiwake-kaisetsu.html">解説ページはこちら</a></p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="score-k">正答数(小問)</div>
+      <div class="score-v"><span id="okN">0</span> / <span id="allN">0</span></div>
+    </div>
+  </header>
+
+  <div class="chips range" id="rangeChips" role="group" aria-label="受験時期"></div>
+  <nav class="chips" id="chips" aria-label="分野"></nav>
+
+  <section class="paper" id="problem"></section>
+
+  <section class="paper">
+    <div class="sheet-head">解答欄 <span class="hint">行の順番は問いません。金額は円で入力します(カンマはあってもなくてもOK)。</span></div>
+    <div class="sheet" id="sheet"></div>
+    <div class="err" id="err" hidden></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="checkBtn" type="button">採点する</button>
+      <button class="btn btn-ghost" id="nextBtn" type="button">次の問題</button>
+      <button class="btn btn-quiet" id="revealBtn" type="button">解答を見る</button>
+    </div>
+  </section>
+
+  <section class="result" id="result" hidden></section>
+
+  <footer class="foot">日商簿記2級の第1問の練習用(自己採点)。問題の形式は練習用で、本試験の出題を予想するものではありません。<br>受験時期を切り替えると、手形と旧リース、または新しいリースの問題に変わります。</footer>
+
+</div>
+
+<script>
+var Drill = (function () {
+  'use strict';
+
+  var uid = 0;
+
+  function ri(min, max, step) {
+    step = step || 1;
+    var n = Math.floor((max - min) / step) + 1;
+    return min + Math.floor(Math.random() * n) * step;
+  }
+  function nz(min, max, step) {
+    for (var g = 0; g < 200; g++) { var v = ri(min, max, step); if (v !== 0) return v; }
+    return step || 1;
+  }
+  function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
+  function sum(a) { return a.reduce(function (s, x) { return s + x; }, 0); }
+  function isInt(x) { return Math.abs(x - Math.round(x)) < 1e-7; }
+  // 浮動小数の誤差を落としたかけ算
+  function mul(a, b) { return Math.round(a * b * 1e6) / 1e6; }
+  function fmt(n) {
+    n = Math.round(n * 100) / 100;
+    return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP', { maximumFractionDigits: 2 });
+  }
+  function pct(p) { return Math.round(p * 100) + '%'; }
+  function sen(v) { return fmt(v) + '千円'; }
+  function signed(v) { return (v > 0 ? '+' : '−') + fmt(Math.abs(v)); }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+
+  function rnd(x) { return Math.round(x * 1e6) / 1e6; }
+
+  // ---------- 仕訳の問題 ----------
+  function yen(v) { return fmt(v) + '円'; }
+  var PAY = ['当座預金', '現金', '普通預金'];
+  var CATS = { sec: '有価証券', debt: '債権債務', fa: '固定資産', lease: 'リース', eq: '純資産と合併', rev: '収益認識', fx: '外貨と税金' };
+  // 1問 = { cat, rng(省略可:'old'/'new'), q, dr, cr, others(まぎらわしい科目), calc(計算の説明), why }
+  function clean(lines) { return lines.filter(function (l) { return l[1] !== 0; }); }
+  var S = [];
+  function add(cat, fn, rng) { S.push({ cat: cat, fn: fn, rng: rng || null }); }
+
+  // 有価証券
+  add('sec', function () {
+    var F = ri(5, 30) * 100000, p = pick([96, 97, 98, 99]), r = pick([3.65, 7.3]), d = pick([73, 146]), acc = rnd(F * r / 100 * d / 365), cost = F * p / 100;
+    return { q: '売買目的で、額面 ' + yen(F) + ' の社債を額面100円につき ' + p + '円で購入し、前回の利払日からの端数利息とともに小切手を振り出して支払った。年利は ' + r + '%、前回の利払日から ' + d + '日である(1年は365日)。', dr: [['売買目的有価証券', cost], ['有価証券利息', acc]], cr: [['当座預金', cost + acc]], others: ['満期保有目的債券', '受取利息', '現金', '有価証券売却益'], calc: ['取得原価 = ' + fmt(F) + ' × ' + p + ' ÷ 100 = ' + fmt(cost), '端数利息 = ' + fmt(F) + ' × ' + r + '% × ' + d + ' ÷ 365 = ' + fmt(acc)], why: '端数利息は先に払う分なので、有価証券利息の借方に記入する。' };
+  });
+  add('sec', function () {
+    var F = ri(5, 30) * 100000, p = pick([96, 97, 98]), up = nz(-3, 3), r = 3.65, d = pick([73, 146]), acc = rnd(F * r / 100 * d / 365), book = F * p / 100, sale = F * (p + up) / 100, g = sale - book;
+    return { q: '売買目的で保有する額面 ' + yen(F) + ' の社債(帳簿価額 ' + yen(book) + ')を、額面100円につき ' + (p + up) + '円で売却し、端数利息とともに当座預金に入金された。年利は ' + r + '%、前回の利払日から ' + d + '日である(1年は365日)。', dr: clean([['当座預金', sale + acc], ['有価証券売却損', Math.max(-g, 0)]]), cr: clean([['売買目的有価証券', book], ['有価証券売却益', Math.max(g, 0)], ['有価証券利息', acc]]), others: ['受取利息', '満期保有目的債券', g > 0 ? '有価証券売却損' : '有価証券売却益'], calc: ['売却額 = ' + fmt(F) + ' × ' + (p + up) + ' ÷ 100 = ' + fmt(sale), '売却損益 = ' + fmt(sale) + ' − ' + fmt(book) + ' = ' + (g > 0 ? '+' : '−') + fmt(Math.abs(g)), '端数利息 = ' + fmt(acc)], why: '受け取る端数利息は有価証券利息の貸方。売却損益とは分ける。' };
+  });
+  add('sec', function () {
+    var kind = pick([['子会社株式', '発行済株式の60%を取得し、支配した'], ['関連会社株式', '発行済株式の25%を取得し、重要な影響を与えることになった'], ['その他有価証券', '取引先との関係を維持する目的で取得した']]), n = ri(1, 9) * 100, u = ri(5, 30) * 100, fee = ri(1, 9) * 1000, cost = n * u + fee;
+    return { q: 'A社の株式 ' + fmt(n) + '株を1株 ' + yen(u) + 'で、' + kind[1] + '。代金は手数料 ' + yen(fee) + ' とともに小切手を振り出して支払った。', dr: [[kind[0], cost]], cr: [['当座預金', cost]], others: ['売買目的有価証券', '支払手数料', '子会社株式', '関連会社株式', 'その他有価証券'].filter(function (x) { return x !== kind[0]; }), calc: ['取得原価 = ' + fmt(n) + ' × ' + fmt(u) + ' + ' + fmt(fee) + ' = ' + fmt(cost)], why: '保有目的で科目を選ぶ。買うときの手数料は取得原価に含める。' };
+  });
+  add('sec', function () {
+    var F = ri(5, 30) * 100000, p = pick([96, 97, 98, 99]), cost = F * p / 100;
+    return { q: '満期まで保有する目的で、額面 ' + yen(F) + ' の社債を額面100円につき ' + p + '円で購入し、代金は当座預金から支払った。', dr: [['満期保有目的債券', cost]], cr: [['当座預金', cost]], others: ['売買目的有価証券', 'その他有価証券', '社債', '有価証券利息'], calc: ['取得原価 = ' + fmt(F) + ' × ' + p + ' ÷ 100 = ' + fmt(cost)], why: '満期まで保有する債券は満期保有目的債券である。' };
+  });
+  add('sec', function () {
+    var book = ri(4, 20) * 50000, g = nz(-5, 5) * 10000, sale = book + g;
+    return { q: 'その他有価証券(帳簿価額 ' + yen(book) + ')を ' + yen(sale) + ' で売却し、代金は現金で受け取った。前期末の評価差額は振り戻してある。', dr: clean([['現金', sale], ['投資有価証券売却損', Math.max(-g, 0)]]), cr: clean([['その他有価証券', book], ['投資有価証券売却益', Math.max(g, 0)]]), others: ['有価証券売却益', 'その他有価証券評価差額金', g > 0 ? '投資有価証券売却損' : '投資有価証券売却益'], calc: ['売却損益 = ' + fmt(sale) + ' − ' + fmt(book) + ' = ' + (g > 0 ? '+' : '−') + fmt(Math.abs(g))], why: 'その他有価証券の売却損益は投資有価証券売却損益を使う。' };
+  });
+
+  // 債権債務
+  add('debt', function () {
+    var a = ri(2, 20) * 50000, f = ri(1, 5) * 1000;
+    return { q: '電子記録債権 ' + yen(a) + ' を取引銀行で割り引き、割引料 ' + yen(f) + ' を差し引かれた残額が当座預金に入金された。', dr: [['当座預金', a - f], ['電子記録債権売却損', f]], cr: [['電子記録債権', a]], others: ['支払利息', '手形売却損', '受取手形', '債権売却損'], calc: ['入金額 = ' + fmt(a) + ' − ' + fmt(f) + ' = ' + fmt(a - f)], why: '割引は債権の売却として処理する。' };
+  });
+  add('debt', function () {
+    var a = ri(2, 20) * 50000;
+    return { q: '買掛金 ' + yen(a) + ' の支払いのため、保有する電子記録債権を譲渡記録により譲渡した。', dr: [['買掛金', a]], cr: [['電子記録債権', a]], others: ['電子記録債務', '受取手形', '売掛金', '電子記録債権売却損'], calc: ['同額の譲渡なので損益は出ない。'], why: '買掛金の減少と、電子記録債権の減少である。' };
+  });
+  add('debt', function () {
+    var a = ri(2, 20) * 50000, f = ri(2, 12) * 1000;
+    return { q: '売掛金 ' + yen(a) + ' をファクタリング会社に譲渡し、手数料 ' + yen(f) + ' を差し引かれた残額が当座預金に入金された。', dr: [['当座預金', a - f], ['債権売却損', f]], cr: [['売掛金', a]], others: ['支払手数料', '電子記録債権売却損', '貸倒損失', '受取手形'], calc: ['入金額 = ' + fmt(a) + ' − ' + fmt(f) + ' = ' + fmt(a - f)], why: '売掛金を売却したものとして、差額を債権売却損にする。' };
+  });
+  add('debt', function () {
+    var item = pick(['備品', '車両', '建物']), a = ri(4, 40) * 50000;
+    return { q: item + ' ' + yen(a) + ' を購入し、代金について電子記録債務の発生記録が行われた。', dr: [[item, a]], cr: [['営業外電子記録債務', a]], others: ['電子記録債務', '未払金', '買掛金', '営業外電子記録債権'], calc: ['商品以外の取引である。'], why: '商品売買以外の電子記録債務は、営業外電子記録債務である。' };
+  });
+  add('debt', function () {
+    var a = ri(2, 20) * 50000, al = ri(1, 3) * 10000, prior = Math.random() < 0.7;
+    if (al >= a) al = a / 2;
+    return prior
+      ? { q: '得意先が倒産し、前期に発生した売掛金 ' + yen(a) + ' が貸し倒れた。貸倒引当金の残高は ' + yen(al) + ' である。', dr: [['貸倒引当金', al], ['貸倒損失', a - al]], cr: [['売掛金', a]], others: ['貸倒引当金繰入', '貸倒引当金戻入', '受取手形'], calc: ['損失 = ' + fmt(a) + ' − ' + fmt(al) + ' = ' + fmt(a - al)], why: '前期に発生した分は、まず貸倒引当金を使い、足りない分を貸倒損失にする。' }
+      : { q: '得意先が倒産し、当期に発生した売掛金 ' + yen(a) + ' が貸し倒れた。貸倒引当金の残高は ' + yen(al) + ' である。', dr: [['貸倒損失', a]], cr: [['売掛金', a]], others: ['貸倒引当金', '貸倒引当金繰入', '受取手形'], calc: ['当期発生の分に引当金は使えない。'], why: '当期に発生した売掛金の貸倒れは、全額が貸倒損失である。' };
+  });
+  add('debt', function () {
+    var a = ri(2, 20) * 50000, f = ri(1, 6) * 1000;
+    return { q: '受取手形 ' + yen(a) + ' を銀行で割り引き、割引料 ' + yen(f) + ' を差し引かれた残額が当座預金に入金された。', dr: [['当座預金', a - f], ['手形売却損', f]], cr: [['受取手形', a]], others: ['支払利息', '電子記録債権売却損', '支払手形', '不渡手形'], calc: ['入金額 = ' + fmt(a) + ' − ' + fmt(f) + ' = ' + fmt(a - f)], why: '手形の割引は手形の売却として処理する。' };
+  }, 'old');
+  add('debt', function () {
+    var a = ri(2, 20) * 50000;
+    return { q: '買掛金 ' + yen(a) + ' の支払いのため、所有する約束手形を裏書譲渡した。', dr: [['買掛金', a]], cr: [['受取手形', a]], others: ['支払手形', '手形売却損', '売掛金', '電子記録債権'], calc: ['同額の譲渡なので損益は出ない。'], why: '持っている手形を渡すので、受取手形の減少である。' };
+  }, 'old');
+  add('debt', function () {
+    var a = ri(2, 20) * 50000, c = ri(1, 5) * 1000;
+    return { q: '所有する約束手形 ' + yen(a) + ' が不渡りとなり、振出人に支払いを請求した。請求のための費用 ' + yen(c) + ' は現金で支払った。', dr: [['不渡手形', a + c]], cr: [['受取手形', a], ['現金', c]], others: ['売掛金', '貸倒損失', '支払手数料', '未収入金'], calc: ['不渡手形 = ' + fmt(a) + ' + ' + fmt(c) + ' = ' + fmt(a + c)], why: '請求にかかった費用も、不渡手形に含めて請求する。' };
+  }, 'old');
+
+  // 固定資産
+  add('fa', function () {
+    var item = pick(['備品', '車両']), life = pick([5, 8, 10]), y = ri(3, 12) * 12000, cost = y * life, yrs = ri(1, life - 2), acc = y * yrs, m = pick([3, 6, 9]), cur = y * m / 12, bk = cost - acc - cur, g = nz(-6, 6) * 5000, sale = bk + g;
+    if (sale <= 0) return S_retry();
+    return { q: item + '(取得原価 ' + yen(cost) + '、期首の減価償却累計額 ' + yen(acc) + '、定額法、耐用年数 ' + life + '年、残存価額0、間接法)を、当期首から ' + m + 'か月後に ' + yen(sale) + ' で売却し、代金は月末に受け取ることにした。', dr: clean([[item + '減価償却累計額', acc], ['減価償却費', cur], ['未収入金', sale], ['固定資産売却損', Math.max(-g, 0)]]), cr: clean([[item, cost], ['固定資産売却益', Math.max(g, 0)]]), others: ['売掛金', g > 0 ? '固定資産売却損' : '固定資産売却益', '未払金'], calc: ['当期の償却 = ' + fmt(cost) + ' ÷ ' + life + '年 × ' + m + '/12 = ' + fmt(cur), '帳簿価額 = ' + fmt(cost) + ' − ' + fmt(acc) + ' − ' + fmt(cur) + ' = ' + fmt(bk), '売却損益 = ' + fmt(sale) + ' − ' + fmt(bk) + ' = ' + (g > 0 ? '+' : '−') + fmt(Math.abs(g))], why: '期中の売却では、当期に使った分の減価償却費を忘れない。代金の未収は未収入金である。' };
+  });
+  add('fa', function () {
+    var cost = ri(4, 20) * 50000, acc = cost - ri(4, 12) * 10000, val = ri(1, 3) * 10000, bk = cost - acc, loss = bk - val;
+    if (acc <= 0 || loss <= 0) return S_retry();
+    return { q: '備品(取得原価 ' + yen(cost) + '、減価償却累計額 ' + yen(acc) + '、間接法)を期首に除却した。この備品の見積売却価額は ' + yen(val) + ' である。', dr: [['備品減価償却累計額', acc], ['貯蔵品', val], ['固定資産除却損', loss]], cr: [['備品', cost]], others: ['固定資産売却損', '未収入金', '減価償却費'], calc: ['帳簿価額 = ' + fmt(cost) + ' − ' + fmt(acc) + ' = ' + fmt(bk), '除却損 = ' + fmt(bk) + ' − ' + fmt(val) + ' = ' + fmt(loss)], why: 'まだ売れそうな分は貯蔵品にして、残りを除却損にする。' };
+  });
+  add('fa', function () {
+    var n = pick([10, 12, 20]), pay = ri(3, 20) * 10000, total = n * pay, int_ = n * ri(1, 5) * 100, cash = total - int_;
+    return { q: '備品(現金購入価額 ' + yen(cash) + ')を分割払いで購入した。代金は月末に ' + yen(pay) + ' ずつ ' + n + '回で支払う。利息相当額は前払利息で処理する。', dr: [['備品', cash], ['前払利息', int_]], cr: [['未払金', total]], others: ['買掛金', '支払利息', '未払費用', '前払金'], calc: ['支払総額 = ' + fmt(pay) + ' × ' + n + ' = ' + fmt(total), '利息 = ' + fmt(total) + ' − ' + fmt(cash) + ' = ' + fmt(int_)], why: '資産は現金購入価額で計上する。商品以外の未払いなので未払金である。' };
+  });
+  add('fa', function () {
+    var total = ri(10, 60) * 100000, adv = ri(2, 8) * 100000;
+    if (adv >= total) return S_retry();
+    return { q: '建設中の建物が完成して引渡しを受けた。契約金額は ' + yen(total) + ' で、すでに支払っている ' + yen(adv) + ' を除いた残額を当座預金から支払った。', dr: [['建物', total]], cr: [['建設仮勘定', adv], ['当座預金', total - adv]], others: ['前払金', '未払金', '修繕費'], calc: ['残額 = ' + fmt(total) + ' − ' + fmt(adv) + ' = ' + fmt(total - adv)], why: '工事の途中の支払いは建設仮勘定に集めてあるので、完成時に建物へ振り替える。' };
+  });
+  add('fa', function () {
+    var t = ri(4, 20) * 100000, up = ri(1, 3) * t / 5;
+    return { q: '建物の改修工事を行い、代金 ' + yen(t) + ' を当座預金から支払った。このうち ' + yen(up) + ' は建物の価値を高める支出で、残りは元の状態に戻すための支出である。', dr: [['建物', up], ['修繕費', t - up]], cr: [['当座預金', t]], others: ['修繕引当金', '建設仮勘定', '減価償却費'], calc: ['修繕費 = ' + fmt(t) + ' − ' + fmt(up) + ' = ' + fmt(t - up)], why: '価値を高める分は資本的支出で資産、元に戻す分は収益的支出で費用である。' };
+  });
+  add('fa', function () {
+    var g = ri(1, 5) * 100000, cost = g + ri(2, 8) * 100000;
+    return { q: '機械装置 ' + yen(cost) + ' を購入し、代金は当座預金から支払った。この機械装置について、受け取った国庫補助金 ' + yen(g) + ' の額で圧縮記帳(直接控除方式)を行った。購入と圧縮の処理を1つの仕訳で答えなさい。', dr: [['機械装置', cost - g], ['固定資産圧縮損', g]], cr: [['当座預金', cost]], others: ['国庫補助金受贈益', '減価償却費', '建設仮勘定'], calc: ['圧縮後の機械装置 = ' + fmt(cost) + ' − ' + fmt(g) + ' = ' + fmt(cost - g)], why: '補助金の分を固定資産圧縮損にして、資産を直接減らす。' };
+  });
+  add('fa', function () {
+    var g = ri(1, 8) * 100000;
+    return { q: '機械装置の購入に先立ち、国から補助金 ' + yen(g) + ' を受け取り、当座預金とした。', dr: [['当座預金', g]], cr: [['国庫補助金受贈益', g]], others: ['固定資産圧縮損', '前受金', '資本金'], calc: ['受け取った金額をそのまま記入する。'], why: '補助金の受取りは収益である。' };
+  });
+  add('fa', function () {
+    var a = ri(3, 20) * 100000, b = ri(1, 5) * 50000;
+    return { q: '自社利用のソフトウェアの開発が完了した。開発費として ' + yen(a) + ' をソフトウェア仮勘定に計上しており、最終の代金 ' + yen(b) + ' を当座預金から支払った。', dr: [['ソフトウェア', a + b]], cr: [['ソフトウェア仮勘定', a], ['当座預金', b]], others: ['研究開発費', '建設仮勘定', 'ソフトウェア償却'], calc: ['ソフトウェア = ' + fmt(a) + ' + ' + fmt(b) + ' = ' + fmt(a + b)], why: '完成したら仮勘定から本勘定へ振り替える。' };
+  });
+  add('fa', function () {
+    var a = ri(2, 10) * 50000, b = ri(1, 6) * 50000;
+    return { q: '研究開発部門の従業員の給料 ' + yen(a) + ' と、研究開発のためだけに使う材料 ' + yen(b) + ' を当座預金から支払った。', dr: [['研究開発費', a + b]], cr: [['当座預金', a + b]], others: ['給料', '貯蔵品', 'ソフトウェア'], calc: ['合計 = ' + fmt(a) + ' + ' + fmt(b) + ' = ' + fmt(a + b)], why: '研究開発のための費用は、すべて研究開発費として発生時に費用にする。' };
+  });
+  add('fa', function () {
+    var cost = ri(10, 50) * 100000, acc = ri(2, 8) * 100000;
+    return { q: '建物(取得原価 ' + yen(cost) + '、減価償却累計額 ' + yen(acc) + '、間接法)が火災で焼失した。この建物には保険を掛けており、保険金の額は確定していない。', dr: [['建物減価償却累計額', acc], ['火災未決算', cost - acc]], cr: [['建物', cost]], others: ['火災損失', '未収入金', '固定資産除却損'], calc: ['帳簿価額 = ' + fmt(cost) + ' − ' + fmt(acc) + ' = ' + fmt(cost - acc)], why: '保険金が確定するまで、損失の額がわからないので未決算にする。' };
+  });
+  add('fa', function () {
+    var bk = ri(4, 20) * 100000, ins = bk - nz(-3, 3) * 50000, g = ins - bk;
+    return { q: '火災未決算 ' + yen(bk) + ' について、保険金 ' + yen(ins) + ' の支払いが確定した。入金は後日である。', dr: clean([['未収入金', ins], ['火災損失', Math.max(-g, 0)]]), cr: clean([['火災未決算', bk], ['保険差益', Math.max(g, 0)]]), others: [g > 0 ? '火災損失' : '保険差益', '受取保険金'], calc: ['差額 = ' + fmt(ins) + ' − ' + fmt(bk) + ' = ' + (g > 0 ? '+' : '−') + fmt(Math.abs(g))], why: '保険金が帳簿価額より少なければ火災損失、多ければ保険差益である。' };
+  });
+
+  // リース
+  function leaseData() {
+    var n = pick([4, 5]), pay = ri(2, 12) * 100000, int1 = ri(1, 4) * 10000, tot = pay * n, intT = int1 * n, cap = tot - intT, prin = pay - int1;
+    return { n: n, pay: pay, int1: int1, tot: tot, intT: intT, cap: cap, prin: prin };
+  }
+  function leaseIntro(d) { return 'リース期間 ' + d.n + '年、リース料は年 ' + yen(d.pay) + ' の後払い、利息相当額の総額は ' + yen(d.intT) + ' である。利子抜き法(利息は定額法で配分)で処理する。'; }
+  function leaseCalc(d) { return ['資産の金額 = ' + fmt(d.pay) + ' × ' + d.n + ' − ' + fmt(d.intT) + ' = ' + fmt(d.cap), '1年の利息 = ' + fmt(d.intT) + ' ÷ ' + d.n + ' = ' + fmt(d.int1), '1年の元本 = ' + fmt(d.pay) + ' − ' + fmt(d.int1) + ' = ' + fmt(d.prin)]; }
+  add('lease', function () { var d = leaseData(); return { q: 'リース契約を結び、備品の使用を開始した。' + leaseIntro(d) + 'リース開始時の仕訳を答えなさい。', dr: [['使用権資産', d.cap]], cr: [['リース負債', d.cap]], others: ['リース資産', 'リース債務', '支払リース料', '備品'], calc: leaseCalc(d), why: '借手は使用権資産とリース負債を計上する。' }; }, 'new');
+  add('lease', function () { var d = leaseData(); return { q: 'リース料を当座預金から支払った。' + leaseIntro(d) + 'リース料の支払いの仕訳を答えなさい。', dr: [['リース負債', d.prin], ['支払利息', d.int1]], cr: [['当座預金', d.pay]], others: ['リース債務', '支払リース料', '前払利息'], calc: leaseCalc(d), why: 'リース料を元本と利息に分ける。' }; }, 'new');
+  add('lease', function () { var d = leaseData(), dep = d.cap / d.n; return { q: '決算で、使用権資産の減価償却を定額法、間接法で行う。' + leaseIntro(d) + '耐用年数はリース期間とし、残存価額は0とする。', dr: [['減価償却費', dep]], cr: [['使用権資産減価償却累計額', dep]], others: ['使用権資産', 'リース資産減価償却累計額', '支払利息'], calc: leaseCalc(d).concat(['減価償却費 = ' + fmt(d.cap) + ' ÷ ' + d.n + ' = ' + fmt(dep)]), why: '使用権資産も定額法で償却し、累計額に記入する。' }; }, 'new');
+  add('lease', function () { var a = ri(1, 12) * 10000; return { q: 'リース期間6か月のコピー機のリース料 ' + yen(a) + ' を当座預金から支払った。短期リースとして賃貸借処理を行う。', dr: [['支払リース料', a]], cr: [['当座預金', a]], others: ['使用権資産', 'リース負債', '支払家賃'], calc: ['短期リースは資産に計上しない。'], why: '短期リースと少額リースは支払リース料で処理する。' }; }, 'new');
+  add('lease', function () { var d = leaseData(); return { q: 'ファイナンス・リース取引で備品の使用を開始した。' + leaseIntro(d) + 'リース開始時の仕訳を答えなさい。', dr: [['リース資産', d.cap]], cr: [['リース債務', d.cap]], others: ['使用権資産', 'リース負債', '支払リース料', '備品'], calc: leaseCalc(d), why: 'ファイナンス・リース取引はリース資産とリース債務を計上する。' }; }, 'old');
+  add('lease', function () { var d = leaseData(); return { q: 'ファイナンス・リース取引のリース料を当座預金から支払った。' + leaseIntro(d) + 'リース料の支払いの仕訳を答えなさい。', dr: [['リース債務', d.prin], ['支払利息', d.int1]], cr: [['当座預金', d.pay]], others: ['リース負債', '支払リース料', '前払利息'], calc: leaseCalc(d), why: 'リース料を元本と利息に分ける。' }; }, 'old');
+  add('lease', function () { var d = leaseData(), dep = d.cap / d.n; return { q: '決算で、ファイナンス・リース取引のリース資産の減価償却を定額法、間接法で行う。' + leaseIntro(d) + '耐用年数はリース期間とし、残存価額は0とする。', dr: [['減価償却費', dep]], cr: [['リース資産減価償却累計額', dep]], others: ['リース資産', '使用権資産減価償却累計額', '支払利息'], calc: leaseCalc(d).concat(['減価償却費 = ' + fmt(d.cap) + ' ÷ ' + d.n + ' = ' + fmt(dep)]), why: 'リース資産も定額法で償却し、累計額に記入する。' }; }, 'old');
+  add('lease', function () { var a = ri(1, 12) * 10000; return { q: 'オペレーティング・リース取引のリース料 ' + yen(a) + ' を当座預金から支払った。', dr: [['支払リース料', a]], cr: [['当座預金', a]], others: ['リース資産', 'リース債務', '支払家賃'], calc: ['賃貸借の処理である。'], why: 'オペレーティング・リース取引は支払リース料で処理する。' }; }, 'old');
+
+  // 純資産と合併
+  add('eq', function () {
+    var n = ri(1, 20) * 100, u = ri(2, 10) * 1000, t = n * u, half = t / 2;
+    if (!isInt(half)) return S_retry();
+    return { q: '増資にあたり、株式 ' + fmt(n) + '株を1株 ' + yen(u) + 'で発行し、全額の払込みを受けて当座預金とした。資本金には会社法が定める最低額を計上する。', dr: [['当座預金', t]], cr: [['資本金', half], ['資本準備金', half]], others: ['利益準備金', 'その他資本剰余金', '繰越利益剰余金'], calc: ['払込金額 = ' + fmt(n) + ' × ' + fmt(u) + ' = ' + fmt(t), '資本金 = ' + fmt(t) + ' × 1/2 = ' + fmt(half)], why: '最低額は払込金額の2分の1で、残りは資本準備金である。' };
+  });
+  add('eq', function () {
+    var n = ri(1, 20) * 100, u = ri(2, 10) * 1000, t = n * u, c = ri(1, 8) * 10000;
+    return { q: '会社の設立にあたり、株式 ' + fmt(n) + '株を1株 ' + yen(u) + 'で発行し、全額の払込みを受けて当座預金とした。全額を資本金とする。また、設立のための費用 ' + yen(c) + ' を当座預金から支払った。1つの仕訳で答えなさい。', dr: [['当座預金', t - c], ['創立費', c]], cr: [['資本金', t]], others: ['開業費', '資本準備金', '支払手数料'], calc: ['当座預金の純増 = ' + fmt(t) + ' − ' + fmt(c) + ' = ' + fmt(t - c)], why: '設立のための費用は創立費、開業までの準備の費用は開業費である。' };
+  });
+  add('eq', function () {
+    var cap = ri(10, 40) * 1000000, rc = ri(1, 4) * 500000, re = ri(1, 4) * 100000, div = ri(1, 10) * 200000, ten = div / 10, lim = cap / 4 - rc - re, res = Math.min(ten, lim), other = Math.random() < 0.5 ? ri(1, 5) * 10000 : 0;
+    if (lim <= 0) return S_retry();
+    return { q: '株主総会で、繰越利益剰余金から配当 ' + yen(div) + (other ? ' と別途積立金の積立 ' + yen(other) : '') + ' を決議した。会社法の規定により利益準備金を積み立てる。資本金は ' + yen(cap) + '、資本準備金は ' + yen(rc) + '、利益準備金は ' + yen(re) + ' である。', dr: [['繰越利益剰余金', div + res + other]], cr: clean([['未払配当金', div], ['利益準備金', res], ['別途積立金', other]]), others: ['未払金', '資本準備金', other ? '資本金' : '別途積立金'], calc: ['配当の10分の1 = ' + fmt(ten), '上限 = ' + fmt(cap) + ' ÷ 4 − ' + fmt(rc) + ' − ' + fmt(re) + ' = ' + fmt(lim), '小さいほうの ' + fmt(res) + ' を積み立てる。'], why: '積立額は配当の10分の1で、準備金の合計が資本金の4分の1に達するまでである。' };
+  });
+  add('eq', function () {
+    var a = ri(2, 10) * 100000, kind = pick([['資本準備金', '資本金', '資本準備金を資本金に組み入れた'], ['繰越利益剰余金', '資本金', '繰越利益剰余金を資本金に組み入れた'], ['その他資本剰余金', '資本準備金', 'その他資本剰余金を資本準備金に組み入れた']]);
+    return { q: '株主総会の決議により、' + yen(a) + ' の' + kind[2] + '。', dr: [[kind[0], a]], cr: [[kind[1], a]], others: ['利益準備金', '未払配当金', kind[0] === '資本準備金' ? '繰越利益剰余金' : '資本準備金'], calc: ['純資産の内部での振替である。'], why: '株主資本の計数の変動で、純資産の合計は変わらない。' };
+  });
+  add('eq', function () {
+    var A = ri(20, 80) * 100000, L = ri(5, 15) * 100000, net = A - L, g = nz(-3, 5) * 100000, pay = net + g, capit = Math.floor(pay / 2 / 100000) * 100000;
+    if (pay <= 0 || capit <= 0 || capit >= pay) return S_retry();
+    return { q: 'B社を吸収合併し、B社の諸資産(時価 ' + yen(A) + ')と諸負債(時価 ' + yen(L) + ')を引き継いだ。合併の対価として株式を交付し、その時価は ' + yen(pay) + ' である。このうち ' + yen(capit) + ' を資本金とし、残りは資本準備金とする。', dr: clean([['諸資産', A], ['のれん', Math.max(g, 0)]]), cr: clean([['諸負債', L], ['資本金', capit], ['資本準備金', pay - capit], ['負ののれん発生益', Math.max(-g, 0)]]), others: [g > 0 ? '負ののれん発生益' : 'のれん', 'その他資本剰余金'], calc: ['受け入れた純資産 = ' + fmt(A) + ' − ' + fmt(L) + ' = ' + fmt(net), '差額 = ' + fmt(pay) + ' − ' + fmt(net) + ' = ' + (g > 0 ? fmt(g) + '(のれん)' : '−' + fmt(-g) + '(負ののれん発生益)')], why: '資産と負債は時価で受け入れ、対価との差額をのれんにする。' };
+  });
+
+  // 収益認識
+  add('rev', function () {
+    var a = ri(2, 20) * 10000;
+    return { q: '商品Aと商品Bを販売する契約を結び、先に商品A(' + yen(a) + ')を引き渡した。代金は、商品Bを引き渡したあとに請求する。商品Aの引渡しの仕訳を答えなさい。', dr: [['契約資産', a]], cr: [['売上', a]], others: ['売掛金', '契約負債', '前受金'], calc: ['まだ請求できないので売掛金にしない。'], why: 'まだ請求できない権利は契約資産である。' };
+  });
+  add('rev', function () {
+    var a = ri(2, 20) * 10000, b = ri(2, 20) * 10000;
+    return { q: '商品A(' + yen(a) + ')の引渡しで契約資産を計上済みである。今回、商品B(' + yen(b) + ')を引き渡し、合計の代金を請求して掛けとした。', dr: [['売掛金', a + b]], cr: [['売上', b], ['契約資産', a]], others: ['契約負債', '前受金', '未収入金'], calc: ['売掛金 = ' + fmt(a) + ' + ' + fmt(b) + ' = ' + fmt(a + b)], why: '請求できるようになったので、契約資産を売掛金に振り替える。売上は今回の分だけである。' };
+  });
+  add('rev', function () {
+    var a = ri(1, 10) * 10000, t = a + ri(2, 20) * 10000;
+    return { q: '商品 ' + yen(t) + ' を引き渡した。この商品については手付金 ' + yen(a) + ' を受け取り、契約負債に計上している。残額は掛けとした。', dr: [['契約負債', a], ['売掛金', t - a]], cr: [['売上', t]], others: ['契約資産', '前払金', '未収入金'], calc: ['掛けの金額 = ' + fmt(t) + ' − ' + fmt(a) + ' = ' + fmt(t - a)], why: '受け取っていた手付金の分だけ、契約負債を減らす。' };
+  });
+  add('rev', function () {
+    var t = ri(5, 40) * 10000, r = ri(1, 4) * 5000;
+    return { q: '商品 ' + yen(t) + ' を掛けで販売した。過去の実績から、このうち ' + yen(r) + ' は売上割戻として返金すると見込んでいる。', dr: [['売掛金', t]], cr: [['売上', t - r], ['返金負債', r]], others: ['売上割戻引当金', '契約負債', '契約資産'], calc: ['売上 = ' + fmt(t) + ' − ' + fmt(r) + ' = ' + fmt(t - r)], why: '返す見込みの分は売上にせず、返金負債にする。' };
+  });
+  add('rev', function () {
+    var r = ri(2, 10) * 50000, c = ri(1, 4) * 50000;
+    if (c >= r) return S_retry();
+    return { q: 'サービスの提供が完了し、対価 ' + yen(r) + ' を現金で受け取った。このサービスのために仕掛品に集計した ' + yen(c) + ' を原価に振り替える。1つの仕訳で答えなさい。', dr: [['現金', r], ['役務原価', c]], cr: [['役務収益', r], ['仕掛品', c]], others: ['売上', '売上原価', '前受金'], calc: ['収益と原価を同時に計上する。'], why: 'サービス業では、役務収益と役務原価を使う。' };
+  });
+  add('rev', function () {
+    var c = ri(2, 20) * 10000, s = c + ri(1, 10) * 10000;
+    return { q: '商品(原価 ' + yen(c) + ')を ' + yen(s) + ' で掛け販売した。商品売買は、販売のつど売上原価に振り替える方法で記帳している。', dr: [['売掛金', s], ['売上原価', c]], cr: [['売上', s], ['商品', c]], others: ['仕入', '繰越商品', '契約資産'], calc: ['売上と原価を同時に記入する。'], why: '売上原価対立法では、販売のたびに商品を売上原価に振り替える。' };
+  });
+
+  // 外貨と税金
+  add('fx', function () {
+    var d = ri(1, 20) * 1000, r = ri(100, 120), a = d * r;
+    return { q: '商品 ' + fmt(d) + 'ドルを掛けで仕入れた。取引日の為替相場は1ドル ' + r + '円である。', dr: [['仕入', a]], cr: [['買掛金', a]], others: ['為替差損益', '前払金', '売掛金'], calc: [fmt(d) + ' × ' + r + ' = ' + fmt(a)], why: '外貨建の取引は、取引日のレートで記帳する。' };
+  });
+  add('fx', function () {
+    var d = ri(1, 20) * 1000, r = ri(100, 120), r2 = r + nz(-5, 5), a = d * r, b = d * r2, g = b - a;
+    return { q: '買掛金 ' + fmt(d) + 'ドル(取引日の相場は1ドル ' + r + '円)を当座預金から決済した。決済日の為替相場は1ドル ' + r2 + '円である。', dr: clean([['買掛金', a], ['為替差損益', Math.max(g, 0)]]), cr: clean([['当座預金', b], ['為替差損益', Math.max(-g, 0)]]), others: ['支払利息', '仕入', '前払金'], calc: ['帳簿 = ' + fmt(d) + ' × ' + r + ' = ' + fmt(a), '支払い = ' + fmt(d) + ' × ' + r2 + ' = ' + fmt(b)], why: g > 0 ? '支払いが増えたので為替差損(借方)である。' : '支払いが減ったので為替差益(貸方)である。' };
+  });
+  add('fx', function () {
+    var d = ri(1, 20) * 1000, r = ri(100, 120), r2 = r + nz(-5, 5), a = d * r, b = d * r2, g = b - a;
+    return { q: '売掛金 ' + fmt(d) + 'ドル(取引日の相場は1ドル ' + r + '円)が当座預金に入金された。決済日の為替相場は1ドル ' + r2 + '円である。', dr: clean([['当座預金', b], ['為替差損益', Math.max(-g, 0)]]), cr: clean([['売掛金', a], ['為替差損益', Math.max(g, 0)]]), others: ['受取利息', '売上', '前受金'], calc: ['帳簿 = ' + fmt(d) + ' × ' + r + ' = ' + fmt(a), '入金 = ' + fmt(d) + ' × ' + r2 + ' = ' + fmt(b)], why: g > 0 ? '受取りが増えたので為替差益(貸方)である。' : '受取りが減ったので為替差損(借方)である。' };
+  });
+  add('fx', function () {
+    var pd = ri(1, 4) * 1000, d = pd + ri(2, 10) * 1000, r0 = ri(100, 118), r = r0 + nz(-3, 3), pre = pd * r0, rest = (d - pd) * r;
+    return { q: '商品 ' + fmt(d) + 'ドルを仕入れた。このうち ' + fmt(pd) + 'ドルは前払金(支払時の相場は1ドル ' + r0 + '円)を充て、残りは掛けとした。仕入日の為替相場は1ドル ' + r + '円である。', dr: [['仕入', pre + rest]], cr: [['前払金', pre], ['買掛金', rest]], others: ['為替差損益', '未払金', '前受金'], calc: ['前払金 = ' + fmt(pd) + ' × ' + r0 + ' = ' + fmt(pre), '買掛金 = ' + fmt(d - pd) + ' × ' + r + ' = ' + fmt(rest)], why: '前払金は支払ったときのレートのままである。' };
+  });
+  add('fx', function () {
+    var d = ri(1, 20) * 1000, r = ri(100, 118), fw = r + nz(-3, 3), g = d * (fw - r);
+    return { q: '買掛金 ' + fmt(d) + 'ドル(1ドル ' + r + '円で記帳)について、1ドル ' + fw + '円の為替予約を付した。振当処理を行い、差額は当期の損益とする。', dr: g > 0 ? [['為替差損益', g]] : [['買掛金', -g]], cr: g > 0 ? [['買掛金', g]] : [['為替差損益', -g]], others: ['仕入', '前払費用', '支払利息'], calc: [fmt(d) + ' × (' + fw + ' − ' + r + ') = ' + (g > 0 ? '+' : '−') + fmt(Math.abs(g))], why: '買掛金を予約レートに直す。2級では差額を期間配分しない。' };
+  });
+  add('fx', function () {
+    var a = ri(1, 20) * 100000;
+    return { q: '法人税、住民税及び事業税の中間申告を行い、' + yen(a) + ' を当座預金から納付した。', dr: [['仮払法人税等', a]], cr: [['当座預金', a]], others: ['法人税等', '未払法人税等', '租税公課'], calc: ['税額は決算で確定する。'], why: '中間納付は仮払法人税等である。' };
+  });
+  add('fx', function () {
+    var t = ri(2, 40) * 10000, x = t / 10;
+    return { q: '商品 ' + yen(t) + '(税抜)を掛けで販売した。消費税の税率は10%で、税抜方式で処理する。', dr: [['売掛金', t + x]], cr: [['売上', t], ['仮受消費税', x]], others: ['仮払消費税', '未払消費税', '租税公課'], calc: ['消費税 = ' + fmt(t) + ' × 10% = ' + fmt(x)], why: '預かった消費税は仮受消費税である。' };
+  });
+  add('fx', function () {
+    var t = ri(2, 40) * 10000, x = t / 10;
+    return { q: '商品 ' + yen(t) + '(税抜)を掛けで仕入れた。消費税の税率は10%で、税抜方式で処理する。', dr: [['仕入', t], ['仮払消費税', x]], cr: [['買掛金', t + x]], others: ['仮受消費税', '未払消費税', '租税公課'], calc: ['消費税 = ' + fmt(t) + ' × 10% = ' + fmt(x)], why: '支払った消費税は仮払消費税である。' };
+  });
+
+  function S_retry() { return null; }
+  function make(entry) {
+    for (var g = 0; g < 200; g++) {
+      var o = entry.fn();
+      if (o) {
+        o.cat = entry.cat; o.rng = entry.rng;
+        var seen = {}, list = [];
+        o.dr.concat(o.cr).map(function (l) { return l[0]; }).concat(o.others, PAY.slice(0, 2)).forEach(function (n) { if (!seen[n]) { seen[n] = 1; list.push(n); } });
+        o.accts = shuffle(list);
+        return o;
+      }
+    }
+    throw new Error('問題の生成に失敗');
+  }
+  function poolFor(cat, range) { return S.filter(function (e) { return (cat === 'all' || e.cat === cat) && (!e.rng || e.rng === range); }); }
+  // 分野がなるべく重ならないように選ぶ
+  function pickItems(cat, range, n) {
+    var pool = shuffle(poolFor(cat, range)), out = [], used = {};
+    pool.forEach(function (e) { if (out.length < n && !used[e.cat]) { used[e.cat] = 1; out.push(e); } });
+    pool.forEach(function (e) { if (out.length < n && out.indexOf(e) < 0) out.push(e); });
+    return shuffle(out).map(make);
+  }
+  // 借方・貸方の組が完全に一致すれば正解(順番は問わない)
+  function sameSide(ans, right) {
+    function key(l) { return l[0] + '|' + l[1]; }
+    var a = ans.map(key).sort(), b = right.map(key).sort();
+    return a.length === b.length && a.every(function (x, i) { return x === b[i]; });
+  }
+  function judge(item, dr, cr) { return sameSide(dr, item.dr) && sameSide(cr, item.cr); }
+  var THEMES = [{ k: 'all', n: '本試験形式(5問)', cat: 'all', count: 5 }, { k: 'sec', n: '有価証券', cat: 'sec', count: 3 }, { k: 'debt', n: '債権債務', cat: 'debt', count: 3 }, { k: 'fa', n: '固定資産', cat: 'fa', count: 3 }, { k: 'lease', n: 'リース', cat: 'lease', count: 3 }, { k: 'eq', n: '純資産と合併', cat: 'eq', count: 3 }, { k: 'rev', n: '収益認識', cat: 'rev', count: 3 }, { k: 'fx', n: '外貨と税金', cat: 'fx', count: 3 }];
+  return { S: S, CATS: CATS, THEMES: THEMES, make: make, poolFor: poolFor, pickItems: pickItems, judge: judge, fmt: fmt };
+})();
+
+(function () {
+  if (typeof document === 'undefined') return;
+  var state = { theme: 'all', range: 'old', items: [], graded: false, ok: 0, all: 0 };
+  function el(id) { return document.getElementById(id); }
+  try {
+    var st = localStorage.getItem('boki2-shiwake-drill-theme'), sr = localStorage.getItem('boki2-shiwake-drill-range');
+    if (Drill.THEMES.some(function (t) { return t.k === st; })) state.theme = st;
+    if (sr === 'old' || sr === 'new') state.range = sr;
+  } catch (e) { /* storage unavailable */ }
+
+  function chips() {
+    el('rangeChips').innerHTML = '<span class="range-l">受験時期</span>' + [['old', '2027年3月まで'], ['new', '2027年4月から']].map(function (r) {
+      return '<button type="button" class="chip" data-r="' + r[0] + '" aria-pressed="' + (r[0] === state.range) + '">' + r[1] + '</button>';
+    }).join('');
+    el('chips').innerHTML = Drill.THEMES.map(function (t) {
+      return '<button type="button" class="chip" data-k="' + t.k + '" aria-pressed="' + (t.k === state.theme) + '">' + t.n + '</button>';
+    }).join('');
+  }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function rowCount(it) { return Math.max(3, it.dr.length, it.cr.length); }
+  function sideInputs(it, i, side) {
+    var n = rowCount(it), opts = '<option value="">科目を選ぶ</option>' + it.accts.map(function (a) { return '<option>' + esc(a) + '</option>'; }).join(''), h = '';
+    for (var r = 0; r < n; r++) {
+      h += '<div class="jr"><select id="a-' + i + '-' + side + '-' + r + '" aria-label="問' + (i + 1) + (side === 'd' ? 'の借方の科目' : 'の貸方の科目') + (r + 1) + '">' + opts + '</select>' +
+        '<input id="v-' + i + '-' + side + '-' + r + '" type="text" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="問' + (i + 1) + (side === 'd' ? 'の借方の金額' : 'の貸方の金額') + (r + 1) + '"></div>';
+    }
+    return h;
+  }
+  function newProblem() {
+    var th = Drill.THEMES.filter(function (t) { return t.k === state.theme; })[0];
+    state.items = Drill.pickItems(th.cat, state.range, th.count);
+    state.graded = false;
+    el('problem').innerHTML = '<div class="badge">' + th.n + '</div><p class="intro">次の取引について、仕訳を答えなさい。勘定科目は問題ごとの一覧から選びます。必要のない行は空けてかまいません。</p>';
+    el('sheet').innerHTML = state.items.map(function (it, i) {
+      return '<div class="je-q"><div class="je-tag">' + Drill.CATS[it.cat] + (it.rng ? (it.rng === 'old' ? '・2027年3月までの範囲' : '・2027年4月からの範囲') : '') + '</div><p class="je-text"><span class="qno">問' + (i + 1) + '</span>' + esc(it.q) + '</p>' +
+        '<div class="je-grid"><div><div class="je-h">借方</div>' + sideInputs(it, i, 'd') + '</div><div><div class="je-h">貸方</div>' + sideInputs(it, i, 'c') + '</div></div>' +
+        '<div class="fb" id="fb-' + i + '" hidden></div></div>';
+    }).join('');
+    el('err').hidden = true;
+    el('result').hidden = true;
+    el('result').innerHTML = '';
+    el('checkBtn').disabled = false;
+    el('revealBtn').disabled = false;
+  }
+  function parseNum(s) {
+    var x = String(s || '').replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); }).replace(/[,，、\s円]/g, '');
+    return x === '' ? NaN : Number(x);
+  }
+  function read(it, i, side) {
+    var out = [], n = rowCount(it), bad = false;
+    for (var r = 0; r < n; r++) {
+      var a = el('a-' + i + '-' + side + '-' + r).value, v = parseNum(el('v-' + i + '-' + side + '-' + r).value);
+      if (a && !isNaN(v)) out.push([a, v]);
+      else if (a || !isNaN(v)) bad = true;
+    }
+    return { lines: out, bad: bad };
+  }
+  function jeHtml(it) {
+    function side(lines, tag) {
+      return '<div class="j-side">' + lines.map(function (l, k) {
+        return '<div class="j-line"><span class="j-tag">' + (k === 0 ? '(' + tag + ')' : '') + '</span><span class="j-acct">' + esc(l[0]) + '</span><span class="j-amt">' + Drill.fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<div class="j-list"><div class="j-entry"><div class="j-body">' + side(it.dr, '借') + side(it.cr, '貸') + '</div></div></div>';
+  }
+  function finish(scored) {
+    var okCount = 0;
+    state.items.forEach(function (it, i) {
+      var fb = el('fb-' + i);
+      if (scored) {
+        var d = read(it, i, 'd'), c = read(it, i, 'c'), ok = !d.bad && !c.bad && Drill.judge(it, d.lines, c.lines);
+        if (ok) okCount++;
+        fb.className = 'fb ' + (ok ? 'ok' : 'ng');
+        fb.textContent = ok ? '✓ 正解' : '✗ 不正解。解答は下の「問' + (i + 1) + '」を確認してください';
+      } else {
+        fb.className = 'fb';
+        fb.textContent = '解答は下の「問' + (i + 1) + '」を確認してください';
+      }
+      fb.hidden = false;
+    });
+    if (scored) {
+      state.ok += okCount; state.all += state.items.length;
+      el('okN').textContent = state.ok; el('allN').textContent = state.all;
+    }
+    state.graded = true;
+    el('checkBtn').disabled = true;
+    el('revealBtn').disabled = true;
+    var verdict = scored ? '<div class="verdict' + (okCount === state.items.length ? ' all' : '') + '">' + state.items.length + '問中 ' + okCount + '問正解' + (okCount === state.items.length ? '。全問正解です' : '') + '</div>' : '<div class="verdict">解答と解説</div>';
+    el('result').innerHTML = '<div class="paper">' + verdict + state.items.map(function (it, i) {
+      return '<section class="journal"><h3 class="j-head">問' + (i + 1) + ' <span class="j-rule">金額は円</span></h3>' + jeHtml(it) +
+        '<div class="sol"><h4>計算</h4>' + it.calc.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('') + '<h4>ポイント</h4><p>' + esc(it.why) + '</p></div></section>';
+    }).join('') + '</div>';
+    el('result').hidden = false;
+  }
+  el('chips').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    state.theme = b.getAttribute('data-k');
+    try { localStorage.setItem('boki2-shiwake-drill-theme', state.theme); } catch (err) { /* ignore */ }
+    chips(); newProblem();
+  });
+  el('rangeChips').addEventListener('click', function (e) {
+    var b = e.target.closest('.chip'); if (!b) return;
+    state.range = b.getAttribute('data-r');
+    try { localStorage.setItem('boki2-shiwake-drill-range', state.range); } catch (err) { /* ignore */ }
+    chips(); newProblem();
+  });
+  el('checkBtn').addEventListener('click', function () { finish(true); });
+  el('revealBtn').addEventListener('click', function () { finish(false); });
+  el('nextBtn').addEventListener('click', function () {
+    newProblem();
+    el('chips').scrollIntoView({ block: 'start', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+  chips();
+  newProblem();
+})();
+</script>
+</body>
+</html>
