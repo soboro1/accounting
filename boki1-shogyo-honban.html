@@ -1,0 +1,856 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記1級 商業簿記 本番形式問題</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px 120px;
+  }
+  body.calc-open { padding-bottom: 480px; }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); min-width: 0;
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  /* 上に固定するタイマー */
+  .status {
+    position: sticky; top: 8px; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 14px;
+    padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(212,162,76,0.5); background: #0e1726;
+  }
+  .timer { font-size: 22px; font-weight: 700; color: #d4a24c; font-variant-numeric: tabular-nums; }
+  .timer.over { color: #f0997b; }
+  .progress { font-size: 13px; color: #c7c0b0; }
+  .status-left { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+
+  button { font-family: inherit; }
+  button.main { cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  button.small { cursor: pointer; border-radius: 999px; padding: 7px 16px; font-size: 13px; font-weight: 700; }
+  .btn-primary { color: #101b2d; background: #d4a24c; border: none; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* 問題 */
+  .q { padding: 18px 0; border-top: 1px solid rgba(212,162,76,0.25); }
+  .q:first-of-type { border-top: none; }
+  .q-no { font-size: 13px; font-weight: 700; color: #d4a24c; margin-bottom: 4px; }
+  .q-text { font-size: 16px; line-height: 1.9; color: #e8e3d8; margin: 0 0 12px; }
+  .mark { font-weight: 700; margin-left: 6px; }
+  .mark.ok { color: #5dcaa5; }
+  .mark.ng { color: #f0997b; }
+
+  input[type=text], select, textarea {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #d4a24c; box-shadow: 0 0 0 2px rgba(212,162,76,0.3); }
+  input:disabled, select:disabled { opacity: 1; color: #f6f1e6; }
+  .is-ok { border-color: #1d9e75 !important; background: rgba(29,158,117,0.12) !important; }
+  .is-ng { border-color: #d85a30 !important; background: rgba(216,90,48,0.12) !important; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jside-title { font-size: 14px; color: #c7c0b0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.5; min-width: 0; width: 0; padding-left: 8px; padding-right: 4px; }
+  .jrow input { flex: 1; min-width: 0; width: 0; text-align: right; }
+
+  /* 第2問の勘定 */
+  .t-name { text-align: center; font-weight: 700; padding-bottom: 6px; border-bottom: 2px solid #c7c0b0; }
+  .t-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .t-side { padding: 8px 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .t-side + .t-side { border-left: 2px solid #c7c0b0; }
+  .t-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 15px; color: #e8e3d8; }
+  .t-row select { flex: 1 1 130px; min-width: 0; }
+  .t-row input { flex: 0 1 120px; width: 120px; min-width: 0; text-align: right; }
+
+  /* 試算表 */
+  .tb-wrap { overflow-x: auto; }
+  table.tb { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.tb th, table.tb td { border: 1px solid rgba(199,192,176,0.35); padding: 6px 10px; color: #e8e3d8; }
+  table.tb th { background: rgba(212,162,76,0.14); color: #fac775; }
+  table.tb td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.tb tr.tot td { font-weight: 700; color: #f6f1e6; border-top: 3px double #c7c0b0; }
+  ol.items { margin: 6px 0; padding-left: 24px; }
+  ol.items li { margin-bottom: 4px; }
+
+  /* 答案用紙 */
+  .fs-title { text-align: center; font-weight: 700; font-size: 17px; margin-top: 20px; }
+  .fs-sub { text-align: center; font-size: 12px; color: #9aa5b1; margin-bottom: 8px; }
+  .fs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 2px solid #c7c0b0; }
+  .fs-side { padding: 6px 12px; min-width: 0; }
+  .fs-side + .fs-side { border-left: 2px solid #c7c0b0; }
+  .fs-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed rgba(199,192,176,0.2); font-size: 14px; min-height: 48px; color: #e8e3d8; }
+  .fs-row.net { justify-content: flex-end; color: #9aa5b1; font-size: 13px; min-height: 30px; }
+  .fs-row.total { font-weight: 700; border-top: 1px solid #c7c0b0; border-bottom: 3px double #c7c0b0; }
+  .fs-row .val { font-variant-numeric: tabular-nums; }
+  .blank { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .blank-line { display: flex; align-items: center; gap: 6px; }
+  .blank-no { color: #d4a24c; font-size: 14px; font-weight: 700; }
+  .blank input { width: 118px; text-align: right; padding: 7px 8px; }
+  .answer-note { font-size: 12px; font-weight: 700; color: #5dcaa5; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+
+  /* 結果 */
+  .score-card { padding: 22px 24px; border-radius: 12px; border: 2px solid #d4a24c; background: rgba(212,162,76,0.08); display: none; flex-direction: column; gap: 10px; }
+  .score-card.show { display: flex; }
+  .score-total { font-size: 34px; font-weight: 700; color: #d4a24c; }
+  .score-total small { font-size: 16px; color: #c7c0b0; font-weight: 500; }
+  .score-judge { font-size: 16px; font-weight: 700; }
+  .score-judge.ok { color: #5dcaa5; }
+  .score-judge.ng { color: #f0997b; }
+  .score-parts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .score-part { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5); color: #fac775; }
+
+  details.ex { margin-top: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.02); }
+  details.ex summary { cursor: pointer; padding: 10px 14px; font-size: 14px; font-weight: 700; color: #fac775; }
+  .ex-body { padding: 0 14px 12px; }
+  .ex-label { font-size: 13px; font-weight: 700; color: #d4a24c; margin: 10px 0 2px; }
+  .ex-label.trap { color: #f0997b; }
+  .ex-label.point { color: #5dcaa5; }
+  .ex-body li, .ex-body p { font-size: 14px; line-height: 1.8; }
+  pre.entry {
+    margin: 8px 0; padding: 10px 14px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap;
+  }
+  .wrong-item { padding: 10px 14px; margin-top: 8px; border-left: 3px solid #d85a30; background: rgba(216,90,48,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8; }
+  .wrong-item .why { color: #f0997b; display: block; }
+  .wrong-item a { font-weight: 700; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; line-height: 1.7; }
+
+  /* 電卓 */
+  .calc-fab {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20; cursor: pointer;
+    padding: 13px 22px; border-radius: 999px; border: none; font-size: 15px; font-weight: 700;
+    background: #d4a24c; color: #101b2d; box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  }
+  .calc {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20; width: 300px; max-height: calc(100vh - 32px); overflow-y: auto;
+    display: none; flex-direction: column; gap: 8px; padding: 12px;
+    border-radius: 14px; border: 1px solid #d4a24c; background: #0e1726; box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+  }
+  .calc.show { display: flex; }
+  .calc-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: #d4a24c; }
+  .calc-close { cursor: pointer; background: none; border: none; color: #c7c0b0; font-size: 13px; font-weight: 700; padding: 6px 4px; }
+  .calc-screen { padding: 8px 12px; border-radius: 8px; background: #0b1320; text-align: right; min-height: 62px; }
+  .calc-expr { font-size: 13px; color: #9aa5b1; word-break: break-all; min-height: 18px; }
+  .calc-res { font-size: 24px; font-weight: 700; color: #f6f1e6; word-break: break-all; font-variant-numeric: tabular-nums; }
+  .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .calc-keys button { cursor: pointer; height: 44px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: #182538; color: #f6f1e6; font-size: 17px; font-weight: 700; }
+  .calc-keys button:hover { filter: brightness(1.25); }
+  .calc-keys button.op { background: rgba(212,162,76,0.2); color: #fac775; }
+  .calc-keys button.eq { background: #d4a24c; color: #101b2d; }
+  .calc-target { font-size: 12px; color: #c7c0b0; }
+  .calc-put { cursor: pointer; padding: 10px; border-radius: 8px; border: 1px solid #d4a24c; background: transparent; color: #d4a24c; font-size: 14px; font-weight: 700; }
+  .calc-msg { font-size: 12px; color: #f0997b; min-height: 16px; }
+  .calc textarea { width: 100%; height: 72px; font-size: 16px; resize: vertical; }
+  .calc summary { cursor: pointer; font-size: 13px; font-weight: 700; color: #c7c0b0; padding: 4px 0; }
+
+  @media (max-width: 700px) {
+    .fs { grid-template-columns: minmax(0, 1fr); }
+    .fs-side + .fs-side { border-left: none; border-top: 2px solid #c7c0b0; }
+    .fs-side.spacerless .fs-row.empty { display: none; }
+  }
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+    .jrow select { flex: 2; }
+  }
+  @media (max-width: 520px) {
+    .chapter { padding: 18px 14px; }
+    h1 { font-size: 22px; }
+    .calc { left: 0; right: 0; bottom: 0; width: auto; max-height: 62vh; border-radius: 14px 14px 0 0; }
+    .calc-keys button { height: 40px; }
+    .t-body { grid-template-columns: minmax(0, 1fr); }
+    .t-side + .t-side { border-left: none; border-top: 2px solid #c7c0b0; }
+  }
+  /* 1級ハーフ模試 */
+  .part-head { margin-top: 10px; padding: 12px 16px; border-radius: 10px; background: rgba(212,162,76,0.14); }
+  .part-head h2 { font-size: 19px; }
+  .part-head p { margin: 2px 0 0; font-size: 13px; color: #c7c0b0; }
+  .status { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4px 14px; padding: 8px 12px; }
+  .timer-row { display: flex; align-items: center; justify-content: space-between; gap: 6px; min-width: 0; }
+  .timer-name { font-size: 12px; font-weight: 700; color: #c7c0b0; }
+  .timer-left { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; min-width: 0; }
+  .timer { font-size: 17px; }
+  .timer.over { font-size: 13px; }
+  .status button.small { padding: 4px 10px; font-size: 12px; flex: none; }
+  .progress { grid-column: 1 / -1; font-size: 12px; }
+  .ans-group { margin-top: 18px; }
+  .ans-title { font-size: 15px; font-weight: 700; color: #fac775; padding-bottom: 6px; border-bottom: 2px solid #c7c0b0; }
+  .ans-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed rgba(199,192,176,0.2); min-height: 52px; }
+  .ans-label { font-size: 14px; line-height: 1.6; color: #e8e3d8; min-width: 0; }
+  .ans-input { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex: none; }
+  .ans-line { display: flex; align-items: center; gap: 6px; }
+  .ans-input input { width: 132px; text-align: right; padding: 7px 8px; }
+  .ans-input select { width: 96px; padding: 7px 8px; }
+  .unit { font-size: 12px; color: #9aa5b1; }
+  .ans-row.ox { flex-wrap: wrap; }
+  .ans-row.ox .ans-label { flex: 1 1 240px; }
+  .part-score { display: none; padding: 16px 18px; border-radius: 12px; border: 1px solid #d4a24c; background: rgba(212,162,76,0.08); }
+  .part-score.show { display: block; }
+  .part-score .pts { font-size: 22px; font-weight: 700; color: #d4a24c; }
+  .ex-t { margin: 8px 0; padding: 10px 12px; border-radius: 8px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); font-size: 13px; color: #f6f1e6; }
+  .ex-t .t-name { font-size: 14px; }
+  .ex-t .t-side { gap: 2px; }
+  .ex-t .t-line { display: flex; justify-content: space-between; gap: 8px; font-variant-numeric: tabular-nums; }
+  .warn { color: #f0997b; font-weight: 700; }
+  @media (max-width: 420px) {
+    .ans-input input { width: 112px; }
+    .ex-t { padding: 8px; font-size: 12px; }
+    .ex-t .t-side { padding: 6px 4px; }
+  }
+
+
+  /* 商業簿記 本番形式 */
+  .status { grid-template-columns: minmax(0, 1fr) auto; }
+  .progress { grid-column: auto; text-align: right; }
+  .sheet-head { font-size: 14px; font-weight: 700; color: #fac775; padding: 12px 0 4px; }
+  .ans-row.fixed .val, .ans-row.sub .val { font-variant-numeric: tabular-nums; }
+  .ans-row.fixed { min-height: 40px; color: #c7c0b0; }
+  .ans-row.sub { min-height: 40px; font-weight: 700; border-top: 1px solid #c7c0b0; border-bottom: 1px solid #c7c0b0; }
+  .ans-row.sub .ans-label { font-weight: 700; color: #f6f1e6; }
+  .ans-row.sub .val { color: #fac775; }
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.1 商業簿記 本番形式</div>
+    <h1>簿記1級 商業簿記 本番形式問題</h1>
+  </div>
+
+  <section class="chapter">
+    <div class="chapter-no">HOW TO USE</div>
+    <h2>このページの使い方</h2>
+    <ul>
+      <li>制限時間は45分。「開始」を押すとタイマーが動きます</li>
+      <li>金額は千円単位で入力し、最後に「採点する」を押すと自動で採点します</li>
+      <li>右下の「電卓」で計算し、その結果を入力欄へ入れられます</li>
+      <li>25点満点(各1点)です。足切りの10点と、7割の目安の18点を意識しましょう</li>
+    </ul>
+    <p class="hint">本番は商業簿記と会計学で90分、各25点です。45分はその半分の目安で、問題ごとの配点と18点の目安はこのページだけの設定です。本番の出題形式は回によって変わり、連結会計や本支店会計が出ることもあります。手形・小切手とリースは問題に使っていないので、2026年度の試験でも、新しい出題区分表が適用される2027年4月以降の試験でも解けます。入力した内容は、この端末のブラウザに保存されます。</p>
+  </section>
+
+  <div class="status">
+    <div class="timer-row">
+      <div class="timer-left"><span class="timer" id="timer">45:00</span></div>
+      <button class="small btn-secondary" id="timerBtn" type="button">開始</button>
+    </div>
+    <div class="progress" id="progress">入力 0 / 25</div>
+  </div>
+
+  <nav class="toc">
+    <a href="#q">問題</a>
+    <a href="#sheet">答案用紙</a>
+    <a href="#grade">採点</a>
+  </nav>
+
+  <section class="chapter" id="q">
+    <div class="chapter-no">QUESTION ・ 25点</div>
+    <h2>問題</h2>
+    <p>当社の当期は×5年4月1日から×6年3月31日までである。次の資料にもとづいて、答案用紙の損益計算書と貸借対照表(一部)を完成させなさい。金額の単位は千円である。</p>
+    <h3>資料1 決算整理前残高試算表(×6年3月31日・単位:千円)</h3>
+    <div class="tb-wrap" id="tbArea"></div>
+    <h3>資料2 決算整理事項等</h3>
+    <ol class="items" id="itemArea"></ol>
+  </section>
+
+  <section class="chapter" id="sheet">
+    <div class="chapter-no">ANSWER SHEET ・ 各1点</div>
+    <h2>答案用紙</h2>
+    <p class="hint">①〜㉕が採点の対象です。小計は、入力した金額から自動で計算します。単位はすべて千円です。</p>
+    <div class="ans-group"><div class="ans-title">損益計算書(×5年4月1日から×6年3月31日まで)</div><div id="plArea"></div></div>
+    <div class="ans-group"><div class="ans-title">貸借対照表(一部・×6年3月31日)</div><div id="bsArea"></div></div>
+    <div id="result"></div>
+  </section>
+
+  <section id="grade" style="display:flex;flex-direction:column;gap:14px">
+    <div class="score-card" id="scoreCard" aria-live="polite"></div>
+    <div class="buttons-row" id="gradeBtns"></div>
+  </section>
+
+  <div class="footer-note">問題文と数字はオリジナルです。配点と目安はこのページだけの設定で、本番の難しさをそのまま再現したものではありません。試験の形式や範囲は変わることがあるので、受験前に日本商工会議所の公式サイトで最新情報を確認してください。</div>
+</div>
+
+<button class="calc-fab" id="calcFab" type="button">電卓</button>
+<div class="calc" id="calc" role="dialog" aria-label="電卓">
+  <div class="calc-head"><span>電卓</span><button class="calc-close" id="calcClose" type="button">閉じる ✕</button></div>
+  <div class="calc-screen">
+    <div class="calc-expr" id="calcExpr"></div>
+    <div class="calc-res" id="calcRes">0</div>
+  </div>
+  <div class="calc-keys" id="calcKeys"></div>
+  <div class="calc-target" id="calcTarget">入れる先:入力欄をタップして選びます</div>
+  <button class="calc-put" id="calcPut" type="button">計算結果を入力欄へ入れる</button>
+  <div class="calc-msg" id="calcMsg"></div>
+  <details>
+    <summary>計算メモ</summary>
+    <textarea id="memo" aria-label="計算メモ" placeholder="下書きに使えます(採点されません)"></textarea>
+  </details>
+</div>
+
+<script>
+var MOCK = {
+  links: {
+    gaika: ['外貨換算ドリル', 'gaika-drill.html'],
+    tana: ['棚卸資産の出る論点', 'tanaoroshi-kaisetsu.html'],
+    tanaq: ['棚卸資産(売価還元法・低価法) ランダム問題', 'tanaoroshi-shisan-quiz.html'],
+    kinyu: ['金融商品の出る論点', 'kinyu-shohin-kaisetsu.html'],
+    kotei: ['固定資産の出る論点', 'kotei-shisan-kaisetsu.html'],
+    soft: ['ソフトウェア・研究開発費', 'software-kaisetsu.html'],
+    taishoku: ['引当金・退職給付の出る論点', 'hikiatekin-taishoku-kaisetsu.html'],
+    zeikoka: ['税効果会計の出る論点', 'zeikoka-kaisetsu.html'],
+    shueki: ['収益認識の出る論点', 'shueki-ninshiki-kaisetsu.html'],
+    shasai: ['社債・新株予約権の出る論点', 'shasai-shinkabu-kaisetsu.html'],
+    kessan: ['決算整理ドリル', 'kessan-drill.html']
+  },
+  tb: [
+    ['現金預金', 34475, 0], ['電子記録債権', 15000, 0], ['売掛金', 60240, 0], ['売買目的有価証券', 3200, 0],
+    ['繰越商品', 14000, 0], ['仮払金', 11700, 0], ['仮払法人税等', 3000, 0], ['建物', 60000, 0], ['機械装置', 20000, 0],
+    ['構築物', 9000, 0], ['土地', 40000, 0], ['ソフトウェア', 4800, 0], ['その他有価証券', 4200, 0], ['関係会社株式', 10000, 0],
+    ['繰延税金資産', 5400, 0], ['仕入', 112000, 0], ['給料', 20000, 0], ['保険料', 3600, 0], ['その他の販売費及び一般管理費', 4500, 0], ['社債利息', 500, 0],
+    ['買掛金', 0, 28800], ['貸倒引当金', 0, 400], ['建物減価償却累計額', 0, 18000], ['機械装置減価償却累計額', 0, 15680], ['構築物減価償却累計額', 0, 1800],
+    ['資産除去債務', 0, 1030], ['社債', 0, 29280], ['退職給付引当金', 0, 18000], ['新株予約権', 0, 2025], ['資本金', 0, 100000], ['資本準備金', 0, 10000],
+    ['利益準備金', 0, 5000], ['繰越利益剰余金', 0, 35000], ['売上', 0, 170000], ['受取配当金', 0, 600]
+  ],
+  items: [
+    '売上と返品:×6年3月の掛販売のうち売価2,000千円は、返品されると見込まれる。売上170,000千円は返品を見込まずに計上している。返品される商品の原価は、3.で求める売価還元原価法の原価率で計算する。',
+    '売掛金と貸倒引当金:(1) 売掛金のうち9,000千円はドル建て(60千ドル、取引時の為替相場は1ドル150円)である。決算時の為替相場は1ドル146円である。(2) 売掛金のうち3,000千円はC社に対するもので、C社は破産手続きに入った。破産更生債権等に振り替え、財務内容評価法で貸倒引当金を設定する。C社の債権には担保(処分見込額1,200千円)がある。(3) 残りの売掛金と電子記録債権は一般債権で、期末残高の1%を差額補充法で設定する。試算表の貸倒引当金は全額が一般債権に対するものである。繰入額はすべて販売費及び一般管理費に表示する。',
+    '商品:売価還元法によっており、資料は次のとおりである。期首商品 原価14,000千円・売価20,000千円、当期仕入 原価112,000千円・売価180,000千円(原始値入後)、純値上額10,000千円、純値下額10,000千円。売上高(返品を見込む前)は試算表の170,000千円で、期末商品の実地売価は29,000千円である。期末の帳簿原価は売価還元原価法の原価率で、収益性の低下は売価還元低価法の原価率で計算する。棚卸減耗損は販売費及び一般管理費に、商品評価損は売上原価に表示する。',
+    '有価証券:(1) 売買目的有価証券の期末時価は3,500千円である。(2) その他有価証券はD社株式(30千ドルで取得、取得時の為替相場は1ドル140円)で、期末時価は35千ドルである。全部純資産直入法で処理し、税効果会計を適用する。(3) 関係会社株式はE社(子会社)の株式で、期末時価は3,800千円である。時価が著しく下落し、回復の見込みはない。',
+    '有形固定資産と無形固定資産:(1) 建物は定額法(耐用年数30年、残存価額ゼロ)で償却している。(2) 機械装置は×2年4月1日に取得したもので、200%定率法(耐用年数5年、償却率0.400、改定償却率0.500、保証率0.10800、残存価額ゼロ)で償却している。(3) 構築物は×4年4月1日に8,000千円で取得し、除去時の支出の現在価値1,000千円を資産除去債務として計上したものである。定額法(耐用年数5年、残存価額ゼロ)で償却し、割引率は年3%である。時の経過による資産除去債務の増加額は、千円未満を四捨五入し、利息費用として販売費及び一般管理費に表示する。(4) ソフトウェアは×3年4月1日に8,000千円で取得した自社利用のもので、5年で定額償却している。',
+    '買掛金と為替予約:買掛金のうち14,800千円はドル建て(100千ドル、取引時の為替相場は1ドル148円)である。×6年2月1日に、決済日×6年5月1日の為替予約を1ドル146円で結んだ。予約時の直物為替相場は1ドル149円である。振当処理を行い、直先差額は月割で期間配分する。',
+    '社債:社債は×3年4月1日に額面30,000千円を28,800千円で発行したものである。償還日は×8年3月31日、クーポン利率は年2%、利払日は毎年9月30日と3月31日で、償却原価法(定額法)によっている。×5年9月30日に額面10,000千円を9,700千円で買入償還し、仮払金で処理している。当期のクーポンは処理済みである。社債償還益は営業外収益に表示する。',
+    'ストック・オプション:×4年7月1日に従業員へ1,000個を付与した(1個あたりの公正な評価単価は9千円、権利確定日は×7年6月30日)。前期末の失効見込みは100個で、当期末に80個へ見直した。',
+    '退職給付:当期の退職給付費用は3,200千円である。当期の掛金拠出額2,000千円は仮払金で処理している。',
+    '保険料:保険料のうち900千円は、次期分である。',
+    '税金:当期の法人税、住民税及び事業税は6,300千円である。仮払法人税等との差額を未払法人税等とする。法定実効税率は30%とする。税効果会計は、C社の債権に対する貸倒引当金、退職給付引当金、関係会社株式評価損、その他有価証券の評価差額にだけ適用する。試算表の繰延税金資産は、期首の退職給付引当金に対するものである。繰延税金資産と繰延税金負債は相殺して表示する。'
+  ],
+  // kind: blank=入力欄 / fixed=印字ずみ / sub=入力から自動で計算する小計 / head=区分の見出し
+  pl: [
+    { kind: 'head', label: 'Ⅰ 売上高' },
+    { kind: 'blank', label: '売上高', ans: 168000, sign: 1, item: 1, link: 'shueki', hint: { 170000: '返品を見込む売価2,000千円を引いていません。' } },
+    { kind: 'head', label: 'Ⅱ 売上原価' },
+    { kind: 'blank', label: '売上原価', ans: 106710, sign: -1, item: 3, link: 'tanaq', hint: { 107970: '返品資産1,260千円を売上原価から引いていません。', 105840: '商品評価損870千円を売上原価に含めていません。', 107340: '棚卸減耗損も売上原価に含めています。この問題では販売費及び一般管理費です。', 107100: '商品評価損と返品資産を処理していません。' } },
+    { kind: 'sub', label: '売上総利益' },
+    { kind: 'head', label: 'Ⅲ 販売費及び一般管理費' },
+    { kind: 'fixed', label: '給料', val: 20000, sign: -1 },
+    { kind: 'blank', label: '保険料', ans: 2700, sign: -1, item: 10, link: 'kessan', hint: { 3600: '次期分900千円を引いていません。' } },
+    { kind: 'fixed', label: 'その他の販売費及び一般管理費', val: 4500, sign: -1 },
+    { kind: 'blank', label: '棚卸減耗損', ans: 630, sign: -1, item: 3, link: 'tanaq', hint: { 600: '売価還元低価法の原価率で計算しています。棚卸減耗損は原価法の原価率0.63で計算します。' } },
+    { kind: 'blank', label: '貸倒引当金繰入', ans: 2120, sign: -1, item: 2, link: 'kinyu', hint: { 2122: 'ドル建て売掛金を換算する前の金額で計算しています。', 3320: 'C社の担保1,200千円を引いていません。', 2150: 'C社の債権を一般債権にも入れています。', 320: 'C社の債権に対する1,800千円が抜けています。', 1800: '一般債権に対する繰入額320千円が抜けています。' } },
+    { kind: 'blank', label: '減価償却費', ans: 5960, sign: -1, item: 5, link: 'kotei', hint: { 5528: '機械装置を償却率0.400のままで計算しています。償却保証額を下回るので改定償却率を使います。', 5760: '構築物の取得原価に資産除去債務を含めていません。9,000千円を5年で割ります。' } },
+    { kind: 'blank', label: 'ソフトウェア償却', ans: 1600, sign: -1, item: 5, link: 'soft', hint: { 960: '帳簿価額を5年で割っています。残り3年で割るか、取得原価を5年で割ります。' } },
+    { kind: 'blank', label: '退職給付費用', ans: 3200, sign: -1, item: 9, link: 'taishoku', hint: { 1200: '引当金の純増額です。費用は3,200千円です。' } },
+    { kind: 'blank', label: '株式報酬費用', ans: 2805, sign: -1, item: 8, link: 'shasai', hint: { 4830: '累計額のままです。前期までの2,025千円を引きます。', 2700: '失効見込みの見直しを反映していません。', 2760: '当期の12か月分だけです。見直しの影響は当期に一括で計上します。' } },
+    { kind: 'blank', label: '利息費用', ans: 31, sign: -1, item: 5, link: 'kotei', hint: { 30: '当初の1,000千円で計算しています。期首の資産除去債務1,030千円に3%を掛けます。' } },
+    { kind: 'sub', label: '営業利益' },
+    { kind: 'head', label: 'Ⅳ 営業外収益' },
+    { kind: 'fixed', label: '受取配当金', val: 600, sign: 1 },
+    { kind: 'blank', label: '有価証券評価益', ans: 300, sign: 1, item: 4, link: 'kinyu' },
+    { kind: 'blank', label: '社債償還益', ans: 100, sign: 1, item: 7, link: 'shasai', hint: { 60: '償還分の当期の償却額40千円を足していません。', 300: '額面と買入価額の差額です。帳簿価額と比べます。' } },
+    { kind: 'head', label: 'Ⅴ 営業外費用' },
+    { kind: 'blank', label: '社債利息', ans: 700, sign: -1, item: 7, link: 'shasai', hint: { 500: 'クーポンのままです。償却額200千円を足します。', 740: '償却額を年240千円のままにしています。償還分は半年分だけです。', 660: '償還分の半年分の償却額40千円が抜けています。' } },
+    { kind: 'blank', label: '為替差損', ans: 140, sign: -1, item: 6, link: 'gaika', hint: { 240: '売掛金の差損だけです。為替予約の差額も含めます。', 340: '直先差額のうち当期分の差益200千円を引いていません。', 40: '直々差額の差損100千円が抜けています。' } },
+    { kind: 'sub', label: '経常利益' },
+    { kind: 'head', label: 'Ⅵ 特別損失' },
+    { kind: 'blank', label: '関係会社株式評価損', ans: 6200, sign: -1, item: 4, link: 'kinyu' },
+    { kind: 'sub', label: '税引前当期純利益' },
+    { kind: 'fixed', label: '法人税、住民税及び事業税', val: 6300, sign: -1 },
+    { kind: 'blank', label: '法人税等調整額(法人税等から差し引く額)', ans: 2760, sign: 1, item: 11, link: 'zeikoka', hint: { '-2760': '金額は合っています。この欄は、法人税等から差し引く額を正の数で入れます。', 2487: '繰延税金負債273千円を相殺しています。その他有価証券の税効果は純資産で処理するので、調整額には入れません。', 8160: '期末の繰延税金資産のままです。期首の5,400千円を引きます。' } },
+    { kind: 'blank', label: '当期純利益', ans: 8164, item: 11, link: 'zeikoka', result: true }
+  ],
+  bs: [
+    { kind: 'blank', label: '商品', ans: 17400, item: 3, link: 'tanaq', hint: { 18900: '帳簿原価のままです。棚卸減耗損と商品評価損を引きます。', 18270: '実地売価に原価法の原価率を掛けています。収益性の低下を反映するので低価法の原価率を使います。' } },
+    { kind: 'blank', label: '投資有価証券', ans: 5110, item: 4, link: 'kinyu', hint: { 4200: '取得原価のままです。', 4900: '取得時の為替相場で換算しています。決算時の相場1ドル146円を使います。', 8910: '関係会社株式を含めています。この問題では別に表示します。' } },
+    { kind: 'blank', label: '繰延税金資産', ans: 7887, item: 11, link: 'zeikoka', hint: { 8160: '繰延税金負債273千円と相殺していません。' } },
+    { kind: 'blank', label: '資産除去債務', ans: 1061, item: 5, link: 'kotei', hint: { 1030: '当期の利息費用31千円を足していません。', 1060: '当初の1,000千円で利息を計算しています。' } },
+    { kind: 'blank', label: '社債', ans: 19680, item: 7, link: 'shasai', hint: { 19480: '当期の償却額200千円(償還分40千円と残りの社債160千円)を足していません。', 19520: '期首の帳簿価額の3分の2です。残りの社債の当期の償却額160千円を足します。', 20000: '額面のままです。' } },
+    { kind: 'blank', label: '新株予約権', ans: 4830, item: 8, link: 'shasai', hint: { 4725: '失効見込みの見直しを反映していません。', 4785: '当期の12か月分だけを足しています。累計で計算し直します。' } },
+    { kind: 'blank', label: 'その他有価証券評価差額金', ans: 637, item: 4, link: 'kinyu', hint: { 910: '税効果を引いていません。' } },
+    { kind: 'blank', label: '繰越利益剰余金', ans: 43164, item: 11, link: 'zeikoka', hint: { 8164: '当期純利益だけです。試算表の35,000千円に足します。' }, result: true }
+  ],
+  ex: [
+    { no: 1, title: '1. 返品権付きの販売', entries: [
+      { dr: [['売上', 2000]], cr: [['返金負債', 2000]] },
+      { dr: [['返品資産', 1260]], cr: [['仕入', 1260]] }
+    ], how: ['売上高:170,000 − 2,000 = 168,000千円', '返品される商品の原価:2,000 × 0.63 = 1,260千円(原価率は3.の売価還元原価法)'], trap: ['返品を見込む分は、売上から引いて「返金負債」にします。引当金ではありません'], point: ['戻ってくる商品の原価は「返品資産」にして、売上原価から引きます'] },
+    { no: 2, title: '2. 売掛金と貸倒引当金', entries: [
+      { cap: '換算', dr: [['為替差損益', 240]], cr: [['売掛金', 240]] },
+      { cap: 'C社の債権の振替', dr: [['破産更生債権等', 3000]], cr: [['売掛金', 3000]] },
+      { cap: 'C社の債権の引当', dr: [['貸倒引当金繰入', 1800]], cr: [['貸倒引当金', 1800]] },
+      { cap: '一般債権の引当', dr: [['貸倒引当金繰入', 320]], cr: [['貸倒引当金', 320]] }
+    ], how: ['換算差額:60千ドル ×(146円 − 150円)= △240千円', 'C社の債権:3,000 − 1,200 = 1,800千円', '一般債権:60,240 − 240 − 3,000 + 15,000 = 72,000千円', '設定額:72,000 × 1% = 720千円', '繰入額:720 − 400 = 320千円', '合計:1,800 + 320 = 2,120千円'], trap: ['順番が大切です。換算して、C社の分を外してから1%を掛けます'], point: ['破産更生債権等は、債権額から担保の処分見込額を引いた全額を引き当てます(財務内容評価法)'] },
+    { no: 3, title: '3. 売価還元法の商品', entries: [
+      { dr: [['仕入', 14000]], cr: [['繰越商品', 14000]] },
+      { dr: [['繰越商品', 18900]], cr: [['仕入', 18900]] },
+      { dr: [['棚卸減耗損', 630], ['商品評価損', 870]], cr: [['繰越商品', 1500]] },
+      { dr: [['仕入', 870]], cr: [['商品評価損', 870]] }
+    ], how: ['原価合計:14,000 + 112,000 = 126,000千円', '売価還元原価法の原価率:126,000 ÷(20,000 + 180,000 + 10,000 − 10,000)= 0.63', '売価還元低価法の原価率(純値下額を分母に入れない):126,000 ÷(20,000 + 180,000 + 10,000)= 0.60', '期末の帳簿売価:200,000 − 170,000 = 30,000千円', '帳簿原価:30,000 × 0.63 = 18,900千円', '棚卸減耗損:(30,000 − 29,000)× 0.63 = 630千円', '商品評価損:29,000 ×(0.63 − 0.60)= 870千円', '貸借対照表の商品:29,000 × 0.60 = 17,400千円', '売上原価:14,000 + 112,000 − 18,900 + 870 − 1,260 = 106,710千円'], trap: ['2つの原価率の違いは、分母の純値下額だけです', '帳簿売価は、返品を見込む前の売上高170,000千円で計算します'], point: ['確認:18,900 − 630 − 870 = 17,400千円。期末の商品の金額が一致します'] },
+    { no: 4, title: '4. 有価証券', entries: [
+      { cap: '売買目的有価証券', dr: [['売買目的有価証券', 300]], cr: [['有価証券評価益', 300]] },
+      { cap: 'その他有価証券', dr: [['その他有価証券', 910]], cr: [['繰延税金負債', 273], ['その他有価証券評価差額金', 637]] },
+      { cap: '関係会社株式', dr: [['関係会社株式評価損', 6200]], cr: [['関係会社株式', 6200]] }
+    ], how: ['売買目的有価証券:3,500 − 3,200 = 300千円', 'その他有価証券の時価:35千ドル × 146円 = 5,110千円', '取得原価:30千ドル × 140円 = 4,200千円', '評価差額:5,110 − 4,200 = 910千円', '繰延税金負債:910 × 30% = 273千円', '関係会社株式評価損:10,000 − 3,800 = 6,200千円'], trap: ['外貨建てのその他有価証券は、時価を決算時の相場で換算します。換算差額も評価差額に含めるので、為替差損益は出ません'], point: ['関係会社株式は原価で評価しますが、時価が著しく下落して回復の見込みがなければ減額します'] },
+    { no: 5, title: '5. 固定資産と資産除去債務', entries: [
+      { dr: [['減価償却費', 5960]], cr: [['建物減価償却累計額', 2000], ['機械装置減価償却累計額', 2160], ['構築物減価償却累計額', 1800]] },
+      { dr: [['利息費用', 31]], cr: [['資産除去債務', 31]] },
+      { dr: [['ソフトウェア償却', 1600]], cr: [['ソフトウェア', 1600]] }
+    ], how: ['建物:60,000 ÷ 30年 = 2,000千円', '機械装置の帳簿価額:20,000 − 15,680 = 4,320千円', '通常の償却額:4,320 × 0.400 = 1,728千円', '償却保証額:20,000 × 0.10800 = 2,160千円', '1,728 < 2,160 なので改定償却率を使う:4,320 × 0.500 = 2,160千円', '構築物:(8,000 + 1,000)÷ 5年 = 1,800千円', '減価償却費の合計:2,000 + 2,160 + 1,800 = 5,960千円', '利息費用:1,030 × 3% = 30.9 → 31千円', '資産除去債務:1,030 + 31 = 1,061千円', 'ソフトウェア:8,000 ÷ 5年 = 1,600千円'], trap: ['200%定率法は、償却保証額を下回った年から改定償却率に変わります。今期がその年です', '利息費用の元になるのは、当初の1,000千円ではなく期首の1,030千円です'], point: ['構築物の取得原価には、資産除去債務の分も含めて償却します'] },
+    { no: 6, title: '6. 為替予約(振当処理)', entries: [
+      { cap: '直々差額', dr: [['為替差損益', 100]], cr: [['買掛金', 100]] },
+      { cap: '直先差額', dr: [['買掛金', 300]], cr: [['前受収益', 300]] },
+      { cap: '当期分の振替', dr: [['前受収益', 200]], cr: [['為替差損益', 200]] }
+    ], how: ['直々差額:100千ドル ×(149円 − 148円)= 100千円の差損(負債が増える)', '直先差額:100千ドル ×(149円 − 146円)= 300千円の差益(負債が減る)', '当期分(2月、3月):300 × 2/3 = 200千円', '買掛金の振当後:100千ドル × 146円 = 14,600千円', '為替差損:売掛金240 + 直々差額100 − 直先差額200 = 140千円'], trap: ['振当処理をすると、買掛金は決算時の相場で換算し直しません。予約レートの146円で確定します'], point: ['予約前の相場の変動(直々差額)は当期の損益に、直物と先物の差(直先差額)は期間配分します'] },
+    { no: 7, title: '7. 社債の買入償還', entries: [
+      { cap: '償還分の当期の償却', dr: [['社債利息', 40]], cr: [['社債', 40]] },
+      { cap: '買入償還', dr: [['社債', 9800]], cr: [['仮払金', 9700], ['社債償還益', 100]] },
+      { cap: '残りの社債の償却', dr: [['社債利息', 160]], cr: [['社債', 160]] }
+    ], how: ['1年分の償却額:(30,000 − 28,800)÷ 5年 = 240千円', '償還分の期首の帳簿価額:29,280 × 1/3 = 9,760千円', '償還分の半年分の償却額:240 × 1/3 × 6/12 = 40千円', '償還時の帳簿価額:9,760 + 40 = 9,800千円', '社債償還益:9,800 − 9,700 = 100千円', '残りの社債の償却額:240 × 2/3 = 160千円', '社債利息:500 + 40 + 160 = 700千円', '期末の社債:29,280 + 40 − 9,800 + 160 = 19,680千円'], trap: ['償還する分は、償還日までの半年分を償却してから帳簿価額と比べます'], point: ['確認:残りの額面20,000千円の期末の帳簿価額は、20,000 −(240 × 2/3 × 2年)= 19,680千円です'] },
+    { no: 8, title: '8. ストック・オプション', entries: [
+      { dr: [['株式報酬費用', 2805]], cr: [['新株予約権', 2805]] }
+    ], how: ['権利確定の見込み:1,000 − 80 = 920個', '公正な評価額:920 × 9 = 8,280千円', '×4年7月から×6年3月までの21か月分:8,280 × 21/36 = 4,830千円', '当期の費用:4,830 − 2,025 = 2,805千円'], trap: ['見込みの見直しは、将来に繰り延べず当期に反映します。だから累計額を計算して前期末の残高を引きます'], point: ['「累計額 − 前期までの額 = 当期の費用」と計算します'] },
+    { no: 9, title: '9. 退職給付', entries: [
+      { dr: [['退職給付費用', 3200]], cr: [['退職給付引当金', 3200]] },
+      { dr: [['退職給付引当金', 2000]], cr: [['仮払金', 2000]] }
+    ], how: ['退職給付引当金:18,000 + 3,200 − 2,000 = 19,200千円'], trap: ['掛金の拠出は費用ではなく、引当金を減らします'], point: ['仮払金11,700千円は、社債の買入9,700千円と掛金2,000千円で、ちょうどなくなります'] },
+    { no: 10, title: '10. 保険料', entries: [
+      { dr: [['前払保険料', 900]], cr: [['保険料', 900]] }
+    ], how: ['保険料:3,600 − 900 = 2,700千円'], point: ['次期分は前払費用にします'] },
+    { no: 11, title: '11. 法人税等と税効果', entries: [
+      { dr: [['法人税等', 6300]], cr: [['仮払法人税等', 3000], ['未払法人税等', 3300]] },
+      { dr: [['繰延税金資産', 2760]], cr: [['法人税等調整額', 2760]] }
+    ], how: ['期末の将来減算一時差異:C社の貸倒引当金1,800 + 退職給付引当金19,200 + 関係会社株式評価損6,200 = 27,200千円', '期末の繰延税金資産:27,200 × 30% = 8,160千円', '法人税等調整額:8,160 − 5,400 = 2,760千円', '相殺後の繰延税金資産:8,160 − 273 = 7,887千円', '税引前当期純利益:11,704千円', '当期純利益:11,704 − 6,300 + 2,760 = 8,164千円', '繰越利益剰余金:35,000 + 8,164 = 43,164千円'], trap: ['その他有価証券の繰延税金負債273千円は、表示では相殺しますが、法人税等調整額の計算には入れません'], point: ['法人税等調整額は、期末と期首の繰延税金資産の差額で計算します'] }
+  ]
+};
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var STORE = 'boki1-shogyo-honban-v1';
+  var LIMIT = 45 * 60;
+  var MAX = 25, GOAL = 18, CUT = 10;
+
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，千円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+  function list(items) { return '<ul>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
+  function entry(e) {
+    return (e.cap ? '<p>' + e.cap + '</p>' : '') +
+      '<pre class="entry">' + e.dr.map(function (x) { return '(借)' + x[0] + ' ' + fmt(x[1]); })
+      .concat(e.cr.map(function (x) { return '(貸)' + x[0] + ' ' + fmt(x[1]); })).join('\n') + '</pre>';
+  }
+  function circled(n) { return String.fromCharCode(n <= 20 ? 0x2460 + n - 1 : 0x3251 + n - 21); }
+
+  // 入力欄に通し番号をつける
+  var FIELDS = [], no = 0;
+  MOCK.pl.concat(MOCK.bs).forEach(function (r) {
+    if (r.kind !== 'blank') return;
+    no++;
+    r.no = no; r.id = 'b' + no;
+    FIELDS.push(r);
+  });
+  var NI = FIELDS.filter(function (f) { return f.label === '当期純利益'; })[0];
+  var RE = FIELDS.filter(function (f) { return f.label === '繰越利益剰余金'; })[0];
+
+  // ===== 画面を作る =====
+  (function () {
+    var dr = 0, cr = 0;
+    var rows = MOCK.tb.map(function (t) {
+      dr += t[1]; cr += t[2];
+      return '<tr><td class="n">' + (t[1] ? fmt(t[1]) : '') + '</td><td>' + t[0] + '</td><td class="n">' + (t[2] ? fmt(t[2]) : '') + '</td></tr>';
+    }).join('');
+    $('tbArea').innerHTML = '<table class="tb"><thead><tr><th>借方残高</th><th>勘定科目</th><th>貸方残高</th></tr></thead><tbody>' + rows +
+      '<tr class="tot"><td class="n">' + fmt(dr) + '</td><td style="text-align:center">合計</td><td class="n">' + fmt(cr) + '</td></tr></tbody></table>';
+    $('itemArea').innerHTML = MOCK.items.map(function (x) { return '<li>' + x + '</li>'; }).join('');
+    function rowHtml(r, i) {
+      if (r.kind === 'head') return '<div class="sheet-head">' + r.label + '</div>';
+      if (r.kind === 'fixed') return '<div class="ans-row fixed"><div class="ans-label">' + r.label + '</div><span class="val">' + fmt(r.val) + '</span></div>';
+      if (r.kind === 'sub') return '<div class="ans-row sub"><div class="ans-label">' + r.label + '</div><span class="val" id="sub_' + i + '">—</span></div>';
+      var tag = circled(r.no) + ' ' + r.label;
+      return '<div class="ans-row"><div class="ans-label"><span class="blank-no">' + circled(r.no) + '</span> ' + r.label + '</div>' +
+        '<div class="ans-input"><div class="ans-line"><input type="text" class="amt" id="' + r.id + '" data-save data-label="' + tag + '" inputmode="numeric" autocomplete="off" aria-label="' + tag + '"></div><span class="answer-note" id="' + r.id + '_ans"></span></div></div>';
+    }
+    $('plArea').innerHTML = MOCK.pl.map(rowHtml).join('');
+    $('bsArea').innerHTML = MOCK.bs.map(rowHtml).join('');
+  })();
+
+  // ===== 保存 =====
+  var state = { vals: {}, memo: '', elapsed: 0, graded: false };
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORE) || 'null');
+      if (s && s.vals) state = s;
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {}
+  }
+  function fields() { return Array.prototype.slice.call(document.querySelectorAll('[data-save]')); }
+  function collect() {
+    state.vals = {};
+    fields().forEach(function (x) { if (x.value) state.vals[x.id] = x.value; });
+    save();
+  }
+
+  // ===== 自動の小計と進み具合 =====
+  // 入力した金額で当期純利益まで計算する。空欄があれば null
+  function runPL(onSub) {
+    var total = 0, ok = true;
+    MOCK.pl.forEach(function (r, i) {
+      if (r.kind === 'head' || r.result) return;
+      if (r.kind === 'sub') { if (onSub) onSub(i, ok ? total : null); return; }
+      if (r.kind === 'fixed') { total += r.sign * r.val; return; }
+      var v = parseNum($(r.id).value);
+      if (v === null) ok = false; else total += r.sign * v;
+    });
+    return ok ? total : null;
+  }
+  function updateSubs() {
+    runPL(function (i, v) { $('sub_' + i).textContent = v === null ? '—' : fmt(v); });
+  }
+  function updateProgress() {
+    var n = 0;
+    FIELDS.forEach(function (f) { if ($(f.id).value.trim()) n++; });
+    $('progress').textContent = '入力 ' + n + ' / ' + FIELDS.length;
+  }
+
+  // ===== タイマー =====
+  var timerId = null;
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function showTime() {
+    var left = LIMIT - state.elapsed, t = $('timer');
+    if (left >= 0) {
+      t.textContent = pad(Math.floor(left / 60)) + ':' + pad(left % 60);
+      t.classList.remove('over');
+    } else {
+      t.textContent = '+' + pad(Math.floor(-left / 60)) + ':' + pad(-left % 60) + ' 超過';
+      t.classList.add('over');
+    }
+  }
+  function stopTimer() {
+    if (timerId) { clearInterval(timerId); timerId = null; }
+    $('timerBtn').textContent = state.elapsed ? '再開' : '開始';
+    save();
+  }
+  function startTimer() {
+    if (timerId) return;
+    timerId = setInterval(function () {
+      state.elapsed++;
+      showTime();
+      if (state.elapsed % 5 === 0) save();
+    }, 1000);
+    $('timerBtn').textContent = '停止';
+  }
+  $('timerBtn').addEventListener('click', function () {
+    if (timerId) stopTimer(); else startTimer();
+  });
+
+  // ===== 採点 =====
+  function fieldOk(f) { return parseNum($(f.id).value) === f.ans; }
+  // 前の欄のミスが連動しただけの場合を伝える
+  function flowHint(f, val) {
+    var msg = '計算の流れは合っています。前の欄の金額のずれが、ここに連動しています。';
+    var ni = runPL();
+    if (f === NI && ni !== null && val === ni) return msg;
+    if (f === RE) {
+      var uni = parseNum($(NI.id).value);
+      if (uni !== null && val === 35000 + uni) return msg;
+    }
+    return '';
+  }
+  function exHtml(e, open) {
+    var h = '<details class="ex" id="ex_' + e.no + '"' + (open ? ' open' : '') + '><summary>' + e.title + '</summary><div class="ex-body">';
+    h += '<div class="ex-label">仕訳</div>' + e.entries.map(entry).join('');
+    h += '<div class="ex-label">解き方</div>' + list(e.how);
+    if (e.trap) h += '<div class="ex-label trap">ひっかけ</div>' + list(e.trap);
+    if (e.point) h += '<div class="ex-label point">覚えるポイント</div>' + list(e.point);
+    return h + '</div></details>';
+  }
+  function answerSheet() {
+    var total = 0, lines = [];
+    MOCK.pl.forEach(function (r) {
+      if (r.kind === 'head') { lines.push(r.label); return; }
+      if (r.kind === 'sub') { lines.push(r.label + ' ' + fmt(total)); return; }
+      var v = r.kind === 'fixed' ? r.val : r.ans;
+      lines.push('  ' + r.label + ' ' + fmt(v));
+      if (!r.result) total += r.sign * v;
+    });
+    return '<details class="ex"><summary>損益計算書と貸借対照表の解答</summary><div class="ex-body"><pre class="entry">' + lines.join('\n') + '</pre><pre class="entry">' +
+      MOCK.bs.map(function (r) { return r.label + ' ' + fmt(r.ans); }).join('\n') + '</pre></div></details>';
+  }
+  function linksFor() {
+    var seen = {}, out = [];
+    FIELDS.forEach(function (f) {
+      if (fieldOk(f) || seen[f.link]) return;
+      seen[f.link] = 1;
+      var u = MOCK.links[f.link];
+      out.push('<a href="' + u[1] + '">' + u[0] + '</a>');
+    });
+    return out.join(' / ');
+  }
+  function clearMarks() {
+    FIELDS.forEach(function (f) {
+      $(f.id).classList.remove('is-ok', 'is-ng');
+      $(f.id + '_ans').textContent = '';
+    });
+    $('result').innerHTML = '';
+    $('scoreCard').classList.remove('show');
+    $('scoreCard').innerHTML = '';
+  }
+  function setLocked(on) { fields().forEach(function (x) { x.disabled = on; }); }
+  function grade(scroll) {
+    stopTimer();
+    clearMarks();
+    state.graded = true;
+    save();
+    setLocked(true);
+    $('timerBtn').style.display = 'none';
+    var pts = 0, msgs = [], wrong = {};
+    FIELDS.forEach(function (f) {
+      var el = $(f.id), raw = el.value.trim(), val = parseNum(raw), ok = val === f.ans;
+      el.classList.add(ok ? 'is-ok' : 'is-ng');
+      if (ok) { pts++; return; }
+      wrong[f.item] = true;
+      $(f.id + '_ans').textContent = '正解 ' + fmt(f.ans);
+      var why = val !== null ? flowHint(f, val) : '';
+      if (!why && val !== null && f.hint && f.hint[val]) why = f.hint[val];
+      msgs.push('<div class="wrong-item">' + circled(f.no) + ' ' + f.label + ' 正解は <b>' + fmt(f.ans) + '</b>' +
+        (raw ? '(あなたの答え:' + raw + ')' : '(未入力)') + (why ? '<span class="why">' + why + '</span>' : '') +
+        ' <a href="#ex_' + f.item + '">決算整理事項' + f.item + 'の解説へ</a></div>');
+    });
+    $('result').innerHTML = (msgs.length ? '<h3>間違えた欄</h3>' + msgs.join('') : '<h3>全問正解です</h3>') +
+      '<h3>解答と解説</h3>' + MOCK.ex.map(function (e) { return exHtml(e, !!wrong[e.no]); }).join('') + answerSheet();
+    Array.prototype.forEach.call($('result').querySelectorAll('a[href^="#ex_"]'), function (a) {
+      a.addEventListener('click', function () {
+        var d = document.querySelector(a.getAttribute('href'));
+        if (d) d.open = true;
+      });
+    });
+    var judge;
+    if (pts >= GOAL) judge = '<div class="score-judge ok">7割の目安(' + GOAL + '点)に届きました</div>';
+    else if (pts >= CUT) judge = '<div class="score-judge ng">足切りの' + CUT + '点は超えています。7割の目安まで、あと' + (GOAL - pts) + '点です</div>';
+    else judge = '<div class="score-judge ng">足切りの' + CUT + '点まで、あと' + (CUT - pts) + '点です</div>';
+    var e = state.elapsed, links = linksFor();
+    $('scoreCard').innerHTML = '<div class="score-total">' + pts + '<small> / ' + MAX + '点</small></div>' + judge +
+      (e ? '<p>かかった時間:' + Math.floor(e / 60) + '分' + (e % 60) + '秒' + (e > LIMIT ? '(制限時間の45分を超えています)' : '') + '</p>' : '') +
+      (links ? '<p>復習する単元:' + links + '</p>' : '<p>全問正解です。おめでとうございます。</p>') +
+      '<p class="hint">答案用紙の下に、解答と解説が表示されています。</p>';
+    $('scoreCard').classList.add('show');
+    renderButtons();
+    if (scroll) $('scoreCard').scrollIntoView({ block: 'center' });
+  }
+  function reopen(resetAll) {
+    clearMarks();
+    setLocked(false);
+    $('timerBtn').style.display = '';
+    state.graded = false;
+    if (resetAll) {
+      FIELDS.forEach(function (f) { $(f.id).value = ''; });
+      state.elapsed = 0;
+    }
+    collect();
+    showTime();
+    $('timerBtn').textContent = state.elapsed ? '再開' : '開始';
+    updateSubs(); updateProgress();
+    renderButtons();
+    $('sheet').scrollIntoView();
+  }
+  function retryWrong() {
+    FIELDS.forEach(function (f) { if (!fieldOk(f)) $(f.id).value = ''; });
+    reopen(false);
+  }
+  function renderButtons() {
+    if (state.graded) {
+      $('gradeBtns').innerHTML = '<button class="main btn-primary" id="retryBtn" type="button">間違えた問題を解き直す</button>' +
+        '<button class="main btn-secondary" id="resetBtn" type="button">最初からやり直す</button>';
+      $('retryBtn').addEventListener('click', retryWrong);
+      $('resetBtn').addEventListener('click', function () { reopen(true); });
+    } else {
+      $('gradeBtns').innerHTML = '<button class="main btn-primary" id="gradeBtn" type="button">採点する</button>';
+      $('gradeBtn').addEventListener('click', function () { grade(true); });
+    }
+  }
+
+  // ===== 入力欄 =====
+  var target = null;
+  fields().forEach(function (x) {
+    x.addEventListener('input', function () { collect(); updateSubs(); updateProgress(); });
+    x.addEventListener('focus', function () { target = x; showTarget(); });
+    x.addEventListener('click', function () { target = x; showTarget(); });
+    // 入力後に桁区切りをそろえる
+    x.addEventListener('blur', function () {
+      var n = parseNum(x.value);
+      if (n !== null && x.value.trim()) { x.value = fmt(n); collect(); }
+    });
+  });
+
+  // ===== 電卓 =====
+  var expr = '', lastResult = null;
+  var KEYS = ['C', '⌫', '%', '÷', '7', '8', '9', '×', '4', '5', '6', '−', '1', '2', '3', '+', '0', '00', '.', '='];
+  $('calcKeys').innerHTML = KEYS.map(function (k) {
+    var cls = k === '=' ? 'eq' : (/[÷×−+%C⌫]/.test(k) ? 'op' : '');
+    return '<button type="button" class="' + cls + '" data-k="' + k + '">' + k + '</button>';
+  }).join('');
+
+  // 四則と%だけを読む(evalは使わない)
+  function calculate(src) {
+    var pos = 0;
+    function peek() { return src.charAt(pos); }
+    function number() {
+      var start = pos;
+      while (/[0-9.]/.test(peek())) pos++;
+      if (start === pos) throw new Error('式');
+      var n = parseFloat(src.slice(start, pos));
+      if (isNaN(n)) throw new Error('式');
+      if (peek() === '%') { pos++; n = n / 100; }
+      return n;
+    }
+    function factor() {
+      if (peek() === '−') { pos++; return -factor(); }
+      return number();
+    }
+    function term() {
+      var v = factor();
+      while (peek() === '×' || peek() === '÷') {
+        var op = src.charAt(pos++), w = factor();
+        if (op === '÷' && w === 0) throw new Error('0で割る');
+        v = op === '×' ? v * w : v / w;
+      }
+      return v;
+    }
+    function sum() {
+      var v = term();
+      while (peek() === '+' || peek() === '−') {
+        var op = src.charAt(pos++), w = term();
+        v = op === '+' ? v + w : v - w;
+      }
+      return v;
+    }
+    var r = sum();
+    if (pos !== src.length) throw new Error('式');
+    return Math.round(r * 1e8) / 1e8;
+  }
+  function showCalc(res) {
+    $('calcExpr').textContent = res === undefined ? '' : expr;
+    if (res === undefined) $('calcRes').textContent = expr || '0';
+    else $('calcRes').textContent = res.toLocaleString('ja-JP', { maximumFractionDigits: 8 });
+  }
+  function msg(t) { $('calcMsg').textContent = t || ''; }
+  function press(k) {
+    msg('');
+    if (k === 'C') { expr = ''; lastResult = null; showCalc(); return; }
+    if (k === '⌫') {
+      if (lastResult !== null) { expr = ''; lastResult = null; } else expr = expr.slice(0, -1);
+      showCalc();
+      return;
+    }
+    if (k === '=') {
+      if (!expr) return;
+      try {
+        var r = calculate(expr);
+        lastResult = r;
+        showCalc(r);
+      } catch (e) {
+        msg(e.message === '0で割る' ? '0では割れません' : '式が途中です');
+      }
+      return;
+    }
+    if (lastResult !== null) {
+      // 結果に続けて計算する。数字を押したら新しい式にする
+      expr = /[÷×−+%]/.test(k) ? String(lastResult).replace('-', '−') : '';
+      lastResult = null;
+    }
+    expr += k;
+    showCalc();
+  }
+  $('calcKeys').addEventListener('click', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-k');
+    if (k) press(k);
+  });
+  function showTarget() {
+    $('calcTarget').textContent = target ? '入れる先:' + target.getAttribute('data-label') : '入れる先:入力欄をタップして選びます';
+  }
+  $('calcPut').addEventListener('click', function () {
+    msg('');
+    var v = lastResult;
+    if (v === null && expr) {
+      try { v = calculate(expr); lastResult = v; showCalc(v); } catch (e) { msg('式が途中です'); return; }
+    }
+    if (v === null) { msg('先に計算してください'); return; }
+    if (!target) { msg('先に入れたい入力欄をタップしてください'); return; }
+    if (target.disabled) { msg('採点後は入力できません'); return; }
+    if (v !== Math.floor(v)) { msg('小数は入れられません。計算を確認してください'); return; }
+    target.value = fmt(v);
+    collect(); updateSubs(); updateProgress();
+    msg('');
+    $('calcTarget').textContent = target.getAttribute('data-label') + ' に ' + fmt(v) + ' を入れました';
+  });
+  function openCalc(on) {
+    $('calc').classList.toggle('show', on);
+    $('calcFab').style.display = on ? 'none' : '';
+    document.body.classList.toggle('calc-open', on);
+  }
+
+  $('calcFab').addEventListener('click', function () { openCalc(true); });
+  $('calcClose').addEventListener('click', function () { openCalc(false); });
+  $('memo').addEventListener('input', function () { state.memo = $('memo').value; save(); });
+
+  // ===== 起動 =====
+  load();
+  fields().forEach(function (x) { if (state.vals[x.id]) x.value = state.vals[x.id]; });
+  $('memo').value = state.memo || '';
+  showTime();
+  if (state.elapsed) $('timerBtn').textContent = '再開';
+  updateSubs(); updateProgress();
+  if (state.graded) grade(false); else renderButtons();
+})();
+</script>
+</body>
+</html>
