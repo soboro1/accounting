@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記2級 工業簿記 本番形式</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 76px; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px 120px;
+  }
+  body.calc-open { padding-bottom: 480px; }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  b { color: #f6f1e6; }
+  a { color: #d4a24c; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .unit-nav a:hover { text-decoration: underline; }
+
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a {
+    text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c;
+    padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5);
+  }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter {
+    padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px;
+    background: rgba(255,255,255,0.03); min-width: 0;
+  }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  /* 上に固定するタイマー */
+  .status {
+    position: sticky; top: 8px; z-index: 5;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px 14px;
+    padding: 10px 16px; border-radius: 12px; border: 1px solid rgba(212,162,76,0.5); background: #0e1726;
+  }
+  .timer { font-size: 22px; font-weight: 700; color: #d4a24c; font-variant-numeric: tabular-nums; }
+  .timer.over { color: #f0997b; }
+  .progress { font-size: 13px; color: #c7c0b0; }
+  .status-left { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+
+  button { font-family: inherit; }
+  button.main { cursor: pointer; border-radius: 999px; padding: 12px 28px; font-size: 15px; font-weight: 700; border: none; }
+  button.main:hover { filter: brightness(1.1); }
+  button.small { cursor: pointer; border-radius: 999px; padding: 7px 16px; font-size: 13px; font-weight: 700; }
+  .btn-primary { color: #101b2d; background: #d4a24c; border: none; }
+  .btn-secondary { color: #d4a24c; background: transparent; border: 1px solid #d4a24c !important; }
+  .buttons-row { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* 問題 */
+  .q { padding: 18px 0; border-top: 1px solid rgba(212,162,76,0.25); }
+  .q:first-of-type { border-top: none; }
+  .q-no { font-size: 13px; font-weight: 700; color: #d4a24c; margin-bottom: 4px; }
+  .q-text { font-size: 16px; line-height: 1.9; color: #e8e3d8; margin: 0 0 12px; }
+  .mark { font-weight: 700; margin-left: 6px; }
+  .mark.ok { color: #5dcaa5; }
+  .mark.ng { color: #f0997b; }
+
+  input[type=text], select, textarea {
+    padding: 10px 12px; font-size: 16px; border-radius: 8px;
+    border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit;
+  }
+  input::placeholder { color: #6b7688; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #d4a24c; box-shadow: 0 0 0 2px rgba(212,162,76,0.3); }
+  input:disabled, select:disabled { opacity: 1; color: #f6f1e6; }
+  .is-ok { border-color: #1d9e75 !important; background: rgba(29,158,117,0.12) !important; }
+  .is-ng { border-color: #d85a30 !important; background: rgba(216,90,48,0.12) !important; }
+
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jside-title { font-size: 14px; color: #c7c0b0; }
+  .jrow { display: flex; gap: 8px; }
+  .jrow select { flex: 1.5; min-width: 0; width: 0; padding-left: 8px; padding-right: 4px; }
+  .jrow input { flex: 1; min-width: 0; width: 0; text-align: right; }
+
+  /* 第2問の勘定 */
+  .t-name { text-align: center; font-weight: 700; padding-bottom: 6px; border-bottom: 2px solid #c7c0b0; }
+  .t-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .t-side { padding: 8px 10px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .t-side + .t-side { border-left: 2px solid #c7c0b0; }
+  .t-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; font-size: 15px; color: #e8e3d8; }
+  .t-row select { flex: 1 1 130px; min-width: 0; }
+  .t-row input { flex: 0 1 120px; width: 120px; min-width: 0; text-align: right; }
+
+  /* 試算表 */
+  .tb-wrap { overflow-x: auto; }
+  table.tb { width: 100%; border-collapse: collapse; font-size: 14px; }
+  table.tb th, table.tb td { border: 1px solid rgba(199,192,176,0.35); padding: 6px 10px; color: #e8e3d8; }
+  table.tb th { background: rgba(212,162,76,0.14); color: #fac775; }
+  table.tb td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.tb tr.tot td { font-weight: 700; color: #f6f1e6; border-top: 3px double #c7c0b0; }
+  ol.items { margin: 6px 0; padding-left: 24px; }
+  ol.items li { margin-bottom: 4px; }
+
+  /* 答案用紙 */
+  .fs-title { text-align: center; font-weight: 700; font-size: 17px; margin-top: 20px; }
+  .fs-sub { text-align: center; font-size: 12px; color: #9aa5b1; margin-bottom: 8px; }
+  .fs { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 2px solid #c7c0b0; }
+  .fs-side { padding: 6px 12px; min-width: 0; }
+  .fs-side + .fs-side { border-left: 2px solid #c7c0b0; }
+  .fs-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 6px 0; border-bottom: 1px dashed rgba(199,192,176,0.2); font-size: 14px; min-height: 48px; color: #e8e3d8; }
+  .fs-row.net { justify-content: flex-end; color: #9aa5b1; font-size: 13px; min-height: 30px; }
+  .fs-row.total { font-weight: 700; border-top: 1px solid #c7c0b0; border-bottom: 3px double #c7c0b0; }
+  .fs-row .val { font-variant-numeric: tabular-nums; }
+  .blank { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .blank-line { display: flex; align-items: center; gap: 6px; }
+  .blank-no { color: #d4a24c; font-size: 14px; font-weight: 700; }
+  .blank input { width: 118px; text-align: right; padding: 7px 8px; }
+  .answer-note { font-size: 12px; font-weight: 700; color: #5dcaa5; }
+
+  .hint { font-size: 12px; color: #8b93a1; }
+
+  /* 結果 */
+  .score-card { padding: 22px 24px; border-radius: 12px; border: 2px solid #d4a24c; background: rgba(212,162,76,0.08); display: none; flex-direction: column; gap: 10px; }
+  .score-card.show { display: flex; }
+  .score-total { font-size: 34px; font-weight: 700; color: #d4a24c; }
+  .score-total small { font-size: 16px; color: #c7c0b0; font-weight: 500; }
+  .score-judge { font-size: 16px; font-weight: 700; }
+  .score-judge.ok { color: #5dcaa5; }
+  .score-judge.ng { color: #f0997b; }
+  .score-parts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .score-part { font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5); color: #fac775; }
+
+  details.ex { margin-top: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.02); }
+  details.ex summary { cursor: pointer; padding: 10px 14px; font-size: 14px; font-weight: 700; color: #fac775; }
+  .ex-body { padding: 0 14px 12px; }
+  .ex-label { font-size: 13px; font-weight: 700; color: #d4a24c; margin: 10px 0 2px; }
+  .ex-label.trap { color: #f0997b; }
+  .ex-label.point { color: #5dcaa5; }
+  .ex-body li, .ex-body p { font-size: 14px; line-height: 1.8; }
+  pre.entry {
+    margin: 8px 0; padding: 10px 14px; border-radius: 8px; background: #0b1320;
+    border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6;
+    font-family: 'Noto Sans JP', monospace; white-space: pre-wrap;
+  }
+  .wrong-item { padding: 10px 14px; margin-top: 8px; border-left: 3px solid #d85a30; background: rgba(216,90,48,0.08); font-size: 14px; line-height: 1.8; color: #e8e3d8; }
+  .wrong-item .why { color: #f0997b; display: block; }
+  .wrong-item a { font-weight: 700; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; line-height: 1.7; }
+
+  /* 電卓 */
+  .calc-fab {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20; cursor: pointer;
+    padding: 13px 22px; border-radius: 999px; border: none; font-size: 15px; font-weight: 700;
+    background: #d4a24c; color: #101b2d; box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+  }
+  .calc {
+    position: fixed; right: 16px; bottom: 16px; z-index: 20; width: 300px; max-height: calc(100vh - 32px); overflow-y: auto;
+    display: none; flex-direction: column; gap: 8px; padding: 12px;
+    border-radius: 14px; border: 1px solid #d4a24c; background: #0e1726; box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+  }
+  .calc.show { display: flex; }
+  .calc-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: #d4a24c; }
+  .calc-close { cursor: pointer; background: none; border: none; color: #c7c0b0; font-size: 13px; font-weight: 700; padding: 6px 4px; }
+  .calc-screen { padding: 8px 12px; border-radius: 8px; background: #0b1320; text-align: right; min-height: 62px; }
+  .calc-expr { font-size: 13px; color: #9aa5b1; word-break: break-all; min-height: 18px; }
+  .calc-res { font-size: 24px; font-weight: 700; color: #f6f1e6; word-break: break-all; font-variant-numeric: tabular-nums; }
+  .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .calc-keys button { cursor: pointer; height: 44px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: #182538; color: #f6f1e6; font-size: 17px; font-weight: 700; }
+  .calc-keys button:hover { filter: brightness(1.25); }
+  .calc-keys button.op { background: rgba(212,162,76,0.2); color: #fac775; }
+  .calc-keys button.eq { background: #d4a24c; color: #101b2d; }
+  .calc-target { font-size: 12px; color: #c7c0b0; }
+  .calc-put { cursor: pointer; padding: 10px; border-radius: 8px; border: 1px solid #d4a24c; background: transparent; color: #d4a24c; font-size: 14px; font-weight: 700; }
+  .calc-msg { font-size: 12px; color: #f0997b; min-height: 16px; }
+  .calc textarea { width: 100%; height: 72px; font-size: 16px; resize: vertical; }
+  .calc summary { cursor: pointer; font-size: 13px; font-weight: 700; color: #c7c0b0; padding: 4px 0; }
+
+  @media (max-width: 700px) {
+    .fs { grid-template-columns: minmax(0, 1fr); }
+    .fs-side + .fs-side { border-left: none; border-top: 2px solid #c7c0b0; }
+    .fs-side.spacerless .fs-row.empty { display: none; }
+  }
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+    .jrow select { flex: 2; }
+  }
+  @media (max-width: 520px) {
+    .chapter { padding: 18px 14px; }
+    h1 { font-size: 22px; }
+    .calc { left: 0; right: 0; bottom: 0; width: auto; max-height: 62vh; border-radius: 14px 14px 0 0; }
+    .calc-keys button { height: 40px; }
+    .t-body { grid-template-columns: minmax(0, 1fr); }
+    .t-side + .t-side { border-left: none; border-top: 2px solid #c7c0b0; }
+  }
+  .ans-list { display: flex; flex-direction: column; }
+  .ans-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 0; border-bottom: 1px dashed rgba(212,162,76,0.25); flex-wrap: wrap; }
+  .ans-row label, .ans-row .lab { font-size: 15px; color: #e8e3d8; flex: 1 1 200px; min-width: 0; }
+  .ans-row .ctrl { display: flex; align-items: center; gap: 6px; }
+  .ans-row input { width: 9.5em; text-align: right; }
+  .ans-row select { width: 5.5em; padding-left: 6px; padding-right: 2px; }
+  .ans-row .sign { font-size: 13px; color: #9aa5b1; }
+  .ans-note { flex-basis: 100%; font-size: 13px; color: #f0997b; text-align: right; }
+  .pl-sec { font-size: 13px; font-weight: 700; color: #d4a24c; padding-top: 14px; }
+  .pl-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px dashed rgba(212,162,76,0.2); flex-wrap: wrap; font-size: 15px; color: #e8e3d8; }
+  .pl-row .val { font-variant-numeric: tabular-nums; }
+  .pl-row.auto { color: #9aa5b1; }
+  .pl-row input { width: 9.5em; text-align: right; }
+  .mini-tb { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .mini-tb th, .mini-tb td { padding: 6px 8px; border-bottom: 1px solid rgba(212,162,76,0.2); text-align: right; font-variant-numeric: tabular-nums; }
+  .mini-tb th:first-child, .mini-tb td:first-child { text-align: left; }
+  .sub-h { font-size: 15px; font-weight: 700; color: #d4a24c; margin: 16px 0 4px; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki2-genka-kaisetsu.html">製品原価計算の解説</a>
+    <a href="boki2-hyojun-kaisetsu.html">標準・直接原価計算・CVPの解説</a>
+    <a href="boki2-shogyo-honban.html">商業簿記の本番形式</a>
+    <a href="boki2-half-moshi.html">全範囲のハーフ模試</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.2 工業簿記 本番形式</div>
+    <h1>簿記2級 工業簿記 本番形式</h1>
+  </div>
+
+  <section class="chapter">
+    <div class="chapter-no">HOW TO USE</div>
+    <h2>このページの使い方</h2>
+    <ul>
+      <li>工業簿記の第4問と第5問を、本番と同じ分量で解きます。第4問28点、第5問12点、合計40点です</li>
+      <li>目安の時間は30分です。第4問20分、第5問10分で進めます</li>
+      <li>答えを入力し、最後に「採点する」を押すと自動で採点します</li>
+      <li>採点後は、各問の下に仕訳、勘定記入、計算、ひっかけ、理由の解説が開きます</li>
+      <li>右下の「電卓」で計算し、その結果を入力欄へ入れられます</li>
+    </ul>
+    <p class="hint">配点は例年の形(第4問28点、第5問12点)に合わせています。30分と7割の目安は、このページだけの設定です。総合原価計算と製造間接費の差異分析は、全範囲のハーフ模試で練習できます。</p>
+  </section>
+
+  <div class="status">
+    <div class="status-left">
+      <span class="timer" id="timer">30:00</span>
+      <span class="progress" id="progress">入力 0 / 17</span>
+    </div>
+    <button class="small btn-secondary" id="timerBtn" type="button">開始</button>
+  </div>
+
+  <nav class="toc">
+    <a href="#s1">第4問(1) 仕訳</a>
+    <a href="#s4">第4問(2) 製造原価報告書</a>
+    <a href="#s5">第5問 直接原価計算とCVP</a>
+    <a href="#grade">採点</a>
+  </nav>
+
+  <section class="chapter" id="s1">
+    <div class="chapter-no">QUESTION 4 (1) ・ 各4点 計12点</div>
+    <h2>第4問(1) 仕訳</h2>
+    <p>次の取引を仕訳しなさい。勘定科目は、設問ごとに選択肢から選ぶこと。使わない行は空けておきます。行の順番は問いません。</p>
+    <div id="q1Area"></div>
+  </section>
+
+  <section class="chapter" id="s4">
+    <div class="chapter-no">QUESTION 4 (2) ・ 各2点 計16点</div>
+    <h2>第4問(2) 製造原価報告書と損益計算書</h2>
+    <p>次の資料にもとづいて、製造原価報告書と損益計算書を完成させなさい。</p>
+    <ul id="q4Facts"></ul>
+    <h3>答案用紙</h3>
+    <p class="hint">番号の欄が採点の対象です(各2点)。④は金額と、有利か不利かの両方が合っていれば正解です。</p>
+    <div id="rpArea"></div>
+    <div id="q4Result"></div>
+  </section>
+
+  <section class="chapter" id="s5">
+    <div class="chapter-no">QUESTION 5 ・ 各2点 計12点</div>
+    <h2>第5問 直接原価計算とCVP分析</h2>
+    <p>次の資料にもとづいて、各問に答えなさい。</p>
+    <ul id="q5Facts"></ul>
+    <h3>答案用紙</h3>
+    <div class="ans-list" id="q5Area"></div>
+    <div id="q5Result"></div>
+  </section>
+
+  <section id="grade" style="display:flex;flex-direction:column;gap:14px">
+    <div class="score-card" id="scoreCard" aria-live="polite"></div>
+    <div class="buttons-row" id="gradeBtns"></div>
+  </section>
+
+  <div class="footer-note">問題文と数字はオリジナルです。試験の形式や範囲は変わることがあるので、受験前に日本商工会議所の公式サイトで最新情報を確認してください。</div>
+</div>
+
+<button class="calc-fab" id="calcFab" type="button">電卓</button>
+<div class="calc" id="calc" role="dialog" aria-label="電卓">
+  <div class="calc-head"><span>電卓</span><button class="calc-close" id="calcClose" type="button">閉じる ✕</button></div>
+  <div class="calc-screen">
+    <div class="calc-expr" id="calcExpr"></div>
+    <div class="calc-res" id="calcRes">0</div>
+  </div>
+  <div class="calc-keys" id="calcKeys"></div>
+  <div class="calc-target" id="calcTarget">入れる先:入力欄をタップして選びます</div>
+  <button class="calc-put" id="calcPut" type="button">計算結果を入力欄へ入れる</button>
+  <div class="calc-msg" id="calcMsg"></div>
+  <details>
+    <summary>計算メモ</summary>
+    <textarea id="memo" aria-label="計算メモ" placeholder="下書きに使えます(採点されません)"></textarea>
+  </details>
+</div>
+
+<script>
+var MOCK = {"Q1":[{"title":"問1 材料の購入と材料副費の予定配賦","unit":"genka","pts":4,"text":"材料2,000kg(購入代価は1kgあたり300円)を掛けで購入し、倉庫に受け入れた。材料副費は、購入代価の5%を予定配賦している。","opts":["材料","材料副費","買掛金","未払金","仕掛品","製造間接費","材料副費差異","現金"],"dr":[["材料",630000]],"cr":[["買掛金",600000],["材料副費",30000]],"how":["購入代価:2,000kg × 300 = 600,000円","材料副費の予定配賦額:600,000 × 5% = 30,000円","材料の取得原価:600,000 + 30,000 = 630,000円"],"trap":["材料の勘定を600,000円にしません。材料副費も取得原価に含めます","貸方の買掛金は、仕入先に支払う600,000円だけです"],"why":["材料副費は、運賃や検収費など材料を手に入れるまでにかかる費用です。実際の金額は月末までわからないので、予定額で先に材料の原価へ加えます。貸方の材料副費は、あとで集計する実際発生額と比べて差異を出します"],"point":["予定配賦は「(借)材料 (貸)材料副費」です。実際の支払いは材料副費の借方に集計します"]},{"title":"問2 賃金の消費","unit":"genka","pts":4,"text":"当月の賃金の消費額を計上する。直接工の直接作業時間は1,500時間、間接作業時間は200時間で、予定賃率は1時間1,000円である。間接工については、当月の支払額が400,000円、前月未払額が60,000円、当月未払額が80,000円である。","opts":["仕掛品","製造間接費","賃金","未払賃金","賃率差異","製品","現金","売上原価"],"dr":[["仕掛品",1500000],["製造間接費",620000]],"cr":[["賃金",2120000]],"how":["直接工の直接作業:1,500時間 × 1,000 = 1,500,000円(仕掛品)","直接工の間接作業:200時間 × 1,000 = 200,000円(製造間接費)","間接工の要支払額:400,000 − 60,000 + 80,000 = 420,000円(製造間接費)","製造間接費:200,000 + 420,000 = 620,000円","賃金の消費額:1,500,000 + 620,000 = 2,120,000円"],"trap":["直接工の賃金でも、間接作業の分は製造間接費です","間接工は支払額の400,000円ではなく、当月に働いた分の要支払額で計上します。前月未払は引いて、当月未払は足します"],"why":["原価は当月働いた分で計算します。前月未払は先月の仕事の代金が今月払われた分で、当月未払は今月の仕事なのにまだ払っていない分です。だから、支払額から前月分を除き、当月分を加えます"],"point":["製品に直接結びつく作業は仕掛品、それ以外は製造間接費です"]},{"title":"問3 製造指図書の完成","unit":"genka","pts":4,"text":"個別原価計算を採用している。当月、製造指図書#101が完成した。#102は未完成である。#101の前月までの原価は150,000円である。当月の原価は、#101が直接材料費300,000円、直接作業200時間、#102が直接材料費180,000円、直接作業120時間である。賃率は1時間1,000円、製造間接費の予定配賦率は1時間1,500円である。完成の仕訳を答えなさい。","opts":["製品","仕掛品","売上原価","材料","賃金","製造間接費","本社","売上"],"dr":[["製品",950000]],"cr":[["仕掛品",950000]],"how":["前月までの原価:150,000円","直接材料費:300,000円","直接労務費:200時間 × 1,000 = 200,000円","製造間接費:200時間 × 1,500 = 300,000円","#101の合計:150,000 + 300,000 + 200,000 + 300,000 = 950,000円"],"trap":["前月までの150,000円を足し忘れると、800,000円になります","#102は未完成なので、仕掛品に残ります。製品には振り替えません","完成しただけで、まだ売れていません。売上原価にはしません"],"why":["個別原価計算では、製造指図書ごとに原価を集めます。完成した指図書の原価だけを仕掛品から製品へ移します"],"point":["完成品原価は、その指図書の前月までの原価と当月の原価の合計です"]}],"B":{"1":{"sec":4,"label":"直接材料費","ans":1180000,"pts":2,"ref":"4_1","hint":{"1350000":"補助材料も入れています。補助材料は間接材料費です。","1200000":"当月仕入高のままです。月初を足して月末を引きます。","1220000":"月初と月末を逆にしています。"}},"2":{"sec":4,"label":"直接労務費","ans":1020000,"pts":2,"ref":"4_2","hint":{"1000000":"支払額のままです。月初未払を引いて、月末未払を足します。","980000":"未払の足し引きが逆です。月初を引いて、月末を足します。","1310000":"間接工の賃金も入れています。間接工は製造間接費です。"}},"3":{"sec":4,"label":"製造間接費(実際発生額)","ans":990000,"pts":2,"ref":"4_3","hint":{"1070000":"本社の費用80,000円を入れています。本社の分は販売費及び一般管理費です。","1020000":"予定配賦額です。ここは実際発生額を答えます。","610000":"工場の経費380,000円が入っていません。","840000":"工場の事務員の給料150,000円が入っていません。","1010000":"間接工の未払の足し引きが逆です。月初を引いて、月末を足します。"}},"4":{"sec":4,"label":"製造間接費配賦差異","ans":30000,"dir":"有利","pts":2,"ref":"4_4","flow":true},"5":{"sec":4,"label":"当月総製造費用","ans":3220000,"pts":2,"ref":"4_5","flow":true,"hint":{"3190000":"製造間接費を実際発生額で合計しています。配賦差異30,000円を調整して、予定配賦額にします。","3160000":"配賦差異の向きが逆です。有利差異は足します。"}},"6":{"sec":4,"label":"当月製品製造原価","ans":3120000,"pts":2,"ref":"4_5","flow":true,"hint":{"3320000":"月初と月末の仕掛品を逆にしています。月初を足して、月末を引きます。"}},"7":{"sec":4,"label":"売上原価","ans":3170000,"pts":2,"ref":"4_6","flow":true,"hint":{"3200000":"配賦差異を調整していません。有利差異30,000円を売上原価から引きます。","3230000":"配賦差異の向きが逆です。有利差異は売上原価から引きます。","3120000":"当月製品製造原価のままです。製品の月初を足して、月末を引きます。"}},"8":{"sec":4,"label":"営業利益","ans":530000,"pts":2,"ref":"4_6","flow":true,"hint":{"500000":"配賦差異を調整していません。"}},"9":{"sec":5,"label":"全部原価計算の営業利益(円)","ans":900000,"pts":2,"ref":"5_1","hint":{"700000":"直接原価計算の営業利益です。全部原価計算では、固定製造原価を製品の原価に入れます。","1400000":"変動販売費500,000円を引いていません。","1500000":"固定販売費及び一般管理費600,000円を引いていません。","300000":"売上原価を3,000個分で計算しています。売れた2,500個分が売上原価です。"}},"10":{"sec":5,"label":"直接原価計算の営業利益(円)","ans":700000,"pts":2,"ref":"5_2","hint":{"900000":"全部原価計算の営業利益です。直接原価計算では、固定製造原価を全額その期の費用にします。","1200000":"変動販売費500,000円を引いていません。"}},"11":{"sec":5,"label":"損益分岐点の販売量(個)","ans":1800,"pts":2,"ref":"5_3","hint":{"1500":"貢献利益に変動販売費を入れていません。1個の貢献利益は 2,000 − 800 − 200 = 1,000円です。","1200":"固定製造原価だけで計算しています。固定費は1,800,000円です。"}},"12":{"sec":5,"label":"損益分岐点の売上高(円)","ans":3600000,"pts":2,"ref":"5_3","flow":true},"13":{"sec":5,"label":"安全余裕率","ans":28,"unit":"%","pts":2,"ref":"5_4","flow":true,"hint":{"72":"損益分岐点比率です。安全余裕率は 100% − 72% です。"}},"14":{"sec":5,"label":"営業利益1,000,000円を達成する販売量(個)","ans":2800,"pts":2,"ref":"5_5","hint":{"1000":"固定費を足していません。固定費と目標利益の合計を、1個の貢献利益で割ります。","2334":"貢献利益に変動販売費を入れていません。","2333":"貢献利益に変動販売費を入れていません。"}}},"RP":[["title","製造原価報告書","当月(単位:円)"],["直接材料費","b1"],["直接労務費","b2"],["製造間接費(実際発生額)","b3"],["製造間接費配賦差異","b4"],["当月総製造費用","b5"],["月初仕掛品棚卸高",300000],["月末仕掛品棚卸高",-400000],["当月製品製造原価","b6"],["title","損益計算書","当月(単位:円)"],["売上高",5000000],["sec","売上原価"],["月初製品棚卸高",500000],["当月製品製造原価","auto:cm"],["月末製品棚卸高",-420000],["製造間接費配賦差異","auto:diff"],["売上原価","b7"],["売上総利益","auto:gp"],["販売費及び一般管理費",1300000],["営業利益","b8"]],"FACTS":{"q4":["当工場の当月の資料は次のとおりである。製造間接費は直接労務費の100%を予定配賦している。製造間接費配賦差異は、当月の売上原価に加減する。","主要材料(すべて直接材料費):月初有高100,000円、当月仕入高1,200,000円、月末有高120,000円","補助材料(すべて間接材料費):月初有高20,000円、当月仕入高180,000円、月末有高30,000円","直接工の賃金(すべて直接労務費):当月支払額1,000,000円、月初未払額150,000円、月末未払額170,000円","間接工の賃金:当月支払額300,000円、月初未払額40,000円、月末未払額30,000円","工場の事務員の給料:150,000円","工場の経費:減価償却費240,000円、水道光熱費80,000円、保険料60,000円","本社の費用(販売費及び一般管理費の一部):減価償却費60,000円、水道光熱費20,000円","棚卸資産:月初仕掛品300,000円、月末仕掛品400,000円、月初製品500,000円、月末製品420,000円","売上高は5,000,000円、販売費及び一般管理費は合計1,300,000円である。"],"q5":["製品Xを製造・販売している。当期の生産量は3,000個、販売量は2,500個である。期首の仕掛品と製品はなく、期末の仕掛品もない。","販売単価は1個2,000円である。","変動製造原価は1個800円、固定製造原価は年間1,200,000円である。","変動販売費は1個200円、固定販売費及び一般管理費は年間600,000円である。","⑪〜⑭は、当期の条件のまま販売量だけが変わるものとして、直接原価計算の考え方で答える。"]},"ITEMS4":[{"id":"4_1","title":"材料費","entries":[["",[["仕掛品",1180000],["製造間接費",170000]],[["材料",1350000]]]],"text":["主要材料:100,000 + 1,200,000 − 120,000 = 1,180,000円(直接材料費)","補助材料:20,000 + 180,000 − 30,000 = 170,000円(間接材料費)"],"trap":"材料の消費額は「月初 + 当月仕入 − 月末」です。仕入れた金額がそのまま原価になるわけではありません。","why":"原価になるのは、当月に使った分だけです。月末に残っている材料は、来月の原価になります。","point":"直接材料費は仕掛品へ、間接材料費は製造間接費へ振り替えます。"},{"id":"4_2","title":"労務費","entries":[["",[["仕掛品",1020000],["製造間接費",440000]],[["賃金",1310000],["給料",150000]]]],"text":["直接工:1,000,000 − 150,000 + 170,000 = 1,020,000円(直接労務費)","間接工:300,000 − 40,000 + 30,000 = 290,000円","製造間接費に入る労務費:290,000 + 150,000 = 440,000円"],"trap":"未払の足し引きを逆にしやすいところです。月初未払は引いて、月末未払は足します。","why":"月初未払は先月の仕事の分、月末未払は今月の仕事の分です。今月の原価には、今月の仕事の分だけを入れます。","point":"要支払額 = 支払額 − 月初未払 + 月末未払 です。"},{"id":"4_3","title":"経費と製造間接費の実際発生額","entries":[["工場の経費",[["製造間接費",380000]],[["減価償却累計額",240000],["水道光熱費",80000],["保険料",60000]]]],"text":["工場の経費:240,000 + 80,000 + 60,000 = 380,000円","製造間接費の実際発生額:170,000 + 290,000 + 150,000 + 380,000 = 990,000円"],"trap":"本社の減価償却費60,000円と水道光熱費20,000円は入れません。販売費及び一般管理費です。","why":"製造原価になるのは、工場で製品を作るためにかかった費用だけです。本社の費用は、製品を作ることに直接関係しません。","point":"同じ減価償却費でも、工場の分は製造原価、本社の分は販売費及び一般管理費です。"},{"id":"4_4","title":"製造間接費の予定配賦と配賦差異","entries":[["予定配賦",[["仕掛品",1020000]],[["製造間接費",1020000]]],["差異の振替",[["製造間接費",30000]],[["製造間接費配賦差異",30000]]]],"text":["予定配賦額:1,020,000 × 100% = 1,020,000円","差異:1,020,000 − 990,000 = +30,000円","予定より実際が少ないので、有利差異です"],"trap":"実際発生額のほうが小さいときが有利差異です。貸方に出るので、貸方差異ともいいます。","why":"予定の金額より実際にかかった費用が少なければ、その分だけ得をしたことになるので有利です。","point":"差異 = 予定配賦額 − 実際発生額。プラスが有利、マイナスが不利です。"},{"id":"4_5","title":"製造原価報告書","entries":[["完成",[["製品",3120000]],[["仕掛品",3120000]]]],"pre":["仕掛品の勘定記入","(借方)月初仕掛品 300,000","(借方)直接材料費 1,180,000","(借方)直接労務費 1,020,000","(借方)製造間接費 1,020,000","(貸方)製品 3,120,000","(貸方)月末仕掛品 400,000","借方合計と貸方合計は、どちらも 3,520,000"],"text":["当月総製造費用:1,180,000 + 1,020,000 + 990,000 + 30,000 = 3,220,000円","当月製品製造原価:300,000 + 3,220,000 − 400,000 = 3,120,000円"],"trap":"製造原価報告書は実際発生額で書きますが、仕掛品に入るのは予定配賦額です。有利差異を足して、予定配賦額にそろえます。","why":"仕掛品の勘定には予定配賦額で記入しています。報告書の当月総製造費用を仕掛品の金額と合わせるために、差異を調整します。","point":"有利差異は足す、不利差異は引く。これで予定配賦額に戻ります。"},{"id":"4_6","title":"損益計算書","entries":[["販売",[["売上原価",3200000]],[["製品",3200000]]],["差異の振替",[["製造間接費配賦差異",30000]],[["売上原価",30000]]]],"pre":["製品の勘定記入","(借方)月初製品 500,000","(借方)仕掛品 3,120,000","(貸方)売上原価 3,200,000","(貸方)月末製品 420,000","借方合計と貸方合計は、どちらも 3,620,000"],"text":["差異を調整する前の売上原価:500,000 + 3,120,000 − 420,000 = 3,200,000円","売上原価:3,200,000 − 30,000 = 3,170,000円","売上総利益:5,000,000 − 3,170,000 = 1,830,000円","営業利益:1,830,000 − 1,300,000 = 530,000円"],"trap":"報告書では有利差異を足しましたが、売上原価では引きます。向きが逆になるので注意します。","why":"売上原価は、まず予定配賦額で計算されています。実際には30,000円少なくて済んだので、売上原価を実際の金額に近づけるために引きます。","point":"有利差異は売上原価から引く、不利差異は売上原価に足します。"}],"ITEMS5":[{"id":"5_1","title":"全部原価計算の営業利益","entries":[["完成",[["製品",3600000]],[["仕掛品",3600000]]],["販売",[["売上原価",3000000]],[["製品",3000000]]]],"pre":["売上高 5,000,000","売上原価 △3,000,000","売上総利益 2,000,000","販売費及び一般管理費 △1,100,000","営業利益 900,000"],"text":["売上高:2,500個 × 2,000 = 5,000,000円","製造原価:(3,000個 × 800 + 1,200,000) ÷ 3,000個 = 1個1,200円","売上原価:2,500個 × 1,200 = 3,000,000円","販売費及び一般管理費:2,500個 × 200 + 600,000 = 1,100,000円"],"trap":"固定製造原価は、売れた2,500個ではなく、作った3,000個で割ります。","why":"全部原価計算では、固定製造原価も製品の原価です。売れ残った製品にも固定費の一部が入ったまま、期末の資産になります。","point":"製造原価はすべて製品へ。売れた分だけが売上原価になります。"},{"id":"5_2","title":"直接原価計算の営業利益と、全部原価計算との差","entries":[["完成(変動製造原価だけ)",[["製品",2400000]],[["仕掛品",2400000]]],["販売",[["売上原価",2000000]],[["製品",2000000]]]],"pre":["売上高 5,000,000","変動売上原価 △2,000,000","変動販売費 △500,000","貢献利益 2,500,000","固定製造原価 △1,200,000","固定販売費及び一般管理費 △600,000","営業利益 700,000"],"text":["1個の貢献利益:2,000 − 800 − 200 = 1,000円","差額:900,000 − 700,000 = 200,000円","期末製品に含まれる固定製造原価:500個 × 400 = 200,000円"],"trap":"全部原価計算と直接原価計算の差は、販売費や売上高からは生まれません。期末在庫に含まれる固定製造原価の分だけです。","why":"全部原価計算では、固定製造原価のうち売れ残った500個の分が来期に繰り越されます。直接原価計算では全額が当期の費用になるので、そのぶん利益が小さくなります。","point":"生産量が販売量より多いときは、全部原価計算の利益のほうが大きくなります。"},{"id":"5_3","title":"損益分岐点の販売量と売上高","entries":[],"text":["固定費の合計:1,200,000 + 600,000 = 1,800,000円","販売量:1,800,000 ÷ 1,000 = 1,800個","売上高:1,800個 × 2,000 = 3,600,000円","検算:貢献利益 1,800 × 1,000 = 1,800,000、固定費と同じなので利益はゼロです"],"trap":"変動販売費も変動費です。変動製造原価だけで貢献利益を計算しません。","why":"1個売るごとに貢献利益が積み上がり、固定費を回収していきます。ちょうど回収し終わる点が損益分岐点です。","point":"損益分岐点の販売量 = 固定費 ÷ 1個の貢献利益 です。"},{"id":"5_4","title":"安全余裕率","entries":[],"text":["(5,000,000 − 3,600,000) ÷ 5,000,000 = 28%","損益分岐点比率は 3,600,000 ÷ 5,000,000 = 72% で、足すと100%です"],"trap":"分母は損益分岐点の売上高ではなく、当期の売上高です。","why":"今の売上高があと何%減ると利益がゼロになるかを表す数字です。大きいほど安全です。","point":"安全余裕率 + 損益分岐点比率 = 100% です。"},{"id":"5_5","title":"目標利益を達成する販売量","entries":[],"text":["(1,800,000 + 1,000,000) ÷ 1,000 = 2,800個","検算:2,800個 × 1,000 − 1,800,000 = 1,000,000円"],"trap":"目標利益だけを貢献利益で割らないこと。先に固定費も回収する必要があります。","why":"貢献利益で固定費を回収し、残りが利益になります。必要な貢献利益は、固定費と目標利益の合計です。","point":"必要な販売量 = (固定費 + 目標利益) ÷ 1個の貢献利益 です。"}],"FLOW4":["材料、労務、経費の順に、資料を直接費と間接費に分けます","製造間接費の実際発生額を合計します","予定配賦額と比べて、配賦差異と向きを出します","仕掛品の流れで、当月製品製造原価を計算します","製品の流れで売上原価を出し、最後に配賦差異を調整します"],"FLOW5":["変動費と固定費に分けます","1個の貢献利益を先に計算します","全部原価計算は、固定製造原価を作った個数で割ります","損益分岐点と目標販売量は、固定費を貢献利益で割って求めます"]};
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var STORE = 'boki2-kogyo-honban-v1';
+  var LIMIT = 30 * 60;
+  var ROWS = 4;
+  var Q1 = MOCK.Q1, B = MOCK.B;
+  var UNIT = {
+    genka: ['製品原価計算', 'boki2-genka-kaisetsu.html'],
+    hyojun: ['標準原価計算・直接原価計算・CVP', 'boki2-hyojun-kaisetsu.html']
+  };
+
+  function fmt(n) { return (n < 0 ? '△' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function ansText(b) { return fmt(b.ans) + (b.unit || '') + (b.dir ? ' ' + b.dir : ''); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円個%％\s]/g, '').replace(/^[−ー－△▲-]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+  function list(items) { return '<ul>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
+  function entry(dr, cr) {
+    return '<pre class="entry">' + dr.map(function (e) { return '(借)' + e[0] + ' ' + fmt(e[1]); })
+      .concat(cr.map(function (e) { return '(貸)' + e[0] + ' ' + fmt(e[1]); })).join('\n') + '</pre>';
+  }
+  function circled(n) { return String.fromCharCode(0x2460 + n - 1); }
+  function nums(sec) { return Object.keys(B).map(Number).filter(function (n) { return B[n].sec === sec; }).sort(function (a, b) { return a - b; }); }
+
+  // ===== 画面を作る =====
+  function jq(prefix, q, i) {
+    var opts = '<option value="">科目を選ぶ</option>' + q.opts.map(function (o) { return '<option>' + o + '</option>'; }).join('');
+    function side(key, name) {
+      var rows = '';
+      for (var r = 0; r < ROWS; r++) {
+        rows += '<div class="jrow"><select id="' + prefix + i + '_' + key + 'A' + r + '" data-save aria-label="' + q.title + ' ' + name + '科目' + (r + 1) + '">' + opts + '</select>' +
+          '<input type="text" class="amt" id="' + prefix + i + '_' + key + 'M' + r + '" data-save data-label="' + q.title + ' ' + name + (r + 1) + '行目" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="' + q.title + ' ' + name + '金額' + (r + 1) + '"></div>';
+      }
+      return '<div class="jside"><div class="jside-title">' + name + '</div>' + rows + '</div>';
+    }
+    return '<div class="q"><div class="q-no">' + q.title.split(' ')[0] + '(' + q.pts + '点)<span class="mark" id="' + prefix + i + '_mark"></span></div>' +
+      '<p class="q-text">' + q.text + '</p><div class="jgrid">' + side('dr', '借方') + side('cr', '貸方') + '</div><div id="' + prefix + i + '_ex"></div></div>';
+  }
+  function amtInput(n) {
+    return '<input type="text" class="amt" id="b' + n + '" data-save data-label="' + circled(n) + ' ' + B[n].label + '" inputmode="text" autocomplete="off" aria-label="' + circled(n) + ' ' + B[n].label + '">';
+  }
+  function dirSel(n) {
+    return '<select id="b' + n + 'd" data-save aria-label="' + circled(n) + ' 有利か不利か"><option value="">向き</option><option>有利</option><option>不利</option></select>';
+  }
+  function ansRow(n) {
+    var b = B[n];
+    return '<div class="ans-row"><label for="b' + n + '">' + circled(n) + ' ' + b.label + '</label><span class="ctrl">' + (b.dir ? dirSel(n) : '') + amtInput(n) + (b.unit ? '<span class="sign">' + b.unit + '</span>' : '') + '</span><span class="ans-note" id="b' + n + '_ans"></span></div>';
+  }
+  function rpRow(r) {
+    if (r[0] === 'title') return '<div class="fs-title">' + r[1] + '</div><div class="fs-sub">' + r[2] + '</div>';
+    if (r[0] === 'sec') return '<div class="pl-sec">' + r[1] + '</div>';
+    if (typeof r[1] === 'string' && r[1].indexOf('auto:') === 0) return '<div class="pl-row auto"><span>' + r[0] + '(自動計算)</span><span class="val" id="auto_' + r[1].slice(5) + '">—</span></div>';
+    if (typeof r[1] === 'string') return ansRow(Number(r[1].slice(1)));
+    return '<div class="pl-row"><span>' + r[0] + '</span><span class="val">' + fmt(r[1]) + '</span></div>';
+  }
+  function buildAll() {
+    $('q1Area').innerHTML = Q1.map(function (q, i) { return jq('q1_', q, i); }).join('');
+    $('q4Facts').innerHTML = MOCK.FACTS.q4.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+    $('q5Facts').innerHTML = MOCK.FACTS.q5.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+    $('rpArea').innerHTML = MOCK.RP.map(rpRow).join('');
+    $('q5Area').innerHTML = nums(5).map(ansRow).join('');
+  }
+  buildAll();
+
+  // ===== 保存 =====
+  var state = { vals: {}, memo: '', elapsed: 0, graded: false };
+  function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem(STORE) || 'null');
+      if (s && s.vals) state = s;
+    } catch (e) {}
+  }
+  function save() {
+    try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {}
+  }
+  function fields() { return Array.prototype.slice.call(document.querySelectorAll('[data-save]')); }
+
+  // ===== 自動計算と進み具合 =====
+  function updateNets() {
+    var c = parseNum($('b6').value), d = parseNum($('b4').value), w = $('b4d').value, s = parseNum($('b7').value);
+    $('auto_cm').textContent = c !== null ? fmt(c) : '—';
+    $('auto_diff').textContent = d !== null && w ? fmt(w === '有利' ? -d : d) : '—';
+    $('auto_gp').textContent = s !== null ? fmt(5000000 - s) : '—';
+  }
+  function jFilled(prefix, i) {
+    for (var r = 0; r < ROWS; r++) {
+      if ($(prefix + i + '_drA' + r).value || $(prefix + i + '_crA' + r).value) return true;
+    }
+    return false;
+  }
+  function updateProgress() {
+    var n = 0;
+    Q1.forEach(function (q, i) { if (jFilled('q1_', i)) n++; });
+    Object.keys(B).forEach(function (k) { if ($('b' + k).value.trim()) n++; });
+    $('progress').textContent = '入力 ' + n + ' / 17';
+  }
+
+  // ===== タイマー =====
+  var timerId = null;
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function showTime() {
+    var left = LIMIT - state.elapsed, t = $('timer');
+    if (left >= 0) {
+      t.textContent = pad(Math.floor(left / 60)) + ':' + pad(left % 60);
+      t.classList.remove('over');
+    } else {
+      t.textContent = '+' + pad(Math.floor(-left / 60)) + ':' + pad(-left % 60) + ' 超過';
+      t.classList.add('over');
+    }
+  }
+  function stopTimer() {
+    if (timerId) { clearInterval(timerId); timerId = null; }
+    $('timerBtn').textContent = state.elapsed ? '再開' : '開始';
+    save();
+  }
+  function startTimer() {
+    if (timerId) return;
+    timerId = setInterval(function () {
+      state.elapsed++;
+      showTime();
+      if (state.elapsed % 5 === 0) save();
+    }, 1000);
+    $('timerBtn').textContent = '一時停止';
+  }
+  $('timerBtn').addEventListener('click', function () {
+    if (timerId) stopTimer(); else startTimer();
+  });
+
+
+
+  // ===== 採点 =====
+  function readRows(prefix, i, key) {
+    var out = [];
+    for (var r = 0; r < ROWS; r++) {
+      var a = $(prefix + i + '_' + key + 'A' + r).value, m = $(prefix + i + '_' + key + 'M' + r).value.trim();
+      if (a || m) out.push({ r: r, a: a, m: parseNum(m) });
+    }
+    return out;
+  }
+  function sideOk(rows, ans) {
+    if (rows.length !== ans.length) return false;
+    var key = function (a, m) { return a + ':' + m; };
+    var x = rows.map(function (e) { return key(e.a, e.m); }).sort().join('|');
+    var y = ans.map(function (e) { return key(e[0], e[1]); }).sort().join('|');
+    return x === y;
+  }
+  function markRows(prefix, i, key, rows, ans) {
+    rows.forEach(function (e) {
+      var hit = ans.some(function (x) { return x[0] === e.a && x[1] === e.m; });
+      $(prefix + i + '_' + key + 'A' + e.r).classList.add(hit ? 'is-ok' : 'is-ng');
+      $(prefix + i + '_' + key + 'M' + e.r).classList.add(hit ? 'is-ok' : 'is-ng');
+    });
+  }
+  function exBlock(label, items, cls) { return '<div class="ex-label ' + (cls || '') + '">' + label + '</div>' + list(items); }
+  function setMark(el, ok, blankAnswer) {
+    el.textContent = ok ? '○ 正解' : (blankAnswer ? '× 未入力' : '× 不正解');
+    el.className = 'mark ' + (ok ? 'ok' : 'ng');
+  }
+  function gradeJ(prefix, qs) {
+    var pts = 0, wrong = [];
+    qs.forEach(function (q, i) {
+      var dr = readRows(prefix, i, 'dr'), cr = readRows(prefix, i, 'cr');
+      var ok = sideOk(dr, q.dr) && sideOk(cr, q.cr);
+      if (ok) pts += q.pts; else wrong.push(q.unit);
+      markRows(prefix, i, 'dr', dr, q.dr); markRows(prefix, i, 'cr', cr, q.cr);
+      setMark($(prefix + i + '_mark'), ok, !dr.length && !cr.length);
+      $(prefix + i + '_ex').innerHTML = '<details class="ex"' + (ok ? '' : ' open') + '><summary>' + q.title + ' の解答と解説</summary><div class="ex-body">' +
+        entry(q.dr, q.cr) + exBlock('解き方', q.how) + exBlock('ひっかけ', q.trap, 'trap') + exBlock('なぜそうなる?', q.why) + exBlock('覚えるポイント', q.point, 'point') + '</div></details>';
+    });
+    return { pts: pts, wrong: wrong };
+  }
+  function readV() {
+    var v = {};
+    Object.keys(B).forEach(function (k) { v[k] = parseNum($('b' + k).value); });
+    return v;
+  }
+  function blankOk(n, v) {
+    var b = B[n];
+    return v[n] === b.ans && (!b.dir || $('b' + n + 'd').value === b.dir);
+  }
+  // 前の欄の間違いが連動しただけの場合を伝える
+  function flowHint(n, v, val) {
+    var msg = '計算の流れは合っています。前の欄の金額のずれが、ここに連動しています。';
+    var has = function (a) { return a.every(function (k) { return v[k] !== null; }); };
+    var w = $('b4d').value;
+    if (n === 4 && has([2, 3]) && val === Math.abs(v[2] - v[3])) return msg;
+    if (n === 5 && has([1, 2]) && val === v[1] + v[2] + v[2]) return msg;
+    if (n === 6 && has([5]) && val === v[5] + 300000 - 400000) return msg;
+    if (n === 7 && has([4, 6]) && w && val === v[6] + 500000 - 420000 + (w === '有利' ? -v[4] : v[4])) return msg;
+    if (n === 8 && has([7]) && val === 5000000 - v[7] - 1300000) return msg;
+    if (n === 12 && has([11]) && val === v[11] * 2000) return msg;
+    if (n === 13 && has([12]) && val === (5000000 - v[12]) * 100 / 5000000) return msg;
+    return '';
+  }
+  function gradeBlanks(sec) {
+    var pts = 0, msgs = [], v = readV();
+    nums(sec).forEach(function (n) {
+      var b = B[n], el = $('b' + n), ok = blankOk(n, v);
+      el.classList.add(ok ? 'is-ok' : 'is-ng');
+      if (b.dir) $('b' + n + 'd').classList.add(ok ? 'is-ok' : 'is-ng');
+      if (ok) { pts += b.pts; return; }
+      $('b' + n + '_ans').textContent = '正解 ' + ansText(b);
+      var why = '';
+      if (v[n] !== null) {
+        if (b.flow) why = flowHint(n, v, v[n]);
+        if (b.hint && b.hint[String(v[n])]) why = b.hint[String(v[n])];
+        if (b.dir && v[n] === b.ans) why = '金額は合っています。予定配賦額より実際発生額が少ないので、有利です。';
+      }
+      msgs.push('<div class="wrong-item">' + circled(n) + ' ' + b.label + ' 正解は <b>' + ansText(b) + '</b>' +
+        (v[n] !== null ? '(あなたの答え:' + fmt(v[n]) + (b.unit || '') + (b.dir ? ' ' + ($('b' + n + 'd').value || '向きなし') : '') + ')' : '(未入力)') +
+        (why ? '<span class="why">' + why + '</span>' : '') +
+        ' <a href="#item' + b.ref + '">この欄の解説へ</a></div>');
+    });
+    return { pts: pts, msgs: msgs };
+  }
+  function itemHtml(it) {
+    var ents = it.entries.map(function (e) { return (e[0] ? '<p>' + e[0] + '</p>' : '') + entry(e[1], e[2]); }).join('');
+    var pre = it.pre ? '<pre class="entry">' + it.pre.join('\n') + '</pre>' : '';
+    return '<details class="ex" id="item' + it.id + '"><summary>' + it.title + '</summary><div class="ex-body">' + ents + pre +
+      exBlock('計算', it.text) + exBlock('ひっかけ', [it.trap], 'trap') + exBlock('なぜそうなる?', [it.why]) + exBlock('覚えるポイント', [it.point], 'point') + '</div></details>';
+  }
+  function sectionResult(id, r, flow, items) {
+    $(id).innerHTML = (r.msgs.length ? '<h3>間違えた欄</h3>' + r.msgs.join('') : '<h3>全問正解です</h3>') +
+      '<h3>解く順番</h3>' + list(flow) + '<h3>論点ごとの解説</h3>' + items.map(itemHtml).join('');
+    Array.prototype.forEach.call($(id).querySelectorAll('a[href^="#item"]'), function (a) {
+      a.addEventListener('click', function () {
+        var d = document.querySelector(a.getAttribute('href'));
+        if (d) d.open = true;
+      });
+    });
+  }
+  function clearMarks() {
+    Array.prototype.forEach.call(document.querySelectorAll('.is-ok, .is-ng'), function (x) { x.classList.remove('is-ok', 'is-ng'); });
+    Array.prototype.forEach.call(document.querySelectorAll('.ans-note'), function (x) { x.textContent = ''; });
+    Q1.forEach(function (q, i) { $('q1_' + i + '_mark').textContent = ''; $('q1_' + i + '_ex').innerHTML = ''; });
+    ['q4Result', 'q5Result'].forEach(function (k) { $(k).innerHTML = ''; });
+    $('scoreCard').classList.remove('show'); $('scoreCard').innerHTML = '';
+  }
+  function setLocked(on) { fields().forEach(function (x) { x.disabled = on; }); }
+  function grade(scroll) {
+    stopTimer();
+    clearMarks();
+    state.graded = true;
+    save();
+    setLocked(true);
+    $('timerBtn').style.display = 'none';
+    var a = gradeJ('q1_', Q1), b = gradeBlanks(4), c = gradeBlanks(5);
+    sectionResult('q4Result', b, MOCK.FLOW4, MOCK.ITEMS4);
+    sectionResult('q5Result', c, MOCK.FLOW5, MOCK.ITEMS5);
+    var total = a.pts + b.pts + c.pts;
+    var units = a.wrong.slice();
+    if (b.msgs.length) units.push('genka');
+    if (c.msgs.length) units.push('hyojun');
+    var seen = {}, links = units.filter(function (u) { if (seen[u]) return false; seen[u] = 1; return true; })
+      .map(function (u) { return '<a href="' + UNIT[u][1] + '">' + UNIT[u][0] + '</a>'; }).join(' / ');
+    var mins = Math.floor(state.elapsed / 60), secs = state.elapsed % 60;
+    var judge = total >= 28
+      ? '<div class="score-judge ok">目安の7割(28点)に届きました</div>'
+      : '<div class="score-judge ng">目安の7割(28点)まで、あと' + (28 - total) + '点です</div>';
+    var parts = [['第4問', a.pts + b.pts, 28], ['第5問', c.pts, 12]];
+    $('scoreCard').innerHTML =
+      '<div class="score-total">' + total + '<small> / 40点</small></div>' + judge +
+      '<div class="score-parts">' + parts.map(function (p) { return '<span class="score-part">' + p[0] + ' ' + p[1] + ' / ' + p[2] + '</span>'; }).join('') + '</div>' +
+      (state.elapsed ? '<p>かかった時間:' + mins + '分' + secs + '秒' + (state.elapsed > LIMIT ? '(目安の30分を超えています)' : '') + '</p>' : '') +
+      (links ? '<p>復習する単元:' + links + '</p>' : '<p>全問正解です。おめでとうございます。</p>') +
+      '<p class="hint">各問の下に、解答と解説が表示されています。</p>';
+    $('scoreCard').classList.add('show');
+    renderButtons();
+    if (scroll) $('scoreCard').scrollIntoView({ block: 'center' });
+  }
+  function retryWrong() {
+    Q1.forEach(function (q, i) {
+      if (sideOk(readRows('q1_', i, 'dr'), q.dr) && sideOk(readRows('q1_', i, 'cr'), q.cr)) return;
+      ['dr', 'cr'].forEach(function (k) {
+        for (var r = 0; r < ROWS; r++) { $('q1_' + i + '_' + k + 'A' + r).value = ''; $('q1_' + i + '_' + k + 'M' + r).value = ''; }
+      });
+    });
+    var v = readV();
+    Object.keys(B).forEach(function (k) {
+      if (blankOk(Number(k), v)) return;
+      $('b' + k).value = '';
+      if (B[k].dir) $('b' + k + 'd').value = '';
+    });
+    reopen(false);
+  }
+  function reopen(resetAll) {
+    clearMarks();
+    setLocked(false);
+    $('timerBtn').style.display = '';
+    state.graded = false;
+    if (resetAll) {
+      fields().forEach(function (x) { x.value = ''; });
+      state.elapsed = 0;
+    }
+    collect();
+    showTime();
+    $('timerBtn').textContent = state.elapsed ? '再開' : '開始';
+    updateNets(); updateProgress();
+    renderButtons();
+    $('s1').scrollIntoView();
+  }
+  function renderButtons() {
+    if (state.graded) {
+      $('gradeBtns').innerHTML = '<button class="main btn-primary" id="retryBtn" type="button">間違えた問題を解き直す</button>' +
+        '<button class="main btn-secondary" id="resetBtn" type="button">最初からやり直す</button>';
+      $('retryBtn').addEventListener('click', retryWrong);
+      $('resetBtn').addEventListener('click', function () { reopen(true); });
+    } else {
+      $('gradeBtns').innerHTML = '<button class="main btn-primary" id="gradeBtn" type="button">採点する</button>';
+      $('gradeBtn').addEventListener('click', function () { grade(true); });
+    }
+  }
+  function collect() {
+    state.vals = {};
+    fields().forEach(function (x) { if (x.value) state.vals[x.id] = x.value; });
+    save();
+  }
+
+  // ===== 入力欄 =====
+  var target = null;
+  fields().forEach(function (x) {
+    x.addEventListener('input', function () { collect(); updateNets(); updateProgress(); });
+    x.addEventListener('change', function () { collect(); updateNets(); updateProgress(); });
+    if (x.classList.contains('amt')) {
+      x.addEventListener('focus', function () { target = x; showTarget(); });
+      x.addEventListener('click', function () { target = x; showTarget(); });
+      // 入力後に桁区切りをそろえる
+      x.addEventListener('blur', function () {
+        var n = parseNum(x.value);
+        if (n !== null && x.value.trim()) { x.value = fmt(n); collect(); }
+      });
+    }
+  });
+
+  // ===== 電卓 =====
+  var expr = '', lastResult = null;
+  var KEYS = ['C', '⌫', '%', '÷', '7', '8', '9', '×', '4', '5', '6', '−', '1', '2', '3', '+', '0', '00', '.', '='];
+  $('calcKeys').innerHTML = KEYS.map(function (k) {
+    var cls = k === '=' ? 'eq' : (/[÷×−+%C⌫]/.test(k) ? 'op' : '');
+    return '<button type="button" class="' + cls + '" data-k="' + k + '">' + k + '</button>';
+  }).join('');
+
+  // 四則と%だけを読む(evalは使わない)
+  function calculate(src) {
+    var pos = 0;
+    function peek() { return src.charAt(pos); }
+    function number() {
+      var start = pos;
+      while (/[0-9.]/.test(peek())) pos++;
+      if (start === pos) throw new Error('式');
+      var n = parseFloat(src.slice(start, pos));
+      if (isNaN(n)) throw new Error('式');
+      if (peek() === '%') { pos++; n = n / 100; }
+      return n;
+    }
+    function factor() {
+      if (peek() === '−') { pos++; return -factor(); }
+      return number();
+    }
+    function term() {
+      var v = factor();
+      while (peek() === '×' || peek() === '÷') {
+        var op = src.charAt(pos++), w = factor();
+        if (op === '÷' && w === 0) throw new Error('0で割る');
+        v = op === '×' ? v * w : v / w;
+      }
+      return v;
+    }
+    function sum() {
+      var v = term();
+      while (peek() === '+' || peek() === '−') {
+        var op = src.charAt(pos++), w = term();
+        v = op === '+' ? v + w : v - w;
+      }
+      return v;
+    }
+    var r = sum();
+    if (pos !== src.length) throw new Error('式');
+    return Math.round(r * 1e8) / 1e8;
+  }
+  function showCalc(res) {
+    $('calcExpr').textContent = res === undefined ? '' : expr;
+    if (res === undefined) $('calcRes').textContent = expr || '0';
+    else $('calcRes').textContent = res.toLocaleString('ja-JP', { maximumFractionDigits: 8 });
+  }
+  function msg(t) { $('calcMsg').textContent = t || ''; }
+  function press(k) {
+    msg('');
+    if (k === 'C') { expr = ''; lastResult = null; showCalc(); return; }
+    if (k === '⌫') {
+      if (lastResult !== null) { expr = ''; lastResult = null; } else expr = expr.slice(0, -1);
+      showCalc();
+      return;
+    }
+    if (k === '=') {
+      if (!expr) return;
+      try {
+        var r = calculate(expr);
+        lastResult = r;
+        showCalc(r);
+      } catch (e) {
+        msg(e.message === '0で割る' ? '0では割れません' : '式が途中です');
+      }
+      return;
+    }
+    if (lastResult !== null) {
+      // 結果に続けて計算する。数字を押したら新しい式にする
+      expr = /[÷×−+%]/.test(k) ? String(lastResult).replace('-', '−') : '';
+      lastResult = null;
+    }
+    expr += k;
+    showCalc();
+  }
+  $('calcKeys').addEventListener('click', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-k');
+    if (k) press(k);
+  });
+  function showTarget() {
+    $('calcTarget').textContent = target ? '入れる先:' + target.getAttribute('data-label') : '入れる先:入力欄をタップして選びます';
+  }
+  $('calcPut').addEventListener('click', function () {
+    msg('');
+    var v = lastResult;
+    if (v === null && expr) {
+      try { v = calculate(expr); lastResult = v; showCalc(v); } catch (e) { msg('式が途中です'); return; }
+    }
+    if (v === null) { msg('先に計算してください'); return; }
+    if (!target) { msg('先に入れたい入力欄をタップしてください'); return; }
+    if (target.disabled) { msg('採点後は入力できません'); return; }
+    if (v !== Math.floor(v)) { msg('小数は入れられません。計算を確認してください'); return; }
+    target.value = fmt(v);
+    collect(); updateNets(); updateProgress();
+    msg('');
+    $('calcTarget').textContent = target.getAttribute('data-label') + ' に ' + fmt(v) + ' を入れました';
+  });
+  function openCalc(on) {
+    $('calc').classList.toggle('show', on);
+    $('calcFab').style.display = on ? 'none' : '';
+    document.body.classList.toggle('calc-open', on);
+  }
+  $('calcFab').addEventListener('click', function () { openCalc(true); });
+  $('calcClose').addEventListener('click', function () { openCalc(false); });
+  $('memo').addEventListener('input', function () { state.memo = $('memo').value; save(); });
+
+
+
+  // ===== 起動 =====
+  load();
+  fields().forEach(function (x) { if (state.vals[x.id]) x.value = state.vals[x.id]; });
+  $('memo').value = state.memo || '';
+  showTime();
+  if (state.elapsed) $('timerBtn').textContent = '再開';
+  updateNets(); updateProgress();
+  if (state.graded) grade(false); else renderButtons();
+})();
+</script>
+</body>
+</html>
