@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>簿記2級 仕訳の総チェック</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: 1カラムの答案用紙。問題ごとに借方・貸方の科目と金額を入力し、採点後に仕訳と計算を表示。ほかの出題パターンドリルと同じ紺×金、ライトテーマも用意 */
+  :root {
+    color-scheme: dark;
+    --bg: #101b2d;
+    --surface: #15233a;
+    --surface-2: #0d1624;
+    --fg: #f6f1e6;
+    --fg-soft: #ddd6c7;
+    --muted: #9aa5b1;
+    --accent: #d4a24c;
+    --accent-ink: #101b2d;
+    --accent-soft: rgba(212, 162, 76, 0.16);
+    --line: rgba(212, 162, 76, 0.36);
+    --rule: rgba(246, 241, 230, 0.12);
+    --good: #8cc152;
+    --good-soft: rgba(140, 193, 82, 0.2);
+    --bad: #ec7f56;
+    --bad-soft: rgba(236, 127, 86, 0.2);
+    --std-fill: rgba(212, 162, 76, 0.2);
+    --c1: #d4a24c; --c2: #5fa8d3; --c3: #7cc6a4; --c4: #b39ddb; --c5: #ec7f56;
+    --font: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', Meiryo, sans-serif;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) {
+      color-scheme: light;
+      --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+      --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+      --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+      --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+      --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+      --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+      --std-fill: rgba(154, 106, 18, 0.13);
+      --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+    }
+  }
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef1f6; --surface: #ffffff; --surface-2: #f5f7fb;
+    --fg: #14213a; --fg-soft: #33415a; --muted: #5b6678;
+    --accent: #9a6a12; --accent-ink: #ffffff; --accent-soft: rgba(154, 106, 18, 0.1);
+    --line: rgba(154, 106, 18, 0.35); --rule: rgba(20, 33, 58, 0.12);
+    --good: #3d7a14; --good-soft: rgba(61, 122, 20, 0.12);
+    --bad: #b8461f; --bad-soft: rgba(184, 70, 31, 0.12);
+    --std-fill: rgba(154, 106, 18, 0.13);
+    --c1: #b07d1a; --c2: #2f78a8; --c3: #2f8a63; --c4: #7a5fb0; --c5: #c0552b;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font);
+    font-size: 15px;
+    line-height: 1.8;
+    -webkit-text-size-adjust: 100%;
+  }
+  .app {
+    max-width: 860px; margin: 0 auto;
+    padding-inline: 16px; padding-block: 28px 56px;
+    display: flex; flex-direction: column; gap: 18px;
+  }
+
+  .top { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px 20px; flex-wrap: wrap; }
+  .top > div:first-child { min-width: 0; flex: 1 1 420px; }
+  .kicker { font-size: 12px; letter-spacing: 0.18em; color: var(--accent); font-weight: 700; }
+  h1 { font-size: clamp(22px, 4.6vw, 28px); margin: 2px 0 0; line-height: 1.35; text-wrap: balance; }
+  .lead { color: var(--muted); font-size: 13.5px; margin: 6px 0 0; max-width: 42em; }
+  .score { text-align: right; }
+  .score-k { font-size: 12px; color: var(--muted); }
+  .score-v { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font: inherit; font-size: 13px; font-weight: 500; line-height: 1.5;
+    padding: 6px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .chip[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
+
+  .paper {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+    padding: 20px clamp(14px, 3vw, 26px);
+    display: flex; flex-direction: column; gap: 14px; min-width: 0;
+  }
+  .badge {
+    align-self: flex-start; font-size: 12.5px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); background: var(--accent-soft); border: 1px solid var(--line);
+    border-radius: 999px; padding: 3px 14px;
+  }
+  .intro { margin: 0; font-size: 15.5px; }
+  .freq { font-size: 12.5px; color: var(--muted); margin-top: -6px; }
+  .facts { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: 4px; }
+  .facts b { font-weight: 700; color: var(--fg); }
+
+  .cost-card { border: 1px solid var(--rule); border-radius: 10px; padding: 10px 14px 6px; background: var(--surface-2); max-width: 560px; }
+  .cc-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .cc-grid { display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content; column-gap: 14px; font-variant-numeric: tabular-nums; }
+  .cc-grid > span { padding: 5px 0; border-top: 1px dashed var(--rule); font-size: 14px; }
+  .cc-c { color: var(--muted); }
+  .cc-v { text-align: right; font-weight: 500; }
+
+  .figs { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 12px; }
+  .figbox {
+    margin: 0; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 10px 10px 8px; display: flex; flex-direction: column; gap: 6px; min-width: 0;
+  }
+  .figscroll { overflow-x: auto; }
+  .figbox figcaption { font-size: 12px; color: var(--muted); padding: 0 4px; line-height: 1.6; }
+  .fig { width: 100%; min-width: 330px; height: auto; display: block; }
+  .fig text { font-family: var(--font); }
+  .fig .t { fill: var(--fg); font-size: 13px; }
+  .fig .ts { fill: var(--muted); font-size: 11.5px; }
+  .fig .tb { fill: var(--fg); font-size: 13.5px; font-weight: 700; }
+  .fig .ta { fill: var(--accent); font-size: 12px; font-weight: 700; }
+  .fig .tu { fill: var(--bad); font-size: 12px; font-weight: 700; }
+  .fig .tf { fill: var(--good); font-size: 12px; font-weight: 700; }
+  .fig .box { fill: var(--surface); stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .div { stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .hl { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1; stroke-dasharray: 3 3; }
+  .fig .std { fill: var(--std-fill); stroke: var(--accent); stroke-width: 1.2; }
+  .fig .vu { fill: var(--bad-soft); stroke: var(--bad); stroke-width: 1.2; }
+  .fig .ax { stroke: var(--muted); stroke-width: 1.2; }
+  .fig .bar { fill: var(--muted); fill-opacity: 0.5; }
+  .fig .bar-hit { fill: var(--accent); }
+  .fig .arr { stroke: var(--muted); stroke-width: 1.4; }
+  .fig .mk { fill: var(--muted); }
+  .fig .frame { fill: none; stroke: var(--fg-soft); stroke-width: 1.2; }
+  .fig .lead { fill: none; stroke: var(--muted); stroke-width: 1; }
+  .fig .s0 { fill: var(--c1); }
+  .fig .s1 { fill: var(--c2); }
+  .fig .s2 { fill: var(--c3); }
+  .fig .s3 { fill: var(--c5); }
+
+  .lad-title { font-size: 13.5px; font-weight: 700; padding: 2px 4px 0; }
+  .ladder { display: flex; flex-direction: column; padding: 4px; font-variant-numeric: tabular-nums; }
+  .rung { border: 1px solid var(--line); background: var(--std-fill); border-radius: 8px; padding: 7px 12px; }
+  .rung-k { font-size: 12px; color: var(--muted); }
+  .rung-v { font-size: 13.5px; overflow-wrap: anywhere; }
+  .step { position: relative; margin-left: 22px; padding: 8px 0 10px 18px; border-left: 2px solid var(--muted); font-size: 13.5px; }
+  .step::after {
+    content: ''; position: absolute; left: -7px; bottom: 0;
+    border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 8px solid var(--muted);
+  }
+  .step.u b { color: var(--bad); }
+  .step.f b { color: var(--good); }
+  .step.n b { color: var(--fg); }
+  .rung.mark { border: 2px solid var(--accent); background: var(--accent-soft); }
+
+  /* タイムテーブル・換算表・財務諸表 */
+  .tbl { width: 100%; min-width: 320px; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .tbl th { font-size: 12px; font-weight: 500; color: var(--muted); text-align: right; padding: 4px 8px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+  .tbl td { padding: 5px 8px; text-align: right; border-bottom: 1px dashed var(--rule); white-space: nowrap; }
+  .tbl th:first-child, .tbl td:first-child { text-align: left; white-space: normal; }
+  .tbl td.l { text-align: left; }
+  .tbl tr.sum td { border-top: 1px solid var(--fg-soft); font-weight: 700; }
+  .tbl tr.hl td { color: var(--accent); font-weight: 700; }
+  .tbl tr:last-child td { border-bottom: none; }
+
+  .opts { display: flex; flex-wrap: wrap; gap: 8px; }
+  .opt {
+    font: inherit; font-size: 14px; line-height: 1.4; padding: 7px 16px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--line); background: transparent; color: var(--fg-soft);
+  }
+  .opt[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .opt:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .sheet-head { font-weight: 700; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .hint { font-size: 12.5px; color: var(--muted); font-weight: 400; }
+  .sheet { display: flex; flex-direction: column; }
+  .ans-row {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+    gap: 8px 16px; padding: 12px 0; border-top: 1px solid var(--rule);
+  }
+  .ans-row:first-child { border-top: none; padding-top: 4px; }
+  .ans-row.choice { grid-template-columns: minmax(0, 1fr); }
+  .ans-label { font-weight: 500; }
+  .qno { display: inline-block; min-width: 2.8em; color: var(--accent); font-weight: 700; font-size: 13px; }
+  .ans-ctrl { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ans-ctrl input {
+    width: 10.5em; padding: 8px 12px; font: inherit; font-size: 16px; line-height: 1.4;
+    border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg);
+    font-variant-numeric: tabular-nums; text-align: right;
+  }
+  .ans-ctrl input::placeholder { color: var(--muted); opacity: 0.7; }
+  .yen { color: var(--muted); font-size: 14px; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; }
+  .seg button {
+    font: inherit; font-size: 13.5px; line-height: 1.4; padding: 7px 14px;
+    background: transparent; color: var(--fg-soft); border: none; cursor: pointer;
+  }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); font-weight: 700; }
+  .fb { grid-column: 1 / -1; font-size: 13.5px; font-weight: 500; }
+  .fb.ok { color: var(--good); }
+  .fb.ng { color: var(--bad); }
+  @media (max-width: 560px) { .ans-row { grid-template-columns: minmax(0, 1fr); } }
+
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .btn {
+    font: inherit; font-size: 15px; font-weight: 700; line-height: 1.4;
+    padding: 11px 22px; border-radius: 999px; cursor: pointer; border: 1px solid var(--accent);
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { background: transparent; color: var(--accent); }
+  .btn-quiet { background: transparent; color: var(--muted); border-color: var(--rule); }
+  .btn:disabled { opacity: 0.45; cursor: default; }
+  .btn:focus-visible, .chip:focus-visible, .seg button:focus-visible, .ans-ctrl input:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px;
+  }
+  .err { color: var(--bad); font-size: 13.5px; }
+
+  .result { display: flex; flex-direction: column; gap: 14px; }
+  .verdict { font-size: 17px; font-weight: 700; }
+  .verdict.all { color: var(--good); }
+  .sol {
+    background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px;
+    padding: 14px 16px; display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums;
+  }
+  .sol h4 { margin: 12px 0 2px; font-size: 13.5px; color: var(--accent); letter-spacing: 0.04em; }
+  .sol h4:first-child { margin-top: 0; }
+  .sol p { margin: 0; font-size: 14px; line-height: 1.75; overflow-wrap: anywhere; }
+
+  .journal { display: flex; flex-direction: column; gap: 10px; }
+  .j-head { margin: 6px 0 0; font-size: 16px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; }
+  .j-rule { font-size: 12.5px; font-weight: 400; color: var(--muted); }
+  .j-note { margin: 0; font-size: 13.5px; color: var(--fg-soft); max-width: 46em; }
+  .j-list { display: flex; flex-direction: column; background: var(--surface-2); border: 1px solid var(--rule); border-radius: 10px; padding: 4px 16px; }
+  .j-entry { padding: 9px 0; border-top: 1px dashed var(--rule); }
+  .j-entry:first-child { border-top: none; }
+  .j-title { font-size: 12.5px; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
+  .j-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2px 28px; font-variant-numeric: tabular-nums; }
+  .j-line { display: grid; grid-template-columns: 2.4em minmax(0, 1fr) auto; gap: 6px; font-size: 14px; line-height: 1.7; }
+  .j-tag { color: var(--accent); font-weight: 700; }
+  .j-amt { text-align: right; }
+  @media (max-width: 540px) { .j-body { grid-template-columns: minmax(0, 1fr); } }
+
+  .foot { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.7; }
+
+  .chips.range { align-items: center; }
+  .range-l { font-size: 13px; color: var(--muted); font-weight: 700; margin-right: 2px; }
+  .lead a { color: var(--accent); font-weight: 700; white-space: nowrap; }
+  .je-q { border-top: 1px solid var(--rule); padding: 16px 0; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+  .je-q:first-child { border-top: none; padding-top: 4px; }
+  .je-tag { font-size: 12px; color: var(--muted); font-weight: 700; }
+  .je-text { margin: 0; font-size: 15px; line-height: 1.85; overflow-wrap: anywhere; }
+  .je-text .qno { margin-right: 4px; }
+  .je-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 18px; }
+  .je-h { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+  .jr { display: grid; grid-template-columns: minmax(0, 1fr) 7.5em; gap: 6px; margin-bottom: 6px; }
+  .jr select, .jr input { width: 100%; min-width: 0; padding: 8px; font: inherit; font-size: 16px; line-height: 1.4; border-radius: 8px; border: 1px solid var(--line); background: var(--surface-2); color: var(--fg); }
+  .jr input { text-align: right; font-variant-numeric: tabular-nums; }
+  .jr select:focus-visible, .jr input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .journal { border-top: 1px solid var(--rule); padding-top: 12px; }
+  @media (max-width: 620px) { .je-grid { grid-template-columns: minmax(0, 1fr); } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .result:not([hidden]) { animation: rise 0.25s ease-out; }
+    @keyframes rise { from { transform: translateY(6px); opacity: 0.6; } to { transform: none; opacity: 1; } }
+  }
+
+  .j-side { display: flex; flex-direction: column; min-width: 0; }
+  .j-acct { min-width: 0; overflow-wrap: anywhere; }
+  .progress { height: 6px; border-radius: 999px; background: var(--rule); overflow: hidden; margin-top: 6px; }
+  .progress > div { height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+  .controls { display: flex; flex-direction: column; gap: 10px; }
+  .ctl-row { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; }
+  .seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; }
+  .search { font: inherit; font-size: 16px; padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); min-width: 0; flex: 1 1 220px; }
+  .u-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .u-l { font-size: 12.5px; color: var(--muted); font-weight: 700; width: 100%; }
+  #unitChips { display: flex; flex-direction: column; gap: 8px; }
+  .count { font-size: 13px; color: var(--muted); }
+  .unit-h { font-size: 17px; margin: 14px 0 0; padding-bottom: 4px; border-bottom: 2px solid var(--line); color: var(--accent); }
+  .item { gap: 10px; }
+  .it-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .it-head h3 { margin: 0; font-size: 16px; line-height: 1.5; }
+  .stars { color: var(--accent); letter-spacing: 1px; font-size: 13px; }
+  .st-off { opacity: .25; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: 11.5px; padding: 1px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--fg-soft); }
+  .tag.rng { background: var(--bad-soft); }
+  .q { margin: 0; line-height: 1.85; }
+  .ex { font-size: 13.5px; color: var(--fg-soft); }
+  .ex ul { margin: 2px 0 6px; padding-left: 20px; }
+  .ex p { margin: 2px 0 0; }
+  .ex-k { font-weight: 700; color: var(--accent); font-size: 12.5px; margin-top: 4px; }
+  .marks { display: flex; gap: 8px; flex-wrap: wrap; }
+  .mk-btn { font: inherit; font-size: 13px; padding: 5px 16px; border-radius: 999px; cursor: pointer; border: 1px solid var(--rule); background: transparent; color: var(--fg-soft); }
+  .mk-btn.ok[aria-pressed="true"] { background: var(--good-soft); border-color: var(--good); color: var(--fg); font-weight: 700; }
+  .mk-btn.ng[aria-pressed="true"] { background: var(--bad-soft); border-color: var(--bad); color: var(--fg); font-weight: 700; }
+  .reveal { align-self: flex-start; }
+  .card-pos { font-size: 12.5px; color: var(--muted); }
+  .ask { margin: 0; font-size: 13.5px; color: var(--muted); }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .empty { color: var(--muted); text-align: center; padding: 24px 0; }
+  .card-end .big { font-size: 17px; font-weight: 700; margin: 0; }
+  .reset { font: inherit; font-size: 12px; color: var(--muted); background: none; border: none; text-decoration: underline; cursor: pointer; padding: 0; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div>
+      <div class="kicker">日商簿記2級 商業簿記・工業簿記</div>
+      <h1>仕訳の総チェック</h1>
+      <p class="lead">2級で出る仕訳を、全214種類まとめました(受験時期で切り替え)。一覧で見直すことも、カードで1つずつ確認することもできます。金額を入力して採点したいときは<a href="boki2-shiwake-drill.html">第1問の問題アプリ</a>へ。</p>
+    </div>
+    <div class="score" aria-live="polite">
+      <div class="score-k">「できた」の数</div>
+      <div class="score-v"><span id="okN">0</span> / <span id="allN">0</span></div>
+      <div class="progress" aria-hidden="true"><div id="bar"></div></div>
+    </div>
+  </header>
+
+  <section class="controls" aria-label="表示の切り替え">
+    <div class="chips range" id="rangeChips" role="group" aria-label="受験時期"></div>
+    <div class="ctl-row">
+      <div class="seg" id="modeSeg" role="group" aria-label="表示の形"></div>
+      <input class="search" id="search" type="search" placeholder="科目や論点で探す(例:未払金、のれん)" aria-label="仕訳を検索">
+    </div>
+    <div id="unitChips" role="group" aria-label="分野"></div>
+    <div class="ctl-row"><div class="chips" id="optChips" role="group" aria-label="絞り込み"></div><span class="count" id="count"></span></div>
+  </section>
+
+  <main id="view" class="controls"></main>
+
+  <footer class="foot">日商簿記2級の練習用です。数字は練習用の例で、本試験の出題を予想するものではありません。頻出度の★は目安です。<br>2027年4月1日以降の試験では、手形が範囲から外れ、リースの処理が変わります。受験時期を切り替えて確認してください。<br><button type="button" class="reset" data-act="reset">「できた」「まだ」の記録を消す</button></footer>
+
+</div>
+<script>
+var ZK = {"items":[{"id":"a37a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"契約資産の計上","q":"商品Aと商品Bを販売する契約を結び、先に商品A(30,000円)を引き渡した。代金は、商品Bを引き渡したあとに請求する。商品Aの引渡しの仕訳を答えなさい。","dr":[["契約資産",30000]],"cr":[["売上",30000]],"calc":["まだ請求できないので売掛金にしない。"],"pt":"まだ請求できない権利は契約資産である。"},{"id":"a38a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"契約資産から売掛金へ","q":"商品A(60,000円)の引渡しで契約資産を計上済みである。今回、商品B(40,000円)を引き渡し、合計の代金を請求して掛けとした。","dr":[["売掛金",100000]],"cr":[["売上",40000],["契約資産",60000]],"calc":["売掛金 = 60,000 + 40,000 = 100,000"],"pt":"請求できるようになったので、契約資産を売掛金に振り替える。売上は今回の分だけである。"},{"id":"a39a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"契約負債(手付金)の充当","q":"商品 90,000円 を引き渡した。この商品については手付金 70,000円 を受け取り、契約負債に計上している。残額は掛けとした。","dr":[["契約負債",70000],["売掛金",20000]],"cr":[["売上",90000]],"calc":["掛けの金額 = 90,000 − 70,000 = 20,000"],"pt":"受け取っていた手付金の分だけ、契約負債を減らす。"},{"id":"a40a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"売上割戻の見込み(返金負債)","q":"商品 80,000円 を掛けで販売した。過去の実績から、このうち 10,000円 は売上割戻として返金すると見込んでいる。","dr":[["売掛金",80000]],"cr":[["売上",70000],["返金負債",10000]],"calc":["売上 = 80,000 − 10,000 = 70,000"],"pt":"返す見込みの分は売上にせず、返金負債にする。"},{"id":"a41a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"役務収益と役務原価","q":"サービスの提供が完了し、対価 100,000円 を現金で受け取った。このサービスのために仕掛品に集計した 50,000円 を原価に振り替える。1つの仕訳で答えなさい。","dr":[["現金",100000],["役務原価",50000]],"cr":[["役務収益",100000],["仕掛品",50000]],"calc":["収益と原価を同時に計上する。"],"pt":"サービス業では、役務収益と役務原価を使う。"},{"id":"a42a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"売上原価対立法の販売","q":"商品(原価 70,000円)を 90,000円 で掛け販売した。商品売買は、販売のつど売上原価に振り替える方法で記帳している。","dr":[["売掛金",90000],["売上原価",70000]],"cr":[["売上",90000],["商品",70000]],"calc":["売上と原価を同時に記入する。"],"pt":"売上原価対立法では、販売のたびに商品を売上原価に振り替える。"},{"id":"a84a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"売上原価対立法の仕入","q":"商品 20,000円 を掛けで仕入れた。商品売買は、販売のつど売上原価に振り替える方法で記帳している。","dr":[["商品",20000]],"cr":[["買掛金",20000]],"calc":["仕入れた金額をそのまま商品に記入する。"],"pt":"売上原価対立法では、仕入勘定を使わず商品勘定に記入する。"},{"id":"a85a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"売上原価対立法の返品","q":"先日掛けで販売した商品(原価 40,000円、売価 70,000円)が品違いのため返品された。商品売買は、販売のつど売上原価に振り替える方法で記帳している。","dr":[["売上",70000],["商品",40000]],"cr":[["売掛金",70000],["売上原価",40000]],"calc":["販売のときの仕訳の逆を記入する。"],"pt":"売上だけでなく、売上原価と商品も元に戻す。"},{"id":"a86a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"役務費用の仕掛品への振替","q":"サービス業を営む当社は、顧客へのサービスのために発生した給料 50,000円 と旅費 50,000円 を、いったん費用に計上したのち、サービスの提供が完了していないので仕掛品に振り替えた。","dr":[["仕掛品",100000]],"cr":[["給料",50000],["旅費",50000]],"calc":["合計 = 50,000 + 50,000 = 100,000"],"pt":"提供が完了するまでの費用は、仕掛品に集計する。完了したら役務原価に振り替える。"},{"id":"a87a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"契約負債から役務収益へ","q":"サービスの提供が完了した。対価 400,000円 はすでに受け取り、契約負債に計上している。","dr":[["契約負債",400000]],"cr":[["役務収益",400000]],"calc":["受取済みなので、現金は動かない。"],"pt":"サービスの提供が完了したので、契約負債を役務収益に振り替える。"},{"id":"a88a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"手付金の受取り(契約負債)","q":"商品の販売契約を結び、手付金 60,000円 を受け取って当座預金とした。商品はまだ引き渡していない。","dr":[["当座預金",60000]],"cr":[["契約負債",60000]],"calc":["受け取った金額をそのまま記入する。"],"pt":"商品を渡す前に受け取った代金は、契約負債である。売上にはしない。"},{"id":"a89a","unit":"商品売買と収益認識","star":1,"rng":null,"title":"売上割戻の支払い","q":"売上割戻の条件を満たしたので、計上していた返金負債 5,000円 を当座預金から得意先に支払った。","dr":[["返金負債",5000]],"cr":[["当座預金",5000]],"calc":["見込んでいた金額をそのまま支払う。"],"pt":"返金負債の支払いなので、売上は動かない。"},{"id":"a90a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"商品と保守の同時販売","q":"商品 90,000円 の販売と、1年間の保守サービス 60,000円 の契約を結び、商品を引き渡して、代金は合計を掛けとした。保守サービスは、これから1年間にわたって提供する。","dr":[["売掛金",150000]],"cr":[["売上",90000],["契約負債",60000]],"calc":["売掛金 = 90,000 + 60,000 = 150,000"],"pt":"履行義務ごとに考える。商品は渡した時点で売上、保守はまだ提供していないので契約負債である。"},{"id":"a91a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"保守サービスの期間配分","q":"決算にあたり、当期に受注した1年間の保守サービス(対価 24,000円、契約負債に計上済み)のうち、当期に提供した 3か月分を収益に振り替える。収益の科目は役務収益とする。","dr":[["契約負債",6000]],"cr":[["役務収益",6000]],"calc":["当期分 = 24,000 × 3 ÷ 12 = 6,000"],"pt":"一定の期間にわたって提供するサービスは、提供した期間に応じて収益にする。"},{"id":"a92a","unit":"商品売買と収益認識","star":2,"rng":null,"title":"クレジット販売","q":"商品 80,000円 をクレジット払いの条件で販売した。信販会社への手数料は販売代金の 5%で、販売時に計上する。","dr":[["クレジット売掛金",76000],["支払手数料",4000]],"cr":[["売上",80000]],"calc":["手数料 = 80,000 × 5% = 4,000","債権 = 80,000 − 4,000 = 76,000"],"pt":"売上は全額で記入し、手数料を除いた金額がクレジット売掛金になる。"},{"id":"a5a","unit":"債権・債務","star":2,"rng":null,"title":"電子記録債権の割引","q":"電子記録債権 100,000円 を取引銀行で割り引き、割引料 4,000円 を差し引かれた残額が当座預金に入金された。","dr":[["当座預金",96000],["電子記録債権売却損",4000]],"cr":[["電子記録債権",100000]],"calc":["入金額 = 100,000 − 4,000 = 96,000"],"pt":"割引は債権の売却として処理する。"},{"id":"a6a","unit":"債権・債務","star":2,"rng":null,"title":"電子記録債権の譲渡","q":"買掛金 300,000円 の支払いのため、保有する電子記録債権を譲渡記録により譲渡した。","dr":[["買掛金",300000]],"cr":[["電子記録債権",300000]],"calc":["同額の譲渡なので損益は出ない。"],"pt":"買掛金の減少と、電子記録債権の減少である。"},{"id":"a7a","unit":"債権・債務","star":1,"rng":null,"title":"売掛金の譲渡(ファクタリング)","q":"売掛金 100,000円 をファクタリング会社に譲渡し、手数料 10,000円 を差し引かれた残額が当座預金に入金された。","dr":[["当座預金",90000],["債権売却損",10000]],"cr":[["売掛金",100000]],"calc":["入金額 = 100,000 − 10,000 = 90,000"],"pt":"売掛金を売却したものとして、差額を債権売却損にする。"},{"id":"a8b","unit":"債権・債務","star":2,"rng":null,"title":"営業外電子記録債務の発生","q":"備品 600,000円 を購入し、代金について電子記録債務の発生記録が行われた。","dr":[["備品",600000]],"cr":[["営業外電子記録債務",600000]],"calc":["商品以外の取引である。"],"pt":"商品売買以外の電子記録債務は、営業外電子記録債務である。"},{"id":"a9a","unit":"債権・債務","star":3,"rng":null,"title":"売掛金の貸倒れ(前期に発生した分)","q":"得意先が倒産し、前期に発生した売掛金 100,000円 が貸し倒れた。貸倒引当金の残高は 20,000円 である。","dr":[["貸倒引当金",20000],["貸倒損失",80000]],"cr":[["売掛金",100000]],"calc":["損失 = 100,000 − 20,000 = 80,000"],"pt":"前期に発生した分は、まず貸倒引当金を使い、足りない分を貸倒損失にする。"},{"id":"a9b","unit":"債権・債務","star":3,"rng":null,"title":"売掛金の貸倒れ(当期に発生した分)","q":"得意先が倒産し、当期に発生した売掛金 200,000円 が貸し倒れた。貸倒引当金の残高は 10,000円 である。","dr":[["貸倒損失",200000]],"cr":[["売掛金",200000]],"calc":["当期発生の分に引当金は使えない。"],"pt":"当期に発生した売掛金の貸倒れは、全額が貸倒損失である。"},{"id":"a10a","unit":"債権・債務","star":2,"rng":"old","title":"手形の割引","q":"受取手形 100,000円 を銀行で割り引き、割引料 4,000円 を差し引かれた残額が当座預金に入金された。","dr":[["当座預金",96000],["手形売却損",4000]],"cr":[["受取手形",100000]],"calc":["入金額 = 100,000 − 4,000 = 96,000"],"pt":"手形の割引は手形の売却として処理する。"},{"id":"a11a","unit":"債権・債務","star":2,"rng":"old","title":"手形の裏書譲渡","q":"買掛金 600,000円 の支払いのため、所有する約束手形を裏書譲渡した。","dr":[["買掛金",600000]],"cr":[["受取手形",600000]],"calc":["同額の譲渡なので損益は出ない。"],"pt":"持っている手形を渡すので、受取手形の減少である。"},{"id":"a12a","unit":"債権・債務","star":2,"rng":"old","title":"手形の不渡り","q":"所有する約束手形 700,000円 が不渡りとなり、振出人に支払いを請求した。請求のための費用 4,000円 は現金で支払った。","dr":[["不渡手形",704000]],"cr":[["受取手形",700000],["現金",4000]],"calc":["不渡手形 = 700,000 + 4,000 = 704,000"],"pt":"請求にかかった費用も、不渡手形に含めて請求する。"},{"id":"a57a","unit":"債権・債務","star":2,"rng":null,"title":"電子記録債権の発生","q":"得意先に対する売掛金 800,000円 について、電子記録債権の発生記録が行われた。","dr":[["電子記録債権",800000]],"cr":[["売掛金",800000]],"calc":["売掛金から電子記録債権に振り替える。"],"pt":"売掛金が電子記録債権に変わるだけで、金額は変わらない。"},{"id":"a58a","unit":"債権・債務","star":2,"rng":null,"title":"電子記録債務の発生","q":"仕入先に対する買掛金 600,000円 について、電子記録債務の発生記録を行った。","dr":[["買掛金",600000]],"cr":[["電子記録債務",600000]],"calc":["買掛金から電子記録債務に振り替える。"],"pt":"商品の仕入れによる債務なので、営業外ではなく電子記録債務である。"},{"id":"a59a","unit":"債権・債務","star":2,"rng":null,"title":"電子記録債権・債務の決済(電子記録債務の支払い)","q":"電子記録債務 900,000円 の支払期日が到来し、当座預金から引き落とされた。","dr":[["電子記録債務",900000]],"cr":[["当座預金",900000]],"calc":["決済なので損益は出ない。"],"pt":"債務を支払ったので、電子記録債務が減る。"},{"id":"a59b","unit":"債権・債務","star":2,"rng":null,"title":"電子記録債権・債務の決済(電子記録債権の入金)","q":"電子記録債権 800,000円 の支払期日が到来し、当座預金に入金された。","dr":[["当座預金",800000]],"cr":[["電子記録債権",800000]],"calc":["決済なので損益は出ない。"],"pt":"債権を回収したので、電子記録債権が減る。"},{"id":"a60a","unit":"債権・債務","star":1,"rng":null,"title":"営業外電子記録債権(売却益)","q":"備品(取得原価 400,000円、減価償却累計額 200,000円、間接法)を期首に 210,000円 で売却し、代金について電子記録債権の発生記録が行われた。","dr":[["備品減価償却累計額",200000],["営業外電子記録債権",210000]],"cr":[["備品",400000],["固定資産売却益",10000]],"calc":["帳簿価額 = 400,000 − 200,000 = 200,000","差額 = +10,000"],"pt":"商品売買以外の電子記録債権は、営業外電子記録債権である。"},{"id":"a60b","unit":"債権・債務","star":1,"rng":null,"title":"営業外電子記録債権(売却損)","q":"備品(取得原価 400,000円、減価償却累計額 300,000円、間接法)を期首に 50,000円 で売却し、代金について電子記録債権の発生記録が行われた。","dr":[["備品減価償却累計額",300000],["営業外電子記録債権",50000],["固定資産売却損",50000]],"cr":[["備品",400000]],"calc":["帳簿価額 = 400,000 − 300,000 = 100,000","差額 = −50,000"],"pt":"商品売買以外の電子記録債権は、営業外電子記録債権である。"},{"id":"a61a","unit":"債権・債務","star":3,"rng":null,"title":"未渡小切手(買掛金)","q":"銀行の残高証明書と帳簿の残高が一致しなかったので調べたところ、買掛金の支払いのために振り出した小切手 10,000円 が取引先に未渡しであることが判明した。修正の仕訳を答えなさい。","dr":[["当座預金",10000]],"cr":[["買掛金",10000]],"calc":["渡していないので、振り出したときの仕訳を取り消す。"],"pt":"未渡小切手はまだ支払っていないので、当座預金と債務を元に戻す。買掛金の分は買掛金、それ以外は未払金である。"},{"id":"a61b","unit":"債権・債務","star":3,"rng":null,"title":"未渡小切手(未払金)","q":"銀行の残高証明書と帳簿の残高が一致しなかったので調べたところ、広告費の未払分の支払いのために振り出した小切手 50,000円 が取引先に未渡しであることが判明した。修正の仕訳を答えなさい。","dr":[["当座預金",50000]],"cr":[["未払金",50000]],"calc":["渡していないので、振り出したときの仕訳を取り消す。"],"pt":"未渡小切手はまだ支払っていないので、当座預金と債務を元に戻す。買掛金の分は買掛金、それ以外は未払金である。"},{"id":"a62a","unit":"債権・債務","star":3,"rng":null,"title":"連絡未達(引落しの連絡未達)","q":"銀行の残高証明書と帳簿の残高が一致しなかったので調べたところ、水道光熱費 80,000円 の自動引落しの連絡が未達であることが判明した。修正の仕訳を答えなさい。","dr":[["水道光熱費",80000]],"cr":[["当座預金",80000]],"calc":["引き落とされているのに記帳していない。"],"pt":"帳簿の記入もれなので、帳簿を修正する。時間外の預入や未取付小切手は銀行側の問題なので、仕訳をしない。"},{"id":"a62b","unit":"債権・債務","star":3,"rng":null,"title":"連絡未達(振込みの連絡未達)","q":"銀行の残高証明書と帳簿の残高が一致しなかったので調べたところ、売掛金 50,000円 の振込みの連絡が未達であることが判明した。修正の仕訳を答えなさい。","dr":[["当座預金",50000]],"cr":[["売掛金",50000]],"calc":["入金済みなのに記帳していない。"],"pt":"帳簿の記入もれなので、帳簿を修正する。"},{"id":"a63a","unit":"債権・債務","star":2,"rng":null,"title":"償却債権取立益","q":"前期に貸倒れとして処理した売掛金のうち、40,000円 を現金で回収した。","dr":[["現金",40000]],"cr":[["償却債権取立益",40000]],"calc":["前期に処理済みなので、当期の収益にする。"],"pt":"売掛金はもう帳簿にないので、売掛金を減らさない。"},{"id":"a64a","unit":"債権・債務","star":1,"rng":"old","title":"不渡手形の回収","q":"不渡手形 255,000円 について、法定利息 5,000円 とともに現金で回収した。","dr":[["現金",260000]],"cr":[["不渡手形",255000],["受取利息",5000]],"calc":["入金額 = 255,000 + 5,000 = 260,000"],"pt":"不渡手形の回収と、利息の受取りを分けて記入する。"},{"id":"a0a","unit":"有価証券","star":3,"rng":null,"title":"社債の購入と端数利息","q":"売買目的で、額面 500,000円 の社債を額面100円につき 98円で購入し、前回の利払日からの端数利息とともに小切手を振り出して支払った。年利は 7.3%、前回の利払日から 73日である(1年は365日)。","dr":[["売買目的有価証券",490000],["有価証券利息",7300]],"cr":[["当座預金",497300]],"calc":["取得原価 = 500,000 × 98 ÷ 100 = 490,000","端数利息 = 500,000 × 7.3% × 73 ÷ 365 = 7,300"],"pt":"端数利息は先に払う分なので、有価証券利息の借方に記入する。"},{"id":"a1a","unit":"有価証券","star":3,"rng":null,"title":"社債の売却と端数利息(売却損)","q":"売買目的で保有する額面 500,000円 の社債(帳簿価額 490,000円)を、額面100円につき 96円で売却し、端数利息とともに当座預金に入金された。年利は 3.65%、前回の利払日から 146日である(1年は365日)。","dr":[["当座預金",487300],["有価証券売却損",10000]],"cr":[["売買目的有価証券",490000],["有価証券利息",7300]],"calc":["売却額 = 500,000 × 96 ÷ 100 = 480,000","売却損益 = 480,000 − 490,000 = −10,000","端数利息 = 7,300"],"pt":"受け取る端数利息は有価証券利息の貸方。売却損益とは分ける。"},{"id":"a1b","unit":"有価証券","star":3,"rng":null,"title":"社債の売却と端数利息(売却益)","q":"売買目的で保有する額面 500,000円 の社債(帳簿価額 490,000円)を、額面100円につき 99円で売却し、端数利息とともに当座預金に入金された。年利は 3.65%、前回の利払日から 146日である(1年は365日)。","dr":[["当座預金",502300]],"cr":[["売買目的有価証券",490000],["有価証券売却益",5000],["有価証券利息",7300]],"calc":["売却額 = 500,000 × 99 ÷ 100 = 495,000","売却損益 = 495,000 − 490,000 = +5,000","端数利息 = 7,300"],"pt":"受け取る端数利息は有価証券利息の貸方。売却損益とは分ける。"},{"id":"a2a","unit":"有価証券","star":2,"rng":null,"title":"株式の取得(保有目的で区分)(関連会社株式)","q":"A社の株式 100株を1株 900円で、発行済株式の25%を取得し、重要な影響を与えることになった。代金は手数料 5,000円 とともに小切手を振り出して支払った。","dr":[["関連会社株式",95000]],"cr":[["当座預金",95000]],"calc":["取得原価 = 100 × 900 + 5,000 = 95,000"],"pt":"保有目的で科目を選ぶ。買うときの手数料は取得原価に含める。"},{"id":"a2b","unit":"有価証券","star":2,"rng":null,"title":"株式の取得(保有目的で区分)(その他有価証券)","q":"A社の株式 100株を1株 900円で、取引先との関係を維持する目的で取得した。代金は手数料 4,000円 とともに小切手を振り出して支払った。","dr":[["その他有価証券",94000]],"cr":[["当座預金",94000]],"calc":["取得原価 = 100 × 900 + 4,000 = 94,000"],"pt":"保有目的で科目を選ぶ。買うときの手数料は取得原価に含める。"},{"id":"a2c","unit":"有価証券","star":2,"rng":null,"title":"株式の取得(保有目的で区分)(子会社株式)","q":"A社の株式 100株を1株 900円で、発行済株式の60%を取得し、支配した。代金は手数料 2,000円 とともに小切手を振り出して支払った。","dr":[["子会社株式",92000]],"cr":[["当座預金",92000]],"calc":["取得原価 = 100 × 900 + 2,000 = 92,000"],"pt":"保有目的で科目を選ぶ。買うときの手数料は取得原価に含める。"},{"id":"a3a","unit":"有価証券","star":2,"rng":null,"title":"満期保有目的債券の購入","q":"満期まで保有する目的で、額面 500,000円 の社債を額面100円につき 96円で購入し、代金は当座預金から支払った。","dr":[["満期保有目的債券",480000]],"cr":[["当座預金",480000]],"calc":["取得原価 = 500,000 × 96 ÷ 100 = 480,000"],"pt":"満期まで保有する債券は満期保有目的債券である。"},{"id":"a4a","unit":"有価証券","star":2,"rng":null,"title":"その他有価証券の売却(売却損)","q":"その他有価証券(帳簿価額 900,000円)を 890,000円 で売却し、代金は現金で受け取った。前期末の評価差額は振り戻してある。","dr":[["現金",890000],["投資有価証券売却損",10000]],"cr":[["その他有価証券",900000]],"calc":["売却損益 = 890,000 − 900,000 = −10,000"],"pt":"その他有価証券の売却損益は投資有価証券売却損益を使う。"},{"id":"a4b","unit":"有価証券","star":2,"rng":null,"title":"その他有価証券の売却(売却益)","q":"その他有価証券(帳簿価額 800,000円)を 840,000円 で売却し、代金は現金で受け取った。前期末の評価差額は振り戻してある。","dr":[["現金",840000]],"cr":[["その他有価証券",800000],["投資有価証券売却益",40000]],"calc":["売却損益 = 840,000 − 800,000 = +40,000"],"pt":"その他有価証券の売却損益は投資有価証券売却損益を使う。"},{"id":"a51a","unit":"有価証券","star":2,"rng":null,"title":"株式の売却(移動平均法)(売却損)","q":"売買目的でA社の株式を 100株(1株 500円)、のちに 300株(1株 900円)購入した。このうち 100株を1株 600円 で売却し、代金は月末に受け取ることにした。記帳は移動平均法による。","dr":[["未収入金",60000],["有価証券売却損",20000]],"cr":[["売買目的有価証券",80000]],"calc":["平均単価 = (100 × 500 + 300 × 900) ÷ 400 = 800","帳簿価額 = 100 × 800 = 80,000","売却額 = 100 × 600 = 60,000","差額 = −20,000"],"pt":"売却原価は移動平均の単価で計算する。有価証券の売却代金の未収は、売掛金ではなく未収入金である。"},{"id":"a51b","unit":"有価証券","star":2,"rng":null,"title":"株式の売却(移動平均法)(売却益)","q":"売買目的でA社の株式を 400株(1株 500円)、のちに 200株(1株 800円)購入した。このうち 50株を1株 800円 で売却し、代金は月末に受け取ることにした。記帳は移動平均法による。","dr":[["未収入金",40000]],"cr":[["売買目的有価証券",30000],["有価証券売却益",10000]],"calc":["平均単価 = (400 × 500 + 200 × 800) ÷ 600 = 600","帳簿価額 = 50 × 600 = 30,000","売却額 = 50 × 800 = 40,000","差額 = +10,000"],"pt":"売却原価は移動平均の単価で計算する。有価証券の売却代金の未収は、売掛金ではなく未収入金である。"},{"id":"a52a","unit":"有価証券","star":2,"rng":null,"title":"満期保有目的債券の購入と端数利息","q":"満期まで保有する目的で、額面 500,000円 の社債を額面100円につき 98円で購入し、前回の利払日からの端数利息とともに当座預金から支払った。年利は 7.3%、前回の利払日から 73日である(1年は365日)。","dr":[["満期保有目的債券",490000],["有価証券利息",7300]],"cr":[["当座預金",497300]],"calc":["取得原価 = 500,000 × 98 ÷ 100 = 490,000","端数利息 = 500,000 × 7.3% × 73 ÷ 365 = 7,300"],"pt":"買うときの端数利息は、あとで受け取る利息の立替えなので、有価証券利息の借方に記入する。"},{"id":"a53a","unit":"有価証券","star":3,"rng":null,"title":"償却原価法","q":"決算にあたり、満期保有目的債券(額面 3,000,000円、帳簿価額 2,960,000円)に償却原価法(定額法)を適用する。この債券は額面より 100,000円 低い価額で取得し、取得から満期まで 5年である。差額は金利の調整と認められる。","dr":[["満期保有目的債券",20000]],"cr":[["有価証券利息",20000]],"calc":["1年分 = 100,000 ÷ 5 = 20,000"],"pt":"安く買った差額を、毎期少しずつ帳簿価額に足す。相手の科目は有価証券利息である。"},{"id":"a54a","unit":"有価証券","star":2,"rng":null,"title":"売買目的有価証券の評価替え(評価損)","q":"決算にあたり、売買目的有価証券(帳簿価額 500,000円)を時価 200,000円 に評価替えする。","dr":[["有価証券評価損",300000]],"cr":[["売買目的有価証券",300000]],"calc":["差額 = 200,000 − 500,000 = −300,000"],"pt":"売買目的有価証券の評価差額は、当期の損益にする。"},{"id":"a54b","unit":"有価証券","star":2,"rng":null,"title":"売買目的有価証券の評価替え(評価益)","q":"決算にあたり、売買目的有価証券(帳簿価額 600,000円)を時価 900,000円 に評価替えする。","dr":[["売買目的有価証券",300000]],"cr":[["有価証券評価益",300000]],"calc":["差額 = 900,000 − 600,000 = +300,000"],"pt":"売買目的有価証券の評価差額は、当期の損益にする。"},{"id":"a55a","unit":"有価証券","star":3,"rng":null,"title":"その他有価証券の評価と税効果(時価が下がった)","q":"決算にあたり、その他有価証券(取得原価 500,000円)を時価 400,000円 に評価替えする。全部純資産直入法により、税効果会計を適用する(税率30%)。","dr":[["繰延税金資産",30000],["その他有価証券評価差額金",70000]],"cr":[["その他有価証券",100000]],"calc":["評価差額 = −100,000","税効果 = 100,000 × 30% = 30,000","評価差額金 = 100,000 − 30,000 = 70,000"],"pt":"全部純資産直入法では損益にしない。その他有価証券の税効果の相手は、法人税等調整額ではなく評価差額金である。"},{"id":"a55b","unit":"有価証券","star":3,"rng":null,"title":"その他有価証券の評価と税効果(時価が上がった)","q":"決算にあたり、その他有価証券(取得原価 500,000円)を時価 600,000円 に評価替えする。全部純資産直入法により、税効果会計を適用する(税率30%)。","dr":[["その他有価証券",100000]],"cr":[["繰延税金負債",30000],["その他有価証券評価差額金",70000]],"calc":["評価差額 = +100,000","税効果 = 100,000 × 30% = 30,000","評価差額金 = 100,000 − 30,000 = 70,000"],"pt":"全部純資産直入法では損益にしない。その他有価証券の税効果の相手は、法人税等調整額ではなく評価差額金である。"},{"id":"a56a","unit":"有価証券","star":1,"rng":null,"title":"配当金・利札の受取り(利札)","q":"保有するC社社債の期限の到来した利札 50,000円 を受け取った。","dr":[["現金",50000]],"cr":[["有価証券利息",50000]],"calc":["受け取った金額をそのまま記入する。"],"pt":"配当金領収証と期限の到来した利札は、すぐ換金できるので現金で処理する。"},{"id":"a56b","unit":"有価証券","star":1,"rng":null,"title":"配当金・利札の受取り(配当金領収証)","q":"保有するB社株式の配当金領収証 60,000円 を受け取った。","dr":[["現金",60000]],"cr":[["受取配当金",60000]],"calc":["受け取った金額をそのまま記入する。"],"pt":"配当金領収証と期限の到来した利札は、すぐ換金できるので現金で処理する。"},{"id":"a13b","unit":"固定資産","star":3,"rng":null,"title":"固定資産の期中売却(売却損)","q":"備品(取得原価 600,000円、期首の減価償却累計額 60,000円、定額法、耐用年数 10年、残存価額0、間接法)を、当期首から 6か月後に 500,000円 で売却し、代金は月末に受け取ることにした。","dr":[["備品減価償却累計額",60000],["減価償却費",30000],["未収入金",500000],["固定資産売却損",10000]],"cr":[["備品",600000]],"calc":["当期の償却 = 600,000 ÷ 10年 × 6/12 = 30,000","帳簿価額 = 600,000 − 60,000 − 30,000 = 510,000","売却損益 = 500,000 − 510,000 = −10,000"],"pt":"期中の売却では、当期に使った分の減価償却費を忘れない。代金の未収は未収入金である。"},{"id":"a13c","unit":"固定資産","star":3,"rng":null,"title":"固定資産の期中売却(売却益)","q":"備品(取得原価 600,000円、期首の減価償却累計額 240,000円、定額法、耐用年数 5年、残存価額0、間接法)を、当期首から 9か月後に 290,000円 で売却し、代金は月末に受け取ることにした。","dr":[["備品減価償却累計額",240000],["減価償却費",90000],["未収入金",290000]],"cr":[["備品",600000],["固定資産売却益",20000]],"calc":["当期の償却 = 600,000 ÷ 5年 × 9/12 = 90,000","帳簿価額 = 600,000 − 240,000 − 90,000 = 270,000","売却損益 = 290,000 − 270,000 = +20,000"],"pt":"期中の売却では、当期に使った分の減価償却費を忘れない。代金の未収は未収入金である。"},{"id":"a14a","unit":"固定資産","star":3,"rng":null,"title":"固定資産の除却","q":"備品(取得原価 200,000円、減価償却累計額 80,000円、間接法)を期首に除却した。この備品の見積売却価額は 30,000円 である。","dr":[["備品減価償却累計額",80000],["貯蔵品",30000],["固定資産除却損",90000]],"cr":[["備品",200000]],"calc":["帳簿価額 = 200,000 − 80,000 = 120,000","除却損 = 120,000 − 30,000 = 90,000"],"pt":"まだ売れそうな分は貯蔵品にして、残りを除却損にする。"},{"id":"a15a","unit":"固定資産","star":2,"rng":null,"title":"割賦購入(未払金)","q":"備品(現金購入価額 590,000円)を分割払いで購入した。代金は月末に 30,000円 ずつ 20回で支払う。利息相当額は前払利息で処理する。","dr":[["備品",590000],["前払利息",10000]],"cr":[["未払金",600000]],"calc":["支払総額 = 30,000 × 20 = 600,000","利息 = 600,000 − 590,000 = 10,000"],"pt":"資産は現金購入価額で計上する。商品以外の未払いなので未払金である。"},{"id":"a16a","unit":"固定資産","star":2,"rng":null,"title":"建設仮勘定から建物へ","q":"建設中の建物が完成して引渡しを受けた。契約金額は 1,000,000円 で、すでに支払っている 200,000円 を除いた残額を当座預金から支払った。","dr":[["建物",1000000]],"cr":[["建設仮勘定",200000],["当座預金",800000]],"calc":["残額 = 1,000,000 − 200,000 = 800,000"],"pt":"工事の途中の支払いは建設仮勘定に集めてあるので、完成時に建物へ振り替える。"},{"id":"a17a","unit":"固定資産","star":2,"rng":null,"title":"資本的支出と収益的支出","q":"建物の改修工事を行い、代金 500,000円 を当座預金から支払った。このうち 300,000円 は建物の価値を高める支出で、残りは元の状態に戻すための支出である。","dr":[["建物",300000],["修繕費",200000]],"cr":[["当座預金",500000]],"calc":["修繕費 = 500,000 − 300,000 = 200,000"],"pt":"価値を高める分は資本的支出で資産、元に戻す分は収益的支出で費用である。"},{"id":"a18a","unit":"固定資産","star":2,"rng":null,"title":"圧縮記帳(直接控除方式)","q":"機械装置 600,000円 を購入し、代金は当座預金から支払った。この機械装置について、受け取った国庫補助金 200,000円 の額で圧縮記帳(直接控除方式)を行った。購入と圧縮の処理を1つの仕訳で答えなさい。","dr":[["機械装置",400000],["固定資産圧縮損",200000]],"cr":[["当座預金",600000]],"calc":["圧縮後の機械装置 = 600,000 − 200,000 = 400,000"],"pt":"補助金の分を固定資産圧縮損にして、資産を直接減らす。"},{"id":"a19a","unit":"固定資産","star":2,"rng":null,"title":"国庫補助金の受取り","q":"機械装置の購入に先立ち、国から補助金 500,000円 を受け取り、当座預金とした。","dr":[["当座預金",500000]],"cr":[["国庫補助金受贈益",500000]],"calc":["受け取った金額をそのまま記入する。"],"pt":"補助金の受取りは収益である。"},{"id":"a20a","unit":"固定資産","star":2,"rng":null,"title":"ソフトウェアの完成","q":"自社利用のソフトウェアの開発が完了した。開発費として 900,000円 をソフトウェア仮勘定に計上しており、最終の代金 100,000円 を当座預金から支払った。","dr":[["ソフトウェア",1000000]],"cr":[["ソフトウェア仮勘定",900000],["当座預金",100000]],"calc":["ソフトウェア = 900,000 + 100,000 = 1,000,000"],"pt":"完成したら仮勘定から本勘定へ振り替える。"},{"id":"a21a","unit":"固定資産","star":1,"rng":null,"title":"研究開発費","q":"研究開発部門の従業員の給料 250,000円 と、研究開発のためだけに使う材料 50,000円 を当座預金から支払った。","dr":[["研究開発費",300000]],"cr":[["当座預金",300000]],"calc":["合計 = 250,000 + 50,000 = 300,000"],"pt":"研究開発のための費用は、すべて研究開発費として発生時に費用にする。"},{"id":"a22a","unit":"固定資産","star":2,"rng":null,"title":"火災による焼失(未決算)","q":"建物(取得原価 1,000,000円、減価償却累計額 400,000円、間接法)が火災で焼失した。この建物には保険を掛けており、保険金の額は確定していない。","dr":[["建物減価償却累計額",400000],["火災未決算",600000]],"cr":[["建物",1000000]],"calc":["帳簿価額 = 1,000,000 − 400,000 = 600,000"],"pt":"保険金が確定するまで、損失の額がわからないので未決算にする。"},{"id":"a23a","unit":"固定資産","star":2,"rng":null,"title":"保険金の確定(火災損失)","q":"火災未決算 600,000円 について、保険金 500,000円 の支払いが確定した。入金は後日である。","dr":[["未収入金",500000],["火災損失",100000]],"cr":[["火災未決算",600000]],"calc":["差額 = 500,000 − 600,000 = −100,000"],"pt":"保険金が帳簿価額より少なければ火災損失、多ければ保険差益である。"},{"id":"a23b","unit":"固定資産","star":2,"rng":null,"title":"保険金の確定(保険差益)","q":"火災未決算 700,000円 について、保険金 800,000円 の支払いが確定した。入金は後日である。","dr":[["未収入金",800000]],"cr":[["火災未決算",700000],["保険差益",100000]],"calc":["差額 = 800,000 − 700,000 = +100,000"],"pt":"保険金が帳簿価額より少なければ火災損失、多ければ保険差益である。"},{"id":"a65b","unit":"固定資産","star":2,"rng":null,"title":"固定資産の買換え(売却益)","q":"当期首に、備品(取得原価 600,000円、減価償却累計額 300,000円、間接法)を下取りに出し、新しい備品 1,000,000円 を購入した。下取価格は 340,000円 で、差額は月末に支払うことにした。","dr":[["備品",1000000],["備品減価償却累計額",300000]],"cr":[["備品",600000],["未払金",660000],["固定資産売却益",40000]],"calc":["帳簿価額 = 600,000 − 300,000 = 300,000","売却損益 = 340,000 − 300,000 = +40,000","未払金 = 1,000,000 − 340,000 = 660,000"],"pt":"買換えは、古い資産の売却と新しい資産の購入を1つにした仕訳である。下取価格を売却額として扱う。"},{"id":"a65d","unit":"固定資産","star":2,"rng":null,"title":"固定資産の買換え(売却損)","q":"当期首に、備品(取得原価 2,000,000円、減価償却累計額 200,000円、間接法)を下取りに出し、新しい備品 1,800,000円 を購入した。下取価格は 1,780,000円 で、差額は月末に支払うことにした。","dr":[["備品",1800000],["備品減価償却累計額",200000],["固定資産売却損",20000]],"cr":[["備品",2000000],["未払金",20000]],"calc":["帳簿価額 = 2,000,000 − 200,000 = 1,800,000","売却損益 = 1,780,000 − 1,800,000 = −20,000","未払金 = 1,800,000 − 1,780,000 = 20,000"],"pt":"買換えは、古い資産の売却と新しい資産の購入を1つにした仕訳である。下取価格を売却額として扱う。"},{"id":"a66a","unit":"固定資産","star":1,"rng":null,"title":"固定資産の廃棄","q":"備品(取得原価 200,000円、減価償却累計額 160,000円、間接法)を期首に廃棄した。廃棄のための費用 10,000円 は現金で支払った。","dr":[["備品減価償却累計額",160000],["固定資産廃棄損",50000]],"cr":[["備品",200000],["現金",10000]],"calc":["帳簿価額 = 200,000 − 160,000 = 40,000","廃棄損 = 40,000 + 10,000 = 50,000"],"pt":"除却と違い、廃棄した資産に価値は残らない。廃棄の費用も廃棄損に含める。"},{"id":"a67a","unit":"固定資産","star":2,"rng":null,"title":"割賦購入(営業外電子記録債務)","q":"備品(現金購入価額 900,000円)を 20回の分割払いで購入し、1回 50,000円 の支払いについて電子記録債務の発生記録を行った。利息相当額は前払利息で処理する。","dr":[["備品",900000],["前払利息",100000]],"cr":[["営業外電子記録債務",1000000]],"calc":["支払総額 = 50,000 × 20 = 1,000,000","利息 = 1,000,000 − 900,000 = 100,000"],"pt":"商品以外の購入なので営業外電子記録債務である。現金購入価額を資産にし、差額は利息にする。"},{"id":"a68a","unit":"固定資産","star":2,"rng":null,"title":"割賦代金の支払いと利息","q":"分割払いで購入した備品の代金の1回分 70,000円(全12回)を当座預金から支払った。購入時に利息相当額 2,400円 を前払利息に計上しており、定額法で当月分を支払利息に振り替える。代金の未払いは未払金で処理している。","dr":[["未払金",70000],["支払利息",200]],"cr":[["当座預金",70000],["前払利息",200]],"calc":["1回分の利息 = 2,400 ÷ 12 = 200"],"pt":"支払いの仕訳と、前払利息から支払利息への振替を同時に行う。"},{"id":"a69a","unit":"固定資産","star":2,"rng":null,"title":"建設仮勘定への支払い","q":"建物の建設を依頼し、工事の手付金として 600,000円 を当座預金から支払った。","dr":[["建設仮勘定",600000]],"cr":[["当座預金",600000]],"calc":["完成するまでの支払いである。"],"pt":"建設中の固定資産への支払いは、完成するまで建設仮勘定に集計する。"},{"id":"a70a","unit":"固定資産","star":3,"rng":null,"title":"200%定率法","q":"決算にあたり、備品(取得原価 400,000円、期首の減価償却累計額 0円)について、200%定率法(耐用年数 8年)により減価償却を行う。記帳は間接法で、償却保証額は考えなくてよい。","dr":[["減価償却費",100000]],"cr":[["備品減価償却累計額",100000]],"calc":["償却率 = 1 ÷ 8 × 2 = 25%","減価償却費 = (400,000 − 0) × 25% = 100,000"],"pt":"定率法は、取得原価ではなく期首の帳簿価額に償却率を掛ける。"},{"id":"a71a","unit":"固定資産","star":2,"rng":null,"title":"生産高比例法","q":"決算にあたり、車両(取得原価 2,000,000円、残存価額は取得原価の10%)について、生産高比例法により減価償却を行う。総走行可能距離は 100,000km、当期の走行距離は 5,000kmである。記帳は間接法である。","dr":[["減価償却費",90000]],"cr":[["車両減価償却累計額",90000]],"calc":["減価償却費 = 2,000,000 × 90% × 5,000 ÷ 100,000 = 90,000"],"pt":"生産高比例法は、利用した割合で費用にする。残存価額を引くことを忘れない。"},{"id":"a72a","unit":"固定資産","star":2,"rng":null,"title":"無形固定資産の償却(特許権)","q":"決算にあたり、取得した特許権(帳簿価額 70,000円)を定額法で償却する。残りの償却期間は 7年である。","dr":[["特許権償却",10000]],"cr":[["特許権",10000]],"calc":["償却額 = 70,000 ÷ 7 = 10,000"],"pt":"無形固定資産は累計額を使わず、資産から直接減らす。帳簿価額を残りの年数で割る。"},{"id":"a72b","unit":"固定資産","star":2,"rng":null,"title":"無形固定資産の償却(のれん)","q":"決算にあたり、企業結合で計上したのれん(帳簿価額 70,000円)を定額法で償却する。残りの償却期間は 7年である。","dr":[["のれん償却",10000]],"cr":[["のれん",10000]],"calc":["償却額 = 70,000 ÷ 7 = 10,000"],"pt":"無形固定資産は累計額を使わず、資産から直接減らす。帳簿価額を残りの年数で割る。"},{"id":"a72c","unit":"固定資産","star":2,"rng":null,"title":"無形固定資産の償却(ソフトウェア)","q":"決算にあたり、自社利用のソフトウェア(帳簿価額 70,000円)を定額法で償却する。残りの償却期間は 7年である。","dr":[["ソフトウェア償却",10000]],"cr":[["ソフトウェア",10000]],"calc":["償却額 = 70,000 ÷ 7 = 10,000"],"pt":"無形固定資産は累計額を使わず、資産から直接減らす。帳簿価額を残りの年数で割る。"},{"id":"a73a","unit":"固定資産","star":2,"rng":null,"title":"修繕引当金を使う改修","q":"建物の改良と修繕を行い、代金 500,000円 を当座預金から支払った。このうち 100,000円 は資本的支出、残りは収益的支出である。修繕引当金の残高が 100,000円 ある。","dr":[["建物",100000],["修繕引当金",100000],["修繕費",300000]],"cr":[["当座預金",500000]],"calc":["収益的支出 = 500,000 − 100,000 = 400,000","修繕費 = 400,000 − 100,000 = 300,000"],"pt":"資本的支出は資産に加える。収益的支出は、引当金を先に取り崩し、足りない分を修繕費にする。"},{"id":"a24a","unit":"リース","star":3,"rng":"new","title":"リースの開始(利子抜き法)","q":"リース契約を結び、備品の使用を開始した。リース期間 5年、リース料は年 200,000円 の後払い、利息相当額の総額は 100,000円 である。利子抜き法(利息は定額法で配分)で処理する。リース開始時の仕訳を答えなさい。","dr":[["使用権資産",900000]],"cr":[["リース負債",900000]],"calc":["資産の金額 = 200,000 × 5 − 100,000 = 900,000","1年の利息 = 100,000 ÷ 5 = 20,000","1年の元本 = 200,000 − 20,000 = 180,000"],"pt":"借手は使用権資産とリース負債を計上する。"},{"id":"a25a","unit":"リース","star":3,"rng":"new","title":"リース料の支払い(利子抜き法)","q":"リース料を当座預金から支払った。リース期間 4年、リース料は年 200,000円 の後払い、利息相当額の総額は 40,000円 である。利子抜き法(利息は定額法で配分)で処理する。リース料の支払いの仕訳を答えなさい。","dr":[["リース負債",190000],["支払利息",10000]],"cr":[["当座預金",200000]],"calc":["資産の金額 = 200,000 × 4 − 40,000 = 760,000","1年の利息 = 40,000 ÷ 4 = 10,000","1年の元本 = 200,000 − 10,000 = 190,000"],"pt":"リース料を元本と利息に分ける。"},{"id":"a26a","unit":"リース","star":2,"rng":"new","title":"使用権資産の減価償却","q":"決算で、使用権資産の減価償却を定額法、間接法で行う。リース期間 4年、リース料は年 400,000円 の後払い、利息相当額の総額は 80,000円 である。利子抜き法(利息は定額法で配分)で処理する。耐用年数はリース期間とし、残存価額は0とする。","dr":[["減価償却費",380000]],"cr":[["使用権資産減価償却累計額",380000]],"calc":["資産の金額 = 400,000 × 4 − 80,000 = 1,520,000","1年の利息 = 80,000 ÷ 4 = 20,000","1年の元本 = 400,000 − 20,000 = 380,000","減価償却費 = 1,520,000 ÷ 4 = 380,000"],"pt":"使用権資産も定額法で償却し、累計額に記入する。"},{"id":"a27a","unit":"リース","star":1,"rng":"new","title":"短期リース","q":"リース期間6か月のコピー機のリース料 10,000円 を当座預金から支払った。短期リースとして賃貸借処理を行う。","dr":[["支払リース料",10000]],"cr":[["当座預金",10000]],"calc":["短期リースは資産に計上しない。"],"pt":"短期リースと少額リースは支払リース料で処理する。"},{"id":"a28a","unit":"リース","star":3,"rng":"old","title":"ファイナンス・リースの開始(利子抜き法)","q":"ファイナンス・リース取引で備品の使用を開始した。リース期間 5年、リース料は年 200,000円 の後払い、利息相当額の総額は 100,000円 である。利子抜き法(利息は定額法で配分)で処理する。リース開始時の仕訳を答えなさい。","dr":[["リース資産",900000]],"cr":[["リース債務",900000]],"calc":["資産の金額 = 200,000 × 5 − 100,000 = 900,000","1年の利息 = 100,000 ÷ 5 = 20,000","1年の元本 = 200,000 − 20,000 = 180,000"],"pt":"ファイナンス・リース取引はリース資産とリース債務を計上する。"},{"id":"a29a","unit":"リース","star":3,"rng":"old","title":"ファイナンス・リースのリース料の支払い(利子抜き法)","q":"ファイナンス・リース取引のリース料を当座預金から支払った。リース期間 5年、リース料は年 200,000円 の後払い、利息相当額の総額は 50,000円 である。利子抜き法(利息は定額法で配分)で処理する。リース料の支払いの仕訳を答えなさい。","dr":[["リース債務",190000],["支払利息",10000]],"cr":[["当座預金",200000]],"calc":["資産の金額 = 200,000 × 5 − 50,000 = 950,000","1年の利息 = 50,000 ÷ 5 = 10,000","1年の元本 = 200,000 − 10,000 = 190,000"],"pt":"リース料を元本と利息に分ける。"},{"id":"a30a","unit":"リース","star":2,"rng":"old","title":"リース資産の減価償却","q":"決算で、ファイナンス・リース取引のリース資産の減価償却を定額法、間接法で行う。リース期間 4年、リース料は年 200,000円 の後払い、利息相当額の総額は 40,000円 である。利子抜き法(利息は定額法で配分)で処理する。耐用年数はリース期間とし、残存価額は0とする。","dr":[["減価償却費",190000]],"cr":[["リース資産減価償却累計額",190000]],"calc":["資産の金額 = 200,000 × 4 − 40,000 = 760,000","1年の利息 = 40,000 ÷ 4 = 10,000","1年の元本 = 200,000 − 10,000 = 190,000","減価償却費 = 760,000 ÷ 4 = 190,000"],"pt":"リース資産も定額法で償却し、累計額に記入する。"},{"id":"a31a","unit":"リース","star":2,"rng":"old","title":"オペレーティング・リース","q":"オペレーティング・リース取引のリース料 30,000円 を当座預金から支払った。","dr":[["支払リース料",30000]],"cr":[["当座預金",30000]],"calc":["賃貸借の処理である。"],"pt":"オペレーティング・リース取引は支払リース料で処理する。"},{"id":"a74a","unit":"リース","star":2,"rng":"new","title":"リースの開始(利子込み法)","q":"リース契約を結び、備品の使用を開始した。リース期間 5年、リース料は年 800,000円 の後払いである。利子込み法で処理する。リース開始時の仕訳を答えなさい。","dr":[["使用権資産",4000000]],"cr":[["リース負債",4000000]],"calc":["リース料の総額 = 800,000 × 5 = 4,000,000"],"pt":"利子込み法は、利息を分けずにリース料の総額を計上する。"},{"id":"a75a","unit":"リース","star":2,"rng":"new","title":"リース料の支払い(利子込み法)","q":"リース料を当座預金から支払った。リース期間 5年、リース料は年 800,000円 の後払いである。利子込み法で処理する。リース料の支払いの仕訳を答えなさい。","dr":[["リース負債",800000]],"cr":[["当座預金",800000]],"calc":["1年分のリース料をそのまま減らす。"],"pt":"利子込み法では利息を分けないので、支払利息は出ない。"},{"id":"a76a","unit":"リース","star":2,"rng":"old","title":"ファイナンス・リースの開始(利子込み法)","q":"ファイナンス・リース取引で備品の使用を開始した。リース期間 5年、リース料は年 800,000円 の後払いである。利子込み法で処理する。リース開始時の仕訳を答えなさい。","dr":[["リース資産",4000000]],"cr":[["リース債務",4000000]],"calc":["リース料の総額 = 800,000 × 5 = 4,000,000"],"pt":"利子込み法は、利息を分けずにリース料の総額を計上する。"},{"id":"a77a","unit":"リース","star":2,"rng":"old","title":"ファイナンス・リースのリース料の支払い(利子込み法)","q":"ファイナンス・リース取引のリース料を当座預金から支払った。リース期間 5年、リース料は年 200,000円 の後払いである。利子込み法で処理する。リース料の支払いの仕訳を答えなさい。","dr":[["リース債務",200000]],"cr":[["当座預金",200000]],"calc":["1年分のリース料をそのまま減らす。"],"pt":"利子込み法では利息を分けないので、支払利息は出ない。"},{"id":"a43a","unit":"外貨建取引","star":2,"rng":null,"title":"外貨建の仕入","q":"商品 7,000ドルを掛けで仕入れた。取引日の為替相場は1ドル 100円である。","dr":[["仕入",700000]],"cr":[["買掛金",700000]],"calc":["7,000 × 100 = 700,000"],"pt":"外貨建の取引は、取引日のレートで記帳する。"},{"id":"a44a","unit":"外貨建取引","star":2,"rng":null,"title":"外貨建買掛金の決済(為替差損)","q":"買掛金 4,000ドル(取引日の相場は1ドル 110円)を当座預金から決済した。決済日の為替相場は1ドル 115円である。","dr":[["買掛金",440000],["為替差損益",20000]],"cr":[["当座預金",460000]],"calc":["帳簿 = 4,000 × 110 = 440,000","支払い = 4,000 × 115 = 460,000"],"pt":"支払いが増えたので為替差損(借方)である。"},{"id":"a44b","unit":"外貨建取引","star":2,"rng":null,"title":"外貨建買掛金の決済(為替差益)","q":"買掛金 8,000ドル(取引日の相場は1ドル 100円)を当座預金から決済した。決済日の為替相場は1ドル 95円である。","dr":[["買掛金",800000]],"cr":[["当座預金",760000],["為替差損益",40000]],"calc":["帳簿 = 8,000 × 100 = 800,000","支払い = 8,000 × 95 = 760,000"],"pt":"支払いが減ったので為替差益(貸方)である。"},{"id":"a45a","unit":"外貨建取引","star":2,"rng":null,"title":"外貨建売掛金の決済(為替差益)","q":"売掛金 8,000ドル(取引日の相場は1ドル 100円)が当座預金に入金された。決済日の為替相場は1ドル 105円である。","dr":[["当座預金",840000]],"cr":[["売掛金",800000],["為替差損益",40000]],"calc":["帳簿 = 8,000 × 100 = 800,000","入金 = 8,000 × 105 = 840,000"],"pt":"受取りが増えたので為替差益(貸方)である。"},{"id":"a45b","unit":"外貨建取引","star":2,"rng":null,"title":"外貨建売掛金の決済(為替差損)","q":"売掛金 2,000ドル(取引日の相場は1ドル 105円)が当座預金に入金された。決済日の為替相場は1ドル 100円である。","dr":[["当座預金",200000],["為替差損益",10000]],"cr":[["売掛金",210000]],"calc":["帳簿 = 2,000 × 105 = 210,000","入金 = 2,000 × 100 = 200,000"],"pt":"受取りが減ったので為替差損(借方)である。"},{"id":"a46a","unit":"外貨建取引","star":2,"rng":null,"title":"前払金がある外貨建の仕入","q":"商品 6,000ドルを仕入れた。このうち 1,000ドルは前払金(支払時の相場は1ドル 110円)を充て、残りは掛けとした。仕入日の為替相場は1ドル 112円である。","dr":[["仕入",670000]],"cr":[["前払金",110000],["買掛金",560000]],"calc":["前払金 = 1,000 × 110 = 110,000","買掛金 = 5,000 × 112 = 560,000"],"pt":"前払金は支払ったときのレートのままである。"},{"id":"a47a","unit":"外貨建取引","star":2,"rng":null,"title":"為替予約(取引のあとに予約)(為替差益)","q":"買掛金 6,000ドル(1ドル 100円で記帳)について、1ドル 99円の為替予約を付した。振当処理を行い、差額は当期の損益とする。","dr":[["買掛金",6000]],"cr":[["為替差損益",6000]],"calc":["6,000 × (99 − 100) = −6,000"],"pt":"買掛金を予約レートに直す。2級では差額を期間配分しない。"},{"id":"a47b","unit":"外貨建取引","star":2,"rng":null,"title":"為替予約(取引のあとに予約)(為替差損)","q":"買掛金 2,000ドル(1ドル 113円で記帳)について、1ドル 116円の為替予約を付した。振当処理を行い、差額は当期の損益とする。","dr":[["為替差損益",6000]],"cr":[["買掛金",6000]],"calc":["2,000 × (116 − 113) = +6,000"],"pt":"買掛金を予約レートに直す。2級では差額を期間配分しない。"},{"id":"a93a","unit":"外貨建取引","star":2,"rng":null,"title":"外貨建の売上","q":"商品 4,000ドルを掛けで販売した。取引日の為替相場は1ドル 125円である。","dr":[["売掛金",500000]],"cr":[["売上",500000]],"calc":["4,000 × 125 = 500,000"],"pt":"外貨建の取引は、取引日のレートで記帳する。"},{"id":"a94a","unit":"外貨建取引","star":2,"rng":null,"title":"前受金がある外貨建の売上","q":"商品 7,000ドルを販売した。このうち 2,000ドルは受取済みの手付金(受取時の相場は1ドル 115円、前受金で処理)を充て、残りは掛けとした。販売日の為替相場は1ドル 116円である。","dr":[["前受金",230000],["売掛金",580000]],"cr":[["売上",810000]],"calc":["前受金 = 2,000 × 115 = 230,000","売掛金 = 5,000 × 116 = 580,000"],"pt":"前受金は受取時の相場のままで、換算し直さない。残りを販売日の相場で換算する。"},{"id":"a95a","unit":"外貨建取引","star":3,"rng":null,"title":"決算時の換算替え(買掛金・円高)","q":"決算にあたり、買掛金 2,000ドル(取引日の相場は1ドル 112円)を換算替えする。決算日の為替相場は1ドル 111円である。","dr":[["買掛金",2000]],"cr":[["為替差損益",2000]],"calc":["2,000 × (111 − 112) = −2,000"],"pt":"売掛金や買掛金は貨幣項目なので、決算日の相場に換算し直す。前払金や商品は換算し直さない。"},{"id":"a95b","unit":"外貨建取引","star":3,"rng":null,"title":"決算時の換算替え(売掛金・円高)","q":"決算にあたり、売掛金 9,000ドル(取引日の相場は1ドル 100円)を換算替えする。決算日の為替相場は1ドル 99円である。","dr":[["為替差損益",9000]],"cr":[["売掛金",9000]],"calc":["9,000 × (99 − 100) = −9,000"],"pt":"売掛金や買掛金は貨幣項目なので、決算日の相場に換算し直す。前払金や商品は換算し直さない。"},{"id":"a95c","unit":"外貨建取引","star":3,"rng":null,"title":"決算時の換算替え(買掛金・円安)","q":"決算にあたり、買掛金 7,000ドル(取引日の相場は1ドル 125円)を換算替えする。決算日の為替相場は1ドル 126円である。","dr":[["為替差損益",7000]],"cr":[["買掛金",7000]],"calc":["7,000 × (126 − 125) = +7,000"],"pt":"売掛金や買掛金は貨幣項目なので、決算日の相場に換算し直す。前払金や商品は換算し直さない。"},{"id":"a95d","unit":"外貨建取引","star":3,"rng":null,"title":"決算時の換算替え(売掛金・円安)","q":"決算にあたり、売掛金 3,000ドル(取引日の相場は1ドル 148円)を換算替えする。決算日の為替相場は1ドル 149円である。","dr":[["売掛金",3000]],"cr":[["為替差損益",3000]],"calc":["3,000 × (149 − 148) = +3,000"],"pt":"売掛金や買掛金は貨幣項目なので、決算日の相場に換算し直す。前払金や商品は換算し直さない。"},{"id":"a96a","unit":"外貨建取引","star":2,"rng":null,"title":"取引と同時の為替予約","q":"商品 8,000ドルを掛けで仕入れ、同時に1ドル 125円の為替予約を付した。取引日の直物相場は1ドル 122円である。振当処理による。","dr":[["仕入",1000000]],"cr":[["買掛金",1000000]],"calc":["8,000 × 125 = 1,000,000"],"pt":"取引と同時に予約したときは、予約した相場で記帳するので差額は出ない。"},{"id":"a32a","unit":"純資産と合併","star":2,"rng":null,"title":"増資(資本金は最低額)","q":"増資にあたり、株式 500株を1株 8,000円で発行し、全額の払込みを受けて当座預金とした。資本金には会社法が定める最低額を計上する。","dr":[["当座預金",4000000]],"cr":[["資本金",2000000],["資本準備金",2000000]],"calc":["払込金額 = 500 × 8,000 = 4,000,000","資本金 = 4,000,000 × 1/2 = 2,000,000"],"pt":"最低額は払込金額の2分の1で、残りは資本準備金である。"},{"id":"a33a","unit":"純資産と合併","star":2,"rng":null,"title":"会社の設立と創立費","q":"会社の設立にあたり、株式 200株を1株 2,000円で発行し、全額の払込みを受けて当座預金とした。全額を資本金とする。また、設立のための費用 50,000円 を当座預金から支払った。1つの仕訳で答えなさい。","dr":[["当座預金",350000],["創立費",50000]],"cr":[["資本金",400000]],"calc":["当座預金の純増 = 400,000 − 50,000 = 350,000"],"pt":"設立のための費用は創立費、開業までの準備の費用は開業費である。"},{"id":"a34a","unit":"純資産と合併","star":3,"rng":null,"title":"剰余金の配当と準備金の積立","q":"株主総会で、繰越利益剰余金から配当 600,000円 と別途積立金の積立 40,000円 を決議した。会社法の規定により利益準備金を積み立てる。資本金は 27,000,000円、資本準備金は 500,000円、利益準備金は 100,000円 である。","dr":[["繰越利益剰余金",700000]],"cr":[["未払配当金",600000],["利益準備金",60000],["別途積立金",40000]],"calc":["配当の10分の1 = 60,000","上限 = 27,000,000 ÷ 4 − 500,000 − 100,000 = 6,150,000","小さいほうの 60,000 を積み立てる。"],"pt":"積立額は配当の10分の1で、準備金の合計が資本金の4分の1に達するまでである。"},{"id":"a35a","unit":"純資産と合併","star":1,"rng":null,"title":"株主資本の計数の変動(繰越利益剰余金から資本金)","q":"株主総会の決議により、300,000円 の繰越利益剰余金を資本金に組み入れた。","dr":[["繰越利益剰余金",300000]],"cr":[["資本金",300000]],"calc":["純資産の内部での振替である。"],"pt":"株主資本の計数の変動で、純資産の合計は変わらない。"},{"id":"a35b","unit":"純資産と合併","star":1,"rng":null,"title":"株主資本の計数の変動(その他資本剰余金から資本準備金)","q":"株主総会の決議により、900,000円 のその他資本剰余金を資本準備金に組み入れた。","dr":[["その他資本剰余金",900000]],"cr":[["資本準備金",900000]],"calc":["純資産の内部での振替である。"],"pt":"株主資本の計数の変動で、純資産の合計は変わらない。"},{"id":"a35c","unit":"純資産と合併","star":1,"rng":null,"title":"株主資本の計数の変動(資本準備金から資本金)","q":"株主総会の決議により、600,000円 の資本準備金を資本金に組み入れた。","dr":[["資本準備金",600000]],"cr":[["資本金",600000]],"calc":["純資産の内部での振替である。"],"pt":"株主資本の計数の変動で、純資産の合計は変わらない。"},{"id":"a36a","unit":"純資産と合併","star":2,"rng":null,"title":"吸収合併(のれん)","q":"B社を吸収合併し、B社の諸資産(時価 2,000,000円)と諸負債(時価 1,000,000円)を引き継いだ。合併の対価として株式を交付し、その時価は 1,200,000円 である。このうち 600,000円 を資本金とし、残りは資本準備金とする。","dr":[["諸資産",2000000],["のれん",200000]],"cr":[["諸負債",1000000],["資本金",600000],["資本準備金",600000]],"calc":["受け入れた純資産 = 2,000,000 − 1,000,000 = 1,000,000","差額 = 1,200,000 − 1,000,000 = 200,000(のれん)"],"pt":"資産と負債は時価で受け入れ、対価との差額をのれんにする。"},{"id":"a36b","unit":"純資産と合併","star":2,"rng":null,"title":"吸収合併(負ののれん)","q":"B社を吸収合併し、B社の諸資産(時価 2,000,000円)と諸負債(時価 500,000円)を引き継いだ。合併の対価として株式を交付し、その時価は 1,400,000円 である。このうち 700,000円 を資本金とし、残りは資本準備金とする。","dr":[["諸資産",2000000]],"cr":[["諸負債",500000],["資本金",700000],["資本準備金",700000],["負ののれん発生益",100000]],"calc":["受け入れた純資産 = 2,000,000 − 500,000 = 1,500,000","差額 = 1,400,000 − 1,500,000 = −100,000(負ののれん発生益)"],"pt":"資産と負債は時価で受け入れ、対価との差額をのれんにする。"},{"id":"a78a","unit":"純資産と合併","star":2,"rng":null,"title":"当期純損益の振替(当期純利益)","q":"決算で、当期純利益 800,000円 を損益勘定から振り替えた。","dr":[["損益",800000]],"cr":[["繰越利益剰余金",800000]],"calc":["利益は繰越利益剰余金を増やす。"],"pt":"当期純利益は、繰越利益剰余金の貸方に振り替える。"},{"id":"a78b","unit":"純資産と合併","star":2,"rng":null,"title":"当期純損益の振替(当期純損失)","q":"決算で、当期純損失 300,000円 を損益勘定から振り替えた。","dr":[["繰越利益剰余金",300000]],"cr":[["損益",300000]],"calc":["損失は繰越利益剰余金を減らす。"],"pt":"当期純損失は、繰越利益剰余金の借方に振り替える。"},{"id":"a79a","unit":"純資産と合併","star":1,"rng":null,"title":"その他資本剰余金からの配当","q":"株主総会で、その他資本剰余金を財源とする配当 400,000円 を決議した。会社法の規定により準備金を積み立てる。資本金は 30,000,000円、資本準備金は 500,000円、利益準備金は 100,000円 である。","dr":[["その他資本剰余金",440000]],"cr":[["未払配当金",400000],["資本準備金",40000]],"calc":["配当の10分の1 = 40,000","4分の1までの不足 = 7,500,000 − 600,000 = 6,900,000","積立額 = 少ないほうの 40,000"],"pt":"その他資本剰余金からの配当では、利益準備金ではなく資本準備金を積み立てる。"},{"id":"a80b","unit":"純資産と合併","star":1,"rng":null,"title":"任意積立金の取崩し","q":"株主総会の決議により、別途積立金 800,000円 を取り崩し、繰越利益剰余金に振り替えた。","dr":[["別途積立金",800000]],"cr":[["繰越利益剰余金",800000]],"calc":["純資産の内部での振替である。"],"pt":"任意積立金を取り崩すと、繰越利益剰余金が増える。純資産の合計は変わらない。"},{"id":"a81a","unit":"純資産と合併","star":1,"rng":null,"title":"配当金の支払い","q":"株主総会で決議した配当金 300,000円 を当座預金から支払った。","dr":[["未払配当金",300000]],"cr":[["当座預金",300000]],"calc":["決議のときに未払配当金を計上している。"],"pt":"配当の支払いは、未払配当金の減少である。"},{"id":"a82a","unit":"純資産と合併","star":1,"rng":null,"title":"開業費","q":"会社の設立後、営業を開始するまでに広告費などの費用 20,000円 を当座預金から支払った。","dr":[["開業費",20000]],"cr":[["当座預金",20000]],"calc":["開業準備のための費用である。"],"pt":"設立までの費用は創立費、設立後から開業までの費用は開業費である。"},{"id":"a83a","unit":"純資産と合併","star":1,"rng":null,"title":"増資と株式交付費","q":"増資にあたり、株式 300株を1株 2,000円で発行し、全額の払込みを受けて当座預金とした。全額を資本金とする。また、株式の発行費用 60,000円 を当座預金から支払った。1つの仕訳で答えなさい。","dr":[["当座預金",540000],["株式交付費",60000]],"cr":[["資本金",600000]],"calc":["当座預金 = 600,000 − 60,000 = 540,000"],"pt":"増資のときの発行費用は、株式交付費である。設立のときは創立費になる。"},{"id":"a100a","unit":"引当金","star":3,"rng":null,"title":"貸倒引当金の設定(差額補充法)(繰入)","q":"決算にあたり、売掛金の期末残高 5,500,000円 に対して2%の貸倒引当金を差額補充法で設定する。貸倒引当金の残高は 30,000円 である。","dr":[["貸倒引当金繰入",80000]],"cr":[["貸倒引当金",80000]],"calc":["設定額 = 5,500,000 × 2% = 110,000","差額 = 110,000 − 30,000 = +80,000"],"pt":"差額補充法では、設定額と残高の差額だけを計上する。残高のほうが多いときは戻入である。"},{"id":"a100b","unit":"引当金","star":3,"rng":null,"title":"貸倒引当金の設定(差額補充法)(戻入)","q":"決算にあたり、売掛金の期末残高 1,000,000円 に対して2%の貸倒引当金を差額補充法で設定する。貸倒引当金の残高は 40,000円 である。","dr":[["貸倒引当金",20000]],"cr":[["貸倒引当金戻入",20000]],"calc":["設定額 = 1,000,000 × 2% = 20,000","差額 = 20,000 − 40,000 = −20,000"],"pt":"差額補充法では、設定額と残高の差額だけを計上する。残高のほうが多いときは戻入である。"},{"id":"a101a","unit":"引当金","star":2,"rng":null,"title":"引当金の繰入(商品保証引当金)","q":"決算にあたり、当期に販売した商品の保証に備えて見積額 700,000円 を引当金に計上する。","dr":[["商品保証引当金繰入",700000]],"cr":[["商品保証引当金",700000]],"calc":["見積額をそのまま繰り入れる。"],"pt":"当期に負担すべき将来の支出は、引当金に計上する。借方は繰入の費用である。"},{"id":"a101b","unit":"引当金","star":2,"rng":null,"title":"引当金の繰入(賞与引当金)","q":"決算にあたり、次期に支給する賞与のうち当期の負担分 800,000円 を引当金に計上する。","dr":[["賞与引当金繰入",800000]],"cr":[["賞与引当金",800000]],"calc":["見積額をそのまま繰り入れる。"],"pt":"当期に負担すべき将来の支出は、引当金に計上する。借方は繰入の費用である。"},{"id":"a101c","unit":"引当金","star":2,"rng":null,"title":"引当金の繰入(修繕引当金)","q":"決算にあたり、次期に行う修繕に備えて当期の負担分 800,000円 を引当金に計上する。","dr":[["修繕引当金繰入",800000]],"cr":[["修繕引当金",800000]],"calc":["見積額をそのまま繰り入れる。"],"pt":"当期に負担すべき将来の支出は、引当金に計上する。借方は繰入の費用である。"},{"id":"a102a","unit":"引当金","star":2,"rng":null,"title":"賞与の支給","q":"賞与 300,000円 を当座預金から支給した。前期末に賞与引当金 100,000円 を計上している。","dr":[["賞与引当金",100000],["賞与",200000]],"cr":[["当座預金",300000]],"calc":["賞与 = 300,000 − 100,000 = 200,000"],"pt":"前期の負担分は引当金を取り崩し、残りが当期の費用である。"},{"id":"a103a","unit":"引当金","star":1,"rng":null,"title":"商品保証引当金の取崩し","q":"前期に販売した商品について保証の修理を行い、修理代 2,000円 を現金で支払った。商品保証引当金の残高は 80,000円 である。","dr":[["商品保証引当金",2000]],"cr":[["現金",2000]],"calc":["引当金の範囲内なので、全額を取り崩す。"],"pt":"前期の販売に備えた引当金があるので、費用を計上せず引当金を減らす。"},{"id":"a104a","unit":"引当金","star":2,"rng":null,"title":"退職給付(退職金の支払い)","q":"従業員の退職にともない、退職金 200,000円 を当座預金から支払った。退職給付引当金の残高は十分にある。","dr":[["退職給付引当金",200000]],"cr":[["当座預金",200000]],"calc":["引当金を取り崩す。"],"pt":"積み立ててきた引当金で支払うので、費用は出ない。"},{"id":"a104b","unit":"引当金","star":2,"rng":null,"title":"退職給付(繰入)","q":"決算にあたり、退職給付引当金の当期繰入額 400,000円 を計上する。","dr":[["退職給付費用",400000]],"cr":[["退職給付引当金",400000]],"calc":["当期の負担分を繰り入れる。"],"pt":"借方の科目は、退職給付費用である。"},{"id":"a48a","unit":"税金と税効果","star":2,"rng":null,"title":"法人税等の中間納付","q":"法人税、住民税及び事業税の中間申告を行い、100,000円 を当座預金から納付した。","dr":[["仮払法人税等",100000]],"cr":[["当座預金",100000]],"calc":["税額は決算で確定する。"],"pt":"中間納付は仮払法人税等である。"},{"id":"a49a","unit":"税金と税効果","star":2,"rng":null,"title":"消費税(売上)","q":"商品 50,000円(税抜)を掛けで販売した。消費税の税率は10%で、税抜方式で処理する。","dr":[["売掛金",55000]],"cr":[["売上",50000],["仮受消費税",5000]],"calc":["消費税 = 50,000 × 10% = 5,000"],"pt":"預かった消費税は仮受消費税である。"},{"id":"a50a","unit":"税金と税効果","star":2,"rng":null,"title":"消費税(仕入)","q":"商品 70,000円(税抜)を掛けで仕入れた。消費税の税率は10%で、税抜方式で処理する。","dr":[["仕入",70000],["仮払消費税",7000]],"cr":[["買掛金",77000]],"calc":["消費税 = 70,000 × 10% = 7,000"],"pt":"支払った消費税は仮払消費税である。"},{"id":"a97a","unit":"税金と税効果","star":3,"rng":null,"title":"法人税等の計上","q":"決算にあたり、当期の法人税、住民税及び事業税 900,000円 を計上した。中間納付の 200,000円 は仮払法人税等に計上している。","dr":[["法人税、住民税及び事業税",900000]],"cr":[["仮払法人税等",200000],["未払法人税等",700000]],"calc":["未払分 = 900,000 − 200,000 = 700,000"],"pt":"中間で払った分を除いた残りが、未払法人税等である。"},{"id":"a98a","unit":"税金と税効果","star":2,"rng":null,"title":"法人税等の確定納付","q":"確定申告を行い、未払法人税等 500,000円 を当座預金から納付した。","dr":[["未払法人税等",500000]],"cr":[["当座預金",500000]],"calc":["決算で計上した未払分を支払う。"],"pt":"確定申告の納付は、未払法人税等の減少である。中間納付の仮払法人税等と区別する。"},{"id":"a99a","unit":"税金と税効果","star":2,"rng":null,"title":"消費税の決算処理","q":"決算にあたり、消費税の納付額を計算する。仮受消費税は 40,000円、仮払消費税は 20,000円 である。","dr":[["仮受消費税",40000]],"cr":[["仮払消費税",20000],["未払消費税",20000]],"calc":["納付額 = 40,000 − 20,000 = 20,000"],"pt":"仮受と仮払を相殺し、残りが未払消費税である。"},{"id":"a105a","unit":"税金と税効果","star":3,"rng":null,"title":"税効果(差異の発生)","q":"決算にあたり、減価償却費のうち 200,000円 が税法上の費用として認められなかった。税効果会計を適用する(税率30%)。","dr":[["繰延税金資産",60000]],"cr":[["法人税等調整額",60000]],"calc":["税効果 = 200,000 × 30% = 60,000"],"pt":"今は税金を減らせないが、将来減らせる。将来の税金が減る分を繰延税金資産にする。"},{"id":"a106a","unit":"税金と税効果","star":2,"rng":null,"title":"税効果(差異の解消)","q":"前期に税法上の費用として認められなかった貸倒引当金の繰入額 100,000円 が、当期に認められた。税効果会計を適用している(税率30%)。","dr":[["法人税等調整額",30000]],"cr":[["繰延税金資産",30000]],"calc":["解消額 = 100,000 × 30% = 30,000"],"pt":"差異が解消したので、計上していた繰延税金資産を取り崩す。"},{"id":"k1","unit":"決算整理","star":3,"rng":null,"title":"売上原価の計算(三分法)","q":"決算にあたり、売上原価を仕入勘定で計算する。期首商品棚卸高は300,000円、期末商品棚卸高は350,000円である。","dr":[["仕入",300000],["繰越商品",350000]],"cr":[["繰越商品",300000],["仕入",350000]],"calc":["期首の商品を仕入に足し、期末の商品を仕入から引く"],"pt":"「しーくり・くりし」と覚える。期首は(借)仕入(貸)繰越商品、期末は(借)繰越商品(貸)仕入。"},{"id":"k2","unit":"決算整理","star":3,"rng":null,"title":"棚卸減耗損と商品評価損","q":"期末商品の帳簿数量は500個(原価@800円)、実地数量は480個、正味売却価額は@750円である。棚卸減耗損と商品評価損を計上する。","dr":[["棚卸減耗損",16000],["商品評価損",24000]],"cr":[["繰越商品",40000]],"calc":["棚卸減耗損 = (500 − 480) × 800 = 16,000","商品評価損 = 480 × (800 − 750) = 24,000"],"pt":"減耗は原価で、評価損は実地数量で計算する。帳簿数量で評価損を計算しない。"},{"id":"k3","unit":"決算整理","star":3,"rng":null,"title":"前払費用の計上","q":"×4年12月1日に1年分の保険料120,000円を支払い、全額を保険料で処理している。決算日は×5年3月31日である。","dr":[["前払保険料",80000]],"cr":[["保険料",80000]],"calc":["前払分 = 120,000 × 8 ÷ 12 = 80,000(×5年4月〜11月)"],"pt":"来期の分は資産として繰り延べる。貸借対照表では前払費用と表示する。"},{"id":"k4","unit":"決算整理","star":3,"rng":null,"title":"未払費用の計上","q":"借入金1,000,000円(年利3%)の利息は、毎年9月30日に1年分を後払いしている。決算日は3月31日で、10月1日から3月31日までの6か月分の利息が未払いである。","dr":[["支払利息",15000]],"cr":[["未払利息",15000]],"calc":["未払分 = 1,000,000 × 3% × 6 ÷ 12 = 15,000"],"pt":"当期の費用なのに支払っていない分は、費用に足して負債にする。貸借対照表では未払費用。"},{"id":"k5","unit":"決算整理","star":2,"rng":null,"title":"前受収益の計上","q":"×4年12月1日に1年分の家賃360,000円を受け取り、全額を受取家賃で処理している。決算日は×5年3月31日である。","dr":[["受取家賃",240000]],"cr":[["前受家賃",240000]],"calc":["前受分 = 360,000 × 8 ÷ 12 = 240,000"],"pt":"来期の分は収益から引いて負債にする。貸借対照表では前受収益。"},{"id":"k6","unit":"決算整理","star":2,"rng":null,"title":"未収収益の計上","q":"×4年11月1日に500,000円を貸し付けた(年利6%、利息は返済時に受け取る)。決算日は×5年3月31日である。","dr":[["未収利息",12500]],"cr":[["受取利息",12500]],"calc":["未収分 = 500,000 × 6% × 5 ÷ 12 = 12,500"],"pt":"当期の収益なのにまだ受け取っていない分は、収益に足して資産にする。貸借対照表では未収収益。"},{"id":"k7","unit":"決算整理","star":1,"rng":null,"title":"貯蔵品への振替","q":"決算にあたり、未使用の収入印紙10,000円と郵便切手3,000円が残っていた。購入時に費用で処理している。","dr":[["貯蔵品",13000]],"cr":[["租税公課",10000],["通信費",3000]],"calc":["貯蔵品 = 10,000 + 3,000 = 13,000"],"pt":"収入印紙は租税公課、切手は通信費から振り替える。"},{"id":"k8","unit":"決算整理","star":1,"rng":null,"title":"当座借越の振替","q":"決算日の当座預金勘定が50,000円の貸方残高(当座借越)になっている。","dr":[["当座預金",50000]],"cr":[["当座借越",50000]],"calc":["貸方残高をなくして負債に振り替える"],"pt":"当座借越は借入れと同じ負債。借入金で処理するよう指示されることもある。"},{"id":"k9","unit":"決算整理","star":2,"rng":null,"title":"圧縮記帳したあとの減価償却","q":"機械装置(取得原価3,000,000円、国庫補助金1,000,000円で圧縮記帳済み)を、定額法(耐用年数5年、残存価額ゼロ、間接法)で1年分償却する。","dr":[["減価償却費",400000]],"cr":[["機械装置減価償却累計額",400000]],"calc":["圧縮後の帳簿価額 = 3,000,000 − 1,000,000 = 2,000,000","減価償却費 = 2,000,000 ÷ 5 = 400,000"],"pt":"直接控除方式で圧縮したあとは、圧縮後の金額をもとに償却する。"},{"id":"k10","unit":"決算整理","star":3,"rng":null,"title":"期中に取得した資産の減価償却","q":"×4年10月1日に取得した建物(取得原価3,600,000円)を、定額法(耐用年数30年、残存価額ゼロ、間接法)で償却する。決算日は×5年3月31日である。","dr":[["減価償却費",60000]],"cr":[["建物減価償却累計額",60000]],"calc":["1年分 = 3,600,000 ÷ 30 = 120,000","当期分 = 120,000 × 6 ÷ 12 = 60,000"],"pt":"期中に取得した資産は、使った月数で月割にする。"},{"id":"k11","unit":"決算整理","star":1,"rng":null,"title":"月次決算の減価償却","q":"月次決算を行っている。建物の減価償却費の年間見積額は1,200,000円で、毎月末に月割額を計上する(間接法)。","dr":[["減価償却費",100000]],"cr":[["建物減価償却累計額",100000]],"calc":["1か月分 = 1,200,000 ÷ 12 = 100,000"],"pt":"月次で見積計上し、年度末に実際の金額との差を調整する。"},{"id":"k12","unit":"決算整理","star":1,"rng":null,"title":"収益の損益勘定への振替","q":"決算で、売上5,000,000円と受取利息20,000円を損益勘定に振り替える。","dr":[["売上",5000000],["受取利息",20000]],"cr":[["損益",5020000]],"calc":["合計 = 5,000,000 + 20,000 = 5,020,000"],"pt":"収益は貸方残高なので、借方に書いて損益の貸方へ移す。"},{"id":"k13","unit":"決算整理","star":1,"rng":null,"title":"費用の損益勘定への振替","q":"決算で、仕入3,000,000円と給料1,200,000円を損益勘定に振り替える。","dr":[["損益",4200000]],"cr":[["仕入",3000000],["給料",1200000]],"calc":["合計 = 3,000,000 + 1,200,000 = 4,200,000"],"pt":"費用は借方残高なので、貸方に書いて損益の借方へ移す。"},{"id":"k14","unit":"決算整理","star":2,"rng":null,"title":"期首の再振替仕訳","q":"期首にあたり、前期末に計上した前払保険料80,000円を再振替する。","dr":[["保険料",80000]],"cr":[["前払保険料",80000]],"calc":["前期末の仕訳の逆を書く"],"pt":"前期末に繰り延べた分は、期首に元の費用へ戻す。"},{"id":"k15","unit":"決算整理","star":1,"rng":null,"title":"売上原価対立法の棚卸減耗","q":"商品売買を売上原価対立法で記帳している。決算にあたり、商品の帳簿残高と実地棚卸高の差10,000円を棚卸減耗損とする。","dr":[["棚卸減耗損",10000]],"cr":[["商品",10000]],"calc":["帳簿と実地の差をそのまま計上する"],"pt":"売上原価対立法では、繰越商品ではなく商品勘定を減らす。売上原価の計算の仕訳は不要。"},{"id":"k16","unit":"決算整理","star":1,"rng":null,"title":"貸付金の貸倒引当金","q":"決算にあたり、取引先への貸付金1,000,000円に対して3%の貸倒引当金を設定する。貸倒引当金の残高はない。","dr":[["貸倒引当金繰入",30000]],"cr":[["貸倒引当金",30000]],"calc":["設定額 = 1,000,000 × 3% = 30,000"],"pt":"営業外の債権に対する繰入額は、損益計算書の営業外費用に表示する。"},{"id":"r1","unit":"連結会計","star":3,"rng":null,"title":"支配獲得日の投資と資本の相殺","q":"P社はS社の発行済株式の80%を43,000千円で取得し、支配を獲得した。S社の資本金は30,000千円、利益剰余金は20,000千円である。(金額の単位は千円)","dr":[["資本金",30000],["利益剰余金",20000],["のれん",3000]],"cr":[["S社株式",43000],["非支配株主持分",10000]],"calc":["非支配株主持分 = (30,000 + 20,000) × 20% = 10,000","のれん = 43,000 − (30,000 + 20,000) × 80% = 3,000"],"pt":"子会社の資本と親会社の投資を消し、差額をのれん、親会社以外の持分を非支配株主持分にする。"},{"id":"r2","unit":"連結会計","star":3,"rng":null,"title":"開始仕訳","q":"P社は前期首にS社の発行済株式の80%を43,000千円で取得し、支配を獲得した。当時のS社の資本金は30,000千円、利益剰余金は20,000千円である。前期のS社の当期純利益は5,000千円、配当は1,000千円で、のれんは10年で償却している。当期の開始仕訳を答えなさい。(金額の単位は千円)","dr":[["資本金当期首残高",30000],["利益剰余金当期首残高",21100],["のれん",2700]],"cr":[["S社株式",43000],["非支配株主持分当期首残高",10800]],"calc":["のれん = 3,000 − 300 = 2,700","非支配株主持分 = 10,000 + (5,000 − 1,000) × 20% = 10,800","利益剰余金 = 20,000 + 300 + 800 = 21,100"],"pt":"前期までの連結修正を、純資産の項目は「当期首残高」をつけて引き継ぐ。"},{"id":"r3","unit":"連結会計","star":3,"rng":null,"title":"のれんの償却","q":"のれん3,000千円を10年で定額法により償却する。(金額の単位は千円)","dr":[["のれん償却",300]],"cr":[["のれん",300]],"calc":["3,000 ÷ 10 = 300"],"pt":"のれん償却は販売費及び一般管理費。毎年の連結修正で忘れやすい。"},{"id":"r4","unit":"連結会計","star":3,"rng":null,"title":"子会社の利益の按分","q":"S社の当期純利益は6,000千円である。非支配株主の持分は20%である。(金額の単位は千円)","dr":[["非支配株主に帰属する当期純利益",1200]],"cr":[["非支配株主持分当期変動額",1200]],"calc":["6,000 × 20% = 1,200"],"pt":"子会社の利益のうち、親会社以外の取り分を非支配株主持分に振り替える。"},{"id":"r5","unit":"連結会計","star":3,"rng":null,"title":"子会社の配当の修正","q":"S社は配当2,000千円を支払い、P社は80%分の1,600千円を受取配当金に計上している。(金額の単位は千円)","dr":[["受取配当金",1600],["非支配株主持分当期変動額",400]],"cr":[["剰余金の配当",2000]],"calc":["親会社の分 = 2,000 × 80% = 1,600","非支配株主の分 = 2,000 × 20% = 400"],"pt":"グループ内のお金の移動なので配当を消す。非支配株主に払った分は持分を減らす。"},{"id":"r6","unit":"連結会計","star":3,"rng":null,"title":"売上と仕入の相殺","q":"P社はS社に商品20,000千円を販売している。(金額の単位は千円)","dr":[["売上高",20000]],"cr":[["売上原価",20000]],"calc":["内部の取引高をそのまま消す"],"pt":"グループ内の売買は、売上高と売上原価を相殺する。"},{"id":"r7","unit":"連結会計","star":3,"rng":null,"title":"債権と債務の相殺","q":"P社のS社に対する売掛金が5,000千円ある。(金額の単位は千円)","dr":[["買掛金",5000]],"cr":[["売掛金",5000]],"calc":["内部の債権と債務をそのまま消す"],"pt":"グループ内の貸し借りは連結では存在しないので消す。"},{"id":"r8","unit":"連結会計","star":2,"rng":null,"title":"貸倒引当金の修正(ダウンストリーム)","q":"P社のS社に対する売掛金5,000千円を相殺した。P社はこの売掛金に2%の貸倒引当金を設定している。(金額の単位は千円)","dr":[["貸倒引当金",100]],"cr":[["貸倒引当金繰入",100]],"calc":["5,000 × 2% = 100"],"pt":"消した売掛金に対する引当金も取り消す。親会社の債権なので非支配株主には按分しない。"},{"id":"r9","unit":"連結会計","star":3,"rng":null,"title":"期末商品の未実現利益(ダウンストリーム)","q":"S社の期末商品のうち5,000千円はP社から仕入れたもので、P社の売上総利益率は20%である。(金額の単位は千円)","dr":[["売上原価",1000]],"cr":[["商品",1000]],"calc":["5,000 × 20% = 1,000"],"pt":"グループの外に売れていない利益を消す。売り手が親会社なら非支配株主に按分しない。"},{"id":"r10","unit":"連結会計","star":3,"rng":null,"title":"期首商品の未実現利益(ダウンストリーム)","q":"S社の期首商品のうち3,000千円はP社から仕入れたもので、P社の売上総利益率は20%である。(金額の単位は千円)","dr":[["利益剰余金当期首残高",600]],"cr":[["売上原価",600]],"calc":["3,000 × 20% = 600"],"pt":"前期に消した利益が当期に実現したと考えて、売上原価から引く。"},{"id":"r11","unit":"連結会計","star":2,"rng":null,"title":"期末商品の未実現利益(アップストリーム)","q":"P社の期末商品のうち5,000千円はS社(P社の持分80%)から仕入れたもので、S社の売上総利益率は20%である。(金額の単位は千円)","dr":[["売上原価",1000],["非支配株主持分当期変動額",200]],"cr":[["商品",1000],["非支配株主に帰属する当期純利益",200]],"calc":["未実現利益 = 5,000 × 20% = 1,000","非支配株主の負担 = 1,000 × 20% = 200"],"pt":"売り手が子会社のときは、消した利益の一部を非支配株主にも負担させる。"},{"id":"r12","unit":"連結会計","star":2,"rng":null,"title":"土地の未実現利益(ダウンストリーム)","q":"P社は帳簿価額8,000千円の土地をS社に10,000千円で売却し、S社はまだ保有している。(金額の単位は千円)","dr":[["固定資産売却益",2000]],"cr":[["土地",2000]],"calc":["10,000 − 8,000 = 2,000"],"pt":"グループ内の売却益を消し、土地を元の帳簿価額に戻す。"},{"id":"r13","unit":"連結会計","star":2,"rng":null,"title":"貸付金・借入金と利息の相殺","q":"P社はS社に10,000千円を貸し付けており、当期の利息300千円を受け取っている。(金額の単位は千円)","dr":[["借入金",10000],["受取利息",300]],"cr":[["貸付金",10000],["支払利息",300]],"calc":["貸し借りと利息の両方を消す"],"pt":"内部の貸付金と借入金、受取利息と支払利息をセットで相殺する。"},{"id":"r14","unit":"連結会計","star":1,"rng":"old","title":"手形の相殺","q":"P社はS社が振り出した約束手形3,000千円を保有している。(金額の単位は千円)","dr":[["支払手形",3000]],"cr":[["受取手形",3000]],"calc":["内部の手形をそのまま消す"],"pt":"グループ内の手形は連結では存在しないので消す。"},{"id":"a107a","unit":"本支店会計","star":2,"rng":null,"title":"本店と支店の送金(支店の仕訳)","q":"支店は本店から現金 50,000円 を受け取った。支店の仕訳を答えなさい。","dr":[["現金",50000]],"cr":[["本店",50000]],"calc":["支店の帳簿には本店勘定を使う。"],"pt":"支店は、本店に対する借りが増えたと考えて本店勘定の貸方に記入する。"},{"id":"a107b","unit":"本支店会計","star":2,"rng":null,"title":"本店と支店の送金(本店の仕訳)","q":"本店は支店に現金 50,000円 を送った。本店の仕訳を答えなさい。","dr":[["支店",50000]],"cr":[["現金",50000]],"calc":["本店の帳簿には支店勘定を使う。"],"pt":"本店は、支店に対する貸しが増えたと考えて支店勘定の借方に記入する。"},{"id":"a108a","unit":"本支店会計","star":2,"rng":null,"title":"本店による代理の回収","q":"本店は、支店の得意先の売掛金 50,000円 を現金で回収し、その連絡を支店にした。本店の仕訳を答えなさい。","dr":[["現金",50000]],"cr":[["支店",50000]],"calc":["売掛金は支店の帳簿にある。"],"pt":"本店の帳簿に売掛金はないので、相手の勘定は支店である。"},{"id":"a109a","unit":"本支店会計","star":2,"rng":null,"title":"本店集中計算制度(本店)","q":"本店集中計算制度を採用している。京都支店は大阪支店に現金 50,000円 を送り、大阪支店はこれを受け取った。本店の仕訳を答えなさい。","dr":[["大阪支店",50000]],"cr":[["京都支店",50000]],"calc":["本店は現金を動かさない。"],"pt":"本店集中計算制度では、支店間の取引を本店との取引として記帳する。受け取った大阪支店に貸し、送った京都支店に借りができる。"},{"id":"a110a","unit":"本支店会計","star":2,"rng":null,"title":"支店の損益の振替(本店)(当期純利益)","q":"決算で、支店は当期純利益 600,000円 を計上し、本店に報告した。本店の仕訳を答えなさい。","dr":[["支店",600000]],"cr":[["損益",600000]],"calc":["支店の利益を本店の損益に取り込む。"],"pt":"本店は、支店の純利益を支店勘定の借方と損益の貸方に記入する。"},{"id":"a110b","unit":"本支店会計","star":2,"rng":null,"title":"支店の損益の振替(本店)(当期純損失)","q":"決算で、支店は当期純損失 100,000円 を計上し、本店に報告した。本店の仕訳を答えなさい。","dr":[["損益",100000]],"cr":[["支店",100000]],"calc":["支店の損失を本店の損益に取り込む。"],"pt":"損失のときは、利益のときと貸借が逆になる。"},{"id":"b1","unit":"本支店会計","star":2,"rng":null,"title":"商品の送付(本店の仕訳)","q":"本店は支店に商品100,000円(原価)を送付した。本店の仕訳を答えなさい。","dr":[["支店",100000]],"cr":[["仕入",100000]],"calc":["原価で送るので利益はつけない"],"pt":"本店は仕入を減らし、支店に対する貸しを記入する。"},{"id":"b2","unit":"本支店会計","star":2,"rng":null,"title":"商品の受取り(支店の仕訳)","q":"支店は本店から商品100,000円(原価)を受け取った。支店の仕訳を答えなさい。","dr":[["仕入",100000]],"cr":[["本店",100000]],"calc":["本店からの仕入として記入する"],"pt":"支店は仕入を増やし、本店に対する借りを記入する。"},{"id":"b3","unit":"本支店会計","star":1,"rng":null,"title":"本店の費用の立替え(支店の仕訳)","q":"支店は、本店の広告費20,000円を現金で立て替えて支払った。支店の仕訳を答えなさい。","dr":[["本店",20000]],"cr":[["現金",20000]],"calc":["本店の費用なので、支店の費用にはしない"],"pt":"支店の帳簿では、本店に対する貸しとして本店勘定の借方に記入する。"},{"id":"b4","unit":"本支店会計","star":1,"rng":null,"title":"本店集中計算制度(支店の仕訳)","q":"本店集中計算制度を採用している。京都支店は大阪支店に現金50,000円を送った。京都支店の仕訳を答えなさい。","dr":[["本店",50000]],"cr":[["現金",50000]],"calc":["相手を大阪支店ではなく本店にする"],"pt":"本店集中計算制度では、支店どうしの取引も本店との取引として記帳する。"},{"id":"b5","unit":"本支店会計","star":2,"rng":null,"title":"支店の損益の振替(支店の仕訳)","q":"決算で、支店は当期純利益600,000円を本店に報告する。支店の仕訳を答えなさい。","dr":[["損益",600000]],"cr":[["本店",600000]],"calc":["支店の損益勘定を締め切る"],"pt":"支店は利益を本店勘定の貸方に振り替える。本店は(借)支店(貸)損益と記入する。"},{"id":"m1","unit":"費目別計算","star":2,"rng":null,"title":"材料の購入(付随費用あり)","q":"材料1,000kg(1kgあたり500円)を掛けで購入し、引取運賃20,000円を現金で支払った。","dr":[["材料",520000]],"cr":[["買掛金",500000],["現金",20000]],"calc":["取得原価 = 500,000 + 20,000 = 520,000"],"pt":"引取運賃などの付随費用は材料の取得原価に含める。"},{"id":"m2","unit":"費目別計算","star":2,"rng":null,"title":"材料副費の予定配賦","q":"材料2,000kg(1kgあたり300円)を掛けで購入した。材料副費は購入代価の5%を予定配賦している。","dr":[["材料",630000]],"cr":[["買掛金",600000],["材料副費",30000]],"calc":["予定配賦額 = 600,000 × 5% = 30,000"],"pt":"材料副費の予定配賦は、材料の借方と材料副費の貸方。"},{"id":"m3","unit":"費目別計算","star":3,"rng":null,"title":"材料の消費","q":"当月、直接材料400,000円と間接材料50,000円を消費した。","dr":[["仕掛品",400000],["製造間接費",50000]],"cr":[["材料",450000]],"calc":["直接材料は仕掛品、間接材料は製造間接費"],"pt":"製品に直接結びつく材料だけが仕掛品に入る。"},{"id":"m4","unit":"費目別計算","star":2,"rng":null,"title":"予定消費価格による消費","q":"材料800kgを消費した(直接材料700kg、間接材料100kg)。予定消費価格は1kgあたり520円である。","dr":[["仕掛品",364000],["製造間接費",52000]],"cr":[["材料",416000]],"calc":["直接 = 700 × 520 = 364,000","間接 = 100 × 520 = 52,000"],"pt":"予定消費価格を使うと、消費額を早く計算できる。実際との差はあとで差異にする。"},{"id":"m5","unit":"費目別計算","star":2,"rng":null,"title":"材料消費価格差異","q":"材料の予定消費額は416,000円、実際消費額は420,000円だった。差額を材料消費価格差異に振り替える。","dr":[["材料消費価格差異",4000]],"cr":[["材料",4000]],"calc":["416,000 − 420,000 = −4,000(不利)"],"pt":"実際のほうが多いので不利差異。差異は借方に出る。"},{"id":"m6","unit":"費目別計算","star":2,"rng":null,"title":"材料の棚卸減耗","q":"月末に材料の棚卸を行い、帳簿残高と実地棚卸高の差6,000円(正常な範囲)を処理する。","dr":[["製造間接費",6000]],"cr":[["材料",6000]],"calc":["帳簿と実地の差をそのまま計上する"],"pt":"正常な材料の減耗は、間接経費として製造間接費に入れる。"},{"id":"m7","unit":"費目別計算","star":2,"rng":null,"title":"賃金の支払い","q":"当月の賃金の総額1,000,000円から、源泉所得税80,000円と社会保険料60,000円を差し引き、残額を当座預金から支払った。","dr":[["賃金",1000000]],"cr":[["所得税預り金",80000],["社会保険料預り金",60000],["当座預金",860000]],"calc":["支払額 = 1,000,000 − 80,000 − 60,000 = 860,000"],"pt":"賃金の借方は総額。差し引いた分は預り金になる。"},{"id":"m8","unit":"費目別計算","star":3,"rng":null,"title":"賃金の消費(予定賃率)","q":"直接工の作業時間は、直接作業800時間、間接作業50時間、手待時間10時間である。予定賃率は1時間1,200円である。","dr":[["仕掛品",960000],["製造間接費",72000]],"cr":[["賃金",1032000]],"calc":["直接作業 = 800 × 1,200 = 960,000","間接作業と手待時間 = 60 × 1,200 = 72,000"],"pt":"直接工でも、間接作業と手待時間の分は製造間接費になる。"},{"id":"m9","unit":"費目別計算","star":2,"rng":null,"title":"賃率差異","q":"直接工の賃金の予定消費額は1,032,000円、実際消費額は1,050,000円だった。差額を賃率差異に振り替える。","dr":[["賃率差異",18000]],"cr":[["賃金",18000]],"calc":["1,032,000 − 1,050,000 = −18,000(不利)"],"pt":"実際のほうが多いので不利差異。"},{"id":"m10","unit":"費目別計算","star":2,"rng":null,"title":"間接工の賃金の消費","q":"間接工の当月の支払額は400,000円、前月未払額は60,000円、当月未払額は80,000円である。消費額を計上する。","dr":[["製造間接費",420000]],"cr":[["賃金",420000]],"calc":["要支払額 = 400,000 − 60,000 + 80,000 = 420,000"],"pt":"当月に働いた分で計算する。前月未払は引き、当月未払は足す。"},{"id":"m11","unit":"費目別計算","star":2,"rng":null,"title":"外注加工賃(直接経費)","q":"外注加工賃150,000円を当座預金から支払い、直接経費として処理した。経費勘定は使わない。","dr":[["仕掛品",150000]],"cr":[["当座預金",150000]],"calc":["直接経費なので仕掛品に入れる"],"pt":"外注加工賃は特定の製品のための費用なので直接経費。"},{"id":"m12","unit":"費目別計算","star":2,"rng":null,"title":"間接経費(工場の減価償却費)","q":"工場の機械の減価償却費の月割額80,000円を計上する。経費勘定は使わず、間接法で記帳する。","dr":[["製造間接費",80000]],"cr":[["機械減価償却累計額",80000]],"calc":["月割額をそのまま計上する"],"pt":"工場の減価償却費は製造間接費。本社の分は販売費及び一般管理費。"},{"id":"m13","unit":"費目別計算","star":3,"rng":null,"title":"製造間接費の予定配賦","q":"製造間接費を、直接作業時間800時間に予定配賦率1時間1,500円を掛けて予定配賦した。","dr":[["仕掛品",1200000]],"cr":[["製造間接費",1200000]],"calc":["800 × 1,500 = 1,200,000"],"pt":"予定配賦額で仕掛品に入れる。実際発生額との差は配賦差異にする。"},{"id":"m14","unit":"費目別計算","star":3,"rng":null,"title":"製造間接費配賦差異","q":"製造間接費の予定配賦額は1,200,000円、実際発生額は1,230,000円だった。差額を製造間接費配賦差異に振り替える。","dr":[["製造間接費配賦差異",30000]],"cr":[["製造間接費",30000]],"calc":["1,200,000 − 1,230,000 = −30,000(不利)"],"pt":"予定配賦額より実際が多いので不利差異。借方に出る。"},{"id":"m15","unit":"費目別計算","star":2,"rng":null,"title":"配賦差異の売上原価への振替","q":"会計期末に、製造間接費配賦差異の借方残高30,000円(不利差異)を売上原価に振り替える。","dr":[["売上原価",30000]],"cr":[["製造間接費配賦差異",30000]],"calc":["不利差異は売上原価に足す"],"pt":"不利差異は売上原価を増やし、有利差異は売上原価を減らす。"},{"id":"m16","unit":"個別原価計算と部門別","star":2,"rng":null,"title":"部門費の集計","q":"製造間接費1,000,000円を、切削部450,000円、組立部350,000円、修繕部120,000円、動力部80,000円に集計した。","dr":[["切削部門費",450000],["組立部門費",350000],["修繕部門費",120000],["動力部門費",80000]],"cr":[["製造間接費",1000000]],"calc":["450,000 + 350,000 + 120,000 + 80,000 = 1,000,000"],"pt":"部門個別費は直接、部門共通費は配賦基準で各部門に集める。"},{"id":"m17","unit":"個別原価計算と部門別","star":3,"rng":null,"title":"補助部門費の配賦(直接配賦法)","q":"修繕部費120,000円を切削部60%、組立部40%、動力部費80,000円を切削部50%、組立部50%の割合で製造部門に配賦する。直接配賦法による。","dr":[["切削部門費",112000],["組立部門費",88000]],"cr":[["修繕部門費",120000],["動力部門費",80000]],"calc":["切削部 = 120,000 × 60% + 80,000 × 50% = 112,000","組立部 = 120,000 × 40% + 80,000 × 50% = 88,000"],"pt":"直接配賦法では、補助部門どうしの配賦は考えず、製造部門だけに配賦する。"},{"id":"m18","unit":"個別原価計算と部門別","star":2,"rng":null,"title":"製造部門費の予定配賦","q":"製造部門費を予定配賦した。切削部は400時間 × 500円、組立部は300時間 × 400円である。","dr":[["仕掛品",320000]],"cr":[["切削部門費",200000],["組立部門費",120000]],"calc":["切削部 = 400 × 500 = 200,000","組立部 = 300 × 400 = 120,000"],"pt":"部門別の予定配賦率に、実際の作業時間を掛ける。"},{"id":"m19","unit":"個別原価計算と部門別","star":2,"rng":null,"title":"製造部門費配賦差異","q":"切削部門費の予定配賦額は200,000円、実際発生額は205,000円だった。差額を振り替える。","dr":[["製造部門費配賦差異",5000]],"cr":[["切削部門費",5000]],"calc":["200,000 − 205,000 = −5,000(不利)"],"pt":"部門ごとに予定と実際を比べる。実際のほうが多いので不利差異。"},{"id":"m20","unit":"個別原価計算と部門別","star":3,"rng":null,"title":"製造指図書の完成","q":"製造指図書#101が完成した。前月までの原価は150,000円、当月の原価は直接材料費300,000円、直接労務費200,000円、製造間接費300,000円である。","dr":[["製品",950000]],"cr":[["仕掛品",950000]],"calc":["150,000 + 300,000 + 200,000 + 300,000 = 950,000"],"pt":"完成した指図書の原価だけを製品に振り替える。前月までの原価も含める。"},{"id":"m21","unit":"個別原価計算と部門別","star":1,"rng":null,"title":"仕損費の計上","q":"補修指図書に集計した補修の費用30,000円を仕損費とした。","dr":[["仕損費",30000]],"cr":[["仕掛品",30000]],"calc":["補修指図書の原価を仕損費に振り替える"],"pt":"仕損費はその後、元の指図書の原価や製造間接費として処理する。"},{"id":"m22","unit":"個別原価計算と部門別","star":2,"rng":null,"title":"製品の販売","q":"製品(原価950,000円)を1,200,000円で掛け販売した。","dr":[["売掛金",1200000],["売上原価",950000]],"cr":[["売上",1200000],["製品",950000]],"calc":["売上と売上原価を同時に記入する"],"pt":"工業簿記では、販売のつど製品を売上原価に振り替える。"},{"id":"m23","unit":"総合原価計算","star":2,"rng":null,"title":"完成品の振替","q":"単純総合原価計算により、当月の完成品総合原価は521,000円と計算された。","dr":[["製品",521000]],"cr":[["仕掛品",521000]],"calc":["完成品原価を製品に振り替える"],"pt":"月末仕掛品の原価は仕掛品に残る。"},{"id":"m24","unit":"総合原価計算","star":2,"rng":null,"title":"工程別総合原価計算(累加法)","q":"第1工程の完成品800,000円を、すべて第2工程に振り替えた。","dr":[["第2工程仕掛品",800000]],"cr":[["第1工程仕掛品",800000]],"calc":["前工程費として次の工程に引き継ぐ"],"pt":"累加法では、前の工程の完成品原価を次の工程の前工程費にする。"},{"id":"m25","unit":"総合原価計算","star":1,"rng":null,"title":"組別総合原価計算","q":"A組製品600,000円とB組製品400,000円が完成した。","dr":[["A組製品",600000],["B組製品",400000]],"cr":[["A組仕掛品",600000],["B組仕掛品",400000]],"calc":["組ごとに完成品原価を振り替える"],"pt":"組間接費を配賦したあと、組ごとに計算する。"},{"id":"m26","unit":"総合原価計算","star":1,"rng":null,"title":"等級別総合原価計算","q":"完成品原価1,000,000円を、等価係数にもとづいて1級製品600,000円と2級製品400,000円に分けた。","dr":[["1級製品",600000],["2級製品",400000]],"cr":[["仕掛品",1000000]],"calc":["600,000 + 400,000 = 1,000,000"],"pt":"まとめて計算した完成品原価を、等価係数で製品ごとに分ける。"},{"id":"m27","unit":"標準原価計算","star":2,"rng":null,"title":"パーシャル・プランの材料の投入","q":"パーシャル・プランを採用している。当月、材料520,000円(実際)を製造に投入した。","dr":[["仕掛品",520000]],"cr":[["材料",520000]],"calc":["仕掛品の借方は実際原価"],"pt":"パーシャル・プランでは、仕掛品に実際原価を記入し、差異は仕掛品勘定で出る。"},{"id":"m28","unit":"標準原価計算","star":2,"rng":null,"title":"標準原価による完成","q":"製品480個が完成した。標準原価は1個1,000円である。","dr":[["製品",480000]],"cr":[["仕掛品",480000]],"calc":["480 × 1,000 = 480,000"],"pt":"完成品は標準原価で振り替える。"},{"id":"m29","unit":"標準原価計算","star":2,"rng":null,"title":"パーシャル・プランの差異の振替","q":"パーシャル・プランで、仕掛品勘定から材料価格差異10,000円(不利)と材料数量差異5,000円(不利)を振り替えた。","dr":[["材料価格差異",10000],["材料数量差異",5000]],"cr":[["仕掛品",15000]],"calc":["10,000 + 5,000 = 15,000"],"pt":"不利差異は借方に出る。パーシャル・プランでは仕掛品から差異勘定へ振り替える。"},{"id":"m30","unit":"標準原価計算","star":2,"rng":null,"title":"シングル・プランの材料の投入","q":"シングル・プランを採用している。材料の実際消費額は520,000円、標準消費額は500,000円で、材料価格差異15,000円(不利)と材料数量差異5,000円(不利)を消費時に把握する。","dr":[["仕掛品",500000],["材料価格差異",15000],["材料数量差異",5000]],"cr":[["材料",520000]],"calc":["500,000 + 15,000 + 5,000 = 520,000"],"pt":"シングル・プランでは、仕掛品に最初から標準原価で記入する。"},{"id":"m31","unit":"工場会計","star":2,"rng":null,"title":"材料の仕入(工場の仕訳)","q":"工場会計を独立させている。材料300,000円を掛けで仕入れ、引取運賃10,000円を現金で支払った。買掛金と現金は本社の勘定である。工場の仕訳を答えなさい。","dr":[["材料",310000]],"cr":[["本社",310000]],"calc":["300,000 + 10,000 = 310,000"],"pt":"工場の帳簿にない勘定は、すべて「本社」で処理する。"},{"id":"m32","unit":"工場会計","star":1,"rng":null,"title":"賃金の支払い(工場の仕訳)","q":"工場会計を独立させている。工場の従業員の賃金800,000円を、本社が当座預金から支払った。工場の仕訳を答えなさい。","dr":[["賃金",800000]],"cr":[["本社",800000]],"calc":["当座預金は本社の勘定"],"pt":"工場では賃金を記入し、相手を本社にする。"},{"id":"m33","unit":"工場会計","star":2,"rng":null,"title":"製品の発送(工場の仕訳)","q":"工場会計を独立させている。本社の指示で、製品600,000円(原価)を得意先に発送した。売上と売上原価は本社の勘定である。工場の仕訳を答えなさい。","dr":[["本社",600000]],"cr":[["製品",600000]],"calc":["製品は工場の勘定"],"pt":"工場は製品を減らし、相手を本社にする。"},{"id":"m34","unit":"工場会計","star":2,"rng":null,"title":"製品の販売(本社の仕訳)","q":"工場会計を独立させている。工場が得意先に発送した製品(原価600,000円)を800,000円で掛け販売した。売上と売上原価は本社の勘定である。本社の仕訳を答えなさい。","dr":[["売掛金",800000],["売上原価",600000]],"cr":[["売上",800000],["工場",600000]],"calc":["売上原価は工場から受け取った製品の原価"],"pt":"本社は売上と売上原価を記入し、製品の分は工場勘定で処理する。"}],"groups":[["商業簿記",["商品売買と収益認識","債権・債務","有価証券","固定資産","リース","外貨建取引","純資産と合併","引当金","税金と税効果"]],["決算・連結・本支店",["決算整理","連結会計","本支店会計"]],["工業簿記",["費目別計算","個別原価計算と部門別","総合原価計算","標準原価計算","工場会計"]]],"count":{"all":214,"old":208,"new":203}};
+(function () {
+  'use strict';
+  var ITEMS = ZK.items, GROUPS = ZK.groups, KEY = 'boki2-shiwake-zukan-v1';
+  var state = { range: 'old', mode: 'list', unit: 'all', star: false, todo: false, hide: false, q: '', marks: {} };
+  var card = { order: [], i: 0, open: false };
+  try {
+    var s = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (s) { ['range', 'mode', 'unit', 'star', 'todo', 'hide'].forEach(function (k) { if (s[k] !== undefined) state[k] = s[k]; }); state.marks = s.marks || {}; }
+  } catch (e) { /* storage unavailable */ }
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify({ range: state.range, mode: state.mode, unit: state.unit, star: state.star, todo: state.todo, hide: state.hide, marks: state.marks })); } catch (e) { /* storage unavailable */ }
+  }
+  function el(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function fmt(n) { return Number(n).toLocaleString('ja-JP'); }
+  function stars(n) { return '★★★'.slice(0, n) + '<span class="st-off">' + '★★★'.slice(n) + '</span>'; }
+
+  function inRange(it) { return !it.rng || it.rng === state.range; }
+  function base() { return ITEMS.filter(inRange); }
+  function filtered() {
+    var q = state.q.trim();
+    return base().filter(function (it) {
+      if (state.unit !== 'all' && it.unit !== state.unit) return false;
+      if (state.star && it.star < 3) return false;
+      if (state.todo && state.marks[it.id] === 'ok') return false;
+      if (q) {
+        var text = it.title + it.q + it.unit + it.dr.concat(it.cr).map(function (l) { return l[0]; }).join(' ');
+        if (text.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+  }
+  function entryHtml(it) {
+    function side(lines, tag) {
+      return '<div class="j-side">' + lines.map(function (l, k) {
+        return '<div class="j-line"><span class="j-tag">' + (k === 0 ? '(' + tag + ')' : '') + '</span><span class="j-acct">' + esc(l[0]) + '</span><span class="j-amt">' + fmt(l[1]) + '</span></div>';
+      }).join('') + '</div>';
+    }
+    return '<div class="sol"><div class="j-body">' + side(it.dr, '借') + side(it.cr, '貸') + '</div></div>';
+  }
+  function explainHtml(it) {
+    return '<div class="ex"><div class="ex-k">計算</div><ul>' + it.calc.map(function (c) { return '<li>' + esc(c) + '</li>'; }).join('') + '</ul>' +
+      '<div class="ex-k">ポイント</div><p>' + esc(it.pt) + '</p></div>';
+  }
+  function markBtns(it) {
+    var m = state.marks[it.id];
+    return '<div class="marks"><button type="button" class="mk-btn ok" data-mark="ok" data-id="' + it.id + '" aria-pressed="' + (m === 'ok') + '">できた</button>' +
+      '<button type="button" class="mk-btn ng" data-mark="ng" data-id="' + it.id + '" aria-pressed="' + (m === 'ng') + '">まだ</button></div>';
+  }
+  function tagHtml(it) {
+    return '<span class="tag">' + esc(it.unit) + '</span>' + (it.rng ? '<span class="tag rng">' + (it.rng === 'old' ? '2027年3月まで' : '2027年4月から') + '</span>' : '');
+  }
+
+  function renderControls() {
+    el('rangeChips').innerHTML = '<span class="range-l">受験時期</span>' + [['old', '2027年3月まで'], ['new', '2027年4月から']].map(function (r) {
+      return '<button type="button" class="chip" data-range="' + r[0] + '" aria-pressed="' + (r[0] === state.range) + '">' + r[1] + '</button>';
+    }).join('');
+    el('modeSeg').innerHTML = [['list', '一覧で見る'], ['card', 'カードで確認']].map(function (m) {
+      return '<button type="button" data-mode="' + m[0] + '" aria-pressed="' + (m[0] === state.mode) + '">' + m[1] + '</button>';
+    }).join('');
+    var n = base();
+    el('unitChips').innerHTML = '<div class="u-row"><button type="button" class="chip" data-unit="all" aria-pressed="' + (state.unit === 'all') + '">すべて(' + n.length + ')</button></div>' +
+      GROUPS.map(function (g) {
+        return '<div class="u-row"><span class="u-l">' + g[0] + '</span>' + g[1].map(function (u) {
+          var c = n.filter(function (it) { return it.unit === u; }).length;
+          return '<button type="button" class="chip" data-unit="' + esc(u) + '" aria-pressed="' + (state.unit === u) + '">' + esc(u) + '(' + c + ')</button>';
+        }).join('') + '</div>';
+      }).join('');
+    el('optChips').innerHTML = [['star', '★★★だけ'], ['todo', '「できた」以外だけ'], ['hide', '仕訳を隠す']].map(function (o) {
+      if (o[0] === 'hide' && state.mode !== 'list') return '';
+      return '<button type="button" class="chip" data-opt="' + o[0] + '" aria-pressed="' + state[o[0]] + '">' + o[1] + '</button>';
+    }).join('');
+  }
+  function renderScore() {
+    var b = base(), ok = b.filter(function (it) { return state.marks[it.id] === 'ok'; }).length;
+    el('okN').textContent = ok; el('allN').textContent = b.length;
+    el('bar').style.width = (b.length ? ok / b.length * 100 : 0) + '%';
+  }
+  function renderList() {
+    var list = filtered(), h = '', cur = '';
+    el('count').textContent = list.length + '種類を表示中';
+    if (!list.length) { el('view').innerHTML = '<p class="empty">条件に合う仕訳がありません。</p>'; return; }
+    list.forEach(function (it) {
+      if (it.unit !== cur) { cur = it.unit; h += '<h2 class="unit-h">' + esc(cur) + '</h2>'; }
+      h += '<article class="paper item" id="it-' + it.id + '"><div class="it-head"><span class="stars" aria-label="頻出度' + it.star + '">' + stars(it.star) + '</span><h3>' + esc(it.title) + '</h3></div>' +
+        '<div class="tags">' + tagHtml(it) + '</div><p class="q">' + esc(it.q) + '</p>' +
+        (state.hide ? '<button type="button" class="btn btn-ghost reveal" data-reveal="' + it.id + '">仕訳を見る</button><div class="ans" id="ans-' + it.id + '" hidden>' : '<div class="ans">') +
+        entryHtml(it) + explainHtml(it) + '</div>' + markBtns(it) + '</article>';
+    });
+    el('view').innerHTML = h;
+  }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var x = a[i]; a[i] = a[j]; a[j] = x; }
+    return a;
+  }
+  function newDeck() {
+    card.order = shuffle(filtered().map(function (it) { return it.id; }));
+    card.i = 0; card.open = false;
+  }
+  function renderCard() {
+    var total = card.order.length;
+    el('count').textContent = total + '種類から出題中';
+    if (!total) { el('view').innerHTML = '<p class="empty">条件に合う仕訳がありません。</p>'; return; }
+    if (card.i >= total) {
+      el('view').innerHTML = '<section class="paper card-end"><p class="big">' + total + '種類をひと通り確認しました。</p><p>「できた」以外だけを選ぶと、まだ自信のない仕訳だけを繰り返せます。</p>' +
+        '<div class="actions"><button type="button" class="btn btn-primary" data-act="again">もう一度シャッフル</button></div></section>';
+      return;
+    }
+    var it = ITEMS.filter(function (x) { return x.id === card.order[card.i]; })[0];
+    el('view').innerHTML = '<section class="paper item card"><div class="card-pos">' + (card.i + 1) + ' / ' + total + '</div>' +
+      '<div class="it-head"><span class="stars">' + stars(it.star) + '</span><h3>' + esc(it.title) + '</h3></div><div class="tags">' + tagHtml(it) + '</div>' +
+      '<p class="q">' + esc(it.q) + '</p>' +
+      (card.open ? entryHtml(it) + explainHtml(it) + '<p class="ask">思い浮かべた仕訳と合っていましたか?</p>' + markBtns(it) +
+        '<div class="actions"><button type="button" class="btn btn-primary" data-act="next">次へ</button></div>'
+        : '<p class="ask">頭の中で仕訳を考えてから、答えを見ましょう。</p><div class="actions"><button type="button" class="btn btn-primary" data-act="open">答えを見る</button><button type="button" class="btn btn-quiet" data-act="next">とばす</button></div>') +
+      '</section>';
+  }
+  function render(resetDeck) {
+    renderControls();
+    renderScore();
+    if (state.mode === 'list') renderList();
+    else { if (resetDeck) newDeck(); renderCard(); }
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('button') : null;
+    if (!t) return;
+    var d = t.dataset;
+    if (d.range) { state.range = d.range; save(); render(true); return; }
+    if (d.mode) { state.mode = d.mode; save(); render(true); return; }
+    if (d.unit) { state.unit = d.unit; save(); render(true); return; }
+    if (d.opt) { state[d.opt] = !state[d.opt]; save(); render(true); return; }
+    if (d.reveal) { var a = el('ans-' + d.reveal); a.hidden = false; t.remove(); return; }
+    if (d.mark) {
+      state.marks[d.id] = state.marks[d.id] === d.mark ? undefined : d.mark;
+      if (!state.marks[d.id]) delete state.marks[d.id];
+      save(); renderScore();
+      Array.prototype.forEach.call(document.querySelectorAll('.mk-btn[data-id="' + d.id + '"]'), function (b) { b.setAttribute('aria-pressed', String(state.marks[d.id] === b.dataset.mark)); });
+      if (state.mode === 'card') { card.i++; card.open = false; renderCard(); }
+      return;
+    }
+    if (d.act === 'open') { card.open = true; renderCard(); return; }
+    if (d.act === 'next') { card.i++; card.open = false; renderCard(); return; }
+    if (d.act === 'again') { newDeck(); renderCard(); return; }
+    if (d.act === 'reset') {
+      if (window.confirm('「できた」「まだ」の記録をすべて消します。よろしいですか?')) { state.marks = {}; save(); render(true); }
+    }
+  });
+  el('search').addEventListener('input', function () { state.q = el('search').value; if (state.mode === 'list') { renderList(); } else { newDeck(); renderCard(); } });
+  render(true);
+})();
+</script>
+</body>
+</html>
