@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記3級 試験直前チェック</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #101b2d;
+    color: #f6f1e6;
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px 120px;
+  }
+  body.calc-open { padding-bottom: 480px; }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  a { color: #d4a24c; }
+  .hint { font-size: 12px; color: #8b93a1; }
+
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; }
+  .toc a { text-decoration: none; font-size: 13px; font-weight: 700; color: #d4a24c; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.5); }
+  .toc a:hover { background: rgba(212,162,76,0.15); }
+
+  .chapter { padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px; background: rgba(255,255,255,0.03); min-width: 0; }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+
+  /* カウントダウン */
+  .count { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 14px; }
+  .count-num { font-size: 52px; font-weight: 700; color: #d4a24c; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .count-unit { font-size: 18px; font-weight: 700; }
+
+  /* チェックリスト */
+  .check { display: flex; gap: 12px; align-items: flex-start; padding: 12px 0; border-bottom: 1px dashed rgba(199,192,176,0.25); }
+  .check:last-child { border-bottom: none; }
+  .check input { width: 22px; height: 22px; margin-top: 3px; accent-color: #d4a24c; flex: none; cursor: pointer; }
+  .check label { cursor: pointer; flex: 1; }
+  .check b { display: block; font-size: 15px; }
+  .check span { display: block; font-size: 14px; color: #c7c0b0; line-height: 1.8; }
+  .check.done b { text-decoration: line-through; color: #8b93a1; }
+  .meter { height: 8px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; margin-top: 8px; }
+  .meter i { display: block; height: 100%; width: 0; background: #d4a24c; transition: width .2s; }
+
+  button { font-family: inherit; }
+  .btn { cursor: pointer; border-radius: 999px; padding: 9px 18px; font-size: 14px; font-weight: 700; border: 1px solid #d4a24c; background: transparent; color: #d4a24c; }
+  .btn.primary { background: #d4a24c; color: #101b2d; border: none; }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+  /* 仕訳ドリル */
+  .je { padding: 18px 0; border-top: 1px solid rgba(212,162,76,0.25); }
+  .je:first-of-type { border-top: none; }
+  .je-no { font-size: 13px; font-weight: 700; color: #d4a24c; }
+  .je-q { font-size: 16px; line-height: 1.9; margin: 4px 0 12px; }
+  .jgrid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+  .jside { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+  .jside-title { font-size: 14px; color: #c7c0b0; }
+  .jrow { display: flex; gap: 8px; }
+  select, input[type=text] { padding: 10px 12px; font-size: 16px; border-radius: 8px; border: 1px solid rgba(212,162,76,0.4); background: #0e1726; color: #f6f1e6; font-family: inherit; }
+  .jrow select { flex: 1.5; min-width: 0; width: 0; padding-left: 8px; padding-right: 4px; }
+  .jrow input { flex: 1; min-width: 0; width: 0; text-align: right; }
+  select:focus, input:focus { outline: none; border-color: #d4a24c; box-shadow: 0 0 0 2px rgba(212,162,76,0.3); }
+  .is-ok { border-color: #1d9e75 !important; background: rgba(29,158,117,0.12) !important; }
+  .is-ng { border-color: #d85a30 !important; background: rgba(216,90,48,0.12) !important; }
+  .je .row { margin-top: 10px; }
+  .je-res { margin-top: 10px; padding: 12px 14px; border-radius: 10px; font-size: 14px; line-height: 1.8; display: none; }
+  .je-res.show { display: block; }
+  .je-res.ok { border: 1px solid #1d9e75; background: rgba(29,158,117,0.08); }
+  .je-res.ng { border: 1px solid #d85a30; background: rgba(216,90,48,0.08); }
+  .je-res b.v { font-size: 16px; display: block; margin-bottom: 4px; }
+  .je-res.ok b.v { color: #5dcaa5; } .je-res.ng b.v { color: #f0997b; }
+  pre.entry { margin: 8px 0; padding: 10px 14px; border-radius: 8px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.8; color: #f6f1e6; font-family: 'Noto Sans JP', monospace; white-space: pre-wrap; }
+
+  /* ○×(正しい文/ここがポイント/ひっかけ例/なぜ?/覚えるポイント/仕訳で確認/根拠) */
+  .score { font-size: 14px; color: #c7c0b0; }
+  .score b { color: #d4a24c; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .qi { padding: 16px 0; border-top: 1px solid rgba(212,162,76,0.25); display: grid; gap: 10px; }
+  .qi:first-child { border-top: none; }
+  .qi-top { display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: start; }
+  .qno { font-weight: 700; font-size: 14px; padding: 3px 10px; border-radius: 8px; color: #fff; background: #8b6fe0; white-space: nowrap; }
+  .qcat { display: inline-block; font-size: 12px; font-weight: 700; color: #c7c0b0; background: rgba(199,192,176,0.12); border-radius: 999px; padding: 1px 12px; margin-bottom: 4px; }
+  .qi-top p { font-weight: 700; font-size: 16px; line-height: 1.75; margin: 0; color: #f6f1e6; }
+  .qbtns { display: flex; gap: 10px; }
+  .ox { cursor: pointer; font-weight: 700; width: 110px; height: 54px; font-size: 26px; border-radius: 14px; border: 2px solid; }
+  .ox.o { background: rgba(91,141,239,0.14); border-color: rgba(91,141,239,0.5); color: #9dbbff; }
+  .ox.x { background: rgba(232,93,141,0.12); border-color: rgba(232,93,141,0.5); color: #ff9cc0; }
+  .ox:disabled { cursor: default; }
+  .ox.pick-ok { background: #1d9e75; border-color: #1d9e75; color: #fff; }
+  .ox.pick-ng { background: #d85a30; border-color: #d85a30; color: #fff; }
+  .ox.answer { border-color: #5dcaa5; border-width: 3px; }
+  .res { padding: 14px 16px; border-radius: 14px; font-size: 15px; line-height: 1.8; }
+  .res.ok { background: rgba(29,158,117,0.1); } .res.ng { background: rgba(216,90,48,0.1); }
+  .res .verdict { display: block; font-size: 18px; margin-bottom: 6px; font-weight: 700; }
+  .res.ok .verdict { color: #5dcaa5; } .res.ng .verdict { color: #f0997b; }
+  .ttag { display: inline-block; font-size: 12.5px; font-weight: 700; color: #fff; border-radius: 999px; padding: 2px 12px; }
+  .ttag.ok { background: #4f7fe0; } .ttag.ng { background: #d6517f; }
+  .dt-blk { margin-top: 12px; }
+  .dt-lbl { display: inline-block; font-size: 12.5px; font-weight: 700; color: #fff; border-radius: 6px; padding: 2px 10px; margin-bottom: 5px; }
+  .c-purple { background: #8b6fe0; } .c-pink { background: #d6517f; } .c-blue { background: #4f7fe0; } .c-orange { background: #d98a2b; } .c-green { background: #2f9e6e; }
+  .dt-stmt, .dt-fix, .dt-trapex { background: #0e1726; border-radius: 10px; padding: 9px 14px; line-height: 1.85; color: #f6f1e6; }
+  .dt-stmt { border-left: 4px solid #8b6fe0; } .dt-fix { border-left: 4px solid #2f9e6e; } .dt-trapex { border-left: 4px solid #d6517f; }
+  .dt-txt { color: #e8e3d8; line-height: 1.8; }
+  .trap-w { background: rgba(214,81,127,0.18); color: #ff9cc0; font-weight: 700; text-decoration: underline wavy #d6517f; text-underline-offset: 4px; padding: 0 2px; border-radius: 4px; }
+  .ok-word { background: rgba(47,158,110,0.2); color: #7fe0b2; font-weight: 700; padding: 0 3px; border-radius: 4px; }
+  .je-box { padding: 12px 16px; border-radius: 12px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.85; }
+  .je-cm { color: #9aa5b1; }
+  .ej-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .je-d, .je-c { display: flex; justify-content: space-between; gap: 10px; }
+  .je-d { color: #8fb5ff; } .je-c { color: #ffb37a; }
+  .je-d b, .je-c b { font-variant-numeric: tabular-nums; }
+  .je-d i, .je-c i { font-style: normal; }
+  .dt-src { margin-top: 12px; font-size: 12.5px; color: #8b93a1; }
+
+  /* 時間配分タイマー */
+  .tm-clock { font-size: 46px; font-weight: 700; color: #d4a24c; font-variant-numeric: tabular-nums; }
+  .tm-now { font-size: 16px; font-weight: 700; }
+  .tm-bar { display: flex; height: 44px; border-radius: 10px; overflow: hidden; margin: 12px 0 6px; border: 1px solid rgba(255,255,255,0.12); }
+  .tm-seg { display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; color: #101b2d; position: relative; min-width: 0; text-align: center; line-height: 1.2; }
+  .tm-seg.cur { outline: 3px solid #fff; outline-offset: -3px; }
+  .tm-fill { position: absolute; left: 0; top: 0; bottom: 0; background: rgba(16,27,45,0.45); pointer-events: none; }
+  .tm-seg span { position: relative; }
+
+  .footer-note { font-size: 12px; color: #6b7688; text-align: center; margin-top: 8px; line-height: 1.7; }
+
+  /* 電卓 */
+  .calc-fab { position: fixed; right: 16px; bottom: 16px; z-index: 20; cursor: pointer; padding: 13px 22px; border-radius: 999px; border: none; font-size: 15px; font-weight: 700; background: #d4a24c; color: #101b2d; box-shadow: 0 6px 18px rgba(0,0,0,0.45); }
+  .calc { position: fixed; right: 16px; bottom: 16px; z-index: 20; width: 300px; max-height: calc(100vh - 32px); overflow-y: auto; display: none; flex-direction: column; gap: 8px; padding: 12px; border-radius: 14px; border: 1px solid #d4a24c; background: #0e1726; box-shadow: 0 10px 28px rgba(0,0,0,0.55); }
+  .calc.show { display: flex; }
+  .calc-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: #d4a24c; }
+  .calc-close { cursor: pointer; background: none; border: none; color: #c7c0b0; font-size: 13px; font-weight: 700; padding: 6px 4px; }
+  .calc-screen { padding: 8px 12px; border-radius: 8px; background: #0b1320; text-align: right; min-height: 62px; }
+  .calc-expr { font-size: 13px; color: #9aa5b1; word-break: break-all; min-height: 18px; }
+  .calc-res { font-size: 24px; font-weight: 700; color: #f6f1e6; word-break: break-all; font-variant-numeric: tabular-nums; }
+  .calc-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .calc-keys button { cursor: pointer; height: 44px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.14); background: #182538; color: #f6f1e6; font-size: 17px; font-weight: 700; }
+  .calc-keys button.op { background: rgba(212,162,76,0.2); color: #fac775; }
+  .calc-keys button.eq { background: #d4a24c; color: #101b2d; }
+  .calc-msg { font-size: 12px; color: #f0997b; min-height: 16px; }
+
+  @media (max-width: 600px) {
+    .jgrid { grid-template-columns: minmax(0, 1fr); }
+    .jrow select { flex: 2; }
+  }
+  @media (max-width: 560px) {
+    .ej-row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+    .ox { width: 96px; height: 50px; }
+  }
+  @media (max-width: 520px) {
+    .chapter { padding: 18px 14px; }
+    h1 { font-size: 22px; }
+    .count-num { font-size: 44px; }
+    .calc { left: 0; right: 0; bottom: 0; width: auto; max-height: 62vh; border-radius: 14px 14px 0 0; }
+    .calc-keys button { height: 40px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .meter i { transition: none; } }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="unit-nav">
+    <a href="boki3-half-moshi.html">← 本番形式ハーフ模試</a>
+    <a href="boki3-shiwake-moshi.html">第1問 仕訳15問 →</a>
+  </div>
+
+  <div>
+    <div class="kicker">BOOKKEEPING LV.3 試験直前</div>
+    <h1>簿記3級 試験直前チェック</h1>
+  </div>
+
+  <section class="chapter">
+    <div class="chapter-no">COUNTDOWN</div>
+    <div id="countArea"></div>
+    <p class="hint">11月15日(日)の第174回統一試験に向けたページです。試験の日程や持ち物の決まりは、受験票と商工会議所の案内で必ず確認してください。</p>
+  </section>
+
+  <nav class="toc">
+    <a href="#days">5日間のチェック</a>
+    <a href="#tegata">手形・小切手</a>
+    <a href="#ox">ひっかけ○×</a>
+    <a href="#timer">時間配分タイマー</a>
+    <a href="#items">持ち物</a>
+  </nav>
+
+  <section class="chapter" id="days">
+    <div class="chapter-no">STEP 1</div>
+    <h2>直前5日間のチェック</h2>
+    <p>1日1テーマです。終わったらチェックを付けましょう。チェックは、この端末のブラウザに保存されます。</p>
+    <div id="dayList"></div>
+    <div class="meter" aria-hidden="true"><i id="dayMeter"></i></div>
+    <p class="hint" id="dayCount"></p>
+  </section>
+
+  <section class="chapter" id="tegata">
+    <div class="chapter-no">STEP 2</div>
+    <h2>手形・小切手の仕訳 7問</h2>
+    <p>11月の試験は今までの範囲なので、手形と小切手も出題されます。科目を選んで金額を入れ、「答え合わせ」を押してください。</p>
+    <div class="row"><button class="btn" id="jeShuffle" type="button">数字を変えてもう一度</button><span class="score" id="jeScore"></span></div>
+    <div id="jeArea"></div>
+  </section>
+
+  <section class="chapter" id="ox">
+    <div class="chapter-no">STEP 3</div>
+    <h2>ひっかけ○×13問</h2>
+    <p>本番で間違えやすいところを、○×で確認します。答えると、ポイント、ひっかけ例、仕訳つきの解説が出ます。</p>
+    <div class="row"><span class="score">正解 <b id="oxOk">0</b> / 回答 <b id="oxDone">0</b> / 全13問</span><button class="btn" id="oxReset" type="button">順番を変えて解き直す</button></div>
+    <div id="oxList"></div>
+  </section>
+
+  <section class="chapter" id="timer">
+    <div class="chapter-no">STEP 4</div>
+    <h2>本番60分の時間配分タイマー</h2>
+    <p>前日のハーフ模試や、過去問を通しで解くときに使えます。いま解く大問と、その残り時間を表示します。時間配分は私のおすすめで、公式の基準ではありません。</p>
+    <div class="row"><span class="tm-clock" id="tmClock">60:00</span><span class="tm-now" id="tmNow">開始を押してください</span></div>
+    <div class="tm-bar" id="tmBar"></div>
+    <p class="hint">第1問 17分 → 第3問 28分 → 第2問 12分 → 見直し 3分(合計60分)</p>
+    <div class="row"><button class="btn primary" id="tmStart" type="button">開始</button><button class="btn" id="tmReset" type="button">リセット</button></div>
+  </section>
+
+  <section class="chapter" id="items">
+    <div class="chapter-no">STEP 5</div>
+    <h2>当日の持ち物</h2>
+    <div id="itemList"></div>
+    <p class="hint">使える電卓や持ち物の細かい決まりは、受験する商工会議所の案内によって違うことがあります。受験票と商工会議所の案内で確認してください。</p>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">PRACTICE</div>
+    <h2>練習ページ</h2>
+    <ul>
+      <li><a href="boki3-shiwake-moshi.html">第1問 仕訳15問(ランダム出題つき)</a></li>
+      <li><a href="boki3-dai2-moshi.html">第2問 4回分(勘定記入・帳簿・伝票・語句)</a></li>
+      <li><a href="boki3-dai3-moshi.html">第3問 3回分(財務諸表・精算表・決算整理後残高試算表)</a></li>
+      <li><a href="boki3-half-moshi.html">本番形式ハーフ模試(30分)</a></li>
+    </ul>
+    <p class="hint">これらの練習ページは、2027年4月以降の試験でも使えるように、手形と小切手を問題に入れていません。手形と小切手は、このページのSTEP 2で確認してください。</p>
+  </section>
+
+  <div class="footer-note">問題文と数字はオリジナルです。試験の形式や範囲は変わることがあるので、受験前に日本商工会議所の公式サイトで最新情報を確認してください。</div>
+</div>
+
+<button class="calc-fab" id="calcFab" type="button">電卓</button>
+<div class="calc" id="calc" role="dialog" aria-label="電卓">
+  <div class="calc-head"><span>電卓</span><button class="calc-close" id="calcClose" type="button">閉じる ✕</button></div>
+  <div class="calc-screen"><div class="calc-expr" id="calcExpr"></div><div class="calc-res" id="calcRes">0</div></div>
+  <div class="calc-keys" id="calcKeys"></div>
+  <div class="calc-msg" id="calcMsg"></div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var STORE = 'boki3-chokuzen-v1';
+  var EXAM = new Date(2026, 10, 15);
+  var NEXT = '2027年2月28日(日)';
+
+  function fmt(n) { return (n < 0 ? '−' : '') + Math.abs(n).toLocaleString('ja-JP'); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function parseNum(s) {
+    s = String(s).replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); })
+      .replace(/[,，円\s]/g, '').replace(/^[−ー－]/, '-');
+    if (!/^-?\d+$/.test(s)) return null;
+    return parseInt(s, 10);
+  }
+  function rr(min, max, step) { return min + Math.floor(Math.random() * (Math.floor((max - min) / step) + 1)) * step; }
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+
+  // ===== 保存 =====
+  var state = { days: {}, items: {} };
+  try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) state = s; } catch (e) {}
+  function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+
+  // ===== カウントダウン =====
+  (function () {
+    var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var d = Math.round((EXAM - today) / 86400000), h;
+    if (d > 0) h = '<div class="count"><span class="count-unit">11月15日(日)の試験まで あと</span><span class="count-num">' + d + '</span><span class="count-unit">日</span></div>';
+    else if (d === 0) h = '<div class="count"><span class="count-num">今日</span><span class="count-unit">が試験日です。落ち着いて、いつもどおりに。</span></div>';
+    else h = '<div class="count"><span class="count-unit">11月15日の統一試験は終わりました。おつかれさまでした。</span></div><p>次の統一試験は' + NEXT + 'の予定です(3級・2級)。このページの○×と仕訳は、復習にもそのまま使えます。</p>';
+    $('countArea').innerHTML = h;
+  })();
+
+  // ===== 5日間のチェック =====
+  var DAYS = [
+    { k: 'd5', t: '5日前:第1問の仕訳を15問解く', s: '本番と同じ15問を20分で解き、間違えた問題の単元を確認する。', u: 'boki3-shiwake-moshi.html', l: '第1問 仕訳15問' },
+    { k: 'd4', t: '4日前:第1問をもう一度+手形と小切手', s: '「ランダム15問」で数字の変わった問題を解き、このページのSTEP 2で手形と小切手を確認する。', u: '#tegata', l: '手形・小切手の仕訳' },
+    { k: 'd3', t: '3日前:第2問', s: '勘定記入、商品有高帳、補助簿、伝票のうち、苦手な形式を解く。', u: 'boki3-dai2-moshi.html', l: '第2問 4回分' },
+    { k: 'd2', t: '2日前:第3問', s: '財務諸表、精算表、決算整理後残高試算表のうち、出たら困る形式を1つ解く。', u: 'boki3-dai3-moshi.html', l: '第3問 3回分' },
+    { k: 'd1', t: '前日:ハーフ模試で通し練習', s: '時間配分タイマーを使って通しで解き、このページのひっかけ○×を見直して、早めに寝る。', u: 'boki3-half-moshi.html', l: 'ハーフ模試' }
+  ];
+  function checkList(list, area, bucket, after) {
+    $(area).innerHTML = list.map(function (x) {
+      return '<div class="check' + (state[bucket][x.k] ? ' done' : '') + '"><input type="checkbox" id="c_' + x.k + '"' + (state[bucket][x.k] ? ' checked' : '') + '><label for="c_' + x.k + '"><b>' + x.t + '</b>' +
+        (x.s ? '<span>' + x.s + (x.u ? ' <a href="' + x.u + '">' + x.l + ' →</a>' : '') + '</span>' : '') + '</label></div>';
+    }).join('');
+    list.forEach(function (x) {
+      $('c_' + x.k).addEventListener('change', function (e) {
+        state[bucket][x.k] = e.target.checked;
+        e.target.parentNode.classList.toggle('done', e.target.checked);
+        save();
+        if (after) after();
+      });
+    });
+    if (after) after();
+  }
+  checkList(DAYS, 'dayList', 'days', function () {
+    var n = DAYS.filter(function (x) { return state.days[x.k]; }).length;
+    $('dayMeter').style.width = (n / DAYS.length * 100) + '%';
+    $('dayCount').textContent = n + ' / ' + DAYS.length + ' 完了' + (n === DAYS.length ? '。準備は万全です。' : '');
+  });
+  checkList([
+    { k: 'i1', t: '受験票' }, { k: 'i2', t: '写真付きの身分証明書' }, { k: 'i3', t: '電卓(使い慣れたもの)' },
+    { k: 'i4', t: '筆記用具(鉛筆かシャープペンシル、消しゴム)' }, { k: 'i5', t: '腕時計(席から時計が見えにくいことがある)' }, { k: 'i6', t: '会場の場所と行き方を確認した' }
+  ], 'itemList', 'items');
+
+  // ===== 手形・小切手の仕訳 =====
+  var ACC = ['現金', '当座預金', '受取手形', '支払手形', '売掛金', '買掛金', '手形貸付金', '手形借入金'];
+  var JE = [
+    function (a) { return { q: '売掛金' + fmt(a) + '円の回収として、得意先振出の約束手形を受け取った。', dr: [['受取手形', a]], cr: [['売掛金', a]], w: '受け取った約束手形は「受取手形」(資産)です。' }; },
+    function (a) { return { q: '買掛金' + fmt(a) + '円の支払いのため、約束手形を振り出した。', dr: [['買掛金', a]], cr: [['支払手形', a]], w: '振り出した約束手形は「支払手形」(負債)です。' }; },
+    function (a) { return { q: '受取手形' + fmt(a) + '円が期日になり、当座預金口座に入金された。', dr: [['当座預金', a]], cr: [['受取手形', a]], w: '手形の代金が入ったので、受取手形を減らします。' }; },
+    function (a) { return { q: '銀行から' + fmt(a) + '円を借り入れ、約束手形を振り出した。代金は当座預金口座に入金された。', dr: [['当座預金', a]], cr: [['手形借入金', a]], w: 'お金の貸し借りに使った手形は「手形借入金」です。支払手形ではありません。' }; },
+    function (a) { return { q: '売掛金' + fmt(a) + '円の回収として、得意先振出の小切手を受け取った。', dr: [['現金', a]], cr: [['売掛金', a]], w: '他人が振り出した小切手は、すぐ換金できるので「現金」です。当座預金ではありません。' }; },
+    function (a) { return { q: '買掛金' + fmt(a) + '円の支払いのため、小切手を振り出した。', dr: [['買掛金', a]], cr: [['当座預金', a]], w: '小切手を振り出すと、当座預金から支払われるので「当座預金」を減らします。' }; },
+    function (a) { return { q: '売掛金' + fmt(a) + '円の回収として、当社が以前に振り出した小切手を受け取った。', dr: [['当座預金', a]], cr: [['売掛金', a]], w: '自分が振り出した小切手が戻ってきたら、振り出したときに減らした「当座預金」を元に戻します。' }; }
+  ];
+  var BASE_AMT = [50000, 80000, 50000, 300000, 30000, 40000, 20000];
+  var jeOk = {};
+  function renderJE(amts) {
+    jeOk = {};
+    var opts = '<option value="">科目を選ぶ</option>' + ACC.map(function (o) { return '<option>' + o + '</option>'; }).join('');
+    $('jeArea').innerHTML = JE.map(function (fn, i) {
+      var q = fn(amts[i]);
+      function side(k, name) {
+        var h = '';
+        for (var r = 0; r < 2; r++) h += '<div class="jrow"><select id="j' + i + k + 'A' + r + '" aria-label="問' + (i + 1) + ' ' + name + '科目' + (r + 1) + '">' + opts + '</select><input type="text" id="j' + i + k + 'M' + r + '" class="amt" inputmode="numeric" autocomplete="off" placeholder="金額" aria-label="問' + (i + 1) + ' ' + name + '金額' + (r + 1) + '"></div>';
+        return '<div class="jside"><div class="jside-title">' + name + '</div>' + h + '</div>';
+      }
+      return '<div class="je" data-i="' + i + '"><div class="je-no">問' + (i + 1) + '</div><p class="je-q">' + q.q + '</p><div class="jgrid">' + side('d', '借方') + side('c', '貸方') + '</div>' +
+        '<div class="row"><button class="btn primary" type="button" data-check="' + i + '">答え合わせ</button></div><div class="je-res" id="jr' + i + '"></div></div>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('[data-check]'), function (b) {
+      b.addEventListener('click', function () { checkJE(Number(b.getAttribute('data-check')), amts); });
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('#jeArea .amt'), function (x) {
+      x.addEventListener('blur', function () { var n = parseNum(x.value); if (n !== null && x.value.trim()) x.value = fmt(n); });
+    });
+    updateJEScore();
+  }
+  function rowsOf(i, k) {
+    var out = [];
+    for (var r = 0; r < 2; r++) {
+      var a = $('j' + i + k + 'A' + r).value, m = $('j' + i + k + 'M' + r).value.trim();
+      if (a || m) out.push({ r: r, a: a, m: parseNum(m) });
+    }
+    return out;
+  }
+  function same(rows, ans) {
+    var x = rows.map(function (e) { return e.a + ':' + e.m; }).sort().join('|');
+    var y = ans.map(function (e) { return e[0] + ':' + e[1]; }).sort().join('|');
+    return x === y;
+  }
+  function checkJE(i, amts) {
+    var q = JE[i](amts[i]), dr = rowsOf(i, 'd'), cr = rowsOf(i, 'c'), ok = same(dr, q.dr) && same(cr, q.cr);
+    [['d', dr, q.dr], ['c', cr, q.cr]].forEach(function (s) {
+      for (var r = 0; r < 2; r++) { $('j' + i + s[0] + 'A' + r).classList.remove('is-ok', 'is-ng'); $('j' + i + s[0] + 'M' + r).classList.remove('is-ok', 'is-ng'); }
+      s[1].forEach(function (e) {
+        var hit = s[2].some(function (x) { return x[0] === e.a && x[1] === e.m; });
+        $('j' + i + s[0] + 'A' + e.r).classList.add(hit ? 'is-ok' : 'is-ng');
+        $('j' + i + s[0] + 'M' + e.r).classList.add(hit ? 'is-ok' : 'is-ng');
+      });
+    });
+    jeOk[i] = ok;
+    var res = $('jr' + i);
+    res.className = 'je-res show ' + (ok ? 'ok' : 'ng');
+    res.innerHTML = '<b class="v">' + (ok ? '○ 正解' : '× もう一度確認') + '</b><pre class="entry">' + q.dr.map(function (e) { return '(借)' + e[0] + ' ' + fmt(e[1]); }).concat(q.cr.map(function (e) { return '(貸)' + e[0] + ' ' + fmt(e[1]); })).join('\n') + '</pre>' + q.w;
+    updateJEScore();
+  }
+  function updateJEScore() {
+    var n = Object.keys(jeOk).length, ok = Object.keys(jeOk).filter(function (k) { return jeOk[k]; }).length;
+    $('jeScore').innerHTML = '正解 <b>' + ok + '</b> / 答え合わせ <b>' + n + '</b> / 全7問';
+  }
+  renderJE(BASE_AMT);
+  $('jeShuffle').addEventListener('click', function () {
+    renderJE(JE.map(function (fn, i) { return i === 3 ? rr(100000, 900000, 100000) : rr(10000, 200000, 10000); }));
+    $('tegata').scrollIntoView();
+  });
+
+  // ===== ひっかけ○× =====
+  /* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え/×なら正しい語句,
+            y:なぜ?, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ...]](任意), s:根拠} */
+  var OX = [
+    { p: '現金・預金', q: '他人振出の小切手を受け取ったときは、現金勘定で処理する。', a: true, k: '現金勘定', t: '当座預金勘定', y: '他人が振り出した小切手は、銀行ですぐに換金できるので、簿記では通貨と同じ「現金」として扱います。', m: '他人振出の小切手は現金、自分が振り出した小切手が戻ってきたら当座預金。', j: ['売掛金30,000円を、得意先振出の小切手で回収', [['現金', 30000, '売掛金', 30000]]], s: '3級の単元「② 現金・預金」(11月の試験までの範囲)' },
+    { p: '商品売買', q: '商品の注文時に支払った手付金は、前受金勘定で処理する。', a: false, k: '前受金勘定', t: '前払金勘定', y: '先にお金を払って、あとで商品を受け取る権利なので資産の「前払金」です。受け取ったときは負債の「前受金」です。', m: '払ったら前払金、受け取ったら前受金。', j: ['商品の注文時に手付金10,000円を現金で支払った', [['前払金', 10000, '現金', 10000]]], s: '3級の単元「③ 商品売買」' },
+    { p: '債権・債務', q: '出張する従業員に旅費の概算額を現金で渡したときは、仮受金勘定で処理する。', a: false, k: '仮受金勘定', t: '仮払金勘定', y: '使い道や金額がまだ決まっていないお金を先に渡したので、資産の「仮払金」です。', m: '先に渡したら仮払金、内容不明で受け取ったら仮受金。', j: ['従業員に旅費の概算額50,000円を現金で渡した', [['仮払金', 50000, '現金', 50000]]], s: '3級の単元「④ 債権・債務」' },
+    { p: '商品売買', q: '商品を仕入れたときの当社負担の引取運賃は、仕入勘定に含める。', a: true, k: '仕入勘定に含める', t: '発送費勘定で処理する', y: '商品を手に入れるためにかかった費用なので、商品の原価(仕入)に含めます。', m: '仕入の当社負担の運賃は仕入、販売の当社負担の運賃は発送費。', j: ['商品100,000円を掛けで仕入れ、引取運賃2,000円は現金で支払った', [['仕入', 102000, '買掛金', 100000], ['', '', '現金', 2000]]], s: '3級の単元「③ 商品売買」' },
+    { p: '債権・債務', q: '備品を購入し、代金を月末に支払うこととしたときは、買掛金勘定で処理する。', a: false, k: '買掛金勘定', t: '未払金勘定', y: '買掛金は商品の仕入代金に使います。商品以外の代金の後払いは「未払金」です。', m: '商品の後払いは買掛金、商品以外の後払いは未払金。', j: ['備品200,000円を購入し、代金は月末払い', [['備品', 200000, '未払金', 200000]]], s: '3級の単元「④ 債権・債務」' },
+    { p: '固定資産', q: '土地の購入にかかった仲介手数料は、支払手数料勘定で処理する。', a: false, k: '支払手数料勘定で処理する', t: '土地の取得原価に含める', y: '固定資産を使える状態にするまでにかかった費用(付随費用)は、取得原価に含めます。', m: '固定資産の付随費用は、費用にせず資産に含める。', j: ['土地3,000,000円を購入し、仲介手数料100,000円とともに普通預金から支払った', [['土地', 3100000, '普通預金', 3100000]]], s: '3級の単元「⑤ 固定資産」' },
+    { p: '固定資産', q: '期中に備品を売却したときは、期首から売却日までの減価償却費を月割で計上する。', a: true, k: '期首から売却日までの減価償却費を月割で計上する', t: '当期の減価償却費は計上しない', y: '売却日までは備品を使っていたので、その期間の分を当期の費用にしてから、売却損益を計算します。', m: '期中売却は「当期分の減価償却費 → 帳簿価額 → 売却損益」の順。', s: '3級の単元「⑤ 固定資産」' },
+    { p: '決算整理', q: '当期に販売した商品の売掛金が貸し倒れたときは、貸倒引当金を取り崩す。', a: false, k: '貸倒引当金を取り崩す', t: '全額を貸倒損失とする', y: '貸倒引当金は、前期末に前期の売掛金に対して設定したものです。当期に発生した売掛金には使えません。', m: '前期の売掛金は貸倒引当金を使う、当期の売掛金は貸倒損失。', j: ['当期に販売した分の売掛金50,000円が貸し倒れた', [['貸倒損失', 50000, '売掛金', 50000]]], s: '3級の単元「⑩ 決算整理」' },
+    { p: '決算整理', q: '前期に貸倒れとして処理した売掛金を当期に回収したときは、償却債権取立益勘定で処理する。', a: true, k: '償却債権取立益勘定', t: '売掛金勘定', y: 'その売掛金は前期に帳簿から消しているので、回収した額は当期の収益になります。', m: '「前期に貸倒れ処理」+「回収」=償却債権取立益。', j: ['前期に貸倒れ処理した売掛金のうち30,000円が普通預金に入金された', [['普通預金', 30000, '償却債権取立益', 30000]]], s: '3級の単元「⑩ 決算整理」' },
+    { p: '現金・預金', q: '決算で原因が判明しなかった現金過不足の借方残高は、雑益勘定に振り替える。', a: false, k: '雑益勘定', t: '雑損勘定', y: '借方残高は、現金が帳簿より少なかった(損をした)状態です。原因不明の分は「雑損」にします。', m: '差額が借方に入るなら雑損、貸方に入るなら雑益。', j: ['現金過不足の借方残高3,000円が原因不明', [['雑損', 3000, '現金過不足', 3000]]], s: '3級の単元「② 現金・預金」「⑩ 決算整理」' },
+    { p: 'その他の取引', q: '社会保険料のうち会社負担分は、法定福利費勘定で処理する。', a: true, k: '法定福利費勘定', t: '社会保険料預り金勘定', y: '会社負担分は会社の費用です。従業員負担分は給料から預かっているだけなので、預り金です。', m: '従業員負担分は社会保険料預り金、会社負担分は法定福利費。', j: ['社会保険料90,000円(うち半分は従業員負担分)を普通預金から納付', [['社会保険料預り金', 45000, '普通預金', 90000], ['法定福利費', 45000, '', '']]], s: '3級の単元「⑧ その他の取引」' },
+    { p: '決算整理', q: '貸倒引当金は、決算整理前残高試算表の売掛金の金額にそのまま設定率を掛けて計算する。', a: false, k: '決算整理前残高試算表の売掛金の金額にそのまま', t: '未処理事項を片付けたあとの売掛金と受取手形の期末残高に', y: '仮受金が売掛金の回収だったなど、未処理事項があると売掛金の残高が変わります。11月の試験では、受取手形も設定の対象になることがあります。', m: '未処理事項 → 貸倒引当金の順に処理する。', s: '3級の単元「⑩ 決算整理」' },
+    { p: '税金', q: '法人税等を中間申告で納付したときは、法人税等勘定で処理する。', a: false, k: '法人税等勘定', t: '仮払法人税等勘定', y: '中間申告の時点では、当期の税額がまだ決まっていないので、仮払いとして資産にします。', m: '中間納付は仮払法人税等、決算で法人税等、差額は未払法人税等。', j: ['法人税等の中間申告で、120,000円を普通預金から納付', [['仮払法人税等', 120000, '普通預金', 120000]]], s: '3級の単元「⑥ 税金」' }
+  ];
+  var oxOk = 0, oxDone = 0;
+  function mark(text, word, cls) { return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j) {
+    if (!j) return '';
+    function side(cls, name, amt, lab) { return '<span class="' + cls + '">' + (name ? '<i>' + lab + esc(name) + '</i><b>' + fmt(amt) + '</b>' : '') + '</span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="je-box"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      j[1].map(function (r) { return '<div class="ej-row">' + side('je-d', r[0], r[1], '(借)') + side('je-c', r[2], r[3], '(貸)') + '</div>'; }).join('') + '</div></div>';
+  }
+  function detail(item) {
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if (item.a) {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, 'ok-word') + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, 'trap-w') + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ?</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠:' + esc(item.s) + '</div>';
+    return h;
+  }
+  function renderOX(order) {
+    oxOk = 0; oxDone = 0;
+    $('oxOk').textContent = 0; $('oxDone').textContent = 0;
+    $('oxList').innerHTML = order.map(function (idx, n) {
+      var item = OX[idx];
+      return '<div class="qi" data-i="' + idx + '"><div class="qi-top"><span class="qno">Q' + (n + 1) + '</span><div><span class="qcat">' + item.p + '</span><p>' + esc(item.q) + '</p></div></div>' +
+        '<div class="qbtns"><button class="ox o" type="button" data-v="1" aria-label="○">○</button><button class="ox x" type="button" data-v="0" aria-label="×">×</button></div><div class="res-wrap"></div></div>';
+    }).join('');
+    Array.prototype.forEach.call(document.querySelectorAll('#oxList .qi'), function (box) {
+      var item = OX[Number(box.getAttribute('data-i'))];
+      Array.prototype.forEach.call(box.querySelectorAll('.ox'), function (b) {
+        b.addEventListener('click', function () {
+          var pick = b.getAttribute('data-v') === '1', ok = pick === item.a;
+          Array.prototype.forEach.call(box.querySelectorAll('.ox'), function (x) {
+            x.disabled = true;
+            if ((x.getAttribute('data-v') === '1') === item.a) x.classList.add('answer');
+          });
+          b.classList.add(ok ? 'pick-ok' : 'pick-ng');
+          oxDone++; if (ok) oxOk++;
+          $('oxOk').textContent = oxOk; $('oxDone').textContent = oxDone;
+          box.querySelector('.res-wrap').innerHTML = '<div class="res ' + (ok ? 'ok' : 'ng') + '"><span class="verdict">' + (ok ? '正解！' : '不正解') + ' 答えは' + (item.a ? '○' : '×') + '</span>' + detail(item) + '</div>';
+        });
+      });
+    });
+  }
+  renderOX(OX.map(function (x, i) { return i; }));
+  $('oxReset').addEventListener('click', function () { renderOX(shuffle(OX.map(function (x, i) { return i; }))); $('ox').scrollIntoView(); });
+
+  // ===== 時間配分タイマー =====
+  var SEG = [['第1問', 17, '#d4a24c'], ['第3問', 28, '#c97b4a'], ['第2問', 12, '#8fb5ff'], ['見直し', 3, '#5dcaa5']];
+  var tmSec = 0, tmId = null;
+  $('tmBar').innerHTML = SEG.map(function (s, i) {
+    return '<div class="tm-seg" id="tmSeg' + i + '" style="flex:' + s[1] + ';background:' + s[2] + '"><i class="tm-fill" id="tmFill' + i + '"></i><span>' + (s[1] < 5 ? '' : s[0] + '<br>' + s[1] + '分') + '</span></div>';
+  }).join('');
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function drawTimer() {
+    var left = 3600 - tmSec, acc = 0, cur = -1;
+    $('tmClock').textContent = left >= 0 ? pad(Math.floor(left / 60)) + ':' + pad(left % 60) : '終了';
+    SEG.forEach(function (s, i) {
+      var start = acc * 60, len = s[1] * 60, done = Math.min(Math.max(tmSec - start, 0), len);
+      $('tmFill' + i).style.width = (done / len * 100) + '%';
+      if (tmSec >= start && tmSec < start + len) cur = i;
+      $('tmSeg' + i).classList.toggle('cur', cur === i);
+      acc += s[1];
+    });
+    if (tmSec === 0 && !tmId) {
+      $('tmNow').textContent = '開始を押してください';
+    } else if (cur >= 0) {
+      var end = 0;
+      for (var k = 0; k <= cur; k++) end += SEG[k][1] * 60;
+      var r = end - tmSec;
+      $('tmNow').textContent = 'いまは' + SEG[cur][0] + '(この大問の残り ' + Math.floor(r / 60) + '分' + pad(r % 60) + '秒)';
+    } else if (tmSec >= 3600) {
+      $('tmNow').textContent = '60分たちました。おつかれさまでした。';
+    } else {
+      $('tmNow').textContent = '開始を押してください';
+    }
+  }
+  $('tmStart').addEventListener('click', function () {
+    if (tmId) { clearInterval(tmId); tmId = null; $('tmStart').textContent = '再開'; return; }
+    if (tmSec >= 3600) tmSec = 0;
+    tmId = setInterval(function () {
+      tmSec++;
+      drawTimer();
+      if (tmSec >= 3600) { clearInterval(tmId); tmId = null; $('tmStart').textContent = 'もう一度'; }
+    }, 1000);
+    $('tmStart').textContent = '一時停止';
+    drawTimer();
+  });
+  $('tmReset').addEventListener('click', function () {
+    if (tmId) { clearInterval(tmId); tmId = null; }
+    tmSec = 0; $('tmStart').textContent = '開始'; drawTimer();
+  });
+  drawTimer();
+
+  // ===== 電卓 =====
+  var expr = '', lastResult = null;
+  var KEYS = ['C', '⌫', '%', '÷', '7', '8', '9', '×', '4', '5', '6', '−', '1', '2', '3', '+', '0', '00', '.', '='];
+  $('calcKeys').innerHTML = KEYS.map(function (k) {
+    var cls = k === '=' ? 'eq' : (/[÷×−+%C⌫]/.test(k) ? 'op' : '');
+    return '<button type="button" class="' + cls + '" data-k="' + k + '">' + k + '</button>';
+  }).join('');
+  // 四則と%だけを読む(evalは使わない)
+  function calculate(src) {
+    var pos = 0;
+    function peek() { return src.charAt(pos); }
+    function number() {
+      var start = pos;
+      while (/[0-9.]/.test(peek())) pos++;
+      if (start === pos) throw new Error('式');
+      var n = parseFloat(src.slice(start, pos));
+      if (isNaN(n)) throw new Error('式');
+      if (peek() === '%') { pos++; n = n / 100; }
+      return n;
+    }
+    function factor() { if (peek() === '−') { pos++; return -factor(); } return number(); }
+    function term() {
+      var v = factor();
+      while (peek() === '×' || peek() === '÷') {
+        var op = src.charAt(pos++), w = factor();
+        if (op === '÷' && w === 0) throw new Error('0で割る');
+        v = op === '×' ? v * w : v / w;
+      }
+      return v;
+    }
+    function sum() {
+      var v = term();
+      while (peek() === '+' || peek() === '−') { var op = src.charAt(pos++), w = term(); v = op === '+' ? v + w : v - w; }
+      return v;
+    }
+    var r = sum();
+    if (pos !== src.length) throw new Error('式');
+    return Math.round(r * 1e8) / 1e8;
+  }
+  function showCalc(res) {
+    $('calcExpr').textContent = res === undefined ? '' : expr;
+    $('calcRes').textContent = res === undefined ? (expr || '0') : res.toLocaleString('ja-JP', { maximumFractionDigits: 8 });
+  }
+  $('calcKeys').addEventListener('click', function (e) {
+    var k = e.target.getAttribute && e.target.getAttribute('data-k');
+    if (!k) return;
+    $('calcMsg').textContent = '';
+    if (k === 'C') { expr = ''; lastResult = null; showCalc(); return; }
+    if (k === '⌫') { if (lastResult !== null) { expr = ''; lastResult = null; } else expr = expr.slice(0, -1); showCalc(); return; }
+    if (k === '=') {
+      if (!expr) return;
+      try { lastResult = calculate(expr); showCalc(lastResult); } catch (err) { $('calcMsg').textContent = err.message === '0で割る' ? '0では割れません' : '式が途中です'; }
+      return;
+    }
+    if (lastResult !== null) { expr = /[÷×−+%]/.test(k) ? String(lastResult).replace('-', '−') : ''; lastResult = null; }
+    expr += k;
+    showCalc();
+  });
+  function openCalc(on) {
+    $('calc').classList.toggle('show', on);
+    $('calcFab').style.display = on ? 'none' : '';
+    document.body.classList.toggle('calc-open', on);
+  }
+  $('calcFab').addEventListener('click', function () { openCalc(true); });
+  $('calcClose').addEventListener('click', function () { openCalc(false); });
+})();
+</script>
+</body>
+</html>
