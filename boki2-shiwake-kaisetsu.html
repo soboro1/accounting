@@ -391,6 +391,9 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
 .drill-cta b::after{content:" →"}
 .drill-cta small{font-size:14px;color:var(--muted)}
 #priority .drill-cta{margin-top:16px}
+.zk-cta{margin-top:10px;background:var(--surface);border-width:1px}
+#priority .zk-cta{margin-top:10px}
+.top a.n-zk{white-space:nowrap}
 .solve-steps{list-style:none;counter-reset:st;display:grid;gap:10px;max-width:48em}
 .solve-steps li{counter-increment:st;display:grid;grid-template-columns:34px minmax(0,1fr);column-gap:12px;align-items:start;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .solve-steps li::before{content:counter(st);grid-row:1 / span 2;display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--c8);color:var(--on-solid);font-weight:700}
@@ -420,6 +423,7 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
     <a class="n-qz" href="#quiz">○×チェック</a>
     <a class="n-pr" href="#priority">優先順位</a>
     <a class="n-dr" href="boki2-shiwake-drill.html">問題アプリ</a>
+    <a class="n-zk" href="boki2-shiwake-zukan.html">仕訳の総チェック</a>
   </div>
 </nav>
 
@@ -440,6 +444,7 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
   </div>
 
   <a class="drill-cta" href="boki2-shiwake-drill.html"><b>問題アプリで練習する</b><small>勘定科目を選び、金額を入力して採点します。本試験と同じ5問セットもあります</small></a>
+  <a class="drill-cta zk-cta" href="boki2-shiwake-zukan.html"><b>仕訳の総チェックで見直す</b><small>2級で出る仕訳を全214種類まとめた一覧です。カードで1つずつ確認することもできます</small></a>
 </header>
 
 <div class="def" style="margin-bottom:8px">
@@ -1000,6 +1005,7 @@ footer{padding-block:36px 48px;color:var(--muted);font-size:13.5px;display:grid;
   </div>
   <p class="link-note"><b>つなげて覚えるコツ：</b>仕訳は、資産が増えれば借方、減れば貸方です。迷ったら「何が増えて、何が減ったか」を先に書き出すと、差額の損益も自然に決まります。</p>
   <a class="drill-cta" href="boki2-shiwake-drill.html"><b>問題アプリで練習する</b><small>勘定科目を選び、金額を入力して採点します</small></a>
+  <a class="drill-cta zk-cta" href="boki2-shiwake-zukan.html"><b>仕訳の総チェックで見直す</b><small>決算整理、連結会計、工業簿記も含めた全214種類の仕訳を、一覧とカードで確認できます</small></a>
 </section>
 
 <footer>
