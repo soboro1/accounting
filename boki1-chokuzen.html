@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記1級 直前チェック40問</title>
+<meta name="description" content="簿記1級の試験直前に、4科目の落としやすい論点を○×40問で確認できます。答えると、ポイント・ひっかけ例・仕訳つきの解説が出ます。当日の朝のチェックリストつき。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="簿記1級 直前チェック40問">
+<meta property="og:description" content="4科目の落としやすい論点を○×40問で確認。答えると解説と仕訳が出ます。当日の朝のチェックリストつき。登録不要・スマホOK。">
+<meta property="og:url" content="https://soboro1.github.io/accounting/boki1-chokuzen.html">
+<meta property="og:image" content="https://soboro1.github.io/accounting/boki1-chokuzen-ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F4EE; --surface:#FFFFFF; --ink:#14244A; --muted:#5B5F72; --line:#DED8C8; --on-solid:#FFFFFF;
+  --gold:#B8954A; --navy:#14244A; --ok:#1F8F52; --ng:#D23B45;
+  --c2:#0FA18D; --c2t:#0A6E61; --c4:#2F7DE1; --c4t:#1D5DB3; --c7:#D9367D; --c7t:#A8205C; --c8:#F07C1E; --purple:#7A4FD8; --code-bg:#1F2433;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#10172A; --surface:#18213A; --ink:#EEF0F7; --muted:#A9AFC3; --line:#2C3754; --gold:#D4A24C;
+  --c2t:#5FD3C0; --c4t:#8FB5FF; --c7t:#FF8FBF; --purple:#A98BFF; --code-bg:#0B0E20;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans JP','Hiragino Sans',sans-serif;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 80px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);margin:0}
+h1{font-size:28px;margin:4px 0 6px}
+.lead{margin:0 0 14px;color:var(--muted);font-size:15px}
+.tabs{display:flex;gap:8px;margin:14px 0}
+.tabs button{flex:1;cursor:pointer;font:inherit;font-weight:700;font-size:15px;padding:10px;border-radius:12px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+.tabs button[aria-selected="true"]{border-color:var(--navy);background:var(--navy);color:#fff}
+@media (prefers-color-scheme: dark){.tabs button[aria-selected="true"]{border-color:var(--gold);background:var(--gold);color:#10172A}}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chips button{cursor:pointer;font:inherit;font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.bar{position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:8px 12px;margin:8px 0;border-radius:12px;background:var(--surface);border:1px solid var(--line);font-size:14px;font-weight:700}
+.bar .acts{display:flex;gap:6px}
+.bar button{cursor:pointer;font:inherit;font-size:12.5px;font-weight:700;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink)}
+ol.qlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.qi{display:flex;flex-direction:column;gap:10px;padding:14px;border-radius:16px;background:var(--surface);border:1px solid var(--line)}
+.qcat{display:inline-block;width:fit-content;font-size:12px;font-weight:700;color:var(--muted);background:color-mix(in srgb,var(--muted) 12%,var(--surface));border-radius:999px;padding:1px 12px}
+.qi-top{display:flex;gap:10px;align-items:flex-start}
+.qi-top p{margin:0;font-weight:700;font-size:16.5px;line-height:1.75}
+.qno{flex:none;background:var(--purple);color:#fff;font-weight:700;font-size:14px;padding:3px 10px;border-radius:8px}
+.qbtns{display:flex;gap:12px;justify-content:center}
+.ox{cursor:pointer;font:inherit;font-weight:700;width:120px;height:58px;font-size:26px;border-radius:14px;border:2px solid var(--line)}
+.ox.o{background:color-mix(in srgb,var(--c4) 11%,var(--surface));border-color:color-mix(in srgb,var(--c4) 35%,var(--line));color:var(--c4t)}
+.ox.x{background:color-mix(in srgb,var(--c7) 9%,var(--surface));border-color:color-mix(in srgb,var(--c7) 35%,var(--line));color:var(--c7t)}
+.ox.pick-ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.ox.pick-ng{background:var(--ng);border-color:var(--ng);color:#fff}
+.ox.answer{border-color:var(--ok);border-width:3px}
+.ox:disabled{cursor:default}
+.res{padding:14px 16px;border-radius:14px;font-size:15px;background:color-mix(in srgb,var(--ok) 7%,var(--surface))}
+.res.ng{background:color-mix(in srgb,var(--ng) 7%,var(--surface))}
+.res .verdict{display:block;font-size:18px;margin-bottom:6px}
+.res.ok .verdict{color:var(--ok)} .res.ng .verdict{color:var(--ng)}
+.ttag{display:inline-block;font-size:12.5px;font-weight:700;color:#fff;border-radius:999px;padding:2px 12px}
+.ttag.ok{background:var(--c4)} .ttag.ng{background:var(--c7)}
+.dt-blk{margin-top:12px}
+.dt-lbl{display:inline-block;font-size:12.5px;font-weight:700;color:#fff;border-radius:6px;padding:2px 10px;margin-bottom:5px}
+.c-purple{background:var(--purple)} .c-pink{background:var(--c7)} .c-blue{background:var(--c4)} .c-orange{background:var(--c8)} .c-green{background:var(--c2)}
+.dt-stmt,.dt-fix,.dt-trapex{background:var(--surface);border-radius:10px;padding:9px 14px;font-weight:500;line-height:1.85}
+.dt-stmt{border-left:4px solid var(--purple)} .dt-fix{border-left:4px solid var(--c2)} .dt-trapex{border-left:4px solid var(--c7)}
+.trap-w{background:color-mix(in srgb,var(--c7) 14%,var(--surface));color:var(--c7t);font-weight:700;text-decoration:underline wavy var(--c7);text-underline-offset:4px;padding:0 2px;border-radius:4px}
+.ok-word{background:color-mix(in srgb,var(--c2) 16%,var(--surface));color:var(--c2t);font-weight:700;padding:0 3px;border-radius:4px}
+.entry{padding:12px 16px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-size:14px;line-height:1.85}
+.je-cm{color:#9AA1B3}
+.je-entry{margin:4px 0}
+.ej-row{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.je-d,.je-c{display:flex;justify-content:space-between;gap:10px}
+.je-d{color:#8FB5FF} .je-c{color:#FFB37A}
+.je-d i,.je-c i{font-style:normal}
+.je-d b,.je-c b{font-variant-numeric:tabular-nums}
+.ej-row:not(.cont) .je-d i::before{content:"(借)"} .ej-row:not(.cont) .je-c i::before{content:"(貸)"}
+.ej-row.cont .je-d i::before,.ej-row.cont .je-c i::before{content:"(借)";visibility:hidden}
+.dt-src{margin-top:12px;font-size:12.5px;color:var(--muted)}
+.summary{margin-top:16px;padding:14px 16px;border-radius:16px;background:var(--surface);border:2px solid var(--gold)}
+.summary h2{font-size:18px;margin:0 0 6px}
+.srow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.srow b{font-variant-numeric:tabular-nums}
+.srow .weak{color:var(--ng);font-weight:700}
+.summary a{color:var(--c4t);font-weight:700}
+.cl h2{font-size:17px;margin:16px 0 4px}
+.cl label{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;margin:6px 0;border-radius:10px;background:var(--surface);border:1px solid var(--line);font-size:15px;cursor:pointer}
+.cl input{width:20px;height:20px;margin-top:3px;flex:none;accent-color:var(--ok)}
+.cl label.done{opacity:.6;text-decoration:line-through}
+.note{font-size:12.5px;color:var(--muted);margin-top:14px}
+.links a{display:block;padding:10px 12px;margin:6px 0;border-radius:10px;background:var(--surface);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-weight:700;font-size:14.5px}
+@media (max-width:560px){.je-entry{display:flex;flex-direction:column}.ej-row{display:contents}.je-c{order:1}.ox{width:96px;height:52px}h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">日商簿記1級 ／ 試験直前</p>
+  <h1>直前チェック40問</h1>
+  <p class="lead">4科目で落としやすい論点を、○×で確認します。答えると「ここがポイント」「ひっかけ例」「なぜ?」「覚えるポイント」「仕訳」が出ます。1問30秒ほどで、全部で20分くらいです。</p>
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" id="tab-q" aria-selected="true">○×チェック</button>
+    <button type="button" role="tab" id="tab-c" aria-selected="false">当日の朝のチェックリスト</button>
+  </div>
+
+  <section id="pane-q">
+    <div class="chips" id="chips"></div>
+    <div class="bar" aria-live="polite"><span id="score">正解 0 / 解答 0 / 全 40問</span><span class="acts"><button type="button" id="shuffle">並べかえ</button><button type="button" id="reset">最初から</button></span></div>
+    <ol class="qlist" id="list"></ol>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <section id="pane-c" class="cl" hidden>
+    <p class="lead">試験の朝に、上から順にチェックしてください。チェックはこの端末に保存されます。</p>
+    <div id="checks"></div>
+    <div class="bar" style="position:static"><span id="cscore">0 / 0</span><span class="acts"><button type="button" id="creset">チェックを外す</button></span></div>
+    <p class="note">時間の使い方は筆者のおすすめの目安です。過去問で慣れた順番があれば、そちらを優先してください。11月の試験は、今までの出題区分表で出題されるので手形も範囲です。</p>
+  </section>
+
+  <h2 style="font-size:17px;margin-top:28px">本番の形で解ける問題(自動採点つき)</h2>
+  <div class="links">
+    <a href="boki1-half-moshi.html">4科目のハーフ模試(90分)</a>
+    <a href="boki1-shogyo-honban.html">商業簿記 損益計算書を作る問題(45分)</a>
+    <a href="boki1-renketsu-honban.html">商業簿記 連結財務諸表を作る問題(45分)</a>
+    <a href="boki1-honshiten-honban.html">商業簿記 本支店会計の問題(45分)</a>
+    <a href="boki1-zaigai-honban.html">商業簿記 在外支店の総合問題(45分)</a>
+  </div>
+  <p class="note">問題文はオリジナルです。根拠は会計基準などの名前と項目番号を示していますが、受験前には最新のテキストや公式の情報も確認してください。</p>
+</div>
+
+<script>
+/* 1問 = {p:分野, q:問題文, a:正解(true=○), k:問題文中の注目語句, t:○なら「ひっかけ例」の言い換え／×なら正しい語句,
+          y:なぜ？, m:覚えるポイント, j:[仕訳の説明, [[借方,金額,貸方,金額], ...]](任意), s:根拠} */
+var Q = [
+  // ===== 商業簿記 =====
+  {p:'商業簿記', q:'ドル建ての売掛金に貸倒引当金を設定するときは、決算時の為替相場で換算した後の金額に設定率を掛ける。', a:true, k:'換算した後', t:'換算する前',
+   y:'貸倒引当金は、期末の債権の金額に対して設定します。期末の売掛金は決算時の為替相場で換算し直すので、換算後の円の金額が基準になります。',
+   m:'順番は「換算 → 貸倒引当金」。総合問題では、この順番を間違えると繰入額がずれます。',
+   j:['1,000ドルの売掛金(取引時150円)を、決算時146円で換算する', [['為替差損益',4000,'売掛金',4000]]], s:'外貨建取引等会計処理基準 一 2'},
+  {p:'商業簿記', q:'固定資産の減損損失を認識するかどうかは、割引後の将来キャッシュ・フローと帳簿価額を比べて判定する。', a:false, k:'割引後', t:'割引前',
+   y:'減損の兆候がある資産は、まず割引前の将来キャッシュ・フローと帳簿価額を比べて、減損を認識するかを判定します。認識すると決まったら、回収可能価額(割引後の使用価値など)まで減額します。',
+   m:'判定は割引前、測定は回収可能価額(割引後)。',
+   j:['帳簿価額1,200、割引前CF900、回収可能価額848のとき', [['減損損失',352,'機械',352]]], s:'固定資産の減損に係る会計基準 二 2・3'},
+  {p:'商業簿記', q:'減損損失の測定に使う回収可能価額は、正味売却価額と使用価値のいずれか高いほうである。', a:true, k:'いずれか高いほう', t:'いずれか低いほう',
+   y:'企業は、売るか使い続けるかのうち、回収できる金額が大きいほうを選ぶと考えます。そのため、高いほうが回収可能価額です。',
+   m:'回収可能価額 = max(正味売却価額, 使用価値)。',
+   s:'固定資産の減損に係る会計基準 注解1'},
+  {p:'商業簿記', q:'売価還元低価法の原価率は、売価の合計から純値下額を差し引いた金額を分母として計算する。', a:false, k:'差し引いた', t:'差し引かない',
+   y:'売価還元低価法では、値下額を分母から除かない(差し引かない)ので、分母が大きくなり原価率が低くなります。低い原価率で期末商品を評価して、収益性の低下を反映します。',
+   m:'2つの原価率の違いは、分母の純値下額だけ。原価法は差し引く、低価法は差し引かない。',
+   j:['帳簿原価18,900を、低価法の原価率で17,400に切り下げる(棚卸減耗損630を含む)', [['棚卸減耗損',630,'繰越商品',1500],['商品評価損',870,'',0]]], s:'棚卸資産の評価に関する会計基準 第13項'},
+  {p:'商業簿記', q:'その他有価証券の評価差額に税効果会計を適用したときは、その税効果を法人税等調整額を通さずに処理する。', a:true, k:'法人税等調整額を通さずに', t:'法人税等調整額に計上して',
+   y:'その他有価証券の評価差額は、損益ではなく純資産に直接計上します。そのため、税効果も損益(法人税等調整額)を通さず、評価差額から直接差し引きます。',
+   m:'純資産に直接計上する項目の税効果は、法人税等調整額に入れない。',
+   j:['時価が取得原価より1,000高い(税率30%)', [['その他有価証券',1000,'繰延税金負債',300],['',0,'その他有価証券評価差額金',700]]], s:'税効果会計に係る会計基準の適用指針'},
+  {p:'商業簿記', q:'子会社株式を追加取得したときの、取得原価と減少する非支配株主持分との差額は、のれんとして処理する。', a:false, k:'のれん', t:'資本剰余金',
+   y:'追加取得は、支配を続けたまま親会社と非支配株主の間で持分をやり取りする取引です。資本取引と考えるので、差額は資本剰余金にします。',
+   m:'支配獲得のときの差額はのれん、その後の追加取得の差額は資本剰余金。',
+   j:['取得原価9,000、減少する非支配株主持分7,750', [['非支配株主持分',7750,'子会社株式',9000],['資本剰余金',1250,'',0]]], s:'連結財務諸表に関する会計基準 第28項'},
+  {p:'商業簿記', q:'子会社から親会社への販売(アップストリーム)で生じた未実現利益は、親会社と非支配株主の持分比率に応じて負担させる。', a:true, k:'持分比率に応じて', t:'全額を親会社に',
+   y:'売り手の子会社の利益には、非支配株主の分も含まれています。そのため、消去する未実現利益も、持分比率で親会社と非支配株主が負担します。',
+   m:'ダウンストリームは親会社が全額負担、アップストリームは非支配株主も負担。',
+   j:['子会社が土地を売却し、売却益2,000(非支配株主20%、税効果は考えない)', [['固定資産売却益',2000,'土地',2000]], null, [['非支配株主持分',400,'非支配株主に帰属する当期純利益',400]]], s:'連結財務諸表に関する会計基準 第38項'},
+  {p:'商業簿記', q:'為替予約に振当処理を適用した場合、直先差額はすべて予約を結んだ期の損益とする。', a:false, k:'すべて予約を結んだ期の損益とする', t:'予約日の属する期から決済日の属する期までに配分する',
+   y:'直先差額は、予約日から決済日までの期間の金利の差のようなものです。そのため、期間にわたって配分します。予約前の相場の変動(直々差額)は、予約した期の損益です。',
+   m:'直々差額は当期の損益、直先差額は期間配分。',
+   j:['買掛金の直先差額300のうち、当期分200', [['買掛金',300,'前受収益',300]], null, [['前受収益',200,'為替差損益',200]]], s:'外貨建取引等会計処理基準 注解7'},
+  {p:'商業簿記', q:'受取手形を割り引いたときに計上する保証債務は、時価で計上する。', a:true, k:'時価', t:'手形の額面金額',
+   y:'手形を割り引くと、不渡りのときに支払う義務(遡求義務)が新しく生じます。金融資産の消滅で新しく生じた負債は、時価で計上します。',
+   m:'11月の試験は手形も範囲。割引・裏書では保証債務を計上する。',
+   j:['受取手形1,000を割り引き、割引料20、保証債務の時価10', [['当座預金',980,'受取手形',1000],['手形売却損',20,'',0]], null, [['保証債務費用',10,'保証債務',10]]], s:'金融商品に関する会計基準 第13項'},
+  {p:'商業簿記', q:'割り引いた手形が満期日に無事決済されたときは、計上していた保証債務をそのまま翌期に繰り越す。', a:false, k:'そのまま翌期に繰り越す', t:'取り崩す',
+   y:'手形が決済されると、不渡りのときに支払う義務がなくなります。そのため、保証債務を取り崩して利益にします。',
+   m:'計上は「保証債務費用/保証債務」、決済されたら「保証債務/保証債務取崩益」。',
+   j:['割り引いた手形が無事決済された', [['保証債務',10,'保証債務取崩益',10]]], s:'金融商品会計に関する実務指針'},
+  // ===== 会計学 =====
+  {p:'会計学', q:'資産除去債務は、有形固定資産の除去に要する割引前の将来キャッシュ・フローの金額で負債に計上する。', a:false, k:'割引前の将来キャッシュ・フローの金額', t:'割引後の金額(割引価値)',
+   y:'資産除去債務は、除去に要する割引前の将来キャッシュ・フローを見積もり、それを割り引いた金額で計上します。「割引前」は見積もりの段階の話です。',
+   m:'見積もりは割引前、計上は割引後。',
+   j:['取得原価8,000の構築物、資産除去債務の割引価値1,000', [['構築物',9000,'現金預金',8000],['',0,'資産除去債務',1000]]], s:'資産除去債務に関する会計基準 第6項'},
+  {p:'会計学', q:'資産除去債務に対応する除去費用は、関連する有形固定資産の帳簿価額に加えて、減価償却を通じて費用配分する。', a:true, k:'帳簿価額に加えて', t:'発生時に全額を費用にして',
+   y:'除去費用は、資産を使うために避けられない費用です。そのため、資産の取得原価に含めて、使う期間にわたって減価償却で配分します。',
+   m:'除去費用は資産計上して償却。時の経過による債務の増加は利息費用。',
+   j:['1年後、資産除去債務1,000に割引率3%', [['利息費用',30,'資産除去債務',30]]], s:'資産除去債務に関する会計基準 第7項'},
+  {p:'会計学', q:'部分純資産直入法では、評価差益は当期の損益とし、評価差損は純資産の部に計上する。', a:false, k:'評価差益は当期の損益とし、評価差損は純資産の部に計上する', t:'評価差益は純資産の部に計上し、評価差損は当期の損失とする',
+   y:'部分純資産直入法は、保守主義の考え方から、損失だけを当期の損益に反映させる方法です。利益は純資産に直接計上します。',
+   m:'部分純資産直入法は「差益は純資産、差損は損益」。',
+   j:['その他有価証券の評価差損200(部分純資産直入法、税効果は考えない)', [['投資有価証券評価損',200,'その他有価証券',200]]], s:'金融商品に関する会計基準 第18項'},
+  {p:'会計学', q:'自己株式の処分差損により、期末のその他資本剰余金の残高が負の値となった場合は、その他資本剰余金をゼロとし、負の値を繰越利益剰余金から減額する。', a:true, k:'繰越利益剰余金から減額する', t:'資本準備金から減額する',
+   y:'その他資本剰余金がマイナスのまま期末を迎えることはありません。マイナスの分は、その他利益剰余金(繰越利益剰余金)で埋めます。',
+   m:'処分差損はまずその他資本剰余金から。足りなければ期末に繰越利益剰余金から。',
+   j:['自己株式(帳簿価額1,000)を800で処分した', [['現金預金',800,'自己株式',1000],['その他資本剰余金',200,'',0]]], s:'自己株式及び準備金の額の減少等に関する会計基準 第12項'},
+  {p:'会計学', q:'収益認識における取引価格には、消費税のように第三者のために回収する額も含める。', a:false, k:'も含める', t:'は含めない',
+   y:'取引価格は、企業が顧客から得る権利がある対価の額です。消費税は国のために預かるだけなので、取引価格に含めません。',
+   m:'取引価格から除くもの:第三者のために回収する額。',
+   j:['商品1,000を掛けで販売し、消費税100を預かった', [['売掛金',1100,'売上',1000],['',0,'仮受消費税',100]]], s:'収益認識に関する会計基準 第47項'},
+  {p:'会計学', q:'返品が見込まれる販売では、返品が見込まれる部分は収益を認識せず、返金負債を計上する。', a:true, k:'返金負債', t:'返品調整引当金',
+   y:'返品されると見込む分は、顧客に返すお金なので、収益ではなく負債にします。戻ってくる商品は返品資産にします。',
+   m:'返品権付きの販売は「返金負債」と「返品資産」。',
+   j:['20,000を販売し、2,000の返品を見込む(原価率63%)', [['売掛金',20000,'売上',18000],['',0,'返金負債',2000]], null, [['返品資産',1260,'売上原価',1260]]], s:'収益認識に関する会計基準の適用指針 第85項'},
+  {p:'会計学', q:'ストック・オプションの権利不確定による失効の見積数を見直した場合、その影響は将来の期間にわたって配分する。', a:false, k:'将来の期間にわたって配分する', t:'見直した期の損益として計上する',
+   y:'見直した後の見積数で、これまでの累計の費用を計算し直します。その差額は、見直した期の費用に含めます。',
+   m:'当期の費用 = 見直し後の累計額 − 前期までの計上額。',
+   j:['見直し後の累計4,830、前期までの計上額2,025', [['株式報酬費用',2805,'新株予約権',2805]]], s:'ストック・オプション等に関する会計基準 第7項'},
+  {p:'会計学', q:'通常の販売目的で保有する棚卸資産の収益性の低下による簿価切下額は、原則として売上原価とする。', a:true, k:'売上原価', t:'営業外費用',
+   y:'収益性の低下は、商品を売る活動の中で避けられないものなので、原則として売上原価にします。臨時で多額のものは特別損失にします。',
+   m:'簿価切下額は原則として売上原価。製造に関連するものは製造原価、臨時で多額なら特別損失。',
+   j:['商品評価損870を売上原価に振り替える', [['仕入',870,'商品評価損',870]]], s:'棚卸資産の評価に関する会計基準 第17項'},
+  {p:'会計学', q:'連結財務諸表を作るとき、子会社の資産と負債は、支配獲得日の帳簿価額で評価する。', a:false, k:'帳簿価額', t:'時価',
+   y:'親会社は、子会社の資産と負債を、支配を獲得した日の価値で取得したと考えます。そのため、すべて時価で評価します(全面時価評価法)。',
+   m:'子会社の資産と負債は、支配獲得日の時価で全面的に評価する。',
+   j:['子会社の土地(帳簿価額10,000、時価15,000、税率30%)', [['土地',5000,'繰延税金負債',1500],['',0,'評価差額',3500]]], s:'連結財務諸表に関する会計基準 第20項'},
+  {p:'会計学', q:'企業結合で負ののれんが生じると見込まれる場合は、資産と負債の把握と配分を見直したうえで、なお生じる額を当期の利益とする。', a:true, k:'当期の利益', t:'負債',
+   y:'負ののれんは、資産や負債の評価が適切かをまず見直します。それでも残る額は、生じた期の利益(特別利益)として処理します。',
+   m:'のれんは20年以内に償却、負ののれんは生じた期の利益。',
+   s:'企業結合に関する会計基準 第33項'},
+  // ===== 工業簿記 =====
+  {p:'工業簿記', q:'材料を工程の途中で投入する場合、月末仕掛品の加工進捗度がその投入点に達していなければ、月末仕掛品にその材料費は配分しない。', a:true, k:'配分しない', t:'数量に応じて配分する',
+   y:'投入点に達していない月末仕掛品には、その材料がまだ入っていません。入っていない材料の原価は負担させません。',
+   m:'投入点や発生点と、加工進捗度を見比べる。',
+   j:['材料B340千円はすべて完成品と仕損に入る(月末仕掛品は投入点の手前)', [['仕掛品',340,'材料',340]]], s:'原価計算基準 二四'},
+  {p:'工業簿記', q:'度外視法で、正常仕損が工程の終点で発生した場合は、正常仕損費を完成品と月末仕掛品の両方に負担させる。', a:false, k:'完成品と月末仕掛品の両方', t:'完成品だけ',
+   y:'月末仕掛品は、まだ工程の終点を通過していません。終点で発生した仕損の原価は、終点を通過した完成品だけが負担します。',
+   m:'仕損の発生点を通過したものだけが、仕損費を負担する。',
+   j:['完成品3,728、仕損品の処分価額15', [['製品',3728,'仕掛品',3743],['仕損品',15,'',0]]], s:'原価計算基準 二七'},
+  {p:'工業簿記', q:'正常仕損品に処分価額がある場合は、仕損費を負担する原価からその処分価額を差し引く。', a:true, k:'処分価額を差し引く', t:'処分価額を加える',
+   y:'仕損品を売れば処分価額だけ回収できるので、その分は原価の負担を軽くします。仕損品は資産として計上します。',
+   m:'処分価額は、仕損費を負担する側の原価から差し引く。',
+   j:['仕損品100個、処分価額@150円', [['仕損品',15000,'仕掛品',15000]]], s:'原価計算基準 二七'},
+  {p:'工業簿記', q:'累加法の工程別総合原価計算では、第2工程の月末仕掛品の前工程費は、第2工程の加工進捗度で換算して計算する。', a:false, k:'第2工程の加工進捗度で換算して', t:'始点で投入した材料と同じく数量のまま',
+   y:'前工程費は、第2工程の始点で投入される材料と同じ扱いです。そのため、加工進捗度で換算せず、数量のまま配分します。',
+   m:'前工程費は始点投入の材料と同じ。換算するのは加工費だけ。',
+   j:['第1工程の完成品2,380,000を第2工程へ振り替える', [['仕掛品-第2工程',2380000,'仕掛品-第1工程',2380000]]], s:'原価計算基準 二五'},
+  {p:'工業簿記', q:'先入先出法では、月初仕掛品の原価はすべて完成品原価に含める。', a:true, k:'すべて完成品原価に含める', t:'月末仕掛品にも配分する',
+   y:'先入先出法は、先に作り始めたもの(月初仕掛品)から先に完成すると考えます。だから、月末仕掛品は当月投入分だけからできています。',
+   m:'先入先出法の月末仕掛品は、当月投入の単価で計算する。',
+   s:'原価計算基準 二四'},
+  {p:'工業簿記', q:'製造間接費の予定配賦額が実際発生額より少ない場合、その差額は有利差異である。', a:false, k:'有利差異', t:'不利差異(借方差異)',
+   y:'実際にかかった金額のほうが、予定より多かったということです。予定より費用がかかったので、不利差異になります。',
+   m:'差異は「予定(標準) − 実際」。マイナスなら不利差異。',
+   j:['予定配賦額1,002,000、実際発生額1,010,000', [['製造間接費配賦差異',8000,'製造間接費',8000]]], s:'原価計算基準 四七'},
+  {p:'工業簿記', q:'標準原価計算の直接材料費の価格差異は、実際消費量に、標準価格と実際価格の差を掛けて計算する。', a:true, k:'実際消費量', t:'標準消費量',
+   y:'価格差異は、実際に使った量について、価格がどれだけずれたかを見るものです。そのため、実際消費量を掛けます。',
+   m:'価格差異は実際消費量、数量差異は標準価格を掛ける。',
+   s:'原価計算基準 四六'},
+  {p:'工業簿記', q:'予定賃率で直接労務費を計算した場合、予定消費額と実際発生額(要支払額)の差額は材料消費価格差異とする。', a:false, k:'材料消費価格差異', t:'賃率差異',
+   y:'労務費を予定賃率で計算したときの差額なので、賃率差異です。材料消費価格差異は、材料を予定消費価格で計算したときの差額です。',
+   m:'材料は材料消費価格差異、賃金は賃率差異、製造間接費は配賦差異。',
+   j:['予定消費額900,000、要支払額920,000', [['賃率差異',20000,'賃金',20000]]], s:'原価計算基準 四五'},
+  {p:'工業簿記', q:'工程別総合原価計算の累加法では、前工程の完成品原価を、次工程の前工程費として振り替える。', a:true, k:'前工程費', t:'加工費',
+   y:'前工程で完成した半製品は、次工程にとっては材料のようなものです。そのため、前工程費という費目で次工程に引き継ぎます。',
+   m:'累加法は、工程ごとに原価を順に積み上げる方法。',
+   j:['第1工程の完成品を第2工程へ振り替える', [['仕掛品-第2工程',2380000,'仕掛品-第1工程',2380000]]], s:'原価計算基準 二五'},
+  {p:'工業簿記', q:'単純総合原価計算の平均法では、月末仕掛品の単価を当月投入分の原価だけで計算する。', a:false, k:'当月投入分の原価だけで', t:'月初仕掛品と当月投入分の原価の合計で',
+   y:'平均法は、月初仕掛品と当月投入分を混ぜて、平均の単価を出します。当月投入分だけで計算するのは先入先出法です。',
+   m:'平均法は(月初 + 当月)÷(完成 + 月末)、先入先出法は当月 ÷(完成 − 月初 + 月末)。',
+   s:'原価計算基準 二四'},
+  // ===== 原価計算 =====
+  {p:'原価計算', q:'共通する制約が1つの場合、営業利益を最大にするには、制約1単位あたりの貢献利益が大きい製品から順に生産する。', a:true, k:'制約1単位あたり', t:'製品1個あたり',
+   y:'限られているのは制約(機械作業時間など)です。その1単位からどれだけ利益を生むかで比べると、利益が最大になります。',
+   m:'1個あたりの貢献利益で比べるのは、制約がないときだけ。',
+   s:'業務的意思決定(最適セールスミックス)の基本'},
+  {p:'原価計算', q:'安全余裕率は、損益分岐点の売上高を実際の売上高で割って求める。', a:false, k:'損益分岐点の売上高を実際の売上高で割って', t:'実際の売上高と損益分岐点の売上高の差を、実際の売上高で割って',
+   y:'損益分岐点の売上高を実際の売上高で割ったものは、損益分岐点比率です。安全余裕率は、売上高があとどれだけ減っても損失にならないかを表します。',
+   m:'安全余裕率 =(実際の売上高 − 損益分岐点の売上高)÷ 実際の売上高。',
+   s:'CVP分析の基本'},
+  {p:'原価計算', q:'損益分岐点比率と安全余裕率を足すと、100%になる。', a:true, k:'100%', t:'貢献利益率',
+   y:'損益分岐点比率は損益分岐点までの割合、安全余裕率はその残りの割合です。合わせると、実際の売上高の全体になります。',
+   m:'損益分岐点比率 + 安全余裕率 = 100%。片方がわかれば、もう片方もわかる。',
+   s:'CVP分析の基本'},
+  {p:'原価計算', q:'設備投資の正味現在価値を計算するとき、減価償却費は現金の支出を伴わないので、キャッシュ・フローの計算では一切考慮しない。', a:false, k:'ので、キャッシュ・フローの計算では一切考慮しない', t:'が、税金を減らす効果(タックス・シールド)はキャッシュ・フローに含める',
+   y:'減価償却費そのものは現金が出ませんが、費用になるので税金を減らします。税金が減った分は、キャッシュ・フローの増加です。',
+   m:'税引後のキャッシュ・フロー = 税引後の現金収支 + 減価償却費 × 税率。',
+   s:'設備投資の意思決定の基本'},
+  {p:'原価計算', q:'正味現在価値が正の投資案は、資本コストを上回る利益率が見込めるため、有利と判断する。', a:true, k:'正の', t:'負の',
+   y:'正味現在価値は、将来のキャッシュ・フローを資本コストで割り引いた額から投資額を引いたものです。正なら、資本コスト以上のもうけが見込めます。',
+   m:'正味現在価値が正なら有利、負なら不利。',
+   s:'設備投資の意思決定の基本'},
+  {p:'原価計算', q:'内部利益率法では、内部利益率が資本コストを下回る投資案を採用する。', a:false, k:'下回る', t:'上回る',
+   y:'内部利益率は、正味現在価値がゼロになる割引率です。資本コストを上回れば、資本コスト以上のもうけが見込めるので採用します。',
+   m:'内部利益率 > 資本コストなら採用。',
+   s:'設備投資の意思決定の基本'},
+  {p:'原価計算', q:'業務的意思決定では、どの案を選んでも金額が変わらない埋没原価は、比較の対象から除く。', a:true, k:'除く', t:'含める',
+   y:'どの案を選んでも同じ金額なら、案の良し悪しには影響しません。比べるのは、案によって変わる差額原価と差額収益だけです。',
+   m:'差額原価収益分析では、変わるものだけを比べる。',
+   s:'業務的意思決定(差額原価収益分析)の基本'},
+  {p:'原価計算', q:'直接原価計算では、固定製造間接費を製品原価に含める。', a:false, k:'製品原価に含める', t:'期間原価として発生した期の費用にする',
+   y:'直接原価計算は、変動費だけを製品原価にして、固定費は発生した期の費用にする方法です。固定製造間接費を製品原価に含めるのは、全部原価計算です。',
+   m:'直接原価計算の製品原価は変動製造原価だけ。',
+   s:'直接原価計算の基本'},
+  {p:'原価計算', q:'予算実績差異分析で、販売数量差異は、予算の単位あたり貢献利益に販売数量の差を掛けて計算する。', a:true, k:'予算の単位あたり貢献利益', t:'実際の販売価格',
+   y:'販売数量差異は、売れた数量が予算とずれたことで、貢献利益がどれだけ変わったかを見るものです。価格のずれと混ざらないように、予算の単位あたり貢献利益を使います。',
+   m:'販売価格差異は実際数量、販売数量差異は予算の単位あたり貢献利益を掛ける。',
+   s:'予算実績差異分析の基本'},
+  {p:'原価計算', q:'直接原価計算と全部原価計算の営業利益の差は、期首と期末の棚卸資産に含まれる変動製造原価の差から生じる。', a:false, k:'変動製造原価', t:'固定製造間接費',
+   y:'2つの方法の違いは、固定製造間接費を製品原価に含めるかどうかだけです。そのため、営業利益の差は、棚卸資産に含まれる固定製造間接費の増減から生じます。',
+   m:'営業利益の差 = 期末の棚卸資産の固定製造間接費 − 期首の棚卸資産の固定製造間接費。',
+   s:'直接原価計算の基本(固定費調整)'}
+];
+var CHECK = [["時間", ["最初の3分で、問題全体と答案用紙を見る", "1科目に50分以上かけない", "3分止まったら、印をつけて飛ばす", "易しい欄から埋める", "最後の5分は、空欄を埋める"]], ["商業簿記", ["換算してから貸倒引当金", "減損:判定は割引前、測定は回収可能価額", "売価還元法の原価率は2つ", "その他有価証券の税効果は純資産", "追加取得の差額は資本剰余金", "アップストリームは非支配株主も負担"]], ["会計学", ["正誤は「すり替え」を探す", "資産除去債務は割引後で計上", "取引価格に消費税は含めない", "SOは累計額 − 前期までの額", "自己株式の処分差損は期末に繰越利益剰余金から"]], ["工業簿記", ["投入点と進捗度を見比べる", "終点の正常仕損は完成品だけが負担", "先入先出法か平均法かを確認", "差異は「標準(予定) − 実際」の符号", "製品の払出の方法も確認"]], ["原価計算", ["制約1単位あたりの貢献利益", "損益分岐点比率 + 安全余裕率 = 100%", "NPVに減価償却費の節税効果", "需要の上限を確認", "変わらない固定費は比べない"]], ["手形", ["11月の試験は手形も範囲", "割引・裏書は保証債務を計上(保証債務費用 / 保証債務)", "無事決済されたら取り崩す(保証債務 / 保証債務取崩益)"]], ["持ち物", ["受験票", "身分証明書", "電卓(使えるものか確認)", "筆記用具"]]];
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var KEY = 'boki1-chokuzen-v1';
+  var SUBJ = ['商業簿記', '会計学', '工業簿記', '原価計算'];
+  var MORE = {
+    '商業簿記': ['商業簿記の本番形式問題', 'boki1-shogyo-honban.html'],
+    '会計学': ['会計学 正誤問題攻略', 'kaikeigaku-seigo-guide.html'],
+    '工業簿記': ['度外視法ドリル', 'dogaishi-drill.html'],
+    '原価計算': ['直接原価計算・CVP分析ドリル', 'cvp-drill.html']
+  };
+  var st = { wrong: {}, checks: {} };
+  try { var s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.wrong && s.checks) st = s; } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function yen(n) { return Number(n).toLocaleString('ja-JP'); }
+  function mark(text, word, cls) { return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
+  function journal(j) {
+    if (!j) return '';
+    var groups = [], cur = [];
+    j.slice(1).forEach(function (rows) { if (rows === null) return; groups.push(rows); });
+    function side(cls, name, amt) { return name ? '<span class="' + cls + '"><i>' + esc(name) + '</i><b>' + yen(amt) + '</b></span>' : '<span class="' + cls + '"></span>'; }
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="entry"><div class="je-cm">' + esc(j[0]) + '</div>' +
+      groups.map(function (g) { return '<div class="je-entry">' + g.map(function (r, i) { return '<div class="ej-row' + (i ? ' cont' : '') + '">' + side('je-d', r[0], r[1]) + side('je-c', r[2], r[3]) + '</div>'; }).join('') + '</div>'; }).join('') +
+      '</div></div>';
+  }
+  function detail(item) {
+    var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
+    if (item.a) {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがポイント</span><div class="dt-stmt">' + mark(item.q, item.k, 'ok-word') + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-pink">ひっかけ例</span><div class="dt-trapex">「<span class="ok-word">' + esc(item.k) + '</span>」を「<span class="trap-w">' + esc(item.t) + '</span>」に変えられたら×</div></div>';
+    } else {
+      h += '<div class="dt-blk"><span class="dt-lbl c-purple">ここがすり替え</span><div class="dt-stmt">' + mark(item.q, item.k, 'trap-w') + '</div></div>';
+      h += '<div class="dt-blk"><span class="dt-lbl c-green">正しい文</span><div class="dt-fix">' + esc(item.q).replace(esc(item.k), '<span class="ok-word">' + esc(item.t) + '</span>') + '</div></div>';
+    }
+    h += '<div class="dt-blk"><span class="dt-lbl c-blue">なぜ？</span><div class="dt-txt">' + esc(item.y) + '</div></div>';
+    h += '<div class="dt-blk"><span class="dt-lbl c-orange">覚えるポイント</span><div class="dt-txt">' + esc(item.m) + '</div></div>';
+    h += journal(item.j);
+    h += '<div class="dt-src">根拠：' + esc(item.s) + '</div>';
+    return h;
+  }
+
+  // ===== ○×チェック =====
+  var filter = 'all', order = null, res = {};
+  function wrongCount() { return Object.keys(st.wrong).length; }
+  function chips() {
+    var list = [['all', 'すべて(' + Q.length + ')']].concat(SUBJ.map(function (p) { return [p, p]; }));
+    list.push(['wrong', '間違えた問題(' + wrongCount() + ')']);
+    $('chips').innerHTML = list.map(function (c) { return '<button type="button" data-f="' + c[0] + '" aria-pressed="' + (filter === c[0]) + '">' + c[1] + '</button>'; }).join('');
+    Array.prototype.forEach.call($('chips').querySelectorAll('button'), function (b) {
+      b.addEventListener('click', function () { filter = b.getAttribute('data-f'); render(); });
+    });
+  }
+  function current() {
+    var idx = [];
+    Q.forEach(function (item, i) { if (filter === 'all' || item.p === filter || (filter === 'wrong' && st.wrong[i])) idx.push(i); });
+    if (order) idx.sort(function (a, b) { return order[a] - order[b]; });
+    return idx;
+  }
+  function score() {
+    var idx = current(), done = 0, ok = 0;
+    idx.forEach(function (i) { if (res[i] !== undefined) { done++; if (res[i]) ok++; } });
+    $('score').textContent = '正解 ' + ok + ' / 解答 ' + done + ' / 全 ' + idx.length + '問';
+    summary();
+  }
+  function summary() {
+    var by = {}, any = false;
+    SUBJ.forEach(function (p) { by[p] = [0, 0, 0]; });
+    Q.forEach(function (item, i) { by[item.p][2]++; if (res[i] !== undefined) { any = true; by[item.p][1]++; if (res[i]) by[item.p][0]++; } });
+    if (!any) { $('summary').innerHTML = '<h2>科目ごとの結果</h2><p class="note" style="margin:0">答えると、ここに科目ごとの正解数が出ます。</p>'; return; }
+    $('summary').innerHTML = '<h2>科目ごとの結果</h2>' + SUBJ.map(function (p) {
+      var b = by[p], weak = b[1] && b[0] / b[1] < 0.7;
+      return '<div class="srow"><span>' + p + (weak ? ' <span class="weak">要復習</span>' : '') + '</span><b>' + b[0] + ' / ' + b[1] + '(全' + b[2] + '問)</b></div>' +
+        (weak ? '<div class="srow"><span>復習するなら:<a href="' + MORE[p][1] + '">' + MORE[p][0] + '</a></span></div>' : '');
+    }).join('') + '<p class="note">正解率が7割に届かない科目に「要復習」を付けています。間違えた問題は「間違えた問題」で解き直せます。</p>';
+  }
+  function mk(t, cls) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'ox ' + cls; b.textContent = t;
+    b.setAttribute('aria-label', t === '○' ? '正しい' : '誤り');
+    return b;
+  }
+  function render() {
+    chips();
+    var list = $('list'); list.innerHTML = '';
+    var idx = current();
+    if (!idx.length) list.innerHTML = '<li class="qi"><p style="margin:0">間違えた問題はありません。</p></li>';
+    idx.forEach(function (qi, n) {
+      var item = Q[qi];
+      var li = document.createElement('li'); li.className = 'qi'; li.id = 'q' + (qi + 1);
+      li.innerHTML = '<span class="qcat">' + item.p + '</span><div class="qi-top"><span class="qno">Q' + (n + 1) + '</span><p>' + esc(item.q) + '</p></div>';
+      var btns = document.createElement('div'); btns.className = 'qbtns';
+      var bO = mk('○', 'o'), bX = mk('×', 'x');
+      btns.appendChild(bO); btns.appendChild(bX);
+      var box = document.createElement('div'); box.className = 'res'; box.hidden = true; box.setAttribute('aria-live', 'polite');
+      function show(pick) {
+        var right = pick === item.a;
+        (pick ? bO : bX).classList.add(right ? 'pick-ok' : 'pick-ng');
+        (item.a ? bO : bX).classList.add('answer');
+        bO.disabled = true; bX.disabled = true;
+        box.className = 'res ' + (right ? 'ok' : 'ng');
+        box.innerHTML = '<b class="verdict">' + (right ? '正解！' : '不正解') + '　答えは ' + (item.a ? '○' : '×') + '</b>' + detail(item);
+        box.hidden = false;
+      }
+      function answer(pick) {
+        if (bO.disabled) return;
+        var right = pick === item.a;
+        res[qi] = right;
+        if (right) delete st.wrong[qi]; else st.wrong[qi] = 1;
+        save();
+        show(pick);
+        score();
+        chips();
+      }
+      bO.addEventListener('click', function () { answer(true); });
+      bX.addEventListener('click', function () { answer(false); });
+      li.appendChild(btns); li.appendChild(box);
+      list.appendChild(li);
+    });
+    score();
+  }
+  $('shuffle').addEventListener('click', function () { order = Q.map(function () { return Math.random(); }); res = {}; render(); });
+  $('reset').addEventListener('click', function () { order = null; res = {}; render(); });
+
+  // ===== チェックリスト =====
+  function renderChecks() {
+    var h = '', n = 0, done = 0;
+    CHECK.forEach(function (g) {
+      h += '<h2>' + g[0] + '</h2>';
+      g[1].forEach(function (t) {
+        var id = g[0] + '|' + t, on = !!st.checks[id];
+        n++; if (on) done++;
+        h += '<label class="' + (on ? 'done' : '') + '"><input type="checkbox" data-id="' + esc(id) + '"' + (on ? ' checked' : '') + '><span>' + esc(t) + '</span></label>';
+      });
+    });
+    $('checks').innerHTML = h;
+    countChecks();
+    Array.prototype.forEach.call($('checks').querySelectorAll('input'), function (x) {
+      x.addEventListener('change', function () {
+        var id = x.getAttribute('data-id');
+        if (x.checked) st.checks[id] = 1; else delete st.checks[id];
+        save();
+        x.parentNode.classList.toggle('done', x.checked);
+        countChecks();
+      });
+    });
+  }
+  function countChecks() {
+    var all = $('checks').querySelectorAll('input'), on = $('checks').querySelectorAll('input:checked');
+    $('cscore').textContent = 'チェック ' + on.length + ' / ' + all.length;
+  }
+  $('creset').addEventListener('click', function () { st.checks = {}; save(); renderChecks(); });
+
+  // ===== タブ =====
+  function tab(which) {
+    $('tab-q').setAttribute('aria-selected', which === 'q');
+    $('tab-c').setAttribute('aria-selected', which === 'c');
+    $('pane-q').hidden = which !== 'q';
+    $('pane-c').hidden = which !== 'c';
+  }
+  $('tab-q').addEventListener('click', function () { tab('q'); });
+  $('tab-c').addEventListener('click', function () { tab('c'); });
+  if (location.hash === '#check') tab('c');
+
+  render();
+  renderChecks();
+})();
+</script>
+</body>
+</html>
