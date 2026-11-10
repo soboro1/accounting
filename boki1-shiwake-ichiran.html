@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記1級 仕訳一覧</title>
+<meta name="description" content="簿記1級の仕訳を、2027年度適用の出題区分表の項目ごとにまとめた一覧です。取引、仕訳、ポイントを一読でき、検索もできます。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="簿記1級 仕訳一覧">
+<meta property="og:description" content="簿記1級の仕訳を、2027年度適用の出題区分表の項目ごとにまとめた一覧です。取引、仕訳、ポイントを一読でき、検索もできます。">
+<meta property="og:url" content="https://soboro1.github.io/accounting/boki1-shiwake-ichiran.html">
+<meta property="og:image" content="https://soboro1.github.io/accounting/boki1-shiwake-ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F4EE;--surface:#FFFFFF;--ink:#14244A;--muted:#5B5F72;--line:#DED8C8;--gold:#B8954A;--navy:#14244A;--accent:#B5502A;--ok:#1F8F52;--code-bg:#1F2433;--chip:#EFE9DA}
+@media (prefers-color-scheme: dark){:root{--bg:#10172A;--surface:#18213A;--ink:#EEF0F7;--muted:#A9AFC3;--line:#2C3754;--gold:#D4A24C;--navy:#D4A24C;--accent:#F0997B;--code-bg:#0B0E20;--chip:#22304F}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans JP','Hiragino Sans',sans-serif;line-height:1.7}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 80px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);margin:0}
+h1{font-size:28px;margin:4px 0 6px}
+.lead{margin:0 0 12px;color:var(--muted);font-size:15px}
+a{color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chips button{cursor:pointer;font:inherit;font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+input[type=search]{width:100%;font:inherit;font-size:16px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lv1{background:color-mix(in srgb,var(--accent) 15%,var(--surface));color:var(--accent)}
+.entry{padding:10px 14px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-size:14px;line-height:1.85}
+.je-cap{color:#9AA1B3;font-size:13px}
+.je{margin:2px 0 6px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dr,.cr{display:flex;justify-content:space-between;gap:8px;min-width:0}
+.dr{color:#8FB5FF}.cr{color:#FFB37A}
+.dr i,.cr i{font-style:normal;min-width:0;overflow-wrap:anywhere}
+.dr b,.cr b{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.row:not(.cont) .dr i::before{content:"(借)"}.row:not(.cont) .cr i::before{content:"(貸)"}
+.none{color:#C9CEDA}
+@media (max-width:560px){.je{display:flex;flex-direction:column}.row{display:contents}.cr{order:1}.row.cont .dr i::before,.row.cont .cr i::before{content:""}.row .cr i::before{content:"(貸)"}.row .dr i::before{content:"(借)"}}
+
+.toc{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.toc details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 12px}
+.toc summary{cursor:pointer;font-weight:700}
+.toc a{display:block;font-size:14px;padding:2px 0;text-decoration:none;color:var(--ink)}
+.toc a span{color:var(--muted);font-size:12px}
+.sec{margin-top:26px}
+.sec>h2{font-size:21px;margin:0 0 8px;padding-bottom:4px;border-bottom:3px solid var(--gold)}
+.kb{margin:16px 0 4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.kb h3{font-size:16.5px;margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0}
+.card h4{font-size:15.5px;margin:0 0 4px}
+.card .q{margin:0 0 8px;font-size:15px}
+.card .p{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.card .p::before{content:"ポイント ";font-weight:700;color:var(--accent)}
+.nj{font-size:14px;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px;padding:8px 12px;margin:8px 0}
+.count{font-size:13px;color:var(--muted);margin:6px 0}
+.top{position:fixed;right:14px;bottom:14px;z-index:5;padding:10px 16px;border-radius:999px;background:var(--navy);color:var(--surface);font-weight:700;text-decoration:none;font-size:14px}
+.check li{font-size:14px}
+mark{background:color-mix(in srgb,var(--gold) 35%,transparent);color:inherit;border-radius:3px}
+</style>
+</head>
+<body>
+<div class="wrap" id="top">
+  <p class="eyebrow">日商簿記1級 ／ 2027年度の出題区分表に対応</p>
+  <h1>簿記1級 仕訳一覧</h1>
+  <p class="lead" id="lead"></p>
+  <p class="lead">覚えるための演習アプリは <a href="boki1-shiwake-renshu.html">こちら(仕訳カード)</a>。</p>
+  <input type="search" id="q" placeholder="勘定科目や論点で検索(例:リース負債、追加取得)" aria-label="検索">
+  <div class="chips" id="lv"></div>
+  <p class="count" id="count"></p>
+  <div class="toc" id="toc"></div>
+  <div id="list"></div>
+  <section class="sec" id="check">
+    <h2>出題区分表との照合</h2>
+    <p class="lead">2027年度適用の出題区分表(商業簿記・会計学、工業簿記・原価計算)で、2級と1級の欄にある項目です。3級の欄の基本的な仕訳は省いています。</p>
+    <ol class="check" id="checklist"></ol>
+  </section>
+  <p class="count">仕訳はオリジナルの例です。2027年4月から適用される出題区分表(2026年7月31日確定版)に合わせ、手形と小切手を使わず、リースは新しい会計基準の処理にしています。勘定科目は、問題文の指示があればそれに従ってください。</p>
+</div>
+<a class="top" href="#top">目次へ</a>
+<script src="boki1-shiwake-data.js"></script>
+<script>
+(function () {
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function yen(n) { return Number(n).toLocaleString('ja-JP'); }
+  function entryHtml(x) {
+    if (x.nojournal) return '<div class="entry"><span class="none">仕訳なし</span></div>';
+    return '<div class="entry">' + x.e.map(function (e) {
+      var n = Math.max(e.d.length, e.r.length), rows = '';
+      for (var i = 0; i < n; i++) {
+        var d = e.d[i], r = e.r[i];
+        rows += '<div class="row' + (i ? ' cont' : '') + '">' +
+          (d ? '<span class="dr"><i>' + esc(d[0]) + '</i><b>' + yen(d[1]) + '</b></span>' : '<span class="dr"></span>') +
+          (r ? '<span class="cr"><i>' + esc(r[0]) + '</i><b>' + yen(r[1]) + '</b></span>' : '<span class="cr"></span>') + '</div>';
+      }
+      return (e.c ? '<div class="je-cap">' + esc(e.c) + '</div>' : '') + '<div class="je">' + rows + '</div>';
+    }).join('') + '</div>';
+  }
+  var KMAP = {}; KUBUN.forEach(function (k) { KMAP[k.c] = k; });
+  var SECS = []; KUBUN.forEach(function (k) { if (SECS.indexOf(k.sec) < 0) SECS.push(k.sec); });
+
+  var $ = function (id) { return document.getElementById(id); };
+  var lv = 'all', word = '';
+  var njCount = KUBUN.filter(function (k) { return k.nj; }).length;
+  $('lead').textContent = '出題区分表の' + KUBUN.length + '項目のうち、仕訳が出る' + (KUBUN.length - njCount) + '項目について、' + SHIWAKE.length + '件の仕訳を収録しています。取引、仕訳、ポイントの順に読めます。';
+  function hit(x) {
+    if (lv !== 'all' && KMAP[x.k].lv !== +lv) return false;
+    if (!word) return true;
+    return JSON.stringify([x.h, x.q, x.p, x.e]).indexOf(word) >= 0 || KMAP[x.k].t.indexOf(word) >= 0;
+  }
+  function hl(s) { s = esc(s); return word ? s.split(esc(word)).join('<mark>' + esc(word) + '</mark>') : s; }
+  function render() {
+    var shown = 0, h = '', toc = '';
+    SECS.forEach(function (sec, si) {
+      var body = '', links = '';
+      KUBUN.filter(function (k) { return k.sec === sec; }).forEach(function (k) {
+        var xs = SHIWAKE.filter(function (x) { return x.k === k.c && hit(x); });
+        if (!xs.length && (word || (lv !== 'all' && k.lv !== +lv) || !k.nj)) return;
+        var aid = 'k-' + k.c;
+        links += '<a href="#' + aid + '">' + esc(k.t) + ' <span>' + (k.nj ? '仕訳なし' : xs.length + '件') + '</span></a>';
+        body += '<div class="kb" id="' + aid + '"><h3>' + esc(k.t) + '</h3><span class="tag' + (k.lv === 1 ? ' lv1' : '') + '">' + (k.lv === 1 ? '1級の欄' : '2級の欄') + '</span></div>';
+        if (k.nj) body += '<div class="nj">' + esc(k.nj) + '</div>';
+        xs.forEach(function (x) {
+          shown++;
+          body += '<div class="card"><h4>' + hl(x.h) + '</h4><p class="q">' + hl(x.q) + '</p>' + entryHtml(x) + '<p class="p">' + hl(x.p) + '</p></div>';
+        });
+      });
+      if (!body) return;
+      h += '<section class="sec" id="s' + si + '"><h2>' + esc(sec) + '</h2>' + body + '</section>';
+      toc += '<details><summary>' + esc(sec) + '</summary>' + links + '</details>';
+    });
+    $('list').innerHTML = h || '<p class="count">見つかりませんでした。</p>';
+    $('toc').innerHTML = toc;
+    $('count').textContent = word || lv !== 'all' ? shown + '件を表示中' : '全' + shown + '件';
+  }
+  $('lv').innerHTML = [['all', 'すべて'], ['1', '1級の欄の項目'], ['2', '2級の欄の項目']].map(function (c) { return '<button type="button" data-lv="' + c[0] + '" aria-pressed="' + (c[0] === 'all') + '">' + c[1] + '</button>'; }).join('');
+  Array.prototype.forEach.call($('lv').querySelectorAll('button'), function (b) {
+    b.addEventListener('click', function () {
+      lv = b.getAttribute('data-lv');
+      Array.prototype.forEach.call($('lv').querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b); });
+      render();
+    });
+  });
+  var timer = null;
+  $('q').addEventListener('input', function () { clearTimeout(timer); timer = setTimeout(function () { word = $('q').value.trim(); render(); }, 150); });
+  $('checklist').innerHTML = KUBUN.map(function (k) {
+    var n = SHIWAKE.filter(function (x) { return x.k === k.c; }).length;
+    return '<li>' + esc(k.sec) + ' ／ ' + esc(k.t) + ':' + (k.nj ? '仕訳なし(' + esc(k.nj) + ')' : '<a href="#k-' + k.c + '">' + n + '件</a>') + '</li>';
+  }).join('');
+  render();
+})();
+</script>
+</body>
+</html>

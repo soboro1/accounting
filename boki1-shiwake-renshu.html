@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記1級 仕訳カード</title>
+<meta name="description" content="簿記1級の仕訳を、取引を見て思い出すカード形式で練習できます。覚えた仕訳と、まだの仕訳を分けて繰り返せます。2027年度の出題区分表に対応。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="簿記1級 仕訳カード">
+<meta property="og:description" content="簿記1級の仕訳を、取引を見て思い出すカード形式で練習できます。覚えた仕訳と、まだの仕訳を分けて繰り返せます。2027年度の出題区分表に対応。">
+<meta property="og:url" content="https://soboro1.github.io/accounting/boki1-shiwake-renshu.html">
+<meta property="og:image" content="https://soboro1.github.io/accounting/boki1-shiwake-ogp.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F6F4EE;--surface:#FFFFFF;--ink:#14244A;--muted:#5B5F72;--line:#DED8C8;--gold:#B8954A;--navy:#14244A;--accent:#B5502A;--ok:#1F8F52;--code-bg:#1F2433;--chip:#EFE9DA}
+@media (prefers-color-scheme: dark){:root{--bg:#10172A;--surface:#18213A;--ink:#EEF0F7;--muted:#A9AFC3;--line:#2C3754;--gold:#D4A24C;--navy:#D4A24C;--accent:#F0997B;--code-bg:#0B0E20;--chip:#22304F}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans JP','Hiragino Sans',sans-serif;line-height:1.7}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 80px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:2px;color:var(--gold);margin:0}
+h1{font-size:28px;margin:4px 0 6px}
+.lead{margin:0 0 12px;color:var(--muted);font-size:15px}
+a{color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chips button{cursor:pointer;font:inherit;font-size:13px;font-weight:700;padding:5px 12px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.chips button[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+input[type=search]{width:100%;font:inherit;font-size:16px;padding:10px 14px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:1px 10px;border-radius:999px;background:var(--chip);color:var(--muted)}
+.tag.lv1{background:color-mix(in srgb,var(--accent) 15%,var(--surface));color:var(--accent)}
+.entry{padding:10px 14px;border-radius:12px;background:var(--code-bg);color:#E8EAF2;font-size:14px;line-height:1.85}
+.je-cap{color:#9AA1B3;font-size:13px}
+.je{margin:2px 0 6px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.dr,.cr{display:flex;justify-content:space-between;gap:8px;min-width:0}
+.dr{color:#8FB5FF}.cr{color:#FFB37A}
+.dr i,.cr i{font-style:normal;min-width:0;overflow-wrap:anywhere}
+.dr b,.cr b{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+.row:not(.cont) .dr i::before{content:"(借)"}.row:not(.cont) .cr i::before{content:"(貸)"}
+.none{color:#C9CEDA}
+@media (max-width:560px){.je{display:flex;flex-direction:column}.row{display:contents}.cr{order:1}.row.cont .dr i::before,.row.cont .cr i::before{content:""}.row .cr i::before{content:"(貸)"}.row .dr i::before{content:"(借)"}}
+
+.bar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:10px 0;font-size:14px;font-weight:700}
+.prog{height:10px;border-radius:999px;background:var(--line);overflow:hidden;margin:4px 0 12px}
+.prog i{display:block;height:100%;background:var(--ok);width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;min-height:240px}
+.card .meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.card .q{font-size:17px;font-weight:700;line-height:1.75;margin:0 0 12px}
+.card h4{font-size:15px;margin:10px 0 6px;color:var(--accent)}
+.card .p{margin:10px 0 0;font-size:14.5px}
+.card .p::before{content:"ポイント ";font-weight:700;color:var(--accent)}
+.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.btns button{flex:1;min-width:120px;cursor:pointer;font:inherit;font-weight:700;font-size:16px;padding:13px;border-radius:14px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+.btns .show{background:var(--navy);color:var(--surface);border-color:var(--navy)}
+.btns .ok{background:color-mix(in srgb,var(--ok) 14%,var(--surface));border-color:var(--ok);color:var(--ok)}
+.btns .ng{background:color-mix(in srgb,var(--accent) 12%,var(--surface));border-color:var(--accent);color:var(--accent)}
+.sub{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.sub button{cursor:pointer;font:inherit;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink)}
+.done{text-align:center;padding:30px 10px}
+.hint{font-size:12.5px;color:var(--muted);margin-top:12px}
+select{font:inherit;font-size:15px;padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);max-width:100%}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">日商簿記1級 ／ 2027年度の出題区分表に対応</p>
+  <h1>簿記1級 仕訳カード</h1>
+  <p class="lead">取引の文を読んで、頭の中で仕訳を作ってから「仕訳を見る」を押します。合っていたら「覚えた」、自信がなければ「もう一度」。まとめて読みたいときは <a href="boki1-shiwake-ichiran.html">仕訳一覧</a> へ。</p>
+  <div class="bar"><label>分野 <select id="sec"></select></label><span id="stat"></span></div>
+  <div class="chips" id="mode"></div>
+  <div class="prog" aria-hidden="true"><i id="pbar"></i></div>
+  <div class="card" id="card" aria-live="polite"></div>
+  <div class="sub"><button type="button" id="shuffle">並べかえ</button><button type="button" id="resetSec">この分野の記録を消す</button></div>
+  <p class="hint">記録はこの端末のブラウザに保存されます。キーボードでは、スペースで「仕訳を見る」、Jで「覚えた」、Kで「もう一度」。</p>
+</div>
+<script src="boki1-shiwake-data.js"></script>
+<script>
+(function () {
+
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+  function yen(n) { return Number(n).toLocaleString('ja-JP'); }
+  function entryHtml(x) {
+    if (x.nojournal) return '<div class="entry"><span class="none">仕訳なし</span></div>';
+    return '<div class="entry">' + x.e.map(function (e) {
+      var n = Math.max(e.d.length, e.r.length), rows = '';
+      for (var i = 0; i < n; i++) {
+        var d = e.d[i], r = e.r[i];
+        rows += '<div class="row' + (i ? ' cont' : '') + '">' +
+          (d ? '<span class="dr"><i>' + esc(d[0]) + '</i><b>' + yen(d[1]) + '</b></span>' : '<span class="dr"></span>') +
+          (r ? '<span class="cr"><i>' + esc(r[0]) + '</i><b>' + yen(r[1]) + '</b></span>' : '<span class="cr"></span>') + '</div>';
+      }
+      return (e.c ? '<div class="je-cap">' + esc(e.c) + '</div>' : '') + '<div class="je">' + rows + '</div>';
+    }).join('') + '</div>';
+  }
+  var KMAP = {}; KUBUN.forEach(function (k) { KMAP[k.c] = k; });
+  var SECS = []; KUBUN.forEach(function (k) { if (SECS.indexOf(k.sec) < 0) SECS.push(k.sec); });
+
+  var $ = function (id) { return document.getElementById(id); };
+  var KEY = 'boki1-shiwake-renshu-v1';
+  var st = { known: {} };
+  try { var s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s && s.known) st = s; } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+  var sec = 'all', mode = 'todo', order = null, queue = [], pos = 0, open = false;
+  $('sec').innerHTML = '<option value="all">すべての分野(' + SHIWAKE.length + ')</option>' + SECS.map(function (s) {
+    var n = SHIWAKE.filter(function (x) { return KMAP[x.k].sec === s; }).length;
+    return '<option value="' + esc(s) + '">' + esc(s) + '(' + n + ')</option>';
+  }).join('');
+  $('mode').innerHTML = [['todo', 'まだの仕訳だけ'], ['all', 'すべて'], ['known', '覚えた仕訳だけ']].map(function (c) { return '<button type="button" data-m="' + c[0] + '" aria-pressed="' + (c[0] === mode) + '">' + c[1] + '</button>'; }).join('');
+  function pool() { return SHIWAKE.filter(function (x) { return sec === 'all' || KMAP[x.k].sec === sec; }); }
+  function build() {
+    var xs = pool().filter(function (x) { return mode === 'all' || (mode === 'todo' ? !st.known[x.id] : st.known[x.id]); });
+    if (order) xs.sort(function (a, b) { return order[a.id] - order[b.id]; });
+    queue = xs; pos = 0; open = false; show();
+  }
+  function stat() {
+    var p = pool(), k = p.filter(function (x) { return st.known[x.id]; }).length;
+    $('stat').textContent = '覚えた ' + k + ' / ' + p.length;
+    $('pbar').style.width = (p.length ? k / p.length * 100 : 0) + '%';
+  }
+  function show() {
+    stat();
+    if (pos >= queue.length) {
+      $('card').innerHTML = '<div class="done"><p style="font-size:18px;font-weight:700;margin:0 0 6px">' + (queue.length ? 'この組み合わせは最後まで終わりました' : '該当する仕訳はありません') + '</p><p class="hint">「まだの仕訳だけ」で繰り返すと、覚えていない仕訳だけが出ます。</p><div class="btns"><button type="button" class="show" id="again">もう一周する</button></div></div>';
+      $('again').addEventListener('click', build);
+      return;
+    }
+    var x = queue[pos], k = KMAP[x.k];
+    var h = '<div class="meta"><span class="tag">' + esc(k.sec) + '</span><span class="tag' + (k.lv === 1 ? ' lv1' : '') + '">' + esc(k.t) + '</span><span class="tag">' + (pos + 1) + ' / ' + queue.length + '</span></div>' +
+      '<p class="q">' + esc(x.q) + '</p>';
+    if (open) h += '<h4>' + esc(x.h) + '</h4>' + entryHtml(x) + '<p class="p">' + esc(x.p) + '</p><div class="btns"><button type="button" class="ok" id="ok">覚えた</button><button type="button" class="ng" id="ng">もう一度</button></div>';
+    else h += '<div class="btns"><button type="button" class="show" id="open">仕訳を見る</button></div>';
+    $('card').innerHTML = h;
+    if (open) {
+      $('ok').addEventListener('click', function () { mark(true); });
+      $('ng').addEventListener('click', function () { mark(false); });
+    } else $('open').addEventListener('click', function () { open = true; show(); });
+  }
+  function mark(ok) {
+    var x = queue[pos];
+    if (ok) st.known[x.id] = 1; else delete st.known[x.id];
+    save();
+    if (!ok && mode !== 'known') queue.push(x);
+    pos++; open = false; show();
+  }
+  $('sec').addEventListener('change', function () { sec = $('sec').value; build(); });
+  Array.prototype.forEach.call($('mode').querySelectorAll('button'), function (b) {
+    b.addEventListener('click', function () {
+      mode = b.getAttribute('data-m');
+      Array.prototype.forEach.call($('mode').querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b); });
+      build();
+    });
+  });
+  $('shuffle').addEventListener('click', function () { order = {}; SHIWAKE.forEach(function (x) { order[x.id] = Math.random(); }); build(); });
+  $('resetSec').addEventListener('click', function () { pool().forEach(function (x) { delete st.known[x.id]; }); save(); build(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'SELECT' || pos >= queue.length) return;
+    if (e.key === ' ' && !open) { e.preventDefault(); open = true; show(); }
+    else if (open && (e.key === 'j' || e.key === 'J')) mark(true);
+    else if (open && (e.key === 'k' || e.key === 'K')) mark(false);
+  });
+  build();
+})();
+</script>
+</body>
+</html>
