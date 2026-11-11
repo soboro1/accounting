@@ -196,6 +196,20 @@
   .card li i { color: #5dcaa5; font-style: normal; font-weight: 700; }
   .empty { padding: 20px 0; color: #9aa5b1; }
   .je-title { font-size: 12px; color: #9aa5b1; margin-left: 6px; }
+  /* 仕訳は借方と貸方を左右に並べる */
+  .lr { margin: 8px 0; border-radius: 8px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.6; overflow: hidden; }
+  .lr-head, .lr-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .lr-head span { padding: 4px 12px; font-size: 12px; font-weight: 700; color: #9aa5b1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .lr-head span + span, .lr-c { border-left: 1px solid rgba(255,255,255,0.14); }
+  .lr-d, .lr-c { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 6px 12px; min-width: 0; }
+  .lr-d { color: #8fb5ff; } .lr-c { color: #ffb37a; }
+  .lr-a { min-width: 0; overflow-wrap: anywhere; }
+  .lr-m { margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .lr + .lr { margin-top: 6px; }
+  @media (max-width: 520px) {
+    .lr { font-size: 13px; }
+    .lr-head span, .lr-d, .lr-c { padding-left: 8px; padding-right: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -281,8 +295,14 @@
     if (!/^-?\d+$/.test(s)) return null;
     return parseInt(s, 10);
   }
-  function entryText(dr, cr) {
-    return dr.map(function (e) { return '(借)' + e[0] + ' ' + fmt(e[1]); }).concat(cr.map(function (e) { return '(貸)' + e[0] + ' ' + fmt(e[1]); })).join('\n');
+  // 借方と貸方を左右に並べた仕訳
+  function entryHtml(dr, cr) {
+    function cell(e) { return e ? '<span class="lr-a">' + esc(e[0]) + '</span><span class="lr-m">' + fmt(e[1]) + '</span>' : ''; }
+    var h = '';
+    for (var i = 0; i < Math.max(dr.length, cr.length); i++) {
+      h += '<div class="lr-row"><div class="lr-d">' + cell(dr[i]) + '</div><div class="lr-c">' + cell(cr[i]) + '</div></div>';
+    }
+    return '<div class="lr"><div class="lr-head"><span>借方</span><span>貸方</span></div>' + h + '</div>';
   }
 
   // ===== ランダム出題のパターン =====
@@ -1230,7 +1250,7 @@
     var q = inst[p.title], ents = q.entries || [{ dr: q.dr, cr: q.cr }];
     return '<div class="card" data-title="' + esc(p.title) + '"><div class="card-top"><div class="card-title">' + esc(p.title) + badge(p) + '</div>' +
       '<button class="star' + (state.weak[p.title] ? ' on' : '') + '" type="button" data-star="' + esc(p.title) + '">' + (state.weak[p.title] ? '苦手 ✓' : '苦手に入れる') + '</button></div>' +
-      '<p class="t">' + esc(q.text) + '</p>' + ents.map(function (e) { return '<pre class="entry">' + entryText(e.dr, e.cr) + '</pre>'; }).join('') +
+      '<p class="t">' + esc(q.text) + '</p>' + ents.map(function (e) { return entryHtml(e.dr, e.cr); }).join('') +
       '<ul>' + q.point.map(function (t) { return '<li><i>ポイント</i> ' + esc(t) + '</li>'; }).join('') + q.trap.map(function (t) { return '<li><b>ひっかけ</b> ' + esc(t) + '</li>'; }).join('') + '</ul></div>';
   }
   function bindStars(root) {
@@ -1333,7 +1353,7 @@
     res.className = 'je-res show ' + (ok ? 'ok' : 'ng');
     res.innerHTML = '<b class="v">' + (ok ? '○ 正解' + (state.mode === 'weak' ? '(苦手から外しました)' : '') : '× 不正解(苦手に入れました)') + '</b>' +
       (why.length ? '<p style="color:#f0997b">' + why.map(esc).join('<br>') + '</p>' : '') +
-      ents.map(function (e) { return '<pre class="entry">' + entryText(e.dr, e.cr) + '</pre>'; }).join('') +
+      ents.map(function (e) { return entryHtml(e.dr, e.cr); }).join('') +
       '<ul>' + q.how.map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
       '<p><b style="color:#f0997b">ひっかけ</b> ' + q.trap.map(esc).join(' ') + '</p><p><b style="color:#5dcaa5">ポイント</b> ' + q.point.map(esc).join(' ') + '</p>' +
       '<p class="hint"><a href="' + UNIT[d.p.unit][1] + '">' + UNIT[d.p.unit][0] + 'の解説へ</a></p>';
