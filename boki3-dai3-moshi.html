@@ -202,6 +202,21 @@
     .calc { left: 0; right: 0; bottom: 0; width: auto; max-height: 62vh; border-radius: 14px 14px 0 0; }
     .calc-keys button { height: 40px; }
   }
+
+  /* 仕訳は借方と貸方を左右に並べる */
+  .lr { margin: 8px 0; border-radius: 8px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.6; overflow: hidden; }
+  .lr-head, .lr-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .lr-head span { padding: 4px 12px; font-size: 12px; font-weight: 700; color: #9aa5b1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .lr-head span + span, .lr-c { border-left: 1px solid rgba(255,255,255,0.14); }
+  .lr-d, .lr-c { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 6px 12px; min-width: 0; }
+  .lr-d { color: #8fb5ff; } .lr-c { color: #ffb37a; }
+  .lr-a { min-width: 0; overflow-wrap: anywhere; }
+  .lr-m { margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .lr-cm { padding: 6px 12px 2px; font-size: 13px; color: #9aa5b1; }
+  @media (max-width: 520px) {
+    .lr { font-size: 13px; }
+    .lr-head span, .lr-d, .lr-c { padding-left: 8px; padding-right: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -298,10 +313,17 @@
     return parseInt(s, 10);
   }
   function list(items) { return '<ul>' + items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul>'; }
-  function entry(e) {
-    return '<pre class="entry">' + e.dr.map(function (x) { return '(借)' + x[0] + ' ' + fmt(x[1]); })
-      .concat(e.cr.map(function (x) { return '(貸)' + x[0] + ' ' + fmt(x[1]); })).join('\n') + '</pre>';
+  // 借方と貸方を左右に並べた仕訳
+  function lrEntry(dr, cr, note) {
+    function e(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function cell(x) { return x ? '<span class="lr-a">' + e(x[0]) + '</span><span class="lr-m">' + fmt(x[1]) + '</span>' : ''; }
+    var h = '';
+    for (var i = 0; i < Math.max(dr.length, cr.length); i++) {
+      h += '<div class="lr-row"><div class="lr-d">' + cell(dr[i]) + '</div><div class="lr-c">' + cell(cr[i]) + '</div></div>';
+    }
+    return '<div class="lr">' + (note ? '<div class="lr-cm">' + e(note) + '</div>' : '') + '<div class="lr-head"><span>借方</span><span>貸方</span></div>' + h + '</div>';
   }
+  function entry(e) { return lrEntry(e.dr, e.cr); }
 
   // ===== 第3問の計算と問題作成 =====
   // 決算整理前残高試算表に整理事項の仕訳を順に当てはめ、財務諸表・精算表・決算整理後残高試算表の答えを計算する

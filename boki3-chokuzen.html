@@ -167,6 +167,21 @@
     .calc-keys button { height: 40px; }
   }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .meter i { transition: none; } }
+
+  /* 仕訳は借方と貸方を左右に並べる */
+  .lr { margin: 8px 0; border-radius: 8px; background: #0b1320; border: 1px solid rgba(255,255,255,0.08); font-size: 14px; line-height: 1.6; overflow: hidden; }
+  .lr-head, .lr-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .lr-head span { padding: 4px 12px; font-size: 12px; font-weight: 700; color: #9aa5b1; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .lr-head span + span, .lr-c { border-left: 1px solid rgba(255,255,255,0.14); }
+  .lr-d, .lr-c { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; padding: 6px 12px; min-width: 0; }
+  .lr-d { color: #8fb5ff; } .lr-c { color: #ffb37a; }
+  .lr-a { min-width: 0; overflow-wrap: anywhere; }
+  .lr-m { margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; }
+  .lr-cm { padding: 6px 12px 2px; font-size: 13px; color: #9aa5b1; }
+  @media (max-width: 520px) {
+    .lr { font-size: 13px; }
+    .lr-head span, .lr-d, .lr-c { padding-left: 8px; padding-right: 8px; }
+  }
 </style>
 </head>
 <body>
@@ -284,6 +299,17 @@
     return a;
   }
 
+  // 借方と貸方を左右に並べた仕訳
+  function lrEntry(dr, cr, note) {
+    function e(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function cell(x) { return x ? '<span class="lr-a">' + e(x[0]) + '</span><span class="lr-m">' + fmt(x[1]) + '</span>' : ''; }
+    var h = '';
+    for (var i = 0; i < Math.max(dr.length, cr.length); i++) {
+      h += '<div class="lr-row"><div class="lr-d">' + cell(dr[i]) + '</div><div class="lr-c">' + cell(cr[i]) + '</div></div>';
+    }
+    return '<div class="lr">' + (note ? '<div class="lr-cm">' + e(note) + '</div>' : '') + '<div class="lr-head"><span>借方</span><span>貸方</span></div>' + h + '</div>';
+  }
+
   // ===== 保存 =====
   var state = { days: {}, items: {} };
   try { var s = JSON.parse(localStorage.getItem(STORE) || 'null'); if (s) state = s; } catch (e) {}
@@ -392,7 +418,7 @@
     jeOk[i] = ok;
     var res = $('jr' + i);
     res.className = 'je-res show ' + (ok ? 'ok' : 'ng');
-    res.innerHTML = '<b class="v">' + (ok ? '○ 正解' : '× もう一度確認') + '</b><pre class="entry">' + q.dr.map(function (e) { return '(借)' + e[0] + ' ' + fmt(e[1]); }).concat(q.cr.map(function (e) { return '(貸)' + e[0] + ' ' + fmt(e[1]); })).join('\n') + '</pre>' + q.w;
+    res.innerHTML = '<b class="v">' + (ok ? '○ 正解' : '× もう一度確認') + '</b>' + lrEntry(q.dr, q.cr) + q.w;
     updateJEScore();
   }
   function updateJEScore() {
@@ -427,9 +453,9 @@
   function mark(text, word, cls) { return esc(text).replace(esc(word), '<span class="' + cls + '">' + esc(word) + '</span>'); }
   function journal(j) {
     if (!j) return '';
-    function side(cls, name, amt, lab) { return '<span class="' + cls + '">' + (name ? '<i>' + lab + esc(name) + '</i><b>' + fmt(amt) + '</b>' : '') + '</span>'; }
-    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span><div class="je-box"><div class="je-cm">' + esc(j[0]) + '</div>' +
-      j[1].map(function (r) { return '<div class="ej-row">' + side('je-d', r[0], r[1], '(借)') + side('je-c', r[2], r[3], '(貸)') + '</div>'; }).join('') + '</div></div>';
+    var dr = [], cr = [];
+    j[1].forEach(function (r) { if (r[0]) dr.push([r[0], r[1]]); if (r[2]) cr.push([r[2], r[3]]); });
+    return '<div class="dt-blk"><span class="dt-lbl c-green">仕訳で確認</span>' + lrEntry(dr, cr, j[0]) + '</div>';
   }
   function detail(item) {
     var h = '<span class="ttag ' + (item.a ? 'ok' : 'ng') + '">' + (item.a ? '正しい文' : '誤りの文') + '</span>';
