@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>簿記3級 試験の振り返りシート</title>
+<meta name="description" content="簿記3級の試験のあとに、時間配分・手が止まった形式・ミスの種類をチェックして、次にやることを決める振り返りシートです。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Noto Sans JP', sans-serif; background: #101b2d; color: #f6f1e6; display: flex; justify-content: center; padding: 24px 16px 120px; }
+  .app { width: 100%; max-width: 820px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+  .kicker { font-size: 13px; letter-spacing: 3px; color: #d4a24c; font-weight: 700; }
+  h1 { font-size: 26px; font-weight: 700; margin: 4px 0 0 0; }
+  h2 { font-size: 21px; font-weight: 700; margin: 0; color: #f6f1e6; }
+  h3 { font-size: 16px; font-weight: 700; margin: 18px 0 6px; color: #d4a24c; }
+  p, li { font-size: 15px; line-height: 1.9; color: #e8e3d8; }
+  p { margin: 6px 0; }
+  ul { margin: 4px 0; padding-left: 22px; }
+  a { color: #d4a24c; }
+  .hint { font-size: 12.5px; color: #8b93a1; line-height: 1.8; }
+  .unit-nav { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; font-size: 13px; }
+  .unit-nav a { text-decoration: none; font-weight: 700; }
+  .chapter { padding: 22px 24px; border: 1px solid rgba(212,162,76,0.35); border-radius: 12px; background: rgba(255,255,255,0.03); min-width: 0; }
+  .chapter-no { font-size: 12px; letter-spacing: 2px; color: #d4a24c; font-weight: 700; margin-bottom: 4px; }
+  .note { border-left: 3px solid #f0997b; padding: 8px 12px; background: rgba(240,153,123,0.08); border-radius: 0 8px 8px 0; font-size: 14px; line-height: 1.8; color: #e8e3d8; }
+
+  .opts { display: grid; gap: 8px; margin-top: 8px; }
+  .opt { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(212,162,76,0.3); background: #0e1726; cursor: pointer; }
+  .opt input { width: 20px; height: 20px; margin-top: 3px; accent-color: #d4a24c; flex: none; cursor: pointer; }
+  .opt b { display: block; font-size: 15px; line-height: 1.7; }
+  .opt span { display: block; font-size: 13px; color: #a9a39a; line-height: 1.7; }
+  .opt.on { border-color: #d4a24c; background: rgba(212,162,76,0.1); }
+  .row-q { padding: 12px 0; border-bottom: 1px dashed rgba(199,192,176,0.25); }
+  .row-q:last-child { border-bottom: none; }
+  .row-q > b { display: block; font-size: 15px; margin-bottom: 6px; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill { cursor: pointer; font-size: 13.5px; font-weight: 700; padding: 7px 12px; border-radius: 999px; border: 1px solid rgba(212,162,76,0.45); background: transparent; color: #d4a24c; font-family: inherit; }
+  .pill.on { background: #d4a24c; color: #101b2d; }
+  .grp { margin-top: 14px; }
+  .grp-h { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; color: #101b2d; margin-bottom: 6px; }
+  .g1 { background: #d4a24c; } .g2 { background: #8fb5ff; } .g3 { background: #5dcaa5; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chips label { cursor: pointer; font-size: 13.5px; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,0.18); color: #e8e3d8; }
+  .chips input { display: none; }
+  .chips label.on { border-color: #f0997b; background: rgba(240,153,123,0.18); color: #fff; }
+  textarea { width: 100%; min-height: 110px; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(212,162,76,0.35); background: #0e1726; color: #f6f1e6; font-family: inherit; font-size: 15px; line-height: 1.8; resize: vertical; }
+
+  button { font-family: inherit; }
+  .btn { cursor: pointer; border-radius: 999px; padding: 10px 18px; font-size: 14px; font-weight: 700; border: 1px solid #d4a24c; background: transparent; color: #d4a24c; }
+  .btn.primary { background: #d4a24c; color: #101b2d; border: none; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+  .result { display: none; }
+  .result.show { display: block; }
+  .plan { list-style: none; padding: 0; margin: 10px 0 0; display: grid; gap: 10px; }
+  .plan li { padding: 12px 14px; border-radius: 10px; background: #0e1726; border: 1px solid rgba(255,255,255,0.08); }
+  .plan li b { display: block; font-size: 15px; color: #f6f1e6; }
+  .plan li p { font-size: 14px; margin: 4px 0 0; color: #c7c0b0; line-height: 1.8; }
+  .plan li a { font-size: 14px; font-weight: 700; display: inline-block; margin-top: 4px; margin-right: 12px; }
+  .plan .tag { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 1px 8px; border-radius: 999px; color: #101b2d; background: #f0997b; margin-right: 6px; vertical-align: 2px; }
+  .copied { font-size: 13px; color: #5dcaa5; }
+  @media (max-width: 520px) { .chapter { padding: 18px 16px; } h1 { font-size: 23px; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <nav class="unit-nav"><a href="boki3-tejun.html">← 解き方の手順</a><a href="boki3-shiwake-all.html">仕訳まるごと確認 →</a></nav>
+  <header>
+    <div class="kicker">BOOKKEEPING LV.3 振り返り</div>
+    <h1>簿記3級 試験の振り返りシート</h1>
+  </header>
+
+  <section class="chapter">
+    <div class="chapter-no">HOW TO USE</div>
+    <h2>試験、おつかれさまでした</h2>
+    <p>記憶が新しいうちに、自分の解き方を振り返っておきましょう。4つの質問に答えて「次にやることを見る」を押すと、結果に合わせて次にやることを表示します。</p>
+    <p class="note">日商簿記の2級・3級の統一試験は、試験問題の内容を公開できない決まりになっています。このシートでは問題の中身は聞きません。メモにも、問題文ではなく自分の解き方について書いてください。</p>
+    <p class="hint">記録は、このスマホやパソコンのブラウザの中だけに保存されます。どこにも送られません。</p>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">Q1</div>
+    <h2>手応えはどうでしたか?</h2>
+    <div class="opts" id="feel"></div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">Q2</div>
+    <h2>時間配分はどうでしたか?</h2>
+    <p class="hint">目安は、第1問15〜20分、第3問25〜30分、第2問10〜15分、見直し5分ほどです。</p>
+    <div id="time"></div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">Q3</div>
+    <h2>手が止まった形式は?</h2>
+    <p class="hint">迷った、時間がかかった、自信がない形式をすべて選んでください。選んだ形式の練習ページを、結果に表示します。</p>
+    <div id="forms"></div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">Q4</div>
+    <h2>どんなミスがありそうですか?</h2>
+    <p class="hint">ミスは、原因で分けると直し方が決まります。当てはまるものをすべて選んでください。</p>
+    <div class="opts" id="miss"></div>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">MEMO</div>
+    <h2>自分の解き方のメモ</h2>
+    <p class="hint">例:「第3問で、法人税等を先に計算しようとして時間を使った」「電卓の0を打ち忘れた」</p>
+    <textarea id="memo" placeholder="気づいたことを書いておきましょう"></textarea>
+    <div class="row" style="margin-top:14px">
+      <button class="btn primary" id="go" type="button">次にやることを見る</button>
+      <button class="btn" id="reset" type="button">最初からやり直す</button>
+    </div>
+  </section>
+
+  <section class="chapter result" id="result">
+    <div class="chapter-no">NEXT</div>
+    <h2>次にやること</h2>
+    <ul class="plan" id="plan"></ul>
+    <div class="row" style="margin-top:14px">
+      <button class="btn" id="copy" type="button">振り返りをコピーする</button>
+      <span class="copied" id="copied"></span>
+    </div>
+    <p class="hint">合格発表の日は、受験した商工会議所によって違います。受験地の商工会議所のページで確認してください。</p>
+  </section>
+
+  <section class="chapter">
+    <div class="chapter-no">LINKS</div>
+    <h2>練習ページ</h2>
+    <ul>
+      <li><a href="boki3-tejun.html">簿記3級 解き方の手順</a></li>
+      <li><a href="boki3-shiwake-all.html">簿記3級 仕訳まるごと確認</a></li>
+      <li><a href="boki3-half-moshi.html">簿記3級 ハーフ模試</a></li>
+      <li><a href="boki3-shiwake-moshi.html">第1問 仕訳15問</a> / <a href="boki3-dai2-moshi.html">第2問 4回分</a> / <a href="boki3-dai3-moshi.html">第3問 3回分</a></li>
+      <li><a href="boki2-tejun.html">簿記2級 本番の解き方</a></li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var KEY = 'boki3-furikaeri-v1';
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+  var FEEL = [
+    ['ok', '合格できていそう', '自己採点や手応えで、70点以上は取れていそう'],
+    ['mid', 'ボーダーくらい', '70点前後で、結果が読めない'],
+    ['ng', '厳しそう', '解き切れなかった問題が多い']
+  ];
+  var TIME = [
+    ['q1', '第1問(仕訳15問)', ['ちょうどよかった', 'かかりすぎた']],
+    ['q2', '第2問', ['ちょうどよかった', 'かかりすぎた', '解き切れなかった']],
+    ['q3', '第3問(決算)', ['ちょうどよかった', 'かかりすぎた', '解き切れなかった']],
+    ['rv', '見直し', ['できた', '少しだけ', 'できなかった']]
+  ];
+  var L1 = ['boki3-shiwake-moshi.html', '第1問 仕訳15問'], LA = ['boki3-shiwake-all.html', '仕訳まるごと確認'], L2 = ['boki3-dai2-moshi.html', '第2問 4回分'], L3 = ['boki3-dai3-moshi.html', '第3問 3回分'];
+  var FORMS = [
+    [1, '第1問', [['仕訳(科目が決まらない)', L1], ['固定資産の期中売却', LA], ['利息の月割・日割計算', LA], ['訂正仕訳', LA], ['消費税・法人税等', LA]]],
+    [2, '第2問', [['勘定記入(経過勘定)', L2], ['商品有高帳', L2], ['補助簿の選択', L2], ['伝票・仕訳日計表', L2], ['売掛金元帳・買掛金元帳', L2], ['固定資産の勘定記入・台帳', L2], ['現金出納帳・小口現金出納帳', L2], ['売上帳・仕入帳', L2], ['手形記入帳', L2], ['勘定の締切', L2], ['語句の穴埋め', L2]]],
+    [3, '第3問', [['財務諸表', L3], ['精算表', L3], ['決算整理後残高試算表', L3], ['売上原価の計算', L3], ['経過勘定(前払・未払など)', L3], ['貸倒引当金・減価償却', L3], ['法人税等の計算', L3]]]
+  ];
+  var MISS = [
+    ['know', '知らなかった', '科目や処理のしかたを覚えていなかった・あいまいだった',
+      '仕訳まるごと確認のドリルで単元ごとに解き、間違えた仕訳を「苦手」に入れて、苦手が0になるまで解き直す', [LA]],
+    ['proc', '手順で迷った', '何から手を付けるか迷った・処理の順番を間違えた',
+      '解き方の手順の「並べ替え」で、迷った形式の手順を見ずに並べられるか確かめる。例題のマーカーで、問題文のどこから読むかも確認する', [['boki3-tejun.html', '解き方の手順']]],
+    ['calc', '計算・写し間違い', '電卓の打ち間違い、数字の写し間違い、借方と貸方の逆',
+      '大事な計算は2回打つ。数字を写したら、桁区切りのカンマの位置で見比べる。第3問は、試算表の横に増減をメモしてから写す', [L3]],
+    ['read', '問題文の読み落とし', '月割、税抜方式、勘定科目の指定などを読み落とした',
+      '解き方の手順の4択で「本番の問題ではここを見る」を確認する。問題文の数字と指示に、印を付けながら読む練習をする', [['boki3-tejun.html', '解き方の手順']]],
+    ['time', '時間切れ', '最後まで解き切れなかった・見直しができなかった',
+      'ハーフ模試を、時間を計って解く。1問で1分以上止まったら、印を付けて次へ進む練習をする', [['boki3-half-moshi.html', 'ハーフ模試']]]
+  ];
+
+  var st = { feel: '', time: {}, forms: [], miss: [], memo: '' };
+  try { var sv = JSON.parse(localStorage.getItem(KEY) || 'null'); if (sv) st = Object.assign(st, sv); } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
+
+  function draw() {
+    $('feel').innerHTML = FEEL.map(function (f) {
+      return '<label class="opt' + (st.feel === f[0] ? ' on' : '') + '"><input type="radio" name="feel" value="' + f[0] + '"' + (st.feel === f[0] ? ' checked' : '') + '><div><b>' + f[1] + '</b><span>' + f[2] + '</span></div></label>';
+    }).join('');
+    $('time').innerHTML = TIME.map(function (t) {
+      return '<div class="row-q"><b>' + t[1] + '</b><div class="pills">' + t[2].map(function (o) {
+        return '<button type="button" class="pill' + (st.time[t[0]] === o ? ' on' : '') + '" data-t="' + t[0] + '" data-v="' + o + '">' + o + '</button>';
+      }).join('') + '</div></div>';
+    }).join('');
+    $('forms').innerHTML = FORMS.map(function (g) {
+      return '<div class="grp"><span class="grp-h g' + g[0] + '">' + g[1] + '</span><div class="chips">' + g[2].map(function (f) {
+        var k = g[1] + ':' + f[0], on = st.forms.indexOf(k) >= 0;
+        return '<label class="' + (on ? 'on' : '') + '"><input type="checkbox" data-f="' + esc(k) + '"' + (on ? ' checked' : '') + '>' + esc(f[0]) + '</label>';
+      }).join('') + '</div></div>';
+    }).join('');
+    $('miss').innerHTML = MISS.map(function (m) {
+      var on = st.miss.indexOf(m[0]) >= 0;
+      return '<label class="opt' + (on ? ' on' : '') + '"><input type="checkbox" data-m="' + m[0] + '"' + (on ? ' checked' : '') + '><div><b>' + m[1] + '</b><span>' + m[2] + '</span></div></label>';
+    }).join('');
+    $('memo').value = st.memo || '';
+  }
+
+  document.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'feel') st.feel = t.value;
+    else if (t.getAttribute('data-f')) toggle(st.forms, t.getAttribute('data-f'), t.checked);
+    else if (t.getAttribute('data-m')) toggle(st.miss, t.getAttribute('data-m'), t.checked);
+    else return;
+    save(); draw();
+  });
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest ? e.target.closest('.pill') : null;
+    if (!t) return;
+    var k = t.getAttribute('data-t'), v = t.getAttribute('data-v');
+    st.time[k] = st.time[k] === v ? '' : v;
+    save(); draw();
+  });
+  $('memo').addEventListener('input', function () { st.memo = $('memo').value; save(); });
+  function toggle(arr, v, on) { var i = arr.indexOf(v); if (on && i < 0) arr.push(v); if (!on && i >= 0) arr.splice(i, 1); }
+
+  function linkHtml(l) { return '<a href="' + l[0] + '">' + esc(l[1]) + ' →</a>'; }
+  function findForm(k) {
+    var gn = k.split(':')[0], name = k.slice(gn.length + 1), r = null;
+    FORMS.forEach(function (g) { if (g[1] === gn) g[2].forEach(function (f) { if (f[0] === name) r = f; }); });
+    return r;
+  }
+
+  var lastPlan = [];
+  function makePlan() {
+    var items = [];
+    // 時間配分
+    var tm = [];
+    if (st.time.q1 === 'かかりすぎた') tm.push('第1問は、1問1分を目安に。止まった問題は印を付けて先へ進む');
+    if (st.time.q3 === 'かかりすぎた' || st.time.q3 === '解き切れなかった') tm.push('第3問は配点が大きいので、第1問の次に解く。決算整理は試算表の横に増減をメモしながら進める');
+    if (st.time.q2 === 'かかりすぎた' || st.time.q2 === '解き切れなかった') tm.push('第2問は形式が回ごとに違うので、最後に回す。資料の取引を先に仕訳にすると、空欄の意味がわかりやすい');
+    if (st.time.rv === 'できなかった' || st.time.rv === '少しだけ') tm.push('見直しの5分を最初から残しておく。第3問の写し間違いと、印を付けた問題から見直す');
+    if (tm.length) items.push({ tag: '時間配分', t: '解く順番と時間の目安を決めておく', p: tm.join('。') + '。', l: [['boki3-half-moshi.html', 'ハーフ模試で時間を計る']] });
+    // ミス
+    MISS.forEach(function (m) { if (st.miss.indexOf(m[0]) >= 0) items.push({ tag: 'ミス', t: m[1] + 'を減らす', p: m[3] + '。', l: m[4] }); });
+    // 形式
+    if (st.forms.length) {
+      var links = [], names = [];
+      st.forms.forEach(function (k) {
+        var f = findForm(k); if (!f) return;
+        names.push(k.replace(':', ' '));
+        if (!links.some(function (l) { return l[0] === f[1][0]; })) links.push(f[1]);
+      });
+      links.unshift(['boki3-tejun.html', '解き方の手順']);
+      items.push({ tag: '形式', t: '手が止まった形式を、1つずつ解き直す', p: names.join('、') + '。まず解き方の手順で手順と下書きの図を読み、そのあと練習ページで解き直す。', l: links });
+    }
+    // 結果別の次の一手
+    if (st.feel === 'ok') {
+      items.push({ tag: '次の一手', t: '2級の準備を始める', p: '3級の仕訳と決算の流れは、2級でもそのまま使います。2級は90分で、商業簿記(第1〜3問)に工業簿記(第4・5問)が加わります。合格発表を待つあいだに、2級の解き方の全体像をつかんでおきましょう。', l: [['boki2-tejun.html', '簿記2級 本番の解き方'], ['boki2-half-moshi.html', '簿記2級 ハーフ模試']] });
+    } else if (st.feel === 'mid') {
+      items.push({ tag: '次の一手', t: '発表までは、苦手を1つずつ減らしておく', p: '結果が出るまでの時間を使って、手が止まった形式とミスの原因を直しておくと、合格でも不合格でも次に生きます。もう一度受ける場合は、次の項目の「受け方の選び方」も見ておきましょう。', l: [['boki3-shiwake-all.html', '仕訳まるごと確認']] });
+    }
+    if (st.feel === 'mid' || st.feel === 'ng') {
+      items.push({ tag: '次の一手', t: '次の受け方を決める', p: '2027年2月の統一試験は、今回と同じ範囲です。ネット試験は日程を選んで受けられ、2027年3月31日までに受ければ今回と同じ範囲です。2027年4月1日以降の試験は範囲が変わり、手形・小切手がなくなって、固定資産の除却・廃棄、定率法、販売のつど売上原価に振り替える方法が加わります。', l: [['boki3-chokuzen.html', '試験直前チェック']] });
+    }
+    if (!items.length) items.push({ t: 'まだ何も選ばれていません', p: 'Q1〜Q4の当てはまるものを選んでから、もう一度押してください。', l: [] });
+    return items;
+  }
+
+  $('go').addEventListener('click', function () {
+    lastPlan = makePlan();
+    $('plan').innerHTML = lastPlan.map(function (it) {
+      return '<li><b>' + (it.tag ? '<span class="tag">' + esc(it.tag) + '</span>' : '') + esc(it.t) + '</b><p>' + esc(it.p) + '</p>' + it.l.map(linkHtml).join('') + '</li>';
+    }).join('');
+    $('copied').textContent = '';
+    $('result').classList.add('show');
+    $('result').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  $('reset').addEventListener('click', function () {
+    if (!window.confirm('選んだ内容とメモを消して、最初からやり直しますか?')) return;
+    st = { feel: '', time: {}, forms: [], miss: [], memo: '' };
+    save(); draw(); $('result').classList.remove('show');
+  });
+  $('copy').addEventListener('click', function () {
+    var f = FEEL.filter(function (x) { return x[0] === st.feel; })[0];
+    var lines = ['【簿記3級 試験の振り返り】', '手応え:' + (f ? f[1] : '未選択')];
+    TIME.forEach(function (t) { if (st.time[t[0]]) lines.push(t[1] + ':' + st.time[t[0]]); });
+    if (st.forms.length) lines.push('手が止まった形式:' + st.forms.map(function (k) { return k.replace(':', ' '); }).join('、'));
+    if (st.miss.length) lines.push('ミス:' + MISS.filter(function (m) { return st.miss.indexOf(m[0]) >= 0; }).map(function (m) { return m[1]; }).join('、'));
+    if (st.memo) lines.push('メモ:' + st.memo);
+    lines.push('', '次にやること');
+    lastPlan.forEach(function (it, i) { lines.push((i + 1) + '. ' + it.t); });
+    var text = lines.join('\n');
+    function done() { $('copied').textContent = 'コピーしました'; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, function () { fallback(text); done(); });
+    else { fallback(text); done(); }
+  });
+  function fallback(text) {
+    var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>
